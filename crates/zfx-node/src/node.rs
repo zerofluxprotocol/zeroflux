@@ -387,15 +387,19 @@ impl Node {
         Ok(())
     }
 
-    /// Keep an outbound connection to `addr`, reconnecting after drops.
+    /// Keep an outbound connection to `addr` (IP:port or hostname:port),
+    /// re-resolving and reconnecting after drops.
     pub fn maintain_peer(&self, addr: String) {
+        use std::net::ToSocketAddrs;
         let me = self.clone();
         std::thread::spawn(move || loop {
-            let connected = me.0.lock().unwrap().peers.values().any(|p| p.outbound && p.addr.to_string() == addr);
+            let addrs: Vec<SocketAddr> = addr.to_socket_addrs().map(|it| it.collect()).unwrap_or_default();
+            let connected = me.0.lock().unwrap().peers.values().any(|p| p.outbound && addrs.contains(&p.addr));
             if !connected {
-                if let Ok(sa) = addr.parse::<SocketAddr>() {
-                    if let Ok(s) = TcpStream::connect_timeout(&sa, Duration::from_secs(2)) {
+                for sa in &addrs {
+                    if let Ok(s) = TcpStream::connect_timeout(sa, Duration::from_secs(2)) {
                         me.attach_stream(s, true);
+                        break;
                     }
                 }
             }
