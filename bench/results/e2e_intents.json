@@ -1,0 +1,185 @@
+{
+  "started": "2026-11-09T16:57:04Z",
+  "checks": [
+    {
+      "check": "B5 official Verifier deployed in sandbox (release artifact, SHA-256 verified) + tUSDC fixture",
+      "result": "PASS",
+      "evidence": {
+        "verifier_tag": "defuse/v0.4.2",
+        "verifier_sha256": "f67f9559b3b512c52dfa11723a28b9119bcf773ac01780370d6409e5f1fb20e5",
+        "verifier_deploy_tx": "4MbAC4znUVK17KmTEqbKFHMpyfjixkQWVfk2pwNgcm4C",
+        "current_salt": "61cd33c4",
+        "tusdc_tx": "CezDnhFgPmb7Un6kL3wb2PHUJCNxVYYFxtNAwWh8KXVd"
+      }
+    },
+    {
+      "check": "B5 deposits into the Verifier: solver liquidity (bridged wZFX + tUSDC) and user's bridged wZFX",
+      "result": "PASS",
+      "evidence": {
+        "user_wzfx_in_verifier": 1000000000,
+        "solver_tusdc": 1000000000000,
+        "solver_wzfx": 5000000000
+      }
+    },
+    {
+      "check": "B5 swap wZFX->tUSDC: quote -> NEP-413 token_diff -> settled on the Verifier (on-chain receipt)",
+      "result": "PASS",
+      "evidence": {
+        "quote": {
+          "quote_hash": "b63ecfc863c54b67d24ff2f9577a8db7",
+          "defuse_asset_identifier_in": "nep141:wzfx.deployer.test.near",
+          "defuse_asset_identifier_out": "nep141:tusdc.deployer.test.near",
+          "amount_in": "500000000",
+          "amount_out": "12437500",
+          "expiration_time": "2026-11-09T16:58:45Z"
+        },
+        "status": {
+          "intent_hash": "7xv6McZ8y4tE88ZqrWcDkdtgkHKvhV5cVADoum1qbCwT",
+          "status": "SETTLED",
+          "status_details": "settled on the Verifier",
+          "data": {
+            "hash": "54qCo4sGSoYSY7r7Y6Uj4zkBEKCwvQVn642ncCiqM8fF"
+          },
+          "filled_amounts": [
+            "500000000",
+            "12437500"
+          ],
+          "simulation": {
+            "intents_executed": 2
+          },
+          "logs": [
+            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"2KJwdzvoFJtdU3QVy1AVETKx9zhJ8xMdeRuykoU6Utbc\",\"account_id\":\"solver.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"-12437500\",\"nep141:wzfx.deployer.test.near\":\"500000000\"}}]}",
+            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"HMTMULvrrEwfwfe1q8y9xNpSspu4gJNYEnxRpF1YFzCn\",\"account_id\":\"u5.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"12437500\",\"nep141:wzfx.deployer.test.near\":\"-500000000\"}}]}"
+          ]
+        },
+        "user_tusdc": 12437500,
+        "user_wzfx": 500000000
+      }
+    },
+    {
+      "check": "B5 reverse swap tUSDC->wZFX settles (needs the solver's bridged wZFX as counterpart liquidity)",
+      "result": "PASS",
+      "evidence": {
+        "quote": {
+          "quote_hash": "81491d65ca55aebf3445f0b25807ddbb",
+          "defuse_asset_identifier_in": "nep141:tusdc.deployer.test.near",
+          "defuse_asset_identifier_out": "nep141:wzfx.deployer.test.near",
+          "amount_in": "10000000",
+          "amount_out": "398000000",
+          "expiration_time": "2026-11-09T16:58:46Z"
+        },
+        "status": "SETTLED",
+        "tx": {
+          "hash": "AtcGuqmgK5i8zNsajduj6fZmfFsX8yLd9sAuSzYQy4JQ"
+        }
+      }
+    },
+    {
+      "check": "B5 insufficient liquidity and stale price produce no quotes; fresh price quotes again",
+      "result": "PASS",
+      "evidence": {
+        "big_quotes": [],
+        "stale_quotes": [],
+        "fresh_quotes": 1
+      }
+    },
+    {
+      "check": "B5 duplicate fill rejected by the bus and nonce replay rejected on-chain by the Verifier",
+      "result": "PASS",
+      "evidence": {
+        "bus": {
+          "status": "FAILED",
+          "reason": "quote already used (duplicate fill)"
+        },
+        "is_nonce_used": true,
+        "onchain_replay_failure": "{\"ActionError\":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: nonce was already used\"}}}}"
+      }
+    },
+    {
+      "check": "B5 expired quote refused by the bus; expired NEP-413 deadline refused by the Verifier (simulate_intents)",
+      "result": "PASS",
+      "evidence": {
+        "bus": {
+          "status": "FAILED",
+          "reason": "quote expired"
+        },
+        "verifier_error": "failed:  \nthread 'main' (85564033) panicked at bridge/relayers/src/bin/zfx-bridge.rs:119:167:\nview simulate_intents failed: \"wasm execution failed with error: HostError(GuestPanic { panic_msg: \\\"deadline has expired\\\" })\"\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
+      }
+    },
+    {
+      "check": "B5 cancellation: an unpublished quote never settles; balances unchanged",
+      "result": "PASS",
+      "evidence": {
+        "balances": [
+          798000000,
+          4925000
+        ]
+      }
+    },
+    {
+      "check": "B5 refund: failed ft_withdraw (receiver not registered) is refunded to the user's Verifier balance",
+      "result": "PASS",
+      "evidence": {
+        "withdraw_tx": "DsSqqj9WKRXgYTN2RXsD29g8WbC45TyzsjD7K9hjx7bC",
+        "balance_before": 4925000,
+        "balance_after": 4925000
+      }
+    },
+    {
+      "check": "B5 end-to-end: native ZFX -> wZFX -> Intents swap both ways -> wZFX -> native ZFX; bridge books exact",
+      "result": "PASS",
+      "evidence": {
+        "native_before_flow": 1000000000000,
+        "native_after": 999797999000,
+        "wzfx_redeemed": 798000000,
+        "burn_tx": "F3KQMyVLWc4VCsgrARrLrXNep5RbEtHQiCi9Zs9HeUUh",
+        "reconcile": {
+          "ok": true,
+          "native": {
+            "chain_id": 1514536962,
+            "deposits": 2,
+            "lockbox_balance": "5202000000",
+            "locked_total": "6000000000",
+            "paused": false,
+            "released_total": "798000000",
+            "releases": 1
+          },
+          "near": {
+            "burns": 1,
+            "contract": "wzfx.deployer.test.near",
+            "epoch": 0,
+            "paused": false,
+            "total_burned": "798000000",
+            "total_minted": "6000000000",
+            "total_supply": "5202000000"
+          }
+        }
+      }
+    },
+    {
+      "check": "B5 real public Message Bus probed: requires a Partner JWT (EXTERNAL_BLOCKED, not claimed as verified)",
+      "result": "PASS",
+      "evidence": {
+        "message_bus_rpc": {
+          "http": 403,
+          "body": "error code: 1010\n"
+        },
+        "oneclick_tokens": {
+          "error": "<HTTPError 403: 'Forbidden'>"
+        }
+      }
+    }
+  ],
+  "external": {
+    "message_bus_rpc": {
+      "http": 403,
+      "body": "error code: 1010\n"
+    },
+    "oneclick_tokens": {
+      "error": "<HTTPError 403: 'Forbidden'>"
+    }
+  },
+  "solver_log_tail": "\": \"AtcGuqmgK5i8zNsajduj6fZmfFsX8yLd9sAuSzYQy4JQ\", \"subscription\": \"5f500ff1-3dbe-46bf-b065-b59cc9000a18\"}, \"stats\": {\"quotes_seen\": 2, \"quoted\": 2, \"skipped_liquidity\": 0, \"skipped_stale_price\": 0, \"skipped_pair\": 0, \"settled\": 2}}\n{\"settled\": {\"quote_hash\": \"d9071d27f917af353ea9a8326990d267\", \"intent_hash\": \"AJDDuTU7dU1xiQa1jHZZ7y8nDRXNZnTRCUhvQJfy8mYi\", \"tx_hash\": \"FPgwRrRVyiGd2QofFGeF94C2cwR9kcqfQ38zNzSQvsc7\", \"subscription\": \"5f500ff1-3dbe-46bf-b065-b59cc9000a18\"}, \"stats\": {\"quotes_seen\": 5, \"quoted\": 3, \"skipped_liquidity\": 1, \"skipped_stale_price\": 1, \"skipped_pair\": 0, \"settled\": 3}}\n",
+  "passed": 11,
+  "total": 11
+}
