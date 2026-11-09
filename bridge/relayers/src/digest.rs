@@ -63,3 +63,37 @@ pub fn withdrawal_id(contract: &str, nonce: u64) -> String {
     b.extend_from_slice(&nonce.to_le_bytes());
     hex::encode(Sha256::digest(&b))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Golden values shared with bridge/near/wzfx/src/tests.rs
+    /// (`digests_match_relayer_golden_vectors`); both must change together.
+    pub const GOLDEN_MINT: &str = "3507a0edc7baab770827cebebe5c7df439be2f91c33f9d3f7391c3b2a9647e98";
+    pub const GOLDEN_ADMIN_ROTATE: &str = "038fb280438db03918560ae6fc462deb4003faa6e4d6c58380d486bfb24d139c";
+    pub const GOLDEN_WITHDRAWAL: &str = "b1447206675f11affd8453b8d33f158c2b4e9b0ca809e2e5c6beaa0d26649b82";
+
+    pub fn golden() -> (String, String, String) {
+        let a = MintAttestation {
+            epoch: 3,
+            deposit_id: "ab".repeat(32),
+            recipient: "alice.test.near".into(),
+            amount: "123456789".into(),
+            native_height: "77".into(),
+            expiry_ns: "1800000000000000000".into(),
+        };
+        let keys = vec!["11".repeat(32), "22".repeat(32), "33".repeat(32)];
+        (
+            hex::encode(mint_digest("wzfx.test.near", 0x5a460002, "zfx:5a460002:native", &a)),
+            hex::encode(near_admin_digest("wzfx.test.near", 3, 9, NearAdmin::Rotate(&keys))),
+            withdrawal_id("wzfx.test.near", 42),
+        )
+    }
+
+    #[test]
+    fn digests_match_golden_vectors() {
+        let (m, r, w) = golden();
+        assert_eq!((m.as_str(), r.as_str(), w.as_str()), (GOLDEN_MINT, GOLDEN_ADMIN_ROTATE, GOLDEN_WITHDRAWAL));
+    }
+}

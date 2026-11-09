@@ -1,0 +1,1 @@
+{"backend":"rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:naive:int8","impl":"zpu-miner-cpp","rows":512,"k":4096,"n":4096,"max_abs_ref":1048576,"mismatches":0,"gemm_s":0.0577346,"verdict":"PASS"}

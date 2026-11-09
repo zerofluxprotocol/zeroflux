@@ -148,6 +148,14 @@ def main():
                     {"minted_at_height": h_mint, "fork_height": depth_hint, "orphans": rec.get("orphans"), "incident": inc["reason"],
                      "coordinator_halted": st["halted"], "deposit_while_paused": dd.get("error") or dd,
                      "conflicting_tx": c2.get("txid"), "reorged_deposit": d2.get("deposit_id")})
+        # An operator cannot resume while the books are dirty.
+        ln.stop("coordinator")
+        inc_path = os.path.join(incdir, sorted(os.listdir(incdir))[0])
+        rr = subprocess.run([f"{BIN}/zfx-bridge-coordinator", "--env", ln.env_path, "--zfx", ln.zfx_url(1), "--near-account", ln.coordinator_account,
+                             "--near-key-file", ln.key(ln.coordinator_account), "--store", os.path.join(localnet.RUN, "jobs.json"),
+                             "--incidents", incdir, "--resume-after-incident", inc_path, "--once"], capture_output=True, text=True, env=localnet.ENVV)
+        ok &= check("Recovery guard: --resume-after-incident refuses while reconciliation still shows the orphaned mint",
+                    rr.returncode == 2 and "refusing to resume" in rr.stderr, {"rc": rr.returncode, "stderr": rr.stderr[-300:]})
         REPORT["conclusion"] = ("K must exceed the deepest plausible reorg. The testnet default K=12 is a policy value; this run shows "
                                 "the failure mode beyond K is detected and halted, not silently absorbed.")
     except Exception as e:

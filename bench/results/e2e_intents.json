@@ -1,5 +1,5 @@
 {
-  "started": "2026-11-09T16:57:04Z",
+  "started": "2026-11-09T17:59:02Z",
   "checks": [
     {
       "check": "B5 official Verifier deployed in sandbox (release artifact, SHA-256 verified) + tUSDC fixture",
@@ -7,9 +7,9 @@
       "evidence": {
         "verifier_tag": "defuse/v0.4.2",
         "verifier_sha256": "f67f9559b3b512c52dfa11723a28b9119bcf773ac01780370d6409e5f1fb20e5",
-        "verifier_deploy_tx": "4MbAC4znUVK17KmTEqbKFHMpyfjixkQWVfk2pwNgcm4C",
-        "current_salt": "61cd33c4",
-        "tusdc_tx": "CezDnhFgPmb7Un6kL3wb2PHUJCNxVYYFxtNAwWh8KXVd"
+        "verifier_deploy_tx": "D95PbAqX94ikJfav3kgWKkyXMquoNZ4KqKaknotrKYdE",
+        "current_salt": "86001a16",
+        "tusdc_tx": "A7PUCp8TYQ6rh2tqTs99rsPNEeBbNy7fvQCKJoGREWbF"
       }
     },
     {
@@ -26,19 +26,19 @@
       "result": "PASS",
       "evidence": {
         "quote": {
-          "quote_hash": "b63ecfc863c54b67d24ff2f9577a8db7",
+          "quote_hash": "e8bc7673c393260e823f1d81ac292528",
           "defuse_asset_identifier_in": "nep141:wzfx.deployer.test.near",
           "defuse_asset_identifier_out": "nep141:tusdc.deployer.test.near",
           "amount_in": "500000000",
           "amount_out": "12437500",
-          "expiration_time": "2026-11-09T16:58:45Z"
+          "expiration_time": "2026-11-09T18:00:36Z"
         },
         "status": {
-          "intent_hash": "7xv6McZ8y4tE88ZqrWcDkdtgkHKvhV5cVADoum1qbCwT",
+          "intent_hash": "F5ji2p35NFqCjNjXX681fPe69MFDp4wmnujWVGbhoeUX",
           "status": "SETTLED",
           "status_details": "settled on the Verifier",
           "data": {
-            "hash": "54qCo4sGSoYSY7r7Y6Uj4zkBEKCwvQVn642ncCiqM8fF"
+            "hash": "Huf3zBGdZjHhxunNdTq4edfZyDfuPLtmD55EL5aNaH5t"
           },
           "filled_amounts": [
             "500000000",
@@ -48,8 +48,8 @@
             "intents_executed": 2
           },
           "logs": [
-            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"2KJwdzvoFJtdU3QVy1AVETKx9zhJ8xMdeRuykoU6Utbc\",\"account_id\":\"solver.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"-12437500\",\"nep141:wzfx.deployer.test.near\":\"500000000\"}}]}",
-            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"HMTMULvrrEwfwfe1q8y9xNpSspu4gJNYEnxRpF1YFzCn\",\"account_id\":\"u5.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"12437500\",\"nep141:wzfx.deployer.test.near\":\"-500000000\"}}]}"
+            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"MRsceNGZj5FsVUJkVURtEs9mndDgxqYWvZFMXKitxvf\",\"account_id\":\"solver.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"-12437500\",\"nep141:wzfx.deployer.test.near\":\"500000000\"}}]}",
+            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"3BfGwit9Nkeiia3m2tKrtKGExBEAQZ2t8GbZJ5Uu53Qv\",\"account_id\":\"u5.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"12437500\",\"nep141:wzfx.deployer.test.near\":\"-500000000\"}}]}"
           ]
         },
         "user_tusdc": 12437500,
@@ -61,16 +61,16 @@
       "result": "PASS",
       "evidence": {
         "quote": {
-          "quote_hash": "81491d65ca55aebf3445f0b25807ddbb",
+          "quote_hash": "84fdf7399b2e2d7ec9950fd4ae708fcd",
           "defuse_asset_identifier_in": "nep141:tusdc.deployer.test.near",
           "defuse_asset_identifier_out": "nep141:wzfx.deployer.test.near",
           "amount_in": "10000000",
           "amount_out": "398000000",
-          "expiration_time": "2026-11-09T16:58:46Z"
+          "expiration_time": "2026-11-09T18:00:38Z"
         },
         "status": "SETTLED",
         "tx": {
-          "hash": "AtcGuqmgK5i8zNsajduj6fZmfFsX8yLd9sAuSzYQy4JQ"
+          "hash": "Dmuwqv8F7Z2J8Hm6724EH6PgWsy9vTtD6pAMUnQVsR2q"
         }
       }
     },
@@ -91,6 +91,25 @@
           "status": "FAILED",
           "reason": "quote already used (duplicate fill)"
         },
+        "original_intent_status": {
+          "intent_hash": "HAVoKT4FUQCi83AraVnix4BZDdoGzTgHyouBPvisoY8Y",
+          "status": "SETTLED",
+          "status_details": "settled on the Verifier",
+          "data": {
+            "hash": "FkCwjz1w3QskUYXhW8PhQfUkPdTQaknbjwbDsgKaNAeC"
+          },
+          "filled_amounts": [
+            "100000000",
+            "2487500"
+          ],
+          "simulation": {
+            "intents_executed": 2
+          },
+          "logs": [
+            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"2op2wMp8AXXHwipXKRFpYdxGH9PJVSUDGsG3PbmCgfji\",\"account_id\":\"solver.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"-2487500\",\"nep141:wzfx.deployer.test.near\":\"100000000\"}}]}",
+            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"7np5wFbXMn67vg4KXjwewBinNkqqsQQm7JA7C6inamA4\",\"account_id\":\"u5.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"2487500\",\"nep141:wzfx.deployer.test.near\":\"-100000000\"}}]}"
+          ]
+        },
         "is_nonce_used": true,
         "onchain_replay_failure": "{\"ActionError\":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: nonce was already used\"}}}}"
       }
@@ -103,7 +122,7 @@
           "status": "FAILED",
           "reason": "quote expired"
         },
-        "verifier_error": "failed:  \nthread 'main' (85564033) panicked at bridge/relayers/src/bin/zfx-bridge.rs:119:167:\nview simulate_intents failed: \"wasm execution failed with error: HostError(GuestPanic { panic_msg: \\\"deadline has expired\\\" })\"\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
+        "verifier_error": " failed:  \nthread 'main' (86439593) panicked at bridge/relayers/src/bin/zfx-bridge.rs:217:41:\nview simulate_intents failed: \"wasm execution failed with error: HostError(GuestPanic { panic_msg: \\\"deadline has expired\\\" })\"\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
       }
     },
     {
@@ -120,7 +139,7 @@
       "check": "B5 refund: failed ft_withdraw (receiver not registered) is refunded to the user's Verifier balance",
       "result": "PASS",
       "evidence": {
-        "withdraw_tx": "DsSqqj9WKRXgYTN2RXsD29g8WbC45TyzsjD7K9hjx7bC",
+        "withdraw_tx": "8mfLou42j8VZM6spQK3jHYf3rtCdY51EWTjuscru4jFN",
         "balance_before": 4925000,
         "balance_after": 4925000
       }
@@ -132,7 +151,7 @@
         "native_before_flow": 1000000000000,
         "native_after": 999797999000,
         "wzfx_redeemed": 798000000,
-        "burn_tx": "F3KQMyVLWc4VCsgrARrLrXNep5RbEtHQiCi9Zs9HeUUh",
+        "burn_tx": "38opvBJpdjyUVz3VYC16oPpjGZscQs825Y51BPoYRhkp",
         "reconcile": {
           "ok": true,
           "native": {
@@ -179,7 +198,7 @@
       "error": "<HTTPError 403: 'Forbidden'>"
     }
   },
-  "solver_log_tail": "\": \"AtcGuqmgK5i8zNsajduj6fZmfFsX8yLd9sAuSzYQy4JQ\", \"subscription\": \"5f500ff1-3dbe-46bf-b065-b59cc9000a18\"}, \"stats\": {\"quotes_seen\": 2, \"quoted\": 2, \"skipped_liquidity\": 0, \"skipped_stale_price\": 0, \"skipped_pair\": 0, \"settled\": 2}}\n{\"settled\": {\"quote_hash\": \"d9071d27f917af353ea9a8326990d267\", \"intent_hash\": \"AJDDuTU7dU1xiQa1jHZZ7y8nDRXNZnTRCUhvQJfy8mYi\", \"tx_hash\": \"FPgwRrRVyiGd2QofFGeF94C2cwR9kcqfQ38zNzSQvsc7\", \"subscription\": \"5f500ff1-3dbe-46bf-b065-b59cc9000a18\"}, \"stats\": {\"quotes_seen\": 5, \"quoted\": 3, \"skipped_liquidity\": 1, \"skipped_stale_price\": 1, \"skipped_pair\": 0, \"settled\": 3}}\n",
+  "solver_log_tail": "\": \"Dmuwqv8F7Z2J8Hm6724EH6PgWsy9vTtD6pAMUnQVsR2q\", \"subscription\": \"3c1b2872-d7c7-4062-836f-72f2411f559b\"}, \"stats\": {\"quotes_seen\": 2, \"quoted\": 2, \"skipped_liquidity\": 0, \"skipped_stale_price\": 0, \"skipped_pair\": 0, \"settled\": 2}}\n{\"settled\": {\"quote_hash\": \"252b89ae4918083ed2605a69a87e4643\", \"intent_hash\": \"HAVoKT4FUQCi83AraVnix4BZDdoGzTgHyouBPvisoY8Y\", \"tx_hash\": \"FkCwjz1w3QskUYXhW8PhQfUkPdTQaknbjwbDsgKaNAeC\", \"subscription\": \"3c1b2872-d7c7-4062-836f-72f2411f559b\"}, \"stats\": {\"quotes_seen\": 5, \"quoted\": 3, \"skipped_liquidity\": 1, \"skipped_stale_price\": 1, \"skipped_pair\": 0, \"settled\": 3}}\n",
   "passed": 11,
   "total": 11
 }

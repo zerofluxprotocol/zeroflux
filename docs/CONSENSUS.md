@@ -1,8 +1,8 @@
-# ZeroFlux consensus v0.1 (private testnet)
+# ZeroFlux consensus v2 (private testnet)
 
-Status: frozen for the private testnet. Not frozen for any value-bearing network (`MAINNET_READY = false`, see RELEASE_READINESS.md).
+Status: frozen for the private testnet. v2 is a hard fork of v0.1 (`consensus_version: 2`): it adds `state_root` to the header, coinbase maturity, transaction memos, the native bridge module and the RunningMax difficulty rule. The PoW function and its golden vectors are unchanged. Not frozen for any value-bearing network (`MAINNET_READY = false`, see RELEASE_READINESS.md).
 
-Every rule here is implemented in `crates/zfx-verify` (consensus library, no GPU runtime) and `crates/zfx-node/src/chain.rs` (state rules). Where this document and the code disagree, the code plus `tests/vectors/fp8c_v0.1.json` win, and that disagreement is a bug to report.
+Every rule here is implemented in `crates/zfx-verify` (consensus library, no GPU runtime) and `crates/zfx-node/src/chain.rs` (state rules). Where this document and the code disagree, the code plus `tests/vectors/fp8c_v0.1.json` and `tests/vectors/consensus_v2.json` win, and that disagreement is a bug to report.
 
 Notation: `||` is byte concatenation. `u32le`/`u64le` are little-endian unsigned integers. `uint256_be` reads 32 bytes as a big-endian unsigned integer. `SHA256` is FIPS 180-4. `SHAKE256(m, n)` is the first `n` output bytes of FIPS 202 SHAKE256. Domain strings are ASCII bytes without a terminator or length prefix. Every input that follows a domain string has a fixed length, so concatenation is unambiguous.
 
@@ -19,21 +19,22 @@ Profile 2 exists for unit tests and fast local devnets only. A chain uses exactl
 
 ## 2. Block header
 
-124 bytes without the nonce, 132 bytes with it.
+156 bytes without the nonce, 164 bytes with it (v2).
 
 | offset | size | field | encoding |
 |---|---|---|---|
-| 0 | 4 | magic | ASCII `ZFXH` |
+| 0 | 4 | magic | ASCII `ZFX2` |
 | 4 | 4 | version | u32le (profile id) |
 | 8 | 4 | chain_id | u32le |
 | 12 | 8 | height | u64le |
 | 20 | 32 | parent | block hash of parent |
 | 52 | 32 | tx_root | section 5.4 |
-| 84 | 8 | timestamp | u64le, Unix seconds |
-| 92 | 32 | target | uint256 big-endian |
-| 124 | 8 | nonce | u64le |
+| 84 | 32 | state_root | section 5.6, state after applying this block |
+| 116 | 8 | timestamp | u64le, Unix seconds |
+| 124 | 32 | target | uint256 big-endian |
+| 156 | 8 | nonce | u64le |
 
-`header_without_nonce` is bytes 0..124. `block_hash = SHA256("ZFX-block-v0.1" || header[0..132])`.
+`header_without_nonce` is bytes 0..156. `block_hash = SHA256("ZFX-block-v0.1" || header[0..164])`. The v0.1 layout (magic `ZFXH`, 124 + 8 bytes, no state root) is kept only to reproduce the v0.1 PoW golden vectors; it is invalid on v2 chains.
 
 ## 3. Proof of work: ZFX-FP8C
 
@@ -107,9 +108,10 @@ Edge case: `dot([16]*4096, [16]*4096) = 1048576`, whose FP32 bits are `0x4980000
 - Retarget is LWMA-1 with N = 30, integer-only:
   `next = (sum_i target_i / N) * (sum_{i=1..N} i * clamp(t_i - t_{i-1}, 1, 6T)) / (N(N+1)/2 * T)`, clamped to `[1, pow_limit]`.
   The genesis target applies while the parent height is below 31. A header's target must equal the computed value exactly.
+- Solvetime rule (v2, `RunningMax`): `t_i - t_{i-1}` above is replaced by `t_i - max(t_0..t_{i-1})`, clamped to `[1, 6T]`. With the v0.1 rule a miner holding 30% of work could forge timestamps and pull block times to 24.4 s against a 60 s target; with RunningMax the same attack yields 61.0 s (`bench/results/fork_resilience.json`).
 - The genesis config may set `fixed_difficulty = true`, for test environments only.
 - Timestamps: `timestamp > median(last 11 timestamps)` and `timestamp <= local_time + max_future_secs` (120 s on the testnet).
-- No mainnet block time, retarget formula, reward schedule or supply cap is finalized.
+- No mainnet block time, reward schedule or supply cap is finalized. A node refuses a genesis config with `network: "mainnet"` until an owner-approved `subsidy_schedule` is set (section 5.5).
 
 ## 5. Transactions
 
@@ -137,6 +139,7 @@ Spending reveals one leaf, its Merkle path (depth <= 8) and a signature. There i
 
 ```
 core     = u32le(chain_id) || from(32) || to(32) || u64le(amount) || u64le(fee) || u64le(nonce)
+           [|| 0x01 || u8(len memo) || memo]          (v2, only when a memo is set; UTF-8, <= 64 bytes)
 message  = "ZFX-tx-v0.1" || core
 witness  = u8(scheme) || u16le(len pk) || pk || u8(path len) || path(32 each) || u16le(len sig) || sig
 txid     = SHA256("ZFX-txid-v0.1" || core)                  (witness excluded: non-malleable)
@@ -146,13 +149,18 @@ coinbase = u64le(height) || to(32) || u64le(amount);  id = SHA256("ZFX-coinbase-
 
 ### 5.4 Block body
 
-`tx_root = SHA256("ZFX-txroot-v0.1" || u32le(count) || merkle(leaves))`, where the leaves are `[coinbase id, wtxid_1, ..., wtxid_n]`. Merkle nodes are `SHA256("ZFX-merkle-v0.1" || l || r)`, and an odd node is promoted without duplication (avoiding CVE-2012-2459). Limits are 1,000 transactions and 4 MiB of canonical bytes per block.
+`tx_root = SHA256("ZFX-txroot-v0.1" || u32le(count) || merkle(leaves))`, where the leaves are `[coinbase id, wtxid_1, ..., wtxid_n, op_id_1, ..., op_id_m]` (v2 appends the bridge op ids, section 7). Merkle nodes are `SHA256("ZFX-merkle-v0.1" || l || r)`, and an odd node is promoted without duplication (avoiding CVE-2012-2459). Limits are 1,000 transactions and 4 MiB of canonical bytes per block.
 
 ### 5.5 State rules (account model)
 
 - A transaction is valid iff its authorization verifies, `nonce` equals the sender's next nonce, `amount + fee` fits u64 and does not exceed the sender's balance, and `from != to`.
-- The coinbase amount must equal `block_subsidy + sum(fees)` exactly. The testnet subsidy is 50 x 10^8 units per block and carries no monetary value.
+- The coinbase amount must equal `subsidy(height) + sum(fees)` exactly. `subsidy` comes from the genesis `subsidy_schedule` (`Constant`, `Halving` or `SmoothDecay`, each with an optional tail; `crates/zfx-verify/src/monetary.rs`); without one, `block_subsidy` applies at every height. The testnet subsidy is 50 x 10^8 units per block and carries no monetary value.
+- Coinbase maturity (v2): a coinbase output becomes spendable `coinbase_maturity` blocks after its block (testnet 20). Until then it is held in the immature set.
 - Genesis allocations come from the genesis config. The genesis block commits to the config's fixed-layout encoding through `tx_root = SHA256("ZFX-genesis-v0.1" || SHA256(config_bytes))`.
+
+### 5.6 State root (v2)
+
+`state_root = SHA256("ZFX-state-v2" || body)`, where `body` is: `u64le(n)` and, for each of the `n` live accounts (balance or nonce nonzero) in ascending address order, `address(32) || u64le(balance) || u64le(nonce)`; then `"|immature"` and each immature entry `u64le(height) || address || u64le(amount)` in key order; then `"|supply" || u64le(supply)`; then, if the bridge is enabled, `"|bridge" || u32le(epoch) || members(32 each) || pending rotation (0x00, or 0x01 || keys || u64le(activate_height)) || u8(paused) || u64le(admin_nonce) || u128le(locked_total) || u128le(released_total) || u64le(deposits) || u64le(releases) || used withdrawal ids (32 each, ascending)`. Code: `State::root` in `crates/zfx-verify/src/state.rs`.
 
 ## 6. Node-to-miner API (v1)
 
@@ -161,3 +169,17 @@ coinbase = u64le(height) || to(32) || u64le(amount);  id = SHA256("ZFX-coinbase-
 `POST /v1/submit {work_id, nonce}` returns `{accepted, block_hash | error}`.
 
 Work expires when the tip changes. The node recomputes the PoW for every submission and rate-limits to 50 submissions per second per IP. Request bodies are capped at 64 KiB and P2P lines at 16 MiB. `GET /v1/status` returns height, target, peers and best hash. The miner checks that `challenge == SHA256("ZFX-FP8C-v0.1" || header_without_nonce)` before mining.
+
+## 7. Native bridge module (v2)
+
+Enabled by a `bridge` section in the genesis config: committee (3 SLH-DSA-SHA2-128s public keys), threshold 2, `rotation_timelock_blocks`, `min_lock`, `activation_height`, and the NEAR contract id.
+
+- Lockbox: `lockbox = SHA256("ZFX-bridge-lockbox-v1" || u32le(chain_id))`. No key exists for it; only consensus-validated releases move funds out.
+- Deposit: an ordinary transaction to the lockbox with amount >= `min_lock` and a memo holding a valid NEAR account id. `deposit_id = txid`. Rejected while paused.
+- Release op: `{epoch, withdrawal_id, near_burn_ref, recipient, amount, expiry_height, approvals}`. Valid iff not paused, `epoch` is current, height <= `expiry_height`, the withdrawal id was never released, `amount` <= lockbox balance, and >= 2 distinct members signed `release_digest` (`docs/CONTRACT_API.md`).
+- Admin op: `{epoch, op_nonce, action, approvals}` with `op_nonce == admin_nonce`. Pause needs 1 approval; unpause and rotate need 2. Rotate carries 3 new keys and `activate_height >= height + rotation_timelock_blocks`; at that height the committee is replaced and `epoch` increments.
+- Approvals are SLH-DSA-SHA2-128s signatures with FIPS 205 context `ZFX-bridge-v1`. At most 64 bridge ops per block.
+- `op_id = SHA256("ZFX-bridgeop-v1" || canonical op encoding)` (`encode_op` in `bridge.rs`); ops are tx_root leaves after the transactions.
+- Audit: lockbox balance must equal `locked_total - released_total` after every block.
+
+Golden vectors for all v2 encodings and digests: `tests/vectors/consensus_v2.json` (regenerate only with `zfx-research vectors-v2 --force`).

@@ -1,7 +1,7 @@
 //! zpu-cli: the ZPU mining client.
 //!
 //!   zpu-cli mine     --node URL --address zfx1... [--backend cpu|exec] [--exec "CMD ARGS"]
-//!                    [--threads N] [--batch N] [--max-blocks N] [--spot-check N]
+//!                    [--threads N] [--batch N | --job-secs S (default 0.5)] [--max-blocks N] [--spot-check N]
 //!   zpu-cli bench    [--profile v01|dev] [--backend ...] [--seconds S]
 //!   zpu-cli selftest [--vectors FILE] [--backend ...]
 //!
@@ -20,7 +20,7 @@
 const USAGE: &str = r#"zpu-cli: the ZPU mining client.
 
   zpu-cli mine     --node URL --address zfx1... [--backend cpu|exec] [--exec "CMD ARGS"]
-                   [--threads N] [--batch N] [--max-blocks N] [--spot-check N]
+                   [--threads N] [--batch N | --job-secs S (default 0.5)] [--max-blocks N] [--spot-check N]
   zpu-cli bench    [--profile v01|dev] [--backend ...] [--seconds S]
   zpu-cli selftest [--vectors FILE] [--backend ...]
 
@@ -252,6 +252,11 @@ fn mine(args: &[String]) {
     let mut cpu = CpuBackend { threads: 2, weights: None };
     eprintln!("[zpu] backend {} -> node {}", backend.name(), node);
     let batch: u64 = arg(args, "--batch").and_then(|v| v.parse().ok()).unwrap_or(0);
+    // Adaptive job size: aim for `job_secs` of backend work per job so the
+    // fixed per-job cost (get_work, spot checks, process round trip) stays
+    // small on fast GPUs. Measured from the previous job; --batch overrides.
+    let job_secs: f64 = arg(args, "--job-secs").and_then(|v| v.parse().ok()).unwrap_or(0.5);
+    let mut adaptive: Option<u64> = None;
     let (mut accepted, mut rejected, mut total_attempts, mut gpu_errors) = (0u64, 0u64, 0u64, 0u64);
     let t_start = Instant::now();
     let stop = AtomicBool::new(false);
@@ -278,6 +283,8 @@ fn mine(args: &[String]) {
             start: nonce_base,
             count: if batch > 0 {
                 batch
+            } else if let Some(c) = adaptive {
+                c
             } else if profile.hidden > 1024 {
                 2000
             } else {
@@ -293,8 +300,15 @@ fn mine(args: &[String]) {
         }
         nonce_base = nonce_base.wrapping_add(job.count);
         stop.store(false, Ordering::Relaxed);
+        let t_job = Instant::now();
         let r = backend.run(&job, &stop);
+        let el = t_job.elapsed().as_secs_f64();
         total_attempts += r.attempts;
+        if batch == 0 && r.attempts > 0 && el > 0.0 && r.found.is_empty() {
+            let next = (r.attempts as f64 / el * job_secs) as u64;
+            // grow at most 16x per step; bounded to [1000, 2^30]
+            adaptive = Some(next.clamp(1000, job.count.saturating_mul(16)).min(1 << 30));
+        }
         // GPU correctness checks: random spot checks + every winner.
         let mut check: Vec<u64> = (0..spot).map(|_| job.start + rand::random::<u64>() % job.count.max(1)).collect();
         check.extend(r.found.iter().map(|f| f.0));

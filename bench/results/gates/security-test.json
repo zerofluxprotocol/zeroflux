@@ -1,0 +1,196 @@
+{
+  "target": "security-test",
+  "commit": "041e7562365ef92cc7c2747cfaf0d63071b7d838",
+  "dirty_tree": true,
+  "started": "2026-11-09T18:00:18Z",
+  "host": "arm64",
+  "steps": [
+    {
+      "name": "fuzz-parsers",
+      "kind": "required",
+      "cmd": "cargo test --release -q -p zfx-node --test fuzz_parsers -- --nocapture",
+      "rc": 0,
+      "seconds": 116.1,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/security-test/fuzz-parsers.log",
+      "tail": [
+        "",
+        "running 8 tests",
+        "fuzz header_decode: 20000 inputs, 0 panics",
+        ".fuzz bridge_op_json: 20000 inputs, 0 panics",
+        "fuzz snapshot_verify: 20000 inputs, 0 panics",
+        "..fuzz handshake: 666 connections, 0 panics",
+        ".fuzz p2p_msg_json: 20000 inputs, 0 panics",
+        ".fuzz block_json_structure: 20000 inputs, 0 panics",
+        ".fuzz tx_json_verify: 20000 inputs, 0 panics",
+        ".test fuzz_store_records has been running for over 60 seconds",
+        "fuzz store_load: 20000 inputs, 0 panics",
+        ".",
+        "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 93.49s",
+        ""
+      ]
+    },
+    {
+      "name": "node-integrity-crash-corruption-backup",
+      "kind": "required",
+      "cmd": "cargo test --release -q -p zfx-node --test node_integrity",
+      "rc": 0,
+      "seconds": 9.9,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/security-test/node-integrity-crash-corruption-backup.log",
+      "tail": [
+        "",
+        "running 7 tests",
+        ".......",
+        "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s",
+        ""
+      ]
+    },
+    {
+      "name": "chain-rules-adversarial",
+      "kind": "required",
+      "cmd": "cargo test --release -q -p zfx-node --test chain_rules",
+      "rc": 0,
+      "seconds": 6.9,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/security-test/chain-rules-adversarial.log",
+      "tail": [
+        "",
+        "running 7 tests",
+        ".......",
+        "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.99s",
+        ""
+      ]
+    },
+    {
+      "name": "consensus-v2-adversarial",
+      "kind": "required",
+      "cmd": "cargo test --release -q -p zfx-verify --test consensus_v2",
+      "rc": 0,
+      "seconds": 14.2,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/security-test/consensus-v2-adversarial.log",
+      "tail": [
+        "",
+        "running 5 tests",
+        ".....",
+        "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 14.11s",
+        ""
+      ]
+    },
+    {
+      "name": "wzfx-contract-negative",
+      "kind": "required",
+      "cmd": "cd bridge/near && cargo test -q -p wzfx",
+      "rc": 0,
+      "seconds": 0.7,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/security-test/wzfx-contract-negative.log",
+      "tail": [
+        "",
+        "running 17 tests",
+        ".................",
+        "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s",
+        "",
+        "",
+        "running 0 tests",
+        "",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        ""
+      ]
+    },
+    {
+      "name": "miner-asan-ubsan",
+      "kind": "required",
+      "cmd": "make -C miner/cuda sanitize-test",
+      "rc": 0,
+      "seconds": 1.2,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/security-test/miner-asan-ubsan.log",
+      "tail": [
+        "ASAN_OPTIONS=detect_leaks=0:abort_on_error=1 UBSAN_OPTIONS=print_stacktrace=1:halt_on_error=1 ./build/zpu-miner-asan selftest ../../tests/vectors/fp8c_v0.1.json --threads 4",
+        "PASS dev nonce=0 cpu-cpp x4",
+        "PASS dev nonce=1 cpu-cpp x4",
+        "PASS dev nonce=2 cpu-cpp x4",
+        "PASS dev nonce=81985529216486895 cpu-cpp x4",
+        "PASS dev nonce=18446744073709551615 cpu-cpp x4",
+        "PASS v01 nonce=0 cpu-cpp x4",
+        "PASS v01 nonce=1 cpu-cpp x4",
+        "PASS v01 nonce=2 cpu-cpp x4",
+        "PASS v01 nonce=81985529216486895 cpu-cpp x4",
+        "PASS v01 nonce=18446744073709551615 cpu-cpp x4",
+        "278/278 checks bit-exact on cpu-cpp x4",
+        "ASAN_OPTIONS=detect_leaks=0:abort_on_error=1 UBSAN_OPTIONS=print_stacktrace=1:halt_on_error=1 ./build/zpu-miner-asan bench --profile dev --count 3000 --threads 4",
+        "{\"backend\":\"cpu-cpp x4\",\"impl\":\"zpu-miner-cpp\",\"profile\":2,\"attempts\":3000,\"elapsed_s\":0.209193,\"attempts_per_s\":14340.8,\"tera_macs_per_s\":0.00328944,\"launch_overhead_s\":0.00403583,\"host_peak_rss_kb\":27136,\"device\":{},\"hardware_threads\":18,\"compiler\":\"clang 21.0.0 (clang-2100.1.1.101)\",\"acceptance\":{\"sample_nonces\":5,\"matches_cpu_reference\":true}}"
+      ]
+    },
+    {
+      "name": "research-attacks",
+      "kind": "required",
+      "cmd": "./target/release/zfx-research attacks --quick --out /tmp/zfx-attacks",
+      "rc": 0,
+      "seconds": 0.5,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/security-test/research-attacks.log",
+      "tail": [
+        "attacks done in 0.2s",
+        "wrote /tmp/zfx-attacks/attacks.json"
+      ]
+    },
+    {
+      "name": "cargo-audit-workspace",
+      "kind": "required",
+      "cmd": "cargo audit --deny warnings",
+      "rc": 0,
+      "seconds": 1.0,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/security-test/cargo-audit-workspace.log",
+      "tail": [
+        "    Fetching advisory database from `https://github.com/RustSec/advisory-db.git`",
+        "      Loaded 1430 security advisories (from ~/.cargo/advisory-db)",
+        "    Updating crates.io index",
+        "    Scanning Cargo.lock for vulnerabilities (204 crate dependencies)"
+      ]
+    },
+    {
+      "name": "cargo-audit-near-contracts",
+      "kind": "required",
+      "cmd": "cd bridge/near && cargo audit --ignore RUSTSEC-2026-0387 --ignore RUSTSEC-2024-0449",
+      "rc": 0,
+      "seconds": 0.7,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/security-test/cargo-audit-near-contracts.log",
+      "tail": [
+        "    Fetching advisory database from `https://github.com/RustSec/advisory-db.git`",
+        "      Loaded 1430 security advisories (from ~/.cargo/advisory-db)",
+        "    Updating crates.io index",
+        "    Scanning Cargo.lock for vulnerabilities (277 crate dependencies)"
+      ]
+    },
+    {
+      "name": "release-licenses-sbom-reproducible",
+      "kind": "required",
+      "cmd": ".venv/bin/python scripts/release_check.py",
+      "rc": 0,
+      "seconds": 56.4,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/security-test/release-licenses-sbom-reproducible.log",
+      "tail": [
+        "PASS     licenses",
+        "PASS     sbom",
+        "PASS     reproducible_build",
+        "INFO     wasm",
+        "BLOCKED  release_signing",
+        "BLOCKED  docker_images"
+      ]
+    }
+  ],
+  "finished": "2026-11-09T18:03:45Z",
+  "counts": {
+    "PASS": 10,
+    "FAIL": 0,
+    "BLOCKED": 0
+  },
+  "result": "PASS",
+  "failed": []
+}

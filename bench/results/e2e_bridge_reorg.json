@@ -1,11 +1,11 @@
 {
-  "started": "2026-11-09T16:55:44Z",
+  "started": "2026-11-09T18:04:37Z",
   "checks": [
     {
       "check": "Finality: deposit reorged out below K=12 confirmations is never minted; coordinator marks REORGED; books stay exact",
       "result": "PASS",
       "evidence": {
-        "confirmations_before_reorg": 1,
+        "confirmations_before_reorg": 5,
         "K": 12,
         "deposit_state_after": "unknown",
         "is_minted": false,
@@ -19,8 +19,8 @@
       "check": "Deep reorg after mint: unbacked wZFX detected as orphan; incident written; both chains paused via 1-of-3; no compensating mint; new deposits blocked",
       "result": "PASS",
       "evidence": {
-        "minted_at_height": 728,
-        "fork_height": 778,
+        "minted_at_height": 550,
+        "fork_height": 650,
         "orphans": [
           {
             "kind": "mint_without_onchain_deposit",
@@ -30,11 +30,21 @@
         ],
         "incident": "reconciliation violation: [{\"kind\":\"mint_without_onchain_deposit\",\"note\":\"a minted deposit is no longer on the native best chain (deep reorg) or was never there\",\"unbacked\":\"40000\"}]",
         "coordinator_halted": "reconciliation violation: [{\"kind\":\"mint_without_onchain_deposit\",\"note\":\"a minted deposit is no longer on the native best chain (deep reorg) or was never there\",\"unbacked\":\"40000\"}]",
-        "deposit_while_paused": "bridge paused: deposits rejected (code 1006)"
+        "deposit_while_paused": "bridge paused: deposits rejected (code 1006)",
+        "conflicting_tx": "a5811b7ec2c4c67ca1a0d0c297774c2ce27b8591173a2180459eb6f8e46a656f",
+        "reorged_deposit": "6ca96401cc38fd076437448e4fcea0c16b3d78e7ee05e6699cb4be2adfecc900"
+      }
+    },
+    {
+      "check": "Recovery guard: --resume-after-incident refuses while reconciliation still shows the orphaned mint",
+      "result": "PASS",
+      "evidence": {
+        "rc": 2,
+        "stderr": "40000\"},\"ok\":false,\"orphans\":[{\"kind\":\"mint_without_onchain_deposit\",\"note\":\"a minted deposit is no longer on the native best chain (deep reorg) or was never there\",\"unbacked\":\"40000\"}],\"pending_deposits\":{\"items\":[],\"total\":\"0\"},\"pending_releases\":{\"items\":[],\"total\":\"0\"},\"wrapped_supply_ok\":true}\n"
       }
     }
   ],
   "conclusion": "K must exceed the deepest plausible reorg. The testnet default K=12 is a policy value; this run shows the failure mode beyond K is detected and halted, not silently absorbed.",
-  "passed": 2,
-  "total": 2
+  "passed": 3,
+  "total": 3
 }

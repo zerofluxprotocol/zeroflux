@@ -1,5 +1,5 @@
 {
-  "started": "2026-11-09T17:16:46Z",
+  "started": "2026-11-09T17:50:45Z",
   "checks": [
     {
       "check": "B1 deployed wZFX: NEP-148 metadata, zero supply, committee configured",
@@ -19,12 +19,12 @@
       "result": "PASS",
       "evidence": {
         "deposit_id": "88ff9a2e2e1e1ee305d1fa499feb2a429ebe18bc2810aa43e9544363f8f7e3a5",
-        "native_block": "61809aec1b862e736e372bc1d64497a0a83787d62ed15a5d08af53685231b2a8",
-        "confirmations": 150,
-        "near_mint_tx": "64NqW6RbtUjCds657jwwk6tiSaFHZn9NPj6oUkPZKnnh",
+        "native_block": "6a1f27f69c794441a879f49d39b7c31ece7f04822000a973e66b88a5673c2d4f",
+        "confirmations": 145,
+        "near_mint_tx": "FSWHuw4tUwRVMfJx8ofRahTBW5ZVkh8rmnsjRQ5owX1f",
         "approvals": [
           2,
-          0
+          1
         ]
       }
     },
@@ -49,12 +49,12 @@
       "result": "PASS",
       "evidence": {
         "withdrawal_id": "bdd5711eda36eb28cd1a07598bcc19e90522753910591a92dfb5497c8b719525",
-        "near_burn_tx": "7Gvii32bBFD8QHaKu7493cwmSnEhLCViPThsUHji3g5G",
+        "near_burn_tx": "EkZhywRCgFrdQMkwR9SXhmnKH7GR598arPGfu8h5t7f1",
         "native_release": {
           "amount": 20000,
-          "block": "dd7afc512e4c82f80875395f5990ddc099edc5996a0ae75e897fdee6b705d2e9",
+          "block": "f304d14def2b70eccb8ed8059342419049384a76eedf7ae891d3bc94caad63bf",
           "height": 836,
-          "op_id": "d4925a9df0af8c71d1db70e60722211ecb1adb1e1a21cec3bf0e0a688c829d01",
+          "op_id": "7f1b8d307de5050c8a9a83c7dd8752a23dc566e9416a00438febc0728204b1fb",
           "withdrawal_id": "bdd5711eda36eb28cd1a07598bcc19e90522753910591a92dfb5497c8b719525"
         }
       }
@@ -75,42 +75,48 @@
       }
     },
     {
-      "check": "Gate 4: 100 two-way transfers under fault injection completed",
+      "check": "Gate 4: 100 two-way transfers under fault injection completed; every injected duplicate mint rejected",
       "result": "PASS",
       "evidence": {
-        "elapsed_s": 238.1,
+        "completed_round_trips": 100,
+        "elapsed_s": 262.8,
         "errors": [],
+        "unexpected": [],
         "chaos_events": [
           {
-            "t": 1794244679.417349,
+            "t": 1794246721.771956,
             "action": "refuse_window"
           },
           {
-            "t": 1794244705.194533,
+            "t": 1794246747.55523,
             "action": "kill_coordinator"
           },
           {
-            "t": 1794244733.5323231,
+            "t": 1794246775.928406,
             "action": "kill_coordinator"
           },
           {
-            "t": 1794244755.0314848,
+            "t": 1794246797.430926,
             "action": "kill_coordinator"
           },
           {
-            "t": 1794244793.690442,
+            "t": 1794246836.090869,
             "action": "refuse_window"
           },
           {
-            "t": 1794244810.6871748,
+            "t": 1794246853.1210098,
             "action": "duplicate_mint: rejected"
           },
           {
-            "t": 1794244829.9559748,
+            "t": 1794246872.4283462,
             "action": "duplicate_mint: rejected"
           },
           {
-            "t": 1794244858.3693151,
+            "t": 1794246900.840519,
+            "action": "kill_coordinator"
+          },
+          {
+            "t": 1794246931.072163,
             "action": "kill_coordinator"
           }
         ]
@@ -120,7 +126,7 @@
       "check": "B3 backing invariant minted-burned <= locked-released held at every sample; no orphans",
       "result": "PASS",
       "evidence": {
-        "samples": 57,
+        "samples": 61,
         "violations": []
       }
     },
@@ -163,27 +169,27 @@
     }
   ],
   "deployment": {
-    "near_rpc": "http://127.0.0.1:64191",
+    "near_rpc": "http://127.0.0.1:56269",
     "contract": "wzfx.deployer.test.near",
     "deploy": {
-      "code_hash_b58": "5cYyjUgtjeVjkYhK1EdCKrTiTvQ2CB4unBMrw9eeLVr3",
+      "code_hash_b58": "67jJRM7obHrgEzxZaTSHftMD6STVMXuPxdXTPVJT9VEQ",
       "contract": "wzfx.deployer.test.near",
       "failure": null,
       "success": true,
-      "tx_hash": "6fn6GYP2WXKSwij2UeHr2WnpWosGNmBULiXjDDX8CDnc",
-      "wasm_sha256": "448a3bdc062f84d5ca1c1232c7c64b96a147701d759cf89cf3150cd28ff0e174"
+      "tx_hash": "Dar1fJpH4A8h4Tz8js8hezbkfWM8jwjpuUXcP1VkQHuG",
+      "wasm_sha256": "4c03bfa67d2f210779703684544a2869ad56bea0e4dc829627c5ece2d6bceb79"
     },
     "native_chain_id": 1514536962,
     "asset_id": "zfx:5a460002:native",
     "committee_ed25519": [
-      "4cf0cdf603b3208876de14938045bb498a4bc79c333cfc2d7fec70f16fa363d2",
-      "63e3df4793a54282abc26697594f3e734a41ffe49ea6274b2b42f6c0b6a459bc",
-      "cefc523d42d9950652a101f80e11102851b0cd0d23d1f561a30ca94524846290"
+      "0023f03001a7908130f5cfb43b8faf3de71196402c3f973df8a8757e520ad94e",
+      "0e00783b4dc5681ff75e3cf143d1501a85c25730e7b9b5f15032d7234ee7255a",
+      "a6810216fcc1beb907928867a2bedea50b2b0ed9ab9b7258197e85ebccdb5b01"
     ],
     "committee_slh": [
-      "a60bb94435926cfb...",
-      "498459b7dab7826c...",
-      "c86611983c5aa4bb..."
+      "0abd7f1c3308f55f...",
+      "4a27a018da69d5c2...",
+      "9392c1b1a0f8aba1..."
     ]
   },
   "coordinator_final": {

@@ -1,0 +1,72 @@
+{
+  "target": "e2e-bridge",
+  "commit": "d73f3aa24b967b9ba81383b0f9a1f7c81065841d",
+  "dirty_tree": true,
+  "started": "2026-11-09T17:50:45Z",
+  "host": "arm64",
+  "steps": [
+    {
+      "name": "bridge-100-two-way-fault-injection",
+      "kind": "required",
+      "cmd": ".venv/bin/python tests/e2e/bridge.py",
+      "rc": 0,
+      "seconds": 309.9,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/e2e-bridge/bridge-100-two-way-fault-injection.log",
+      "tail": [
+        "PASS B1 deployed wZFX: NEP-148 metadata, zero supply, committee configured :: {\"decimals\": 8, \"icon\": null, \"name\": \"Wrapped ZeroFlux (testnet, 2-of-3 bridge)\", \"reference\": null, \"reference_hash\": null, \"spec\": \"ft-1.0.0\", \"symbol\": \"wZFX\"}",
+        "PASS B4 deposit -> K confirmations -> 2-of-3 mint (receipts checked on both chains) :: {\"deposit_id\": \"88ff9a2e2e1e1ee305d1fa499feb2a429ebe18bc2810aa43e9544363f8f7e3a5\", \"native_block\": \"6a1f27f69c794441a879f49d39b7c31ece7f04822000a973e66b88a5673c2d4f\", \"confirmations\": 145, \"near_mint_tx\": \"FSWHuw4tUwRVMfJx8ofRahTBW5ZVkh8rmnsjRQ5owX1f\", \"approvals\": [2, 1]}",
+        "PASS B1/B3 1-of-3 cannot mint (on-chain rejection) and a forged member index is rejected; coordinator waits :: {\"one_of_three\": \"{\\\"ActionError\\\":{\\\"index\\\":0,\\\"kind\\\":{\\\"FunctionCallError\\\":{\\\"ExecutionError\\\":\\\"Smart contract panicked: insufficient committee approvals\\\"}}}}\", \"forged\": \"{\\\"ActionError\\\":{\\\"index\\\":0,\\\"kind\\\":{\\\"FunctionCallError\\\":{\\\"ExecutionError\\\":\\\"Smart contract panicked: invalid committee signature\\\"}}}}\", \"coordinator_state\": \"ATTESTING\"}",
+        "PASS B1 replay of a finalized mint bundle rejected (no double mint) :: {\"failure\": \"{\\\"ActionError\\\":{\\\"index\\\":0,\\\"kind\\\":{\\\"FunctionCallError\\\":{\\\"ExecutionError\\\":\\\"Smart contract panicked: deposit already minted (replay)\\\"}}}}\"}",
+        "PASS B2/B4 burn on NEAR (final) -> 2-of-3 SLH-DSA native release validated by consensus :: {\"withdrawal_id\": \"bdd5711eda36eb28cd1a07598bcc19e90522753910591a92dfb5497c8b719525\", \"near_burn_tx\": \"EkZhywRCgFrdQMkwR9SXhmnKH7GR598arPGfu8h5t7f1\", \"native_release\": {\"amount\": 20000, \"block\": \"f304d14def2b70eccb8ed8059342419049384a76eedf7ae891d3bc94caad63bf\", \"height\": 836, \"op_id\": \"7f1b8d307de5050c8a9a83c7dd8752a23dc566e9416a00438febc0728204b1fb\", \"withdrawal_id\": \"bdd5711eda36eb28cd1a07598bcc19e90522753910591a92dfb5497c8b719525\"}}",
+        "PASS B2 1-of-3 release rejected by native consensus; relayer refuses wrong amount; release replay rejected :: {\"one_of_three\": {\"code\": 1006, \"message\": \"release has 1 approvals, needs 2\"}, \"wrong_amount\": \"amount mismatch\", \"replay\": {\"code\": 1006, \"message\": \"withdrawal id already released (replay)\"}}",
+        "PASS Gate 4: 100 two-way transfers under fault injection completed; every injected duplicate mint rejected :: {\"completed_round_trips\": 100, \"elapsed_s\": 262.8, \"errors\": [], \"unexpected\": [], \"chaos_events\": [{\"t\": 1794246721.771956, \"action\": \"refuse_window\"}, {\"t\": 1794246747.55523, \"action\": \"kill_coordinator\"}, {\"t\": 1794246775.928406, \"action\": \"kill_coordinator\"}, {\"t\": 1794246797.430926, \"action\": \"kill_coordinator\"}, {\"t\": 1794246836.090869, \"action\": \"refuse_window\"}, {\"t\": 1794246853.1210098, \"action\": \"duplicate_mint: rejected\"}, {\"t\": 1794246872.4283462, \"action\": \"duplicate_mint: rejected\"",
+        "PASS B3 backing invariant minted-burned <= locked-released held at every sample; no orphans :: {\"samples\": 61, \"violations\": []}",
+        "PASS B3 full reconciliation at quiescence: exact identity, custody, supply, zero pending, zero orphans :: {\"ok\": true, \"invariant_ok\": true, \"accounting_identity_ok\": true, \"native_custody_ok\": true, \"wrapped_supply_ok\": true, \"native\": {\"chain_id\": 1514536962, \"deposits\": 102, \"lockbox_balance\": \"905961\", \"locked_total\": \"2020520\", \"paused\": false, \"released_total\": \"1114559\", \"releases\": 102}, \"near\": {\"burns\": 102, \"contract\": \"wzfx.deployer.test.near\", \"epoch\": 0, \"paused\": false, \"total_burned\": \"1114559\", \"total_minted\": \"2020520\", \"total_supply\": \"905961\"}}",
+        "PASS B3 per-user conservation on both chains (native = initial - deposits - fees + releases; wZFX = deposits - burns) :: {\"mismatches\": [], \"users\": 10}",
+        "10/10 checks passed -> bench/results/e2e_bridge.json"
+      ]
+    },
+    {
+      "name": "bridge-finality-reorg",
+      "kind": "required",
+      "cmd": ".venv/bin/python tests/e2e/bridge_reorg.py",
+      "rc": 0,
+      "seconds": 64.7,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/e2e-bridge/bridge-finality-reorg.log",
+      "tail": [
+        "PASS Finality: deposit reorged out below K=12 confirmations is never minted; coordinator marks REORGED; books stay exact :: {\"confirmations_before_reorg\": 1, \"K\": 12, \"deposit_state_after\": \"unknown\", \"is_minted\": false, \"job\": \"REORGED\", \"conflicting_tx\": \"62da0e5e3593290f3e6d5d792c00e371011e170303394af6a43cc79aaca3acc1\", \"reconcile_ok\": true, \"reorgs_node1\": 1}",
+        "PASS Deep reorg after mint: unbacked wZFX detected as orphan; incident written; both chains paused via 1-of-3; no compensating mint; new deposits blocked :: {\"minted_at_height\": 600, \"fork_height\": 700, \"orphans\": [{\"kind\": \"mint_without_onchain_deposit\", \"note\": \"a minted deposit is no longer on the native best chain (deep reorg) or was never there\", \"unbacked\": \"40000\"}], \"incident\": \"reconciliation violation: [{\\\"kind\\\":\\\"mint_without_onchain_deposit\\\",\\\"note\\\":\\\"a minted deposit is no longer on the native best chain (deep reorg) or was never there\\\",\\\"unbacked\\\":\\\"40000\\\"}]\", \"coordinator_halted\": \"reconciliation violation: [{\\\"kind\\\":\\\"mint_wit",
+        "2/2 checks passed -> bench/results/e2e_bridge_reorg.json"
+      ]
+    },
+    {
+      "name": "bridge-governance-recovery",
+      "kind": "required",
+      "cmd": ".venv/bin/python tests/e2e/bridge_governance.py",
+      "rc": 0,
+      "seconds": 123.0,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/e2e-bridge/bridge-governance-recovery.log",
+      "tail": [
+        "PASS G1 NEAR: 1-of-3 pause works; 1-of-3 unpause rejected; 2-of-3 unpause works; replayed unpause rejected :: {\"pause_tx\": \"5NNTYNedsFAXR4ncGeb3RNZveDLhzviyjbQi2U4ZDS3S\", \"unpause_1of3\": \"{\\\"ActionError\\\":{\\\"index\\\":0,\\\"kind\\\":{\\\"FunctionCallError\\\":{\\\"ExecutionError\\\":\\\"Smart contract panicked: unpause needs threshold approvals\\\"}}}}\", \"unpause_tx\": \"EJ8ifUqauGqvC79UKfrTrC6szvMHMCg7E6QgimBsmYod\", \"replay\": \"{\\\"ActionError\\\":{\\\"index\\\":0,\\\"kind\\\":{\\\"FunctionCallError\\\":{\\\"ExecutionError\\\":\\\"Smart contract panicked: invalid committee signature\\\"}}}}\"}",
+        "PASS G1 native: 1-of-3 pause included by consensus; deposits refused while paused; 1-of-3 unpause rejected; 2-of-3 unpause; replay rejected :: {\"pause_op\": {\"op_id\": \"7ed351f5ee4a7f9a2854e5f25940d910f535e01ce8f1bd005d293279021af514\"}, \"unpause_1of3\": {\"code\": 1006, \"message\": \"admin op has 1 approvals, needs 2\"}, \"deposit_while_paused\": \"bridge paused: deposits rejected (code 1006)\", \"unpause_op\": {\"op_id\": \"881f5ada4af8f67a360a79aac8ca0ec1d00caf893d99a75659aa5f4c5745f88c\"}, \"replay\": {\"code\": 1006, \"message\": \"admin op nonce 1 != expected 2 (replay)\"}}",
+        "PASS G2 rotation: 2-of-3 old committee approves; NEAR applies only after timelock; native activates at the scheduled height :: {\"propose_tx\": \"33zEbk2T3S5bqH932DuysWzL2vDVQdhSAmsKpC5CN1L8\", \"apply_before_timelock\": \"{\\\"ActionError\\\":{\\\"index\\\":0,\\\"kind\\\":{\\\"FunctionCallError\\\":{\\\"ExecutionError\\\":\\\"Smart contract panicked: rotation timelock not elapsed\\\"}}}}\", \"apply_tx\": \"6oGgJcYmeKvqrFSTZtRrKyjHHuc3eQEHa9P8nW9bjiND\", \"near_epoch\": 1, \"native_epoch\": 1, \"native_activate_height\": 961, \"native_op\": {\"op_id\": \"2cde964efba768fa98faa5662156b56ea5664cf22232c2c20cec72663820c12b\"}}",
+        "PASS G2 recovery: new committee completes deposit -> mint -> burn -> release; retired keys rejected on both chains :: {\"round_trip\": {\"deposit\": \"2bced1dd094480c315fd29858bf2b69580be6e9a435be2b1ebcd3bcd731d13a5\", \"near_burn_tx\": \"GnCpAdh2Cq24HfB1Sztc7BwKdZxGsjRswqmxhTE7T5j1\", \"released_total\": \"30000\"}, \"old_key_near\": \"{\\\"ActionError\\\":{\\\"index\\\":0,\\\"kind\\\":{\\\"FunctionCallError\\\":{\\\"ExecutionError\\\":\\\"Smart contract panicked: invalid committee signature\\\"}}}}\", \"old_key_native\": {\"code\": 1006, \"message\": \"invalid signature from member 0\"}}",
+        "PASS G3 upgrade: non-owner stage rejected; deploy before timelock rejected; mismatched WASM rejected; staged v2 deployed with state preserved :: {\"v2_sha256\": \"d7c254dec10aafe851e5e66e5fde5f13ce6c18eb9ed274e949046776841aabfc\", \"stage_by_user\": \"{\\\"ActionError\\\":{\\\"index\\\":0,\\\"kind\\\":{\\\"FunctionCallError\\\":{\\\"ExecutionError\\\":\\\"Smart contract panicked: owner only\\\"}}}}\", \"deploy_before_timelock\": \"{\\\"ActionError\\\":{\\\"index\\\":0,\\\"kind\\\":{\\\"FunctionCallError\\\":{\\\"ExecutionError\\\":\\\"Smart contract panicked: upgrade timelock not elapsed\\\"}}}}\", \"mismatched_wasm\": \"{\\\"ActionError\\\":{\\\"index\\\":0,\\\"kind\\\":{\\\"FunctionCallError\\\":{\\\"ExecutionError\\\":\\\"Smart contract panicked: WASM does not match the staged code hash\\\"}}}}\", \"upgrade_tx\": \"ADEDWw",
+        "PASS G3 bridge operates on the upgraded contract; reconciliation exact :: {\"round_trip\": {\"deposit\": \"80d06f42ed20fad8be06686aae1ee42d49459fbdb45d927ddf1acd8d8e398946\", \"near_burn_tx\": \"qZgBSqaXE44wqc3JGNkgG492TykdDaphqpRLLinmLnt\", \"released_total\": \"42000\"}, \"reconcile_ok\": true, \"invariant_ok\": true}",
+        "PASS G4 disaster recovery: coordinator job store deleted; restart rebuilds from chain with zero duplicate mints/releases; books exact :: {\"store_deleted\": true, \"total_minted_before\": \"42000\", \"total_minted_after\": \"49000\", \"round_trip\": {\"deposit\": \"73a9863f90ee9a3754ffe6d814c33691b0d62e6ad28ddbb148c851ec6da5d0c7\", \"near_burn_tx\": \"3wkV7Dn69d1gqsdbniPLkPybpacCh3SNoc7JC9SendpS\", \"released_total\": \"49000\"}, \"native_releases\": \"49000\", \"reconcile_ok\": true}",
+        "7/7 checks passed -> bench/results/e2e_bridge_governance.json"
+      ]
+    }
+  ],
+  "finished": "2026-11-09T17:59:02Z",
+  "counts": {
+    "PASS": 3,
+    "FAIL": 0,
+    "BLOCKED": 0
+  },
+  "result": "PASS",
+  "failed": []
+}

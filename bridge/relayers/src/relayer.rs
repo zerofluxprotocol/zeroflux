@@ -37,8 +37,17 @@ pub struct Relayer {
     pub zfx: ZfxClient,
     pub near: NearClient,
     log: Mutex<std::fs::File>,
+    /// (kind, id) -> terms (recipient, amount) already signed. Loaded from
+    /// signed.jsonl at startup so the guard survives restarts.
+    signed: Mutex<std::collections::HashMap<(String, String), String>>,
     /// Test hook: refuse everything (simulates a down/compromised-but-honest-refusing member).
     pub refuse: std::sync::atomic::AtomicBool,
+}
+
+/// The economically binding part of a signature: who gets paid and how much.
+/// Expiry and epoch may legitimately change on a retry; these may not.
+fn terms(detail: &Value) -> String {
+    json!({"recipient": detail["recipient"], "amount": detail["amount"]}).to_string()
 }
 
 fn now_ns() -> u64 {
@@ -49,18 +58,43 @@ impl Relayer {
     pub fn new(cfg: RelayerConfig) -> Result<Relayer, String> {
         let seed = crate::keys::read_seed(&cfg.seed_file)?;
         std::fs::create_dir_all(&cfg.data_dir).map_err(|e| e.to_string())?;
-        let log = std::fs::OpenOptions::new().create(true).append(true).open(format!("{}/signed.jsonl", cfg.data_dir)).map_err(|e| e.to_string())?;
+        let path = format!("{}/signed.jsonl", cfg.data_dir);
+        let mut signed = std::collections::HashMap::new();
+        if let Ok(text) = std::fs::read_to_string(&path) {
+            for line in text.lines() {
+                if let Ok(v) = serde_json::from_str::<Value>(line) {
+                    if let (Some(k), Some(id)) = (v["kind"].as_str(), v["id"].as_str()) {
+                        signed.insert((k.to_string(), id.to_string()), terms(&v["detail"]));
+                    }
+                }
+            }
+        }
+        let log = std::fs::OpenOptions::new().create(true).append(true).open(&path).map_err(|e| e.to_string())?;
         Ok(Relayer {
             zfx: ZfxClient::new(&cfg.zfx_node),
             near: NearClient::new(&cfg.near_rpc),
             keys: RelayerKeys::from_seed(&seed),
             cfg,
             log: Mutex::new(log),
+            signed: Mutex::new(signed),
             refuse: std::sync::atomic::AtomicBool::new(false),
         })
     }
 
+    /// Anti-equivocation: refuse to sign a second, different payout for a
+    /// deposit or withdrawal id this member already signed (even across
+    /// restarts). Re-signing identical terms (a retry) is allowed.
+    pub(crate) fn guard(&self, kind: &str, id: &str, detail: &Value) -> Result<(), String> {
+        let t = terms(detail);
+        let s = self.signed.lock().unwrap();
+        match s.get(&(kind.to_string(), id.to_string())) {
+            Some(prev) if *prev != t => Err(format!("equivocation refused: {} {} already signed with {}, now asked for {}", kind, id, prev, t)),
+            _ => Ok(()),
+        }
+    }
+
     fn record(&self, kind: &str, id: &str, digest: &[u8], detail: Value) {
+        self.signed.lock().unwrap().insert((kind.to_string(), id.to_string()), terms(&detail));
         let line = json!({"t": now_ns(), "kind": kind, "id": id, "digest": hex::encode(digest), "detail": detail});
         let mut f = self.log.lock().unwrap();
         let _ = writeln!(f, "{}", line);
@@ -138,9 +172,11 @@ impl Relayer {
         if exp > now_ns() + 3_600_000_000_000 {
             return Err("expiry too far in the future (max 1 h)".into());
         }
+        let detail = json!({"recipient": a.recipient, "amount": a.amount, "confirmations": conf});
+        self.guard("mint", &a.deposit_id, &detail)?;
         let d = digest::mint_digest(&self.cfg.wzfx_contract, self.cfg.native_chain_id, &self.cfg.native_asset_id, a);
         let sig = self.keys.ed25519.sign(&d);
-        self.record("mint", &a.deposit_id, &d, json!({"recipient": a.recipient, "amount": a.amount, "confirmations": conf}));
+        self.record("mint", &a.deposit_id, &d, detail);
         Ok(json!({"member": self.cfg.member, "signature": hex::encode(sig.to_bytes())}))
     }
 
@@ -181,9 +217,11 @@ impl Relayer {
         if rs["state"] != "unknown" && rs["state"] != "mempool" {
             return Err(format!("already released ({})", rs["state"]));
         }
+        let detail = json!({"recipient": hex::encode(r.recipient), "amount": r.amount, "burn_nonce": burn_nonce});
+        self.guard("release", wid, &detail)?;
         let d = bridge::release_digest(self.cfg.native_chain_id, r);
         let sig = bridge::sign_digest(&self.keys.slh, &d);
-        self.record("release", wid, &d, json!({"amount": r.amount, "burn_nonce": burn_nonce}));
+        self.record("release", wid, &d, detail);
         Ok(json!({"member": self.cfg.member, "sig": hex::encode(sig)}))
     }
 
@@ -258,4 +296,43 @@ pub fn serve(r: Arc<Relayer>) -> Result<(), String> {
         let _ = h.join();
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn relayer(dir: &std::path::Path) -> Relayer {
+        let seed = dir.join("seed");
+        std::fs::write(&seed, "07".repeat(32)).unwrap();
+        let cfg: RelayerConfig = serde_json::from_value(json!({
+            "member": 0, "seed_file": seed, "zfx_node": "http://127.0.0.1:1", "near_rpc": "http://127.0.0.1:1",
+            "wzfx_contract": "wzfx.test.near", "native_chain_id": 1, "native_asset_id": "zfx:00000001:native", "confirmations": 6,
+            "listen": "127.0.0.1:0", "data_dir": dir.join("data")
+        }))
+        .unwrap();
+        Relayer::new(cfg).unwrap()
+    }
+
+    #[test]
+    fn refuses_to_sign_a_different_payout_for_the_same_id_even_after_restart() {
+        let dir = std::env::temp_dir().join(format!("zfx-relayer-guard-{}", rand::random::<u32>()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let ok = json!({"recipient": "alice.test.near", "amount": "5000", "confirmations": 6});
+        {
+            let r = relayer(&dir);
+            r.guard("mint", "aa", &ok).unwrap();
+            r.record("mint", "aa", &[0u8; 32], ok.clone());
+            // A retry with identical terms (new expiry/confirmations) is fine.
+            r.guard("mint", "aa", &json!({"recipient": "alice.test.near", "amount": "5000", "confirmations": 9})).unwrap();
+            assert!(r.guard("mint", "aa", &json!({"recipient": "alice.test.near", "amount": "5001"})).is_err());
+            assert!(r.guard("mint", "aa", &json!({"recipient": "mallory.test.near", "amount": "5000"})).is_err());
+            r.guard("mint", "bb", &json!({"recipient": "bob.test.near", "amount": "1"})).unwrap();
+        }
+        // Restart: the guard is rebuilt from signed.jsonl.
+        let r = relayer(&dir);
+        assert!(r.guard("mint", "aa", &json!({"recipient": "alice.test.near", "amount": "9"})).is_err());
+        r.guard("mint", "aa", &ok).unwrap();
+        std::fs::remove_dir_all(dir).ok();
+    }
 }

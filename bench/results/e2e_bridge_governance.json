@@ -1,13 +1,13 @@
 {
-  "started": "2026-11-09T17:31:31Z",
+  "started": "2026-11-09T18:05:40Z",
   "checks": [
     {
       "check": "G1 NEAR: 1-of-3 pause works; 1-of-3 unpause rejected; 2-of-3 unpause works; replayed unpause rejected",
       "result": "PASS",
       "evidence": {
-        "pause_tx": "CVc9zkWMYA3B6S8fSfFz253sRQ11M5Nt58YXQWYC9R6r",
+        "pause_tx": "Akf9e1krmfsdFyHpxyagTmaWjyyYwi6vc4eNsdTeQeWy",
         "unpause_1of3": "{\"ActionError\":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: unpause needs threshold approvals\"}}}}",
-        "unpause_tx": "4wy9hWiHRWuXE1rEBfovJy3cgyUtQxdfCX1rZw6oZQbt",
+        "unpause_tx": "8rgZbga718pM6ZTTZg4yFi8sdc4T7nM2riyFieDdzUSf",
         "replay": "{\"ActionError\":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: invalid committee signature\"}}}}"
       }
     },
@@ -16,7 +16,7 @@
       "result": "PASS",
       "evidence": {
         "pause_op": {
-          "op_id": "3157da47ecdedbda7bdfe72e0b6ed1a103d6463c80aac3f1e1d8cc0ab057f2ca"
+          "op_id": "f5c675ef41873e6ac0be7c6ab1df0ec3f071b66ccd91e51de7b04d8fd793df6f"
         },
         "unpause_1of3": {
           "code": 1006,
@@ -24,7 +24,7 @@
         },
         "deposit_while_paused": "bridge paused: deposits rejected (code 1006)",
         "unpause_op": {
-          "op_id": "e0b0a27bba803e23c6957bb1a0dfdab7184b61970503a5f6703ca99594c6d22a"
+          "op_id": "288e043ee4f522320612f5489175ac3ea584d55da29d5819427e37a41f6e85d4"
         },
         "replay": {
           "code": 1006,
@@ -36,14 +36,14 @@
       "check": "G2 rotation: 2-of-3 old committee approves; NEAR applies only after timelock; native activates at the scheduled height",
       "result": "PASS",
       "evidence": {
-        "propose_tx": "8eL7PZfGEvX1PpyBTRXzU3MfSFRUxp9xU2bMoQyLA215",
+        "propose_tx": "6KxGDFJEdZCV1SABgKo2eW25UbVBxT9ET5AmZDGTXaB1",
         "apply_before_timelock": "{\"ActionError\":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: rotation timelock not elapsed\"}}}}",
-        "apply_tx": "EU7UB4Zud19AFWW1xpZymL5B97S25miJMqRrvAVfWv2g",
+        "apply_tx": "HEdo2zcD7MB8aWuGGZw4vAaf3vLRQWSMdwN5bnEhK41n",
         "near_epoch": 1,
         "native_epoch": 1,
-        "native_activate_height": 1003,
+        "native_activate_height": 961,
         "native_op": {
-          "op_id": "798c4c700a27cdb1927d2afce479eaf037c944cd8f2bf4300a45146a08d01462"
+          "op_id": "b5c0a9b5d3a37c09f8aca69ec4ba2165d2987ef0b9404b102d3617a64735646a"
         }
       }
     },
@@ -53,7 +53,7 @@
       "evidence": {
         "round_trip": {
           "deposit": "2bced1dd094480c315fd29858bf2b69580be6e9a435be2b1ebcd3bcd731d13a5",
-          "near_burn_tx": "7KPYTyGm5AgRRX5o8MWUjyya8jFaGhc6BNf5mPopES2U",
+          "near_burn_tx": "87F8kWw7AUBub99qGs7eUg3gTfcUMYMugTF665j3ZLfj",
           "released_total": "30000"
         },
         "old_key_near": "{\"ActionError\":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: invalid committee signature\"}}}}",
@@ -67,11 +67,11 @@
       "check": "G3 upgrade: non-owner stage rejected; deploy before timelock rejected; mismatched WASM rejected; staged v2 deployed with state preserved",
       "result": "PASS",
       "evidence": {
-        "v2_sha256": "8fe3a41e28bc1991b5f0b4b4a32fab56317e179f687f78f9b11da22edfa9bc72",
+        "v2_sha256": "d7c254dec10aafe851e5e66e5fde5f13ce6c18eb9ed274e949046776841aabfc",
         "stage_by_user": "{\"ActionError\":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: owner only\"}}}}",
         "deploy_before_timelock": "{\"ActionError\":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: upgrade timelock not elapsed\"}}}}",
         "mismatched_wasm": "{\"ActionError\":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: WASM does not match the staged code hash\"}}}}",
-        "upgrade_tx": "EnqiNHRhpGMioaM1EjQ66zYN18ueuo3Lc6PRwkd5iPsW",
+        "upgrade_tx": "NGhbdta9Mco3epuNnbhp5n3XxP9oG4HsqcNS2Gswh3F",
         "version_after": "wzfx-1.0.0-upgrade-test-v2",
         "supply_before_after": [
           "0",
@@ -85,7 +85,7 @@
       "evidence": {
         "round_trip": {
           "deposit": "80d06f42ed20fad8be06686aae1ee42d49459fbdb45d927ddf1acd8d8e398946",
-          "near_burn_tx": "4VnbbmUZaxP1yDeN6QNLSRWU4uK8vUdxuSNXPpwjp4N1",
+          "near_burn_tx": "3KimCx6r7nRs3H93zqdMPZZLzvMaq2qzjMtVE2FKsPGQ",
           "released_total": "42000"
         },
         "reconcile_ok": true,
@@ -101,14 +101,29 @@
         "total_minted_after": "49000",
         "round_trip": {
           "deposit": "73a9863f90ee9a3754ffe6d814c33691b0d62e6ad28ddbb148c851ec6da5d0c7",
-          "near_burn_tx": "EfZ65ee42HPu57REZPEaKqEcLnzGdhupf6wgGRPS4oFm",
+          "near_burn_tx": "4W5uwRdvDwpxvYczyzhFs6cyL1HE9TqXdkxnMtF1MMTJ",
           "released_total": "49000"
         },
         "native_releases": "49000",
         "reconcile_ok": true
       }
+    },
+    {
+      "check": "G5 resume: a halted coordinator stays halted; --resume-after-incident clears it only with clean books and records the resume in the incident",
+      "result": "PASS",
+      "evidence": {
+        "halted_before": "drill: simulated invariant alarm",
+        "resume_rc": 0,
+        "resume_log": "[coordinator] {\"previous_halt\":\"drill: simulated invariant alarm\",\"resumed\":true}\n[coordinator] advanced 1 job(s): {\"Finalized\":6}\n",
+        "round_trip": {
+          "deposit": "50e7ad2a311120b658860a05c44b363574d607f31ec77585f0ad073759bc8a6b",
+          "near_burn_tx": "GuK1zLidVuB97WQdw9kd4HSPEinCit8bP27BoSozWX2M",
+          "released_total": "55000"
+        },
+        "incident_resume_record": true
+      }
     }
   ],
-  "passed": 7,
-  "total": 7
+  "passed": 8,
+  "total": 8
 }

@@ -258,6 +258,31 @@ def main():
                     and rec.get("invariant_ok") is True and not rec.get("orphans"),
                     {"store_deleted": existed, "total_minted_before": before["total_minted"], "total_minted_after": after["total_minted"],
                      "round_trip": rt3, "native_releases": ni["released_total"], "reconcile_ok": rec.get("ok")})
+
+        # ---------------- G5 resume after an investigated incident ----------------
+        ln.stop("coordinator")
+        store = os.path.join(localnet.RUN, "jobs.json")
+        js = json.load(open(store))
+        js["halted"] = "drill: simulated invariant alarm"
+        json.dump(js, open(store, "w"))
+        incdir = os.path.join(localnet.RUN, "incidents")
+        os.makedirs(incdir, exist_ok=True)
+        inc = os.path.join(incdir, "incident-drill.json")
+        json.dump({"reason": "drill: simulated invariant alarm", "action": "bridge halted; manual review required"}, open(inc, "w"))
+        ln.start_coordinator(fault_rate=0.0)
+        time.sleep(3)
+        halted_before = ln.coordinator_status()["halted"]
+        ln.stop("coordinator")
+        rr = subprocess.run([f"{BIN}/zfx-bridge-coordinator", "--env", ln.env_path, "--zfx", ln.zfx_url(1), "--near-account", ln.coordinator_account,
+                             "--near-key-file", ln.key(ln.coordinator_account), "--store", store, "--incidents", incdir,
+                             "--resume-after-incident", inc, "--once"], capture_output=True, text=True, env=localnet.ENVV)
+        ln.start_coordinator(fault_rate=0.0)
+        rt4 = round_trip(ln, ws[5], 6_000, "post-resume")
+        audited = json.load(open(inc)).get("resumed")
+        ok &= check("G5 resume: a halted coordinator stays halted; --resume-after-incident clears it only with clean books and records the resume in the incident",
+                    halted_before is not None and rr.returncode == 0 and audited is not None and ln.coordinator_status()["halted"] is None,
+                    {"halted_before": halted_before, "resume_rc": rr.returncode, "resume_log": rr.stderr[-200:], "round_trip": rt4,
+                     "incident_resume_record": bool(audited)})
     except Exception as ex:
         ok = False
         check("bridge governance e2e aborted", False, {"exception": repr(ex)})

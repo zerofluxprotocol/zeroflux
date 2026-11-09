@@ -796,7 +796,9 @@ impl Node {
 
     pub fn block_json(&self, key: &str) -> Option<Value> {
         let g = self.lock();
-        let h = if let Ok(n) = key.parse::<u64>() { *g.chain.best.get(n as usize)? } else { from_hex32(key)? };
+        // A 64-char key is always a hash: an all-digit hash (e.g. 00..00)
+        // must not be read as a height.
+        let h = if key.len() == 64 { from_hex32(key)? } else { *g.chain.best.get(key.parse::<u64>().ok()? as usize)? };
         let e = g.chain.entries.get(&h)?;
         let in_best = g.chain.best.get(e.height as usize) == Some(&h);
         Some(json!({

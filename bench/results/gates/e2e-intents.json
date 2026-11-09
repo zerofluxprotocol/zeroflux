@@ -1,0 +1,40 @@
+{
+  "target": "e2e-intents",
+  "commit": "041e7562365ef92cc7c2747cfaf0d63071b7d838",
+  "dirty_tree": true,
+  "started": "2026-11-09T17:59:02Z",
+  "host": "arm64",
+  "steps": [
+    {
+      "name": "intents-local-solver-settlement",
+      "kind": "required",
+      "cmd": ".venv/bin/python tests/e2e/intents.py",
+      "rc": 0,
+      "seconds": 75.4,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/e2e-intents/intents-local-solver-settlement.log",
+      "tail": [
+        "PASS B5 official Verifier deployed in sandbox (release artifact, SHA-256 verified) + tUSDC fixture :: {\"verifier_tag\": \"defuse/v0.4.2\", \"verifier_sha256\": \"f67f9559b3b512c52dfa11723a28b9119bcf773ac01780370d6409e5f1fb20e5\", \"verifier_deploy_tx\": \"D95PbAqX94ikJfav3kgWKkyXMquoNZ4KqKaknotrKYdE\", \"current_salt\": \"86001a16\", \"tusdc_tx\": \"A7PUCp8TYQ6rh2tqTs99rsPNEeBbNy7fvQCKJoGREWbF\"}",
+        "PASS B5 deposits into the Verifier: solver liquidity (bridged wZFX + tUSDC) and user's bridged wZFX :: {\"user_wzfx_in_verifier\": 1000000000, \"solver_tusdc\": 1000000000000, \"solver_wzfx\": 5000000000}",
+        "PASS B5 swap wZFX->tUSDC: quote -> NEP-413 token_diff -> settled on the Verifier (on-chain receipt) :: {\"quote\": {\"quote_hash\": \"e8bc7673c393260e823f1d81ac292528\", \"defuse_asset_identifier_in\": \"nep141:wzfx.deployer.test.near\", \"defuse_asset_identifier_out\": \"nep141:tusdc.deployer.test.near\", \"amount_in\": \"500000000\", \"amount_out\": \"12437500\", \"expiration_time\": \"2026-11-09T18:00:36Z\"}, \"status\": {\"intent_hash\": \"F5ji2p35NFqCjNjXX681fPe69MFDp4wmnujWVGbhoeUX\", \"status\": \"SETTLED\", \"status_details\": \"settled on the Verifier\", \"data\": {\"hash\": \"Huf3zBGdZjHhxunNdTq4edfZyDfuPLtmD55EL5aNaH5t\"}, \"filled",
+        "PASS B5 reverse swap tUSDC->wZFX settles (needs the solver's bridged wZFX as counterpart liquidity) :: {\"quote\": {\"quote_hash\": \"84fdf7399b2e2d7ec9950fd4ae708fcd\", \"defuse_asset_identifier_in\": \"nep141:tusdc.deployer.test.near\", \"defuse_asset_identifier_out\": \"nep141:wzfx.deployer.test.near\", \"amount_in\": \"10000000\", \"amount_out\": \"398000000\", \"expiration_time\": \"2026-11-09T18:00:38Z\"}, \"status\": \"SETTLED\", \"tx\": {\"hash\": \"Dmuwqv8F7Z2J8Hm6724EH6PgWsy9vTtD6pAMUnQVsR2q\"}}",
+        "PASS B5 insufficient liquidity and stale price produce no quotes; fresh price quotes again :: {\"big_quotes\": [], \"stale_quotes\": [], \"fresh_quotes\": 1}",
+        "PASS B5 duplicate fill rejected by the bus and nonce replay rejected on-chain by the Verifier :: {\"bus\": {\"status\": \"FAILED\", \"reason\": \"quote already used (duplicate fill)\"}, \"original_intent_status\": {\"intent_hash\": \"HAVoKT4FUQCi83AraVnix4BZDdoGzTgHyouBPvisoY8Y\", \"status\": \"SETTLED\", \"status_details\": \"settled on the Verifier\", \"data\": {\"hash\": \"FkCwjz1w3QskUYXhW8PhQfUkPdTQaknbjwbDsgKaNAeC\"}, \"filled_amounts\": [\"100000000\", \"2487500\"], \"simulation\": {\"intents_executed\": 2}, \"logs\": [\"EVENT_JSON:{\\\"standard\\\":\\\"dip4\\\",\\\"version\\\":\\\"0.3.0\\\",\\\"event\\\":\\\"token_diff\\\",\\\"data\\\":[{\\\"intent_hash\\",
+        "PASS B5 expired quote refused by the bus; expired NEP-413 deadline refused by the Verifier (simulate_intents) :: {\"bus\": {\"status\": \"FAILED\", \"reason\": \"quote expired\"}, \"verifier_error\": \" failed:  \\nthread 'main' (86439593) panicked at bridge/relayers/src/bin/zfx-bridge.rs:217:41:\\nview simulate_intents failed: \\\"wasm execution failed with error: HostError(GuestPanic { panic_msg: \\\\\\\"deadline has expired\\\\\\\" })\\\"\\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\\n\"}",
+        "PASS B5 cancellation: an unpublished quote never settles; balances unchanged :: {\"balances\": [798000000, 4925000]}",
+        "PASS B5 refund: failed ft_withdraw (receiver not registered) is refunded to the user's Verifier balance :: {\"withdraw_tx\": \"8mfLou42j8VZM6spQK3jHYf3rtCdY51EWTjuscru4jFN\", \"balance_before\": 4925000, \"balance_after\": 4925000}",
+        "PASS B5 end-to-end: native ZFX -> wZFX -> Intents swap both ways -> wZFX -> native ZFX; bridge books exact :: {\"native_before_flow\": 1000000000000, \"native_after\": 999797999000, \"wzfx_redeemed\": 798000000, \"burn_tx\": \"38opvBJpdjyUVz3VYC16oPpjGZscQs825Y51BPoYRhkp\", \"reconcile\": {\"ok\": true, \"native\": {\"chain_id\": 1514536962, \"deposits\": 2, \"lockbox_balance\": \"5202000000\", \"locked_total\": \"6000000000\", \"paused\": false, \"released_total\": \"798000000\", \"releases\": 1}, \"near\": {\"burns\": 1, \"contract\": \"wzfx.deployer.test.near\", \"epoch\": 0, \"paused\": false, \"total_burned\": \"798000000\", \"total_minted\": \"6000000",
+        "PASS B5 real public Message Bus probed: requires a Partner JWT (EXTERNAL_BLOCKED, not claimed as verified) :: {\"message_bus_rpc\": {\"http\": 403, \"body\": \"error code: 1010\\n\"}, \"oneclick_tokens\": {\"error\": \"<HTTPError 403: 'Forbidden'>\"}}",
+        "11/11 checks passed -> bench/results/e2e_intents.json"
+      ]
+    }
+  ],
+  "finished": "2026-11-09T18:00:18Z",
+  "counts": {
+    "PASS": 1,
+    "FAIL": 0,
+    "BLOCKED": 0
+  },
+  "result": "PASS",
+  "failed": []
+}

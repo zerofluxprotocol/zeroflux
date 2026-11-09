@@ -1,6 +1,6 @@
 {
-  "started": "2026-11-09T17:18:18Z",
-  "commit": "79da1758d4fdc9220b4efe83e702caf749172e74",
+  "started": "2026-11-09T18:02:49Z",
+  "commit": "041e7562365ef92cc7c2747cfaf0d63071b7d838",
   "licenses": {
     "dependencies": 384,
     "by_license": {
@@ -74,23 +74,38 @@
     "format": "CycloneDX JSON"
   },
   "reproducible_build": {
-    "result": "SKIPPED",
-    "reason": "ZFX_SKIP_REPRO=1"
+    "result": "PASS",
+    "scope": "same host and toolchain, two clean target dirs (not cross-host)",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "builds": [
+      {
+        "build": 0,
+        "seconds": 27.5,
+        "zfx-node": "d0c84367b452adf018d283e297d37ec2ec5709218b1c4ff11ce48e42058a956b",
+        "zfx-wallet": "bb2b4225952bce6579ea03d63f231a4708ae3819a9917cc3c42648fd168c3b7a"
+      },
+      {
+        "build": 1,
+        "seconds": 27.5,
+        "zfx-node": "d0c84367b452adf018d283e297d37ec2ec5709218b1c4ff11ce48e42058a956b",
+        "zfx-wallet": "bb2b4225952bce6579ea03d63f231a4708ae3819a9917cc3c42648fd168c3b7a"
+      }
+    ]
   },
   "wasm": {
     "result": "INFO",
     "note": "built with `cargo near build non-reproducible-wasm`; the reproducible-wasm mode needs Docker, which is not installed on this host",
     "artifacts": {
       "wzfx": {
-        "sha256": "448a3bdc062f84d5ca1c1232c7c64b96a147701d759cf89cf3150cd28ff0e174",
+        "sha256": "4c03bfa67d2f210779703684544a2869ad56bea0e4dc829627c5ece2d6bceb79",
         "bytes": 255070
       },
       "test_ft": {
-        "sha256": "333adac6478cb5ccdd18c5da995483bec795a85f22da711aba27ac6ce92f9619",
+        "sha256": "90486076ccaa96257b452ec82df3ad1fae0a59fa7dbab4457762c82814180269",
         "bytes": 167608
       },
       "pow_verifier": {
-        "sha256": "9388b031a4348fe26f4e6f824b5d571b3f93d5527743a7e830f9244e4b982fa0",
+        "sha256": "723c40204f8ff100667fd3ef316d52cfc6eae0ec8ebfc71229ae789e65dffc85",
         "bytes": 128507
       }
     }

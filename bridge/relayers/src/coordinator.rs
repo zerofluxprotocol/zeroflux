@@ -392,6 +392,32 @@ impl Coordinator {
         Ok(advanced)
     }
 
+    /// Operator action after an incident has been investigated: clears the
+    /// persisted halt only if a fresh reconciliation is fully clean (identity,
+    /// custody, wrapped supply, zero orphans) and the named incident file
+    /// exists. The resume is appended to the incident file. Chain pauses are
+    /// not touched: unpausing still needs 2-of-3 committee approvals.
+    pub fn resume_after_incident(&self, incident_file: &str) -> Result<Value, String> {
+        let mut inc: Value = serde_json::from_str(&std::fs::read_to_string(incident_file).map_err(|e| format!("{}: {}", incident_file, e))?)
+            .map_err(|e| format!("{}: {}", incident_file, e))?;
+        let rep = reconcile(&self.zfx, &self.near, &self.env.wzfx_contract, self.env.native_chain_id)?;
+        let clean = rep["ok"] == true
+            && rep["invariant_ok"] == true
+            && rep["native_custody_ok"] == true
+            && rep["wrapped_supply_ok"] == true
+            && rep["orphans"].as_array().map(|a| a.is_empty()).unwrap_or(false);
+        if !clean {
+            return Err(format!("refusing to resume: reconciliation is not clean: {}", rep));
+        }
+        let mut s = self.store.lock().unwrap();
+        let was = s.halted.take();
+        s.save()?;
+        inc["resumed"] = json!({"at_ms": crate::jobs::now_ms(), "previous_halt": was, "reconciliation": rep});
+        std::fs::write(incident_file, serde_json::to_string_pretty(&inc).unwrap()).map_err(|e| e.to_string())?;
+        *self.bad_reconciles.lock().unwrap() = 0;
+        Ok(json!({"resumed": true, "previous_halt": was}))
+    }
+
     /// Reconcile; on a violation that persists across 3 fresh reads, halt and
     /// request emergency pauses on both chains.
     pub fn reconcile_and_guard(&self) -> Result<Value, String> {

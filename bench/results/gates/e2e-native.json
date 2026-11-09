@@ -1,0 +1,47 @@
+{
+  "target": "e2e-native",
+  "commit": "d73f3aa24b967b9ba81383b0f9a1f7c81065841d",
+  "dirty_tree": false,
+  "started": "2026-11-09T17:49:44Z",
+  "host": "arm64",
+  "steps": [
+    {
+      "name": "native-3-nodes-1000-blocks",
+      "kind": "required",
+      "cmd": ".venv/bin/python tests/e2e/native.py",
+      "rc": 0,
+      "seconds": 60.6,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/e2e-native/native-3-nodes-1000-blocks.log",
+      "tail": [
+        "PASS A2 peer discovery via Addr gossip (node3 configured only with node2 reaches node1) :: {\"node3_peers\": [\"ac473a505ffc\", \"8c3f8fa2835b\"]}",
+        "PASS A3 faucet pays a fresh wallet :: {\"amount\": 5000000, \"to\": \"zfx1d4de6c9d630254680558ff799b9a1e16d0aeec3fb5016b48f3e18674065e0828df92a44c\", \"txid\": \"3a99dd1c3f3bb82e7031732e00ee6ef62738c039486fb51033fb60474f806e47\"}",
+        "PASS A3 SLH-DSA transfer accepted :: {\"stderr\": \"signed with SLH-DSA-SHA2-128s in 0.75s (8018 bytes, fee 2000)\", \"out\": {\"accepted\": true, \"deposit_id\": null, \"txid\": \"6f93359997a866a0296d41365f19ec43067a008298a931f3ee2d2a6957a766ce\"}}",
+        "PASS A3 balances and fee conservation on a different node :: {\"alice\": 3763433, \"bob\": 1234567}",
+        "PASS A3 receipt Merkle proof verifies independently (Python) against header tx_root :: {\"height\": 588, \"leaf_count\": 2}",
+        "PASS A3 address history shows in/out :: [{\"amount\": 1234567, \"counterparty\": \"zfx164bc45690c370b83bc8a4880039120c6d9695e734e041e03157b5d95cb62a45e46b75e2a\", \"direction\": \"out\", \"fee\": 2000, \"height\": 588, \"memo\": null, \"txid\": \"6f93359997a866a0296d41365f19ec43067a008298a931f3ee2d2a6957a766ce\"}, {\"amount\": 5000000, \"counterparty\": \"zfx14b715d74c84d1bd5444a52d1b74b2606d9da746a5db2bb2cdced7755a6874bdf62434721\", \"direction\": \"in\", \"fee\": 10",
+        "PASS A1 invalid signature rejected with structured error :: {\"code\": 1001, \"message\": \"SLH-DSA signature invalid\"}",
+        "PASS A3 backup/restore reproduces the address :: {\"restored\": true}",
+        "PASS A3 explorer served by node :: {\"bytes\": 743}",
+        "PASS A2 invalid-PoW block over encrypted P2P rejected and peer disconnected; 60 malformed connections survived :: {\"inject\": {\"disconnected_by_node\": true, \"handshake\": \"ok\", \"invalid_block_sent\": true}, \"garbage\": {\"malformed_connections\": 60}, \"handshakes_failed\": 60, \"blocks_rejected\": 1}",
+        "PASS A2 transport encryption: no plaintext markers on the wire; AEAD frame bodies are uniformly distributed :: {\"wire_bytes\": 643756, \"encrypted_frames\": 878, \"plaintext_markers_found\": [], \"chi2_255dof_over_2MiB_ciphertext\": 243.3, \"p_0.001_critical_value\": 330.5, \"new_node_synced_from_genesis_to\": 793}",
+        "PASS A1 1000+ blocks: 3 nodes converge; supply == allocations + height*subsidy exactly; audits pass :: {\"height\": 1009, \"supply\": \"15045000000000\", \"expected\": 15045000000000, \"state_root\": \"93e47fd0f806d933454de10de2cc7b0f9a79c8cea187cb5ca1c0cfa9fc62033d\", \"reached_in_s\": 37.5, \"health\": [\"ok\", \"ok\", \"ok\"]}",
+        "PASS Gate 2: blocks from all three independent miner implementations accepted by independent nodes :: {\"last_200_blocks_by_miner\": {\"rust\": 34, \"cpp\": 116, \"py\": 50}}",
+        "PASS A1 coinbase maturity: exactly the last 5 blocks' rewards are immature (maturity=5) :: {\"immature_by_miner\": {\"rust\": 25000000000, \"cpp\": 0, \"py\": 0}, \"expected_total\": 25000000000}",
+        "PASS A2 partition then rejoin: converge on most cumulative work via reorg :: {\"node3_reorgs\": 19, \"max_depth\": 18, \"height\": 1033}",
+        "PASS A2 10 restart/recovery runs (5 SIGTERM clean, 5 SIGKILL crash) reload, revalidate and resync :: [{\"signal\": \"TERM\", \"height_before\": 1033, \"reloaded\": 1170, \"previous_clean\": true, \"resynced\": 1033}, {\"signal\": \"KILL\", \"height_before\": 1033, \"reloaded\": 1170, \"previous_clean\": false, \"resynced\": 1033}, {\"signal\": \"TERM\", \"height_before\": 1033, \"reloaded\": 1170, \"previous_clean\": true, \"resynced\": 1033}, {\"signal\": \"KILL\", \"height_before\": 1033, \"reloaded\": 1170, \"previous_clean\": false, \"res",
+        "PASS A2 corrupted block log detected (refuses to start) and --repair truncates, revalidates, resyncs :: {\"exit_code_on_corruption\": 1, \"load_report\": {\"height\": 525, \"previous_shutdown_clean\": false, \"records\": 586, \"rejected\": 0, \"repaired_from_line\": 587, \"revalidated\": 586, \"torn_tail_dropped\": false}}",
+        "PASS A5 admin RPC refused without bearer token :: {\"code\": 1004, \"message\": \"admin method requires a valid bearer token\"}",
+        "18/18 checks passed -> bench/results/e2e_native.json"
+      ]
+    }
+  ],
+  "finished": "2026-11-09T17:50:45Z",
+  "counts": {
+    "PASS": 1,
+    "FAIL": 0,
+    "BLOCKED": 0
+  },
+  "result": "PASS",
+  "failed": []
+}

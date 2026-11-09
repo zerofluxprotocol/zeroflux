@@ -1,4 +1,4 @@
-# Threat model (v0.1)
+# Threat model (consensus v2, bridge v1)
 
 Adversary (spec section 3): arbitrary CPUs, GPUs, ASICs, memory and network nodes. It chooses nonces and headers, parallelizes, precomputes anything that does not depend on the challenge, modifies kernels, crafts proofs, and runs malicious peers.
 
@@ -38,13 +38,15 @@ Each attack has code in `crates/zfx-research/src/attacks.rs` and data in `bench/
 
 | threat | mitigation | status |
 |---|---|---|
-| Invalid-block spam | Structure, header-chain linkage, target and timestamp checks run before the 1 ms PoW. Invalid PoW, structure or signature means disconnect plus a 10-minute IP ban (loopback is only disconnected). | Tested (`push_invalid_block`). The cost to the attacker of one invalid block is one TCP connection. Proof-of-work spam pricing is **open**. |
-| Oversized messages | 16 MiB line cap, 64 KiB HTTP body, 40 KB hex fields. | Implemented. |
-| Submission flood | 50 submits per second per IP. | Implemented. |
-| Reorg cost | Replay from genesis, O(chain). | Fine on the testnet. **Open** for public networks (needs undo data). |
-| Eclipse / Sybil | Static peers only, no address gossip. | **Open.** |
-| Transport | Plain TCP. No encryption or peer authentication. | **Open.** When added it should use an ML-KEM-768 hybrid key exchange. |
+| Invalid-block spam | Structure, header linkage, target and timestamp checks run before the PoW check. Invalid PoW, structure or signature disconnects the peer and bans its authenticated peer id for 10 minutes. | Tested (`zfx-p2ptool inject-invalid-block`, `testnet/zfxnet.py`). Pricing of PoW-valid spam is **open**. |
+| Malformed input | Every untrusted parser (header, tx, block, P2P message, bridge op, block log, snapshot, handshake) is mutation-fuzzed: 20,000 inputs per target in `make security-test`, 0 panics. | Tested (`crates/zfx-node/tests/fuzz_parsers.rs`). |
+| Oversized messages, floods | 16 MiB frame cap, 64 KiB HTTP body, 40 KB hex fields; per-peer message rate limit; 50 mining submits per second per IP; at most 32 peers. | Implemented. |
+| Transport | `ZFXP2P/2`: ML-KEM-768 + X25519 hybrid key exchange, ML-DSA-65 peer identities, HKDF-SHA256, ChaCha20-Poly1305 frames. An optional allowlist pins peer ids. | Implemented and tested, including traffic capture showing no plaintext. Not externally reviewed. |
+| Eclipse / Sybil | Address gossip and dialing of learned addresses, peer cap, ban by authenticated peer id. | Basic. No stake or address-group bucketing; **open** for a public network. |
+| Timestamp manipulation | LWMA-1 measures solvetimes against the running maximum timestamp. Before this fix a 30% miner forging timestamps drove block times to 24.4 s against a 60 s target; after it, 61.0 s (`bench/results/fork_resilience.json`). | Fixed and tested. |
+| Reorg cost | Extending the tip applies one block. A true reorg replays state from genesis along the new path. | Fine for testnet sizes (1200-block sync test). **Open** for a long-lived public chain (needs undo data or state snapshots per height). |
 | Orphan flood | 256-entry orphan pool, oldest evicted. | Implemented. |
+| Deep fork sync | Inventory continuation past 500-hash batches. | Tested (`node_integrity::long_sync`). |
 
 ## 6. Assumptions
 
@@ -53,10 +55,25 @@ Each attack has code in `crates/zfx-research/src/attacks.rs` and data in `bench/
 3. SLH-DSA security reduces to its hash function (FIPS 205). The `fips205` crate is correct, as its ACVP vector tests indicate, but it is not audited for ZeroFlux.
 4. An honest majority of mining work.
 
-## 7. Known vulnerabilities and unresolved items
+## 7. Bridge (v1)
 
-- No independent review of the hardness assumption (Gate 3 not passed).
-- B200, B300, RTX and MI300X exactness not yet measured (H100 and MI355X done).
-- No transport encryption, no eclipse resistance, and O(n) reorg replay.
+Full model: `docs/BRIDGE_TRUST_MODEL.md`. Summary of the adversaries and outcomes:
+
+| adversary | outcome | evidence |
+|---|---|---|
+| 1 compromised relayer | can pause both chains (liveness only). Cannot mint, release, unpause or rotate. Cannot get a second payout signed by itself for an id it already signed (anti-equivocation record survives restarts). | `bridge.py` B1/B2, `bridge_governance.py` G1, relayer unit tests |
+| 2 compromised relayers | **can steal all locked ZFX and mint unbacked wZFX.** This is the v1 trust assumption, shown in the README, wallet output, `zfx_bridge_info.trust_model` and `bridge_state.trust_model`. | by design |
+| compromised coordinator | holds no committee key. Can delay or drop jobs; anyone can relay signed bundles instead. | `bridge.py` chaos (coordinator SIGKILL, injected faults) |
+| replayed bundles | rejected on both chains (minted-set on NEAR, released-set and admin nonce in native consensus). | `bridge.py`, `bridge_governance.py` |
+| reorg below K | no mint. Reorg above K after a mint: detected as an orphan, incident, both chains paused, no compensating action. | `bridge_reorg.py` |
+| contract owner | can pause and stage upgrades; an upgrade deploys only the staged hash after the timelock. Cannot unpause or mint. | `bridge_governance.py` G3 |
+
+## 8. Known vulnerabilities and unresolved items
+
+- No independent review of the PoW hardness assumption.
+- No external audit of the node, P2P transport, wZFX contract or relayers.
+- Bridge is 2-of-3 custodial; trust-minimized verification is infeasible on NEAR today (`bench/results/onchain_pow_gas.json`, `stark_prototype.json`).
+- B200, B300, RTX and MI300X exactness not measured on hardware (device code compiles for sm_90/100/120 and gfx942/950; H100 and MI355X measured).
+- O(n) reorg replay; basic eclipse resistance only.
 - int8 vs FP8 Strassen asymmetry (1.49x ceiling). ASICs are not prevented (spec non-goal).
 - Wallet seed files are unencrypted (0600 permissions only).

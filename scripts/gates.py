@@ -110,6 +110,7 @@ TARGETS = {
     ],
     "e2e-native": [
         step("native-3-nodes-1000-blocks", f"{PY} tests/e2e/native.py", timeout=7200),
+        step("contract-api-schema-conformance", f"{PY} tests/contract_api/test_contract_api.py", timeout=1200),
     ],
     "e2e-bridge": [
         step("bridge-100-two-way-fault-injection", f"{PY} tests/e2e/bridge.py", timeout=5400),

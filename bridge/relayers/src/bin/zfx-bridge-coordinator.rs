@@ -1,6 +1,6 @@
 //! zfx-bridge-coordinator --env env.json --zfx URL --near-account ID --near-key-file FILE
 //!     --store jobs.json --incidents DIR [--auto-register] [--fault-rate F]
-//!     [--status-port P] [--interval-ms N] [--once]
+//!     [--status-port P] [--interval-ms N] [--once] [--resume-after-incident INCIDENT.json]
 use serde_json::json;
 use std::sync::Arc;
 
@@ -28,6 +28,15 @@ fn main() {
         )
         .unwrap_or_else(|e| panic!("{}", e)),
     );
+    if let Some(f) = v("--resume-after-incident") {
+        match c.resume_after_incident(&f) {
+            Ok(r) => eprintln!("[coordinator] {}", r),
+            Err(e) => {
+                eprintln!("[coordinator] {}", e);
+                std::process::exit(2);
+            }
+        }
+    }
     if let Some(port) = v("--status-port") {
         let c2 = c.clone();
         std::thread::spawn(move || {
