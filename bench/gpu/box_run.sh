@@ -79,9 +79,17 @@ step py_bench_int8 $PY miner/python/zpu_miner.py bench --backend torch --device 
 if [ "${WITH_RUST:-0}" = 1 ]; then
   step rustup bash -c "python3 -c \"import urllib.request as u;u.urlretrieve('https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init','/tmp/rustup-init')\" && chmod +x /tmp/rustup-init && /tmp/rustup-init -y --profile minimal"
   export PATH=$HOME/.cargo/bin:$PATH
-  step cargo_test cargo test --release -q
+  step cargo_test cargo test --release -q -p zfx-verify -p zfx-node -p zfx-wallet -p zpu-cli
   step rust_selftest bash -c "cargo build --release -q && ./target/release/zpu-cli selftest"
   step cpp_cpu_selftest_x86 bash -c "make -C miner/cuda cpu -s && ./miner/cuda/build/zpu-miner selftest tests/vectors/fp8c_v0.1.json"
   step rust_bench_x86 ./target/release/zpu-cli bench --profile v01 --seconds 5
+fi
+# Real block submissions: GPU miner -> CPU node (v0.1 profile), then an
+# independent CPU node re-syncs and re-validates the whole chain.
+if [ "${WITH_MINE:-0}" = 1 ] && [ "${WITH_RUST:-0}" = 1 ]; then
+  step build_node cargo build --release -q -p zfx-node -p zpu-cli -p zfx-wallet
+  bash bench/gpu/box_mine.sh "$BIN --backend gpu --gemm blas-int8 --batch 32768" "${MINE_SECS:-120}" > "$R/mine.log" 2>&1
+  m=$(grep -h '^{"step": "gpu_block_submissions"' "$R/mine.log" | tail -1)
+  if [ -n "$m" ]; then rec "$m"; else rec '{"step":"gpu_block_submissions","result":"FAIL","error":"no output, see mine.log"}'; fi
 fi
 echo DONE
