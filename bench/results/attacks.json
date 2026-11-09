@@ -1,0 +1,218 @@
+{
+  "data": {
+    "acceptance_dev": {
+      "accepted": 12663,
+      "attempts": 200000,
+      "expected": 12500.0,
+      "experiment": "acceptance_probability",
+      "first_byte_chi2_255dof": 214.95296000000008,
+      "profile": "zfx-fp8c-v0.1-dev",
+      "target": "2^256 >> 4",
+      "verdict": "acceptance rate is consistent with the target (|z| < 3) and digest bytes are uniform (chi2 ~ 255)",
+      "z_score": 1.505729502046544
+    },
+    "accumulators_dev": {
+      "experiment": "selected_domain_under_accumulator_models",
+      "profile": "zfx-fp8c-v0.1-dev",
+      "results": {
+        "canonical_exact_rne": {
+          "k4096_mismatch_rows": 0,
+          "k64_mismatch_rows": 0,
+          "rows": 256
+        },
+        "f16_acc": {
+          "k4096_mismatch_rows": 49,
+          "k64_mismatch_rows": 2,
+          "rows": 256
+        },
+        "pairwise_f32": {
+          "k4096_mismatch_rows": 0,
+          "k64_mismatch_rows": 0,
+          "rows": 256
+        },
+        "rev_f32": {
+          "k4096_mismatch_rows": 0,
+          "k64_mismatch_rows": 0,
+          "rows": 256
+        },
+        "seq_f32": {
+          "k4096_mismatch_rows": 0,
+          "k64_mismatch_rows": 0,
+          "rows": 256
+        },
+        "splitk4_f32": {
+          "k4096_mismatch_rows": 0,
+          "k64_mismatch_rows": 0,
+          "rows": 256
+        },
+        "trunc_align_c32_k14": {
+          "k4096_mismatch_rows": 0,
+          "k64_mismatch_rows": 0,
+          "rows": 256
+        }
+      }
+    },
+    "accumulators_v01": {
+      "experiment": "selected_domain_under_accumulator_models",
+      "profile": "zfx-fp8c-v0.1",
+      "results": {
+        "canonical_exact_rne": {
+          "k4096_mismatch_rows": 0,
+          "k64_mismatch_rows": 0,
+          "rows": 512
+        },
+        "f16_acc": {
+          "k4096_mismatch_rows": 510,
+          "k64_mismatch_rows": 5,
+          "rows": 512
+        },
+        "pairwise_f32": {
+          "k4096_mismatch_rows": 0,
+          "k64_mismatch_rows": 0,
+          "rows": 512
+        },
+        "rev_f32": {
+          "k4096_mismatch_rows": 0,
+          "k64_mismatch_rows": 0,
+          "rows": 512
+        },
+        "seq_f32": {
+          "k4096_mismatch_rows": 0,
+          "k64_mismatch_rows": 0,
+          "rows": 512
+        },
+        "splitk4_f32": {
+          "k4096_mismatch_rows": 0,
+          "k64_mismatch_rows": 0,
+          "rows": 512
+        },
+        "trunc_align_c32_k14": {
+          "k4096_mismatch_rows": 3,
+          "k64_mismatch_rows": 0,
+          "rows": 512
+        }
+      }
+    },
+    "avalanche_dev": {
+      "experiment": "single_accumulator_error_avalanche",
+      "mean_digest_bits_flipped_of_256": 125.89,
+      "mean_fraction_outputs_changed": 0.974921875,
+      "profile": "zfx-fp8c-v0.1-dev",
+      "trials": 200,
+      "verdict": "an error in one layer-0 accumulator changes essentially every output and ~half the digest bits; skipping or approximating any part of the chain yields an unrelated digest"
+    },
+    "four_russians": {
+      "domain_size": 32,
+      "experiment": "four_russians_table_lookup",
+      "groups": [
+        {
+          "add_ops_fraction": 1.0,
+          "g": 1,
+          "table_bytes": 2147483648.0
+        },
+        {
+          "add_ops_fraction": 0.5,
+          "g": 2,
+          "table_bytes": 34359738368.0
+        },
+        {
+          "add_ops_fraction": 0.3333333333333333,
+          "g": 3,
+          "table_bytes": 733007751850.6666
+        },
+        {
+          "add_ops_fraction": 0.25,
+          "g": 4,
+          "table_bytes": 17592186044416.0
+        }
+      ],
+      "k": 4096,
+      "n": 4096,
+      "verdict": "g=2 halves additions but needs a 64 GiB table per 4096x4096 layer that must be streamed per attempt; memory-bound and slower than tensor-core GEMM. Not a practical shortcut (attack FAILS on known hardware; recorded as a constant-factor risk for custom silicon)."
+    },
+    "low_rank": {
+      "dev_hidden_256x256_rank_mod_p": 256,
+      "experiment": "weight_rank",
+      "v01_hidden_384x384_block_rank_mod_p": 384,
+      "verdict": "full rank; no low-rank factorization shortcut (attack FAILS)"
+    },
+    "parity_dev": {
+      "attempts": 300,
+      "elapsed_s": 0.006479583,
+      "experiment": "gf2_parity_shortcut",
+      "naive_mod32_requant_accuracy": 1.0,
+      "output_bits_predicted": 19200,
+      "profile": "zfx-fp8c-v0.1-dev",
+      "sbox_requant_accuracy": 0.49145833333333333,
+      "verdict": "naive requantization leaks a GF(2)-affine shortcut on output parity (attack SUCCEEDS); the S-box requantizer defeats it (attack FAILS, ~50%)"
+    },
+    "reuse_dev": {
+      "equal_fraction_per_layer": [
+        0.05078125,
+        0.0390625,
+        0.02734375,
+        0.03515625
+      ],
+      "expected_if_independent": 0.03125,
+      "experiment": "cross_nonce_reuse_and_sparsity",
+      "profile": "zfx-fp8c-v0.1-dev",
+      "verdict": "activations of different nonces agree at the 1/32 chance rate; no zeros exist in the domain, so there is no sparsity to exploit",
+      "zero_activations": 0
+    },
+    "reuse_v01": {
+      "equal_fraction_per_layer": [
+        0.034912109375,
+        0.029541015625,
+        0.033203125,
+        0.030517578125
+      ],
+      "expected_if_independent": 0.03125,
+      "experiment": "cross_nonce_reuse_and_sparsity",
+      "profile": "zfx-fp8c-v0.1",
+      "verdict": "activations of different nonces agree at the 1/32 chance rate; no zeros exist in the domain, so there is no sparsity to exploit",
+      "zero_activations": 0
+    },
+    "strassen": {
+      "experiment": "strassen_fast_matmul",
+      "levels": [
+        {
+          "all_operands_exact_in_e4m3": false,
+          "cpu_speedup_vs_naive": 1.0175061493468645,
+          "exact": true,
+          "fits_int8": true,
+          "levels": 1,
+          "mac_fraction": 0.875,
+          "max_operand_abs": 32
+        },
+        {
+          "all_operands_exact_in_e4m3": false,
+          "cpu_speedup_vs_naive": 1.2164682723358011,
+          "exact": true,
+          "fits_int8": true,
+          "levels": 2,
+          "mac_fraction": 0.765625,
+          "max_operand_abs": 63
+        },
+        {
+          "all_operands_exact_in_e4m3": false,
+          "cpu_speedup_vs_naive": 1.1513024492867832,
+          "exact": true,
+          "fits_int8": true,
+          "levels": 3,
+          "mac_fraction": 0.669921875,
+          "max_operand_abs": 111
+        }
+      ],
+      "n": 512,
+      "naive_cpu_s": 0.009684709,
+      "verdict": "Strassen computes the canonical output exactly, so it is a legitimate algorithm open to every miner, not a forgery. int8 hardware holds 3 level(s) of Strassen operands (MAC fraction 0.670, <= 1.49x fewer MACs); FP8 E4M3 holds 0 level(s) because pairwise sums such as 17 or 31 need 5 significant bits. Measured CPU speedups are below the MAC ratio because the extra additions are memory-bound."
+    }
+  },
+  "host": {
+    "arch": "aarch64",
+    "cpu": "Apple M5 Pro",
+    "os": "macos",
+    "rustc_profile": "release",
+    "threads": 18
+  }
+}

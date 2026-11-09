@@ -1,0 +1,73 @@
+{
+  "data": {
+    "C1_honest": {
+      "attempts_to_win": 2,
+      "full_gemm_macs": 16777216,
+      "proof_bytes": 952,
+      "verify_macs": 1048576,
+      "verify_ok": true,
+      "verify_s": 0.000651542,
+      "wall_s": 0.015439
+    },
+    "C1_lottery_first_variant": {
+      "attacker_work_fraction_per_proof": 0.0625,
+      "verdict": "lottery evaluated before any GEMM; attacker computes only s opened tiles of winning nonces"
+    },
+    "C1_root_grinding_attack": [
+      {
+        "expected_tries": 25.28395061728395,
+        "found": true,
+        "gemm_macs_spent": 12582912,
+        "hash_calls": 132,
+        "honest_tile_fraction": 0.75,
+        "root_tries": 16,
+        "verifier_accepted": true,
+        "wall_s": 0.006161
+      },
+      {
+        "expected_tries": 128.0,
+        "found": true,
+        "gemm_macs_spent": 8388608,
+        "hash_calls": 420,
+        "honest_tile_fraction": 0.5,
+        "root_tries": 50,
+        "verifier_accepted": true,
+        "wall_s": 0.005051459
+      },
+      {
+        "expected_tries": 2048.0,
+        "found": true,
+        "gemm_macs_spent": 4194304,
+        "hash_calls": 7804,
+        "honest_tile_fraction": 0.25,
+        "root_tries": 922,
+        "verifier_accepted": true,
+        "wall_s": 0.022282458
+      }
+    ],
+    "C2_tile_ticket": {
+      "honest_generated_bytes_per_ticket": 2048.0,
+      "proof_bytes": 16,
+      "ticket_macs": 262144,
+      "verify_generated_bytes": 16384,
+      "verify_macs": 262144,
+      "verify_ok": true,
+      "wall_s_all_tiles_plus_verify": 0.007707458
+    },
+    "experiment": "candidate_C_transcripts",
+    "params": {
+      "kchunk": 32,
+      "lottery_p": 0.125,
+      "n": 256,
+      "samples": 4,
+      "tile": 32
+    }
+  },
+  "host": {
+    "arch": "aarch64",
+    "cpu": "Apple M5 Pro",
+    "os": "macos",
+    "rustc_profile": "release",
+    "threads": 18
+  }
+}

@@ -175,9 +175,16 @@ pub fn accumulator_models(profile: &Profile, rows: usize) -> Value {
     json!({"experiment": "selected_domain_under_accumulator_models", "profile": profile.name, "results": res})
 }
 
-fn strassen(a: &[i32], b: &[i32], n: usize, levels: u32, max_abs: &mut i32) -> Vec<i32> {
+/// Integer exactly representable in FP8 E4M3: |v| <= 448 with <= 4 significant bits.
+fn e4m3_int(v: i32) -> bool {
+    let a = v.unsigned_abs();
+    a == 0 || (a <= 448 && (a >> a.trailing_zeros()) < 16)
+}
+
+fn strassen(a: &[i32], b: &[i32], n: usize, levels: u32, max_abs: &mut i32, all_e4m3: &mut bool) -> Vec<i32> {
     if levels == 0 || n % 2 != 0 || n <= 64 {
         *max_abs = (*max_abs).max(a.iter().chain(b).map(|v| v.abs()).max().unwrap_or(0));
+        *all_e4m3 &= a.iter().chain(b).all(|v| e4m3_int(*v));
         return naive_i32(a, b, n);
     }
     let h = n / 2;
@@ -193,13 +200,13 @@ fn strassen(a: &[i32], b: &[i32], n: usize, levels: u32, max_abs: &mut i32) -> V
     let (a11, a12, a21, a22) = (q(a, 0, 0), q(a, 0, 1), q(a, 1, 0), q(a, 1, 1));
     let (b11, b12, b21, b22) = (q(b, 0, 0), q(b, 0, 1), q(b, 1, 0), q(b, 1, 1));
     let l = levels - 1;
-    let m1 = strassen(&add(&a11, &a22), &add(&b11, &b22), h, l, max_abs);
-    let m2 = strassen(&add(&a21, &a22), &b11, h, l, max_abs);
-    let m3 = strassen(&a11, &sub(&b12, &b22), h, l, max_abs);
-    let m4 = strassen(&a22, &sub(&b21, &b11), h, l, max_abs);
-    let m5 = strassen(&add(&a11, &a12), &b22, h, l, max_abs);
-    let m6 = strassen(&sub(&a21, &a11), &add(&b11, &b12), h, l, max_abs);
-    let m7 = strassen(&sub(&a12, &a22), &add(&b21, &b22), h, l, max_abs);
+    let m1 = strassen(&add(&a11, &a22), &add(&b11, &b22), h, l, max_abs, all_e4m3);
+    let m2 = strassen(&add(&a21, &a22), &b11, h, l, max_abs, all_e4m3);
+    let m3 = strassen(&a11, &sub(&b12, &b22), h, l, max_abs, all_e4m3);
+    let m4 = strassen(&a22, &sub(&b21, &b11), h, l, max_abs, all_e4m3);
+    let m5 = strassen(&add(&a11, &a12), &b22, h, l, max_abs, all_e4m3);
+    let m6 = strassen(&sub(&a21, &a11), &add(&b11, &b12), h, l, max_abs, all_e4m3);
+    let m7 = strassen(&sub(&a12, &a22), &add(&b21, &b22), h, l, max_abs, all_e4m3);
     let c11 = add(&sub(&add(&m1, &m4), &m5), &m7);
     let c12 = add(&m3, &m5);
     let c21 = add(&m2, &m4);
@@ -247,8 +254,9 @@ pub fn strassen_experiment(n: usize) -> Value {
     let mut rows = Vec::new();
     for levels in 1..=3u32 {
         let mut mx = 0;
+        let mut e4 = true;
         let t1 = Instant::now();
-        let c = strassen(a, b, n, levels, &mut mx);
+        let c = strassen(a, b, n, levels, &mut mx, &mut e4);
         let t = t1.elapsed().as_secs_f64();
         rows.push(json!({
             "levels": levels,
@@ -256,16 +264,25 @@ pub fn strassen_experiment(n: usize) -> Value {
             "mac_fraction": (7f64 / 8f64).powi(levels as i32),
             "max_operand_abs": mx,
             "fits_int8": mx <= 127,
-            "fits_e4m3_exact_integer": mx <= 16 || (mx <= 448 && mx.count_ones() <= 4),
+            "all_operands_exact_in_e4m3": e4,
             "cpu_speedup_vs_naive": t_naive / t,
         }));
     }
+    let int8_levels = rows.iter().filter(|r| r["fits_int8"] == true && r["exact"] == true).count();
+    let e4_levels = rows.iter().filter(|r| r["all_operands_exact_in_e4m3"] == true).count();
+    let verdict = format!(
+        "Strassen computes the canonical output exactly, so it is a legitimate algorithm open to every miner, not a forgery. \
+         int8 hardware holds {} level(s) of Strassen operands (MAC fraction {:.3}, <= {:.2}x fewer MACs); \
+         FP8 E4M3 holds {} level(s) because pairwise sums such as 17 or 31 need 5 significant bits. \
+         Measured CPU speedups are below the MAC ratio because the extra additions are memory-bound.",
+        int8_levels, (7f64 / 8f64).powi(int8_levels as i32), (8f64 / 7f64).powi(int8_levels as i32), e4_levels
+    );
     json!({
         "experiment": "strassen_fast_matmul",
         "n": n,
         "naive_cpu_s": t_naive,
         "levels": rows,
-        "verdict": "Strassen yields the canonical output exactly; it is a legitimate algorithmic speedup available to every miner, bounded by 2 levels (<=1.31x MACs) on int8 hardware before operands overflow int8; FP8 E4M3 cannot hold even 1-level sums exactly (|a+b| up to 32 needs >4 significant bits in some cases), so FP8 tensor-core miners cannot use it without leaving the exact domain",
+        "verdict": verdict,
     })
 }
 

@@ -1,0 +1,79 @@
+{
+  "experiment": "cpu_throughput",
+  "host": {
+    "arch": "aarch64",
+    "cpu": "Apple M5 Pro",
+    "os": "macos",
+    "rustc_profile": "release",
+    "threads": 18
+  },
+  "rows": [
+    {
+      "attempt_s": 0.033930749,
+      "attempts_per_s": 29.47179267984918,
+      "candidate": "A",
+      "gemm_s": 0.028793583,
+      "gen_bytes": 2097152,
+      "gen_s": 0.005137166,
+      "macs": 1073741824,
+      "n": 1024,
+      "ozaki_9xint8_s_at_n": [
+        512,
+        0.011950625
+      ]
+    },
+    {
+      "attempt_s": 0.002067125,
+      "attempts_per_s": 483.7636814416158,
+      "candidate": "B",
+      "gemm_s": 0.001556042,
+      "gen_bytes": 262144,
+      "gen_s": 0.000511083,
+      "macs": 16777216,
+      "n": 256
+    },
+    {
+      "attempt_s": 0.009633042,
+      "attempts_per_s": 103.80936779887392,
+      "candidate": "D",
+      "gemm_s": 0.005895084,
+      "gen_bytes": 2097152,
+      "gen_s": 0.003737958,
+      "macs": 1073741824,
+      "macs_per_generated_byte": 512.0,
+      "n": 1024
+    },
+    {
+      "attempts_per_s_1thread": 88324.5928788297,
+      "attempts_per_s_all_threads": 510425.6205304527,
+      "candidate": "E",
+      "cpu_gmac_per_s_all_threads": 117.07938713479312,
+      "macs": 229376,
+      "macs_per_generated_byte_per_attempt": 3584.0,
+      "per_attempt_gen_bytes": 64,
+      "per_attempt_gen_s": 1.7623957999999999e-6,
+      "profile": "zfx-fp8c-v0.1-dev",
+      "threads": 18,
+      "verify_latency_s": 0.000011321875,
+      "weight_bytes": 229376,
+      "weight_gen_1thread_s": 0.001001916,
+      "weight_gen_all_threads_s": 0.001266667
+    },
+    {
+      "attempts_per_s_1thread": 1015.4264397061307,
+      "attempts_per_s_all_threads": 3455.4374547823613,
+      "candidate": "E",
+      "cpu_gmac_per_s_all_threads": 178.44697264085406,
+      "macs": 51642368,
+      "macs_per_generated_byte_per_attempt": 806912.0,
+      "per_attempt_gen_bytes": 64,
+      "per_attempt_gen_s": 1.4632417e-6,
+      "profile": "zfx-fp8c-v0.1",
+      "threads": 18,
+      "verify_latency_s": 0.0009848079199999999,
+      "weight_bytes": 51642368,
+      "weight_gen_1thread_s": 0.103159208,
+      "weight_gen_all_threads_s": 0.00777025
+    }
+  ]
+}

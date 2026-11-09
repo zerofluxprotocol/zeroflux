@@ -1,0 +1,130 @@
+{
+  "data": {
+    "experiment": "accumulation_divergence",
+    "n": 256,
+    "ozaki_int8_emulation_of_A": {
+      "bit_exact_vs_canonical": true,
+      "int8_gemms": 9
+    },
+    "results": {
+      "A_fp8_e4m3_unrestricted": {
+        "canonical_exact_rne": {
+          "digest_matches_canonical": true,
+          "mismatch_fraction": 0.0,
+          "mismatched_elements": 0
+        },
+        "f16_acc": {
+          "digest_matches_canonical": false,
+          "mismatch_fraction": 1.0,
+          "mismatched_elements": 65536
+        },
+        "pairwise_f32": {
+          "digest_matches_canonical": false,
+          "mismatch_fraction": 0.6332244873046875,
+          "mismatched_elements": 41499
+        },
+        "rev_f32": {
+          "digest_matches_canonical": false,
+          "mismatch_fraction": 0.8182525634765625,
+          "mismatched_elements": 53625
+        },
+        "seq_f32": {
+          "digest_matches_canonical": false,
+          "mismatch_fraction": 0.820281982421875,
+          "mismatched_elements": 53758
+        },
+        "splitk4_f32": {
+          "digest_matches_canonical": false,
+          "mismatch_fraction": 0.7169342041015625,
+          "mismatched_elements": 46985
+        },
+        "trunc_align_c32_k14": {
+          "digest_matches_canonical": false,
+          "mismatch_fraction": 0.9997406005859375,
+          "mismatched_elements": 65519
+        }
+      },
+      "B_bf16_window": {
+        "canonical_exact_rne": {
+          "digest_matches_canonical": true,
+          "mismatch_fraction": 0.0,
+          "mismatched_elements": 0
+        },
+        "f16_acc": {
+          "digest_matches_canonical": false,
+          "mismatch_fraction": 0.999969482421875,
+          "mismatched_elements": 65534
+        },
+        "pairwise_f32": {
+          "digest_matches_canonical": false,
+          "mismatch_fraction": 0.6415863037109375,
+          "mismatched_elements": 42047
+        },
+        "rev_f32": {
+          "digest_matches_canonical": false,
+          "mismatch_fraction": 0.8376007080078125,
+          "mismatched_elements": 54893
+        },
+        "seq_f32": {
+          "digest_matches_canonical": false,
+          "mismatch_fraction": 0.835693359375,
+          "mismatched_elements": 54768
+        },
+        "splitk4_f32": {
+          "digest_matches_canonical": false,
+          "mismatch_fraction": 0.7360382080078125,
+          "mismatched_elements": 48237
+        },
+        "trunc_align_c32_k14": {
+          "digest_matches_canonical": false,
+          "mismatch_fraction": 0.999755859375,
+          "mismatched_elements": 65520
+        }
+      },
+      "D_fp8_restricted": {
+        "canonical_exact_rne": {
+          "digest_matches_canonical": true,
+          "mismatch_fraction": 0.0,
+          "mismatched_elements": 0
+        },
+        "f16_acc": {
+          "digest_matches_canonical": false,
+          "mismatch_fraction": 0.26458740234375,
+          "mismatched_elements": 17340
+        },
+        "pairwise_f32": {
+          "digest_matches_canonical": true,
+          "mismatch_fraction": 0.0,
+          "mismatched_elements": 0
+        },
+        "rev_f32": {
+          "digest_matches_canonical": true,
+          "mismatch_fraction": 0.0,
+          "mismatched_elements": 0
+        },
+        "seq_f32": {
+          "digest_matches_canonical": true,
+          "mismatch_fraction": 0.0,
+          "mismatched_elements": 0
+        },
+        "splitk4_f32": {
+          "digest_matches_canonical": true,
+          "mismatch_fraction": 0.0,
+          "mismatched_elements": 0
+        },
+        "trunc_align_c32_k14": {
+          "digest_matches_canonical": true,
+          "mismatch_fraction": 0.0,
+          "mismatched_elements": 0
+        }
+      }
+    }
+  },
+  "host": {
+    "arch": "aarch64",
+    "cpu": "Apple M5 Pro",
+    "os": "macos",
+    "rustc_profile": "release",
+    "threads": 18
+  }
+}

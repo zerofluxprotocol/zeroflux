@@ -200,6 +200,27 @@ fn attacks_exp(quick: bool) -> Value {
     })
 }
 
+/// Signature costs (SLH-DSA, FIPS 205) as used by ZeroFlux txs.
+fn pq_exp() -> Value {
+    use zfx_verify::tx::{scheme_name, LeafKey, P2mrKeys, SCHEME_SLH_DSA_SHA2_128S, SCHEME_SLH_DSA_SHA2_192S};
+    let mut rows = Vec::new();
+    for scheme in [SCHEME_SLH_DSA_SHA2_128S, SCHEME_SLH_DSA_SHA2_192S] {
+        let (k, t_kg) = timeit(|| LeafKey::derive(&[0x42; 32], scheme, 0).unwrap());
+        let msg = b"zfx sig bench";
+        let n = 5;
+        let (sigs, t_sign) = timeit(|| (0..n).map(|_| k.sign(msg).unwrap()).collect::<Vec<_>>());
+        let keys = P2mrKeys { keys: vec![k] };
+        let tx = keys.sign_tx(1, [7; 32], 1, 1, 0, 0).unwrap();
+        let reps = 50;
+        let (_, t_ver) = timeit(|| for _ in 0..reps { tx.verify_authorization().unwrap(); });
+        rows.push(json!({"scheme": scheme_name(scheme), "nist_category": if scheme == 1 { 1 } else { 3 },
+            "pubkey_bytes": keys.keys[0].leaf().pubkey.len(), "signature_bytes": sigs[0].len(), "tx_bytes": tx.encoded_len(),
+            "keygen_s": t_kg, "sign_s": t_sign / n as f64, "verify_tx_s": t_ver / reps as f64,
+            "txs_per_4MiB_block": (4usize << 20) / tx.encoded_len()}));
+    }
+    json!({"experiment": "signature_costs", "library": "fips205 0.5 (pure Rust, NIST ACVP-tested)", "host": host(), "rows": rows})
+}
+
 fn write(dir: &str, name: &str, v: &Value) {
     std::fs::create_dir_all(dir).unwrap();
     let p = format!("{}/{}.json", dir, name);
@@ -234,6 +255,11 @@ fn main() {
         let (v, t) = timeit(|| attacks_exp(quick));
         eprintln!("attacks done in {:.1}s", t);
         write(&out, "attacks", &json!({"host": host(), "data": v}));
+    }
+    if run("sig") {
+        let (v, t) = timeit(pq_exp);
+        eprintln!("sig done in {:.1}s", t);
+        write(&out, "signature_costs", &v);
     }
     if run("throughput") {
         let (v, t) = timeit(|| throughput(quick));
