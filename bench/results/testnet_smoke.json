@@ -1,0 +1,8 @@
+{
+  "gate": 6,
+  "result": "BLOCKED",
+  "reason": "NEAR_TESTNET_ACCOUNT is not set",
+  "prerequisite": "A NEAR testnet account dedicated to ZeroFlux with >= 15 testnet NEAR, its full-access key in ~/.near-credentials/testnet/<account>.json (near-cli format), and NEAR_TESTNET_ACCOUNT=<account> in the environment. ",
+  "rpc": "https://rpc.testnet.near.org",
+  "finished": "2026-11-09T17:38:10Z"
+}

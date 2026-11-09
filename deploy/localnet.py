@@ -49,6 +49,11 @@ def jrun(args, check=True):
 
 
 class Localnet:
+    # Account names; testnet runs override these with subaccounts of the
+    # operator's configured testnet account.
+    owner = "deployer.test.near"
+    coordinator_account = "coordinator.test.near"
+
     def __init__(self, confirmations=12, fault_rate=0.0, mint_validity=600, release_validity=200):
         self.procs = {}
         self.confirmations = confirmations
@@ -149,9 +154,9 @@ class Localnet:
 
     # ---------------- contracts ----------------
     def deploy_wzfx(self, timelock=5):
-        init = {"owner_id": "deployer.test.near", "committee": [r["ed25519"] for r in self.relayers], "threshold": 2,
+        init = {"owner_id": self.owner, "committee": [r["ed25519"] for r in self.relayers], "threshold": 2,
                 "native_chain_id": self.chain_id, "native_asset_id": self.asset_id, "timelock_sec": timelock, "metadata": None}
-        out = jrun([f"{BIN}/zfx-bridge", "deploy", "--rpc", self.rpc, "--signer", "deployer.test.near", "--key-file", self.key("deployer.test.near"),
+        out = jrun([f"{BIN}/zfx-bridge", "deploy", "--rpc", self.rpc, "--signer", self.owner, "--key-file", self.key(self.owner),
                     "--contract", CONTRACT, "--wasm", WASM, "--init", json.dumps(init)])
         self.deploy_record = out
         return out
@@ -187,7 +192,7 @@ class Localnet:
     def start_coordinator(self, fault_rate=None):
         fr = self.fault_rate if fault_rate is None else fault_rate
         self.spawn("coordinator", [f"{BIN}/zfx-bridge-coordinator", "--env", self.env_path, "--zfx", self.zfx_url(1),
-                                   "--near-account", "coordinator.test.near", "--near-key-file", self.key("coordinator.test.near"),
+                                   "--near-account", self.coordinator_account, "--near-key-file", self.key(self.coordinator_account),
                                    "--store", os.path.join(RUN, "jobs.json"), "--incidents", os.path.join(RUN, "incidents"),
                                    "--auto-register", "--status-port", "28790", "--interval-ms", "500", "--fault-rate", str(fr)])
 

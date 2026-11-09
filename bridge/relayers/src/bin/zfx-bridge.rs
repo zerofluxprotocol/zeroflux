@@ -7,6 +7,7 @@
 //!   zfx-bridge call --rpc URL --signer ID --key-file F --contract ID --method M (--args JSON | --raw-args-file F) [--deposit YOCTO] [--gas TGAS]
 //!   zfx-bridge admin-sign --seed F --member I --chain near|native --epoch E --nonce N --action pause|unpause|rotate
 //!              [--contract ID] [--chain-id N] [--committee K1,K2,K3] [--activate-height H]
+//!   zfx-bridge create-subaccount --rpc URL --signer ID --key-file F --account NEW --deposit-near N --out KEYFILE
 //!   zfx-bridge view --rpc URL --contract ID --method M --args JSON
 //!   zfx-bridge burn --rpc URL --signer ID --key-file F --contract ID --amount N --native-recipient zfx1...
 //!   zfx-bridge reconcile --env ENV --zfx URL
@@ -74,6 +75,27 @@ async fn main() {
                 tokio::time::sleep(std::time::Duration::from_millis(200)).await;
             }
             drop(sb); // stops neard
+        }
+        Some("create-subaccount") => {
+            // Create NEW (a subaccount of the signer) with a fresh full-access
+            // key written to --out (0600) and --deposit-near NEAR from the signer.
+            let near = NearClient::new(&need(&args, "--rpc"));
+            let s = signer(&args);
+            let acct = need(&args, "--account");
+            let out = need(&args, "--out");
+            if near.account_exists(&acct) {
+                println!("{}", json!({"account": acct, "created": false, "reason": "exists"}));
+                return;
+            }
+            let k = new_key_file(&acct, &out);
+            let dep: u128 = need(&args, "--deposit-near").parse::<u128>().expect("--deposit-near N") * 1_000_000_000_000_000_000_000_000;
+            let o = near
+                .send(&s, &acct, vec![Action::CreateAccount, Action::Transfer(dep), Action::AddFullAccessKey(k.verifying_key().to_bytes())])
+                .unwrap_or_else(|e| panic!("{}", e));
+            println!("{}", json!({"account": acct, "created": o.success, "tx_hash": o.tx_hash, "failure": o.failure, "key_file": out}));
+            if !o.success {
+                std::process::exit(3);
+            }
         }
         Some("admin-sign") => {
             // Offline operator approval for a governance action, signed with
