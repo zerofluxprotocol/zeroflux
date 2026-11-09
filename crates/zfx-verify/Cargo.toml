@@ -3,7 +3,6 @@ name = "zfx-verify"
 description = "ZeroFlux consensus: canonical arithmetic, PoW candidates, header/tx encoding, verification"
 version.workspace = true
 edition.workspace = true
-license.workspace = true
 
 [dependencies]
 sha2.workspace = true

@@ -3,7 +3,6 @@ name = "zfx-node"
 description = "ZeroFlux full node: chain state, P2P, miner API (CPU-only, no GPU runtime)"
 version.workspace = true
 edition.workspace = true
-license.workspace = true
 
 [lib]
 path = "src/lib.rs"
