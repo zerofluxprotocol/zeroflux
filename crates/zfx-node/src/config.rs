@@ -36,7 +36,7 @@ impl ChainConfig {
         ChainConfig {
             chain_id: 0x5a46_0002,
             profile: 2,
-            genesis_timestamp: 1_800_000_000,
+            genesis_timestamp: 1_780_000_000,
             genesis_target: U256::MAX.shr(10).to_hex(),
             pow_limit: U256::MAX.shr(2).to_hex(),
             target_spacing_secs: 5,
