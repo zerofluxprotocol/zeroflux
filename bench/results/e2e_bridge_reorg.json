@@ -1,0 +1,40 @@
+{
+  "started": "2026-11-09T16:55:44Z",
+  "checks": [
+    {
+      "check": "Finality: deposit reorged out below K=12 confirmations is never minted; coordinator marks REORGED; books stay exact",
+      "result": "PASS",
+      "evidence": {
+        "confirmations_before_reorg": 1,
+        "K": 12,
+        "deposit_state_after": "unknown",
+        "is_minted": false,
+        "job": "REORGED",
+        "conflicting_tx": "62da0e5e3593290f3e6d5d792c00e371011e170303394af6a43cc79aaca3acc1",
+        "reconcile_ok": true,
+        "reorgs_node1": 1
+      }
+    },
+    {
+      "check": "Deep reorg after mint: unbacked wZFX detected as orphan; incident written; both chains paused via 1-of-3; no compensating mint; new deposits blocked",
+      "result": "PASS",
+      "evidence": {
+        "minted_at_height": 728,
+        "fork_height": 778,
+        "orphans": [
+          {
+            "kind": "mint_without_onchain_deposit",
+            "note": "a minted deposit is no longer on the native best chain (deep reorg) or was never there",
+            "unbacked": "40000"
+          }
+        ],
+        "incident": "reconciliation violation: [{\"kind\":\"mint_without_onchain_deposit\",\"note\":\"a minted deposit is no longer on the native best chain (deep reorg) or was never there\",\"unbacked\":\"40000\"}]",
+        "coordinator_halted": "reconciliation violation: [{\"kind\":\"mint_without_onchain_deposit\",\"note\":\"a minted deposit is no longer on the native best chain (deep reorg) or was never there\",\"unbacked\":\"40000\"}]",
+        "deposit_while_paused": "bridge paused: deposits rejected (code 1006)"
+      }
+    }
+  ],
+  "conclusion": "K must exceed the deepest plausible reorg. The testnet default K=12 is a policy value; this run shows the failure mode beyond K is detected and halted, not silently absorbed.",
+  "passed": 2,
+  "total": 2
+}

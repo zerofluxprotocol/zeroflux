@@ -443,6 +443,15 @@ impl Node {
             }
             Msg::Inv { hashes } => {
                 let g = self.lock();
+                // A full batch means the peer has more: ask for the next one
+                // starting after the batch's last hash (deep forks / long sync).
+                if hashes.len() >= MAX_INV {
+                    let mut loc = vec![hashes[hashes.len() - 1].clone()];
+                    loc.extend(g.chain.locator().iter().map(|h| to_hex(h)));
+                    if let Some(p) = g.peers.get(&pid) {
+                        send(p, &Msg::GetBlocks { locator: loc });
+                    }
+                }
                 let want: Vec<String> = hashes
                     .into_iter()
                     .take(MAX_INV)

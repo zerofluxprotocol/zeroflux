@@ -152,3 +152,29 @@ fn two_nodes_sync_over_encrypted_transport() {
     assert_eq!(b.lock().chain.best, a.lock().chain.best, "b synced a's chain over ZFXP2P/2");
     assert!(a.lock().stats.handshakes_ok >= 1);
 }
+
+#[test]
+fn long_sync_beyond_one_inventory_batch() {
+    // 1200 blocks > MAX_INV (500): the syncing node must keep requesting.
+    let mut c = cfg();
+    c.genesis_target = U256::MAX.shr(1).to_hex(); // trivial PoW: fast to build
+    let a = Node::with_options(c.clone(), NodeOptions { identity_seed: Some([5; 32]), ..Default::default() }).unwrap();
+    for i in 0..1200u64 {
+        let b = { a.lock().chain.template([4u8; 32], &[], now_secs() - 100_000 + i) };
+        let b = { let mut g = a.lock(); mine(b, &mut g.chain) };
+        a.process_block(b, None).unwrap();
+    }
+    let l = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
+    let port = l.local_addr().unwrap().port();
+    drop(l);
+    a.listen(port).unwrap();
+    let b = Node::with_options(c, NodeOptions { identity_seed: Some([6; 32]), ..Default::default() }).unwrap();
+    b.maintain_peer(format!("127.0.0.1:{}", port));
+    for _ in 0..300 {
+        if b.lock().chain.height() == 1200 {
+            break;
+        }
+        std::thread::sleep(std::time::Duration::from_millis(100));
+    }
+    assert_eq!(b.lock().chain.height(), 1200, "synced past the 500-hash inventory limit");
+}

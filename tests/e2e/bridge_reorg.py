@@ -89,9 +89,17 @@ def main():
         _, maddr = zfxnet.wallet("node4_miner", "88" * 32)
         ln.net.start_miner("miner4", 4, maddr, "rust")
         d = deposit(ln, wA, 25_000, node=1)
-        wait(lambda: zrpc(ln, 1, "zfx_bridge_deposit_status", {"deposit_id": d["deposit_id"]})["result"].get("confirmations", 0) >= 3, 120, "3 confs")
-        conf_before = zrpc(ln, 1, "zfx_bridge_deposit_status", {"deposit_id": d["deposit_id"]})["result"]["confirmations"]
+        # Blocks arrive ~6/s: poll fast and halt the main miner right after
+        # inclusion so the reorg really happens below K confirmations.
+        t0 = time.time()
+        while time.time() - t0 < 120:
+            c_ = zrpc(ln, 1, "zfx_bridge_deposit_status", {"deposit_id": d["deposit_id"]})["result"].get("confirmations", 0)
+            if c_ >= 1:
+                break
+            time.sleep(0.05)
+        ln.net.procs["miner1"].kill()
         ln.net.stop("miner1")
+        conf_before = zrpc(ln, 1, "zfx_bridge_deposit_status", {"deposit_id": d["deposit_id"]})["result"]["confirmations"]
         wait(lambda: h(ln, 4) > h(ln, 1) + 3, 300, "private fork heavier")
         ln.net.stop("miner4")
         rejoin_node4(ln)
@@ -101,9 +109,9 @@ def main():
         j = job(d["deposit_id"])
         minted = ln.near_view(CONTRACT, "is_minted", {"deposit_id": d["deposit_id"]})
         rec = ln.reconcile()
-        ok &= check("Finality: deposit reorged out at 3 of K=12 confirmations is never minted; coordinator marks REORGED; books stay exact",
+        ok &= check("Finality: deposit reorged out below K=12 confirmations is never minted; coordinator marks REORGED; books stay exact",
                     st["state"] == "unknown" and minted is False and (j is None or j["state"] in ("REORGED", "AWAITING_FINALITY", "OBSERVED")) and rec.get("ok") is True,
-                    {"confirmations_before_reorg": conf_before, "deposit_state_after": st["state"], "is_minted": minted, "job": j and j["state"],
+                    {"confirmations_before_reorg": conf_before, "K": 12, "deposit_state_after": st["state"], "is_minted": minted, "job": j and j["state"],
                      "conflicting_tx": c.get("txid"), "reconcile_ok": rec.get("ok"), "reorgs_node1": zfxnet.status(1)["reorgs"]})
         ln.start_miner(1)
 
