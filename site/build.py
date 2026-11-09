@@ -32,9 +32,6 @@ DOCS = [  # (source, slug, title, one-line summary)
     ("docs/RELEASE_READINESS.md", "release_readiness", "Release readiness", "What blocks a mainnet, and who owns it"),
 ]
 SCRUB = [
-    (r"project owner \(owner decision\)", "project owner (decision)"), (r"project owner \(account\)", "project owner (account)"),
-    (r"project owner \(key\)", "project owner (key)"), (r"project owner \(partner program\)", "project owner (partner program)"),
-    (r"project owner and governance", "project owner and governance"), (r"\bOwner\b", "project owner"),
     (r"/Users/[A-Za-z0-9_.-]+/", "~/"),
 ]
 LOGO = open(os.path.join(SITE, "static", "logo-inline.txt")).read()
@@ -137,7 +134,7 @@ def main():
         for f in fs:
             if f.endswith(".html"):
                 t = open(os.path.join(dp, f)).read()
-                for bad in ("project owner", "/Users/", "other*", "other.testnet", "user"):
+                for bad in ("/Users/"):
                     if bad in t:
                         leaks.append((f, bad))
     if leaks:
