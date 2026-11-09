@@ -41,7 +41,7 @@ pub struct Coordinator {
 }
 
 fn post(url: &str, body: &Value, timeout_s: u64) -> Result<Value, String> {
-    match ureq::post(url).timeout(std::time::Duration::from_secs(timeout_s)).send_json(body.clone()) {
+    match crate::agent().post(url).timeout(std::time::Duration::from_secs(timeout_s)).send_json(body.clone()) {
         Ok(r) => {
             let v: Value = r.into_json().map_err(|e| e.to_string())?;
             Ok(v["result"].clone())

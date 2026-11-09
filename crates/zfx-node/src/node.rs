@@ -672,6 +672,15 @@ impl Node {
     pub fn get_work(&self, miner: Option<Address>) -> Result<Value, String> {
         let mut g = self.lock();
         let miner = miner.or(g.opts.default_miner).ok_or("no miner address (pass ?address= or start node with --miner-address)")?;
+        // If the chain's median time past has run ahead of the clock, any
+        // template would carry a timestamp beyond max_future and be rejected:
+        // tell the miner to wait instead of handing out invalid work.
+        let tip_hash = *g.chain.best.last().unwrap();
+        let earliest = g.chain.mtp(&tip_hash) + 1;
+        let now = now_secs();
+        if earliest > now + g.chain.cfg.max_future_secs {
+            return Err(format!("chain time is {} s ahead of this node's clock; retry later", earliest - now));
+        }
         let txs = g.mempool.ordered();
         let ops = g.mempool.ordered_ops();
         let b = g.chain.template_with_ops(miner, &txs, &ops, now_secs());

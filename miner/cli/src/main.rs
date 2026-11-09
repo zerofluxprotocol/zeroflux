@@ -205,8 +205,14 @@ fn make_backend(args: &[String]) -> Box<dyn Backend> {
     }
 }
 
+/// One keep-alive agent for the whole miner (no per-request sockets).
+fn agent() -> &'static ureq::Agent {
+    static A: std::sync::OnceLock<ureq::Agent> = std::sync::OnceLock::new();
+    A.get_or_init(|| ureq::AgentBuilder::new().max_idle_connections_per_host(4).build())
+}
+
 fn http_get(url: &str) -> Result<Value, String> {
-    match ureq::get(url).timeout(Duration::from_secs(10)).call() {
+    match agent().get(url).timeout(Duration::from_secs(10)).call() {
         Ok(r) => r.into_json().map_err(|e| e.to_string()),
         Err(ureq::Error::Status(c, r)) => Err(format!("HTTP {}: {}", c, r.into_string().unwrap_or_default())),
         Err(e) => Err(e.to_string()),
@@ -235,7 +241,7 @@ fn mine(args: &[String]) {
             Ok(w) => w,
             Err(e) => {
                 eprintln!("[zpu] get_work failed: {} (retrying)", e);
-                std::thread::sleep(Duration::from_secs(2));
+                std::thread::sleep(Duration::from_millis(if e.contains("ahead of this node's clock") { 500 } else { 2000 }));
                 continue;
             }
         };
@@ -277,7 +283,7 @@ fn mine(args: &[String]) {
             }
         }
         for (n, _) in r.found {
-            let res: Value = ureq::post(&format!("{}/v1/submit", node))
+            let res: Value = agent().post(&format!("{}/v1/submit", node))
                 .send_json(json!({"work_id": w["work_id"], "nonce": n.to_string()}))
                 .map(|r| r.into_json().unwrap_or(Value::Null))
                 .unwrap_or_else(|e| json!({"accepted": false, "error": e.to_string()}));
@@ -288,6 +294,7 @@ fn mine(args: &[String]) {
             } else {
                 rejected += 1;
                 eprintln!("[zpu] submit rejected: {}", res["error"]);
+                std::thread::sleep(Duration::from_millis(200)); // back off on rejection
             }
         }
         let el = t_start.elapsed().as_secs_f64();

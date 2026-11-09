@@ -13,7 +13,7 @@ impl ZfxClient {
     }
 
     pub fn call(&self, method: &str, params: Value) -> Result<Value, String> {
-        let r = ureq::post(&format!("{}/rpc", self.url))
+        let r = crate::agent().post(&format!("{}/rpc", self.url))
             .timeout(std::time::Duration::from_secs(30))
             .send_json(json!({"jsonrpc": "2.0", "id": 1, "method": method, "params": params}))
             .map_err(|e| format!("zfx node {}: {}", method, e))?;

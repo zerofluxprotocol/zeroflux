@@ -1,0 +1,208 @@
+{
+  "started": "2026-11-09T16:35:02Z",
+  "checks": [
+    {
+      "check": "B1 deployed wZFX: NEP-148 metadata, zero supply, committee configured",
+      "result": "PASS",
+      "evidence": {
+        "decimals": 8,
+        "icon": null,
+        "name": "Wrapped ZeroFlux (testnet, 2-of-3 bridge)",
+        "reference": null,
+        "reference_hash": null,
+        "spec": "ft-1.0.0",
+        "symbol": "wZFX"
+      }
+    },
+    {
+      "check": "B4 deposit -> K confirmations -> 2-of-3 mint (receipts checked on both chains)",
+      "result": "PASS",
+      "evidence": {
+        "deposit_id": "88ff9a2e2e1e1ee305d1fa499feb2a429ebe18bc2810aa43e9544363f8f7e3a5",
+        "native_block": "e910ddd7b2d97002104f6097bd324ca2599548440fc7898d98bcee8f9b6e1e0b",
+        "confirmations": 200,
+        "near_mint_tx": "52ZkMxtugLnbRZ4sMPEdZKyN7MochfHb4BkiYij4sYdY",
+        "approvals": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "check": "B1/B3 1-of-3 cannot mint (on-chain rejection) and a forged member index is rejected; coordinator waits",
+      "result": "PASS",
+      "evidence": {
+        "one_of_three": "{\"ActionError\":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: insufficient committee approvals\"}}}}",
+        "forged": "{\"ActionError\":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: invalid committee signature\"}}}}",
+        "coordinator_state": "ATTESTING"
+      }
+    },
+    {
+      "check": "B1 replay of a finalized mint bundle rejected (no double mint)",
+      "result": "PASS",
+      "evidence": {
+        "failure": "{\"ActionError\":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: deposit already minted (replay)\"}}}}"
+      }
+    },
+    {
+      "check": "B2/B4 burn on NEAR (final) -> 2-of-3 SLH-DSA native release validated by consensus",
+      "result": "PASS",
+      "evidence": {
+        "withdrawal_id": "bdd5711eda36eb28cd1a07598bcc19e90522753910591a92dfb5497c8b719525",
+        "near_burn_tx": "A8bardWrXHDybB9EzA1hyLdmLkQSHwWBBnGMXmKeWbsK",
+        "native_release": {
+          "amount": 20000,
+          "block": "027198fb7f3fc6f74262403731c802c4bfa586c2cc6a7d09541731193a414482",
+          "height": 890,
+          "op_id": "10c00f30f2f8cd3c691d252772554aea5687d8463171014fb5fbee48bd4e1e30",
+          "withdrawal_id": "bdd5711eda36eb28cd1a07598bcc19e90522753910591a92dfb5497c8b719525"
+        }
+      }
+    },
+    {
+      "check": "B2 1-of-3 release rejected by native consensus; relayer refuses wrong amount; release replay rejected",
+      "result": "PASS",
+      "evidence": {
+        "one_of_three": {
+          "code": 1006,
+          "message": "release has 1 approvals, needs 2"
+        },
+        "wrong_amount": "amount mismatch",
+        "replay": {
+          "code": 1006,
+          "message": "withdrawal id already released (replay)"
+        }
+      }
+    },
+    {
+      "check": "Gate 4: 20 two-way transfers under fault injection completed",
+      "result": "PASS",
+      "evidence": {
+        "elapsed_s": 83.0,
+        "errors": [],
+        "chaos_events": [
+          {
+            "t": 1794242182.982112,
+            "action": "refuse_window"
+          },
+          {
+            "t": 1794242208.759016,
+            "action": "kill_coordinator"
+          }
+        ]
+      }
+    },
+    {
+      "check": "B3 backing invariant minted-burned <= locked-released held at every sample; no orphans",
+      "result": "PASS",
+      "evidence": {
+        "samples": 16,
+        "violations": []
+      }
+    },
+    {
+      "check": "B3 full reconciliation at quiescence: exact identity, custody, supply, zero pending, zero orphans",
+      "result": "PASS",
+      "evidence": {
+        "ok": true,
+        "invariant_ok": true,
+        "accounting_identity_ok": true,
+        "native_custody_ok": true,
+        "wrapped_supply_ok": true,
+        "native": {
+          "chain_id": 1514536962,
+          "deposits": 22,
+          "lockbox_balance": "224348",
+          "locked_total": "430890",
+          "paused": false,
+          "released_total": "206542",
+          "releases": 22
+        },
+        "near": {
+          "burns": 22,
+          "contract": "wzfx.deployer.test.near",
+          "epoch": 0,
+          "paused": false,
+          "total_burned": "206542",
+          "total_minted": "430890",
+          "total_supply": "224348"
+        }
+      }
+    },
+    {
+      "check": "B3 per-user conservation on both chains (native = initial - deposits - fees + releases; wZFX = deposits - burns)",
+      "result": "PASS",
+      "evidence": {
+        "mismatches": [],
+        "users": 10
+      }
+    }
+  ],
+  "deployment": {
+    "near_rpc": "http://127.0.0.1:51909",
+    "contract": "wzfx.deployer.test.near",
+    "deploy": {
+      "code_hash_b58": "6Mvq5YvQC6njWHkULxQXNJjyL2qRrT8PNCUgBQNgecWM",
+      "contract": "wzfx.deployer.test.near",
+      "failure": null,
+      "success": true,
+      "tx_hash": "DKyd6F2QEBzcbeGKEji9t3iwkvpVCMA9ryZMaiGYZK81",
+      "wasm_sha256": "4fa6ea56e6485beb84f1ec119f3e806a5ef73ac0ae2d7325496bea9a014f4faa"
+    },
+    "native_chain_id": 1514536962,
+    "asset_id": "zfx:5a460002:native",
+    "committee_ed25519": [
+      "620ee523e7786f0c7ca72ffc1ef0ed3d6d1133d7fb101c707dba59617383981a",
+      "0722b7649a3d9f59c40eceb6eb4048c79426a60e8c1f25c1f5169c95aa6d29df",
+      "dc4ce09d79f0d5c92b2a5d002bec585089a2f1f27c3f7b81cfba6653f875e026"
+    ],
+    "committee_slh": [
+      "a4a275f057a4c4a7...",
+      "d625a82dc5309cbe...",
+      "eaf58333aab14584..."
+    ]
+  },
+  "coordinator_final": {
+    "Finalized": 44
+  },
+  "reconciliation_final": {
+    "accounting_identity_ok": true,
+    "fees": {
+      "bridge_fee": "0",
+      "note": "v1 charges no bridge fee; native tx fees go to miners and never touch the lockbox"
+    },
+    "invariant_ok": true,
+    "native": {
+      "chain_id": 1514536962,
+      "deposits": 22,
+      "lockbox_balance": "224348",
+      "locked_total": "430890",
+      "paused": false,
+      "released_total": "206542",
+      "releases": 22
+    },
+    "native_custody_ok": true,
+    "near": {
+      "burns": 22,
+      "contract": "wzfx.deployer.test.near",
+      "epoch": 0,
+      "paused": false,
+      "total_burned": "206542",
+      "total_minted": "430890",
+      "total_supply": "224348"
+    },
+    "ok": true,
+    "orphans": [],
+    "pending_deposits": {
+      "items": [],
+      "total": "0"
+    },
+    "pending_releases": {
+      "items": [],
+      "total": "0"
+    },
+    "wrapped_supply_ok": true
+  },
+  "passed": 10,
+  "total": 10
+}

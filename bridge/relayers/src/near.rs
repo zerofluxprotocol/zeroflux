@@ -130,7 +130,7 @@ impl NearClient {
 
     pub fn call_rpc(&self, method: &str, params: Value) -> Result<Value, String> {
         let body = json!({"jsonrpc": "2.0", "id": "zfx", "method": method, "params": params});
-        let r = ureq::post(&self.rpc).timeout(std::time::Duration::from_secs(60)).send_json(body).map_err(|e| format!("NEAR RPC {}: {}", method, e))?;
+        let r = crate::agent().post(&self.rpc).timeout(std::time::Duration::from_secs(60)).send_json(body).map_err(|e| format!("NEAR RPC {}: {}", method, e))?;
         let v: Value = r.into_json().map_err(|e| e.to_string())?;
         if let Some(e) = v.get("error") {
             return Err(format!("NEAR RPC {} error: {}", method, e));
