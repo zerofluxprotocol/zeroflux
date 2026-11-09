@@ -1,8 +1,8 @@
 {
   "target": "security-test",
-  "commit": "041e7562365ef92cc7c2747cfaf0d63071b7d838",
+  "commit": "401790e0015608a14a352d7365fcfa9996144e36",
   "dirty_tree": true,
-  "started": "2026-11-09T18:00:18Z",
+  "started": "2026-11-09T18:21:52Z",
   "host": "arm64",
   "steps": [
     {
@@ -10,23 +10,23 @@
       "kind": "required",
       "cmd": "cargo test --release -q -p zfx-node --test fuzz_parsers -- --nocapture",
       "rc": 0,
-      "seconds": 116.1,
+      "seconds": 143.0,
       "result": "PASS",
       "log": "bench/results/gates/logs/security-test/fuzz-parsers.log",
       "tail": [
         "",
         "running 8 tests",
         "fuzz header_decode: 20000 inputs, 0 panics",
+        ".fuzz snapshot_verify: 20000 inputs, 0 panics",
         ".fuzz bridge_op_json: 20000 inputs, 0 panics",
-        "fuzz snapshot_verify: 20000 inputs, 0 panics",
-        "..fuzz handshake: 666 connections, 0 panics",
+        ".fuzz handshake: 666 connections, 0 panics",
         ".fuzz p2p_msg_json: 20000 inputs, 0 panics",
         ".fuzz block_json_structure: 20000 inputs, 0 panics",
         ".fuzz tx_json_verify: 20000 inputs, 0 panics",
         ".test fuzz_store_records has been running for over 60 seconds",
         "fuzz store_load: 20000 inputs, 0 panics",
         ".",
-        "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 93.49s",
+        "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 141.92s",
         ""
       ]
     },
@@ -35,14 +35,14 @@
       "kind": "required",
       "cmd": "cargo test --release -q -p zfx-node --test node_integrity",
       "rc": 0,
-      "seconds": 9.9,
+      "seconds": 1.0,
       "result": "PASS",
       "log": "bench/results/gates/logs/security-test/node-integrity-crash-corruption-backup.log",
       "tail": [
         "",
         "running 7 tests",
         ".......",
-        "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s",
+        "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.62s",
         ""
       ]
     },
@@ -51,14 +51,14 @@
       "kind": "required",
       "cmd": "cargo test --release -q -p zfx-node --test chain_rules",
       "rc": 0,
-      "seconds": 6.9,
+      "seconds": 6.6,
       "result": "PASS",
       "log": "bench/results/gates/logs/security-test/chain-rules-adversarial.log",
       "tail": [
         "",
         "running 7 tests",
         ".......",
-        "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.99s",
+        "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.29s",
         ""
       ]
     },
@@ -67,14 +67,14 @@
       "kind": "required",
       "cmd": "cargo test --release -q -p zfx-verify --test consensus_v2",
       "rc": 0,
-      "seconds": 14.2,
+      "seconds": 30.9,
       "result": "PASS",
       "log": "bench/results/gates/logs/security-test/consensus-v2-adversarial.log",
       "tail": [
         "",
         "running 5 tests",
         ".....",
-        "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 14.11s",
+        "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 30.65s",
         ""
       ]
     },
@@ -83,14 +83,14 @@
       "kind": "required",
       "cmd": "cd bridge/near && cargo test -q -p wzfx",
       "rc": 0,
-      "seconds": 0.7,
+      "seconds": 3.1,
       "result": "PASS",
       "log": "bench/results/gates/logs/security-test/wzfx-contract-negative.log",
       "tail": [
         "",
         "running 17 tests",
         ".................",
-        "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s",
+        "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.38s",
         "",
         "",
         "running 0 tests",
@@ -104,7 +104,7 @@
       "kind": "required",
       "cmd": "make -C miner/cuda sanitize-test",
       "rc": 0,
-      "seconds": 1.2,
+      "seconds": 2.5,
       "result": "PASS",
       "log": "bench/results/gates/logs/security-test/miner-asan-ubsan.log",
       "tail": [
@@ -121,7 +121,7 @@
         "PASS v01 nonce=18446744073709551615 cpu-cpp x4",
         "278/278 checks bit-exact on cpu-cpp x4",
         "ASAN_OPTIONS=detect_leaks=0:abort_on_error=1 UBSAN_OPTIONS=print_stacktrace=1:halt_on_error=1 ./build/zpu-miner-asan bench --profile dev --count 3000 --threads 4",
-        "{\"backend\":\"cpu-cpp x4\",\"impl\":\"zpu-miner-cpp\",\"profile\":2,\"attempts\":3000,\"elapsed_s\":0.209193,\"attempts_per_s\":14340.8,\"tera_macs_per_s\":0.00328944,\"launch_overhead_s\":0.00403583,\"host_peak_rss_kb\":27136,\"device\":{},\"hardware_threads\":18,\"compiler\":\"clang 21.0.0 (clang-2100.1.1.101)\",\"acceptance\":{\"sample_nonces\":5,\"matches_cpu_reference\":true}}"
+        "{\"backend\":\"cpu-cpp x4\",\"impl\":\"zpu-miner-cpp\",\"profile\":2,\"attempts\":3000,\"elapsed_s\":0.539196,\"attempts_per_s\":5563.84,\"tera_macs_per_s\":0.00127621,\"launch_overhead_s\":0.00749275,\"host_peak_rss_kb\":26832,\"device\":{},\"hardware_threads\":18,\"compiler\":\"clang 21.0.0 (clang-2100.1.1.101)\",\"acceptance\":{\"sample_nonces\":5,\"matches_cpu_reference\":true}}"
       ]
     },
     {
@@ -129,11 +129,11 @@
       "kind": "required",
       "cmd": "./target/release/zfx-research attacks --quick --out /tmp/zfx-attacks",
       "rc": 0,
-      "seconds": 0.5,
+      "seconds": 0.8,
       "result": "PASS",
       "log": "bench/results/gates/logs/security-test/research-attacks.log",
       "tail": [
-        "attacks done in 0.2s",
+        "attacks done in 0.4s",
         "wrote /tmp/zfx-attacks/attacks.json"
       ]
     },
@@ -142,7 +142,7 @@
       "kind": "required",
       "cmd": "cargo audit --deny warnings",
       "rc": 0,
-      "seconds": 1.0,
+      "seconds": 1.4,
       "result": "PASS",
       "log": "bench/results/gates/logs/security-test/cargo-audit-workspace.log",
       "tail": [
@@ -157,7 +157,7 @@
       "kind": "required",
       "cmd": "cd bridge/near && cargo audit --ignore RUSTSEC-2026-0387 --ignore RUSTSEC-2024-0449",
       "rc": 0,
-      "seconds": 0.7,
+      "seconds": 1.1,
       "result": "PASS",
       "log": "bench/results/gates/logs/security-test/cargo-audit-near-contracts.log",
       "tail": [
@@ -172,7 +172,7 @@
       "kind": "required",
       "cmd": ".venv/bin/python scripts/release_check.py",
       "rc": 0,
-      "seconds": 56.4,
+      "seconds": 162.6,
       "result": "PASS",
       "log": "bench/results/gates/logs/security-test/release-licenses-sbom-reproducible.log",
       "tail": [
@@ -185,7 +185,7 @@
       ]
     }
   ],
-  "finished": "2026-11-09T18:03:45Z",
+  "finished": "2026-11-09T18:27:45Z",
   "counts": {
     "PASS": 10,
     "FAIL": 0,

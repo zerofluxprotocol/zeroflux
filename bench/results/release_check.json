@@ -1,6 +1,6 @@
 {
-  "started": "2026-11-09T18:02:49Z",
-  "commit": "041e7562365ef92cc7c2747cfaf0d63071b7d838",
+  "started": "2026-11-09T18:25:02Z",
+  "commit": "401790e0015608a14a352d7365fcfa9996144e36",
   "licenses": {
     "dependencies": 384,
     "by_license": {
@@ -80,13 +80,13 @@
     "builds": [
       {
         "build": 0,
-        "seconds": 27.5,
+        "seconds": 100.8,
         "zfx-node": "d0c84367b452adf018d283e297d37ec2ec5709218b1c4ff11ce48e42058a956b",
         "zfx-wallet": "bb2b4225952bce6579ea03d63f231a4708ae3819a9917cc3c42648fd168c3b7a"
       },
       {
         "build": 1,
-        "seconds": 27.5,
+        "seconds": 58.7,
         "zfx-node": "d0c84367b452adf018d283e297d37ec2ec5709218b1c4ff11ce48e42058a956b",
         "zfx-wallet": "bb2b4225952bce6579ea03d63f231a4708ae3819a9917cc3c42648fd168c3b7a"
       }

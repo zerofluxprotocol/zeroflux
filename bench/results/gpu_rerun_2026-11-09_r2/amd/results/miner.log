@@ -1,0 +1,319 @@
+[zpu] backend exec:rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:blas-int8:int8 -> node http://127.0.0.1:19541
+[zpu] h=1 attempts=2000 rate=9269.9/s job_rate=12500.0/s accepted=0 rejected=0 gpu_errors=0
+[zpu] h=1 attempts=8434 rate=37322.1/s job_rate=6434000000000.0/s accepted=0 rejected=0 gpu_errors=0
+[zpu] h=1 attempts=111378 rate=389120.3/s job_rate=10294400.0/s accepted=0 rejected=0 gpu_errors=0
+[zpu] h=1 attempts=1758482 rate=3781179.3/s job_rate=12670030.8/s accepted=0 rejected=0 gpu_errors=0
+[zpu] h=1 attempts=8200167 rate=8476876.6/s job_rate=13146295.9/s accepted=0 rejected=0 gpu_errors=0
+[zpu] block 51425e9f97a111ebc4e85056903e2009be122037a5b551a03c87967e36298c16 accepted at height 1 (nonce 1137398594672143219)
+[zpu] h=1 attempts=11968487 rate=9256113.8/s job_rate=12994206.9/s accepted=1 rejected=0 gpu_errors=0
+[zpu] h=2 attempts=18502934 rate=10028653.2/s job_rate=13068894.0/s accepted=1 rejected=0 gpu_errors=0
+[zpu] h=2 attempts=25014751 rate=10625306.4/s job_rate=13023634.0/s accepted=1 rejected=0 gpu_errors=0
+[zpu] block e023920c4eccdefe73def2df53ebbb7f1fac1754dba7f63c14e5c67fbca8efb4 accepted at height 2 (nonce 1137398594688924333)
+[zpu] h=2 attempts=25997791 rate=10612622.7/s job_rate=12288000.0/s accepted=2 rejected=0 gpu_errors=0
+[zpu] block 439d34087946dd96d36eecf0b8f01d623fe2214fa018eb02d31b0c53ed21cde4 accepted at height 3 (nonce 1137398594695293505)
+[zpu] h=3 attempts=26816991 rate=10416468.2/s job_rate=13653333.3/s accepted=3 rejected=0 gpu_errors=0
+[zpu] h=4 attempts=33337959 rate=10663073.2/s job_rate=13041936.0/s accepted=3 rejected=0 gpu_errors=0
+[zpu] h=4 attempts=39832719 rate=10959151.6/s job_rate=12989520.0/s accepted=3 rejected=0 gpu_errors=0
+[zpu] block 2aa4a7b288c361cdb7a4bd7b7c98b0b13dea1840d5f0bbc474849e3a7c656064 accepted at height 4 (nonce 1137398594715464359)
+[zpu] h=4 attempts=41307279 rate=10964959.4/s job_rate=13405090.9/s accepted=4 rejected=0 gpu_errors=0
+[zpu] block 89c555ae50e949221ac508d4d117c37f11d66ce4b3b1005336272ae8ef955702 accepted at height 5 (nonce 1137398594720724789)
+[zpu] h=5 attempts=41503887 rate=10799116.2/s job_rate=9830400.0/s accepted=5 rejected=0 gpu_errors=0
+[zpu] h=6 attempts=48015418 rate=10928019.3/s job_rate=13023062.0/s accepted=5 rejected=0 gpu_errors=0
+[zpu] block 13345a6d3ea655fc103f02331bbc1e01cfa3237a90df22f9baec7259fff87a4b accepted at height 6 (nonce 1137398594733838180)
+[zpu] h=6 attempts=48310330 rate=10890604.5/s job_rate=14745600.0/s accepted=6 rejected=0 gpu_errors=0
+[zpu] h=7 attempts=54814608 rate=10996780.9/s job_rate=13008556.0/s accepted=6 rejected=0 gpu_errors=0
+[zpu] h=7 attempts=61328060 rate=11162861.3/s job_rate=13026904.0/s accepted=6 rejected=0 gpu_errors=0
+[zpu] h=7 attempts=67847285 rate=11301532.6/s job_rate=13038450.0/s accepted=6 rejected=0 gpu_errors=0
+[zpu] h=7 attempts=74366208 rate=11418264.5/s job_rate=13037846.0/s accepted=6 rejected=0 gpu_errors=0
+[zpu] block ddf708ec5e114501a7b422f2a83d81756d597a84406355e0c0e891169463409c accepted at height 7 (nonce 1137398594772385133)
+[zpu] h=7 attempts=80657664 rate=11499826.1/s job_rate=13107200.0/s accepted=7 rejected=0 gpu_errors=0
+[zpu] block 1902d27163284015bd22da365c9a16b8360cfcd27ea52d5108d7a54a43576e68 accepted at height 8 (nonce 1137398594776555796)
+[zpu] h=8 attempts=84589824 rate=11467614.9/s job_rate=13107200.0/s accepted=8 rejected=0 gpu_errors=0
+[zpu] h=9 attempts=91106994 rate=11492883.9/s job_rate=13034340.0/s accepted=8 rejected=0 gpu_errors=0
+[zpu] block 060d2ca34d50a4612289344b60bcfa9b154d9c1268146dd63564a79c25e92525 accepted at height 9 (nonce 1137398594791946173)
+[zpu] h=9 attempts=97398450 rate=11556281.9/s job_rate=13107200.0/s accepted=9 rejected=0 gpu_errors=0
+[zpu] block adb3aefe82dda13fffdd6ff2760120e7fa71b7ac0c4f86309bf0660463078da4 accepted at height 10 (nonce 1137398594797656592)
+[zpu] h=10 attempts=102903474 rate=11548630.2/s job_rate=13107200.0/s accepted=10 rejected=0 gpu_errors=0
+[zpu] h=11 attempts=109407539 rate=11565433.5/s job_rate=13008130.0/s accepted=10 rejected=0 gpu_errors=0
+[zpu] block 1cc24950dfe63eb453db9ededdfd453c9cd1432f1bbaf95e3a3bed7ed42ddcb0 accepted at height 11 (nonce 1137398594807113183)
+[zpu] h=11 attempts=111340851 rate=11565148.8/s job_rate=12888746.7/s accepted=11 rejected=0 gpu_errors=0
+[zpu] h=12 attempts=117849018 rate=11579640.9/s job_rate=13016334.0/s accepted=11 rejected=0 gpu_errors=0
+[zpu] h=12 attempts=124356140 rate=11637510.4/s job_rate=13014244.0/s accepted=11 rejected=0 gpu_errors=0
+[zpu] h=12 attempts=130875034 rate=11690461.1/s job_rate=13037788.0/s accepted=11 rejected=0 gpu_errors=0
+[zpu] block 903191a0bb63fddb38cdd1fed046e84f05a1230e68ca811c440a3c638b9445af accepted at height 12 (nonce 1137398594831667637)
+[zpu] h=12 attempts=131333786 rate=11671116.5/s job_rate=11468800.0/s accepted=12 rejected=0 gpu_errors=0
+[zpu] h=13 attempts=137855483 rate=11679068.0/s job_rate=13043394.0/s accepted=12 rejected=0 gpu_errors=0
+[zpu] h=13 attempts=144358782 rate=11725555.3/s job_rate=13006598.0/s accepted=12 rejected=0 gpu_errors=0
+[zpu] h=13 attempts=150882534 rate=11768078.5/s job_rate=13047504.0/s accepted=12 rejected=0 gpu_errors=0
+[zpu] h=13 attempts=157399728 rate=11807812.3/s job_rate=13034388.0/s accepted=12 rejected=0 gpu_errors=0
+[zpu] h=13 attempts=163924457 rate=11844339.7/s job_rate=13049458.0/s accepted=12 rejected=0 gpu_errors=0
+[zpu] h=13 attempts=170444371 rate=11878856.9/s job_rate=13039828.0/s accepted=12 rejected=0 gpu_errors=0
+[zpu] h=13 attempts=176974804 rate=11910445.1/s job_rate=13060866.0/s accepted=12 rejected=0 gpu_errors=0
+[zpu] block 6d108e7223b55628ab8184c940b224531b93dbd501d3bf3de1a51b7b695c7a83 accepted at height 13 (nonce 1137398594883580000)
+[zpu] h=13 attempts=177171412 rate=11895876.8/s job_rate=9830400.0/s accepted=13 rejected=0 gpu_errors=0
+[zpu] block b9dc6a70709113d214edfc6508281ef52dba0fe609e7aa1abe5267eb449fe6b5 accepted at height 14 (nonce 1137398594896201059)
+[zpu] h=14 attempts=183495636 rate=11884958.8/s job_rate=12906579.6/s accepted=14 rejected=0 gpu_errors=0
+[zpu] block 84921d9250425237133eca97d9997cc3962573b519b545ba09932c75d51b9dc2 accepted at height 15 (nonce 1137398594902566151)
+[zpu] h=15 attempts=189656020 rate=11874553.9/s job_rate=13107200.0/s accepted=15 rejected=0 gpu_errors=0
+[zpu] h=16 attempts=196176072 rate=11873354.4/s job_rate=13040104.0/s accepted=15 rejected=0 gpu_errors=0
+[zpu] h=16 attempts=202681154 rate=11900915.5/s job_rate=13010164.0/s accepted=15 rejected=0 gpu_errors=0
+[zpu] h=16 attempts=209202972 rate=11926721.6/s job_rate=13043636.0/s accepted=15 rejected=0 gpu_errors=0
+[zpu] block 76bc9ebc0df6575244e2f5ae76aa834ea492f6f86b505030c8c7ecc5af49e00b accepted at height 16 (nonce 1137398594925559499)
+[zpu] h=16 attempts=212283164 rate=11925071.6/s job_rate=12834133.3/s accepted=16 rejected=0 gpu_errors=0
+[zpu] block 6dcc99cb72ac235a1afe3c37e75f417c3c1794f83569bc835c3d8c1abea35e58 accepted at height 17 (nonce 1137398594931264791)
+[zpu] h=17 attempts=214544156 rate=11894858.8/s job_rate=12561066.7/s accepted=17 rejected=0 gpu_errors=0
+[zpu] h=18 attempts=221060110 rate=11892806.8/s job_rate=13031908.0/s accepted=17 rejected=0 gpu_errors=0
+[zpu] block 5bd95680b16c26ae88e93044f97a245ae8ffaea68b87cd55fa5c4e218a16e021 accepted at height 18 (nonce 1137398594947964502)
+[zpu] h=18 attempts=226991118 rate=11908536.6/s job_rate=13180017.8/s accepted=18 rejected=0 gpu_errors=0
+[zpu] h=19 attempts=233487918 rate=11905441.9/s job_rate=12993600.0/s accepted=18 rejected=0 gpu_errors=0
+[zpu] h=19 attempts=239976061 rate=11927728.4/s job_rate=12976286.0/s accepted=18 rejected=0 gpu_errors=0
+[zpu] block 59d130eb93d8c940621cd72769a6a36d448a761b699985d70db63702d824c8be accepted at height 19 (nonce 1137398594964896732)
+[zpu] h=19 attempts=243351165 rate=11930520.5/s job_rate=12981169.2/s accepted=19 rejected=0 gpu_errors=0
+[zpu] block 4c0cfa209ae021b9451ed94528c0b49c3c3bc25bbdef8c517fb1e119827f8393 accepted at height 20 (nonce 1137398594972019280)
+[zpu] h=20 attempts=247348861 rate=11910475.4/s job_rate=12895793.5/s accepted=20 rejected=0 gpu_errors=0
+[zpu] h=21 attempts=253864354 rate=11907406.0/s job_rate=13030986.0/s accepted=20 rejected=0 gpu_errors=0
+[zpu] block 3e47d74c893860649375f6e3afe1319afbc669951b3a7636fd9cbbdf8aec05e1 accepted at height 21 (nonce 1137398594983730915)
+[zpu] h=21 attempts=256551330 rate=11907394.0/s job_rate=12795123.8/s accepted=21 rejected=0 gpu_errors=0
+[zpu] block faac9071b2c1ce231589c42f4820996b85494c7d551412ed047b48289dbe9e6f accepted at height 22 (nonce 1137398594990114354)
+[zpu] h=22 attempts=259140002 rate=11882614.9/s job_rate=12943360.0/s accepted=22 rejected=0 gpu_errors=0
+[zpu] block 79452cd1293222142b17555be3dd0ab465d42a105b31ecd9c1302c3d0f03f9a3 accepted at height 23 (nonce 1137398594998952507)
+[zpu] h=23 attempts=264087970 rate=11866706.0/s job_rate=12687097.4/s accepted=23 rejected=0 gpu_errors=0
+[zpu] block 1d18fd96d23d5184f7f1c82c3f4f10d8a461007ff3350b55698d61e133af1d41 accepted at height 24 (nonce 1137398595002217852)
+[zpu] h=24 attempts=265824674 rate=11840687.7/s job_rate=12405028.6/s accepted=24 rejected=0 gpu_errors=0
+[zpu] block 3ab450c983932ff666d5272c30518e59554c0fbd15c88d697686657452c2ee6b accepted at height 25 (nonce 1137398595008482363)
+[zpu] h=25 attempts=267332002 rate=11814138.0/s job_rate=12561066.7/s accepted=25 rejected=0 gpu_errors=0
+[zpu] block 5a8440d5923e61f5ce4bc167cfc8f2c014c4876226330670c446c47d3a5981d8 accepted at height 26 (nonce 1137398595015902833)
+[zpu] h=26 attempts=269789602 rate=11790619.3/s job_rate=12934736.8/s accepted=26 rejected=0 gpu_errors=0
+[zpu] h=27 attempts=276269983 rate=11789746.0/s job_rate=12960762.0/s accepted=26 rejected=0 gpu_errors=0
+[zpu] block f14e2f4b9eec65dbc7648b2539bea6aa487678b6ad2a99715070ccee5895d847 accepted at height 27 (nonce 1137398595026723590)
+[zpu] h=27 attempts=276564895 rate=11781178.5/s job_rate=14745600.0/s accepted=27 rejected=0 gpu_errors=0
+[zpu] block 239b3fe3b6a564e693ea43c740058d7c2df721db7e263d1a15cc17b770b99084 accepted at height 28 (nonce 1137398595039131001)
+[zpu] h=28 attempts=282823583 rate=11776008.6/s job_rate=13038933.3/s accepted=28 rejected=0 gpu_errors=0
+[zpu] h=29 attempts=289279767 rate=11773465.0/s job_rate=12912368.0/s accepted=28 rejected=0 gpu_errors=0
+[zpu] h=29 attempts=295693974 rate=11793817.6/s job_rate=13090218.4/s accepted=28 rejected=0 gpu_errors=0
+[zpu] h=29 attempts=302212528 rate=11813718.7/s job_rate=13037108.0/s accepted=28 rejected=0 gpu_errors=0
+[zpu] h=29 attempts=308730311 rate=11832851.5/s job_rate=13035566.0/s accepted=28 rejected=0 gpu_errors=0
+[zpu] h=29 attempts=315247308 rate=11851263.2/s job_rate=13033994.0/s accepted=28 rejected=0 gpu_errors=0
+[zpu] h=29 attempts=321764589 rate=11869141.0/s job_rate=13034562.0/s accepted=28 rejected=0 gpu_errors=0
+[zpu] h=29 attempts=328286422 rate=11886102.8/s job_rate=13043666.0/s accepted=28 rejected=0 gpu_errors=0
+[zpu] h=29 attempts=334800097 rate=11902415.6/s job_rate=13027350.0/s accepted=28 rejected=0 gpu_errors=0
+[zpu] h=29 attempts=341317748 rate=11918243.2/s job_rate=13035302.0/s accepted=28 rejected=0 gpu_errors=0
+[zpu] block c35ee25215003e46a263983d3b475f346624db72fff4474f62fa283c6e9a41b3 accepted at height 29 (nonce 1137398595101898037)
+[zpu] h=29 attempts=345380980 rate=11921497.7/s job_rate=13107200.0/s accepted=29 rejected=0 gpu_errors=0
+[zpu] h=30 attempts=351900871 rate=11919276.2/s job_rate=13039782.0/s accepted=29 rejected=0 gpu_errors=0
+[zpu] h=30 attempts=358389045 rate=11933794.5/s job_rate=12976348.0/s accepted=29 rejected=0 gpu_errors=0
+[zpu] block 9ad1f110d0a7e9129808bdb68093c6c279a412e7d10aaf35898e7ce814de0ad9 accepted at height 30 (nonce 1137398595120558550)
+[zpu] h=30 attempts=361600309 rate=11935074.9/s job_rate=12845056.0/s accepted=30 rejected=0 gpu_errors=0
+[zpu] h=31 attempts=368110004 rate=11932285.3/s job_rate=13019390.0/s accepted=30 rejected=0 gpu_errors=0
+[zpu] block 97389e1bda70026c9f9dca7a143ea2839b82c6f3a3fc2b3626aec5aff1cbbefb accepted at height 31 (nonce 1137398595132764504)
+[zpu] h=31 attempts=370502068 rate=11929901.7/s job_rate=13289244.4/s accepted=31 rejected=0 gpu_errors=0
+[zpu] block d026eded2ae029c1b830d7b2a68690ca95196d51795fc452508b37f14eb9eff0 accepted at height 32 (nonce 1137398595139340103)
+[zpu] h=32 attempts=372992436 rate=11912733.3/s job_rate=13107200.0/s accepted=32 rejected=0 gpu_errors=0
+[zpu] h=33 attempts=379475758 rate=11872032.0/s job_rate=12006151.9/s accepted=32 rejected=0 gpu_errors=0
+[zpu] h=33 attempts=385447760 rate=11883952.7/s job_rate=12982613.0/s accepted=32 rejected=0 gpu_errors=0
+[zpu] h=33 attempts=391932394 rate=11897922.6/s job_rate=12969268.0/s accepted=32 rejected=0 gpu_errors=0
+[zpu] h=33 attempts=398451002 rate=11911577.1/s job_rate=13037216.0/s accepted=32 rejected=0 gpu_errors=0
+[zpu] h=33 attempts=404968354 rate=11924953.6/s job_rate=13034704.0/s accepted=32 rejected=0 gpu_errors=0
+[zpu] h=33 attempts=411491219 rate=11937845.2/s job_rate=13045730.0/s accepted=32 rejected=0 gpu_errors=0
+[zpu] h=33 attempts=418009108 rate=11950372.4/s job_rate=13035778.0/s accepted=32 rejected=0 gpu_errors=0
+[zpu] h=33 attempts=424527633 rate=11962445.1/s job_rate=13037050.0/s accepted=32 rejected=0 gpu_errors=0
+[zpu] block 4e609b6597a0466f3e99121e5861a5ca2c08954f44d4e1aab2682084abb17244 accepted at height 33 (nonce 1137398595196831936)
+[zpu] h=33 attempts=426493713 rate=11954932.9/s job_rate=13107200.0/s accepted=33 rejected=0 gpu_errors=0
+[zpu] h=34 attempts=433008756 rate=11953083.2/s job_rate=13030086.0/s accepted=33 rejected=0 gpu_errors=0
+[zpu] h=34 attempts=439517025 rate=11964760.5/s job_rate=13016538.0/s accepted=33 rejected=0 gpu_errors=0
+[zpu] h=34 attempts=446035789 rate=11976221.2/s job_rate=13037528.0/s accepted=33 rejected=0 gpu_errors=0
+[zpu] h=34 attempts=452558032 rate=11987148.0/s job_rate=13044486.0/s accepted=33 rejected=0 gpu_errors=0
+[zpu] h=34 attempts=459069597 rate=11997904.3/s job_rate=13023130.0/s accepted=33 rejected=0 gpu_errors=0
+[zpu] h=34 attempts=465586947 rate=12008327.3/s job_rate=13034700.0/s accepted=33 rejected=0 gpu_errors=0
+[zpu] h=34 attempts=472102467 rate=12018427.7/s job_rate=13031040.0/s accepted=33 rejected=0 gpu_errors=0
+[zpu] h=34 attempts=478615636 rate=12028209.1/s job_rate=13026338.0/s accepted=33 rejected=0 gpu_errors=0
+[zpu] h=34 attempts=485126307 rate=12037833.0/s job_rate=13021342.0/s accepted=33 rejected=0 gpu_errors=0
+[zpu] block 4232b5047877940477a2f51dabcb6c0e56a2212829fb38797bbf72d760695e00 accepted at height 34 (nonce 1137398595261013373)
+[zpu] h=34 attempts=486109347 rate=12033675.7/s job_rate=12288000.0/s accepted=34 rejected=0 gpu_errors=0
+[zpu] h=35 attempts=492623484 rate=12030632.9/s job_rate=13028274.0/s accepted=34 rejected=0 gpu_errors=0
+[zpu] h=35 attempts=499121730 rate=12039831.5/s job_rate=12996492.0/s accepted=34 rejected=0 gpu_errors=0
+[zpu] h=35 attempts=505632449 rate=12048902.3/s job_rate=13021438.0/s accepted=34 rejected=0 gpu_errors=0
+[zpu] h=35 attempts=512147444 rate=12057710.0/s job_rate=13029990.0/s accepted=34 rejected=0 gpu_errors=0
+[zpu] h=35 attempts=518660512 rate=12065841.1/s job_rate=13026136.0/s accepted=34 rejected=0 gpu_errors=0
+[zpu] h=35 attempts=525164612 rate=12073779.8/s job_rate=13008200.0/s accepted=34 rejected=0 gpu_errors=0
+[zpu] h=35 attempts=531661416 rate=12081730.1/s job_rate=12993608.0/s accepted=34 rejected=0 gpu_errors=0
+[zpu] block 6805cdfb9f21a08f2e1b1232f6f40e7899a2fd562eb9f8b180afcd505f6bf10d accepted at height 35 (nonce 1137398595317691104)
+[zpu] h=35 attempts=537264744 rate=12085299.3/s job_rate=13030995.3/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=543769404 rate=12081879.7/s job_rate=13009320.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=550264595 rate=12089628.2/s job_rate=12990382.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=556777479 rate=12097330.3/s job_rate=13025768.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=563293109 rate=12104714.2/s job_rate=13031260.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=569804542 rate=12111844.9/s job_rate=13022866.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=576310673 rate=12118976.9/s job_rate=13012262.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=582821066 rate=12126047.6/s job_rate=13020786.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=589334129 rate=12133055.4/s job_rate=13026126.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=595849930 rate=12140052.3/s job_rate=13031602.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=602373657 rate=12146772.1/s job_rate=13047454.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=608888615 rate=12153527.7/s job_rate=13029916.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=615412212 rate=12160047.1/s job_rate=13047194.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=621930423 rate=12166497.7/s job_rate=13036422.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=628454804 rate=12172797.9/s job_rate=13048762.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=634974867 rate=12179051.5/s job_rate=13040126.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=641499819 rate=12185064.0/s job_rate=13049904.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=648017705 rate=12191039.2/s job_rate=13035772.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=654541664 rate=12196882.7/s job_rate=13047918.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=661062304 rate=12202528.1/s job_rate=13041280.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=667578352 rate=12208127.6/s job_rate=13032096.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=674099358 rate=12213580.1/s job_rate=13042012.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=680615852 rate=12218837.9/s job_rate=13032988.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=687133803 rate=12224131.1/s job_rate=13035902.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=693652945 rate=12229315.6/s job_rate=13038284.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=700172622 rate=12234482.7/s job_rate=13039354.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=706696836 rate=12239368.3/s job_rate=13048428.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=713207913 rate=12244233.1/s job_rate=13022154.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=719724386 rate=12249111.4/s job_rate=13032946.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=726246119 rate=12253790.1/s job_rate=13043466.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=732759159 rate=12258467.7/s job_rate=13026080.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=739278864 rate=12263039.1/s job_rate=13039410.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=745795872 rate=12267512.9/s job_rate=13034016.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=752312314 rate=12271918.7/s job_rate=13032884.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=758831021 rate=12276272.2/s job_rate=13037414.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=765349998 rate=12280609.2/s job_rate=13037954.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=771872882 rate=12284823.2/s job_rate=13045768.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=778391393 rate=12288951.7/s job_rate=13037022.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=784909657 rate=12293050.1/s job_rate=13036528.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=791431540 rate=12297069.9/s job_rate=13043766.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=797950412 rate=12301185.0/s job_rate=13037744.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=804479886 rate=12304976.0/s job_rate=13058948.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=810992564 rate=12308845.9/s job_rate=13025356.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=817514301 rate=12312568.1/s job_rate=13043474.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=824028422 rate=12316300.1/s job_rate=13028242.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=830547876 rate=12320026.7/s job_rate=13038908.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=837071324 rate=12323593.2/s job_rate=13046896.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] h=36 attempts=843586095 rate=12327145.5/s job_rate=13029542.0/s accepted=35 rejected=0 gpu_errors=0
+[zpu] block c8e2544b218c7e6f146af86b9bfd6f8814f33f471e7ee6228429df7aa00b32a3 accepted at height 36 (nonce 1137398595625989189)
+[zpu] h=36 attempts=844667439 rate=12321574.5/s job_rate=13516800.0/s accepted=36 rejected=0 gpu_errors=0
+[zpu] h=37 attempts=851185564 rate=12317627.9/s job_rate=13036250.0/s accepted=36 rejected=0 gpu_errors=0
+[zpu] block 7d7ba4bc9835610722e652827a947aa167219d5b956fb556c39c5ee324518746 accepted at height 37 (nonce 1137398595642175069)
+[zpu] h=37 attempts=855412636 rate=12317624.0/s job_rate=13209600.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] h=38 attempts=861918216 rate=12313852.8/s job_rate=13011160.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] h=38 attempts=868426924 rate=12317374.4/s job_rate=13017416.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] h=38 attempts=874947861 rate=12320780.4/s job_rate=13041874.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] h=38 attempts=881461323 rate=12324200.6/s job_rate=13026924.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] h=38 attempts=887980272 rate=12327590.0/s job_rate=13037898.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] h=38 attempts=894499552 rate=12330917.7/s job_rate=13038560.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] h=38 attempts=901018046 rate=12334225.4/s job_rate=13036988.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] h=38 attempts=907538330 rate=12337467.0/s job_rate=13040568.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] h=38 attempts=914057306 rate=12340647.7/s job_rate=13037952.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] h=38 attempts=920575401 rate=12343823.0/s job_rate=13036190.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] h=38 attempts=927095867 rate=12346935.1/s job_rate=13040932.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] h=38 attempts=933615399 rate=12349997.0/s job_rate=13039064.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] h=38 attempts=940134428 rate=12352965.4/s job_rate=13038058.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] h=38 attempts=946650358 rate=12355899.3/s job_rate=13031860.0/s accepted=37 rejected=0 gpu_errors=0
+[zpu] block a910e0a6871bfa39c89d1f729a4f9b859291933cfa681a0431025a8a5ac48bb5 accepted at height 38 (nonce 1137398595740997975)
+[zpu] h=38 attempts=951958774 rate=12356262.7/s job_rate=12947356.1/s accepted=38 rejected=0 gpu_errors=0
+[zpu] h=39 attempts=958476499 rate=12352597.6/s job_rate=13035450.0/s accepted=38 rejected=0 gpu_errors=0
+[zpu] h=39 attempts=964982391 rate=12355499.1/s job_rate=13011784.0/s accepted=38 rejected=0 gpu_errors=0
+[zpu] h=39 attempts=971502011 rate=12358293.1/s job_rate=13039240.0/s accepted=38 rejected=0 gpu_errors=0
+[zpu] h=39 attempts=978019834 rate=12361099.5/s job_rate=13035646.0/s accepted=38 rejected=0 gpu_errors=0
+[zpu] h=39 attempts=984536888 rate=12363875.9/s job_rate=13034108.0/s accepted=38 rejected=0 gpu_errors=0
+[zpu] h=39 attempts=991054116 rate=12366625.0/s job_rate=13034456.0/s accepted=38 rejected=0 gpu_errors=0
+[zpu] h=39 attempts=997573214 rate=12369353.8/s job_rate=13038196.0/s accepted=38 rejected=0 gpu_errors=0
+[zpu] h=39 attempts=1004092811 rate=12372114.8/s job_rate=13039194.0/s accepted=38 rejected=0 gpu_errors=0
+[zpu] block dacda55bf9602a16a064b2341d2ed8bf9c695df0927362005ef6606257d51b48 accepted at height 39 (nonce 1137398595799179503)
+[zpu] h=39 attempts=1008942475 rate=12371892.8/s job_rate=13107200.0/s accepted=39 rejected=0 gpu_errors=0
+[zpu] h=40 attempts=1015466270 rate=12368125.2/s job_rate=13047590.0/s accepted=39 rejected=0 gpu_errors=0
+[zpu] h=40 attempts=1021958448 rate=12370707.4/s job_rate=12984356.0/s accepted=39 rejected=0 gpu_errors=0
+[zpu] h=40 attempts=1028471249 rate=12373322.4/s job_rate=13025602.0/s accepted=39 rejected=0 gpu_errors=0
+[zpu] h=40 attempts=1034989600 rate=12375904.0/s job_rate=13036702.0/s accepted=39 rejected=0 gpu_errors=0
+[zpu] h=40 attempts=1041508150 rate=12378446.1/s job_rate=13037100.0/s accepted=39 rejected=0 gpu_errors=0
+[zpu] h=40 attempts=1048027732 rate=12381012.5/s job_rate=13039164.0/s accepted=39 rejected=0 gpu_errors=0
+[zpu] h=40 attempts=1054550404 rate=12383357.9/s job_rate=13045344.0/s accepted=39 rejected=0 gpu_errors=0
+[zpu] block fdf7029471883d8587571e4871dd7d415e926b256a5da337c3bcfe6559514d48 accepted at height 40 (nonce 1137398595849210557)
+[zpu] h=40 attempts=1057302916 rate=12381783.9/s job_rate=13107200.0/s accepted=40 rejected=0 gpu_errors=0
+[zpu] h=41 attempts=1063810637 rate=12377908.6/s job_rate=13015442.0/s accepted=40 rejected=0 gpu_errors=0
+[zpu] h=41 attempts=1070277182 rate=12380329.5/s job_rate=12933090.0/s accepted=40 rejected=0 gpu_errors=0
+[zpu] h=41 attempts=1076793659 rate=12382846.4/s job_rate=13032954.0/s accepted=40 rejected=0 gpu_errors=0
+[zpu] h=41 attempts=1083318938 rate=12385260.5/s job_rate=13050558.0/s accepted=40 rejected=0 gpu_errors=0
+[zpu] h=41 attempts=1089836846 rate=12387666.0/s job_rate=13035816.0/s accepted=40 rejected=0 gpu_errors=0
+[zpu] h=41 attempts=1096356873 rate=12390101.2/s job_rate=13040054.0/s accepted=40 rejected=0 gpu_errors=0
+[zpu] block e75385b30c20bdf5d17239f7418b9da87c00e2ba08a545136f7fd27a04f56911 accepted at height 41 (nonce 1137398595897270995)
+[zpu] h=41 attempts=1101599753 rate=12390424.6/s job_rate=13107200.0/s accepted=41 rejected=0 gpu_errors=0
+[zpu] h=42 attempts=1108124172 rate=12386688.6/s job_rate=13048838.0/s accepted=41 rejected=0 gpu_errors=0
+[zpu] h=42 attempts=1114598722 rate=12388993.5/s job_rate=12949100.0/s accepted=41 rejected=0 gpu_errors=0
+[zpu] h=42 attempts=1121116150 rate=12391357.1/s job_rate=13034856.0/s accepted=41 rejected=0 gpu_errors=0
+[zpu] h=42 attempts=1127639997 rate=12393634.3/s job_rate=13047694.0/s accepted=41 rejected=0 gpu_errors=0
+[zpu] h=42 attempts=1134157112 rate=12395872.6/s job_rate=13034230.0/s accepted=41 rejected=0 gpu_errors=0
+[zpu] block f032cc9ce856606be2abe0562f3beffefd8854672abbe9983603a643a31cb882 accepted at height 42 (nonce 1137398595935733088)
+[zpu] h=42 attempts=1138777400 rate=12395700.6/s job_rate=13200822.9/s accepted=42 rejected=0 gpu_errors=0
+[zpu] h=43 attempts=1145293734 rate=12391995.9/s job_rate=13032668.0/s accepted=42 rejected=0 gpu_errors=0
+[zpu] h=43 attempts=1151758695 rate=12394223.1/s job_rate=12929922.0/s accepted=42 rejected=0 gpu_errors=0
+[zpu] h=43 attempts=1158278855 rate=12396477.7/s job_rate=13040320.0/s accepted=42 rejected=0 gpu_errors=0
+[zpu] block f20507f2f271fe08fc41c1eb10292005d795d64d2262a56ee6254928653bb5bf accepted at height 43 (nonce 1137398595961268328)
+[zpu] h=43 attempts=1162407623 rate=12396204.5/s job_rate=12902400.0/s accepted=43 rejected=0 gpu_errors=0
+[zpu] h=44 attempts=1168929716 rate=12392750.3/s job_rate=13044186.0/s accepted=43 rejected=0 gpu_errors=0
+[zpu] h=44 attempts=1175417493 rate=12394946.5/s job_rate=12975554.0/s accepted=43 rejected=0 gpu_errors=0
+[zpu] h=44 attempts=1181937761 rate=12397122.4/s job_rate=13040536.0/s accepted=43 rejected=0 gpu_errors=0
+[zpu] h=44 attempts=1188459723 rate=12399211.9/s job_rate=13043924.0/s accepted=43 rejected=0 gpu_errors=0
+[zpu] block 1ee1e5373e55f33d0c3717631bf294719f515ae6c20449dd1df7ed43e40fc78c accepted at height 44 (nonce 1137398595994151960)
+[zpu] h=44 attempts=1192916171 rate=12398799.9/s job_rate=13107200.0/s accepted=44 rejected=0 gpu_errors=0
+[zpu] h=45 attempts=1199429447 rate=12395255.9/s job_rate=13026552.0/s accepted=44 rejected=0 gpu_errors=0
+[zpu] h=45 attempts=1205914354 rate=12397392.3/s job_rate=12969814.0/s accepted=44 rejected=0 gpu_errors=0
+[zpu] block 584d38d75b13a5f5f5c22a04c371f2fc9daeac85abcde66a7edaf7cb5515524e accepted at height 45 (nonce 1137398596014064554)
+[zpu] h=45 attempts=1210764018 rate=12396117.5/s job_rate=13107200.0/s accepted=45 rejected=0 gpu_errors=0
+[zpu] h=46 attempts=1217286969 rate=12392915.4/s job_rate=13045902.0/s accepted=45 rejected=0 gpu_errors=0
+[zpu] h=46 attempts=1223779555 rate=12394990.1/s job_rate=12985172.0/s accepted=45 rejected=0 gpu_errors=0
+[zpu] h=46 attempts=1230296685 rate=12397037.6/s job_rate=13034260.0/s accepted=45 rejected=0 gpu_errors=0
+[zpu] h=46 attempts=1236812046 rate=12398951.2/s job_rate=13030722.0/s accepted=45 rejected=0 gpu_errors=0
+[zpu] h=46 attempts=1243326456 rate=12400838.2/s job_rate=13028820.0/s accepted=45 rejected=0 gpu_errors=0
+[zpu] h=46 attempts=1249835229 rate=12402691.6/s job_rate=13017546.0/s accepted=45 rejected=0 gpu_errors=0
+[zpu] h=46 attempts=1256338664 rate=12404511.7/s job_rate=13006870.0/s accepted=45 rejected=0 gpu_errors=0
+[zpu] block dca3cd2c89e7e9fe3fab061630c656e030d5c1c640341295b0ef86f97ee95459 accepted at height 46 (nonce 1137398596062518624)
+[zpu] h=46 attempts=1257551080 rate=12402605.1/s job_rate=13471288.9/s accepted=46 rejected=0 gpu_errors=0
+[zpu] h=47 attempts=1264057975 rate=12399160.8/s job_rate=13013790.0/s accepted=46 rejected=0 gpu_errors=0
+[zpu] h=47 attempts=1270559216 rate=12400973.9/s job_rate=13002482.0/s accepted=46 rejected=0 gpu_errors=0
+[zpu] h=47 attempts=1277062487 rate=12402937.9/s job_rate=13006542.0/s accepted=46 rejected=0 gpu_errors=0
+[zpu] h=47 attempts=1283582423 rate=12404856.6/s job_rate=13039872.0/s accepted=46 rejected=0 gpu_errors=0
+[zpu] block e52d5b14ac26f481f65444ff6c4301b16eaa6e6c3ae991be2f64ce4e66911512 accepted at height 47 (nonce 1137398596096448432)
+[zpu] h=47 attempts=1286171095 rate=12403770.1/s job_rate=12943360.0/s accepted=47 rejected=0 gpu_errors=0
+[zpu] h=48 attempts=1292687668 rate=12400778.6/s job_rate=13033146.0/s accepted=47 rejected=0 gpu_errors=0
+[zpu] h=48 attempts=1299188324 rate=12402630.1/s job_rate=13001312.0/s accepted=47 rejected=0 gpu_errors=0
+[zpu] h=48 attempts=1305701653 rate=12404517.3/s job_rate=13026658.0/s accepted=47 rejected=0 gpu_errors=0
+[zpu] block 72c0b81c0e3051cbe7d31834f8c067df1730f577e182ff6c17862978a81c46f7 accepted at height 48 (nonce 1137398596122911296)
+[zpu] h=48 attempts=1308716309 rate=12403673.6/s job_rate=13107200.0/s accepted=48 rejected=0 gpu_errors=0
+[zpu] h=49 attempts=1315231715 rate=12400722.0/s job_rate=13030812.0/s accepted=48 rejected=0 gpu_errors=0
+[zpu] block 212982dde0a964a7b209d4dcac33dd4dc06e135caf34634b6792af7d054ae83b accepted at height 49 (nonce 1137398596133888128)
+[zpu] h=49 attempts=1316181987 rate=12398917.9/s job_rate=13575314.3/s accepted=49 rejected=0 gpu_errors=0
+[zpu] block fb5f6db36ef840e34af86f1a261742fa3a0605d02eb7ecdd7288c2c550e52b9e accepted at height 50 (nonce 1137398596141855557)
+[zpu] h=50 attempts=1318606819 rate=12393030.9/s job_rate=12762273.7/s accepted=50 rejected=0 gpu_errors=0
+[zpu] h=51 attempts=1325112412 rate=12390165.0/s job_rate=13011186.0/s accepted=50 rejected=0 gpu_errors=0
+[zpu] block a683393cca18ae8975414613120dbbf8d1c6e6e5db658f6d7d131272238d2343 accepted at height 51 (nonce 1137398596155702354)
+[zpu] h=51 attempts=1328356444 rate=12389494.4/s job_rate=12976128.0/s accepted=51 rejected=0 gpu_errors=0
+[zpu] h=52 attempts=1334866171 rate=12386650.7/s job_rate=13019454.0/s accepted=51 rejected=0 gpu_errors=0
+[zpu] h=52 attempts=1341369881 rate=12388590.5/s job_rate=13007420.0/s accepted=51 rejected=0 gpu_errors=0
+[zpu] block 641f7f20810d0c434fbf118d189564532fdf1f2c05c4d27e2774b08cf053e72f accepted at height 52 (nonce 1137398596177412423)
+[zpu] h=52 attempts=1346809369 rate=12388128.9/s job_rate=12951161.9/s accepted=52 rejected=0 gpu_errors=0
+[zpu] h=53 attempts=1353326983 rate=12385384.8/s job_rate=13035228.0/s accepted=52 rejected=0 gpu_errors=0
+[zpu] h=53 attempts=1359831137 rate=12387295.0/s job_rate=13008308.0/s accepted=52 rejected=0 gpu_errors=0
+[zpu] h=53 attempts=1366348802 rate=12389214.3/s job_rate=13035330.0/s accepted=52 rejected=0 gpu_errors=0
+[zpu] h=53 attempts=1372869950 rate=12391086.2/s job_rate=13042296.0/s accepted=52 rejected=0 gpu_errors=0
+[zpu] h=53 attempts=1379387113 rate=12392986.1/s job_rate=13034326.0/s accepted=52 rejected=0 gpu_errors=0
+[zpu] h=53 attempts=1385908907 rate=12394822.9/s job_rate=13043588.0/s accepted=52 rejected=0 gpu_errors=0
+[zpu] h=53 attempts=1392426357 rate=12396695.8/s job_rate=13034900.0/s accepted=52 rejected=0 gpu_errors=0
+[zpu] block 8ac5becbd838a526022355727d7f2d816948629e53f957315fdb09b1101b064d accepted at height 53 (nonce 1137398596225835807)
+[zpu] h=53 attempts=1394163061 rate=12395189.6/s job_rate=13359261.5/s accepted=53 rejected=0 gpu_errors=0
+[zpu] h=54 attempts=1400686769 rate=12392407.2/s job_rate=13047416.0/s accepted=53 rejected=0 gpu_errors=0
+[zpu] block 84d1a68e5811c22552d25cc83b90cda159668543ff38ac38106f4a7a8475e648 accepted at height 54 (nonce 1137398596241092315)
+[zpu] h=54 attempts=1404618929 rate=12392075.9/s job_rate=13107200.0/s accepted=54 rejected=0 gpu_errors=0
+[zpu] block 97053429dd8b31e9381472e7a4e17f2e847028e19a892a0f7b0061732afc06fd accepted at height 55 (nonce 1137398596249822954)
+[zpu] h=55 attempts=1410779313 rate=12388125.3/s job_rate=13107200.0/s accepted=55 rejected=0 gpu_errors=0
+[zpu] block ad68c021bc7629ea49f8ce6a34a5f7c2bf25f4fb488f10f5c7198180cbb6d12e accepted at height 56 (nonce 1137398596251643119)
+[zpu] h=56 attempts=1412253873 rate=12382062.6/s job_rate=12288000.0/s accepted=56 rejected=0 gpu_errors=0
+[zpu] h=57 attempts=1418756688 rate=12379431.9/s job_rate=13005630.0/s accepted=56 rejected=0 gpu_errors=0
+[zpu] h=57 attempts=1425261811 rate=12381292.1/s job_rate=13010246.0/s accepted=56 rejected=0 gpu_errors=0
+[zpu] h=57 attempts=1431781515 rate=12383172.0/s job_rate=13039408.0/s accepted=56 rejected=0 gpu_errors=0
+[zpu] h=57 attempts=1438305644 rate=12384998.2/s job_rate=13048258.0/s accepted=56 rejected=0 gpu_errors=0
+[zpu] h=57 attempts=1444824349 rate=12386841.8/s job_rate=13037410.0/s accepted=56 rejected=0 gpu_errors=0
+[zpu] h=57 attempts=1451346455 rate=12388640.9/s job_rate=13044212.0/s accepted=56 rejected=0 gpu_errors=0
+[zpu] h=57 attempts=1457866824 rate=12390478.5/s job_rate=13040738.0/s accepted=56 rejected=0 gpu_errors=0
+[zpu] block c2e009f25d92388e0887aee3aaeb82102d265bb7260d504588a86974dbd6df81 accepted at height 57 (nonce 1137398596302977918)
+[zpu] h=57 attempts=1458554952 rate=12388309.1/s job_rate=13762560.0/s accepted=57 rejected=0 gpu_errors=0
+[zpu] h=58 attempts=1465080112 rate=12385640.4/s job_rate=13050320.0/s accepted=57 rejected=0 gpu_errors=0
+[zpu] h=58 attempts=1471572929 rate=12387439.3/s job_rate=12985634.0/s accepted=57 rejected=0 gpu_errors=0
+[zpu] h=58 attempts=1478094102 rate=12389221.2/s job_rate=13042346.0/s accepted=57 rejected=0 gpu_errors=0
+[zpu] h=58 attempts=1484614068 rate=12391022.0/s job_rate=13039932.0/s accepted=57 rejected=0 gpu_errors=0

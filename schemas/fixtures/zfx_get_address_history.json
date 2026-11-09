@@ -1,7 +1,7 @@
 {
   "method": "zfx_get_address_history",
   "params": {
-    "address": "zfx12175fcb2e851f376f965da2d60c86b6d6084cf8bbe1eb6592e734b2784a9bc25f71beb89",
+    "address": "zfx1195fd7319afdf7fd578af66face23840880a77a3ecd6f464d36b1c906fcf086451c5afba",
     "limit": 5
   },
   "result": [
@@ -10,74 +10,74 @@
       "counterparty": "zfx14730eacff6233e39bede61f51cb03a9ebd790e0f5372840705dc6d0b92938112c4a1fc29",
       "direction": "out",
       "fee": 1000,
-      "height": 86,
+      "height": 83,
       "memo": "alice.test.near",
-      "txid": "df7b9f807642ff0bb08006e91fed10051bda55480de62d9e9388b99ac67eb6a4"
+      "txid": "baeb627a6e1fee315c95f1131c00ce1d30dce09709d8ab38c9a81930c1a88b85"
     },
     {
       "amount": 1000,
-      "counterparty": "zfx173534de1fc73f5a62e5a492e51c7ee2cf4f51ecdbdae0f305ea229b8c3001914eca5f176",
+      "counterparty": "zfx1f4edb8fda3b56cf21070470d373e3b7676464d64bd3b041bc62623f80d7c6fc5b917619e",
       "direction": "out",
       "fee": 1000,
-      "height": 61,
+      "height": 71,
       "memo": "api",
-      "txid": "862616a84ebc892aea8068acc589fb6e5c043e6df32a9731ae39cce17b4f1487"
+      "txid": "0f596cfa2576b5cab3b32c325786984a2e7341ecf02d7e8caadedf8b01527014"
     },
     {
       "amount": 5000000000,
-      "direction": "coinbase",
-      "height": 89,
-      "mature_at": 94,
-      "txid": "46ada179efc9e3487f7d4fb42ed93263fdcda219e4e65810a96bc16be7aa0550"
-    },
-    {
-      "amount": 5000000000,
-      "direction": "coinbase",
-      "height": 88,
-      "mature_at": 93,
-      "txid": "6bf97ed5c87ec25d5b0cb2cc4807e33d9b0ba9f201aa74aec784c7ba5b38d6f0"
-    },
-    {
-      "amount": 5000000000,
-      "direction": "coinbase",
-      "height": 87,
-      "mature_at": 92,
-      "txid": "98255727664d59b1cc2e55c2c766dc1bc2196b824d658c43298c3205b492c9c7"
-    },
-    {
-      "amount": 5000001000,
       "direction": "coinbase",
       "height": 86,
       "mature_at": 91,
-      "txid": "665b49c24fdffdd94c81254b15e707946c71e64a0b174f47721c84308a764985"
+      "txid": "efc6fe7e6675a8c42cb65e352a8e597a8f02f686d1b955d46fc002d273638944"
     },
     {
       "amount": 5000000000,
       "direction": "coinbase",
       "height": 85,
       "mature_at": 90,
-      "txid": "d346fa7027e508918c1a82150e874a008b5151de2e575ba2b1aeff46a474bf9e"
+      "txid": "99bc498d749d4aba8452d42bb4ebd44077af94b6def02cc9ddf7d061480bb9d1"
     },
     {
       "amount": 5000000000,
       "direction": "coinbase",
       "height": 84,
       "mature_at": 89,
-      "txid": "0ccdd589905608a998b28ccb6faa8c54393c280ad9a52d90ec1407c55fa37316"
+      "txid": "2e7d6ff3192349ce680655cd399a55dd5c01976cdc7e0b4826c0ff54eb2c7882"
     },
     {
-      "amount": 5000000000,
+      "amount": 5000001000,
       "direction": "coinbase",
       "height": 83,
       "mature_at": 88,
-      "txid": "63771bbc3d5cd4b27b5888de39a7b53638d641afd983f52aef117edd0f579a10"
+      "txid": "bff8681bb99ea3ec6484768cc07ed3843e53228a0527e01b624b3837c2026b9d"
     },
     {
       "amount": 5000000000,
       "direction": "coinbase",
       "height": 82,
       "mature_at": 87,
-      "txid": "94766f2dc14a7c68f24cb0131a27812652c6a3601e16d26936c2aa015c7a6038"
+      "txid": "fd906e5c70523eec112437a8a844fe3354261c84628d4831c16831e6c3740360"
+    },
+    {
+      "amount": 5000000000,
+      "direction": "coinbase",
+      "height": 81,
+      "mature_at": 86,
+      "txid": "5a979e458e4d76220db620822f7ab5096660a05bea3e0ccb4217762d40b12b06"
+    },
+    {
+      "amount": 5000000000,
+      "direction": "coinbase",
+      "height": 80,
+      "mature_at": 85,
+      "txid": "6b8dc9be09d4d5d17e9a35e068f3193f8abd387b9e54aa1788f9eebc97b87ec9"
+    },
+    {
+      "amount": 5000000000,
+      "direction": "coinbase",
+      "height": 79,
+      "mature_at": 84,
+      "txid": "e4ef5cbc2582c81fb94065b19aa41ec941fef9a8b6fa674ea5af89df50564067"
     }
   ]
 }

@@ -126,9 +126,9 @@ def build():
     docs = ["ALGORITHM_DECISION", "THREAT_MODEL", "TOKEN_ACCOUNTING", "BRIDGE_TRUST_MODEL", "CONTRACT_API", "INTENTS_INTEGRATION", "TEST_REPORT",
             "HARDWARE", "RELEASE_READINESS", "OPERATOR_RUNBOOK"]
     missing = [d for d in docs if not os.path.exists(os.path.join(ROOT, "docs", f"{d}.md"))]
-    g7_ok = sec["result"] == "PASS" and not missing and (rc.get("reproducible_build") or {}).get("result") == "PASS"
+    g7_ok = sec["result"] == "PASS" and t["check"]["result"] == "PASS" and not missing and (rc.get("reproducible_build") or {}).get("result") == "PASS"
     gates.append(gate(7, "packaging and handoff", "PASS_WITH_BLOCKED" if g7_ok else "FAIL",
-                      {"security_test": sec["result"], "reproducible_build": (rc.get("reproducible_build") or {}).get("result"),
+                      {"check": t["check"]["result"], "security_test": sec["result"], "reproducible_build": (rc.get("reproducible_build") or {}).get("result"),
                        "sbom": (rc.get("sbom") or {}).get("result"), "licenses": (rc.get("licenses") or {}).get("result"), "docs_missing": missing,
                        "one_command_env": "make localnet", "schemas": "schemas/zfx-node-rpc-v1.json"},
                       ["container images not built: Docker is not installed on this host",
@@ -149,7 +149,7 @@ def build():
 
 
 def markdown(r):
-    L = [f"# Acceptance report", "", f"Generated {r['generated']} at commit `{r['commit'][:12]}`. **MAINNET_READY = {str(r['MAINNET_READY']).lower()}.**",
+    L = ["# Acceptance report", "", f"Generated {r['generated']} at commit `{r['commit'][:12]}`. **MAINNET_READY = {str(r['MAINNET_READY']).lower()}.**",
          "", "Regenerate: `make acceptance` (runs every target) or `ZFX_ACCEPT_REUSE=1 .venv/bin/python scripts/acceptance.py` (report only).", "",
          "## Gates", "", "| gate | status | evidence | blocked externally |", "|---|---|---|---|"]
     for g in r["gates"]:
@@ -183,7 +183,10 @@ def main():
     for g in r["gates"]:
         print(f"Gate {g['gate']} {g['title']}: {g['status']}")
     print(f"MAINNET_READY={str(r['MAINNET_READY']).lower()}")
-    sys.exit(1 if any(g["status"] == "FAIL" for g in r["gates"]) else 0)
+    failed_targets = [k for k, v in r["targets"].items() if v["result"] in ("FAIL", "NOT_RUN")]
+    if failed_targets:
+        print(f"targets failed or not run: {failed_targets}")
+    sys.exit(1 if failed_targets or any(g["status"] == "FAIL" for g in r["gates"]) else 0)
 
 
 if __name__ == "__main__":

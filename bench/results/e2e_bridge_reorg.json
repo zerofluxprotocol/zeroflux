@@ -1,11 +1,11 @@
 {
-  "started": "2026-11-09T18:04:37Z",
+  "started": "2026-11-09T18:17:09Z",
   "checks": [
     {
       "check": "Finality: deposit reorged out below K=12 confirmations is never minted; coordinator marks REORGED; books stay exact",
       "result": "PASS",
       "evidence": {
-        "confirmations_before_reorg": 5,
+        "confirmations_before_reorg": 4,
         "K": 12,
         "deposit_state_after": "unknown",
         "is_minted": false,
@@ -19,8 +19,8 @@
       "check": "Deep reorg after mint: unbacked wZFX detected as orphan; incident written; both chains paused via 1-of-3; no compensating mint; new deposits blocked",
       "result": "PASS",
       "evidence": {
-        "minted_at_height": 550,
-        "fork_height": 650,
+        "minted_at_height": 650,
+        "fork_height": 699,
         "orphans": [
           {
             "kind": "mint_without_onchain_deposit",

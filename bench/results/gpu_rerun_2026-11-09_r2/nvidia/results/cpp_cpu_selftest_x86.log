@@ -1,0 +1,11 @@
+PASS dev nonce=0 cpu-cpp x160
+PASS dev nonce=1 cpu-cpp x160
+PASS dev nonce=2 cpu-cpp x160
+PASS dev nonce=81985529216486895 cpu-cpp x160
+PASS dev nonce=18446744073709551615 cpu-cpp x160
+PASS v01 nonce=0 cpu-cpp x160
+PASS v01 nonce=1 cpu-cpp x160
+PASS v01 nonce=2 cpu-cpp x160
+PASS v01 nonce=81985529216486895 cpu-cpp x160
+PASS v01 nonce=18446744073709551615 cpu-cpp x160
+278/278 checks bit-exact on cpu-cpp x160

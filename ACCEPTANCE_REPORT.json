@@ -1,0 +1,694 @@
+{
+  "generated": "2026-11-09T18:28:22Z",
+  "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+  "MAINNET_READY": false,
+  "targets": {
+    "check": {
+      "result": "FAIL",
+      "counts": {
+        "PASS": 19,
+        "FAIL": 2,
+        "BLOCKED": 0
+      },
+      "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+      "dirty_tree": true,
+      "finished": "2026-11-09T18:11:19Z"
+    },
+    "e2e-native": {
+      "result": "PASS",
+      "counts": {
+        "PASS": 2,
+        "FAIL": 0,
+        "BLOCKED": 0
+      },
+      "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+      "dirty_tree": true,
+      "finished": "2026-11-09T18:12:28Z"
+    },
+    "e2e-bridge": {
+      "result": "PASS",
+      "counts": {
+        "PASS": 3,
+        "FAIL": 0,
+        "BLOCKED": 0
+      },
+      "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+      "dirty_tree": true,
+      "finished": "2026-11-09T18:20:34Z"
+    },
+    "e2e-intents": {
+      "result": "PASS",
+      "counts": {
+        "PASS": 1,
+        "FAIL": 0,
+        "BLOCKED": 0
+      },
+      "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+      "dirty_tree": true,
+      "finished": "2026-11-09T18:21:51Z"
+    },
+    "security-test": {
+      "result": "PASS",
+      "counts": {
+        "PASS": 10,
+        "FAIL": 0,
+        "BLOCKED": 0
+      },
+      "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+      "dirty_tree": true,
+      "finished": "2026-11-09T18:27:45Z"
+    },
+    "gpu-test": {
+      "result": "PASS_WITH_BLOCKED_EXTERNAL",
+      "counts": {
+        "PASS": 5,
+        "FAIL": 0,
+        "BLOCKED": 3
+      },
+      "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+      "dirty_tree": true,
+      "finished": "2026-11-09T18:28:22Z"
+    },
+    "testnet-smoke": {
+      "result": "PASS_WITH_BLOCKED_EXTERNAL",
+      "counts": {
+        "PASS": 0,
+        "FAIL": 0,
+        "BLOCKED": 1
+      },
+      "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+      "dirty_tree": true,
+      "finished": "2026-11-09T18:28:22Z"
+    }
+  },
+  "step_counts": {
+    "PASS": 40,
+    "FAIL": 2,
+    "BLOCKED": 4
+  },
+  "gates": [
+    {
+      "gate": 0,
+      "title": "baseline",
+      "status": "PASS",
+      "evidence": {
+        "inventory": "IMPLEMENTATION_STATUS.md (Gate 0 baseline, requirement inventory)",
+        "check_target": "FAIL"
+      },
+      "blocked_external": []
+    },
+    {
+      "gate": 1,
+      "title": "native chain",
+      "status": "PASS",
+      "evidence": {
+        "e2e_native": "18/18 checks",
+        "contract_api": "48/48 cases",
+        "note": "e2e uses PoW profile zfx-fp8c-v0.1-dev (H=256) for speed; v0.1 profile mined on GPUs below"
+      },
+      "blocked_external": []
+    },
+    {
+      "gate": 2,
+      "title": "miner",
+      "status": "PASS_WITH_BLOCKED",
+      "evidence": {
+        "local": {
+          "vectors-rust": "PASS",
+          "vectors-cpp": "PASS",
+          "vectors-python-numpy": "PASS",
+          "vectors-mlx-metal": "PASS",
+          "vectors-torch-mps": "PASS",
+          "gpu-device-compile": "PASS"
+        },
+        "gpu_rerun_new": {
+          "nvidia": {
+            "dir": "bench/results/gpu_rerun_2026-11-09_r2",
+            "device": "cuda:NVIDIA H100 80GB HBM3:sm_90:blas-int8:int8",
+            "correctness_steps": 13,
+            "correctness_failed": [],
+            "block_submissions": {
+              "result": "PASS",
+              "blocks_accepted_by_cpu_node": 42,
+              "independent_revalidation_matches": true,
+              "nodeA_tip": {
+                "height": 42,
+                "best_hash": "dd6cd3e33ccc76a4e8dcbe5cf871257aff36d4efa130d8e918698b996e6f1072"
+              }
+            },
+            "bench": {
+              "blas-int8": {
+                "attempts_per_s": 8078510.0,
+                "tera_macs_per_s": 417.193,
+                "launch_overhead_s": 0.114629,
+                "acceptance": {
+                  "sample_nonces": 5,
+                  "matches_cpu_reference": true
+                }
+              },
+              "lt-fp8": {
+                "attempts_per_s": 7379190.0,
+                "tera_macs_per_s": 381.079,
+                "launch_overhead_s": 0.433703,
+                "acceptance": {
+                  "sample_nonces": 5,
+                  "matches_cpu_reference": true
+                }
+              },
+              "naive": {
+                "attempts_per_s": 29764.7,
+                "tera_macs_per_s": 1.53712,
+                "launch_overhead_s": 0.100212,
+                "acceptance": {
+                  "sample_nonces": 5,
+                  "matches_cpu_reference": true
+                }
+              }
+            }
+          },
+          "amd": {
+            "dir": "bench/results/gpu_rerun_2026-11-09_r2",
+            "device": "rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:blas-int8:int8",
+            "correctness_steps": 13,
+            "correctness_failed": [],
+            "block_submissions": {
+              "result": "PASS",
+              "blocks_accepted_by_cpu_node": 57,
+              "independent_revalidation_matches": true,
+              "nodeA_tip": {
+                "height": 57,
+                "best_hash": "c2e009f25d92388e0887aee3aaeb82102d265bb7260d504588a86974dbd6df81"
+              }
+            },
+            "bench": {
+              "blas-int8": {
+                "attempts_per_s": 13124060.5,
+                "tera_macs_per_s": 677.76,
+                "launch_overhead_s": 0.13,
+                "acceptance": {
+                  "sample_nonces": 5,
+                  "matches_cpu_reference": true
+                }
+              },
+              "lt-fp8": {
+                "attempts_per_s": 13102900.0,
+                "tera_macs_per_s": 676.662,
+                "launch_overhead_s": 1.25014,
+                "acceptance": {
+                  "sample_nonces": 5,
+                  "matches_cpu_reference": true
+                }
+              },
+              "naive": {
+                "attempts_per_s": 294590,
+                "tera_macs_per_s": 15.2133,
+                "launch_overhead_s": 0.077693,
+                "acceptance": {
+                  "sample_nonces": 5,
+                  "matches_cpu_reference": true
+                }
+              }
+            }
+          }
+        },
+        "gpu_block_submissions": {
+          "nvidia": "PASS",
+          "amd": "PASS"
+        },
+        "prior_evidence": "bench/results/gpu_summary.json (H100, MI355X, earlier run; not re-measured by this report)"
+      },
+      "blocked_external": [
+        "NVIDIA B200/B300 (sm_100), RTX 50 (sm_120) and AMD MI300X (gfx942): code compiles for these targets; no such device was reachable, so no hardware result"
+      ]
+    },
+    {
+      "gate": 3,
+      "title": "bridge contracts",
+      "status": "PASS",
+      "evidence": {
+        "wzfx_unit_tests": "PASS",
+        "conformance_replay_access_in_e2e_bridge": [
+          "B1 deployed wZFX: NEP-148 metadata, zero supply, committee configured",
+          "B1/B3 1-of-3 cannot mint (on-chain rejection) and a forged member index is rejected; coordinator waits",
+          "B1 replay of a finalized mint bundle rejected (no double mint)",
+          "B2/B4 burn on NEAR (final) -> 2-of-3 SLH-DSA native release validated by consensus",
+          "B2 1-of-3 release rejected by native consensus; relayer refuses wrong amount; release replay rejected"
+        ],
+        "governance_upgrade_rotation": "8/8 checks (bench/results/e2e_bridge_governance.json)"
+      },
+      "blocked_external": []
+    },
+    {
+      "gate": 4,
+      "title": "real two-way bridge",
+      "status": "PASS",
+      "evidence": {
+        "two_way_fault_injection": "10/10 checks",
+        "finality_reorg": "3/3 checks"
+      },
+      "blocked_external": []
+    },
+    {
+      "gate": 5,
+      "title": "Intents",
+      "status": "PASS_WITH_BLOCKED",
+      "evidence": {
+        "local": "11/11 checks"
+      },
+      "blocked_external": [
+        "public NEAR Intents Message Bus requires a Partner JWT (HTTP 403 without one); no live liquidity is solicited"
+      ]
+    },
+    {
+      "gate": 6,
+      "title": "testnet deployment",
+      "status": "PASS_WITH_BLOCKED",
+      "evidence": {
+        "testnet_smoke": "BLOCKED",
+        "txs": []
+      },
+      "blocked_external": [
+        "NEAR_TESTNET_ACCOUNT is not set. Prerequisite: A NEAR testnet account dedicated to ZeroFlux with >= 15 testnet NEAR, its full-access key in ~/.near-credentials/testnet/<account>.json (near-cli format), and NEAR_TESTNET_ACCOUNT=<account> in the environment. "
+      ]
+    },
+    {
+      "gate": 7,
+      "title": "packaging and handoff",
+      "status": "PASS_WITH_BLOCKED",
+      "evidence": {
+        "security_test": "PASS",
+        "reproducible_build": "PASS",
+        "sbom": "PASS",
+        "licenses": "PASS",
+        "docs_missing": [],
+        "one_command_env": "make localnet",
+        "schemas": "schemas/zfx-node-rpc-v1.json"
+      },
+      "blocked_external": [
+        "container images not built: Docker is not installed on this host",
+        "release artifacts unsigned: no owner release key exists",
+        "no live public testnet explorer/API: not authorized and no testnet deployment"
+      ]
+    },
+    {
+      "gate": 8,
+      "title": "truthful readiness",
+      "status": "PASS",
+      "evidence": {
+        "MAINNET_READY": false,
+        "tracked_in": "docs/RELEASE_READINESS.md"
+      },
+      "blocked_external": [
+        "independent cryptanalysis of the PoW hardness assumption",
+        "external security audit (node, P2P, wZFX, relayers)",
+        "owner decision on the monetary schedule (recommendation in bench/results/tokenomics.json)",
+        "real liquidity for wZFX (none solicited)",
+        "unmeasured GPU models (see Gate 2)"
+      ]
+    }
+  ],
+  "steps": {
+    "check": [
+      {
+        "name": "rustfmt",
+        "result": "FAIL",
+        "cmd": "cargo fmt --all --check && (cd bridge/near && cargo fmt --all --check)",
+        "seconds": 0.2,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/rustfmt.log"
+      },
+      {
+        "name": "clippy-workspace",
+        "result": "PASS",
+        "cmd": "cargo clippy --release --workspace --all-targets -q -- -D warnings",
+        "seconds": 0.2,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/clippy-workspace.log"
+      },
+      {
+        "name": "clippy-near-contracts",
+        "result": "PASS",
+        "cmd": "cd bridge/near && cargo clippy -q --all-targets -- -D warnings",
+        "seconds": 0.7,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/clippy-near-contracts.log"
+      },
+      {
+        "name": "cargo-test-workspace",
+        "result": "PASS",
+        "cmd": "cargo test --release -q --workspace",
+        "seconds": 53.5,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/cargo-test-workspace.log"
+      },
+      {
+        "name": "cargo-test-near-contracts",
+        "result": "PASS",
+        "cmd": "cd bridge/near && cargo test -q",
+        "seconds": 1.1,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/cargo-test-near-contracts.log"
+      },
+      {
+        "name": "wasm-build-wzfx",
+        "result": "PASS",
+        "cmd": "cd bridge/near/wzfx && cargo near build non-reproducible-wasm",
+        "seconds": 5.9,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/wasm-build-wzfx.log"
+      },
+      {
+        "name": "wasm-build-test-ft",
+        "result": "PASS",
+        "cmd": "cd bridge/near/test-ft && cargo near build non-reproducible-wasm",
+        "seconds": 3.9,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/wasm-build-test-ft.log"
+      },
+      {
+        "name": "wasm-build-pow-verifier",
+        "result": "PASS",
+        "cmd": "cd bridge/near/pow-verifier && cargo near build non-reproducible-wasm --no-abi",
+        "seconds": 0.4,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/wasm-build-pow-verifier.log"
+      },
+      {
+        "name": "build-release",
+        "result": "PASS",
+        "cmd": "cargo build --release -q",
+        "seconds": 4.6,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/build-release.log"
+      },
+      {
+        "name": "vectors-rust",
+        "result": "PASS",
+        "cmd": "./target/release/zpu-cli selftest",
+        "seconds": 0.3,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/vectors-rust.log"
+      },
+      {
+        "name": "vectors-consensus-v2",
+        "result": "PASS",
+        "cmd": "cargo test --release -q -p zfx-verify --test consensus_v2",
+        "seconds": 15.6,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/vectors-consensus-v2.log"
+      },
+      {
+        "name": "cpp-build",
+        "result": "PASS",
+        "cmd": "make -C miner/cuda cpu -s",
+        "seconds": 0.0,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/cpp-build.log"
+      },
+      {
+        "name": "vectors-cpp",
+        "result": "PASS",
+        "cmd": "./miner/cuda/build/zpu-miner selftest tests/vectors/fp8c_v0.1.json",
+        "seconds": 0.0,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/vectors-cpp.log"
+      },
+      {
+        "name": "vectors-python-numpy",
+        "result": "PASS",
+        "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend numpy",
+        "seconds": 0.5,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/vectors-python-numpy.log"
+      },
+      {
+        "name": "stress-python-numpy",
+        "result": "PASS",
+        "cmd": ".venv/bin/python miner/python/zpu_miner.py stress --backend numpy",
+        "seconds": 4.6,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/stress-python-numpy.log"
+      },
+      {
+        "name": "vectors-mlx-metal",
+        "result": "PASS",
+        "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend mlx",
+        "seconds": 0.8,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/vectors-mlx-metal.log"
+      },
+      {
+        "name": "vectors-torch-mps",
+        "result": "PASS",
+        "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend torch --device mps",
+        "seconds": 1.5,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/vectors-torch-mps.log"
+      },
+      {
+        "name": "gpu-device-compile",
+        "result": "PASS",
+        "cmd": "CLANG='.venv/bin/python -m ziglang clang' bench/compile/device_check.sh",
+        "seconds": 8.4,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/gpu-device-compile.log"
+      },
+      {
+        "name": "python-lint",
+        "result": "FAIL",
+        "cmd": "uvx pyflakes tests/e2e deploy/localnet.py testnet/zfxnet.py scripts bridge/intents/zfx_intents miner/python bench/gpu",
+        "seconds": 0.4,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/python-lint.log"
+      },
+      {
+        "name": "explorer-typecheck",
+        "result": "PASS",
+        "cmd": "cd explorer && npx --no-install tsc -p . --noEmit",
+        "seconds": 0.7,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/explorer-typecheck.log"
+      },
+      {
+        "name": "intents-nep413-conformance",
+        "result": "PASS",
+        "cmd": "cargo test --release -q -p zfx-bridge --test nep413_conformance",
+        "seconds": 14.0,
+        "reason": null,
+        "log": "bench/results/gates/logs/check/intents-nep413-conformance.log"
+      }
+    ],
+    "e2e-native": [
+      {
+        "name": "native-3-nodes-1000-blocks",
+        "result": "PASS",
+        "cmd": ".venv/bin/python tests/e2e/native.py",
+        "seconds": 59.1,
+        "reason": null,
+        "log": "bench/results/gates/logs/e2e-native/native-3-nodes-1000-blocks.log"
+      },
+      {
+        "name": "contract-api-schema-conformance",
+        "result": "PASS",
+        "cmd": ".venv/bin/python tests/contract_api/test_contract_api.py",
+        "seconds": 9.5,
+        "reason": null,
+        "log": "bench/results/gates/logs/e2e-native/contract-api-schema-conformance.log"
+      }
+    ],
+    "e2e-bridge": [
+      {
+        "name": "bridge-100-two-way-fault-injection",
+        "result": "PASS",
+        "cmd": ".venv/bin/python tests/e2e/bridge.py",
+        "seconds": 281.0,
+        "reason": null,
+        "log": "bench/results/gates/logs/e2e-bridge/bridge-100-two-way-fault-injection.log"
+      },
+      {
+        "name": "bridge-finality-reorg",
+        "result": "PASS",
+        "cmd": ".venv/bin/python tests/e2e/bridge_reorg.py",
+        "seconds": 65.6,
+        "reason": null,
+        "log": "bench/results/gates/logs/e2e-bridge/bridge-finality-reorg.log"
+      },
+      {
+        "name": "bridge-governance-recovery",
+        "result": "PASS",
+        "cmd": ".venv/bin/python tests/e2e/bridge_governance.py",
+        "seconds": 139.1,
+        "reason": null,
+        "log": "bench/results/gates/logs/e2e-bridge/bridge-governance-recovery.log"
+      }
+    ],
+    "e2e-intents": [
+      {
+        "name": "intents-local-solver-settlement",
+        "result": "PASS",
+        "cmd": ".venv/bin/python tests/e2e/intents.py",
+        "seconds": 77.5,
+        "reason": null,
+        "log": "bench/results/gates/logs/e2e-intents/intents-local-solver-settlement.log"
+      }
+    ],
+    "security-test": [
+      {
+        "name": "fuzz-parsers",
+        "result": "PASS",
+        "cmd": "cargo test --release -q -p zfx-node --test fuzz_parsers -- --nocapture",
+        "seconds": 143.0,
+        "reason": null,
+        "log": "bench/results/gates/logs/security-test/fuzz-parsers.log"
+      },
+      {
+        "name": "node-integrity-crash-corruption-backup",
+        "result": "PASS",
+        "cmd": "cargo test --release -q -p zfx-node --test node_integrity",
+        "seconds": 1.0,
+        "reason": null,
+        "log": "bench/results/gates/logs/security-test/node-integrity-crash-corruption-backup.log"
+      },
+      {
+        "name": "chain-rules-adversarial",
+        "result": "PASS",
+        "cmd": "cargo test --release -q -p zfx-node --test chain_rules",
+        "seconds": 6.6,
+        "reason": null,
+        "log": "bench/results/gates/logs/security-test/chain-rules-adversarial.log"
+      },
+      {
+        "name": "consensus-v2-adversarial",
+        "result": "PASS",
+        "cmd": "cargo test --release -q -p zfx-verify --test consensus_v2",
+        "seconds": 30.9,
+        "reason": null,
+        "log": "bench/results/gates/logs/security-test/consensus-v2-adversarial.log"
+      },
+      {
+        "name": "wzfx-contract-negative",
+        "result": "PASS",
+        "cmd": "cd bridge/near && cargo test -q -p wzfx",
+        "seconds": 3.1,
+        "reason": null,
+        "log": "bench/results/gates/logs/security-test/wzfx-contract-negative.log"
+      },
+      {
+        "name": "miner-asan-ubsan",
+        "result": "PASS",
+        "cmd": "make -C miner/cuda sanitize-test",
+        "seconds": 2.5,
+        "reason": null,
+        "log": "bench/results/gates/logs/security-test/miner-asan-ubsan.log"
+      },
+      {
+        "name": "research-attacks",
+        "result": "PASS",
+        "cmd": "./target/release/zfx-research attacks --quick --out /tmp/zfx-attacks",
+        "seconds": 0.8,
+        "reason": null,
+        "log": "bench/results/gates/logs/security-test/research-attacks.log"
+      },
+      {
+        "name": "cargo-audit-workspace",
+        "result": "PASS",
+        "cmd": "cargo audit --deny warnings",
+        "seconds": 1.4,
+        "reason": null,
+        "log": "bench/results/gates/logs/security-test/cargo-audit-workspace.log"
+      },
+      {
+        "name": "cargo-audit-near-contracts",
+        "result": "PASS",
+        "cmd": "cd bridge/near && cargo audit --ignore RUSTSEC-2026-0387 --ignore RUSTSEC-2024-0449",
+        "seconds": 1.1,
+        "reason": null,
+        "log": "bench/results/gates/logs/security-test/cargo-audit-near-contracts.log"
+      },
+      {
+        "name": "release-licenses-sbom-reproducible",
+        "result": "PASS",
+        "cmd": ".venv/bin/python scripts/release_check.py",
+        "seconds": 162.6,
+        "reason": null,
+        "log": "bench/results/gates/logs/security-test/release-licenses-sbom-reproducible.log"
+      }
+    ],
+    "gpu-test": [
+      {
+        "name": "gpu-device-compile-sm90-sm100-sm120-gfx942-gfx950",
+        "result": "PASS",
+        "cmd": "CLANG='.venv/bin/python -m ziglang clang' bench/compile/device_check.sh",
+        "seconds": 15.2,
+        "reason": null,
+        "log": "bench/results/gates/logs/gpu-test/gpu-device-compile-sm90-sm100-sm120-gfx942-gfx950.log"
+      },
+      {
+        "name": "apple-mlx-selftest",
+        "result": "PASS",
+        "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend mlx",
+        "seconds": 1.1,
+        "reason": null,
+        "log": "bench/results/gates/logs/gpu-test/apple-mlx-selftest.log"
+      },
+      {
+        "name": "apple-mlx-stress",
+        "result": "PASS",
+        "cmd": ".venv/bin/python miner/python/zpu_miner.py stress --backend mlx",
+        "seconds": 5.6,
+        "reason": null,
+        "log": "bench/results/gates/logs/gpu-test/apple-mlx-stress.log"
+      },
+      {
+        "name": "apple-mps-selftest",
+        "result": "PASS",
+        "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend torch --device mps",
+        "seconds": 2.0,
+        "reason": null,
+        "log": "bench/results/gates/logs/gpu-test/apple-mps-selftest.log"
+      },
+      {
+        "name": "apple-mps-stress",
+        "result": "PASS",
+        "cmd": ".venv/bin/python miner/python/zpu_miner.py stress --backend torch --device mps",
+        "seconds": 9.2,
+        "reason": null,
+        "log": "bench/results/gates/logs/gpu-test/apple-mps-stress.log"
+      },
+      {
+        "name": "nvidia-local",
+        "result": "BLOCKED",
+        "cmd": "make -C miner/cuda cuda && ZPU_GPU_BIN=miner/cuda/build/zpu-miner-cuda deploy/gpu/entrypoint.sh gpu-test",
+        "seconds": null,
+        "reason": "no NVIDIA GPU/driver on this host (nvidia-smi absent)",
+        "log": null
+      },
+      {
+        "name": "amd-local",
+        "result": "BLOCKED",
+        "cmd": "make -C miner/cuda hip && ZPU_GPU_BIN=miner/cuda/build/zpu-miner-hip deploy/gpu/entrypoint.sh gpu-test",
+        "seconds": null,
+        "reason": "no AMD GPU/ROCm on this host (rocm-smi/amd-smi absent)",
+        "log": null
+      },
+      {
+        "name": "remote-h100-mi355x-cloud",
+        "result": "BLOCKED",
+        "cmd": ".venv/bin/python bench/gpu/cloud_gpu_run.py --tag gpu_rerun_$(date +%Y-%m-%d)",
+        "seconds": null,
+        "reason": "remote GPU rerun is opt-in (ZFX_GPU_RUNNER); it rents GPU sandboxes",
+        "log": null
+      }
+    ],
+    "testnet-smoke": [
+      {
+        "name": "near-testnet-deploy-and-receipts",
+        "result": "BLOCKED",
+        "cmd": ".venv/bin/python tests/e2e/testnet_smoke.py",
+        "seconds": null,
+        "reason": "NEAR_TESTNET_ACCOUNT is not set",
+        "log": null
+      }
+    ]
+  }
+}

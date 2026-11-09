@@ -1,8 +1,8 @@
 {
   "target": "testnet-smoke",
-  "commit": "6059df383e9436366ebcbf9345a3d0257c832048",
+  "commit": "401790e0015608a14a352d7365fcfa9996144e36",
   "dirty_tree": true,
-  "started": "2026-11-09T17:47:23Z",
+  "started": "2026-11-09T18:28:22Z",
   "host": "arm64",
   "steps": [
     {
@@ -13,7 +13,7 @@
       "reason": "NEAR_TESTNET_ACCOUNT is not set"
     }
   ],
-  "finished": "2026-11-09T17:47:23Z",
+  "finished": "2026-11-09T18:28:22Z",
   "counts": {
     "PASS": 0,
     "FAIL": 0,

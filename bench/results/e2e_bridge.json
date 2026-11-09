@@ -1,5 +1,5 @@
 {
-  "started": "2026-11-09T17:50:45Z",
+  "started": "2026-11-09T18:12:28Z",
   "checks": [
     {
       "check": "B1 deployed wZFX: NEP-148 metadata, zero supply, committee configured",
@@ -19,12 +19,12 @@
       "result": "PASS",
       "evidence": {
         "deposit_id": "88ff9a2e2e1e1ee305d1fa499feb2a429ebe18bc2810aa43e9544363f8f7e3a5",
-        "native_block": "6a1f27f69c794441a879f49d39b7c31ece7f04822000a973e66b88a5673c2d4f",
-        "confirmations": 145,
-        "near_mint_tx": "FSWHuw4tUwRVMfJx8ofRahTBW5ZVkh8rmnsjRQ5owX1f",
+        "native_block": "354c245d5864c6e1b4313863c2ec2c6ad36cee20c38db2fd8b45ceab209206ad",
+        "confirmations": 131,
+        "near_mint_tx": "BARttq92rcM2vRBMzLeXvpCYKK83NJ7LKggyTZL1BRKq",
         "approvals": [
-          2,
-          1
+          0,
+          2
         ]
       }
     },
@@ -49,12 +49,12 @@
       "result": "PASS",
       "evidence": {
         "withdrawal_id": "bdd5711eda36eb28cd1a07598bcc19e90522753910591a92dfb5497c8b719525",
-        "near_burn_tx": "EkZhywRCgFrdQMkwR9SXhmnKH7GR598arPGfu8h5t7f1",
+        "near_burn_tx": "HhpQuzyh6EwiDt1MDzmack2aVFkLJJNB2qEPsL71UE4Q",
         "native_release": {
           "amount": 20000,
-          "block": "f304d14def2b70eccb8ed8059342419049384a76eedf7ae891d3bc94caad63bf",
-          "height": 836,
-          "op_id": "7f1b8d307de5050c8a9a83c7dd8752a23dc566e9416a00438febc0728204b1fb",
+          "block": "fcee041f3a7cb14d6eb48a175b9ebe09a4cb7fb3ad5b7fe8864a76431b21e669",
+          "height": 842,
+          "op_id": "a7742602bd52f0738182de0f8e32ba640aa8be9dceb95c834197c3dbb58b5310",
           "withdrawal_id": "bdd5711eda36eb28cd1a07598bcc19e90522753910591a92dfb5497c8b719525"
         }
       }
@@ -79,44 +79,40 @@
       "result": "PASS",
       "evidence": {
         "completed_round_trips": 100,
-        "elapsed_s": 262.8,
+        "elapsed_s": 238.2,
         "errors": [],
         "unexpected": [],
         "chaos_events": [
           {
-            "t": 1794246721.771956,
+            "t": 1794248021.062926,
             "action": "refuse_window"
           },
           {
-            "t": 1794246747.55523,
+            "t": 1794248046.844615,
             "action": "kill_coordinator"
           },
           {
-            "t": 1794246775.928406,
+            "t": 1794248075.169007,
             "action": "kill_coordinator"
           },
           {
-            "t": 1794246797.430926,
+            "t": 1794248096.674212,
             "action": "kill_coordinator"
           },
           {
-            "t": 1794246836.090869,
+            "t": 1794248135.332635,
             "action": "refuse_window"
           },
           {
-            "t": 1794246853.1210098,
+            "t": 1794248152.392288,
             "action": "duplicate_mint: rejected"
           },
           {
-            "t": 1794246872.4283462,
+            "t": 1794248171.760214,
             "action": "duplicate_mint: rejected"
           },
           {
-            "t": 1794246900.840519,
-            "action": "kill_coordinator"
-          },
-          {
-            "t": 1794246931.072163,
+            "t": 1794248200.18333,
             "action": "kill_coordinator"
           }
         ]
@@ -126,7 +122,7 @@
       "check": "B3 backing invariant minted-burned <= locked-released held at every sample; no orphans",
       "result": "PASS",
       "evidence": {
-        "samples": 61,
+        "samples": 56,
         "violations": []
       }
     },
@@ -169,27 +165,27 @@
     }
   ],
   "deployment": {
-    "near_rpc": "http://127.0.0.1:56269",
+    "near_rpc": "http://127.0.0.1:63944",
     "contract": "wzfx.deployer.test.near",
     "deploy": {
       "code_hash_b58": "67jJRM7obHrgEzxZaTSHftMD6STVMXuPxdXTPVJT9VEQ",
       "contract": "wzfx.deployer.test.near",
       "failure": null,
       "success": true,
-      "tx_hash": "Dar1fJpH4A8h4Tz8js8hezbkfWM8jwjpuUXcP1VkQHuG",
+      "tx_hash": "3v8ytDqmCZBj1Dheu7D2cyJuuXMei9VknWwZUMh9FWYQ",
       "wasm_sha256": "4c03bfa67d2f210779703684544a2869ad56bea0e4dc829627c5ece2d6bceb79"
     },
     "native_chain_id": 1514536962,
     "asset_id": "zfx:5a460002:native",
     "committee_ed25519": [
-      "0023f03001a7908130f5cfb43b8faf3de71196402c3f973df8a8757e520ad94e",
-      "0e00783b4dc5681ff75e3cf143d1501a85c25730e7b9b5f15032d7234ee7255a",
-      "a6810216fcc1beb907928867a2bedea50b2b0ed9ab9b7258197e85ebccdb5b01"
+      "8ebedf464c4d260b79aa53b54ea33d9a3862362d2200bcd987ae4d4a8c3eb8d1",
+      "7d565e2368b54f49904068e7fb076af3a00a00220acb9e271124cb08d3a8c3a4",
+      "f3c3d8bb45ba0350e55cecc55e8dad591938ea4a613059aaa805976108c999d9"
     ],
     "committee_slh": [
-      "0abd7f1c3308f55f...",
-      "4a27a018da69d5c2...",
-      "9392c1b1a0f8aba1..."
+      "5635f59c275817d0...",
+      "4e1726c3436894cc...",
+      "2220f53d32f3b44f..."
     ]
   },
   "coordinator_final": {

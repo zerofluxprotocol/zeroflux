@@ -1,0 +1,118 @@
+{
+  "target": "gpu-test",
+  "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+  "dirty_tree": true,
+  "started": "2026-11-09T18:27:45Z",
+  "host": "arm64",
+  "steps": [
+    {
+      "name": "gpu-device-compile-sm90-sm100-sm120-gfx942-gfx950",
+      "kind": "external",
+      "cmd": "CLANG='.venv/bin/python -m ziglang clang' bench/compile/device_check.sh",
+      "rc": 0,
+      "seconds": 15.2,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/gpu-test/gpu-device-compile-sm90-sm100-sm120-gfx942-gfx950.log",
+      "tail": [
+        "{\"compiler\":\"clang version 22.1.8\",\"scope\":\"device code of all kernels incl. shared SHA-256/SHAKE256/requant; host BLAS calls not covered\",\"targets\":[{\"target\":\"sm_90\",\"result\":\"PASS\",\"kernels\":6},{\"target\":\"sm_100\",\"result\":\"PASS\",\"kernels\":6},{\"target\":\"sm_120\",\"result\":\"PASS\",\"kernels\":6},{\"target\":\"gfx942\",\"result\":\"PASS\",\"kernels\":6},{\"target\":\"gfx950\",\"result\":\"PASS\",\"kernels\":6}]}"
+      ]
+    },
+    {
+      "name": "apple-mlx-selftest",
+      "kind": "external",
+      "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend mlx",
+      "rc": 0,
+      "seconds": 1.1,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/gpu-test/apple-mlx-selftest.log",
+      "tail": [
+        "PASS dev nonce=0 mlx-metal:Device(gpu, 0):fp32",
+        "PASS dev nonce=1 mlx-metal:Device(gpu, 0):fp32",
+        "PASS dev nonce=2 mlx-metal:Device(gpu, 0):fp32",
+        "PASS dev nonce=81985529216486895 mlx-metal:Device(gpu, 0):fp32",
+        "PASS dev nonce=18446744073709551615 mlx-metal:Device(gpu, 0):fp32",
+        "PASS v01 nonce=0 mlx-metal:Device(gpu, 0):fp32",
+        "PASS v01 nonce=1 mlx-metal:Device(gpu, 0):fp32",
+        "PASS v01 nonce=2 mlx-metal:Device(gpu, 0):fp32",
+        "PASS v01 nonce=81985529216486895 mlx-metal:Device(gpu, 0):fp32",
+        "PASS v01 nonce=18446744073709551615 mlx-metal:Device(gpu, 0):fp32",
+        "278/278 checks bit-exact on mlx-metal:Device(gpu, 0):fp32"
+      ]
+    },
+    {
+      "name": "apple-mlx-stress",
+      "kind": "external",
+      "cmd": ".venv/bin/python miner/python/zpu_miner.py stress --backend mlx",
+      "rc": 0,
+      "seconds": 5.6,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/gpu-test/apple-mlx-stress.log",
+      "tail": [
+        "{\"backend\": \"mlx-metal:Device(gpu, 0):fp32\", \"rows\": 512, \"k\": 4096, \"n\": 4096, \"max_abs_ref\": 1048576, \"mismatches\": 0, \"elapsed_s\": 0.40390992164611816, \"verdict\": \"PASS\"}"
+      ]
+    },
+    {
+      "name": "apple-mps-selftest",
+      "kind": "external",
+      "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend torch --device mps",
+      "rc": 0,
+      "seconds": 2.0,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/gpu-test/apple-mps-selftest.log",
+      "tail": [
+        "PASS dev nonce=0 torch-mps:fp32",
+        "PASS dev nonce=1 torch-mps:fp32",
+        "PASS dev nonce=2 torch-mps:fp32",
+        "PASS dev nonce=81985529216486895 torch-mps:fp32",
+        "PASS dev nonce=18446744073709551615 torch-mps:fp32",
+        "PASS v01 nonce=0 torch-mps:fp32",
+        "PASS v01 nonce=1 torch-mps:fp32",
+        "PASS v01 nonce=2 torch-mps:fp32",
+        "PASS v01 nonce=81985529216486895 torch-mps:fp32",
+        "PASS v01 nonce=18446744073709551615 torch-mps:fp32",
+        "278/278 checks bit-exact on torch-mps:fp32"
+      ]
+    },
+    {
+      "name": "apple-mps-stress",
+      "kind": "external",
+      "cmd": ".venv/bin/python miner/python/zpu_miner.py stress --backend torch --device mps",
+      "rc": 0,
+      "seconds": 9.2,
+      "result": "PASS",
+      "log": "bench/results/gates/logs/gpu-test/apple-mps-stress.log",
+      "tail": [
+        "{\"backend\": \"torch-mps:fp32\", \"rows\": 512, \"k\": 4096, \"n\": 4096, \"max_abs_ref\": 1048576, \"mismatches\": 0, \"elapsed_s\": 0.2690739631652832, \"verdict\": \"PASS\"}"
+      ]
+    },
+    {
+      "name": "nvidia-local",
+      "kind": "external",
+      "cmd": "make -C miner/cuda cuda && ZPU_GPU_BIN=miner/cuda/build/zpu-miner-cuda deploy/gpu/entrypoint.sh gpu-test",
+      "result": "BLOCKED",
+      "reason": "no NVIDIA GPU/driver on this host (nvidia-smi absent)"
+    },
+    {
+      "name": "amd-local",
+      "kind": "external",
+      "cmd": "make -C miner/cuda hip && ZPU_GPU_BIN=miner/cuda/build/zpu-miner-hip deploy/gpu/entrypoint.sh gpu-test",
+      "result": "BLOCKED",
+      "reason": "no AMD GPU/ROCm on this host (rocm-smi/amd-smi absent)"
+    },
+    {
+      "name": "remote-h100-mi355x-cloud",
+      "kind": "external",
+      "cmd": ".venv/bin/python bench/gpu/cloud_gpu_run.py --tag gpu_rerun_$(date +%Y-%m-%d)",
+      "result": "BLOCKED",
+      "reason": "remote GPU rerun is opt-in (ZFX_GPU_RUNNER); it rents GPU sandboxes"
+    }
+  ],
+  "finished": "2026-11-09T18:28:22Z",
+  "counts": {
+    "PASS": 5,
+    "FAIL": 0,
+    "BLOCKED": 3
+  },
+  "result": "PASS_WITH_BLOCKED_EXTERNAL",
+  "failed": []
+}

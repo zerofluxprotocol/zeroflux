@@ -280,7 +280,10 @@ fn digests_match_relayer_golden_vectors() {
         native_height: U64(77),
         expiry_ns: U64(1800000000000000000),
     };
-    assert_eq!(hex::encode(mint_digest("wzfx.test.near", 0x5a460002, "zfx:5a460002:native", &a)), "3507a0edc7baab770827cebebe5c7df439be2f91c33f9d3f7391c3b2a9647e98");
+    assert_eq!(
+        hex::encode(mint_digest("wzfx.test.near", 0x5a460002, "zfx:5a460002:native", &a)),
+        "3507a0edc7baab770827cebebe5c7df439be2f91c33f9d3f7391c3b2a9647e98"
+    );
     let rot = AdminAction::Rotate { committee: vec!["11".repeat(32), "22".repeat(32), "33".repeat(32)] };
     assert_eq!(hex::encode(admin_digest("wzfx.test.near", 3, 9, &rot)), "038fb280438db03918560ae6fc462deb4003faa6e4d6c58380d486bfb24d139c");
     assert_eq!(withdrawal_id("wzfx.test.near", 42), "b1447206675f11affd8453b8d33f158c2b4e9b0ca809e2e5c6beaa0d26649b82");

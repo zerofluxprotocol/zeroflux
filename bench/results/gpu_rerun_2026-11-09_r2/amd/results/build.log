@@ -1,0 +1,19 @@
+make: Entering directory '/root/zfxwork/zeroflux/miner/cuda'
+mkdir -p build
+/opt/python/lib/python3.14/site-packages/_rocm_sdk_devel/bin/hipcc -O3 -std=c++17 -DZPU_WITH_GPU -DZPU_HIP --offload-arch=gfx950 \
+  -x hip src/main.cpp src/backend_cpu.cpp src/backend_gpu.cu -o build/zpu-miner-hip -lhipblas -lhipblaslt
+src/backend_gpu.cu:210:9: warning: ignoring return value of type 'hipError_t' declared with 'nodiscard' attribute [-Wunused-value]
+  210 |         gpuMemGetInfo(&fr, &tot);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~
+src/gpu_compat.h:23:23: note: expanded from macro 'gpuMemGetInfo'
+   23 | #define gpuMemGetInfo hipMemGetInfo
+      |                       ^
+1 warning generated when compiling for gfx950.
+src/backend_gpu.cu:210:9: warning: ignoring return value of type 'hipError_t' declared with 'nodiscard' attribute [-Wunused-value]
+  210 |         gpuMemGetInfo(&fr, &tot);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~
+src/gpu_compat.h:23:23: note: expanded from macro 'gpuMemGetInfo'
+   23 | #define gpuMemGetInfo hipMemGetInfo
+      |                       ^
+1 warning generated when compiling for host.
+make: Leaving directory '/root/zfxwork/zeroflux/miner/cuda'

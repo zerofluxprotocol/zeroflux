@@ -1,5 +1,5 @@
 {
-  "started": "2026-11-09T17:59:02Z",
+  "started": "2026-11-09T18:20:34Z",
   "checks": [
     {
       "check": "B5 official Verifier deployed in sandbox (release artifact, SHA-256 verified) + tUSDC fixture",
@@ -7,9 +7,9 @@
       "evidence": {
         "verifier_tag": "defuse/v0.4.2",
         "verifier_sha256": "f67f9559b3b512c52dfa11723a28b9119bcf773ac01780370d6409e5f1fb20e5",
-        "verifier_deploy_tx": "D95PbAqX94ikJfav3kgWKkyXMquoNZ4KqKaknotrKYdE",
-        "current_salt": "86001a16",
-        "tusdc_tx": "A7PUCp8TYQ6rh2tqTs99rsPNEeBbNy7fvQCKJoGREWbF"
+        "verifier_deploy_tx": "3WvoX3AZnTMXPE1AJB7miFHEMMsvkQQNRzRQkxQ562yJ",
+        "current_salt": "6916490d",
+        "tusdc_tx": "BFS48y43h7qnSdm7yP6Y1aC6CYhSyYBQBVmN2DzhzBNT"
       }
     },
     {
@@ -26,19 +26,19 @@
       "result": "PASS",
       "evidence": {
         "quote": {
-          "quote_hash": "e8bc7673c393260e823f1d81ac292528",
+          "quote_hash": "920280ce034f7cdfed11a6a033bfd70c",
           "defuse_asset_identifier_in": "nep141:wzfx.deployer.test.near",
           "defuse_asset_identifier_out": "nep141:tusdc.deployer.test.near",
           "amount_in": "500000000",
           "amount_out": "12437500",
-          "expiration_time": "2026-11-09T18:00:36Z"
+          "expiration_time": "2026-11-09T18:22:08Z"
         },
         "status": {
-          "intent_hash": "F5ji2p35NFqCjNjXX681fPe69MFDp4wmnujWVGbhoeUX",
+          "intent_hash": "9rAWSnnsRch9Ja6ztAgtb5uBpuYdWkZdsUtAnjqYUP5U",
           "status": "SETTLED",
           "status_details": "settled on the Verifier",
           "data": {
-            "hash": "Huf3zBGdZjHhxunNdTq4edfZyDfuPLtmD55EL5aNaH5t"
+            "hash": "6PsD59DNqWKFc8zBZRdqLQ51bYaGDa2QR2up7SWgfB9U"
           },
           "filled_amounts": [
             "500000000",
@@ -48,8 +48,8 @@
             "intents_executed": 2
           },
           "logs": [
-            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"MRsceNGZj5FsVUJkVURtEs9mndDgxqYWvZFMXKitxvf\",\"account_id\":\"solver.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"-12437500\",\"nep141:wzfx.deployer.test.near\":\"500000000\"}}]}",
-            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"3BfGwit9Nkeiia3m2tKrtKGExBEAQZ2t8GbZJ5Uu53Qv\",\"account_id\":\"u5.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"12437500\",\"nep141:wzfx.deployer.test.near\":\"-500000000\"}}]}"
+            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"GFm7n4dy2Unj3bmTdGNfqKEBPBB5eXbSbqCRhcHNx7Xv\",\"account_id\":\"solver.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"-12437500\",\"nep141:wzfx.deployer.test.near\":\"500000000\"}}]}",
+            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"DAp8RQLzqxSLd3VyesKecsFNUDNmZS3feeyRS7Up7eeX\",\"account_id\":\"u5.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"12437500\",\"nep141:wzfx.deployer.test.near\":\"-500000000\"}}]}"
           ]
         },
         "user_tusdc": 12437500,
@@ -61,16 +61,16 @@
       "result": "PASS",
       "evidence": {
         "quote": {
-          "quote_hash": "84fdf7399b2e2d7ec9950fd4ae708fcd",
+          "quote_hash": "004c6e958755cd19e0b5bd7f960913c2",
           "defuse_asset_identifier_in": "nep141:tusdc.deployer.test.near",
           "defuse_asset_identifier_out": "nep141:wzfx.deployer.test.near",
           "amount_in": "10000000",
           "amount_out": "398000000",
-          "expiration_time": "2026-11-09T18:00:38Z"
+          "expiration_time": "2026-11-09T18:22:10Z"
         },
         "status": "SETTLED",
         "tx": {
-          "hash": "Dmuwqv8F7Z2J8Hm6724EH6PgWsy9vTtD6pAMUnQVsR2q"
+          "hash": "7aVre8KFvTbCV79ojh5LKF2aXEPhqEXeFTBgwcB1LD7c"
         }
       }
     },
@@ -92,11 +92,11 @@
           "reason": "quote already used (duplicate fill)"
         },
         "original_intent_status": {
-          "intent_hash": "HAVoKT4FUQCi83AraVnix4BZDdoGzTgHyouBPvisoY8Y",
+          "intent_hash": "HGrbgqxTuY3Twhwr1Z1GQYHEFF3GeVV4yHpaWbWo79Q9",
           "status": "SETTLED",
           "status_details": "settled on the Verifier",
           "data": {
-            "hash": "FkCwjz1w3QskUYXhW8PhQfUkPdTQaknbjwbDsgKaNAeC"
+            "hash": "HbJmzyno2Boh73Qcqzz6HBBJgmoBcyNimDpjKv1H9yoY"
           },
           "filled_amounts": [
             "100000000",
@@ -106,8 +106,8 @@
             "intents_executed": 2
           },
           "logs": [
-            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"2op2wMp8AXXHwipXKRFpYdxGH9PJVSUDGsG3PbmCgfji\",\"account_id\":\"solver.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"-2487500\",\"nep141:wzfx.deployer.test.near\":\"100000000\"}}]}",
-            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"7np5wFbXMn67vg4KXjwewBinNkqqsQQm7JA7C6inamA4\",\"account_id\":\"u5.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"2487500\",\"nep141:wzfx.deployer.test.near\":\"-100000000\"}}]}"
+            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"F83k9WRKfXReqRw2pD21z1A6pN7nyMt4pYfKYJEoweLJ\",\"account_id\":\"solver.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"-2487500\",\"nep141:wzfx.deployer.test.near\":\"100000000\"}}]}",
+            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"8jhWsVAgTPEkZ4sxHkvxiWKCXxKf8M7hcJxqn2aJxSTu\",\"account_id\":\"u5.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"2487500\",\"nep141:wzfx.deployer.test.near\":\"-100000000\"}}]}"
           ]
         },
         "is_nonce_used": true,
@@ -122,7 +122,7 @@
           "status": "FAILED",
           "reason": "quote expired"
         },
-        "verifier_error": " failed:  \nthread 'main' (86439593) panicked at bridge/relayers/src/bin/zfx-bridge.rs:217:41:\nview simulate_intents failed: \"wasm execution failed with error: HostError(GuestPanic { panic_msg: \\\"deadline has expired\\\" })\"\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
+        "verifier_error": " failed:  \nthread 'main' (86924559) panicked at bridge/relayers/src/bin/zfx-bridge.rs:217:41:\nview simulate_intents failed: \"wasm execution failed with error: HostError(GuestPanic { panic_msg: \\\"deadline has expired\\\" })\"\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
       }
     },
     {
@@ -139,7 +139,7 @@
       "check": "B5 refund: failed ft_withdraw (receiver not registered) is refunded to the user's Verifier balance",
       "result": "PASS",
       "evidence": {
-        "withdraw_tx": "8mfLou42j8VZM6spQK3jHYf3rtCdY51EWTjuscru4jFN",
+        "withdraw_tx": "5E2voYZZkxn3XDd2hQPFWfcEff5S1H2Ns7AiN7gPt9LY",
         "balance_before": 4925000,
         "balance_after": 4925000
       }
@@ -151,7 +151,7 @@
         "native_before_flow": 1000000000000,
         "native_after": 999797999000,
         "wzfx_redeemed": 798000000,
-        "burn_tx": "38opvBJpdjyUVz3VYC16oPpjGZscQs825Y51BPoYRhkp",
+        "burn_tx": "GveQekbHBjUxuiRsMpaxRRPshHjrNkpjEwQdCuQTKbfG",
         "reconcile": {
           "ok": true,
           "native": {
@@ -198,7 +198,7 @@
       "error": "<HTTPError 403: 'Forbidden'>"
     }
   },
-  "solver_log_tail": "\": \"Dmuwqv8F7Z2J8Hm6724EH6PgWsy9vTtD6pAMUnQVsR2q\", \"subscription\": \"3c1b2872-d7c7-4062-836f-72f2411f559b\"}, \"stats\": {\"quotes_seen\": 2, \"quoted\": 2, \"skipped_liquidity\": 0, \"skipped_stale_price\": 0, \"skipped_pair\": 0, \"settled\": 2}}\n{\"settled\": {\"quote_hash\": \"252b89ae4918083ed2605a69a87e4643\", \"intent_hash\": \"HAVoKT4FUQCi83AraVnix4BZDdoGzTgHyouBPvisoY8Y\", \"tx_hash\": \"FkCwjz1w3QskUYXhW8PhQfUkPdTQaknbjwbDsgKaNAeC\", \"subscription\": \"3c1b2872-d7c7-4062-836f-72f2411f559b\"}, \"stats\": {\"quotes_seen\": 5, \"quoted\": 3, \"skipped_liquidity\": 1, \"skipped_stale_price\": 1, \"skipped_pair\": 0, \"settled\": 3}}\n",
+  "solver_log_tail": "\": \"7aVre8KFvTbCV79ojh5LKF2aXEPhqEXeFTBgwcB1LD7c\", \"subscription\": \"8dac4d11-8229-49f1-b8b1-b8f2d28321d8\"}, \"stats\": {\"quotes_seen\": 2, \"quoted\": 2, \"skipped_liquidity\": 0, \"skipped_stale_price\": 0, \"skipped_pair\": 0, \"settled\": 2}}\n{\"settled\": {\"quote_hash\": \"897e8463234dc91e526ccb79032c8ef5\", \"intent_hash\": \"HGrbgqxTuY3Twhwr1Z1GQYHEFF3GeVV4yHpaWbWo79Q9\", \"tx_hash\": \"HbJmzyno2Boh73Qcqzz6HBBJgmoBcyNimDpjKv1H9yoY\", \"subscription\": \"8dac4d11-8229-49f1-b8b1-b8f2d28321d8\"}, \"stats\": {\"quotes_seen\": 5, \"quoted\": 3, \"skipped_liquidity\": 1, \"skipped_stale_price\": 1, \"skipped_pair\": 0, \"settled\": 3}}\n",
   "passed": 11,
   "total": 11
 }
