@@ -20,7 +20,8 @@ sha3 = "0.10"
 hex = "0.4"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-ed25519-dalek = { version = "2", features = ["rand_core"] }
+fips205 = { version = "0.5", default-features = false, features = ["default-rng", "slh-dsa-sha2-128s", "slh-dsa-sha2-192s"] }
+rand_core = { version = "0.6", features = ["getrandom"] }
 rand = "0.8"
 tiny_http = "0.12"
 ureq = { version = "2", default-features = false, features = ["json"] }

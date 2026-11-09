@@ -2,11 +2,12 @@
 
 use crate::hash::{sha256, Hash32};
 use crate::header::BlockHeader;
-use crate::tx::{Coinbase, Transaction, TX_ENCODED_LEN};
+use crate::tx::{Coinbase, Transaction};
 use serde::{Deserialize, Serialize};
 
-pub const MAX_TXS_PER_BLOCK: usize = 2000;
-pub const MAX_BLOCK_BYTES: usize = 1 << 20;
+pub const MAX_TXS_PER_BLOCK: usize = 1000;
+/// SLH-DSA-SHA2-128s transactions are ~8 KB, so 4 MiB holds ~500.
+pub const MAX_BLOCK_BYTES: usize = 4 << 20;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Block {
@@ -40,12 +41,12 @@ pub fn merkle_root(leaves: &[Hash32]) -> Hash32 {
 impl Block {
     pub fn compute_tx_root(&self) -> Hash32 {
         let mut leaves = vec![self.coinbase.id()];
-        leaves.extend(self.txs.iter().map(|t| t.txid()));
+        leaves.extend(self.txs.iter().map(|t| t.wtxid()));
         merkle_root(&leaves)
     }
 
     pub fn encoded_size(&self) -> usize {
-        crate::header::HEADER_LEN + 36 + 4 + self.txs.len() * TX_ENCODED_LEN
+        crate::header::HEADER_LEN + 48 + 4 + self.txs.iter().map(|t| t.encoded_len()).sum::<usize>()
     }
 
     pub fn hash(&self) -> Hash32 {
