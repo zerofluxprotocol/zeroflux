@@ -221,7 +221,7 @@ def make(args) -> Backend:
     raise SystemExit(f"unknown backend {args.backend}")
 
 
-def run_job(b: Backend, p, seed, challenge, target: int, start, count, batch):
+def run_job(b: Backend, p, seed, challenge, target: int, start, count, batch, stop_on_found=False):
     b.load(p, seed)
     found, done = [], 0
     for off in range(0, count, batch):
@@ -230,6 +230,8 @@ def run_job(b: Backend, p, seed, challenge, target: int, start, count, batch):
             if int.from_bytes(d, "big") < target:
                 found.append((n, d))
         done += len(ns)
+        if stop_on_found and found:
+            break
     return found, done
 
 
@@ -249,7 +251,8 @@ def serve(b, batch):
                 seed, ch = bytes.fromhex(v["epoch_seed"]), bytes.fromhex(v["challenge"])
                 if cmd == "job":
                     t0 = time.time()
-                    found, done = run_job(b, p, seed, ch, int(v["target"], 16), int(v["nonce_start"]), int(v["nonce_count"]), batch)
+                    found, done = run_job(b, p, seed, ch, int(v["target"], 16), int(v["nonce_start"]), int(v["nonce_count"]), batch,
+                                          bool(v.get("stop_on_found", False)))
                     for n, d in found:
                         print(json.dumps({"event": "found", "nonce": str(n), "digest": d.hex()}), file=out)
                     print(json.dumps({"event": "done", "attempts": str(done), "elapsed_s": time.time() - t0}), file=out, flush=True)

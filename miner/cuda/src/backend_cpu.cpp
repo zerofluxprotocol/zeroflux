@@ -66,17 +66,19 @@ class CpuBackend : public Backend {
         std::vector<Found> found;
         std::mutex m;
         std::atomic<uint64_t> done{0};
+        std::atomic<bool> stop{false};
         std::vector<std::thread> ts;
         for (int t = 0; t < threads_; t++)
             ts.emplace_back([&, t] {
                 uint8_t d[32];
-                for (uint64_t i = t; i < job.count; i += threads_) {
+                for (uint64_t i = t; i < job.count && !stop.load(std::memory_order_relaxed); i += threads_) {
                     attempt(w_, job.challenge, job.start + i, d);
                     if (below_target(d, job.target)) {
                         std::lock_guard<std::mutex> g(m);
                         Found f{job.start + i, {}};
                         for (int q = 0; q < 32; q++) f.digest[q] = d[q];
                         found.push_back(f);
+                        if (job.stop_on_found) stop = true;
                     }
                     done++;
                 }

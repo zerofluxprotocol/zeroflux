@@ -307,6 +307,7 @@ class GpuBackend : public Backend {
                 }
             }
             attempts += B;
+            if (job.stop_on_found && !out.empty()) break;
         }
         GPU_CHECK(gpuDeviceSynchronize());
         return out;

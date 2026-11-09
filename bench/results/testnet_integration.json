@@ -1,0 +1,211 @@
+{
+  "profile": "dev",
+  "started": "2026-11-09T05:48:39Z",
+  "checks": [
+    {
+      "check": "nodes 1+2 agree on block hashes",
+      "result": "PASS",
+      "evidence": {
+        "height": 22,
+        "hash": "033549bea404095eedcfc8cad78c7af45ee118e108bf22d0507c249e8cc84181"
+      }
+    },
+    {
+      "check": "Gate 2: blocks from Rust and C++ miners both accepted on the shared CPU-verified chain",
+      "result": "PASS",
+      "evidence": {
+        "blocks_by_miner": {
+          "rust": 8,
+          "cpp": 16,
+          "py": 0
+        },
+        "height": 24
+      }
+    },
+    {
+      "check": "SLH-DSA P2MR transaction accepted into mempool",
+      "result": "PASS",
+      "evidence": {
+        "stderr": "signed with SLH-DSA-SHA2-128s in 1.04s (8018 bytes)",
+        "resp": {
+          "accepted": true,
+          "txid": "fe3ebb46a41a43b27b78f364bd295590cb02b470284a11d084674f63289ff5c5"
+        }
+      }
+    },
+    {
+      "check": "transfer confirmed and balances correct on the peer node",
+      "result": "PASS",
+      "evidence": {
+        "bob": 123456,
+        "alice": 999999875544,
+        "confirm_s": 1.89
+      }
+    },
+    {
+      "check": "replayed (already mined) tx rejected",
+      "result": "PASS",
+      "evidence": {
+        "accepted": false,
+        "error": "bad nonce 0 (expected 1)"
+      }
+    },
+    {
+      "check": "invalid-PoW block over P2P rejected (AboveTarget) and peer disconnected",
+      "result": "PASS",
+      "evidence": {
+        "closed": true,
+        "peers_banned": 1,
+        "blocks_rejected": 1
+      }
+    },
+    {
+      "check": "restart recovery: node3 reloads its own chain from disk before syncing",
+      "result": "PASS",
+      "evidence": {
+        "height_before_stop": 9,
+        "blocks_recovered_from_disk": 9
+      }
+    },
+    {
+      "check": "partition healed: isolated chain reorged onto heavier chain",
+      "result": "PASS",
+      "evidence": {
+        "node3_reorgs": 1,
+        "max_reorg_depth": 9,
+        "height": 34
+      }
+    },
+    {
+      "check": "SIGKILL crash recovery and resync",
+      "result": "PASS",
+      "evidence": {
+        "height_before_kill": 34,
+        "height_after_restart": 34,
+        "resynced_to": 34
+      }
+    },
+    {
+      "check": "third implementation (Python miner) block accepted on main chain",
+      "result": "PASS",
+      "evidence": {
+        "miner": "zfx1de3315da9fff9413ae20b74bf9c015797c93016c7cef0ecf98fc148dcc7a55f80bb88759"
+      }
+    },
+    {
+      "check": "LWMA difficulty moved off genesis target",
+      "result": "PASS",
+      "evidence": {
+        "target": "00006de765764e4fd3544f0b0df25ed82b297516996a32f07d4d151cf3428131",
+        "difficulty_log2": 17.21990133401934,
+        "height": 40
+      }
+    }
+  ],
+  "final_status": {
+    "node1": {
+      "api_version": 1,
+      "best_hash": "e246fbfa70df2f15151021c2650cb586dcab18604a756c8a30338814e06fd0ba",
+      "chain_id": 1514536962,
+      "cum_work_log2": 21.654995196254333,
+      "difficulty_log2": 17.21990133401934,
+      "genesis": "df904690ee0623c22e194af8f570042b070e9ff32b5c5ee05ba7042282cee74d",
+      "height": 40,
+      "invalid_blocks": 1,
+      "max_reorg_depth": 0,
+      "mempool": 0,
+      "next_target": "00006b780d8d9c6ac184a5b1a38335c22be19d7093703c525d419132c41d368c",
+      "orphans": 0,
+      "peer_count": 2,
+      "crypto": "no elliptic-curve or RSA primitives in consensus; SLH-DSA signatures; SHA-256/SHAKE256 hashing",
+      "profile": "zfx-fp8c-v0.1-dev",
+      "reorgs": 0,
+      "signature_schemes": [
+        "SLH-DSA-SHA2-128s",
+        "SLH-DSA-SHA2-192s"
+      ],
+      "stats": {
+        "blocks_accepted": 50,
+        "blocks_rejected": 1,
+        "last_pow_verify_ms": 0.03225,
+        "peers_banned": 1,
+        "submissions": 21,
+        "submissions_accepted": 17,
+        "submissions_rate_limited": 0
+      },
+      "supply": "1200000000000",
+      "target": "00006de765764e4fd3544f0b0df25ed82b297516996a32f07d4d151cf3428131",
+      "tip_timestamp": 1794203329
+    },
+    "node2": {
+      "api_version": 1,
+      "best_hash": "e246fbfa70df2f15151021c2650cb586dcab18604a756c8a30338814e06fd0ba",
+      "chain_id": 1514536962,
+      "cum_work_log2": 21.654995196254333,
+      "difficulty_log2": 17.21990133401934,
+      "genesis": "df904690ee0623c22e194af8f570042b070e9ff32b5c5ee05ba7042282cee74d",
+      "height": 40,
+      "invalid_blocks": 0,
+      "max_reorg_depth": 1,
+      "mempool": 0,
+      "next_target": "00006b780d8d9c6ac184a5b1a38335c22be19d7093703c525d419132c41d368c",
+      "orphans": 0,
+      "peer_count": 1,
+      "crypto": "no elliptic-curve or RSA primitives in consensus; SLH-DSA signatures; SHA-256/SHAKE256 hashing",
+      "profile": "zfx-fp8c-v0.1-dev",
+      "reorgs": 1,
+      "signature_schemes": [
+        "SLH-DSA-SHA2-128s",
+        "SLH-DSA-SHA2-192s"
+      ],
+      "stats": {
+        "blocks_accepted": 6,
+        "blocks_rejected": 0,
+        "last_pow_verify_ms": 0.029292,
+        "peers_banned": 0,
+        "submissions": 0,
+        "submissions_accepted": 0,
+        "submissions_rate_limited": 0
+      },
+      "supply": "1200000000000",
+      "target": "00006de765764e4fd3544f0b0df25ed82b297516996a32f07d4d151cf3428131",
+      "tip_timestamp": 1794203329
+    },
+    "node3": {
+      "api_version": 1,
+      "best_hash": "e246fbfa70df2f15151021c2650cb586dcab18604a756c8a30338814e06fd0ba",
+      "chain_id": 1514536962,
+      "cum_work_log2": 21.654995196254333,
+      "difficulty_log2": 17.21990133401934,
+      "genesis": "df904690ee0623c22e194af8f570042b070e9ff32b5c5ee05ba7042282cee74d",
+      "height": 40,
+      "invalid_blocks": 0,
+      "max_reorg_depth": 9,
+      "mempool": 0,
+      "next_target": "00006b780d8d9c6ac184a5b1a38335c22be19d7093703c525d419132c41d368c",
+      "orphans": 0,
+      "peer_count": 1,
+      "crypto": "no elliptic-curve or RSA primitives in consensus; SLH-DSA signatures; SHA-256/SHAKE256 hashing",
+      "profile": "zfx-fp8c-v0.1-dev",
+      "reorgs": 1,
+      "signature_schemes": [
+        "SLH-DSA-SHA2-128s",
+        "SLH-DSA-SHA2-192s"
+      ],
+      "stats": {
+        "blocks_accepted": 40,
+        "blocks_rejected": 0,
+        "last_pow_verify_ms": 0.030459,
+        "peers_banned": 0,
+        "submissions": 2,
+        "submissions_accepted": 2,
+        "submissions_rate_limited": 0
+      },
+      "supply": "1200000000000",
+      "target": "00006de765764e4fd3544f0b0df25ed82b297516996a32f07d4d151cf3428131",
+      "tip_timestamp": 1794203329
+    }
+  },
+  "passed": 11,
+  "total": 11
+}

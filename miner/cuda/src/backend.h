@@ -13,6 +13,7 @@ struct Job {
     uint8_t challenge[32];
     uint8_t target[32];
     uint64_t start = 0, count = 0;
+    bool stop_on_found = false;
 };
 
 struct Found {

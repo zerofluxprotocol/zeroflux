@@ -226,16 +226,22 @@ pub fn x0(attempt: &Hash32, d_in: usize) -> Vec<i8> {
 #[inline]
 pub fn dot_i8(a: &[i8], b: &[i8]) -> i32 {
     debug_assert_eq!(a.len(), b.len());
-    // Chunked i16 products widened to i32; LLVM vectorizes this well.
-    let mut acc = 0i32;
-    for (ca, cb) in a.chunks(64).zip(b.chunks(64)) {
-        let mut s = 0i32;
-        for i in 0..ca.len() {
-            s += (ca[i] as i16 * cb[i] as i16) as i32;
+    // Widening i8*i8 -> i32 with 4 independent accumulators; LLVM lowers this
+    // to NEON smull/sadalp or AVX2 vpmaddwd. Exact: |sum| <= K*256 < 2^31.
+    let mut acc = [0i32; 4];
+    let (ca, ra) = a.split_at(a.len() / 64 * 64);
+    let (cb, rb) = b.split_at(ca.len());
+    for (x, y) in ca.chunks_exact(64).zip(cb.chunks_exact(64)) {
+        for q in 0..4 {
+            let mut s = 0i32;
+            for i in 0..16 {
+                s += x[q * 16 + i] as i32 * y[q * 16 + i] as i32;
+            }
+            acc[q] += s;
         }
-        acc += s;
     }
-    acc
+    let tail: i32 = ra.iter().zip(rb).map(|(x, y)| *x as i32 * *y as i32).sum();
+    acc[0] + acc[1] + acc[2] + acc[3] + tail
 }
 
 /// Full trace of one attempt; used for test vectors and cross-checks.

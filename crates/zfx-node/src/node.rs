@@ -231,8 +231,14 @@ impl Node {
     fn ban(&self, pid: u64, why: &str) {
         let mut g = self.0.lock().unwrap();
         if let Some(p) = g.peers.remove(&pid) {
-            eprintln!("[p2p] banning {} for {} s: {}", p.addr, BAN_SECS, why);
-            g.bans.insert(p.addr.ip(), Instant::now());
+            // Loopback peers share one IP (local testnets), so they are
+            // disconnected but not IP-banned.
+            if p.addr.ip().is_loopback() {
+                eprintln!("[p2p] disconnecting loopback peer {}: {}", p.addr, why);
+            } else {
+                eprintln!("[p2p] banning {} for {} s: {}", p.addr, BAN_SECS, why);
+                g.bans.insert(p.addr.ip(), Instant::now());
+            }
             g.stats.peers_banned += 1;
             let _ = p.tx.send("__close__".into());
         }

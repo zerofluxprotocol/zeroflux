@@ -43,6 +43,8 @@ pub struct Job {
     pub target: U256,
     pub start: u64,
     pub count: u64,
+    /// Return as soon as a winner is found (mining); false for benchmarks.
+    pub stop_on_found: bool,
 }
 
 pub struct JobResult {
@@ -90,6 +92,9 @@ impl Backend for CpuBackend {
                         let d = pow::attempt(w, &job.challenge, n);
                         if pow::meets_target(&d, &job.target) {
                             found.lock().unwrap().push((n, d));
+                            if job.stop_on_found {
+                                stop.store(true, Ordering::Relaxed);
+                            }
                         }
                         done.fetch_add(1, Ordering::Relaxed);
                         n += nt;
@@ -156,7 +161,7 @@ impl ExecBackend {
         json!({"cmd": cmd, "profile": {"id": p.id, "d_in": p.d_in, "hidden": p.hidden, "n_hidden": p.n_hidden, "d_out": p.d_out,
                "shift_in": p.shift_in, "shift_hidden": p.shift_hidden},
                "epoch_seed": to_hex(&job.seed), "challenge": to_hex(&job.challenge), "target": job.target.to_hex(),
-               "nonce_start": job.start.to_string(), "nonce_count": job.count.to_string()})
+               "nonce_start": job.start.to_string(), "nonce_count": job.count.to_string(), "stop_on_found": job.stop_on_found})
     }
 }
 
@@ -242,6 +247,7 @@ fn mine(args: &[String]) {
             target: U256::from_hex(w["target"].as_str().unwrap()).unwrap(),
             start: nonce_base,
             count: if batch > 0 { batch } else if profile.hidden > 1024 { 2000 } else { 200_000 },
+            stop_on_found: true,
         };
         // Header-binding self-check: the challenge must match the header bytes.
         let hb = hex::decode(w["header_without_nonce"].as_str().unwrap()).unwrap();
@@ -250,6 +256,7 @@ fn mine(args: &[String]) {
             die("node returned a challenge that does not match its header");
         }
         nonce_base = nonce_base.wrapping_add(job.count);
+        stop.store(false, Ordering::Relaxed);
         let r = backend.run(&job, &stop);
         total_attempts += r.attempts;
         // GPU correctness checks: random spot checks + every winner.
@@ -298,7 +305,7 @@ fn bench(args: &[String]) {
     };
     let secs: f64 = arg(args, "--seconds").and_then(|v| v.parse().ok()).unwrap_or(5.0);
     let mut b = make_backend(args);
-    let job0 = |count| Job { profile, seed: [0x5e; 32], challenge: [0xc4; 32], target: U256::ZERO, start: 0, count };
+    let job0 = |count| Job { profile, seed: [0x5e; 32], challenge: [0xc4; 32], target: U256::ZERO, start: 0, count, stop_on_found: false };
     let stop = AtomicBool::new(false);
     let warm = b.run(&job0(if profile.hidden > 1024 { 64 } else { 4096 }), &stop);
     let mut count = ((warm.attempts as f64 / warm.elapsed.max(1e-6)) * secs).max(16.0) as u64;
@@ -330,6 +337,7 @@ fn selftest(args: &[String]) {
             target: U256::ZERO,
             start: 0,
             count: 0,
+            stop_on_found: false,
         };
         let nonces: Vec<u64> = pv["attempts"].as_array().unwrap().iter().map(|a| a["nonce"].as_str().unwrap().parse().unwrap()).collect();
         let got = b.digests(&job, &nonces);

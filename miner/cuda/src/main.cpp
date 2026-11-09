@@ -62,6 +62,7 @@ static Job job_from(const zj::Value& v) {
     if (v["target"].kind == zj::Value::Str) unhex32(v["target"].s(), j.target); else std::memset(j.target, 0, 32);
     j.start = v["nonce_start"].kind ? v["nonce_start"].u64() : 0;
     j.count = v["nonce_count"].kind ? v["nonce_count"].u64() : 0;
+    j.stop_on_found = v["stop_on_found"].kind == zj::Value::Bool && v["stop_on_found"].b;
     return j;
 }
 
