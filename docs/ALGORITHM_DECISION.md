@@ -1,6 +1,6 @@
 # Algorithm decision: ZFX-FP8C v0.1
 
-Decision date: 2026-11-09. Spec: `docs/SPEC_v0.1.md` section 2A plus `docs/SPEC_AMENDMENT_A.md`.
+Decision date: 2026-11-09. Scope: the candidate-selection requirements of the project specification (private).
 
 **Selected:** candidate E, ZFX-FP8C. Each attempt pushes one row through a chain of restricted-domain FP8 GEMM layers, with per-epoch random weights and S-box requantization between layers.
 
