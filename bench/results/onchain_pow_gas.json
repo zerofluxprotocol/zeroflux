@@ -1,0 +1,31 @@
+{
+  "experiment": "onchain_pow_verification_near",
+  "gas_limit_per_tx_tgas": 300,
+  "rows": [
+    {
+      "profile": "zfx-fp8c-v0.1-dev",
+      "macs": 229376,
+      "success": true,
+      "matches_golden_vector": true,
+      "result": {
+        "digest": "057d71bc66f5ce94575282ce0a22a575a0452612baaa4fae2bec0dbfe6d03cf7",
+        "gas_attempt": 9237226257735,
+        "gas_weights": 62592835203627,
+        "macs": 229376
+      },
+      "failure": null,
+      "tgas_total_in_call": 71.83
+    },
+    {
+      "profile": "zfx-fp8c-v0.1",
+      "macs": 51642368,
+      "success": false,
+      "matches_golden_vector": false,
+      "result": null,
+      "failure": "{\"ActionError\":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Exceeded the prepaid gas.\"}}}}"
+    }
+  ],
+  "model_v01_attempt_tgas": 2079.7,
+  "model_basis": "dev-profile measured gas per MAC times v0.1 MACs (attempt only, excluding 51.6 MB weight generation); labeled model, not measurement",
+  "conclusion": "A NEAR contract can verify the dev profile exactly (matches golden vectors), but one production (v0.1) attempt exceeds the 300 Tgas transaction limit by orders of magnitude even before weight generation; a NEAR light client that re-executes ZeroFlux PoW is infeasible. Trust-minimization needs a succinct proof (STARK) of the PoW, verified on NEAR; until that is built and reviewed, the 2-of-3 committee remains."
+}

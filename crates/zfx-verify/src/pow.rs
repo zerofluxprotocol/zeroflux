@@ -200,6 +200,14 @@ impl Weights {
         let mut layers = Vec::new();
         for (l, (k, n, _)) in profile.layers().into_iter().enumerate() {
             let mut w = vec![0i8; k * n];
+            if threads == 1 {
+                // Inline path (also used on targets without threads, e.g. wasm32).
+                for (j, row) in w.chunks_mut(k).enumerate() {
+                    weight_row(seed, l as u32, j as u32, row);
+                }
+                layers.push(w);
+                continue;
+            }
             let rows_per = n.div_ceil(threads);
             std::thread::scope(|s| {
                 for (t, chunk) in w.chunks_mut(rows_per * k).enumerate() {

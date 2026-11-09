@@ -1,0 +1,46 @@
+{
+  "runs": [
+    {
+      "experiment": "stark_gemv_prototype",
+      "host": "aarch64",
+      "k": 4096,
+      "macs_proved": 65536.0,
+      "model_lower_bound_one_v01_attempt": {
+        "macs": 51642368.0,
+        "note": "MAC core only; SHAKE256 generation of 51.6 M weights + inputs, S-box lookups and SHA-256 are excluded and dominate in practice. Model, not a measurement.",
+        "prover_seconds": 215.779385904
+      },
+      "proof_bytes": 68597,
+      "prove_s": 0.273831708,
+      "prover": "winterfell 0.13.1, f128, Blake3-256 Merkle, 32 queries, blowup 8, >= 95-bit conjectured security",
+      "prover_us_per_mac": 4.1783402709960935,
+      "rows": 16,
+      "tampered_output_rejected": true,
+      "trace_build_s": 0.001726166,
+      "trace_cells": 196608,
+      "verifies": true,
+      "verify_s": 0.000894875
+    },
+    {
+      "experiment": "stark_gemv_prototype",
+      "host": "aarch64",
+      "k": 4096,
+      "macs_proved": 262144.0,
+      "model_lower_bound_one_v01_attempt": {
+        "macs": 51642368.0,
+        "note": "MAC core only; SHAKE256 generation of 51.6 M weights + inputs, S-box lookups and SHA-256 are excluded and dominate in practice. Model, not a measurement.",
+        "prover_seconds": 174.5377645
+      },
+      "proof_bytes": 147190,
+      "prove_s": 0.8859785,
+      "prover": "winterfell 0.13.1, f128, Blake3-256 Merkle, 32 queries, blowup 8, >= 95-bit conjectured security",
+      "prover_us_per_mac": 3.379739761352539,
+      "rows": 64,
+      "tampered_output_rejected": true,
+      "trace_build_s": 0.009590583,
+      "trace_cells": 786432,
+      "verifies": true,
+      "verify_s": 0.001154209
+    }
+  ]
+}

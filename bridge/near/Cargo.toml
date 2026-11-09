@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["wzfx", "test-ft"]
+members = ["wzfx", "test-ft", "pow-verifier"]
 
 [workspace.dependencies]
 near-sdk = "5.30"

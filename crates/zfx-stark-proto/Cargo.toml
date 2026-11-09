@@ -1,0 +1,11 @@
+[package]
+name = "zfx-stark-proto"
+description = "Research prototype: STARK (Winterfell, hash-based) proof of a ZFX-FP8C GEMV accumulation, to estimate trust-minimized bridge costs"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+winterfell = "0.13"
+serde_json.workspace = true
+zfx-verify = { path = "../zfx-verify" }

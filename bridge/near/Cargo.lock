@@ -1685,6 +1685,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "pow-verifier"
+version = "0.1.0"
+dependencies = [
+ "hex",
+ "near-sdk",
+ "serde",
+ "sha2 0.10.9",
+ "sha3 0.10.9",
+]
+
+[[package]]
 name = "powerfmt"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
