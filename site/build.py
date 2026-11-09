@@ -37,6 +37,7 @@ SCRUB = [
     (r"project owner and governance", "project owner and governance"), (r"\bOwner\b", "project owner"),
     (r"/Users/[A-Za-z0-9_.-]+/", "~/"),
 ]
+LOGO = open(os.path.join(SITE, "static", "logo-inline.txt")).read()
 LINKS = {os.path.basename(src): f"{slug}.html" for src, slug, _, _ in DOCS}
 
 
@@ -56,11 +57,11 @@ def relink(h):
 
 PAGE = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title} · ZeroFlux</title><meta name="description" content="{desc}">
-<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png"><link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png"><link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/static/docs.css"></head><body>
-<header><div class="w"><a class="logo" href="/"><img src="/static/logo-64.png" alt="" width="24" height="24"><span>ZeroFlux</span></a>
+<header><div class="w"><a class="logo" href="/">{logo}<span>ZeroFlux</span></a>
 <nav><a href="/docs/">Docs</a><a href="/#run">Run it</a><a href="https://testnet.nearblocks.io/address/wzfx.zeroflux.testnet" target="_blank" rel="noopener">wZFX on NEAR</a></nav></div></header>
 <div class="status">Testnet · mainnet not launched · testnet ZFX has no monetary value</div>
 <main class="w doc">{body}</main>
@@ -74,7 +75,7 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline;tex
 .w{max-width:860px;margin:0 auto;padding:0 24px}
 header{border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
 header .w{display:flex;justify-content:space-between;align-items:center;min-height:60px;gap:16px}
-.logo{display:flex;gap:10px;align-items:center;color:var(--ink);font:400 17px 'Inter Tight',sans-serif;letter-spacing:-.02em}.logo img{border-radius:6px}
+.logo{display:flex;gap:10px;align-items:center;color:var(--ink);font:400 17px 'Inter Tight',sans-serif;letter-spacing:-.02em}.logo svg{height:18px;width:auto;color:var(--ink);display:block}
 nav{display:flex;gap:22px;font-size:14px}nav a{color:var(--muted)}
 .status{text-align:center;font:300 12px 'JetBrains Mono',monospace;letter-spacing:.05em;color:var(--muted);border-bottom:1px solid var(--line);padding:9px 12px}
 .doc{padding-top:48px;padding-bottom:80px}
@@ -97,7 +98,7 @@ footer{border-top:1px solid var(--line);padding-top:28px;padding-bottom:40px;fon
 def main():
     shutil.rmtree(DIST, ignore_errors=True)
     os.makedirs(os.path.join(DIST, "docs"))
-    shutil.copytree(os.path.join(SITE, "static"), os.path.join(DIST, "static"))
+    shutil.copytree(os.path.join(SITE, "static"), os.path.join(DIST, "static"), ignore=shutil.ignore_patterns("*.txt"))
     open(os.path.join(DIST, "static", "docs.css"), "w").write(CSS)
     shutil.copy(os.path.join(SITE, "index.html"), os.path.join(DIST, "index.html"))
     md = markdown.Markdown(extensions=["tables", "fenced_code", "sane_lists"])
@@ -105,12 +106,12 @@ def main():
     for src, slug, title, desc in DOCS:
         text = scrub(open(os.path.join(ROOT, src)).read())
         body = relink(md.reset().convert(text))
-        open(os.path.join(DIST, "docs", f"{slug}.html"), "w").write(PAGE.format(title=html.escape(title), desc=html.escape(desc), body=body))
+        open(os.path.join(DIST, "docs", f"{slug}.html"), "w").write(PAGE.format(logo=LOGO, title=html.escape(title), desc=html.escape(desc), body=body))
         idx.append(f'<a href="{slug}.html"><div class="t">{html.escape(title)}</div><div class="s">{html.escape(desc)}</div></a>')
     body = "<h1>Documentation</h1><p>Design, evidence and open risks for ZeroFlux. Generated from the repository at build time.</p><div class=\"idx\">" + "".join(idx) + "</div>"
-    open(os.path.join(DIST, "docs", "index.html"), "w").write(PAGE.format(title="Documentation", desc="ZeroFlux documentation", body=body))
+    open(os.path.join(DIST, "docs", "index.html"), "w").write(PAGE.format(logo=LOGO, title="Documentation", desc="ZeroFlux documentation", body=body))
     body404 = '<h1>Not found</h1><p>That page does not exist. Go to the <a href="/">home page</a> or the <a href="/docs/">documentation</a>.</p>'
-    open(os.path.join(DIST, "404.html"), "w").write(PAGE.format(title="Not found", desc="Page not found", body=body404))
+    open(os.path.join(DIST, "404.html"), "w").write(PAGE.format(logo=LOGO, title="Not found", desc="Page not found", body=body404))
     open(os.path.join(DIST, "_headers"), "w").write("/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n")
     leaks = []
     for dp, _, fs in os.walk(DIST):
