@@ -47,6 +47,25 @@ def scrub(t):
     return t
 
 
+def drop_section(text, heading):
+    """Remove a markdown section (heading line through the next heading of the same or higher level)."""
+    lines = text.split("\n")
+    out, skip, level = [], False, 0
+    for ln in lines:
+        if ln.startswith("#"):
+            lvl = len(ln) - len(ln.lstrip("#"))
+            if skip and lvl <= level:
+                skip = False
+            if ln.strip() == heading:
+                skip, level = True, lvl
+                continue
+        if not skip:
+            out.append(ln)
+    return "\n".join(out)
+
+
+
+
 def relink(h):
     def fix(m):
         target = m.group(1)
@@ -104,7 +123,7 @@ def main():
     md = markdown.Markdown(extensions=["tables", "fenced_code", "sane_lists"])
     idx = []
     for src, slug, title, desc in DOCS:
-        text = scrub(open(os.path.join(ROOT, src)).read())
+        text = public_edit(slug, scrub(open(os.path.join(ROOT, src)).read()))
         body = relink(md.reset().convert(text))
         open(os.path.join(DIST, "docs", f"{slug}.html"), "w").write(PAGE.format(logo=LOGO, title=html.escape(title), desc=html.escape(desc), body=body))
         idx.append(f'<a href="{slug}.html"><div class="t">{html.escape(title)}</div><div class="s">{html.escape(desc)}</div></a>')
