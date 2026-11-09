@@ -965,6 +965,23 @@ impl Node {
         })
     }
 
+    /// Deposits on the best chain with height >= from (ordered), for relayers.
+    pub fn list_deposits(&self, from: u64, limit: usize) -> Value {
+        let g = self.lock();
+        let mut v: Vec<&crate::chain::DepositRecord> = g.chain.idx.deposits.values().filter(|d| d.height >= from).collect();
+        v.sort_by(|a, b| a.height.cmp(&b.height).then(a.deposit_id.cmp(&b.deposit_id)));
+        let tip = g.chain.height();
+        json!(v.into_iter().take(limit).map(|d| json!({"deposit_id": d.deposit_id, "height": d.height, "amount": d.amount,
+            "near_recipient": d.near_recipient, "confirmations": tip - d.height + 1, "block": d.block})).collect::<Vec<_>>())
+    }
+
+    pub fn list_releases(&self) -> Value {
+        let g = self.lock();
+        let mut v: Vec<&crate::chain::ReleaseRecord> = g.chain.idx.releases.values().collect();
+        v.sort_by(|a, b| a.height.cmp(&b.height).then(a.withdrawal_id.cmp(&b.withdrawal_id)));
+        json!(v)
+    }
+
     pub fn redeem_status(&self, wid: &Hash32) -> Value {
         let g = self.lock();
         if let Some(rec) = g.chain.idx.releases.get(wid) {

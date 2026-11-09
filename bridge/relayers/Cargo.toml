@@ -1,0 +1,23 @@
+[package]
+name = "zfx-bridge"
+description = "ZeroFlux <-> NEAR bridge services: NEAR client, 2-of-3 relayer witnesses, coordinator, reconciliation, CLI"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+zfx-verify = { path = "../../crates/zfx-verify" }
+serde.workspace = true
+serde_json.workspace = true
+hex.workspace = true
+sha2.workspace = true
+rand.workspace = true
+tiny_http.workspace = true
+ureq.workspace = true
+ed25519-dalek = { version = "2", features = ["rand_core"] }
+bs58 = "0.5"
+base64 = "0.22"
+near-sandbox = "0.4"
+near-token = "0.3"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time"] }
+ctrlc = { version = "3", features = ["termination"] }

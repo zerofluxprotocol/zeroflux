@@ -162,6 +162,12 @@ pub fn rpc(node: &Node, ip: Option<std::net::IpAddr>, auth: Option<&str>, req: &
                 }
             }
             "zfx_bridge_info" => Ok(node.bridge_info()),
+            "zfx_bridge_list_deposits" => {
+                let from = param(&p, "from_height").and_then(|v| v.as_u64()).unwrap_or(0);
+                let limit = param(&p, "limit").and_then(|v| v.as_u64()).unwrap_or(500).min(1000) as usize;
+                Ok(node.list_deposits(from, limit))
+            }
+            "zfx_bridge_list_releases" => Ok(node.list_releases()),
             "zfx_bridge_deposit_status" => Ok(node.deposit_status(&hash_param(&p, "deposit_id").map_err(bad)?)),
             "zfx_bridge_redeem_status" => Ok(node.redeem_status(&hash_param(&p, "withdrawal_id").map_err(bad)?)),
             "zfx_bridge_submit_op" => {

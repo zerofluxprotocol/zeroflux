@@ -8,6 +8,7 @@ members = [
     "crates/zfx-wallet",
     "crates/zfx-research",
     "miner/cli",
+    "bridge/relayers",
 ]
 
 [workspace.package]
