@@ -234,6 +234,17 @@ fn main() {
     let quick = args.iter().any(|a| a == "--quick");
     let out = args.iter().position(|a| a == "--out").and_then(|i| args.get(i + 1)).cloned().unwrap_or_else(|| "bench/results".into());
     let run = |c: &str| cmd == "all" || cmd == c;
+    if cmd == "vectors-v2" {
+        let path = "tests/vectors/consensus_v2.json";
+        if std::path::Path::new(path).exists() && !args.iter().any(|a| a == "--force") {
+            eprintln!("{} exists and is frozen (signatures are randomized); pass --force to regenerate", path);
+            return;
+        }
+        let v = zfx_verify::vectors::consensus_v2_vectors();
+        std::fs::write(path, serde_json::to_string_pretty(&v).unwrap()).unwrap();
+        eprintln!("wrote {}", path);
+        return;
+    }
     if cmd == "vectors" {
         let v = zfx_verify::vectors::all_vectors();
         std::fs::create_dir_all("tests/vectors").unwrap();

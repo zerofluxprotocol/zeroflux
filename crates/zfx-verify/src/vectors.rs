@@ -134,3 +134,87 @@ mod tests {
         assert_eq!(now, published, "consensus output changed; regenerate vectors only for an intentional new version");
     }
 }
+
+/// Consensus v2 golden vectors (header v2, tx, bridge digests, difficulty,
+/// state root). Signatures are hedged (randomized), so the file is
+/// generated once and frozen; tests check every recorded value recomputes.
+pub fn consensus_v2_vectors() -> Value {
+    use crate::bridge::{admin_digest, lockbox_address, native_asset_id, release_digest, AdminAction, AdminOp, Release};
+    use crate::difficulty::{next_target, DifficultyParams};
+    use crate::state::{ConsensusParams, State};
+    use crate::tx::{address_to_string, P2mrKeys};
+    use crate::U256;
+    let cid = 0x5a46_0002u32;
+    let h = BlockHeader {
+        version: 2,
+        chain_id: cid,
+        height: 7,
+        parent: sha256(&[b"v2-parent"]),
+        tx_root: sha256(&[b"v2-txroot"]),
+        state_root: sha256(&[b"v2-stateroot"]),
+        timestamp: 1_790_000_000,
+        target: U256::MAX.shr(10).to_be_bytes(),
+        nonce: 42,
+    };
+    let alice = P2mrKeys::from_seed(&[0xa1; 32]);
+    let plain = alice.sign_tx(cid, [0xb2; 32], 1234, 1000, 0, 0).unwrap();
+    let memo = alice.sign_tx_memo(cid, lockbox_address(cid), 5000, 1000, 1, 0, Some("alice.test.near".into())).unwrap();
+    let rel = Release { epoch: 0, withdrawal_id: [0x11; 32], near_burn_ref: "wzfx.test.near:7:abc".into(), recipient: [0x22; 32], amount: 777, expiry_height: 900, approvals: vec![] };
+    let adm = AdminOp { epoch: 0, op_nonce: 3, action: AdminAction::Pause, approvals: vec![] };
+    let dp = DifficultyParams { target_spacing_secs: 30, pow_limit: U256::MAX.shr(2), fixed: false };
+    let g = U256::MAX.shr(12);
+    let hist: Vec<(u64, U256)> = (0..31u64).map(|i| (1_790_000_000 + i * 20, g)).collect();
+    let params = ConsensusParams { chain_id: cid, block_subsidy: 50_0000_0000, coinbase_maturity: 5, bridge: None };
+    let st = State::genesis(&params, &[(alice.address(), 1_000_000)]).unwrap();
+    json!({
+        "format": "zfx-consensus-v2-vectors",
+        "header_v2": {"fields": h, "encoded_hex": hex::encode(h.encode()), "hash": to_hex(&h.hash()),
+                      "challenge": to_hex(&challenge(&h))},
+        "tx_plain": {"json": plain, "core_hex": hex::encode(plain.core_bytes()), "txid": to_hex(&plain.txid()), "wtxid": to_hex(&plain.wtxid()),
+                     "from": address_to_string(&plain.from)},
+        "tx_bridge_deposit": {"json": memo, "core_hex": hex::encode(memo.core_bytes()), "txid": to_hex(&memo.txid()), "wtxid": to_hex(&memo.wtxid())},
+        "bridge": {"chain_id": cid, "native_asset_id": native_asset_id(cid), "lockbox": address_to_string(&lockbox_address(cid)),
+                   "release": rel, "release_digest": to_hex(&release_digest(cid, &rel)),
+                   "admin_pause": adm, "admin_digest": to_hex(&admin_digest(cid, &adm))},
+        "difficulty": {"spacing": 30, "genesis_target": g.to_hex(), "history_spacing_secs": 20,
+                       "next_target": next_target(&dp, &g, &hist).to_hex()},
+        "state": {"allocation": [address_to_string(&alice.address()), 1_000_000], "chain_id": cid, "maturity": 5, "root": to_hex(&st.root())},
+    })
+}
+
+#[cfg(test)]
+mod v2_tests {
+    use super::*;
+    use crate::bridge::{admin_digest, release_digest, AdminOp, Release};
+    use crate::tx::Transaction;
+
+    #[test]
+    fn consensus_v2_vectors_recompute() {
+        let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../tests/vectors/consensus_v2.json");
+        let v: Value = serde_json::from_str(&std::fs::read_to_string(path).expect("run `zfx-research vectors-v2`")).unwrap();
+        let h: BlockHeader = serde_json::from_value(v["header_v2"]["fields"].clone()).unwrap();
+        assert_eq!(hex::encode(h.encode()), v["header_v2"]["encoded_hex"]);
+        assert_eq!(BlockHeader::decode(&hex::decode(v["header_v2"]["encoded_hex"].as_str().unwrap()).unwrap()).unwrap(), h);
+        assert_eq!(to_hex(&h.hash()), v["header_v2"]["hash"]);
+        assert_eq!(to_hex(&challenge(&h)), v["header_v2"]["challenge"]);
+        for k in ["tx_plain", "tx_bridge_deposit"] {
+            let t: Transaction = serde_json::from_value(v[k]["json"].clone()).unwrap();
+            t.verify_authorization().unwrap();
+            assert_eq!(hex::encode(t.core_bytes()), v[k]["core_hex"]);
+            assert_eq!(to_hex(&t.txid()), v[k]["txid"]);
+            assert_eq!(to_hex(&t.wtxid()), v[k]["wtxid"]);
+        }
+        let cid = v["bridge"]["chain_id"].as_u64().unwrap() as u32;
+        let r: Release = serde_json::from_value(v["bridge"]["release"].clone()).unwrap();
+        assert_eq!(to_hex(&release_digest(cid, &r)), v["bridge"]["release_digest"]);
+        let a: AdminOp = serde_json::from_value(v["bridge"]["admin_pause"].clone()).unwrap();
+        assert_eq!(to_hex(&admin_digest(cid, &a)), v["bridge"]["admin_digest"]);
+        // deterministic parts recompute exactly from the generator
+        let fresh = consensus_v2_vectors();
+        for k in ["header_v2", "difficulty", "state"] {
+            assert_eq!(fresh[k], v[k], "{}", k);
+        }
+        assert_eq!(fresh["bridge"]["release_digest"], v["bridge"]["release_digest"]);
+        assert_eq!(fresh["bridge"]["lockbox"], v["bridge"]["lockbox"]);
+    }
+}

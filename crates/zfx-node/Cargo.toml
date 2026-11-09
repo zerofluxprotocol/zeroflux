@@ -19,3 +19,11 @@ serde_json.workspace = true
 hex.workspace = true
 tiny_http.workspace = true
 rand.workspace = true
+fips203 = "0.5"
+fips204 = "0.5"
+x25519-dalek = { version = "2", features = ["static_secrets"] }
+chacha20poly1305 = "0.10"
+hkdf = "0.12"
+sha2.workspace = true
+rand_core.workspace = true
+ctrlc = { version = "3", features = ["termination"] }
