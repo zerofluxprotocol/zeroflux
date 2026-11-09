@@ -1,0 +1,36 @@
+{
+  "activation_bytes_per_attempt": 20480,
+  "cpu_thread_scaling": [
+    {
+      "attempts_per_s": 958.901453727566,
+      "threads": 1
+    },
+    {
+      "attempts_per_s": 1847.4661511004463,
+      "threads": 2
+    },
+    {
+      "attempts_per_s": 2139.7481198844034,
+      "threads": 4
+    },
+    {
+      "attempts_per_s": 1816.1733407200036,
+      "threads": 8
+    },
+    {
+      "attempts_per_s": 2068.6066949705096,
+      "threads": 18
+    }
+  ],
+  "decision": "GPU default batch 32768 (measured +14% H100 / +40% MI355X over 8192); CPU miners use one thread per core; minimum supported GPU memory ~0.7 GB",
+  "experiment": "mining_workload_portability_cpu",
+  "gpu_batch_evidence": "bench/results/gpu/*_round4|5/results/results.jsonl stage profiles at B=8192 and B=32768 (H100, MI355X)",
+  "gpu_memory_estimate_bytes_at_B32768": {
+    "X_ping_pong": 268435456,
+    "Y_int32": 536870912,
+    "weights": 51642368
+  },
+  "macs_per_attempt": 51642368,
+  "profile": "zfx-fp8c-v0.1",
+  "weights_bytes": 51642368
+}

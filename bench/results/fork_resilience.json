@@ -1,0 +1,57 @@
+{
+  "algorithm": "LWMA-1 N=30, solvetime clamp [1, 6T], MTP-11, +120 s future limit",
+  "attacker_30pct_max_future_timestamps": {
+    "blocks": 4000,
+    "mean_block_time_second_half_s": 60.294732236501474,
+    "target_s": 60
+  },
+  "attacker_30pct_minimal_timestamps": {
+    "blocks": 4000,
+    "mean_block_time_second_half_s": 60.9716853119867,
+    "target_s": 60
+  },
+  "blocks_to_recover_after_10x_jump": 51,
+  "experiment": "difficulty_and_fork_resilience",
+  "hashrate_x0.1_drop_at_1000": {
+    "blocks": 4000,
+    "mean_block_time_second_half_s": 60.47702719723025,
+    "target_s": 60
+  },
+  "hashrate_x10_jump_at_1000": {
+    "blocks": 4000,
+    "mean_block_time_second_half_s": 60.64503301579453,
+    "target_s": 60
+  },
+  "multi_node_evidence": "bench/results/e2e_native.json (partition/rejoin reorg, 1000+ blocks), e2e_bridge_reorg.json (deep fork adoption)",
+  "oscillating_1x_5x_every_200": {
+    "blocks": 4000,
+    "mean_block_time_second_half_s": 63.48307013536742,
+    "target_s": 60
+  },
+  "solvetime_rule_comparison_target_60s": [
+    {
+      "attacker_30pct_future_ts": 43.11747409737736,
+      "attacker_30pct_minimal_ts": 24.36714838516288,
+      "attacker_50pct_minimal_ts": 16.219319561960035,
+      "rule": "previous_block (classic LWMA-1)",
+      "steady": 60.55404888105271,
+      "x0.1_drop": 60.47702719723025,
+      "x10_jump": 60.64503301579453
+    },
+    {
+      "attacker_30pct_future_ts": 60.294732236501474,
+      "attacker_30pct_minimal_ts": 60.9716853119867,
+      "attacker_50pct_minimal_ts": 65.7275089678186,
+      "rule": "running_max (selected)",
+      "steady": 60.55404888105271,
+      "x0.1_drop": 60.47702719723025,
+      "x10_jump": 60.64503301579453
+    }
+  ],
+  "steady": {
+    "blocks": 4000,
+    "mean_block_time_second_half_s": 60.55404888105271,
+    "target_s": 60
+  },
+  "verdict": "block time stays near target under 10x shocks and 30% timestamp manipulation; manipulation biases the mean by the clamp-bounded amount reported above"
+}

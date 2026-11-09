@@ -161,10 +161,10 @@ pub fn consensus_v2_vectors() -> Value {
     let memo = alice.sign_tx_memo(cid, lockbox_address(cid), 5000, 1000, 1, 0, Some("alice.test.near".into())).unwrap();
     let rel = Release { epoch: 0, withdrawal_id: [0x11; 32], near_burn_ref: "wzfx.test.near:7:abc".into(), recipient: [0x22; 32], amount: 777, expiry_height: 900, approvals: vec![] };
     let adm = AdminOp { epoch: 0, op_nonce: 3, action: AdminAction::Pause, approvals: vec![] };
-    let dp = DifficultyParams { target_spacing_secs: 30, pow_limit: U256::MAX.shr(2), fixed: false };
+    let dp = DifficultyParams { solvetime_rule: crate::difficulty::SolvetimeRule::RunningMax, target_spacing_secs: 30, pow_limit: U256::MAX.shr(2), fixed: false };
     let g = U256::MAX.shr(12);
     let hist: Vec<(u64, U256)> = (0..31u64).map(|i| (1_790_000_000 + i * 20, g)).collect();
-    let params = ConsensusParams { chain_id: cid, block_subsidy: 50_0000_0000, coinbase_maturity: 5, bridge: None };
+    let params = ConsensusParams { chain_id: cid, subsidy: crate::monetary::SubsidySchedule::Constant { per_block: 50_0000_0000 }, coinbase_maturity: 5, bridge: None };
     let st = State::genesis(&params, &[(alice.address(), 1_000_000)]).unwrap();
     json!({
         "format": "zfx-consensus-v2-vectors",

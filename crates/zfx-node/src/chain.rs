@@ -111,6 +111,12 @@ pub fn genesis_block(cfg: &ChainConfig, state_root: Hash32) -> Block {
 
 impl Chain {
     pub fn new(cfg: ChainConfig) -> Result<Chain, String> {
+        if cfg.network == "mainnet" {
+            return Err("mainnet activation is gated: it requires an owner-selected monetary policy, independent cryptanalysis, a security audit and owner sign-off (docs/RELEASE_READINESS.md); MAINNET_READY=false".into());
+        }
+        if cfg.network != "testnet" {
+            return Err(format!("unknown network {:?}", cfg.network));
+        }
         if cfg.consensus_version != 2 {
             return Err(format!("unsupported consensus_version {} (this node implements 2)", cfg.consensus_version));
         }
@@ -152,7 +158,7 @@ impl Chain {
     }
 
     pub fn diff_params(&self) -> DifficultyParams {
-        DifficultyParams { target_spacing_secs: self.cfg.target_spacing_secs, pow_limit: self.cfg.pow_limit_u256(), fixed: self.cfg.fixed_difficulty }
+        DifficultyParams { solvetime_rule: zfx_verify::difficulty::SolvetimeRule::RunningMax, target_spacing_secs: self.cfg.target_spacing_secs, pow_limit: self.cfg.pow_limit_u256(), fixed: self.cfg.fixed_difficulty }
     }
 
     pub fn ancestor(&self, from: &Hash32, height: u64) -> Option<Hash32> {
@@ -495,7 +501,7 @@ impl Chain {
             };
             let fees: u64 = txs.iter().map(|t| t.fee).sum();
             let mut b2 = b;
-            b2.coinbase.amount = self.cfg.block_subsidy + fees;
+            b2.coinbase.amount = self.params.subsidy.subsidy_at(height) + fees;
             s.apply_block(&self.params, &b2).ok().map(|_| (s, fees))
         };
         for t in txs {
@@ -520,7 +526,7 @@ impl Chain {
             }
         }
         let fees: u64 = chosen.iter().map(|t| t.fee).sum();
-        let coinbase = Coinbase { height, to: miner, amount: self.cfg.block_subsidy + fees };
+        let coinbase = Coinbase { height, to: miner, amount: self.params.subsidy.subsidy_at(height) + fees };
         let mut b = Block {
             header: BlockHeader {
                 version: self.cfg.profile,

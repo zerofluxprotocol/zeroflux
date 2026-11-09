@@ -6,6 +6,7 @@
 mod arith;
 mod attacks;
 mod candidates;
+mod econ;
 mod transcript;
 
 use arith::{accum_name, Accum, ALL_ACCUMS};
@@ -271,6 +272,15 @@ fn main() {
         let (v, t) = timeit(pq_exp);
         eprintln!("sig done in {:.1}s", t);
         write(&out, "signature_costs", &v);
+    }
+    if run("tokenomics") {
+        write(&out, "tokenomics", &econ::tokenomics());
+    }
+    if run("fork-resilience") {
+        write(&out, "fork_resilience", &econ::fork_resilience());
+    }
+    if run("workload") {
+        write(&out, "workload_cpu", &econ::workload());
     }
     if run("throughput") {
         let (v, t) = timeit(|| throughput(quick));

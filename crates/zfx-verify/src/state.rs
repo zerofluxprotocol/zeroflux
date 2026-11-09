@@ -16,7 +16,7 @@ use std::collections::{BTreeMap, BTreeSet};
 #[derive(Clone, Debug)]
 pub struct ConsensusParams {
     pub chain_id: u32,
-    pub block_subsidy: u64,
+    pub subsidy: crate::monetary::SubsidySchedule,
     /// Blocks before a coinbase becomes spendable (0 = immediately).
     pub coinbase_maturity: u64,
     pub bridge: Option<BridgeParams>,
@@ -287,7 +287,7 @@ impl State {
     }
 
     pub fn apply_coinbase(&mut self, p: &ConsensusParams, cb: &Coinbase, height: u64, fees: u64) -> Result<(), String> {
-        let want = p.block_subsidy.checked_add(fees).ok_or("reward overflow")?;
+        let want = p.subsidy.subsidy_at(height).checked_add(fees).ok_or("reward overflow")?;
         if cb.amount != want {
             return Err(format!("coinbase {} != subsidy+fees {}", cb.amount, want));
         }

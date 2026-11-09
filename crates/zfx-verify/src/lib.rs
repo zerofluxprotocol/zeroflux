@@ -6,6 +6,7 @@ pub mod bridge;
 pub mod difficulty;
 pub mod hash;
 pub mod header;
+pub mod monetary;
 pub mod pow;
 pub mod state;
 pub mod tx;

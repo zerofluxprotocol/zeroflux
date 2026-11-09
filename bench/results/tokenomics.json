@@ -1,0 +1,251 @@
+{
+  "blocks_per_year": 1051200,
+  "candidates": [
+    {
+      "name": "A_constant_50",
+      "note": "current testnet; uncapped, inflation falls as 1/t",
+      "points": [
+        {
+          "annual_issuance_zfx": 52560000,
+          "inflation_pct": null,
+          "subsidy_per_block_zfx": 50.0,
+          "supply_zfx": 52560000,
+          "year": 1
+        },
+        {
+          "annual_issuance_zfx": 52560000,
+          "inflation_pct": 100.0,
+          "subsidy_per_block_zfx": 50.0,
+          "supply_zfx": 105120000,
+          "year": 2
+        },
+        {
+          "annual_issuance_zfx": 52560000,
+          "inflation_pct": 33.333333333333336,
+          "subsidy_per_block_zfx": 50.0,
+          "supply_zfx": 210240000,
+          "year": 4
+        },
+        {
+          "annual_issuance_zfx": 52560000,
+          "inflation_pct": 14.285714285714286,
+          "subsidy_per_block_zfx": 50.0,
+          "supply_zfx": 420480000,
+          "year": 8
+        },
+        {
+          "annual_issuance_zfx": 52560000,
+          "inflation_pct": 6.666666666666667,
+          "subsidy_per_block_zfx": 50.0,
+          "supply_zfx": 840960000,
+          "year": 16
+        },
+        {
+          "annual_issuance_zfx": 52560000,
+          "inflation_pct": 3.225806451612903,
+          "subsidy_per_block_zfx": 50.0,
+          "supply_zfx": 1681920000,
+          "year": 32
+        },
+        {
+          "annual_issuance_zfx": 52560000,
+          "inflation_pct": 1.5873015873015872,
+          "subsidy_per_block_zfx": 50.0,
+          "supply_zfx": 3363840000,
+          "year": 64
+        }
+      ],
+      "schedule": {
+        "kind": "constant",
+        "per_block": 5000000000
+      }
+    },
+    {
+      "name": "B_halving_2y_tail",
+      "note": "halving every 2 years, 0.5 ZFX tail",
+      "points": [
+        {
+          "annual_issuance_zfx": 52560000,
+          "inflation_pct": null,
+          "subsidy_per_block_zfx": 50.0,
+          "supply_zfx": 52560000,
+          "year": 1
+        },
+        {
+          "annual_issuance_zfx": 52560000,
+          "inflation_pct": 100.0,
+          "subsidy_per_block_zfx": 50.0,
+          "supply_zfx": 105120000,
+          "year": 2
+        },
+        {
+          "annual_issuance_zfx": 26280000,
+          "inflation_pct": 20.0,
+          "subsidy_per_block_zfx": 25.0,
+          "supply_zfx": 157680000,
+          "year": 4
+        },
+        {
+          "annual_issuance_zfx": 6570000,
+          "inflation_pct": 3.4482758620689653,
+          "subsidy_per_block_zfx": 6.25,
+          "supply_zfx": 197100000,
+          "year": 8
+        },
+        {
+          "annual_issuance_zfx": 525600,
+          "inflation_pct": 0.2513352183474709,
+          "subsidy_per_block_zfx": 0.5,
+          "supply_zfx": 209648700,
+          "year": 16
+        },
+        {
+          "annual_issuance_zfx": 525600,
+          "inflation_pct": 0.24161884627000907,
+          "subsidy_per_block_zfx": 0.5,
+          "supply_zfx": 218058300,
+          "year": 32
+        },
+        {
+          "annual_issuance_zfx": 525600,
+          "inflation_pct": 0.224278104850014,
+          "subsidy_per_block_zfx": 0.5,
+          "supply_zfx": 234877500,
+          "year": 64
+        }
+      ],
+      "schedule": {
+        "initial": 5000000000,
+        "interval": 2102400,
+        "kind": "halving",
+        "tail": 50000000
+      }
+    },
+    {
+      "name": "C_halving_4y_cap",
+      "note": "Bitcoin-like, hard cap, no tail",
+      "points": [
+        {
+          "annual_issuance_zfx": 52560000,
+          "inflation_pct": null,
+          "subsidy_per_block_zfx": 50.0,
+          "supply_zfx": 52560000,
+          "year": 1
+        },
+        {
+          "annual_issuance_zfx": 52560000,
+          "inflation_pct": 100.0,
+          "subsidy_per_block_zfx": 50.0,
+          "supply_zfx": 105120000,
+          "year": 2
+        },
+        {
+          "annual_issuance_zfx": 52560000,
+          "inflation_pct": 33.333333333333336,
+          "subsidy_per_block_zfx": 50.0,
+          "supply_zfx": 210240000,
+          "year": 4
+        },
+        {
+          "annual_issuance_zfx": 26280000,
+          "inflation_pct": 9.090909090909092,
+          "subsidy_per_block_zfx": 25.0,
+          "supply_zfx": 315360000,
+          "year": 8
+        },
+        {
+          "annual_issuance_zfx": 6570000,
+          "inflation_pct": 1.694915254237288,
+          "subsidy_per_block_zfx": 6.25,
+          "supply_zfx": 394200000,
+          "year": 16
+        },
+        {
+          "annual_issuance_zfx": 410625,
+          "inflation_pct": 0.09813542688910697,
+          "subsidy_per_block_zfx": 0.390625,
+          "supply_zfx": 418837500,
+          "year": 32
+        },
+        {
+          "annual_issuance_zfx": 1603,
+          "inflation_pct": 0.00038147477616404875,
+          "subsidy_per_block_zfx": 0.00152587,
+          "supply_zfx": 420473583,
+          "year": 64
+        }
+      ],
+      "schedule": {
+        "initial": 5000000000,
+        "interval": 4204800,
+        "kind": "halving",
+        "tail": 0
+      }
+    },
+    {
+      "name": "D_smooth_decay_tail",
+      "note": "daily ~0.0474% decay (halves every ~4 y), 0.5 ZFX tail: no halving shocks",
+      "points": [
+        {
+          "annual_issuance_zfx": 48275026,
+          "inflation_pct": null,
+          "subsidy_per_block_zfx": 42.0746786,
+          "supply_zfx": 48275026,
+          "year": 1
+        },
+        {
+          "annual_issuance_zfx": 40603869,
+          "inflation_pct": 84.1094704118472,
+          "subsidy_per_block_zfx": 35.38878935,
+          "supply_zfx": 88878895,
+          "year": 2
+        },
+        {
+          "annual_issuance_zfx": 28724813,
+          "inflation_pct": 23.347699350135635,
+          "subsidy_per_block_zfx": 25.0354558,
+          "supply_zfx": 151755408,
+          "year": 4
+        },
+        {
+          "annual_issuance_zfx": 14375958,
+          "inflation_pct": 6.738875351273185,
+          "subsidy_per_block_zfx": 12.52953912,
+          "supply_zfx": 227704707,
+          "year": 8
+        },
+        {
+          "annual_issuance_zfx": 3600775,
+          "inflation_pct": 1.2807875144517344,
+          "subsidy_per_block_zfx": 3.13829875,
+          "supply_zfx": 284738362,
+          "year": 16
+        },
+        {
+          "annual_issuance_zfx": 525600,
+          "inflation_pct": 0.1734275593306302,
+          "subsidy_per_block_zfx": 0.5,
+          "supply_zfx": 303591619,
+          "year": 32
+        },
+        {
+          "annual_issuance_zfx": 525600,
+          "inflation_pct": 0.16430893604897082,
+          "subsidy_per_block_zfx": 0.5,
+          "supply_zfx": 320410819,
+          "year": 64
+        }
+      ],
+      "schedule": {
+        "decay_ppm": 474,
+        "epoch": 2880,
+        "initial": 5000000000,
+        "kind": "smooth_decay",
+        "tail": 50000000
+      }
+    }
+  ],
+  "decision": "OWNER DECISION REQUIRED (not made here). Data-backed recommendation: D_smooth_decay_tail - no step changes in miner revenue (halvings cause hashrate shocks the LWMA must absorb), a perpetual tail keeps a security budget once fees are small, and supply converges toward a predictable asymptote plus a small tail. Mainnet activation is blocked in the node until a schedule is selected and signed off.",
+  "experiment": "monetary_schedules",
+  "target_spacing_s": 30
+}

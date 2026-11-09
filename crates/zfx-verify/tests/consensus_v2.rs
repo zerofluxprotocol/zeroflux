@@ -28,7 +28,7 @@ impl Committee {
 fn params(c: &Committee, maturity: u64) -> ConsensusParams {
     ConsensusParams {
         chain_id: CID,
-        block_subsidy: 50,
+        subsidy: zfx_verify::monetary::SubsidySchedule::Constant { per_block: 50 },
         coinbase_maturity: maturity,
         bridge: Some(BridgeParams {
             committee: c.hex(),

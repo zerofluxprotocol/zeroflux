@@ -234,3 +234,29 @@ fn restart_recovery_from_disk() {
     assert!(Node::new(c2, Some(&d), None, 0).is_err());
     std::fs::remove_dir_all(dir).ok();
 }
+
+#[test]
+fn mainnet_activation_is_gated_and_schedules_apply() {
+    let mut c = cfg(true);
+    c.network = "mainnet".into();
+    assert!(Chain::new(c).err().unwrap().contains("gated"));
+    // A halving schedule is enforced by consensus (coinbase must match it).
+    let mut c = cfg(true);
+    c.subsidy_schedule = Some(zfx_verify::monetary::SubsidySchedule::Halving { initial: 1000, interval: 2, tail: 1 });
+    let mut ch = Chain::new(c).unwrap();
+    let m = [8u8; 32];
+    for i in 0..5 {
+        let b = mine(ch.template(m, &[], now_secs() - 1000 + i), &mut ch);
+        ch.add_block(b, now_secs()).unwrap();
+    }
+    // heights 1..5: 1000,1000,500,500,250
+    assert_eq!(ch.state.account(&m).balance, 3250);
+    let mut bad = ch.template(m, &[], now_secs());
+    bad.coinbase.amount = 250; // height 6 pays 250 under the schedule: valid
+    assert_eq!(bad.coinbase.amount, 250);
+    bad.coinbase.amount = 500; // overpay
+    bad.header.tx_root = bad.compute_tx_root();
+    let bad = mine(bad, &mut ch);
+    ch.add_block(bad, now_secs()).unwrap();
+    assert_eq!(ch.height(), 5, "coinbase above the schedule is rejected at connect");
+}

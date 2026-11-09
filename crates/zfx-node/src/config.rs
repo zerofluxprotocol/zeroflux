@@ -45,6 +45,16 @@ pub struct ChainConfig {
     /// is in NodeOptions, this only documents the testnet default).
     #[serde(default)]
     pub label: String,
+    /// Monetary policy. None = Constant { per_block: block_subsidy } (testnet).
+    #[serde(default)]
+    pub subsidy_schedule: Option<zfx_verify::monetary::SubsidySchedule>,
+    /// "testnet" (default) or "mainnet". Mainnet activation is gated.
+    #[serde(default = "default_network")]
+    pub network: String,
+}
+
+fn default_network() -> String {
+    "testnet".into()
 }
 
 fn default_consensus_version() -> u32 {
@@ -68,6 +78,8 @@ impl ChainConfig {
             coinbase_maturity: 5,
             bridge: None,
             label: "zeroflux-devnet".into(),
+            subsidy_schedule: None,
+            network: "testnet".into(),
         }
     }
 
@@ -86,10 +98,14 @@ impl ChainConfig {
     pub fn params(&self) -> ConsensusParams {
         ConsensusParams {
             chain_id: self.chain_id,
-            block_subsidy: self.block_subsidy,
+            subsidy: self.schedule(),
             coinbase_maturity: self.coinbase_maturity,
             bridge: self.bridge.clone(),
         }
+    }
+
+    pub fn schedule(&self) -> zfx_verify::monetary::SubsidySchedule {
+        self.subsidy_schedule.clone().unwrap_or(zfx_verify::monetary::SubsidySchedule::Constant { per_block: self.block_subsidy })
     }
 
     pub fn genesis_target_u256(&self) -> U256 {
@@ -124,6 +140,14 @@ impl ChainConfig {
                 b.push(1);
                 b.extend_from_slice(&bp.canonical_bytes());
             }
+        }
+        if let Some(sc) = &self.subsidy_schedule {
+            b.extend_from_slice(b"|subsidy");
+            b.extend_from_slice(&sc.canonical_bytes());
+        }
+        if self.network != "testnet" {
+            b.extend_from_slice(b"|network");
+            b.extend_from_slice(self.network.as_bytes());
         }
         let al = self.allocations_parsed().expect("allocation addresses");
         b.extend_from_slice(&(al.len() as u32).to_le_bytes());
