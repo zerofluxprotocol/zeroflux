@@ -3,6 +3,7 @@ name = "zpu-cli"
 description = "ZPU mining client: connects GPU/CPU miner backends to a ZeroFlux node"
 version.workspace = true
 edition.workspace = true
+license.workspace = true
 
 [dependencies]
 zfx-verify = { path = "../../crates/zfx-verify" }

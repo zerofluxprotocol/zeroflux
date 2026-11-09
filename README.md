@@ -68,3 +68,5 @@ Every attempt derives a 64-value input row from `SHAKE256(SHA256(header) || nonc
 | Multi-node testnet, 11 network checks, two PoW profiles | PASS |
 | Independent cryptanalysis, audit, transport encryption, public testnet | not done (see RELEASE_READINESS.md) |
 
+
+License: Apache-2.0 (see LICENSE).

@@ -3,6 +3,7 @@ name = "zfx-wallet"
 description = "ZeroFlux CLI wallet: SLH-DSA P2MR keys, balances, transfers"
 version.workspace = true
 edition.workspace = true
+license.workspace = true
 
 [dependencies]
 zfx-verify = { path = "../zfx-verify" }

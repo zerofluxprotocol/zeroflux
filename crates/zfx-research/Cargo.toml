@@ -3,6 +3,7 @@ name = "zfx-research"
 description = "Algorithm-selection experiments for ZeroFlux (spec section 2A)"
 version.workspace = true
 edition.workspace = true
+license.workspace = true
 
 [dependencies]
 zfx-verify = { path = "../zfx-verify" }
