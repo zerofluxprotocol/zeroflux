@@ -216,6 +216,11 @@ footer .wrap { padding-top: 48px; padding-bottom: 48px; }
 .mtable tr.hl td { color: var(--ink); }
 .scroll-x { overflow-x: auto; }
 .note { margin-top: 20px; font-size: 13px; line-height: 1.6; font-weight: 300; color: var(--faint); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.grid-4 > div { padding: 32px 28px; }
+.grid-4 h3 { font-size: 36px; }
+@media (max-width: 1080px) { .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .grid-4 { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
 </style>
 </head>
@@ -382,17 +387,17 @@ footer .wrap { padding-top: 48px; padding-bottom: 48px; }
     <h2 class="h2">Your GPU is already capable.</h2>
     <p class="body" style="max-width: 560px; margin: 24px auto 0">Built for the GPUs already deployed across AI infrastructure. No mining ASIC required. Data-center GPUs mine roughly 2,500 to 4,000 times faster than a laptop CPU, by design.</p>
   </div>
-  <div class="grid-cells">
+  <div class="grid-cells grid-4">
     <div><div class="tag">CUDA</div><h3>NVIDIA</h3><p class="small">int8 (cuBLAS) and FP8 (cuBLASLt) paths, both exact.</p><div class="stat">H100 <b>8.08 M</b> attempts/s<br>Blackwell, RTX 50: builds, not yet measured</div></div>
     <div><div class="tag">ROCm</div><h3>AMD</h3><p class="small">int8 (hipBLAS) and FP8 (hipBLASLt) paths, both exact.</p><div class="stat">MI355X <b>13.1 M</b> attempts/s<br>MI300X: builds, not yet measured</div></div>
     <div><div class="tag">MLX · METAL</div><h3>Apple Silicon</h3><p class="small">GPU mining through MLX or PyTorch MPS.</p><div class="stat">M5 Pro GPU <b>80 K</b> attempts/s<br>24x the same chip's CPU</div></div>
     <div><div class="tag">REFERENCE</div><h3>Any CPU</h3><p class="small">Rust and C++ miners; every full node verifies on CPU.</p><div class="stat">M5 Pro, 18 threads <b>3.3 K</b> attempts/s</div></div>
   </div>
   <div class="scroll-x"><table class="mtable">
-    <thead><tr><th>Hardware</th><th>Attempts / s</th><th>Energy / attempt</th><th>Real blocks mined (120 s test)</th></tr></thead>
+    <thead><tr><th>Hardware</th><th>Attempts / s</th><th>Energy / attempt</th><th>Real blocks mined</th></tr></thead>
     <tbody>
-      <tr class="hl"><td>AMD MI355X</td><td class="n">13,124,061</td><td class="n">≈ 93 µJ</td><td class="n">57, all re-verified by an independent CPU node</td></tr>
-      <tr class="hl"><td>NVIDIA H100 80GB</td><td class="n">8,078,510</td><td class="n">≈ 86 µJ</td><td class="n">42, all re-verified by an independent CPU node</td></tr>
+      <tr class="hl"><td>AMD MI355X</td><td class="n">13,124,061</td><td class="n">≈ 93 µJ</td><td class="n">57 in 120 s, all re-verified by an independent CPU node</td></tr>
+      <tr class="hl"><td>NVIDIA H100 80GB</td><td class="n">8,078,510</td><td class="n">≈ 86 µJ</td><td class="n">42 in 120 s, all re-verified by an independent CPU node</td></tr>
       <tr><td>Apple M5 Pro GPU (MLX)</td><td class="n">80,131</td><td class="n">not measured</td><td class="n">88 in 30 s on an easy local target, re-verified</td></tr>
       <tr><td>Apple M5 Pro CPU (18 threads)</td><td class="n">3,293</td><td class="n">not measured</td><td class="n">55 in 25 s on an easy local target, re-verified</td></tr>
     </tbody>
