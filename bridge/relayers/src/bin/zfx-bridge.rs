@@ -12,6 +12,22 @@
 //!   zfx-bridge burn --rpc URL --signer ID --key-file F --contract ID --amount N --native-recipient zfx1...
 //!   zfx-bridge reconcile --env ENV --zfx URL
 //!   zfx-bridge sign-nep413 --key-file F --message M --nonce-b64 B --recipient R
+const USAGE: &str = r#"zfx-bridge: operator and user CLI for the ZeroFlux <-> NEAR bridge.
+
+  zfx-bridge near-sandbox --dir DIR --accounts a,b,c     local NEAR node; writes DIR/sandbox.json + key files
+  zfx-bridge keygen-relayer --out SEEDFILE               prints {ed25519, slh} public keys
+  zfx-bridge keygen-near --account ID --out FILE         NEAR key file (near-cli credential format)
+  zfx-bridge deploy --rpc URL --signer ID --key-file F --contract ID --wasm W --init JSON [--deposit-near N]
+  zfx-bridge call --rpc URL --signer ID --key-file F --contract ID --method M (--args JSON | --raw-args-file F) [--deposit YOCTO] [--gas TGAS]
+  zfx-bridge admin-sign --seed F --member I --chain near|native --epoch E --nonce N --action pause|unpause|rotate
+             [--contract ID] [--chain-id N] [--committee K1,K2,K3] [--activate-height H]
+  zfx-bridge create-subaccount --rpc URL --signer ID --key-file F --account NEW --deposit-near N --out KEYFILE
+  zfx-bridge view --rpc URL --contract ID --method M --args JSON
+  zfx-bridge burn --rpc URL --signer ID --key-file F --contract ID --amount N --native-recipient zfx1...
+  zfx-bridge reconcile --env ENV --zfx URL
+  zfx-bridge sign-nep413 --key-file F --message M --nonce-b64 B --recipient R
+"#;
+
 use base64::Engine;
 use serde_json::{json, Value};
 use zfx_bridge::near::{public_key_string, secret_key_string, Action, NearClient, NearSigner};
@@ -48,6 +64,10 @@ fn print_outcome(o: &zfx_bridge::near::Outcome) {
 #[tokio::main(flavor = "multi_thread")]
 async fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
+    if args.iter().any(|a| a == "--help" || a == "-h") {
+        print!("{}", USAGE);
+        return;
+    }
     match args.first().map(String::as_str) {
         Some("near-sandbox") => {
             let dir = need(&args, "--dir");

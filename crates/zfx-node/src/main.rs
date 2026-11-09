@@ -14,6 +14,23 @@
 //! DATA_DIR/admin_token. SIGINT/SIGTERM trigger a clean shutdown
 //! (snapshot + CLEAN_SHUTDOWN marker).
 
+const USAGE: &str = r#"zfx-node: ZeroFlux full node (CPU-only; no GPU runtime required).
+
+  zfx-node [--devnet | --testnet | --config FILE] [--data-dir DIR]
+           [--p2p-port 9440] [--rpc-port 9441] [--rpc-bind 127.0.0.1]
+           [--peer HOST:PORT]... [--peer-allow FILE] [--no-discovery]
+           [--miner-address zfx1...] [--explorer-dir DIR] [--repair]
+           [--faucet-seed-hex HEX --faucet-amount N --faucet-cooldown S]
+           [--bridge-confirmations K] [--admin-token-file FILE]
+  zfx-node print-config [--devnet|--testnet]
+  zfx-node check-store --data-dir DIR [--config FILE]   verify the block log offline
+
+Admin JSON-RPC (zfx_admin_*) needs `Authorization: Bearer <token>`; the
+token is read from --admin-token-file or created (0600) as
+DATA_DIR/admin_token. SIGINT/SIGTERM trigger a clean shutdown
+(snapshot + CLEAN_SHUTDOWN marker).
+"#;
+
 use zfx_node::config::ChainConfig;
 use zfx_node::node::{parse_address, FaucetConfig, Node, NodeOptions};
 use zfx_node::store::BlockLog;
@@ -25,6 +42,10 @@ fn die(m: &str) -> ! {
 
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
+    if args.iter().any(|a| a == "--help" || a == "-h") {
+        print!("{}", USAGE);
+        return;
+    }
     let val = |k: &str| args.iter().position(|a| a == k).and_then(|i| args.get(i + 1)).cloned();
     let flag = |k: &str| args.iter().any(|a| a == k);
     let all = |k: &str| -> Vec<String> { args.iter().enumerate().filter(|(_, a)| *a == k).filter_map(|(i, _)| args.get(i + 1).cloned()).collect() };

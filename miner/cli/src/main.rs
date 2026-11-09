@@ -17,6 +17,26 @@
 //! digests per job, so a miscomputing GPU is detected instead of silently
 //! wasting work.
 
+const USAGE: &str = r#"zpu-cli: the ZPU mining client.
+
+  zpu-cli mine     --node URL --address zfx1... [--backend cpu|exec] [--exec "CMD ARGS"]
+                   [--threads N] [--batch N] [--max-blocks N] [--spot-check N]
+  zpu-cli bench    [--profile v01|dev] [--backend ...] [--seconds S]
+  zpu-cli selftest [--vectors FILE] [--backend ...]
+
+Backends:
+  cpu   built-in Rust reference (zfx-verify), multi-threaded.
+  exec  any external miner speaking the ZPU line protocol on stdin/stdout:
+        miner/cuda/zpu-miner (CUDA / HIP / CPU, C++) or
+        miner/python/zpu_miner.py (PyTorch CUDA/ROCm/MPS, MLX/Metal, NumPy).
+        See miner/PROTOCOL.md.
+
+Every winning nonce from any backend is re-verified on the CPU before
+submission, and `--spot-check N` re-verifies N random non-winning
+digests per job, so a miscomputing GPU is detected instead of silently
+wasting work.
+"#;
+
 use serde_json::{json, Value};
 use std::io::{BufRead, BufReader, Write};
 use std::process::{Child, ChildStdin, ChildStdout, Command, Stdio};
@@ -382,6 +402,10 @@ fn selftest(args: &[String]) {
 
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
+    if args.iter().any(|a| a == "--help" || a == "-h") {
+        print!("{}", USAGE);
+        return;
+    }
     match args.first().map(String::as_str) {
         Some("mine") => mine(&args),
         Some("bench") => bench(&args),

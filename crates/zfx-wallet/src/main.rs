@@ -19,6 +19,28 @@
 //! prints the seed or private keys to stdout/stderr; `backup` writes to a
 //! file only. SLH-DSA is stateless, so re-signing with the same leaf is safe.
 
+const USAGE: &str = r#"zfx-wallet: CLI wallet (SLH-DSA, P2MR addresses).
+
+  zfx-wallet new        [--wallet FILE] [--seed-hex HEX] [--force]
+  zfx-wallet address    [--wallet FILE]
+  zfx-wallet balance    [--wallet FILE | --address zfx1...] [--node URL]
+  zfx-wallet send       --to zfx1... --amount N [--fee F|auto] [--memo TEXT] [--leaf 0|1]
+  zfx-wallet history    [--wallet FILE | --address zfx1...] [--limit N]
+  zfx-wallet tx         TXID                 receipt incl. Merkle inclusion proof
+  zfx-wallet fee                              fee estimate from the node
+  zfx-wallet faucet     [--wallet FILE | --address zfx1...]   testnet faucet
+  zfx-wallet backup     --out FILE            checksummed backup of the seed (0600)
+  zfx-wallet restore    --backup FILE --wallet NEWFILE
+  zfx-wallet watch      add zfx1... | list | balances   watch-only addresses
+  zfx-wallet bridge-deposit --near-account ACCT --amount N   lock ZFX for wZFX on NEAR
+  zfx-wallet bridge-status  --deposit-id HEX | --withdrawal-id HEX
+  zfx-wallet bridge-info
+
+Secrets: the wallet file holds a 32-byte seed. Nothing in this program
+prints the seed or private keys to stdout/stderr; `backup` writes to a
+file only. SLH-DSA is stateless, so re-signing with the same leaf is safe.
+"#;
+
 use rand_core::{OsRng, RngCore};
 use serde_json::{json, Value};
 use zfx_verify::bridge::lockbox_address;
@@ -102,6 +124,10 @@ fn print(v: &Value) {
 
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
+    if args.iter().any(|a| a == "--help" || a == "-h") {
+        print!("{}", USAGE);
+        return;
+    }
     let cmd = args.first().cloned().unwrap_or_else(|| "help".into());
     let home = std::env::var("HOME").unwrap_or(".".into());
     let wallet = arg(&args, "--wallet").unwrap_or_else(|| format!("{}/.zeroflux/wallet.json", home));
