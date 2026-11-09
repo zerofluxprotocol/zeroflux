@@ -3,6 +3,9 @@
 //!
 //! usage: zfx-research [all|divergence|throughput|transcript|attacks|vectors] [--out DIR] [--quick]
 
+// Limb/row loops index several arrays in lockstep; explicit indices match the spec text.
+#![allow(clippy::needless_range_loop, clippy::manual_is_multiple_of)]
+
 mod arith;
 mod attacks;
 mod candidates;

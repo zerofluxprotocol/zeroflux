@@ -52,7 +52,7 @@ fn main() {
             Err(e) => eprintln!("[coordinator] tick: {}", e),
         }
         n += 1;
-        if n % 5 == 0 {
+        if n.is_multiple_of(5) {
             if let Err(e) = c.reconcile_and_guard() {
                 eprintln!("[coordinator] reconcile: {}", e);
             }

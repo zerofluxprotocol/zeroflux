@@ -99,7 +99,7 @@ fn f16_round(x: f32) -> f32 {
     if ax >= 65520.0 {
         return f32::from_bits(sign | 0x7f80_0000);
     }
-    if ax < 6.103515625e-05 {
+    if ax < 6.103_515_6e-5 {
         // subnormal f16: step 2^-24
         let q = 2f32.powi(-24);
         let r = (ax / q).round_ties_even() * q;

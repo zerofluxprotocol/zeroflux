@@ -7,6 +7,7 @@
 //! - any complete line whose checksum or JSON is wrong is corruption: the
 //!   node refuses to start and reports the line, unless `--repair` is
 //!   given, which truncates the log at the last good record.
+//!
 //! The node never trusts the log: every block is fully revalidated
 //! (PoW, signatures, state transitions, state roots) when loaded.
 //!

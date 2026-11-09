@@ -313,7 +313,7 @@ mod tests {
         let raw = s.try_clone().unwrap();
         let sess = handshake_initiator(raw, &Identity::from_seed(&[3; 32]), &[7; 32], None).unwrap();
         // Write a frame encrypted under the right key but with a flipped bit.
-        let mut w = sess.writer;
+        let w = sess.writer;
         let ct = w.cipher.encrypt(&nonce(0), b"hello".as_ref()).unwrap();
         let mut bad = ct.clone();
         bad[0] ^= 1;

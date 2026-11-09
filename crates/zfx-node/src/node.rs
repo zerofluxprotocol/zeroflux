@@ -302,7 +302,7 @@ impl Node {
                     g.mempool.revalidate(&p, h, &st);
                     let iv = g.opts.snapshot_interval;
                     let ch = g.chain.height();
-                    if iv > 0 && ch % iv == 0 {
+                    if iv > 0 && ch.is_multiple_of(iv) {
                         if let Some(d) = g.opts.data_dir.clone() {
                             let snap = Snapshot::new(&g.chain.cfg.commitment(), ch, g.chain.best.last().unwrap(), &g.chain.state);
                             let _ = snap.write_atomic(&std::path::Path::new(&d).join("snapshots").join("latest.json"));

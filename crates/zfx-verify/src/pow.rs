@@ -244,7 +244,7 @@ pub fn dot_i8(a: &[i8], b: &[i8]) -> i32 {
     let mut acc = [0i32; 4];
     let (ca, ra) = a.split_at(a.len() / 64 * 64);
     let (cb, rb) = b.split_at(ca.len());
-    for (x, y) in ca.chunks_exact(64).zip(cb.chunks_exact(64)) {
+    for (x, y) in ca.as_chunks::<64>().0.iter().zip(cb.as_chunks::<64>().0.iter()) {
         for q in 0..4 {
             let mut s = 0i32;
             for i in 0..16 {

@@ -1,6 +1,9 @@
 //! ZeroFlux consensus library. Everything a CPU-only node needs to decide
 //! whether a block is valid lives here; no GPU runtime is linked.
 
+// Limb/row loops index several arrays in lockstep; explicit indices match the spec text.
+#![allow(clippy::needless_range_loop, clippy::manual_is_multiple_of)]
+
 pub mod block;
 pub mod bridge;
 pub mod difficulty;

@@ -182,7 +182,7 @@ fn e4m3_int(v: i32) -> bool {
 }
 
 fn strassen(a: &[i32], b: &[i32], n: usize, levels: u32, max_abs: &mut i32, all_e4m3: &mut bool) -> Vec<i32> {
-    if levels == 0 || n % 2 != 0 || n <= 64 {
+    if levels == 0 || !n.is_multiple_of(2) || n <= 64 {
         *max_abs = (*max_abs).max(a.iter().chain(b).map(|v| v.abs()).max().unwrap_or(0));
         *all_e4m3 &= a.iter().chain(b).all(|v| e4m3_int(*v));
         return naive_i32(a, b, n);
