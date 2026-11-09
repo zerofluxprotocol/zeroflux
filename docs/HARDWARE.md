@@ -15,6 +15,17 @@ The consensus function is defined on integers in {±1..±16}, with every accumul
 | Apple M-series | Metal | `zpu_miner.py --backend mlx` | `--backend torch --device mps` | fp32 GEMM | measured bit-exact |
 | any CPU | | `zpu-cli --backend cpu` or `zpu-miner --backend cpu` | NumPy fp32 BLAS | | reference |
 
+## Measured (2026-11-09)
+
+| GPU | path | attempts/s | µJ/attempt | exact |
+|---|---|---|---|---|
+| H100 80GB HBM3 | `blas-int8` | 8,079,420 | 85.9 | PASS |
+| H100 | `lt-fp8` | 7,388,540 | 93.5 | PASS |
+| MI355X | `lt-fp8` | 13,084,500 | 91.4 | PASS |
+| MI355X | `blas-int8` | 13,052,673 | 94.6 | PASS |
+
+ROCm from pip (`_rocm_sdk_devel`, e.g. the `rocm/vllm` images) keeps rocBLAS/hipBLASLt code objects in `_rocm_sdk_libraries/lib/{rocblas,hipblaslt}/library`. Point `ROCBLAS_TENSILE_LIBPATH` / `HIPBLASLT_TENSILE_LIBPATH` there (`bench/gpu/box_run.sh` does it automatically), or hipBLAS/hipBLASLt fail with "Could not initialize Tensile host" / "hipModuleLoad failed".
+
 ## Build
 
 ```

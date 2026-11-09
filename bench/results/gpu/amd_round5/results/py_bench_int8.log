@@ -1,0 +1,1 @@
+{"backend": "torch-rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:int8", "impl": "zpu-miner-python", "profile": "zfx-fp8c-v0.1", "attempts": 65536, "elapsed_s": 1.1356003284454346, "attempts_per_s": 57710.44473870016, "tera_macs_per_s": 2.9803040246396173}

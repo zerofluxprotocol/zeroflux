@@ -5,7 +5,8 @@
     "gpu": "MI355X",
     "created_utc": "2026-11-09T08:02:55Z",
     "state": "stopped->deleted (verified 404)",
-    "note": "API key lacks delete permission; GPU sandboxes are deleted on stop"
+    "note": "API key lacks delete permission; GPU sandboxes are deleted on stop",
+    "verified_absent_utc": "2026-11-09T08:40:40Z"
   },
   {
     "id": "fea96b93-e4e3-4402-84af-a360d0893de2",
@@ -15,7 +16,8 @@
     "state": "deleted (verified 404)",
     "note": "create call timed out client-side; id from create error",
     "deleted_utc": "2026-11-09T08:10:18Z",
-    "wall_s": 54
+    "wall_s": 54,
+    "verified_absent_utc": "2026-11-09T08:40:40Z"
   },
   {
     "id": "f6e011f3-0eb0-4378-b811-b5c8d0b677e8",
@@ -24,7 +26,8 @@
     "created_utc": "2026-11-09T08:09:27Z",
     "state": "deleted (verified 404)",
     "deleted_utc": "2026-11-09T08:10:19Z",
-    "wall_s": 55
+    "wall_s": 55,
+    "verified_absent_utc": "2026-11-09T08:40:40Z"
   },
   {
     "id": "a2aebe91-334e-4ea2-b7ba-3a23dc41f99b",
@@ -33,7 +36,8 @@
     "created_utc": "2026-11-09T08:14:52Z",
     "state": "deleted (verified 404)",
     "deleted_utc": "2026-11-09T08:16:01Z",
-    "wall_s": 79
+    "wall_s": 79,
+    "verified_absent_utc": "2026-11-09T08:40:40Z"
   },
   {
     "id": "130f4bc0-106a-44e7-9d3d-01db9668ae96",
@@ -42,7 +46,8 @@
     "created_utc": "2026-11-09T08:15:11Z",
     "state": "deleted (verified 404)",
     "deleted_utc": "2026-11-09T08:17:37Z",
-    "wall_s": 175
+    "wall_s": 175,
+    "verified_absent_utc": "2026-11-09T08:40:40Z"
   },
   {
     "id": "57dde17e-9b6d-4e0b-806a-9d14825a79d3",
@@ -51,7 +56,8 @@
     "created_utc": "2026-11-09T08:22:37Z",
     "state": "deleted (verified 404)",
     "deleted_utc": "2026-11-09T08:24:07Z",
-    "wall_s": 97
+    "wall_s": 97,
+    "verified_absent_utc": "2026-11-09T08:40:41Z"
   },
   {
     "id": "b002528a-9ad1-4432-817f-e8cfbe7125d2",
@@ -60,7 +66,8 @@
     "created_utc": "2026-11-09T08:26:33Z",
     "state": "deleted (verified 404)",
     "deleted_utc": "2026-11-09T08:28:08Z",
-    "wall_s": 105
+    "wall_s": 105,
+    "verified_absent_utc": "2026-11-09T08:40:41Z"
   },
   {
     "id": "6920dbc0-5c0d-4a50-84af-f639836879ef",
@@ -69,6 +76,47 @@
     "created_utc": "2026-11-09T08:29:10Z",
     "state": "deleted (verified 404)",
     "deleted_utc": "2026-11-09T08:31:45Z",
-    "wall_s": 322
+    "wall_s": 322,
+    "verified_absent_utc": "2026-11-09T08:40:41Z"
+  },
+  {
+    "id": "760e31ea-bd2f-45d7-ae03-8bc14c4567e2",
+    "name": "qx-f856b941",
+    "gpu": "MI355X",
+    "created_utc": "2026-11-09T08:32:52Z",
+    "state": "deleted (verified 404)",
+    "deleted_utc": "2026-11-09T08:34:27Z",
+    "wall_s": 98,
+    "verified_absent_utc": "2026-11-09T08:40:41Z"
+  },
+  {
+    "id": "f896c7d2-581a-44d0-a7cc-11df843fff2e",
+    "name": "qx-2737a346",
+    "gpu": "H100",
+    "created_utc": "2026-11-09T08:33:16Z",
+    "state": "deleted (verified 404)",
+    "deleted_utc": "2026-11-09T08:36:04Z",
+    "wall_s": 196,
+    "verified_absent_utc": "2026-11-09T08:40:41Z"
+  },
+  {
+    "id": "12469d94-7d99-4070-b563-d8c10941e533",
+    "name": "qx-1b0aec7f",
+    "gpu": "H100",
+    "created_utc": "2026-11-09T08:37:27Z",
+    "state": "deleted (verified 404)",
+    "deleted_utc": "2026-11-09T08:40:04Z",
+    "wall_s": 183,
+    "verified_absent_utc": "2026-11-09T08:40:41Z"
+  },
+  {
+    "id": "47def5e0-32e0-4edc-bf7d-1c56672e9b65",
+    "name": "qx-a695f5c4",
+    "gpu": "MI355X",
+    "created_utc": "2026-11-09T08:37:29Z",
+    "state": "deleted (verified 404)",
+    "deleted_utc": "2026-11-09T08:39:05Z",
+    "wall_s": 124,
+    "verified_absent_utc": "2026-11-09T08:40:41Z"
   }
 ]

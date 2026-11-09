@@ -1,0 +1,545 @@
+{
+ "date": "2026-11-09",
+ "provider": "ephemeral cloud GPU machines (deleted after each run; ledger bench/results/gpu_ledger.json)",
+ "profile": "zfx-fp8c-v0.1 (51,642,368 MACs/attempt)",
+ "devices": {
+  "H100": {
+   "round2 (pre-optimization)": {
+    "cpp_gpu": {
+     "blas-int8": {
+      "attempts_per_s": 1839220.0,
+      "tera_macs_per_s": 94.9814,
+      "steady_power_w": 449.9,
+      "uj_per_attempt": 244.6,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     },
+     "lt-fp8": {
+      "attempts_per_s": 1807940.0,
+      "tera_macs_per_s": 93.3661,
+      "steady_power_w": 458.4,
+      "uj_per_attempt": 253.5,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     },
+     "naive": {
+      "attempts_per_s": 29609.2,
+      "tera_macs_per_s": 1.52909,
+      "steady_power_w": 269.5,
+      "uj_per_attempt": 9101.9,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     }
+    },
+    "stage_profile": {},
+    "pytorch": {
+     "py_selftest_fp32": "PASS",
+     "py_stress_fp32": "PASS",
+     "py_selftest_int8": "PASS",
+     "py_stress_int8": "PASS",
+     "py_selftest_fp8": "PASS",
+     "py_stress_fp8": "PASS",
+     "py_bench_int8": "PASS"
+    },
+    "other": {
+     "build": "PASS",
+     "cpu_selftest_in_gpu_binary": "PASS",
+     "cargo_test": "PASS",
+     "rust_selftest": "PASS",
+     "cpp_cpu_selftest_x86": "PASS",
+     "rust_bench_x86": "PASS"
+    }
+   },
+   "round5 shared-mem requant": {
+    "cpp_gpu": {
+     "blas-int8": {
+      "attempts_per_s": 6783750.0,
+      "tera_macs_per_s": 350.329,
+      "steady_power_w": 686.5,
+      "uj_per_attempt": 101.2,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     },
+     "lt-fp8": {
+      "attempts_per_s": 6340060.0,
+      "tera_macs_per_s": 327.416,
+      "steady_power_w": 690.4,
+      "uj_per_attempt": 108.9,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     },
+     "naive": {
+      "attempts_per_s": 29752.4,
+      "tera_macs_per_s": 1.53648,
+      "steady_power_w": 263.6,
+      "uj_per_attempt": 8859.8,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     }
+    },
+    "stage_profile": {
+     "profile_blas-int8_b8192": {
+      "B": 8192,
+      "x0_ms": 0.057043,
+      "gemm_ms": 0.688409,
+      "requant_ms": 0.588422,
+      "digest_ms": 0.131517,
+      "total_ms": 1.474328,
+      "gemm_tmac_s": 614.539146,
+      "attempts_per_s_stage_sum": 5556429.77682,
+      "backend": "cuda:NVIDIA H100 80GB HBM3:sm_90:blas-int8:int8"
+     },
+     "profile_blas-int8_b32768": {
+      "B": 32768,
+      "x0_ms": 0.083739,
+      "gemm_ms": 2.387194,
+      "requant_ms": 2.210613,
+      "digest_ms": 0.177577,
+      "total_ms": 4.868258,
+      "gemm_tmac_s": 708.872892,
+      "attempts_per_s_stage_sum": 6730949.756566,
+      "backend": "cuda:NVIDIA H100 80GB HBM3:sm_90:blas-int8:int8"
+     },
+     "profile_lt-fp8_b8192": {
+      "B": 8192,
+      "x0_ms": 0.055928,
+      "gemm_ms": 0.740361,
+      "requant_ms": 0.59039,
+      "digest_ms": 0.13253,
+      "total_ms": 1.528359,
+      "gemm_tmac_s": 571.416213,
+      "attempts_per_s_stage_sum": 5359997.225783,
+      "backend": "cuda:NVIDIA H100 80GB HBM3:sm_90:lt-fp8:e4m3"
+     },
+     "profile_lt-fp8_b32768": {
+      "B": 32768,
+      "x0_ms": 0.083847,
+      "gemm_ms": 2.647611,
+      "requant_ms": 2.22605,
+      "digest_ms": 0.172507,
+      "total_ms": 5.139432,
+      "gemm_tmac_s": 639.148695,
+      "attempts_per_s_stage_sum": 6375801.839581,
+      "backend": "cuda:NVIDIA H100 80GB HBM3:sm_90:lt-fp8:e4m3"
+     },
+     "profile_naive_b8192": {
+      "B": 8192,
+      "x0_ms": 0.057109,
+      "gemm_ms": 274.990075,
+      "requant_ms": 0.596308,
+      "digest_ms": 0.133548,
+      "total_ms": 275.78639,
+      "gemm_tmac_s": 1.538435,
+      "attempts_per_s_stage_sum": 29704.148925,
+      "backend": "cuda:NVIDIA H100 80GB HBM3:sm_90:naive:int8"
+     },
+     "profile_naive_b32768": {
+      "B": 32768,
+      "x0_ms": 0.084028,
+      "gemm_ms": 1098.916314,
+      "requant_ms": 2.224306,
+      "digest_ms": 0.17689,
+      "total_ms": 1101.411393,
+      "gemm_tmac_s": 1.539896,
+      "attempts_per_s_stage_sum": 29750.917966,
+      "backend": "cuda:NVIDIA H100 80GB HBM3:sm_90:naive:int8"
+     }
+    },
+    "pytorch": {
+     "py_selftest_fp32": "PASS",
+     "py_stress_fp32": "PASS",
+     "py_selftest_int8": "PASS",
+     "py_stress_int8": "PASS",
+     "py_selftest_fp8": "PASS",
+     "py_stress_fp8": "PASS",
+     "py_bench_int8": "PASS"
+    },
+    "other": {
+     "build": "PASS",
+     "cpu_selftest_in_gpu_binary": "PASS",
+     "cargo_test": "PASS",
+     "rust_selftest": "PASS",
+     "cpp_cpu_selftest_x86": "PASS",
+     "rust_bench_x86": "PASS"
+    }
+   },
+   "final (vectorized requant)": {
+    "cpp_gpu": {
+     "blas-int8": {
+      "attempts_per_s": 8079420.0,
+      "tera_macs_per_s": 417.24,
+      "steady_power_w": 693.7,
+      "uj_per_attempt": 85.9,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     },
+     "lt-fp8": {
+      "attempts_per_s": 7388540.0,
+      "tera_macs_per_s": 381.562,
+      "steady_power_w": 691.1,
+      "uj_per_attempt": 93.5,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     },
+     "naive": {
+      "attempts_per_s": 29995.1,
+      "tera_macs_per_s": 1.54902,
+      "steady_power_w": 266.8,
+      "uj_per_attempt": 8894.8,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     }
+    },
+    "stage_profile": {
+     "profile_blas-int8_b8192": {
+      "B": 8192,
+      "x0_ms": 0.056976,
+      "gemm_ms": 0.678396,
+      "requant_ms": 0.37628,
+      "digest_ms": 0.130047,
+      "total_ms": 1.250556,
+      "gemm_tmac_s": 623.60963,
+      "attempts_per_s_stage_sum": 6550686.254754,
+      "backend": "cuda:NVIDIA H100 80GB HBM3:sm_90:blas-int8:int8"
+     },
+     "profile_blas-int8_b32768": {
+      "B": 32768,
+      "x0_ms": 0.08374,
+      "gemm_ms": 2.437082,
+      "requant_ms": 1.363897,
+      "digest_ms": 0.177424,
+      "total_ms": 4.07136,
+      "gemm_tmac_s": 694.361993,
+      "attempts_per_s_stage_sum": 8048416.254028,
+      "backend": "cuda:NVIDIA H100 80GB HBM3:sm_90:blas-int8:int8"
+     },
+     "profile_lt-fp8_b8192": {
+      "B": 8192,
+      "x0_ms": 0.057238,
+      "gemm_ms": 0.735706,
+      "requant_ms": 0.377985,
+      "digest_ms": 0.133008,
+      "total_ms": 1.313106,
+      "gemm_tmac_s": 575.031709,
+      "attempts_per_s_stage_sum": 6238643.338771,
+      "backend": "cuda:NVIDIA H100 80GB HBM3:sm_90:lt-fp8:e4m3"
+     },
+     "profile_lt-fp8_b32768": {
+      "B": 32768,
+      "x0_ms": 0.083337,
+      "gemm_ms": 2.644398,
+      "requant_ms": 1.366116,
+      "digest_ms": 0.17285,
+      "total_ms": 4.275885,
+      "gemm_tmac_s": 639.925274,
+      "attempts_per_s_stage_sum": 7663442.772666,
+      "backend": "cuda:NVIDIA H100 80GB HBM3:sm_90:lt-fp8:e4m3"
+     },
+     "profile_naive_b8192": {
+      "B": 8192,
+      "x0_ms": 0.057004,
+      "gemm_ms": 273.099947,
+      "requant_ms": 0.382227,
+      "digest_ms": 0.133498,
+      "total_ms": 273.682093,
+      "gemm_tmac_s": 1.549082,
+      "attempts_per_s_stage_sum": 29932.539284,
+      "backend": "cuda:NVIDIA H100 80GB HBM3:sm_90:naive:int8"
+     },
+     "profile_naive_b32768": {
+      "B": 32768,
+      "x0_ms": 0.086257,
+      "gemm_ms": 1090.936307,
+      "requant_ms": 1.382295,
+      "digest_ms": 0.177956,
+      "total_ms": 1092.592881,
+      "gemm_tmac_s": 1.55116,
+      "attempts_per_s_stage_sum": 29991.042931,
+      "backend": "cuda:NVIDIA H100 80GB HBM3:sm_90:naive:int8"
+     }
+    },
+    "pytorch": {
+     "py_selftest_fp32": "PASS",
+     "py_stress_fp32": "PASS",
+     "py_selftest_int8": "PASS",
+     "py_stress_int8": "PASS",
+     "py_selftest_fp8": "PASS",
+     "py_stress_fp8": "PASS",
+     "py_bench_int8": "PASS"
+    },
+    "other": {
+     "build": "PASS",
+     "cpu_selftest_in_gpu_binary": "PASS",
+     "cargo_test": "PASS",
+     "rust_selftest": "PASS",
+     "cpp_cpu_selftest_x86": "PASS",
+     "rust_bench_x86": "PASS"
+    }
+   },
+   "name": "NVIDIA H100 80GB HBM3, sm_90, CUDA 12.8, PyTorch 2.11.0+cu128"
+  },
+  "MI355X": {
+   "round3 (pre-optimization)": {
+    "cpp_gpu": {
+     "blas-int8": {
+      "attempts_per_s": 7183569.79,
+      "tera_macs_per_s": 370.98,
+      "steady_power_w": 851.9,
+      "uj_per_attempt": 118.6,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     },
+     "lt-fp8": {
+      "attempts_per_s": 7182630.0,
+      "tera_macs_per_s": 370.928,
+      "steady_power_w": 836.7,
+      "uj_per_attempt": 116.5,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     },
+     "naive": {
+      "attempts_per_s": 288032,
+      "tera_macs_per_s": 14.8747,
+      "steady_power_w": 1150.2,
+      "uj_per_attempt": 3993.3,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     }
+    },
+    "stage_profile": {},
+    "pytorch": {
+     "py_selftest_fp32": "PASS",
+     "py_stress_fp32": "PASS",
+     "py_selftest_int8": "PASS",
+     "py_stress_int8": "PASS",
+     "py_selftest_fp8": "PASS",
+     "py_stress_fp8": "PASS",
+     "py_bench_int8": "PASS"
+    },
+    "other": {
+     "build": "PASS",
+     "cpu_selftest_in_gpu_binary": "PASS"
+    }
+   },
+   "round5 shared-mem requant": {
+    "cpp_gpu": {
+     "blas-int8": {
+      "attempts_per_s": 11453296.23,
+      "tera_macs_per_s": 591.48,
+      "steady_power_w": 1166.9,
+      "uj_per_attempt": 101.9,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     },
+     "lt-fp8": {
+      "attempts_per_s": 11350200.0,
+      "tera_macs_per_s": 586.15,
+      "steady_power_w": 1123.8,
+      "uj_per_attempt": 99.0,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     },
+     "naive": {
+      "attempts_per_s": 293845,
+      "tera_macs_per_s": 15.1748,
+      "steady_power_w": 1168.6,
+      "uj_per_attempt": 3976.9,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     }
+    },
+    "stage_profile": {
+     "profile_blas-int8_b8192": {
+      "B": 8192,
+      "x0_ms": 0.103159,
+      "gemm_ms": 0.485465,
+      "requant_ms": 0.183131,
+      "digest_ms": 0.310749,
+      "total_ms": 1.083343,
+      "gemm_tmac_s": 871.441358,
+      "attempts_per_s_stage_sum": 7561778.679513,
+      "backend": "rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:blas-int8:int8"
+     },
+     "profile_blas-int8_b32768": {
+      "B": 32768,
+      "x0_ms": 0.149189,
+      "gemm_ms": 1.686229,
+      "requant_ms": 0.988003,
+      "digest_ms": 0.415297,
+      "total_ms": 3.239468,
+      "gemm_tmac_s": 1003.551187,
+      "attempts_per_s_stage_sum": 10115241.144534,
+      "backend": "rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:blas-int8:int8"
+     },
+     "profile_lt-fp8_b8192": {
+      "B": 8192,
+      "x0_ms": 0.101989,
+      "gemm_ms": 0.506878,
+      "requant_ms": 0.188847,
+      "digest_ms": 0.316588,
+      "total_ms": 1.115062,
+      "gemm_tmac_s": 834.627422,
+      "attempts_per_s_stage_sum": 7346676.687036,
+      "backend": "rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:lt-fp8:e4m3"
+     },
+     "profile_lt-fp8_b32768": {
+      "B": 32768,
+      "x0_ms": 0.140939,
+      "gemm_ms": 1.70576,
+      "requant_ms": 0.999043,
+      "digest_ms": 0.406427,
+      "total_ms": 3.253058,
+      "gemm_tmac_s": 992.060498,
+      "attempts_per_s_stage_sum": 10072983.635705,
+      "backend": "rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:lt-fp8:e4m3"
+     },
+     "profile_naive_b8192": {
+      "B": 8192,
+      "x0_ms": 0.099739,
+      "gemm_ms": 27.73489,
+      "requant_ms": 0.198728,
+      "digest_ms": 0.309958,
+      "total_ms": 28.344465,
+      "gemm_tmac_s": 15.253505,
+      "attempts_per_s_stage_sum": 289015.862533,
+      "backend": "rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:naive:int8"
+     },
+     "profile_naive_b32768": {
+      "B": 32768,
+      "x0_ms": 0.132209,
+      "gemm_ms": 110.192303,
+      "requant_ms": 0.880324,
+      "digest_ms": 0.376218,
+      "total_ms": 111.582533,
+      "gemm_tmac_s": 15.356945,
+      "attempts_per_s_stage_sum": 293666.034629,
+      "backend": "rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:naive:int8"
+     }
+    },
+    "pytorch": {
+     "py_selftest_fp32": "PASS",
+     "py_stress_fp32": "PASS",
+     "py_selftest_int8": "PASS",
+     "py_stress_int8": "PASS",
+     "py_selftest_fp8": "PASS",
+     "py_stress_fp8": "PASS",
+     "py_bench_int8": "PASS"
+    },
+    "other": {
+     "build": "PASS",
+     "cpu_selftest_in_gpu_binary": "PASS"
+    }
+   },
+   "final (vectorized requant)": {
+    "cpp_gpu": {
+     "blas-int8": {
+      "attempts_per_s": 13052672.62,
+      "tera_macs_per_s": 674.07,
+      "steady_power_w": 1235.0,
+      "uj_per_attempt": 94.6,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     },
+     "lt-fp8": {
+      "attempts_per_s": 13084500.0,
+      "tera_macs_per_s": 675.717,
+      "steady_power_w": 1196.0,
+      "uj_per_attempt": 91.4,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     },
+     "naive": {
+      "attempts_per_s": 294709,
+      "tera_macs_per_s": 15.2195,
+      "steady_power_w": 1170.6,
+      "uj_per_attempt": 3972.1,
+      "selftest": "PASS",
+      "stress_2e20": "PASS"
+     }
+    },
+    "stage_profile": {
+     "profile_blas-int8_b8192": {
+      "B": 8192,
+      "x0_ms": 0.102089,
+      "gemm_ms": 0.483056,
+      "requant_ms": 0.14465,
+      "digest_ms": 0.312358,
+      "total_ms": 1.043053,
+      "gemm_tmac_s": 875.787235,
+      "attempts_per_s_stage_sum": 7853867.444895,
+      "backend": "rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:blas-int8:int8"
+     },
+     "profile_blas-int8_b32768": {
+      "B": 32768,
+      "x0_ms": 0.157559,
+      "gemm_ms": 1.756969,
+      "requant_ms": 0.611745,
+      "digest_ms": 0.443777,
+      "total_ms": 2.970809,
+      "gemm_tmac_s": 963.145687,
+      "attempts_per_s_stage_sum": 11029992.167117,
+      "backend": "rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:blas-int8:int8"
+     },
+     "profile_lt-fp8_b8192": {
+      "B": 8192,
+      "x0_ms": 0.102979,
+      "gemm_ms": 0.522936,
+      "requant_ms": 0.14353,
+      "digest_ms": 0.317379,
+      "total_ms": 1.087685,
+      "gemm_tmac_s": 808.998192,
+      "attempts_per_s_stage_sum": 7531592.326823,
+      "backend": "rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:lt-fp8:e4m3"
+     },
+     "profile_lt-fp8_b32768": {
+      "B": 32768,
+      "x0_ms": 0.15597,
+      "gemm_ms": 1.737713,
+      "requant_ms": 0.601089,
+      "digest_ms": 0.419497,
+      "total_ms": 2.915157,
+      "gemm_tmac_s": 973.818527,
+      "attempts_per_s_stage_sum": 11240560.971502,
+      "backend": "rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:lt-fp8:e4m3"
+     },
+     "profile_naive_b8192": {
+      "B": 8192,
+      "x0_ms": 0.10055,
+      "gemm_ms": 27.658705,
+      "requant_ms": 0.14535,
+      "digest_ms": 0.309348,
+      "total_ms": 28.214742,
+      "gemm_tmac_s": 15.29552,
+      "attempts_per_s_stage_sum": 290344.67159,
+      "backend": "rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:naive:int8"
+     },
+     "profile_naive_b32768": {
+      "B": 32768,
+      "x0_ms": 0.128809,
+      "gemm_ms": 110.232889,
+      "requant_ms": 0.510088,
+      "digest_ms": 0.372509,
+      "total_ms": 111.245066,
+      "gemm_tmac_s": 15.351291,
+      "attempts_per_s_stage_sum": 294556.883988,
+      "backend": "rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:naive:int8"
+     }
+    },
+    "pytorch": {
+     "py_selftest_fp32": "PASS",
+     "py_stress_fp32": "PASS",
+     "py_selftest_int8": "PASS",
+     "py_stress_int8": "PASS",
+     "py_selftest_fp8": "PASS",
+     "py_stress_fp8": "PASS",
+     "py_bench_int8": "PASS"
+    },
+    "other": {
+     "build": "PASS",
+     "cpu_selftest_in_gpu_binary": "PASS"
+    }
+   },
+   "name": "AMD Instinct MI355X VF, gfx950, ROCm 10.0 (pip SDK), PyTorch 2.12.0+rocm10.0.0"
+  }
+ }
+}

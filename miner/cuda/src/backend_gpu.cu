@@ -149,7 +149,7 @@ class GpuBackend : public Backend {
             if (l != p.n_layers() - 1) {
                 size_t tot = (size_t)B * n;
                 int th = 256;
-                unsigned blocks = (unsigned)std::min<size_t>((tot + th * 8 - 1) / (th * 8), 65535);
+                unsigned blocks = (unsigned)std::min<size_t>((tot / 4 + th * 4 - 1) / (th * 4), 65535);
                 if (gemm_ == Gemm::LtFp8)
                     k_requant<float><<<blocks, th>>>((const float*)dY_, tot, p.layer_shift(l), lut_, nx);
                 else
@@ -261,7 +261,7 @@ class GpuBackend : public Backend {
                 g += ms(a, b);
                 if (l != prof_.n_layers() - 1) {
                     size_t tot = (size_t)B * prof_.layer_n(l);
-                    unsigned blocks = (unsigned)std::min<size_t>((tot + 2047) / 2048, 65535);
+                    unsigned blocks = (unsigned)std::min<size_t>((tot / 4 + 1023) / 1024, 65535);
                     if (gemm_ == Gemm::LtFp8) k_requant<float><<<blocks, 256>>>((const float*)dY_, tot, prof_.layer_shift(l), lut_, nx);
                     else k_requant<int32_t><<<blocks, 256>>>((const int32_t*)dY_, tot, prof_.layer_shift(l), lut_, nx);
                     auto c = now();

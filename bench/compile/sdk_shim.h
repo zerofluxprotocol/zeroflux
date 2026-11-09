@@ -4,6 +4,9 @@
 // use the vendor SDK headers.
 #pragma once
 #define ZPU_SDK_SHIM 1
+struct __attribute__((aligned(16))) int4 { int x, y, z, w; };
+struct __attribute__((aligned(16))) float4 { float x, y, z, w; };
+struct __attribute__((aligned(4))) uchar4 { unsigned char x, y, z, w; };
 #define __host__ __attribute__((host))
 #define __device__ __attribute__((device))
 #define __global__ __attribute__((global))

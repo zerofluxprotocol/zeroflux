@@ -6,7 +6,7 @@ Decision date: 2026-11-09. Spec: `docs/SPEC_v0.1.md` section 2A plus `docs/SPEC_
 
 **Security readiness:** `MAINNET_READY = false`. `PRIVATE_TESTNET_READY = true`.
 
-Every number below comes from `bench/results/*.json`, produced by `zfx-research all` and `bench/run_benchmarks.sh` on an Apple M5 Pro (18 CPU threads, integrated GPU). No NVIDIA or AMD GPU was available. Every benchmark on those vendors is therefore `UNSUPPORTED`, and no number here is extrapolated from one device to another.
+Every number below comes from `bench/results/*.json`, produced by `zfx-research all` and `bench/run_benchmarks.sh` on an Apple M5 Pro (18 CPU threads, integrated GPU). NVIDIA H100 and AMD MI355X numbers were measured on ephemeral cloud GPU machines (`bench/results/gpu_summary.json`). Other GPUs are `UNSUPPORTED`, and no number here is extrapolated from one device to another.
 
 ## 1. What was tried
 
@@ -39,7 +39,7 @@ Readings:
 
 - A and B fail Gate 1 on every native GEMM path. A miner cannot use cuBLAS, hipBLASLt or any tensor-core FP32 accumulator and get consensus bits. A canonical result is reachable only by emulation. The Ozaki-style split into three signed 7-bit slices gives 9 int8 GEMMs with exact int32 accumulation, and that output is bit-exact against the canonical reference (`ozaki_int8_emulation_of_A`). So A costs 9x the int8 GEMM work of D/E for the same MAC count. B needs the same treatment.
 - D and E are reduction-order independent by construction (`|sum| < 2^24`), and the models confirm it. The one hazard is a reduced-precision accumulator, which diverges on the rare rows where `|partial| > 2^14`. At K=4096 that was 0.6% of rows. A random self-test would miss it, so the published vectors and `zpu_miner.py stress` force `|sum| = 2^20` rows, and miners must refuse any backend that fails them.
-- Measured cross-implementation agreement for E: Rust (`zpu-cli`), C++ (`zpu-miner`), Python NumPy, PyTorch CPU, PyTorch MPS (Apple GPU) and MLX/Metal (Apple GPU) all pass the 278 published checks plus the 512x4096x4096 max-magnitude stress test with 0 mismatches (`miners.jsonl`). NVIDIA and AMD: `UNSUPPORTED` (no hardware). Device code for all six kernels compiles for sm_90, sm_100, sm_120, gfx942 and gfx950 (`device_check.json`).
+- Measured cross-implementation agreement for E: Rust (`zpu-cli`), C++ (`zpu-miner`), Python NumPy, PyTorch CPU, PyTorch MPS (Apple GPU) and MLX/Metal (Apple GPU) all pass the 278 published checks plus the 512x4096x4096 max-magnitude stress test with 0 mismatches (`miners.jsonl`). **On real datacenter silicon: NVIDIA H100 (cuBLAS int8, cuBLASLt FP8 E4M3, portable kernel) and AMD MI355X (hipBLAS int8, hipBLASLt FP8 E4M3, portable kernel) pass all 278 checks and the 2^20 stress test, as do PyTorch fp32/int8/fp8 on both.** Hopper's FP8 tensor-core path through cuBLASLt (default precise accumulation) did not show the reduced-precision divergence our truncation model warns about. B200, B300, RTX and MI300X remain `UNSUPPORTED`. Device code compiles for sm_100, sm_120 and gfx942.
 
 ## 3. Gate 2: security (forgeries and shortcuts)
 
@@ -92,9 +92,11 @@ Measured attempts/s on the v0.1 profile (`miners.jsonl`):
 | NumPy / Accelerate fp32 | M5 CPU (AMX) | 7,735 | 0.40 |
 | Rust `zpu-cli`, 18 threads | M5 CPU | 3,293 | 0.17 |
 | C++ `zpu-miner`, 18 threads | M5 CPU | 3,047 | 0.16 |
-| CUDA / ROCm (int8, FP8) | H100, B200, RTX PRO 6000, MI300X, MI355X | UNSUPPORTED | no hardware |
+| C++ hipBLASLt FP8 / hipBLAS int8 | AMD MI355X | 13,084,500 / 13,052,673 | 676 / 674 |
+| C++ cuBLAS int8 / cuBLASLt FP8 | NVIDIA H100 | 8,079,420 / 7,388,540 | 417 / 382 |
+| CUDA / ROCm | B200, B300, RTX PRO 6000, MI300X | UNSUPPORTED | not measured |
 
-Even on a laptop the integrated GPU beats every CPU path by 10 to 25x, which is the direction the design targets. Joules per attempt are `BLOCKED`: `powermetrics` needs root, and there is no datacenter GPU to measure. No cross-vendor efficiency claim is made.
+A datacenter GPU does 2,400x (H100) to 4,000x (MI355X) the attempts of an 18-thread M5 CPU, and the Apple integrated GPU 25x. Measured energy: **H100 85.9 µJ/attempt (int8), MI355X 91.4 µJ/attempt (FP8)**, within 10% of each other, so neither vendor gets a structural advantage per joule. Apple joules are `BLOCKED` (no root for `powermetrics`).
 
 ## 6. Gate 5: implementation complexity
 
@@ -116,7 +118,7 @@ Gates are applied in spec order. A gate failure ends the evaluation for producti
 | C1' | PASS | **FAIL (forgery)** | n/a | n/a | medium | disqualified |
 | C2 | PASS | no known forgery | 1 tile, 16 B proof | generation-bound (2N² bytes per nonce) unless Pearl-style low-rank noise is added | medium | runner-up |
 | D | PASS | no known forgery | full GEMM, 9.6 ms | generation-bound: 512 MAC/byte | low | rejected on Gate 4 |
-| **E** | **PASS** (6 backends, 3 implementations, Apple GPU) | **no known forgery**; parity and avalanche checked | **0.985 ms, nonce-only proof** | **806,912 MAC/byte**; GPU 10 to 25x CPU on this host | low to medium | **selected** |
+| **E** | **PASS** (3 implementations; CPU, Apple GPU, H100, MI355X; int8 and FP8 paths) | **no known forgery**; parity and avalanche checked | **0.985 ms, nonce-only proof** | **806,912 MAC/byte**; H100 8.1 M/s, MI355X 13.1 M/s, about 90 µJ/attempt on both | low to medium | **selected** |
 
 E is the only candidate that passes Gates 1 to 3 and is compute-bound on tensor-core hardware. The runner-up, C2, is the fallback if review finds a structural flaw in the S-box chain. Its generation cost would then need Pearl-style noise, together with that noise's hardness assumption.
 
@@ -126,7 +128,7 @@ Profile 1 (`zfx-fp8c-v0.1`): d_in 64, H 4096, 3 hidden layers, d_out 256, shifts
 
 ## 9. Blockers to MAINNET_READY
 
-See RELEASE_READINESS.md for owners. In short: no measurement on NVIDIA or AMD silicon, no external cryptanalysis of the S-box-chain hardness assumption, no DoS/initial-sync economics study, no P2P transport encryption (it must use ML-KEM when added), an unaudited SLH-DSA integration, and no economic or legal review.
+See RELEASE_READINESS.md for owners. In short: B200, B300, RTX and MI300X not yet measured, no external cryptanalysis of the S-box-chain hardness assumption, no DoS/initial-sync economics study, no P2P transport encryption (it must use ML-KEM when added), an unaudited SLH-DSA integration, and no economic or legal review.
 
 ## Sign-off
 

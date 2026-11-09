@@ -8,7 +8,7 @@ Adversary (spec section 3): arbitrary CPUs, GPUs, ASICs, memory and network node
 |---|---|---|
 | Challenge binding | `challenge = SHA256(domain, header_without_nonce)`. Every attempt input derives from `(challenge, nonce)`. | Holds by construction, tested (`deterministic_and_nonce_bound`). |
 | No cheap equivalent | Dense random weights, nonlinear S-box between layers, digest over the full final output. | **Unproven.** No shortcut found (section 2). Needs external cryptanalysis. |
-| Unambiguous arithmetic | Integer domain with `|sum| < 2^24`, consensus on integers, not hardware formats. | Proven by the bound, tested on 3 implementations and 6 backends. NVIDIA/AMD untested. |
+| Unambiguous arithmetic | Integer domain with `|sum| < 2^24`, consensus on integers, not hardware formats. | Proven by the bound. Tested on 3 implementations, CPU, Apple GPU, H100 and MI355X (int8 and FP8 tensor-core paths, 2^20 stress). |
 | Bounded verification | One attempt (51.6 M MACs, about 1 ms on one CPU core). Header and structure checks run before PoW. Caps: 16 MiB message, 4 MiB block, 1,000 txs, P2MR depth 8, hex fields 40 KB. | Holds. DoS economics (section 4) are open. |
 | Difficulty control | 256-bit target, LWMA-1, digests uniform. | Measured: z = 1.51 over 200k attempts, chi² 215/255. |
 | Mining fairness | No zero (no sparsity), uniform inputs, full-rank weights, no algebraic layer collapse. | Partly. Strassen favors int8 hardware by up to 1.49x over FP8-only hardware (section 2.6). |
@@ -23,7 +23,7 @@ Each attack has code in `crates/zfx-research/src/attacks.rs` and data in `bench/
 4. **Sparsity and structured inputs.** The domain contains no zero, and X0 comes from SHAKE256 of a hash the miner cannot steer except by grinding nonces, which costs a full attempt each.
 5. **Precomputation and nonce reuse.** Weights are public per epoch, and that is fine: the only per-weight precomputation that helps is the Four Russians method, and with |D| = 32, g = 2 needs a 32 GiB table per 4096² layer, streamed every attempt (memory-bound, slower than a tensor core). Activations of different nonces agree at the 1/32 chance rate, so nothing carries over between attempts.
 6. **Fast matrix multiplication.** Strassen is exact over the integers, so it is an equally valid way to compute the canonical output, not a forgery. Int8 hardware can hold 3 Strassen levels (operands up to 111 fit in int8), which is 0.67 of the MACs, a 1.49x algorithmic ceiling. FP8 E4M3 holds 0 levels, because sums such as 17 or 31 need 5 significant bits. This is a real fairness asymmetry between int8-capable GPUs (H100, B200, MI300X, MI355X) and FP8-first parts with weak int8: Blackwell Ultra B300 dense INT8 is about 0.15 to 0.19 POPS against 4.5 on B200 (HARDWARE.md), so B300 must mine through FP8 and cannot use Strassen. Measured CPU gains were only 1.02x to 1.23x, because the added memory traffic eats the savings.
-7. **Reduced-precision hardware paths.** FP16 accumulation diverges on 510 of 512 rows. A 14-bit truncating FP8 MMA accumulator diverges on 3 of 512 rows at K=4096. A miner on such a path does not split consensus, because nodes verify on the CPU reference. It only loses those attempts. `zpu-cli` re-verifies every winner and random spot checks, and refuses a miscomputing backend.
+7. **Reduced-precision hardware paths.** FP16 accumulation diverges on 510 of 512 rows. A 14-bit truncating FP8 MMA accumulator diverges on 3 of 512 rows at K=4096. On real H100 (cuBLASLt FP8, default precise accumulation) and MI355X (hipBLASLt FP8) the 2^20 stress test showed 0 mismatches, so the hazard is not present on those library paths. It must still be re-tested per GPU, library version and fast-accumulation setting. A miner on such a path does not split consensus, because nodes verify on the CPU reference. It only loses those attempts. `zpu-cli` re-verifies every winner and random spot checks, and refuses a miscomputing backend.
 8. **Header grinding.** Changing the timestamp or tx set changes the challenge, which costs a full attempt per variant, the same as a nonce.
 9. **Epoch-weight manipulation.** A miner who finds an anchor block could withhold it to choose the next epoch's weights. Weights are uniform, and no weak-weight class is known, so the gain is nil under current knowledge. It is listed so that review can check it.
 
@@ -56,7 +56,7 @@ Each attack has code in `crates/zfx-research/src/attacks.rs` and data in `bench/
 ## 7. Known vulnerabilities and unresolved items
 
 - No independent review of the hardness assumption (Gate 3 not passed).
-- No NVIDIA or AMD hardware measurement of exactness or throughput (Gate 1 incomplete for those vendors).
+- B200, B300, RTX and MI300X exactness not yet measured (H100 and MI355X done).
 - No transport encryption, no eclipse resistance, and O(n) reorg replay.
 - int8 vs FP8 Strassen asymmetry (1.49x ceiling). ASICs are not prevented (spec non-goal).
 - Wallet seed files are unencrypted (0600 permissions only).

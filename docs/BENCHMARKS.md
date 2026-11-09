@@ -4,7 +4,7 @@ Host: Apple M5 Pro, 18 CPU threads, integrated GPU, 48 GB, macOS 26.6, Rust 1.99
 
 Reproduce everything with `bench/run_benchmarks.sh` (miners, writes `bench/results/miners.jsonl`) and `./target/release/zfx-research all` (candidates and attacks, writes `bench/results/*.json`). The raw machine-readable results are in `bench/results/`.
 
-No NVIDIA or AMD GPU was available. Those rows are `UNSUPPORTED` and nothing is extrapolated from this host to them (see the hard-lessons rule on grading hardware). Joules per attempt are `BLOCKED` (no root access for `powermetrics`, and no datacenter GPU).
+NVIDIA H100 and AMD MI355X were measured on ephemeral cloud GPU machines (section 1b). Other GPUs (B200, B300, RTX, MI300X) are `UNSUPPORTED` until measured, and nothing is extrapolated to them. Apple joules per attempt are `BLOCKED` (no root for `powermetrics`).
 
 ## 1. Selected PoW (ZFX-FP8C v0.1, 51.6 M MACs per attempt)
 
@@ -17,11 +17,40 @@ No NVIDIA or AMD GPU was available. Those rows are `UNSUPPORTED` and nothing is 
 | C++ `zpu-miner` | cpu, 18 threads | M5 Pro CPU | 3,047 | 0.16 | yes (278/278) |
 | Rust `zpu-cli` | cpu, 1 thread | M5 Pro CPU | 1,003 | 0.05 | yes |
 | C++ `zpu-miner` | cpu, 1 thread | M5 Pro CPU | 831 | 0.04 | yes |
-| C++ `zpu-miner` | CUDA int8 / FP8 Lt | H100, H200, B200, RTX 4090/5090, RTX PRO 6000 | UNSUPPORTED | | device code compiles for sm_90/100/120 |
-| C++ `zpu-miner` | HIP int8 / FP8 Lt | MI300X, MI355X | UNSUPPORTED | | device code compiles for gfx942/gfx950 |
-| Python | PyTorch CUDA/ROCm int8, fp8, fp32 | NVIDIA / AMD | UNSUPPORTED | | |
+| C++ `zpu-miner` | CUDA cuBLAS int8 | H100 | 8,079,420 | 417 | yes (section 1b) |
+| C++ `zpu-miner` | HIP hipBLAS int8 | MI355X | 13,052,673 | 674 | yes (section 1b) |
+| C++ `zpu-miner` | CUDA / HIP | B200, B300, RTX 4090/5090, RTX PRO 6000, MI300X | UNSUPPORTED | | device code compiles for sm_100/120, gfx942 |
 
 Dev profile (229 k MACs): Rust 18 threads 708,817/s, C++ 18 threads 840,006/s.
+
+## 1b. GPUs (measured on ephemeral cloud GPU machines, 2026-11-09)
+
+C++ `zpu-miner`, v0.1 profile, batch 32768, timed run of about 10 s. Power is the steady-state board/socket draw (samples at 80% of max or above, 200 ms period). Raw data: `bench/results/gpu_summary.json` and `bench/results/gpu/*/results/`.
+
+| GPU | GEMM path | vectors (278) | 2^20 stress | attempts/s | TMAC/s | power | µJ/attempt |
+|---|---|---|---|---|---|---|---|
+| NVIDIA H100 80GB HBM3 (sm_90) | cuBLAS int8 -> int32 | PASS | PASS | **8,079,420** | 417 | 694 W | **85.9** |
+| NVIDIA H100 | cuBLASLt FP8 E4M3 -> FP32 | PASS | PASS | 7,388,540 | 382 | 691 W | 93.5 |
+| NVIDIA H100 | portable kernel | PASS | PASS | 29,995 | 1.5 | 267 W | 8,895 |
+| AMD Instinct MI355X VF (gfx950) | hipBLAS int8 -> int32 | PASS | PASS | **13,052,673** | 674 | 1,235 W | **94.6** |
+| AMD MI355X | hipBLASLt FP8 E4M3 (OCP) -> FP32 | PASS | PASS | 13,084,500 | 676 | 1,196 W | 91.4 |
+| AMD MI355X | portable kernel | PASS | PASS | 294,709 | 15.2 | 1,171 W | 3,972 |
+
+PyTorch (third implementation) on the same boxes: fp32, int8 (`torch._int_mm`) and FP8 (`torch._scaled_mm`) all PASS vectors and stress on both GPUs. Its throughput (H100 192k/s, MI355X 55k/s) is bound by per-nonce Python hashing, so it is a correctness path, not a mining path.
+
+The two vendors land within 10% of each other in energy per attempt: 86 to 95 µJ.
+
+Optimization history. All rounds were bit-exact, and the per-stage profiler (`zpu-miner profile`) drove each fix:
+
+| round | change | H100 int8 | MI355X int8 |
+|---|---|---|---|
+| 2/3 | first working build | 1.84 M/s (245 µJ) | 7.18 M/s (119 µJ) |
+| 5 | S-box table in shared memory (the `__constant__` lookup serialized divergent warp reads: 3.77 ms of a 4.78 ms batch on H100) + streaming digest | 6.78 M/s (101 µJ) | 11.45 M/s (102 µJ) |
+| 6 | 16-byte vectorized requant loads | 8.08 M/s (86 µJ) | 13.05 M/s (95 µJ) |
+
+Final stage split at B=32768: on H100, GEMM 2.44 ms (694 TMAC/s, about 70% of dense int8 peak), requant 1.36 ms, digest 0.18 ms. On MI355X, GEMM 1.76 ms, requant 0.61 ms, digest 0.44 ms. The remaining lever is fusing requantization into a custom GEMM epilogue (vendor GEMMs cannot apply an S-box). Not done yet.
+
+Linux x86-64 (H100 box host CPU, 16 vCPU): `cargo test` 22/22 PASS, Rust 10/10, C++ 278/278, Rust miner 2,137 attempts/s.
 
 ## 2. Verifier cost (CPU only, no GPU runtime)
 
@@ -54,7 +83,14 @@ Per-block validator work for a full 525-tx block is about 1 ms PoW plus 525 x 0.
 |---|---|---|---|---|---|---|
 | Published vectors (byte map, requant, 10 attempts) | PASS | PASS 278/278 | PASS 278/278 | PASS 278/278 | PASS 278/278 | PASS 278/278 |
 | Stress 512x4096x4096, max |sum| = 2^20 | n/a | n/a | 0 mismatches | 0 | 0 | 0 |
-| Linux x86-64 | BLOCKED: cloud workspace paused, no Docker on host | | | | | |
+| Linux x86-64 | PASS (22 tests, 10/10) | PASS 278/278 | | | | |
+
+Datacenter GPUs, vectors (278/278) plus 2^20 stress, every path PASS:
+
+| GPU | C++ int8 BLAS | C++ FP8 Lt | C++ portable kernel | PyTorch fp32 | PyTorch int8 | PyTorch FP8 |
+|---|---|---|---|---|---|---|
+| NVIDIA H100 | PASS | PASS | PASS | PASS | PASS | PASS |
+| AMD MI355X | PASS | PASS | PASS | PASS | PASS | PASS |
 
 ## 5. Network (private testnet, local multi-process)
 

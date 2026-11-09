@@ -40,13 +40,31 @@ __device__ __forceinline__ int32_t as_i32<float>(float v) { return (int32_t)__fl
 // H100). Each block stages the fused 256-entry table (S-box -> 5-bit index ->
 // storage byte) in shared memory and walks the tensor with a grid-stride loop.
 template <typename T>
+struct Vec4;
+template <>
+struct Vec4<int32_t> { typedef int4 type; };
+template <>
+struct Vec4<float> { typedef float4 type; };
+
+template <typename T>
 __global__ void k_requant(const T* Y, size_t n, uint32_t s, Lut lut, uint8_t* X) {
     __shared__ uint8_t tab[256];
     for (unsigned i = threadIdx.x; i < 256; i += blockDim.x) tab[i] = lut.b[AES_SBOX[i] >> 3];
     __syncthreads();
-    size_t stride = (size_t)gridDim.x * blockDim.x;
-    for (size_t i = (size_t)blockIdx.x * blockDim.x + threadIdx.x; i < n; i += stride)
-        X[i] = tab[(uint8_t)((as_i32(Y[i]) >> s) & 0xff)];
+    // n is a multiple of 4 (layer widths are 4096/256); 16-byte loads, 4-byte stores.
+    typedef typename Vec4<T>::type V;
+    const V* y4 = reinterpret_cast<const V*>(Y);
+    uchar4* x4 = reinterpret_cast<uchar4*>(X);
+    size_t n4 = n / 4, stride = (size_t)gridDim.x * blockDim.x;
+    for (size_t i = (size_t)blockIdx.x * blockDim.x + threadIdx.x; i < n4; i += stride) {
+        V v = y4[i];
+        uchar4 o;
+        o.x = tab[(uint8_t)((as_i32(v.x) >> s) & 0xff)];
+        o.y = tab[(uint8_t)((as_i32(v.y) >> s) & 0xff)];
+        o.z = tab[(uint8_t)((as_i32(v.z) >> s) & 0xff)];
+        o.w = tab[(uint8_t)((as_i32(v.w) >> s) & 0xff)];
+        x4[i] = o;
+    }
 }
 
 template <typename T>

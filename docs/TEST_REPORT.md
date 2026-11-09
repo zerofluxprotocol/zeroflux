@@ -30,6 +30,10 @@ CLANG="python3 -m ziglang clang" bench/compile/device_check.sh
 | explorer served by node | `/`, `/main.js`, `/v1/blocks`, `/metrics` | PASS (curl) |
 | testnet scenario, dev profile | 11 network checks, below | PASS 11/11 |
 | testnet scenario, v0.1 profile | same 11 checks on H=4096 | PASS 11/11 |
+| H100 C++ `zpu-miner-cuda` (cuBLAS int8, cuBLASLt FP8, portable) | selftest 278/278 + 2^20 stress + bench, real GPU | PASS x3 |
+| MI355X C++ `zpu-miner-hip` (hipBLAS int8, hipBLASLt FP8, portable) | same | PASS x3 |
+| H100 and MI355X PyTorch fp32 / int8 / fp8 | selftest + stress | PASS x6 per GPU |
+| Linux x86-64 (H100 host CPU) | `cargo test` (22), Rust selftest, C++ CPU selftest, nvcc-built binary's CPU path | PASS |
 | hostname peers | `--peer localhost:port` resolves IPv4 after IPv6 fails, single connection | PASS |
 
 Testnet scenario checks (real processes: 3 Rust nodes; miners in Rust, C++ and Python):
@@ -55,17 +59,24 @@ Testnet scenario checks (real processes: 3 Rust nodes; miners in Rust, C++ and P
 | Rust CPU path 4.6 to 5.4x slower than C++ | `dot_i8` with i16 chunks vectorized badly | widening 4-accumulator dot; 300 to 1,352 attempts/s on 2 threads |
 | Scenario checks passed or failed for the wrong reason | the recovery check read post-sync state; the LWMA check compared against a stale string | rewritten to read the recovery log and the configured genesis target |
 | `--peer hostname:port` never connected | parsed as a literal SocketAddr; only the first resolved address was tried | resolve plus try all addresses |
+| nvcc: domain strings "undefined in device code" | host `static const` arrays referenced from device code (clang accepts, nvcc rejects) | `__constant__` copies in device passes |
+| hipcc: `__forceinline__` unknown in .cpp sources | hipcc does not auto-include the HIP runtime header | `hd.h` includes the vendor runtime |
+| PyTorch int8 shape error | wrong operand orientation for `torch._int_mm` | pass `w.t()` |
+| hipBLAS/hipBLASLt failed to load kernels | pip-packaged ROCm SDK keeps Tensile code objects outside its lib dir | miner locates them and sets `ROCBLAS_TENSILE_LIBPATH`/`HIPBLASLT_TENSILE_LIBPATH` for itself only |
+| H100 at 1.84 M/s with GEMMs at 60% of peak | data-dependent `__constant__` S-box reads serialize per warp (79% of batch time) | shared-memory table + vectorized loads: 8.08 M/s |
 | Strassen verdict overstated the int8 limit | hardcoded text; E4M3 test used only the max operand | verdict computed from data over every operand |
+
+## 3b. GPU runs
+
+Driver: `.venv/bin/python bench/gpu/cloud_gpu_run.py` (ephemeral cloud GPU machines, obfuscated names, TTL plus auto-stop backstops). It runs `bench/gpu/box_run.sh` inside each box. Every sandbox id is ledgered in `bench/results/gpu_ledger.json`. The API key has no delete permission, so teardown is stop (Cloud deletes stopped GPU sandboxes), then a 404 check. 12 sandboxes in total (6 H100, 6 MI355X), all verified absent afterwards.
 
 ## 4. Not run here
 
 | item | outcome | reason |
 |---|---|---|
-| CUDA build and run (cuBLAS int8, cuBLASLt FP8, naive kernel) on H100/H200/B200/RTX | UNSUPPORTED | no NVIDIA GPU |
-| HIP build and run (hipBLAS int8, hipBLASLt FP8 E4M3FNUZ/E4M3) on MI300X/MI355X | UNSUPPORTED | no AMD GPU |
-| Full nvcc / hipcc SDK builds | BLOCKED | `a private workspace` cloud workspace is paused; the script is ready at `bench/compile/compile_check.py` |
-| Linux x86-64 run of the test suite | BLOCKED | same; no Docker on the host |
+| CUDA run on H200, B200, B300, RTX 4090/5090, RTX PRO 6000 | UNSUPPORTED | not measured yet (available to rent; same script) |
+| HIP run on MI300X (gfx942, E4M3FNUZ path) | UNSUPPORTED | not offered by the provider used |
 | Docker compose of CPU nodes | BLOCKED | Docker not installed; files written, not executed |
-| Watts and joules per attempt | BLOCKED | needs root `powermetrics`; no datacenter GPU |
+| Watts and joules per attempt on Apple | BLOCKED | needs root `powermetrics` (GPU joules measured on H100 and MI355X) |
 | Explorer visual render in a browser | not run | no headless browser installed; typecheck and HTTP checks only |
-| Cross-driver and compiler-flag matrix | UNSUPPORTED | needs vendor GPUs |
+| Cross-driver and compiler-flag matrix | partial | one driver/toolkit per vendor: CUDA 12.8 (PyTorch 2.11 image) and ROCm 10.0 (vLLM image) |

@@ -12,8 +12,8 @@ MAINNET_READY         = false
 | feature | evidence |
 |---|---|
 | Selected PoW implemented end to end (ZFX-FP8C) | `crates/zfx-verify/src/pow.rs`, CONSENSUS.md, vectors |
-| Bit-exact canonical arithmetic: Rust, C++, Python; CPU, Apple GPU (MPS, MLX) | TEST_REPORT.md section 2 |
-| GPU miner for NVIDIA and AMD from one source; device code compiles for 5 targets | `miner/cuda/src/backend_gpu.cu`, `device_check.json` |
+| Bit-exact canonical arithmetic: Rust, C++, Python; CPU, Apple GPU (MPS, MLX), NVIDIA H100, AMD MI355X (int8 and FP8) | TEST_REPORT.md, `gpu_summary.json` |
+| GPU miner for NVIDIA and AMD from one source: H100 8.08 M attempts/s (85.9 µJ), MI355X 13.05 M/s (94.6 µJ) | `miner/cuda/src/backend_gpu.cu`, BENCHMARKS.md 1b |
 | CPU verifier with no GPU runtime | `zfx-node` links only zfx-verify; 0.985 ms per PoW |
 | SLH-DSA signatures (128s/192s) and P2MR addresses | `tx.rs` tests, `signature_costs.json` |
 | Multi-node P2P, reorgs, LWMA, MTP, mempool, double-spend rejection, crash recovery | `chain_rules.rs`, testnet scenario |
@@ -24,8 +24,8 @@ MAINNET_READY         = false
 
 | # | blocker | status | owner |
 |---|---|---|---|
-| 1 | Measure exactness and throughput on H100/H200, B200, RTX PRO 6000, MI300X, MI355X (int8 and FP8 paths, with the max-magnitude stress test) | UNSUPPORTED here | **Project owner**: provide GPU access (one of each vendor is enough to start) |
-| 2 | Full nvcc/hipcc SDK builds plus a Linux x86-64 test run | BLOCKED (cloud workspace paused) | **Project owner**: unpause `a private workspace` or provide a Linux box; script ready |
+| 1 | Exactness and throughput on every target GPU | **H100 and MI355X PASS** (int8 + FP8 + portable, 2^20 stress, 8.1 M/s and 13.1 M/s); B200, B300, RTX PRO 6000, RTX 4090/5090 and MI300X not yet run | ZeroFlux core (same Cloud script; MI300X needs another provider) |
+| 2 | Full nvcc/hipcc SDK builds plus Linux x86-64 tests | **PASS** (CUDA 12.8 sm_90, ROCm 10.0 gfx950, cargo test 22/22 on x86-64) | done |
 | 3 | External cryptanalysis of the S-box-chain hardness assumption (Gate 3) | not started | external reviewers |
 | 4 | Written soundness argument for the PoW (Gates 3 and 4) | not started | ZeroFlux research |
 | 5 | DoS economics of invalid-block spam (1 ms each) and initial sync cost | open | ZeroFlux core |
@@ -41,7 +41,7 @@ MAINNET_READY         = false
 
 | gate | status | evidence / missing |
 |---|---|---|
-| 1 Deterministic arithmetic | PASS on CPU and Apple GPU; UNSUPPORTED on CUDA/ROCm | blocker 1 |
+| 1 Deterministic arithmetic | PASS on CPU (arm64, x86-64), Apple GPU, NVIDIA H100, AMD MI355X | remaining GPU models in blocker 1 |
 | 2 Mining prototype (two independent miners, identical accepted blocks on CPU nodes) | PASS | testnet check 2: Rust and C++ (plus Python) miners on one chain |
 | 3 Cryptographic research | FAIL (not yet passed) | internal attacks done; independent review missing |
 | 4 Verification | partial: practical asymmetry (one attempt, 1 ms), no audited implementation | blockers 4, 5, 8 |
