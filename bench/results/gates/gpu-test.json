@@ -1,8 +1,8 @@
 {
   "target": "gpu-test",
-  "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+  "commit": "8270a11cf9aaa67865dbfa9ebd0fe357d92b2711",
   "dirty_tree": true,
-  "started": "2026-11-09T18:27:45Z",
+  "started": "2026-11-09T19:00:30Z",
   "host": "arm64",
   "steps": [
     {
@@ -10,7 +10,7 @@
       "kind": "external",
       "cmd": "CLANG='.venv/bin/python -m ziglang clang' bench/compile/device_check.sh",
       "rc": 0,
-      "seconds": 15.2,
+      "seconds": 8.5,
       "result": "PASS",
       "log": "bench/results/gates/logs/gpu-test/gpu-device-compile-sm90-sm100-sm120-gfx942-gfx950.log",
       "tail": [
@@ -22,7 +22,7 @@
       "kind": "external",
       "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend mlx",
       "rc": 0,
-      "seconds": 1.1,
+      "seconds": 0.6,
       "result": "PASS",
       "log": "bench/results/gates/logs/gpu-test/apple-mlx-selftest.log",
       "tail": [
@@ -44,11 +44,11 @@
       "kind": "external",
       "cmd": ".venv/bin/python miner/python/zpu_miner.py stress --backend mlx",
       "rc": 0,
-      "seconds": 5.6,
+      "seconds": 4.1,
       "result": "PASS",
       "log": "bench/results/gates/logs/gpu-test/apple-mlx-stress.log",
       "tail": [
-        "{\"backend\": \"mlx-metal:Device(gpu, 0):fp32\", \"rows\": 512, \"k\": 4096, \"n\": 4096, \"max_abs_ref\": 1048576, \"mismatches\": 0, \"elapsed_s\": 0.40390992164611816, \"verdict\": \"PASS\"}"
+        "{\"backend\": \"mlx-metal:Device(gpu, 0):fp32\", \"rows\": 512, \"k\": 4096, \"n\": 4096, \"max_abs_ref\": 1048576, \"mismatches\": 0, \"elapsed_s\": 0.16280007362365723, \"verdict\": \"PASS\"}"
       ]
     },
     {
@@ -56,7 +56,7 @@
       "kind": "external",
       "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend torch --device mps",
       "rc": 0,
-      "seconds": 2.0,
+      "seconds": 1.8,
       "result": "PASS",
       "log": "bench/results/gates/logs/gpu-test/apple-mps-selftest.log",
       "tail": [
@@ -78,11 +78,11 @@
       "kind": "external",
       "cmd": ".venv/bin/python miner/python/zpu_miner.py stress --backend torch --device mps",
       "rc": 0,
-      "seconds": 9.2,
+      "seconds": 4.9,
       "result": "PASS",
       "log": "bench/results/gates/logs/gpu-test/apple-mps-stress.log",
       "tail": [
-        "{\"backend\": \"torch-mps:fp32\", \"rows\": 512, \"k\": 4096, \"n\": 4096, \"max_abs_ref\": 1048576, \"mismatches\": 0, \"elapsed_s\": 0.2690739631652832, \"verdict\": \"PASS\"}"
+        "{\"backend\": \"torch-mps:fp32\", \"rows\": 512, \"k\": 4096, \"n\": 4096, \"max_abs_ref\": 1048576, \"mismatches\": 0, \"elapsed_s\": 0.2039659023284912, \"verdict\": \"PASS\"}"
       ]
     },
     {
@@ -104,10 +104,10 @@
       "kind": "external",
       "cmd": ".venv/bin/python bench/gpu/cloud_gpu_run.py --tag gpu_rerun_$(date +%Y-%m-%d)",
       "result": "BLOCKED",
-      "reason": "remote GPU rerun is opt-in (ZFX_GPU_RUNNER); it rents GPU sandboxes"
+      "reason": "remote GPU rerun is opt-in (ZFX_GPU_REMOTE=cloud); it rents GPU sandboxes"
     }
   ],
-  "finished": "2026-11-09T18:28:22Z",
+  "finished": "2026-11-09T19:00:53Z",
   "counts": {
     "PASS": 5,
     "FAIL": 0,

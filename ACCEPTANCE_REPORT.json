@@ -1,6 +1,6 @@
 {
-  "generated": "2026-11-09T18:51:19Z",
-  "commit": "826e412cec5dbcaff92f7e61543a1b265fb38aeb",
+  "generated": "2026-11-09T19:00:53Z",
+  "commit": "8270a11cf9aaa67865dbfa9ebd0fe357d92b2711",
   "MAINNET_READY": false,
   "targets": {
     "check": {
@@ -65,9 +65,9 @@
         "FAIL": 0,
         "BLOCKED": 3
       },
-      "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+      "commit": "8270a11cf9aaa67865dbfa9ebd0fe357d92b2711",
       "dirty_tree": true,
-      "finished": "2026-11-09T18:28:22Z"
+      "finished": "2026-11-09T19:00:53Z"
     },
     "testnet-smoke": {
       "result": "PASS_WITH_BLOCKED_EXTERNAL",
@@ -691,7 +691,7 @@
         "name": "gpu-device-compile-sm90-sm100-sm120-gfx942-gfx950",
         "result": "PASS",
         "cmd": "CLANG='.venv/bin/python -m ziglang clang' bench/compile/device_check.sh",
-        "seconds": 15.2,
+        "seconds": 8.5,
         "reason": null,
         "log": "bench/results/gates/logs/gpu-test/gpu-device-compile-sm90-sm100-sm120-gfx942-gfx950.log"
       },
@@ -699,7 +699,7 @@
         "name": "apple-mlx-selftest",
         "result": "PASS",
         "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend mlx",
-        "seconds": 1.1,
+        "seconds": 0.6,
         "reason": null,
         "log": "bench/results/gates/logs/gpu-test/apple-mlx-selftest.log"
       },
@@ -707,7 +707,7 @@
         "name": "apple-mlx-stress",
         "result": "PASS",
         "cmd": ".venv/bin/python miner/python/zpu_miner.py stress --backend mlx",
-        "seconds": 5.6,
+        "seconds": 4.1,
         "reason": null,
         "log": "bench/results/gates/logs/gpu-test/apple-mlx-stress.log"
       },
@@ -715,7 +715,7 @@
         "name": "apple-mps-selftest",
         "result": "PASS",
         "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend torch --device mps",
-        "seconds": 2.0,
+        "seconds": 1.8,
         "reason": null,
         "log": "bench/results/gates/logs/gpu-test/apple-mps-selftest.log"
       },
@@ -723,7 +723,7 @@
         "name": "apple-mps-stress",
         "result": "PASS",
         "cmd": ".venv/bin/python miner/python/zpu_miner.py stress --backend torch --device mps",
-        "seconds": 9.2,
+        "seconds": 4.9,
         "reason": null,
         "log": "bench/results/gates/logs/gpu-test/apple-mps-stress.log"
       },
@@ -748,7 +748,7 @@
         "result": "BLOCKED",
         "cmd": ".venv/bin/python bench/gpu/cloud_gpu_run.py --tag gpu_rerun_$(date +%Y-%m-%d)",
         "seconds": null,
-        "reason": "remote GPU rerun is opt-in (ZFX_GPU_RUNNER); it rents GPU sandboxes",
+        "reason": "remote GPU rerun is opt-in (ZFX_GPU_REMOTE=cloud); it rents GPU sandboxes",
         "log": null
       }
     ],

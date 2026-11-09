@@ -79,7 +79,7 @@ def near_testnet():
 
 
 def cloud_opt_in():
-    if os.environ.get("ZFX_GPU_REMOTE") != "cloud":
+    if os.environ.get("ZFX_GPU_REMOTE") not in ("cloud", "cloud"):
         return False, "remote GPU rerun is opt-in (ZFX_GPU_RUNNER); it rents GPU sandboxes"
     return True, ""
 

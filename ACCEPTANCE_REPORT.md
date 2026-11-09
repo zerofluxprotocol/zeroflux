@@ -1,6 +1,6 @@
 # Acceptance report
 
-Generated 2026-11-09T18:51:19Z at commit `826e412cec5d`. **MAINNET_READY = false.**
+Generated 2026-11-09T19:00:53Z at commit `8270a11cf9aa`. **MAINNET_READY = false.**
 
 Regenerate: `make acceptance` (runs every target) or `ZFX_ACCEPT_REUSE=1 .venv/bin/python scripts/acceptance.py` (report only).
 
@@ -27,7 +27,7 @@ Regenerate: `make acceptance` (runs every target) or `ZFX_ACCEPT_REUSE=1 .venv/b
 | `make e2e-bridge` | PASS | 3 | 0 | 0 | `401790e001` (dirty) | 2026-11-09T18:20:34Z |
 | `make e2e-intents` | PASS | 1 | 0 | 0 | `401790e001` (dirty) | 2026-11-09T18:21:51Z |
 | `make security-test` | PASS | 10 | 0 | 0 | `401790e001` (dirty) | 2026-11-09T18:27:45Z |
-| `make gpu-test` | PASS_WITH_BLOCKED_EXTERNAL | 5 | 0 | 3 | `401790e001` (dirty) | 2026-11-09T18:28:22Z |
+| `make gpu-test` | PASS_WITH_BLOCKED_EXTERNAL | 5 | 0 | 3 | `8270a11cf9` (dirty) | 2026-11-09T19:00:53Z |
 | `make testnet-smoke` | PASS_WITH_BLOCKED_EXTERNAL | 0 | 0 | 1 | `826e412cec` (dirty) | 2026-11-09T18:43:08Z |
 
 ## Steps
@@ -98,14 +98,14 @@ Regenerate: `make acceptance` (runs every target) or `ZFX_ACCEPT_REUSE=1 .venv/b
 
 | step | result | seconds | command or reason |
 |---|---|---|---|
-| gpu-device-compile-sm90-sm100-sm120-gfx942-gfx950 | PASS | 15.2 | `CLANG='.venv/bin/python -m ziglang clang' bench/compile/device_check.sh` |
-| apple-mlx-selftest | PASS | 1.1 | `.venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend mlx` |
-| apple-mlx-stress | PASS | 5.6 | `.venv/bin/python miner/python/zpu_miner.py stress --backend mlx` |
-| apple-mps-selftest | PASS | 2.0 | `.venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend torch --device mps` |
-| apple-mps-stress | PASS | 9.2 | `.venv/bin/python miner/python/zpu_miner.py stress --backend torch --device mps` |
+| gpu-device-compile-sm90-sm100-sm120-gfx942-gfx950 | PASS | 8.5 | `CLANG='.venv/bin/python -m ziglang clang' bench/compile/device_check.sh` |
+| apple-mlx-selftest | PASS | 0.6 | `.venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend mlx` |
+| apple-mlx-stress | PASS | 4.1 | `.venv/bin/python miner/python/zpu_miner.py stress --backend mlx` |
+| apple-mps-selftest | PASS | 1.8 | `.venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend torch --device mps` |
+| apple-mps-stress | PASS | 4.9 | `.venv/bin/python miner/python/zpu_miner.py stress --backend torch --device mps` |
 | nvidia-local | BLOCKED | - | no NVIDIA GPU/driver on this host (nvidia-smi absent) |
 | amd-local | BLOCKED | - | no AMD GPU/ROCm on this host (rocm-smi/amd-smi absent) |
-| remote-h100-mi355x-cloud | BLOCKED | - | remote GPU rerun is opt-in (ZFX_GPU_RUNNER); it rents GPU sandboxes |
+| remote-h100-mi355x-cloud | BLOCKED | - | remote GPU rerun is opt-in (ZFX_GPU_REMOTE=cloud); it rents GPU sandboxes |
 
 ### make testnet-smoke
 
