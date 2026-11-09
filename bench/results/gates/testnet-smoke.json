@@ -1,0 +1,24 @@
+{
+  "target": "testnet-smoke",
+  "commit": "6059df383e9436366ebcbf9345a3d0257c832048",
+  "dirty_tree": true,
+  "started": "2026-11-09T17:47:23Z",
+  "host": "arm64",
+  "steps": [
+    {
+      "name": "near-testnet-deploy-and-receipts",
+      "kind": "external",
+      "cmd": ".venv/bin/python tests/e2e/testnet_smoke.py",
+      "result": "BLOCKED",
+      "reason": "NEAR_TESTNET_ACCOUNT is not set"
+    }
+  ],
+  "finished": "2026-11-09T17:47:23Z",
+  "counts": {
+    "PASS": 0,
+    "FAIL": 0,
+    "BLOCKED": 1
+  },
+  "result": "PASS_WITH_BLOCKED_EXTERNAL",
+  "failed": []
+}

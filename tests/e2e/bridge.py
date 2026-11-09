@@ -135,7 +135,7 @@ def main():
                     md["symbol"] == "wZFX" and md["decimals"] == 8 and ln.near_view(CONTRACT, "ft_total_supply") == "0", md)
 
         # ---------------- Phase A ----------------
-        u0, u1, u2 = ws[0], ws[1], ws[2]
+        u0, u1 = ws[0], ws[1]
         d = deposit(ln, u0, 50_000)
         wait(lambda: near_bal(ln, u0["near"]) == 50_000, 240, "u0 mint")
         # The mint is final on NEAR before the coordinator's send_tx(FINAL) call
@@ -220,8 +220,6 @@ def main():
                 ledger[w["name"]].update(deposits=50_000, fees=FEE, releases=20_000, burns=20_000)
             if w is u1:
                 ledger[w["name"]].update(deposits=30_000, fees=FEE, releases=5_000, burns=5_000)
-        start_native = {w["name"]: native_bal(ln, w["addr"]) for w in users}
-        start_near = {w["name"]: near_bal(ln, w["near"]) for w in users}
         errors = []
         samples = []
         stop = threading.Event()
@@ -250,6 +248,7 @@ def main():
                         L["fees"] += FEE
                         L["burns"] += back
                         L["releases"] += back
+                        L["round_trips"] = L.get("round_trips", 0) + 1
                 except Exception as e:
                     with lock:
                         errors.append(f"{w['name']}#{k}: {e!r}")
@@ -313,10 +312,12 @@ def main():
         # quiescence: all jobs terminal
         wait(lambda: all(j["state"] in ("FINALIZED",) for j in json.loads(urllib.request.urlopen("http://127.0.0.1:28790/jobs").read()).values()), 600, "quiescence")
         rec = ln.reconcile()
-        done = sum(1 for w in users for _ in range(1)) and sum(1 for e in errors) == 0
-        completed = sum(L["releases"] > 0 for L in ledger.values())
-        ok &= check(f"Gate 4: {ROUND_TRIPS} two-way transfers under fault injection completed",
-                    not errors, {"elapsed_s": round(elapsed, 1), "errors": errors[:5], "chaos_events": chaos_log})
+        completed = sum(L.get("round_trips", 0) for L in ledger.values())
+        unexpected = [c for c in chaos_log if "UNEXPECTED" in c["action"]]
+        ok &= check(f"Gate 4: {ROUND_TRIPS} two-way transfers under fault injection completed; every injected duplicate mint rejected",
+                    not errors and completed == per_user * len(users) == ROUND_TRIPS and not unexpected,
+                    {"completed_round_trips": completed, "elapsed_s": round(elapsed, 1), "errors": errors[:5], "unexpected": unexpected,
+                     "chaos_events": chaos_log})
         bad_samples = [s for s in samples if s.get("invariant_ok") is False or s.get("orphans")]
         ok &= check("B3 backing invariant minted-burned <= locked-released held at every sample; no orphans",
                     not bad_samples and len(samples) > 5, {"samples": len(samples), "violations": bad_samples[:3]})

@@ -54,7 +54,13 @@ def write(rep, code):
     sys.exit(code)
 
 
+PREFLIGHT_ONLY = "--preflight" in sys.argv
+
+
 def blocked(reason):
+    if PREFLIGHT_ONLY:
+        print(json.dumps({"ready": False, "reason": reason}))
+        sys.exit(3)
     rep = {"gate": 6, "result": "BLOCKED", "reason": reason, "prerequisite": PREREQ, "rpc": RPC}
     write(rep, 2 if os.environ.get("ZFX_REQUIRE_TESTNET") == "1" else 0)
 
@@ -93,6 +99,9 @@ def preflight():
 
 def main():
     acct, cred, bal = preflight()
+    if PREFLIGHT_ONLY:
+        print(json.dumps({"ready": True, "account": acct, "balance_near": bal}))
+        return
     rep = {"gate": 6, "result": "RUNNING", "account": acct, "rpc": RPC, "balance_near_before": bal, "txs": [], "checks": []}
     run = os.path.join(localnet.RUN, "testnet")
     subprocess.run(["rm", "-rf", localnet.RUN])

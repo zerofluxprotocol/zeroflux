@@ -146,7 +146,8 @@ def main():
                     any(o["kind"] == "mint_without_onchain_deposit" for o in rec.get("orphans", [])) and st["halted"] is not None
                     and near_bal(ln, wC["near"]) == 0 and not dd.get("accepted", False),
                     {"minted_at_height": h_mint, "fork_height": depth_hint, "orphans": rec.get("orphans"), "incident": inc["reason"],
-                     "coordinator_halted": st["halted"], "deposit_while_paused": dd.get("error") or dd})
+                     "coordinator_halted": st["halted"], "deposit_while_paused": dd.get("error") or dd,
+                     "conflicting_tx": c2.get("txid"), "reorged_deposit": d2.get("deposit_id")})
         REPORT["conclusion"] = ("K must exceed the deepest plausible reorg. The testnet default K=12 is a policy value; this run shows "
                                 "the failure mode beyond K is detected and halted, not silently absorbed.")
     except Exception as e:

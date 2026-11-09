@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import localnet  # noqa: E402
 from localnet import BIN, CONTRACT, ENVV, FT_WASM, Localnet, jrun, user_wallets  # noqa: E402
 import zfxnet  # noqa: E402
-from bridge import deposit, native_bal, near_bal, wait, zrpc  # noqa: E402
+from bridge import deposit, native_bal, near_bal, wait  # noqa: E402
 from zfx_intents import protocol as P  # noqa: E402
 from zfx_intents.adapter import IntentsAdapter, PUBLIC_RELAY  # noqa: E402
 
@@ -117,7 +117,6 @@ def main():
                     len(q) >= 1 and int(q[0]["amount_out"]) == expect_out and st["status"] == "SETTLED"
                     and mt(ln, "u5.test.near", U[7:]) == expect_out and mt(ln, "u5.test.near", CONTRACT) == 500_000_000,
                     {"quote": q[0], "status": st, "user_tusdc": mt(ln, "u5.test.near", TUSDC), "user_wzfx": mt(ln, "u5.test.near", CONTRACT)})
-        settled_pair = [None, sd]
         # Swap B: tUSDC -> wZFX (exact in)
         q2 = ad.quote(U, W, exact_amount_in=10_000_000)
         res2, _ = ad.submit(q2[0], "u5.test.near", dep("u5.test.near"), VERIFIER, salt)
@@ -145,7 +144,8 @@ def main():
         replay = ln.near_call("relay.test.near", VERIFIER, "execute_intents", {"signed": [dup_sd]}, gas=250, check=False)
         ok &= check("B5 duplicate fill rejected by the bus and nonce replay rejected on-chain by the Verifier",
                     again["status"] == "FAILED" and nonce_used is True and not replay.get("success", True),
-                    {"bus": again, "is_nonce_used": nonce_used, "onchain_replay_failure": str(replay.get("failure"))[:200]})
+                    {"bus": again, "original_intent_status": qd.get("result"), "is_nonce_used": nonce_used,
+                     "onchain_replay_failure": str(replay.get("failure"))[:200]})
         # expiry: bus-level and on-chain deadline
         qe = ad.quote(W, U, exact_amount_in=50_000_000, min_deadline_ms=1000)
         time.sleep(12)

@@ -102,7 +102,6 @@ def main():
         _, alice, _ = wallet_cli("new", "--wallet", wa)
         _, bob, _ = wallet_cli("new", "--wallet", wb)
         node1 = f"http://127.0.0.1:{ports(1)[1]}"
-        node3 = f"http://127.0.0.1:{ports(3)[1]}"
         rc, out, err = wallet_cli("faucet", "--wallet", wa, "--node", node1)
         fx = json.loads(out)
         ok_all &= check("A3 faucet pays a fresh wallet", rc == 0 and fx.get("amount") == 5_000_000, fx)
@@ -212,12 +211,12 @@ def main():
                         all(x["best_hash"] == s[0]["best_hash"] for x in s) and all(int(x["supply"]) == expect_supply for x in s) and all(hh["ok"] for hh in healths),
                         {"height": h, "supply": s[0]["supply"], "expected": expect_supply, "state_root": s[0]["state_root"],
                          "reached_in_s": round(time.time() - t0, 1), "health": [hh["supply_audit"] for hh in healths]})
-        blocks = http(ports(1)[1], f"/v1/blocks?count=200")
+        blocks = http(ports(1)[1], "/v1/blocks?count=200")
         by = {k: sum(1 for b in blocks if b["miner"] == a) for k, a in miners.items()}
         ok_all &= check("Gate 2: blocks from all three independent miner implementations accepted by independent nodes",
                         all(v > 0 for v in by.values()), {"last_200_blocks_by_miner": by})
         imm = {k: rpc(1, "zfx_get_account", {"address": a})["result"]["immature"] for k, a in miners.items()}
-        last5 = http(ports(1)[1], f"/v1/blocks?count=5")
+        last5 = http(ports(1)[1], "/v1/blocks?count=5")
         expect_imm = sum(b["reward"] for b in last5)
         ok_all &= check("A1 coinbase maturity: exactly the last 5 blocks' rewards are immature (maturity=5)",
                         sum(imm.values()) == expect_imm and len(last5) == 5, {"immature_by_miner": imm, "expected_total": expect_imm})

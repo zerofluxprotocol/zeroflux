@@ -211,7 +211,7 @@ def scenario(out_path, profile):
         b1, b2 = http(ports(1)[1], f"/v1/block/{h}"), http(ports(2)[1], f"/v1/block/{h}")
         check("nodes 1+2 agree on block hashes", b1["hash"] == b2["hash"], {"height": h, "hash": b1["hash"]})
         def by_miner():
-            blocks = http(ports(1)[1], f"/v1/blocks?count=200")
+            blocks = http(ports(1)[1], "/v1/blocks?count=200")
             return {k: sum(1 for b in blocks if b["miner"] == a) for k, a in miners.items()}
         try:
             wait_for(lambda: by_miner()["rust"] > 0 and by_miner()["cpp"] > 0, 180, "blocks from both miners")
