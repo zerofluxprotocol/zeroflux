@@ -1,0 +1,26 @@
+# ZeroFlux GPU miner, NVIDIA (Hopper sm_90, Blackwell sm_100 / sm_120).
+# Base image is the one the H100 measurements in bench/results/gpu_summary.json
+# ran on. Build from the repo root:
+#   docker build -f deploy/gpu/Dockerfile.cuda -t zeroflux/zpu-miner:cuda .
+#   docker run --gpus all zeroflux/zpu-miner:cuda gpu-test
+#   docker run --gpus all zeroflux/zpu-miner:cuda mine --node http://NODE:9441 --address zfx1...
+FROM pytorch/pytorch:2.11.0-cuda12.8-cudnn9-devel AS build
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends make g++ curl ca-certificates && rm -rf /var/lib/apt/lists/*
+RUN curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.90.0
+ENV PATH=/root/.cargo/bin:$PATH
+WORKDIR /src
+COPY . .
+ARG CUDA_ARCH="90 100 120"
+RUN make -C miner/cuda cpu cuda CUDA_ARCH="$CUDA_ARCH" \
+ && cargo build --release --locked -p zpu-cli
+
+FROM pytorch/pytorch:2.11.0-cuda12.8-cudnn9-runtime
+RUN pip install --no-cache-dir numpy
+COPY --from=build /src/miner/cuda/build/zpu-miner-cuda /src/miner/cuda/build/zpu-miner /usr/local/bin/
+COPY --from=build /src/target/release/zpu-cli /usr/local/bin/
+COPY --from=build /src/miner/python /opt/zfx/python
+COPY --from=build /src/tests/vectors /opt/zfx/vectors
+COPY deploy/gpu/entrypoint.sh /usr/local/bin/zfx-gpu
+ENV ZPU_GPU_BIN=zpu-miner-cuda
+ENTRYPOINT ["zfx-gpu"]
+CMD ["gpu-test"]

@@ -7,6 +7,7 @@
 //
 // Protocol: see miner/PROTOCOL.md. Driven by `zpu-cli mine --backend exec`.
 
+#include <sys/resource.h>
 #include <chrono>
 #include <cstring>
 #include <fstream>
@@ -140,6 +141,30 @@ static int selftest(Backend& b, const std::string& path) {
     return fail ? 1 : 0;
 }
 
+static long peak_rss_kb() {
+    struct rusage ru;
+    getrusage(RUSAGE_SELF, &ru);
+#if defined(__APPLE__)
+    return ru.ru_maxrss / 1024;  // bytes on macOS
+#else
+    return ru.ru_maxrss;  // KiB on Linux
+#endif
+}
+
+static std::string compiler_id() {
+#if defined(__clang__)
+    return std::string("clang ") + __clang_version__;
+#elif defined(__GNUC__)
+    return "gcc " + std::to_string(__GNUC__) + "." + std::to_string(__GNUC_MINOR__);
+#else
+    return "unknown";
+#endif
+}
+
+// Benchmark JSON (spec A4): throughput, launch overhead (first small batch,
+// includes weight upload / plan creation), host + device memory, toolchain,
+// and an acceptance check: digests for sample nonces recomputed on the CPU
+// reference backend must match bit for bit.
 static int bench(Backend& b, int argc, char** argv) {
     Job j;
     j.profile = argv_val(argc, argv, "--profile", "v01") == std::string("dev") ? FP8C_V01_DEV : FP8C_V01;
@@ -150,14 +175,25 @@ static int bench(Backend& b, int argc, char** argv) {
     uint64_t a = 0;
     Job warm = j;
     warm.count = 16;
+    auto tw = std::chrono::steady_clock::now();
     b.run(warm, a);
+    double launch = std::chrono::duration<double>(std::chrono::steady_clock::now() - tw).count();
     auto t0 = std::chrono::steady_clock::now();
     b.run(j, a);
     double el = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
+    std::vector<uint64_t> sample = {0, 1, 7, 1000003, 0xfffffffffULL};
+    auto got = b.digests(j, sample);
+    auto ref = make_cpu_backend((int)std::thread::hardware_concurrency());
+    auto want = ref->digests(j, sample);
+    bool accept = got.size() == want.size();
+    for (size_t i = 0; accept && i < got.size(); i++) accept = got[i] == want[i];
     std::cout << "{\"backend\":\"" << b.name() << "\",\"impl\":\"zpu-miner-cpp\",\"profile\":" << j.profile.id << ",\"attempts\":" << a
               << ",\"elapsed_s\":" << el << ",\"attempts_per_s\":" << a / el << ",\"tera_macs_per_s\":" << a / el * j.profile.macs() / 1e12
-              << "}" << std::endl;
-    return 0;
+              << ",\"launch_overhead_s\":" << launch << ",\"host_peak_rss_kb\":" << peak_rss_kb() << ",\"device\":" << b.info()
+              << ",\"hardware_threads\":" << std::thread::hardware_concurrency() << ",\"compiler\":\"" << compiler_id()
+              << "\",\"acceptance\":{\"sample_nonces\":" << sample.size() << ",\"matches_cpu_reference\":" << (accept ? "true" : "false")
+              << "}}" << std::endl;
+    return accept ? 0 : 1;
 }
 
 // Max-magnitude accumulator stress on the backend's real GEMM path:

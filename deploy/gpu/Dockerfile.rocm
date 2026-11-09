@@ -1,0 +1,20 @@
+# ZeroFlux GPU miner, AMD (MI300X gfx942 = E4M3FNUZ, MI355X gfx950 = OCP E4M3).
+# Base image is the one the MI355X measurements in bench/results/gpu_summary.json
+# ran on (ROCm 10.0, hipBLASLt). Build from the repo root:
+#   docker build -f deploy/gpu/Dockerfile.rocm -t zeroflux/zpu-miner:rocm .
+#   docker run --device /dev/kfd --device /dev/dri --group-add video zeroflux/zpu-miner:rocm gpu-test
+FROM rocm/vllm:rocm10.0.0_ubuntu24.04_py3.14_pytorch_2.12.0_vllm_0.27.0
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends make g++ curl ca-certificates && rm -rf /var/lib/apt/lists/*
+RUN curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.90.0
+ENV PATH=/root/.cargo/bin:/opt/rocm/bin:$PATH
+WORKDIR /src
+COPY . .
+ARG HIP_ARCH="gfx942 gfx950"
+RUN make -C miner/cuda cpu hip HIPCC="$(command -v hipcc || echo /opt/rocm/bin/hipcc)" HIP_ARCH="$HIP_ARCH" \
+ && cargo build --release --locked -p zpu-cli \
+ && cp miner/cuda/build/zpu-miner-hip miner/cuda/build/zpu-miner target/release/zpu-cli /usr/local/bin/ \
+ && mkdir -p /opt/zfx && cp -r miner/python /opt/zfx/python && cp -r tests/vectors /opt/zfx/vectors \
+ && cp deploy/gpu/entrypoint.sh /usr/local/bin/zfx-gpu && rm -rf /src/target
+ENV ZPU_GPU_BIN=zpu-miner-hip
+ENTRYPOINT ["zfx-gpu"]
+CMD ["gpu-test"]

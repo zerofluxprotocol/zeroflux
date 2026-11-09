@@ -205,6 +205,12 @@ class GpuBackend : public Backend {
         GPU_CHECK(gpuMalloc(&dNFound_, 4));
     }
     std::string name() const override { return name_; }
+    std::string info() const override {
+        size_t fr = 0, tot = 0;
+        gpuMemGetInfo(&fr, &tot);
+        return "{\"device_mem_total_bytes\":" + std::to_string(tot) + ",\"device_mem_used_bytes\":" + std::to_string(tot - fr) +
+               ",\"batch\":" + std::to_string(batch_) + "}";
+    }
 
     std::vector<Found> run(const Job& job, uint64_t& attempts) override {
         ensure(job);

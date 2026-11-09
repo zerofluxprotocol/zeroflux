@@ -42,6 +42,8 @@ class Backend {
     // (operands in D). Returns int64 results; empty if unsupported.
     // Per-stage device time (ms) for one batch of B attempts; empty if unsupported.
     virtual std::string profile(const Job&, int) { return ""; }
+    // Device facts as a JSON object (memory, arch); "{}" when not applicable.
+    virtual std::string info() const { return "{}"; }
     virtual std::vector<int64_t> raw_gemm(const std::vector<int8_t>&, const std::vector<int8_t>&, int, int, int) { return {}; }
 };
 

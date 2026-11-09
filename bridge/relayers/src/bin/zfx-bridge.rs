@@ -4,7 +4,9 @@
 //!   zfx-bridge keygen-relayer --out SEEDFILE               prints {ed25519, slh} public keys
 //!   zfx-bridge keygen-near --account ID --out FILE         NEAR key file (near-cli credential format)
 //!   zfx-bridge deploy --rpc URL --signer ID --key-file F --contract ID --wasm W --init JSON [--deposit-near N]
-//!   zfx-bridge call --rpc URL --signer ID --key-file F --contract ID --method M --args JSON [--deposit YOCTO] [--gas TGAS]
+//!   zfx-bridge call --rpc URL --signer ID --key-file F --contract ID --method M (--args JSON | --raw-args-file F) [--deposit YOCTO] [--gas TGAS]
+//!   zfx-bridge admin-sign --seed F --member I --chain near|native --epoch E --nonce N --action pause|unpause|rotate
+//!              [--contract ID] [--chain-id N] [--committee K1,K2,K3] [--activate-height H]
 //!   zfx-bridge view --rpc URL --contract ID --method M --args JSON
 //!   zfx-bridge burn --rpc URL --signer ID --key-file F --contract ID --amount N --native-recipient zfx1...
 //!   zfx-bridge reconcile --env ENV --zfx URL
@@ -69,6 +71,45 @@ async fn main() {
             }
             drop(sb); // stops neard
         }
+        Some("admin-sign") => {
+            // Offline operator approval for a governance action, signed with
+            // one committee member's seed. Prints the approval JSON to paste
+            // into the NEAR call or the native zfx_bridge_submit_op request.
+            use ed25519_dalek::Signer;
+            use zfx_bridge::digest::{near_admin_digest, NearAdmin};
+            use zfx_verify::bridge as nb;
+            let keys = zfx_bridge::keys::RelayerKeys::from_seed(&zfx_bridge::keys::read_seed(&need(&args, "--seed")).unwrap());
+            let member: u8 = need(&args, "--member").parse().expect("--member 0..2");
+            let epoch: u32 = need(&args, "--epoch").parse().expect("--epoch");
+            let nonce: u64 = need(&args, "--nonce").parse().expect("--nonce");
+            let action = need(&args, "--action");
+            let committee: Vec<String> = arg(&args, "--committee").map(|c| c.split(',').map(String::from).collect()).unwrap_or_default();
+            match need(&args, "--chain").as_str() {
+                "near" => {
+                    let a = match action.as_str() {
+                        "pause" => NearAdmin::Pause,
+                        "unpause" => NearAdmin::Unpause,
+                        "rotate" => NearAdmin::Rotate(&committee),
+                        x => panic!("unknown action {}", x),
+                    };
+                    let d = near_admin_digest(&need(&args, "--contract"), epoch, nonce, a);
+                    println!("{}", json!({"member": member, "signature": hex::encode(keys.ed25519.sign(&d).to_bytes())}));
+                }
+                "native" => {
+                    let chain_id: u32 = need(&args, "--chain-id").parse().expect("--chain-id");
+                    let a = match action.as_str() {
+                        "pause" => nb::AdminAction::Pause,
+                        "unpause" => nb::AdminAction::Unpause,
+                        "rotate" => nb::AdminAction::Rotate { members: committee, activate_height: need(&args, "--activate-height").parse().unwrap() },
+                        x => panic!("unknown action {}", x),
+                    };
+                    let op = nb::AdminOp { epoch, op_nonce: nonce, action: a, approvals: vec![] };
+                    let d = nb::admin_digest(chain_id, &op);
+                    println!("{}", json!({"member": member, "sig": hex::encode(nb::sign_digest(&keys.slh, &d))}));
+                }
+                x => panic!("--chain near|native, got {}", x),
+            }
+        }
         Some("keygen-relayer") => {
             let out = need(&args, "--out");
             let mut seed = [0u8; 32];
@@ -110,7 +151,12 @@ async fn main() {
             let a: Value = serde_json::from_str(&arg(&args, "--args").unwrap_or("{}".into())).unwrap();
             let dep: u128 = arg(&args, "--deposit").and_then(|v| v.parse().ok()).unwrap_or(0);
             let gas: u64 = arg(&args, "--gas").and_then(|v| v.parse().ok()).unwrap_or(100);
-            let o = near.call(&signer(&args), &need(&args, "--contract"), &need(&args, "--method"), a, gas, dep).unwrap_or_else(|e| panic!("{}", e));
+            let o = match arg(&args, "--raw-args-file") {
+                // Raw (non-JSON) input, e.g. a WASM for `deploy_upgrade`.
+                Some(f) => near.call_raw(&signer(&args), &need(&args, "--contract"), &need(&args, "--method"), std::fs::read(f).unwrap(), gas, dep),
+                None => near.call(&signer(&args), &need(&args, "--contract"), &need(&args, "--method"), a, gas, dep),
+            }
+            .unwrap_or_else(|e| panic!("{}", e));
             print_outcome(&o);
         }
         Some("view") => {

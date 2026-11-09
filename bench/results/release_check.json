@@ -1,0 +1,108 @@
+{
+  "started": "2026-11-09T17:18:18Z",
+  "commit": "79da1758d4fdc9220b4efe83e702caf749172e74",
+  "licenses": {
+    "dependencies": 384,
+    "by_license": {
+      "MIT OR Apache-2.0": 209,
+      "MIT": 59,
+      "Apache-2.0 OR MIT": 36,
+      "Unicode-3.0": 18,
+      "MIT/Apache-2.0": 14,
+      "BSD-3-Clause": 7,
+      "Unlicense OR MIT": 7,
+      "Apache-2.0": 4,
+      "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT": 3,
+      "ISC": 3,
+      "CC0-1.0 OR MIT-0 OR Apache-2.0": 2,
+      "Zlib OR Apache-2.0 OR MIT": 2,
+      "BSD-2-Clause OR Apache-2.0 OR MIT": 2,
+      "CC0-1.0": 2,
+      "0BSD OR MIT OR Apache-2.0": 1,
+      "CC0-1.0 OR Apache-2.0 OR Apache-2.0 WITH LLVM-exception": 1,
+      "MIT OR Apache-2.0 OR BSD-1-Clause": 1,
+      "MIT OR Zlib OR Apache-2.0": 1,
+      "MIT OR Apache-2.0 OR LGPL-2.1-or-later": 1,
+      "Apache-2.0 AND ISC": 1,
+      "Apache-2.0 OR ISC OR MIT": 1,
+      "(MIT OR Apache-2.0) AND Unicode-3.0": 1,
+      "CDLA-Permissive-2.0": 1,
+      "BSD-2-Clause": 1,
+      "ISC AND (Apache-2.0 OR ISC)": 1,
+      "ISC AND (Apache-2.0 OR ISC) AND Apache-2.0 AND MIT AND BSD-3-Clause AND (Apache-2.0 OR ISC OR MIT) AND (Apache-2.0 OR ISC OR MIT-0)": 1,
+      "Zlib OR MIT OR Apache-2.0": 1,
+      "Apache-2.0 / MIT": 1,
+      "Zlib": 1,
+      "Apache-2.0 OR BSL-1.0": 1
+    },
+    "not_allowed": [],
+    "allowlist": [
+      "0BSD",
+      "Apache-2.0",
+      "Apache-2.0 WITH LLVM-exception",
+      "BSD-2-Clause",
+      "BSD-3-Clause",
+      "BSL-1.0",
+      "CC0-1.0",
+      "CDLA-Permissive-2.0",
+      "ISC",
+      "MIT",
+      "MPL-2.0",
+      "Unicode-3.0",
+      "Unicode-DFS-2016",
+      "Unlicense",
+      "Zlib"
+    ],
+    "result": "PASS"
+  },
+  "sbom": {
+    "result": "PASS",
+    "dir": "dist/sbom",
+    "files": [
+      "pow-verifier.cdx.json",
+      "test-ft.cdx.json",
+      "wzfx.cdx.json",
+      "zfx-bridge.cdx.json",
+      "zfx-node.cdx.json",
+      "zfx-research.cdx.json",
+      "zfx-stark-proto.cdx.json",
+      "zfx-verify.cdx.json",
+      "zfx-wallet.cdx.json",
+      "zpu-cli.cdx.json"
+    ],
+    "components_total": 1181,
+    "format": "CycloneDX JSON"
+  },
+  "reproducible_build": {
+    "result": "SKIPPED",
+    "reason": "ZFX_SKIP_REPRO=1"
+  },
+  "wasm": {
+    "result": "INFO",
+    "note": "built with `cargo near build non-reproducible-wasm`; the reproducible-wasm mode needs Docker, which is not installed on this host",
+    "artifacts": {
+      "wzfx": {
+        "sha256": "448a3bdc062f84d5ca1c1232c7c64b96a147701d759cf89cf3150cd28ff0e174",
+        "bytes": 255070
+      },
+      "test_ft": {
+        "sha256": "333adac6478cb5ccdd18c5da995483bec795a85f22da711aba27ac6ce92f9619",
+        "bytes": 167608
+      },
+      "pow_verifier": {
+        "sha256": "9388b031a4348fe26f4e6f824b5d571b3f93d5527743a7e830f9244e4b982fa0",
+        "bytes": 128507
+      }
+    }
+  },
+  "release_signing": {
+    "result": "BLOCKED",
+    "reason": "no release signing key configured (ZFX_RELEASE_SIGNING_KEY unset); none was generated. Releases are unsigned.",
+    "prerequisite": "owner-held SLH-DSA or minisign release key, kept outside the repository"
+  },
+  "docker_images": {
+    "result": "BLOCKED",
+    "reason": "docker not installed on this host; Dockerfile, Dockerfile.cuda, Dockerfile.rocm are unbuilt here"
+  },
+  "required_failed": []
+}

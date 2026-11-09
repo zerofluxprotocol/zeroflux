@@ -20,6 +20,7 @@
 #define gpuDeviceSynchronize hipDeviceSynchronize
 #define gpuSetDevice hipSetDevice
 #define gpuGetDeviceProperties hipGetDeviceProperties
+#define gpuMemGetInfo hipMemGetInfo
 #define gpuDeviceProp hipDeviceProp_t
 #define gpuGetLastError hipGetLastError
 #define gpuStream_t hipStream_t
@@ -77,6 +78,7 @@
 #define gpuDeviceSynchronize cudaDeviceSynchronize
 #define gpuSetDevice cudaSetDevice
 #define gpuGetDeviceProperties cudaGetDeviceProperties
+#define gpuMemGetInfo cudaMemGetInfo
 #define gpuDeviceProp cudaDeviceProp
 #define gpuGetLastError cudaGetLastError
 #define gpuStream_t cudaStream_t

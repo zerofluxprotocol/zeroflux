@@ -3,7 +3,7 @@ resolver = "2"
 members = ["wzfx", "test-ft", "pow-verifier"]
 
 [workspace.dependencies]
-near-sdk = "5.30"
+near-sdk = { version = "5.30", default-features = false }  # no wee_alloc (RUSTSEC-2022-0054, unmaintained); std allocator
 near-contract-standards = "5.30"
 
 [profile.release]
