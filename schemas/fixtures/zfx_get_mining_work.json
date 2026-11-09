@@ -1,19 +1,19 @@
 {
   "method": "zfx_get_mining_work",
   "params": {
-    "address": "zfx1195fd7319afdf7fd578af66face23840880a77a3ecd6f464d36b1c906fcf086451c5afba"
+    "address": "zfx1623d7f40d5ca8914176d0fc260bc2392fa9d88229ba754a251b09342848abbb47ba18161"
   },
   "result": {
     "api_version": 2,
     "bridge_ops": 0,
     "chain_id": 1514536962,
-    "challenge": "1ffab9f03ce558f4f86a46fee7b3be2b63649ed104a1ae28276605d1b091b3db",
-    "epoch_seed": "c6890ccc8311e2866be955b24925d10cb394454f682b7a80b7f4c9ca468eeec9",
+    "challenge": "8c1b48501b74b6ee78f6abeb5a1191ad2989b65d1ad0121d136dd4e6ce45bf12",
+    "epoch_seed": "318fe9dec28b4bf9790621765b2f790f3da6cd34c177a5c8feb9f91214c7bf7f",
     "expiry": {
-      "parent": "867db44f9972be908a85f7212123ec89223a25ffd2022e922066a893df0270e2"
+      "parent": "bdae6e283624e63548ab118c8ae07a2b206cb51bee939ea7dde4a33c1a420c46"
     },
-    "header_without_nonce": "5a465832020000000200465a5700000000000000867db44f9972be908a85f7212123ec89223a25ffd2022e922066a893df0270e202ff5273583d177b847b1d7c2142fbd71270cba9cd18d3cc879c1870c5f59726307a18333b163abae58c10e8c0974f77e9884f77ba4ccc3ae1eb1c5ce7835fdc140df26a000000000000389cac983d5b122f0ab23f533fbadef7626634318a93d0378a86cbcf4fc0",
-    "height": 87,
+    "header_without_nonce": "5a465832020000000200465a5f00000000000000bdae6e283624e63548ab118c8ae07a2b206cb51bee939ea7dde4a33c1a420c46bb06a86e72c61d2c76fed79ea37b6ad7e33567bd07e2572f37c232c1bfb0da9b293e803f3f5b69cf869be7c4d7b660a8c520e122f90bdaab1997e4e5358b17ffc934f26a0000000000001c23377192b2ed1b27969522fc7a0fbbff98b7ed624ffdc502d8785d3cd5",
+    "height": 95,
     "profile": {
       "d_in": 64,
       "d_out": 64,
@@ -24,9 +24,9 @@
       "shift_hidden": 0,
       "shift_in": 0
     },
-    "target": "0000389cac983d5b122f0ab23f533fbadef7626634318a93d0378a86cbcf4fc0",
+    "target": "00001c23377192b2ed1b27969522fc7a0fbbff98b7ed624ffdc502d8785d3cd5",
     "txs": 0,
     "version": 2,
-    "work_id": "011c0c8cb9c3a840"
+    "work_id": "31ab7476c85b3ce9"
   }
 }

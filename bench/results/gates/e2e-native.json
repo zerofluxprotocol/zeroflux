@@ -1,8 +1,8 @@
 {
   "target": "e2e-native",
-  "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+  "commit": "dbd43f311e06a3aa39f0160fa0f14088ad4ea576",
   "dirty_tree": true,
-  "started": "2026-11-09T18:11:19Z",
+  "started": "2026-11-09T21:00:41Z",
   "host": "arm64",
   "steps": [
     {
@@ -10,27 +10,27 @@
       "kind": "required",
       "cmd": ".venv/bin/python tests/e2e/native.py",
       "rc": 0,
-      "seconds": 59.1,
+      "seconds": 60.9,
       "result": "PASS",
       "log": "bench/results/gates/logs/e2e-native/native-3-nodes-1000-blocks.log",
       "tail": [
-        "PASS A2 peer discovery via Addr gossip (node3 configured only with node2 reaches node1) :: {\"node3_peers\": [\"59de1f7c6a44\", \"797b681179b7\"]}",
-        "PASS A3 faucet pays a fresh wallet :: {\"amount\": 5000000, \"to\": \"zfx1d8c0471c9784497416a0193afd79e4e451af9d98e046353cdd4c737f78f22c76eed49b44\", \"txid\": \"639979ad96f32f9004530a5fe472f7646864bb0558b9c67d6e02f846f4218ff8\"}",
-        "PASS A3 SLH-DSA transfer accepted :: {\"stderr\": \"signed with SLH-DSA-SHA2-128s in 0.76s (8018 bytes, fee 2000)\", \"out\": {\"accepted\": true, \"deposit_id\": null, \"txid\": \"631e35956d4b04a832f13516bf3fe0736b3d498fb7afcb708af715cc972c5f28\"}}",
+        "PASS A2 peer discovery via Addr gossip (node3 configured only with node2 reaches node1) :: {\"node3_peers\": [\"4f2bb4b2fa54\", \"7e26fd4643a6\"]}",
+        "PASS A3 faucet pays a fresh wallet :: {\"amount\": 5000000, \"to\": \"zfx123795b76b8516fd17e2dd00bd41526a7fb86a0fce5b55998b02f85cd1d02692a8dfb5a6c\", \"txid\": \"22ecbde38a188fae0f4c67ddd14aa257aeedbb468b94108ccec7896ae5442a77\"}",
+        "PASS A3 SLH-DSA transfer accepted :: {\"stderr\": \"signed with SLH-DSA-SHA2-128s in 1.33s (8018 bytes, fee 2000)\", \"out\": {\"accepted\": true, \"deposit_id\": null, \"txid\": \"998ab7ce55af648b227cf3d0a9d1795bae8c14ea22a27d3ffe781b009bb49270\"}}",
         "PASS A3 balances and fee conservation on a different node :: {\"alice\": 3763433, \"bob\": 1234567}",
-        "PASS A3 receipt Merkle proof verifies independently (Python) against header tx_root :: {\"height\": 539, \"leaf_count\": 2}",
-        "PASS A3 address history shows in/out :: [{\"amount\": 1234567, \"counterparty\": \"zfx12a54c0bdf2ab9dc491910aef0ca7ca3361001848c3ac077b479c92de9e529c5e0f25c3ed\", \"direction\": \"out\", \"fee\": 2000, \"height\": 539, \"memo\": null, \"txid\": \"631e35956d4b04a832f13516bf3fe0736b3d498fb7afcb708af715cc972c5f28\"}, {\"amount\": 5000000, \"counterparty\": \"zfx14b715d74c84d1bd5444a52d1b74b2606d9da746a5db2bb2cdced7755a6874bdf62434721\", \"direction\": \"in\", \"fee\": 10",
+        "PASS A3 receipt Merkle proof verifies independently (Python) against header tx_root :: {\"height\": 593, \"leaf_count\": 2}",
+        "PASS A3 address history shows in/out :: [{\"amount\": 1234567, \"counterparty\": \"zfx1ca87de51861517d29c42d42ca0a619b31fa4c3c3b4f620dde601299550b6d9448df2ec5b\", \"direction\": \"out\", \"fee\": 2000, \"height\": 593, \"memo\": null, \"txid\": \"998ab7ce55af648b227cf3d0a9d1795bae8c14ea22a27d3ffe781b009bb49270\"}, {\"amount\": 5000000, \"counterparty\": \"zfx14b715d74c84d1bd5444a52d1b74b2606d9da746a5db2bb2cdced7755a6874bdf62434721\", \"direction\": \"in\", \"fee\": 10",
         "PASS A1 invalid signature rejected with structured error :: {\"code\": 1001, \"message\": \"SLH-DSA signature invalid\"}",
         "PASS A3 backup/restore reproduces the address :: {\"restored\": true}",
         "PASS A3 explorer served by node :: {\"bytes\": 743}",
         "PASS A2 invalid-PoW block over encrypted P2P rejected and peer disconnected; 60 malformed connections survived :: {\"inject\": {\"disconnected_by_node\": true, \"handshake\": \"ok\", \"invalid_block_sent\": true}, \"garbage\": {\"malformed_connections\": 60}, \"handshakes_failed\": 60, \"blocks_rejected\": 1}",
-        "PASS A2 transport encryption: no plaintext markers on the wire; AEAD frame bodies are uniformly distributed :: {\"wire_bytes\": 646514, \"encrypted_frames\": 878, \"plaintext_markers_found\": [], \"chi2_255dof_over_2MiB_ciphertext\": 264.1, \"p_0.001_critical_value\": 330.5, \"new_node_synced_from_genesis_to\": 799}",
-        "PASS A1 1000+ blocks: 3 nodes converge; supply == allocations + height*subsidy exactly; audits pass :: {\"height\": 1003, \"supply\": \"15015000000000\", \"expected\": 15015000000000, \"state_root\": \"f37c366b0bad43ce9ee3c969363d6aca45ff5df712661de5aa5650f98aaa6eca\", \"reached_in_s\": 36.0, \"health\": [\"ok\", \"ok\", \"ok\"]}",
-        "PASS Gate 2: blocks from all three independent miner implementations accepted by independent nodes :: {\"last_200_blocks_by_miner\": {\"rust\": 140, \"cpp\": 30, \"py\": 30}}",
+        "PASS A2 transport encryption: no plaintext markers on the wire; AEAD frame bodies are uniformly distributed :: {\"wire_bytes\": 647170, \"encrypted_frames\": 872, \"plaintext_markers_found\": [], \"chi2_255dof_over_2MiB_ciphertext\": 258.8, \"p_0.001_critical_value\": 330.5, \"new_node_synced_from_genesis_to\": 811}",
+        "PASS A1 1000+ blocks: 3 nodes converge; supply == allocations + height*subsidy exactly; audits pass :: {\"height\": 1003, \"supply\": \"15015000000000\", \"expected\": 15015000000000, \"state_root\": \"4f3df090d33e66b37cb6cd0cb61f2794698344f39d269353fdf014caea4ebce6\", \"reached_in_s\": 34.4, \"health\": [\"ok\", \"ok\", \"ok\"]}",
+        "PASS Gate 2: blocks from all three independent miner implementations accepted by independent nodes :: {\"last_200_blocks_by_miner\": {\"rust\": 57, \"cpp\": 113, \"py\": 30}}",
         "PASS A1 coinbase maturity: exactly the last 5 blocks' rewards are immature (maturity=5) :: {\"immature_by_miner\": {\"rust\": 0, \"cpp\": 0, \"py\": 25000000000}, \"expected_total\": 25000000000}",
-        "PASS A2 partition then rejoin: converge on most cumulative work via reorg :: {\"node3_reorgs\": 40, \"max_depth\": 18, \"height\": 1027}",
-        "PASS A2 10 restart/recovery runs (5 SIGTERM clean, 5 SIGKILL crash) reload, revalidate and resync :: [{\"signal\": \"TERM\", \"height_before\": 1027, \"reloaded\": 1195, \"previous_clean\": true, \"resynced\": 1027}, {\"signal\": \"KILL\", \"height_before\": 1027, \"reloaded\": 1195, \"previous_clean\": false, \"resynced\": 1027}, {\"signal\": \"TERM\", \"height_before\": 1027, \"reloaded\": 1195, \"previous_clean\": true, \"resynced\": 1027}, {\"signal\": \"KILL\", \"height_before\": 1027, \"reloaded\": 1195, \"previous_clean\": false, \"res",
-        "PASS A2 corrupted block log detected (refuses to start) and --repair truncates, revalidates, resyncs :: {\"exit_code_on_corruption\": 1, \"load_report\": {\"height\": 539, \"previous_shutdown_clean\": false, \"records\": 605, \"rejected\": 0, \"repaired_from_line\": 606, \"revalidated\": 605, \"torn_tail_dropped\": false}}",
+        "PASS A2 partition then rejoin: converge on most cumulative work via reorg :: {\"node3_reorgs\": 17, \"max_depth\": 13, \"height\": 1021}",
+        "PASS A2 10 restart/recovery runs (5 SIGTERM clean, 5 SIGKILL crash) reload, revalidate and resync :: [{\"signal\": \"TERM\", \"height_before\": 1021, \"reloaded\": 1125, \"previous_clean\": true, \"resynced\": 1021}, {\"signal\": \"KILL\", \"height_before\": 1021, \"reloaded\": 1125, \"previous_clean\": false, \"resynced\": 1021}, {\"signal\": \"TERM\", \"height_before\": 1021, \"reloaded\": 1125, \"previous_clean\": true, \"resynced\": 1021}, {\"signal\": \"KILL\", \"height_before\": 1021, \"reloaded\": 1125, \"previous_clean\": false, \"res",
+        "PASS A2 corrupted block log detected (refuses to start) and --repair truncates, revalidates, resyncs :: {\"exit_code_on_corruption\": 1, \"load_report\": {\"height\": 506, \"previous_shutdown_clean\": false, \"records\": 563, \"rejected\": 0, \"repaired_from_line\": 564, \"revalidated\": 563, \"torn_tail_dropped\": false}}",
         "PASS A5 admin RPC refused without bearer token :: {\"code\": 1004, \"message\": \"admin method requires a valid bearer token\"}",
         "18/18 checks passed -> bench/results/e2e_native.json"
       ]
@@ -40,7 +40,7 @@
       "kind": "required",
       "cmd": ".venv/bin/python tests/contract_api/test_contract_api.py",
       "rc": 0,
-      "seconds": 9.5,
+      "seconds": 12.9,
       "result": "PASS",
       "log": "bench/results/gates/logs/e2e-native/contract-api-schema-conformance.log",
       "tail": [
@@ -48,7 +48,7 @@
       ]
     }
   ],
-  "finished": "2026-11-09T18:12:28Z",
+  "finished": "2026-11-09T21:01:55Z",
   "counts": {
     "PASS": 2,
     "FAIL": 0,

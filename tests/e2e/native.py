@@ -222,8 +222,12 @@ def main():
                         sum(imm.values()) == expect_imm and len(last5) == 5, {"immature_by_miner": imm, "expected_total": expect_imm})
 
         # partition + reorg: node3 mines alone, then rejoins
+        # Real partition: node3 refuses every peer id (including inbound dials
+        # from nodes that learned its address through gossip).
+        deny = os.path.join(RUN, "deny_all.txt")
+        open(deny, "w").write("00" * 32 + "\n")
         net.stop("node3")
-        net.start_node(3, [], cfg_path, extra=["--no-discovery"])
+        net.start_node(3, [], cfg_path, extra=["--no-discovery", "--peer-allow", deny])
         net.start_miner("miner_py", 3, miners["py"], "python:numpy")
         net.start_miner("miner_rust", 1, miners["rust"], "rust")
         net.start_miner("miner_cpp", 2, miners["cpp"], "cpp")

@@ -1,6 +1,6 @@
 {
-  "generated": "2026-11-09T20:23:22Z",
-  "commit": "f6ed2eab52e3b727c5062286c9da8db44d7fd044",
+  "generated": "2026-11-09T20:59:05Z",
+  "commit": "dbd43f311e06a3aa39f0160fa0f14088ad4ea576",
   "MAINNET_READY": false,
   "targets": {
     "check": {
@@ -10,20 +10,20 @@
         "FAIL": 0,
         "BLOCKED": 0
       },
-      "commit": "0824fd9739f254f3c809162a41e91bbade24170f",
-      "dirty_tree": false,
-      "finished": "2026-11-09T18:31:06Z"
+      "commit": "dbd43f311e06a3aa39f0160fa0f14088ad4ea576",
+      "dirty_tree": true,
+      "finished": "2026-11-09T20:57:38Z"
     },
     "e2e-native": {
-      "result": "PASS",
+      "result": "FAIL",
       "counts": {
-        "PASS": 2,
-        "FAIL": 0,
+        "PASS": 1,
+        "FAIL": 1,
         "BLOCKED": 0
       },
-      "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+      "commit": "dbd43f311e06a3aa39f0160fa0f14088ad4ea576",
       "dirty_tree": true,
-      "finished": "2026-11-09T18:12:28Z"
+      "finished": "2026-11-09T20:59:05Z"
     },
     "e2e-bridge": {
       "result": "PASS",
@@ -82,8 +82,8 @@
     }
   },
   "step_counts": {
-    "PASS": 42,
-    "FAIL": 0,
+    "PASS": 41,
+    "FAIL": 1,
     "BLOCKED": 4
   },
   "gates": [
@@ -100,9 +100,9 @@
     {
       "gate": 1,
       "title": "native chain",
-      "status": "PASS",
+      "status": "FAIL",
       "evidence": {
-        "e2e_native": "18/18 checks",
+        "e2e_native": "17/18 checks",
         "contract_api": "48/48 cases",
         "note": "e2e uses PoW profile zfx-fp8c-v0.1-dev (H=256) for speed; v0.1 profile mined on GPUs below"
       },
@@ -385,7 +385,7 @@
         "name": "rustfmt",
         "result": "PASS",
         "cmd": "cargo fmt --all --check && (cd bridge/near && cargo fmt --all --check)",
-        "seconds": 0.3,
+        "seconds": 0.4,
         "reason": null,
         "log": "bench/results/gates/logs/check/rustfmt.log"
       },
@@ -393,7 +393,7 @@
         "name": "clippy-workspace",
         "result": "PASS",
         "cmd": "cargo clippy --release --workspace --all-targets -q -- -D warnings",
-        "seconds": 1.1,
+        "seconds": 1.0,
         "reason": null,
         "log": "bench/results/gates/logs/check/clippy-workspace.log"
       },
@@ -401,7 +401,7 @@
         "name": "clippy-near-contracts",
         "result": "PASS",
         "cmd": "cd bridge/near && cargo clippy -q --all-targets -- -D warnings",
-        "seconds": 1.4,
+        "seconds": 1.0,
         "reason": null,
         "log": "bench/results/gates/logs/check/clippy-near-contracts.log"
       },
@@ -409,7 +409,7 @@
         "name": "cargo-test-workspace",
         "result": "PASS",
         "cmd": "cargo test --release -q --workspace",
-        "seconds": 59.9,
+        "seconds": 70.6,
         "reason": null,
         "log": "bench/results/gates/logs/check/cargo-test-workspace.log"
       },
@@ -417,7 +417,7 @@
         "name": "cargo-test-near-contracts",
         "result": "PASS",
         "cmd": "cd bridge/near && cargo test -q",
-        "seconds": 6.1,
+        "seconds": 2.0,
         "reason": null,
         "log": "bench/results/gates/logs/check/cargo-test-near-contracts.log"
       },
@@ -433,7 +433,7 @@
         "name": "wasm-build-test-ft",
         "result": "PASS",
         "cmd": "cd bridge/near/test-ft && cargo near build non-reproducible-wasm",
-        "seconds": 9.6,
+        "seconds": 8.1,
         "reason": null,
         "log": "bench/results/gates/logs/check/wasm-build-test-ft.log"
       },
@@ -441,7 +441,7 @@
         "name": "wasm-build-pow-verifier",
         "result": "PASS",
         "cmd": "cd bridge/near/pow-verifier && cargo near build non-reproducible-wasm --no-abi",
-        "seconds": 0.7,
+        "seconds": 0.9,
         "reason": null,
         "log": "bench/results/gates/logs/check/wasm-build-pow-verifier.log"
       },
@@ -449,7 +449,7 @@
         "name": "build-release",
         "result": "PASS",
         "cmd": "cargo build --release -q",
-        "seconds": 0.5,
+        "seconds": 0.4,
         "reason": null,
         "log": "bench/results/gates/logs/check/build-release.log"
       },
@@ -457,7 +457,7 @@
         "name": "vectors-rust",
         "result": "PASS",
         "cmd": "./target/release/zpu-cli selftest",
-        "seconds": 0.5,
+        "seconds": 0.4,
         "reason": null,
         "log": "bench/results/gates/logs/check/vectors-rust.log"
       },
@@ -465,7 +465,7 @@
         "name": "vectors-consensus-v2",
         "result": "PASS",
         "cmd": "cargo test --release -q -p zfx-verify --test consensus_v2",
-        "seconds": 24.3,
+        "seconds": 22.1,
         "reason": null,
         "log": "bench/results/gates/logs/check/vectors-consensus-v2.log"
       },
@@ -473,7 +473,7 @@
         "name": "cpp-build",
         "result": "PASS",
         "cmd": "make -C miner/cuda cpu -s",
-        "seconds": 0.1,
+        "seconds": 0.0,
         "reason": null,
         "log": "bench/results/gates/logs/check/cpp-build.log"
       },
@@ -489,7 +489,7 @@
         "name": "vectors-python-numpy",
         "result": "PASS",
         "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend numpy",
-        "seconds": 1.3,
+        "seconds": 0.9,
         "reason": null,
         "log": "bench/results/gates/logs/check/vectors-python-numpy.log"
       },
@@ -497,7 +497,7 @@
         "name": "stress-python-numpy",
         "result": "PASS",
         "cmd": ".venv/bin/python miner/python/zpu_miner.py stress --backend numpy",
-        "seconds": 6.7,
+        "seconds": 8.0,
         "reason": null,
         "log": "bench/results/gates/logs/check/stress-python-numpy.log"
       },
@@ -505,7 +505,7 @@
         "name": "vectors-mlx-metal",
         "result": "PASS",
         "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend mlx",
-        "seconds": 1.4,
+        "seconds": 1.0,
         "reason": null,
         "log": "bench/results/gates/logs/check/vectors-mlx-metal.log"
       },
@@ -513,7 +513,7 @@
         "name": "vectors-torch-mps",
         "result": "PASS",
         "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend torch --device mps",
-        "seconds": 5.4,
+        "seconds": 2.6,
         "reason": null,
         "log": "bench/results/gates/logs/check/vectors-torch-mps.log"
       },
@@ -521,7 +521,7 @@
         "name": "gpu-device-compile",
         "result": "PASS",
         "cmd": "CLANG='.venv/bin/python -m ziglang clang' bench/compile/device_check.sh",
-        "seconds": 14.3,
+        "seconds": 12.6,
         "reason": null,
         "log": "bench/results/gates/logs/check/gpu-device-compile.log"
       },
@@ -529,7 +529,7 @@
         "name": "python-lint",
         "result": "PASS",
         "cmd": "uvx pyflakes tests/e2e deploy/localnet.py testnet/zfxnet.py scripts bridge/intents/zfx_intents miner/python bench/gpu",
-        "seconds": 0.6,
+        "seconds": 0.3,
         "reason": null,
         "log": "bench/results/gates/logs/check/python-lint.log"
       },
@@ -537,7 +537,7 @@
         "name": "explorer-typecheck",
         "result": "PASS",
         "cmd": "cd explorer && npx --no-install tsc -p . --noEmit",
-        "seconds": 1.8,
+        "seconds": 1.1,
         "reason": null,
         "log": "bench/results/gates/logs/check/explorer-typecheck.log"
       },
@@ -545,7 +545,7 @@
         "name": "intents-nep413-conformance",
         "result": "PASS",
         "cmd": "cargo test --release -q -p zfx-bridge --test nep413_conformance",
-        "seconds": 0.8,
+        "seconds": 0.5,
         "reason": null,
         "log": "bench/results/gates/logs/check/intents-nep413-conformance.log"
       }
@@ -553,9 +553,9 @@
     "e2e-native": [
       {
         "name": "native-3-nodes-1000-blocks",
-        "result": "PASS",
+        "result": "FAIL",
         "cmd": ".venv/bin/python tests/e2e/native.py",
-        "seconds": 59.1,
+        "seconds": 61.6,
         "reason": null,
         "log": "bench/results/gates/logs/e2e-native/native-3-nodes-1000-blocks.log"
       },
@@ -563,7 +563,7 @@
         "name": "contract-api-schema-conformance",
         "result": "PASS",
         "cmd": ".venv/bin/python tests/contract_api/test_contract_api.py",
-        "seconds": 9.5,
+        "seconds": 18.9,
         "reason": null,
         "log": "bench/results/gates/logs/e2e-native/contract-api-schema-conformance.log"
       }

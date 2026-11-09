@@ -10,9 +10,16 @@ use zfx_verify::block::Block;
 use zfx_verify::pow;
 use zfx_verify::U256;
 
+/// Fixed for the whole test process: a node restarted later in a test must
+/// see the identical chain config, even if a second boundary passed.
+fn genesis_ts() -> u64 {
+    static T: std::sync::OnceLock<u64> = std::sync::OnceLock::new();
+    *T.get_or_init(|| now_secs() - 100_000)
+}
+
 fn cfg() -> ChainConfig {
     let mut c = ChainConfig::devnet();
-    c.genesis_timestamp = now_secs() - 100_000;
+    c.genesis_timestamp = genesis_ts();
     c.genesis_target = U256::MAX.shr(4).to_hex();
     c.fixed_difficulty = true;
     c.coinbase_maturity = 2;

@@ -10,9 +10,15 @@ use zfx_verify::pow;
 use zfx_verify::tx::{address_to_string, P2mrKeys};
 use zfx_verify::U256;
 
+/// Fixed per test process so a restarted chain sees the identical config.
+fn genesis_ts() -> u64 {
+    static T: std::sync::OnceLock<u64> = std::sync::OnceLock::new();
+    *T.get_or_init(|| now_secs() - 100_000)
+}
+
 fn cfg(fixed: bool) -> ChainConfig {
     let mut c = ChainConfig::devnet();
-    c.genesis_timestamp = now_secs() - 100_000;
+    c.genesis_timestamp = genesis_ts();
     c.genesis_target = U256::MAX.shr(4).to_hex();
     c.fixed_difficulty = fixed;
     c.coinbase_maturity = 0;

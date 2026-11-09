@@ -48,14 +48,14 @@ Each attack has code in `crates/zfx-research/src/attacks.rs` and data in `bench/
 | Orphan flood | 256-entry orphan pool, oldest evicted. | Implemented. |
 | Deep fork sync | Inventory continuation past 500-hash batches. | Tested (`node_integrity::long_sync`). |
 
-## 6. Assumptions
+## 5. Assumptions
 
 1. SHA-256 and SHAKE256 behave as random oracles for domain-separated inputs.
 2. The S-box chain has no algebraic or statistical shortcut cheaper than evaluating the layers. **This is the primary unproven assumption.**
 3. SLH-DSA security reduces to its hash function (FIPS 205). The `fips205` crate is correct, as its ACVP vector tests indicate, but it is not audited for ZeroFlux.
 4. An honest majority of mining work.
 
-## 7. Bridge (v1)
+## 6. Bridge (v1)
 
 Full model: `docs/BRIDGE_TRUST_MODEL.md`. Summary of the adversaries and outcomes:
 
@@ -68,7 +68,7 @@ Full model: `docs/BRIDGE_TRUST_MODEL.md`. Summary of the adversaries and outcome
 | reorg below K | no mint. Reorg above K after a mint: detected as an orphan, incident, both chains paused, no compensating action. | `bridge_reorg.py` |
 | contract owner | can pause and stage upgrades; an upgrade deploys only the staged hash after the timelock. Cannot unpause or mint. | `bridge_governance.py` G3 |
 
-## 8. Known vulnerabilities and unresolved items
+## 7. Known vulnerabilities and unresolved items
 
 - No independent review of the PoW hardness assumption.
 - No external audit of the node, P2P transport, wZFX contract or relayers.

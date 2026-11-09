@@ -1,33 +1,33 @@
 {
   "method": "zfx_node_get_block",
   "params": {
-    "hash": "867db44f9972be908a85f7212123ec89223a25ffd2022e922066a893df0270e2"
+    "hash": "bdae6e283624e63548ab118c8ae07a2b206cb51bee939ea7dde4a33c1a420c46"
   },
   "result": {
     "bridge_ops": [],
     "coinbase": {
       "amount": 5000000000,
-      "height": 86,
-      "to": "zfx1195fd7319afdf7fd578af66face23840880a77a3ecd6f464d36b1c906fcf086451c5afba"
+      "height": 94,
+      "to": "zfx1623d7f40d5ca8914176d0fc260bc2392fa9d88229ba754a251b09342848abbb47ba18161"
     },
     "confirmations": 1,
-    "cum_work_log2": 21.59812566926805,
-    "hash": "867db44f9972be908a85f7212123ec89223a25ffd2022e922066a893df0270e2",
+    "cum_work_log2": 22.64661803490274,
+    "hash": "bdae6e283624e63548ab118c8ae07a2b206cb51bee939ea7dde4a33c1a420c46",
     "header": {
       "chain_id": 1514536962,
-      "height": 86,
-      "nonce": 3388220960253841806,
-      "parent": "e9e06b099b8af2d682532a10bebd2f7198c58cc2d8c1d2a224354ab6faf580e2",
-      "state_root": "f64cdec4f3a91c43340b482f8151d29e3f83c255104b78745a9ea296569bddee",
-      "target": "00003eee3d88684ff1507c989ffd371900bdc3e28aceda5a3e0a4011922bd2b7",
-      "timestamp": 1794247956,
-      "tx_root": "c6867ec67395b32b1d57b64f63502fdcf14621e7d6c5f19e62b6adc50ccda807",
+      "height": 94,
+      "nonce": 645975488404558043,
+      "parent": "12907d176fb5372acb2b837ca98b4ea132b0e11cb45eeff2b440b8603eabc4b1",
+      "state_root": "104eb5d58dbfe8627afb0b6f45d24f1a2e2a97b3368e8d488e61b8c1720274b9",
+      "target": "00001e4067d83b5d4c6ad7f55321478bc8c1abe54a2812e2aed6aced7966a59a",
+      "timestamp": 1794258121,
+      "tx_root": "b1329a8c0910ee1d20633edbb13ed64764d0ced30a5dabdcbc8e67a4a2231271",
       "version": 2
     },
-    "header_hex": "5a465832020000000200465a5600000000000000e9e06b099b8af2d682532a10bebd2f7198c58cc2d8c1d2a224354ab6faf580e2c6867ec67395b32b1d57b64f63502fdcf14621e7d6c5f19e62b6adc50ccda807f64cdec4f3a91c43340b482f8151d29e3f83c255104b78745a9ea296569bddee140df26a0000000000003eee3d88684ff1507c989ffd371900bdc3e28aceda5a3e0a4011922bd2b78e9176040361052f",
-    "height": 86,
+    "header_hex": "5a465832020000000200465a5e0000000000000012907d176fb5372acb2b837ca98b4ea132b0e11cb45eeff2b440b8603eabc4b1b1329a8c0910ee1d20633edbb13ed64764d0ced30a5dabdcbc8e67a4a2231271104eb5d58dbfe8627afb0b6f45d24f1a2e2a97b3368e8d488e61b8c1720274b9c934f26a0000000000001e4067d83b5d4c6ad7f55321478bc8c1abe54a2812e2aed6aced7966a59adb90f6bf48f7f608",
+    "height": 94,
     "in_best_chain": true,
-    "pow_digest": "0000021f23b51987cf3cb4c95c6c997f2e369c773e0c3e030b4d366ab0b4e7f1",
+    "pow_digest": "00001205cd761f5eac697b76be67729540ccb5d7964b89d44760a5494fbb4b6a",
     "size": 220,
     "status": "Connected",
     "txs": []
