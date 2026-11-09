@@ -1,5 +1,5 @@
 {
-  "started": "2026-11-09T16:35:02Z",
+  "started": "2026-11-09T16:39:46Z",
   "checks": [
     {
       "check": "B1 deployed wZFX: NEP-148 metadata, zero supply, committee configured",
@@ -19,12 +19,12 @@
       "result": "PASS",
       "evidence": {
         "deposit_id": "88ff9a2e2e1e1ee305d1fa499feb2a429ebe18bc2810aa43e9544363f8f7e3a5",
-        "native_block": "e910ddd7b2d97002104f6097bd324ca2599548440fc7898d98bcee8f9b6e1e0b",
-        "confirmations": 200,
-        "near_mint_tx": "52ZkMxtugLnbRZ4sMPEdZKyN7MochfHb4BkiYij4sYdY",
+        "native_block": "ef9b51a9f0eef9b23ac90a3325da746a22142397ae15a06fc6bed3fc44110911",
+        "confirmations": 208,
+        "near_mint_tx": "GwL97xxkvMXXNr17Trvs6BuCkGokJRmGSmg8uqhuff3N",
         "approvals": [
           1,
-          2
+          0
         ]
       }
     },
@@ -49,12 +49,12 @@
       "result": "PASS",
       "evidence": {
         "withdrawal_id": "bdd5711eda36eb28cd1a07598bcc19e90522753910591a92dfb5497c8b719525",
-        "near_burn_tx": "A8bardWrXHDybB9EzA1hyLdmLkQSHwWBBnGMXmKeWbsK",
+        "near_burn_tx": "HR2tWMRLjd3JNQiCbxXekqYLs7SJvfM5oheaETtMoF3Y",
         "native_release": {
           "amount": 20000,
-          "block": "027198fb7f3fc6f74262403731c802c4bfa586c2cc6a7d09541731193a414482",
-          "height": 890,
-          "op_id": "10c00f30f2f8cd3c691d252772554aea5687d8463171014fb5fbee48bd4e1e30",
+          "block": "ed918295e39c47a7cdd924a85ebe6708d1435693ced0882293429de347e2ceb6",
+          "height": 908,
+          "op_id": "5f9071cbc0bcfae41ff73475ccb6a28218a7815f5c8e5cbf2df67bfa42ec3ecb",
           "withdrawal_id": "bdd5711eda36eb28cd1a07598bcc19e90522753910591a92dfb5497c8b719525"
         }
       }
@@ -75,18 +75,46 @@
       }
     },
     {
-      "check": "Gate 4: 20 two-way transfers under fault injection completed",
+      "check": "Gate 4: 100 two-way transfers under fault injection completed",
       "result": "PASS",
       "evidence": {
-        "elapsed_s": 83.0,
+        "elapsed_s": 262.8,
         "errors": [],
         "chaos_events": [
           {
-            "t": 1794242182.982112,
+            "t": 1794242471.603488,
             "action": "refuse_window"
           },
           {
-            "t": 1794242208.759016,
+            "t": 1794242497.388478,
+            "action": "kill_coordinator"
+          },
+          {
+            "t": 1794242525.715264,
+            "action": "kill_coordinator"
+          },
+          {
+            "t": 1794242547.2101572,
+            "action": "kill_coordinator"
+          },
+          {
+            "t": 1794242585.8626492,
+            "action": "refuse_window"
+          },
+          {
+            "t": 1794242602.850345,
+            "action": "duplicate_mint: rejected"
+          },
+          {
+            "t": 1794242622.209815,
+            "action": "duplicate_mint: rejected"
+          },
+          {
+            "t": 1794242650.632988,
+            "action": "kill_coordinator"
+          },
+          {
+            "t": 1794242680.864086,
             "action": "kill_coordinator"
           }
         ]
@@ -96,7 +124,7 @@
       "check": "B3 backing invariant minted-burned <= locked-released held at every sample; no orphans",
       "result": "PASS",
       "evidence": {
-        "samples": 16,
+        "samples": 63,
         "violations": []
       }
     },
@@ -111,21 +139,21 @@
         "wrapped_supply_ok": true,
         "native": {
           "chain_id": 1514536962,
-          "deposits": 22,
-          "lockbox_balance": "224348",
-          "locked_total": "430890",
+          "deposits": 102,
+          "lockbox_balance": "905961",
+          "locked_total": "2020520",
           "paused": false,
-          "released_total": "206542",
-          "releases": 22
+          "released_total": "1114559",
+          "releases": 102
         },
         "near": {
-          "burns": 22,
+          "burns": 102,
           "contract": "wzfx.deployer.test.near",
           "epoch": 0,
           "paused": false,
-          "total_burned": "206542",
-          "total_minted": "430890",
-          "total_supply": "224348"
+          "total_burned": "1114559",
+          "total_minted": "2020520",
+          "total_supply": "905961"
         }
       }
     },
@@ -139,31 +167,31 @@
     }
   ],
   "deployment": {
-    "near_rpc": "http://127.0.0.1:51909",
+    "near_rpc": "http://127.0.0.1:53347",
     "contract": "wzfx.deployer.test.near",
     "deploy": {
       "code_hash_b58": "6Mvq5YvQC6njWHkULxQXNJjyL2qRrT8PNCUgBQNgecWM",
       "contract": "wzfx.deployer.test.near",
       "failure": null,
       "success": true,
-      "tx_hash": "DKyd6F2QEBzcbeGKEji9t3iwkvpVCMA9ryZMaiGYZK81",
+      "tx_hash": "3gjgfzQyAs3h8nGZWCBnJEGEeo41naW22BhBGxwdtSkd",
       "wasm_sha256": "4fa6ea56e6485beb84f1ec119f3e806a5ef73ac0ae2d7325496bea9a014f4faa"
     },
     "native_chain_id": 1514536962,
     "asset_id": "zfx:5a460002:native",
     "committee_ed25519": [
-      "620ee523e7786f0c7ca72ffc1ef0ed3d6d1133d7fb101c707dba59617383981a",
-      "0722b7649a3d9f59c40eceb6eb4048c79426a60e8c1f25c1f5169c95aa6d29df",
-      "dc4ce09d79f0d5c92b2a5d002bec585089a2f1f27c3f7b81cfba6653f875e026"
+      "b41151d062ba46fd85723836df2802e6ec3ce8091d2cf161ff5eef6497e03e0e",
+      "00f502aa3751406e58eb9a641e4613b58478a0e021b5e6572d520ece95281105",
+      "7be4e7b8911180be5d6eea8835520a62a56140008addfdb4fe694b83468adc42"
     ],
     "committee_slh": [
-      "a4a275f057a4c4a7...",
-      "d625a82dc5309cbe...",
-      "eaf58333aab14584..."
+      "6114dc3037ffac81...",
+      "f5d440c5cc78477e...",
+      "3d1f011d38e7349d..."
     ]
   },
   "coordinator_final": {
-    "Finalized": 44
+    "Finalized": 204
   },
   "reconciliation_final": {
     "accounting_identity_ok": true,
@@ -174,22 +202,22 @@
     "invariant_ok": true,
     "native": {
       "chain_id": 1514536962,
-      "deposits": 22,
-      "lockbox_balance": "224348",
-      "locked_total": "430890",
+      "deposits": 102,
+      "lockbox_balance": "905961",
+      "locked_total": "2020520",
       "paused": false,
-      "released_total": "206542",
-      "releases": 22
+      "released_total": "1114559",
+      "releases": 102
     },
     "native_custody_ok": true,
     "near": {
-      "burns": 22,
+      "burns": 102,
       "contract": "wzfx.deployer.test.near",
       "epoch": 0,
       "paused": false,
-      "total_burned": "206542",
-      "total_minted": "430890",
-      "total_supply": "224348"
+      "total_burned": "1114559",
+      "total_minted": "2020520",
+      "total_supply": "905961"
     },
     "ok": true,
     "orphans": [],

@@ -138,8 +138,12 @@ def main():
         u0, u1, u2 = ws[0], ws[1], ws[2]
         d = deposit(ln, u0, 50_000)
         wait(lambda: near_bal(ln, u0["near"]) == 50_000, 240, "u0 mint")
+        # The mint is final on NEAR before the coordinator's send_tx(FINAL) call
+        # returns; wait for the job record itself to reach FINALIZED.
+        jurl = f"http://127.0.0.1:28790/jobs/{d['deposit_id']}"
+        wait(lambda: (json.loads(urllib.request.urlopen(jurl).read()) or {}).get("state") == "FINALIZED", 120, "u0 mint job finalized")
         st = zrpc(ln, 1, "zfx_bridge_deposit_status", {"deposit_id": d["deposit_id"]})["result"]
-        job = json.loads(urllib.request.urlopen(f"http://127.0.0.1:28790/jobs/{d['deposit_id']}").read())
+        job = json.loads(urllib.request.urlopen(jurl).read())
         ok &= check("B4 deposit -> K confirmations -> 2-of-3 mint (receipts checked on both chains)",
                     st["state"] == "final" and job["state"] == "FINALIZED" and job["submission"]["success"],
                     {"deposit_id": d["deposit_id"], "native_block": st["block"], "confirmations": st["confirmations"], "near_mint_tx": job["submission"]["near_tx"],
@@ -166,6 +170,7 @@ def main():
         ln.set_refuse(1, False)
         ln.set_refuse(2, False)
         wait(lambda: near_bal(ln, u1["near"]) == 30_000, 240, "u1 mint after quorum restored")
+        wait(lambda: (json.loads(urllib.request.urlopen(f"http://127.0.0.1:28790/jobs/{d1['deposit_id']}").read()) or {}).get("state") == "FINALIZED", 120, "u1 job")
         fin = json.loads(urllib.request.urlopen(f"http://127.0.0.1:28790/jobs/{d1['deposit_id']}").read())
         rep = ln.near_call("relay.test.near", CONTRACT, "bridge_mint", {"attestation": json.loads(json.dumps(fin["data"]["attestation"])), "approvals": fin["approvals"]}, check=False)
         ok &= check("B1 replay of a finalized mint bundle rejected (no double mint)",
@@ -176,6 +181,7 @@ def main():
         b = burn(ln, u0, 20_000)
         wid = b["value"]["withdrawal_id"]
         wait(lambda: native_bal(ln, u0["addr"]) == before + 20_000, 240, "u0 release")
+        wait(lambda: (json.loads(urllib.request.urlopen(f"http://127.0.0.1:28790/jobs/{wid}").read()) or {}).get("state") == "FINALIZED", 180, "release job finalized")
         rs = zrpc(ln, 1, "zfx_bridge_redeem_status", {"withdrawal_id": wid})["result"]
         rjob = json.loads(urllib.request.urlopen(f"http://127.0.0.1:28790/jobs/{wid}").read())
         ok &= check("B2/B4 burn on NEAR (final) -> 2-of-3 SLH-DSA native release validated by consensus",

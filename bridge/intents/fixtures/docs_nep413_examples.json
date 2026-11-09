@@ -1,0 +1,188 @@
+{
+  "retrieved": "2026-11-09",
+  "note": "NEP-413 signed intents copied verbatim from the official NEAR Intents docs",
+  "examples": [
+    {
+      "source": "https://docs.near-intents.org/integration/market-makers/message-bus/rpc.md",
+      "signed": {
+        "standard": "nep413",
+        "payload": {
+          "recipient": "intents.near",
+          "nonce": "Vij2xgAlKBKzAEiS6N1S/hfrNi8/We0ieTmcMBti1YE=",
+          "message": "{\"deadline\":\"2024-10-14T12:53:40.000Z\",\"intents\":[{\"intent\":\"token_diff\",\"diff\":{\"nep141:ft1.near\":\"300\",\"nep141:ft2.near\":\"-500\"}}],\"signer_id\":\"user.near\"}"
+        },
+        "public_key": "ed25519:C3jXhkGhEx88Gj7XKtUziJKXEBMRaJ67bWFkxJikVxZ2",
+        "signature": "ed25519:5tk3UyFcAgnd6D4ZAuzEdZqMrneRSiTqe48ptjbjYHwiCy2vTw38uDB3KusW2cEsF3TGcqZXoQmRaeNs2erhPpqu"
+      }
+    },
+    {
+      "source": "https://docs.near-intents.org/integration/market-makers/message-bus/websocket.md",
+      "signed": {
+        "standard": "nep413",
+        "payload": {
+          "recipient": "intents.near",
+          "nonce": "Vij2xgAlKBKzAEiS6N1S/hcQLaHzX2s1fNKhBDblXT4=",
+          "message": "{\"deadline\":\"2024-10-14T12:53:40.000Z\",\"intents\":[{\"intent\":\"token_diff\",\"diff\":{\"nep141:ft2.near\":\"-300\",\"nep141:ft1.near\":\"500\"}}],\"signer_id\":\"solver.near\"}"
+        },
+        "public_key": "ed25519:C3jXhkGhEx88Gj7XKtUziJKXEBMRaJ67bWFkxJikVxZ2",
+        "signature": "ed25519:WQXG37prMyT4f1vp6JSvamsjqDR5fSnDiinSPaCoq9sPcDgFGPRiMWX7csqqudDbzc8i6wrfpemgpVX2wQDmwww"
+      }
+    },
+    {
+      "source": "https://docs.near-intents.org/integration/verifier-contract/deposits-and-withdrawals/withdrawals.md",
+      "signed": {
+        "standard": "nep413",
+        "payload": {
+          "recipient": "intents.near",
+          "nonce": "Vij2xgAlKBKzgNPJFViEQRhPvveC+P9xRwOXFW/IK5w=",
+          "message": "{\"deadline\":\"2025-05-20T13:29:34.360380Z\",\"intents\":[{\"intent\":\"ft_withdraw\",\"token\":\"wrap.near\",\"receiver_id\":\"alice.near\",\"amount\":\"1000\"}],\"signer_id\":\"user1.test.near\"}"
+        },
+        "public_key": "ed25519:C3jXhkGhEx88Gj7XKtUziJKXEBMRaJ67bWFkxJikVxZ2",
+        "signature": "ed25519:5op5APf9YaRznvMVwZBw6GGk9ychU3QtNRKJSxuVajHFMQths4ZZMRoAENU1zWhjinqz8KuLNyM9589c86opopyT"
+      }
+    },
+    {
+      "source": "https://docs.near-intents.org/integration/verifier-contract/intent-types-and-execution.md",
+      "signed": {
+        "standard": "nep413",
+        "payload": {
+          "recipient": "intents.near",
+          "nonce": "Vij2xgAlKBKzgNPJFViEQRiSQad02gXP6pv9IQRCFeg=",
+          "message": "{\"deadline\":\"2025-05-21T10:34:04.254392Z\",\"intents\":[{\"intent\":\"transfer\",\"receiver_id\":\"bob.near\",\"tokens\":{\"nep141:usdc.near\":\"10\"}}],\"signer_id\":\"alice.near\"}"
+        },
+        "public_key": "ed25519:C3jXhkGhEx88Gj7XKtUziJKXEBMRaJ67bWFkxJikVxZ2",
+        "signature": "ed25519:2o7Cg7N8bEAKtEDbC9Nja8Ks1bJ9Nunh5Ems51G8oV6n96ckUVFeT81vr3TouE47R24HJSrLyxdeBEbvWeuizVBZ"
+      }
+    },
+    {
+      "source": "https://docs.near-intents.org/integration/verifier-contract/intent-types-and-execution.md",
+      "signed": {
+        "standard": "nep413",
+        "payload": {
+          "recipient": "intents.near",
+          "nonce": "Vij2xgAlKBKzwKyKBC58QRjK3paApkNO6LU77m306Vw=",
+          "message": "{\"deadline\":\"2025-05-21T08:04:27.483198Z\",\"intents\":[{\"intent\":\"add_public_key\",\"public_key\":\"ed25519:5TagutioHgKLh7KZ1VEFBYfgRkPtqnKm9LoMnJMJugxm\"}],\"signer_id\":\"alice.near\"}"
+        },
+        "public_key": "ed25519:C3jXhkGhEx88Gj7XKtUziJKXEBMRaJ67bWFkxJikVxZ2",
+        "signature": "ed25519:M6gK8WMNBL9vnkuScshNuKF5Yro5gQNRLpTTbruadR54AQvi53xWw8NizyCRbdM3j6y9XZ7MJy4DtQ1JLDz4xGQ"
+      }
+    },
+    {
+      "source": "https://docs.near-intents.org/integration/verifier-contract/intent-types-and-execution.md",
+      "signed": {
+        "standard": "nep413",
+        "payload": {
+          "recipient": "intents.near",
+          "nonce": "Vij2xgAlKBKzAAxeFUp9QRi4FmMX9Jj6kmrjkUTtltk=",
+          "message": "{\"deadline\":\"2025-05-21T08:24:47.536976Z\",\"intents\":[{\"intent\":\"remove_public_key\",\"public_key\":\"ed25519:5TagutioHgKLh7KZ1VEFBYfgRkPtqnKm9LoMnJMJugxm\"}],\"signer_id\":\"alice.near\"}"
+        },
+        "public_key": "ed25519:C3jXhkGhEx88Gj7XKtUziJKXEBMRaJ67bWFkxJikVxZ2",
+        "signature": "ed25519:3E11skwith3ub3w22FnUdcqYzDFy698qBnP8FEPjZyZKbFtqUZK17AXGSLiwnHXppGrV8wbbGafX8fqXUvefoE8p"
+      }
+    },
+    {
+      "source": "https://docs.near-intents.org/integration/verifier-contract/intent-types-and-execution.md",
+      "signed": {
+        "standard": "nep413",
+        "payload": {
+          "recipient": "intents.near",
+          "nonce": "Vij2xgAlKBKzgNPJFViEQRhm1GXQz/Vt+TS0PazCsJQ=",
+          "message": "{\"deadline\":\"2025-05-21T10:34:04.254392Z\",\"intents\":[{\"intent\":\"transfer\",\"receiver_id\":\"bob.near\",\"tokens\":{\"nep141:usdc.near\":\"10\"}}],\"signer_id\":\"alice.near\"}"
+        },
+        "public_key": "ed25519:C3jXhkGhEx88Gj7XKtUziJKXEBMRaJ67bWFkxJikVxZ2",
+        "signature": "ed25519:4nY7kjYV11djwsZ9UmezX1eoVMnzTg2wN6jT67o5vyWnibQ7g34zti8wc9imafbAzH5v4rqmksiextQCas14uxm5"
+      }
+    },
+    {
+      "source": "https://docs.near-intents.org/integration/verifier-contract/intent-types-and-execution.md",
+      "signed": {
+        "standard": "nep413",
+        "payload": {
+          "recipient": "intents.near",
+          "nonce": "Vij2xgAlKBKzgNPJFViEQRiRYtwetaXk8zFqV//Lq3c=",
+          "message": "{\"deadline\":\"2025-05-21T10:45:30.098925Z\",\"intents\":[{\"intent\":\"ft_withdraw\",\"token\":\"usdc.near\",\"receiver_id\":\"bob.near\",\"amount\":\"1000\"}],\"signer_id\":\"alice.near\"}"
+        },
+        "public_key": "ed25519:C3jXhkGhEx88Gj7XKtUziJKXEBMRaJ67bWFkxJikVxZ2",
+        "signature": "ed25519:XYNGWVRyGFGRVZAAn62k9r8qthzbj4a5Ct9eCjrSUW9hXpPRaBvqpLKXpaeBgsekfLFiTLdXMEitrbsZAmMmdmU"
+      }
+    },
+    {
+      "source": "https://docs.near-intents.org/integration/verifier-contract/intent-types-and-execution.md",
+      "signed": {
+        "standard": "nep413",
+        "payload": {
+          "recipient": "intents.near",
+          "nonce": "Vij2xgAlKBKzgNPJFViEQRhA/qs878LtXEL9iIjJC14=",
+          "message": "{\"deadline\":\"2025-05-21T11:06:28.803408Z\",\"intents\":[{\"intent\":\"storage_deposit\",\"contract_id\":\"usdc.near\",\"account_id\":\"bob.near\",\"amount\":\"1250000000000000000000\"}],\"signer_id\":\"alice.near\"}"
+        },
+        "public_key": "ed25519:C3jXhkGhEx88Gj7XKtUziJKXEBMRaJ67bWFkxJikVxZ2",
+        "signature": "ed25519:4rAYXBa9UY6Zw32dKcGrXgydParzzdygEwdAaaKRg9TxXSP9541rikLWhVCtJqFHJh4Rcvpp2YrbRQ4LBaay7Xa6"
+      }
+    },
+    {
+      "source": "https://docs.near-intents.org/integration/verifier-contract/intent-types-and-execution.md",
+      "signed": {
+        "standard": "nep413",
+        "payload": {
+          "recipient": "intents.near",
+          "nonce": "Vij2xgAlKBKzgMh0PGuHQRiOD4cMhPLCgZfb8bCmR7s=",
+          "message": "{\"deadline\":\"2025-05-21T11:30:25.042157Z\",\"intents\":[{\"intent\":\"token_diff\",\"diff\":{\"nep141:usdc.near\":\"-10\",\"nep141:usdt.near\":\"10\"}}],\"signer_id\":\"alice.near\"}"
+        },
+        "public_key": "ed25519:C3jXhkGhEx88Gj7XKtUziJKXEBMRaJ67bWFkxJikVxZ2",
+        "signature": "ed25519:2tKuCpxqtx6YUY6LRkQGeqmAizA8CKhkFtYdsHsAGRjwm4tFcPHHhBRGtuQAAbAkUkwJ6n2UptTP4Mpot1cTvf2u"
+      }
+    },
+    {
+      "source": "https://docs.near-intents.org/integration/verifier-contract/intent-types-and-execution.md",
+      "signed": {
+        "standard": "nep413",
+        "payload": {
+          "recipient": "intents.near",
+          "nonce": "Vij2xgAlKBKzgMh0PGuHQRhE5M+mHoAocV57AzeIPuQ=",
+          "message": "{\"deadline\":\"2025-05-21T11:30:25.054132Z\",\"intents\":[{\"intent\":\"token_diff\",\"diff\":{\"nep141:usdc.near\":\"10\",\"nep141:usdt.near\":\"-10\"}}],\"signer_id\":\"bob.near\"}"
+        },
+        "public_key": "ed25519:C3jXhkGhEx88Gj7XKtUziJKXEBMRaJ67bWFkxJikVxZ2",
+        "signature": "ed25519:gTrJn3CaESvDJ765SDZ7JdkXupeGApjU6t66XpwrCXKM5K7b4VEeZXxL6NSL7i5zJ2Dn1aracg9xubktcPLwHEq"
+      }
+    },
+    {
+      "source": "https://docs.near-intents.org/integration/verifier-contract/signing-intents.md",
+      "signed": {
+        "standard": "nep413",
+        "payload": {
+          "recipient": "intents.near",
+          "nonce": "Vij2xgAlKBKzgNPJFViEQRgYyS7p2NEiYTTY4XmT8go=",
+          "message": "{\"deadline\":\"2025-05-21T10:34:04.254392Z\",\"intents\":[{\"intent\":\"transfer\",\"receiver_id\":\"bob.near\",\"tokens\":{\"nep141:usdc.near\":\"10\"}}],\"signer_id\":\"alice.near\"}"
+        },
+        "public_key": "ed25519:C3jXhkGhEx88Gj7XKtUziJKXEBMRaJ67bWFkxJikVxZ2",
+        "signature": "ed25519:2ns3eCikZFxFA6e9ApunuDG4XwJUPrB8q82fYViBKjheqiDYcCmLN9RnB9NhoEvCdNoS3L3qYD9FAnKd7UkTnuij"
+      }
+    },
+    {
+      "source": "https://docs.near-intents.org/integration/verifier-contract/simulating-intents.md",
+      "signed": {
+        "standard": "nep413",
+        "payload": {
+          "recipient": "intents.near",
+          "nonce": "Vij2xgAlKBKzwJcGrQQYQhiLk1HU5AVNH1M3PhtxosE=",
+          "message": "{\"deadline\":\"2025-05-23T07:40:13.735337Z\",\"intents\":[{\"intent\":\"token_diff\",\"diff\":{\"nep141:usdc.near\":\"-100\",\"nep141:usdt.near\":\"100\"}}],\"signer_id\":\"charlie.near\"}"
+        },
+        "public_key": "ed25519:C3jXhkGhEx88Gj7XKtUziJKXEBMRaJ67bWFkxJikVxZ2",
+        "signature": "ed25519:617X6QMiwFohRHqEuFwZ8aGU6Gn8PsH1DM3grArCYSKSvLz4wBPPGLzLPX3SLstLB331ESGPUToaPkUE7DvgefUu"
+      }
+    },
+    {
+      "source": "https://docs.near-intents.org/integration/verifier-contract/simulating-intents.md",
+      "signed": {
+        "standard": "nep413",
+        "payload": {
+          "recipient": "intents.near",
+          "nonce": "Vij2xgAlKBKzwJcGrQQYQhjtxxGCsZQhM2DP7btPexE=",
+          "message": "{\"deadline\":\"2025-05-23T07:40:13.753085Z\",\"intents\":[{\"intent\":\"token_diff\",\"diff\":{\"nep141:usdc.near\":\"100\",\"nep141:usdt.near\":\"-100\"}}],\"signer_id\":\"drake.near\"}"
+        },
+        "public_key": "ed25519:C3jXhkGhEx88Gj7XKtUziJKXEBMRaJ67bWFkxJikVxZ2",
+        "signature": "ed25519:3mLCEKyhofYLVakC9qgyb2FWh4L3jQxnUNyBHxYMTC13bo9y4AeqRh29dDYC4ZAQk4Z4mA2QZL8y7KGGKp5Pc3S1"
+      }
+    }
+  ]
+}
