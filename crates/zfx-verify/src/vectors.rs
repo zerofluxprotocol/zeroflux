@@ -118,3 +118,15 @@ pub fn all_vectors() -> Value {
         "v01": profile_vectors(&FP8C_V01, false),
     })
 }
+
+#[cfg(test)]
+mod tests {
+    /// Consensus-drift guard: regenerated vectors must equal the published file.
+    #[test]
+    fn vectors_match_published() {
+        let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../tests/vectors/fp8c_v0.1.json");
+        let published: serde_json::Value = serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        let now = super::all_vectors();
+        assert_eq!(now, published, "consensus output changed; regenerate vectors only for an intentional new version");
+    }
+}

@@ -356,7 +356,7 @@ pub fn four_russians_memory() -> Value {
         "experiment": "four_russians_table_lookup",
         "domain_size": 32, "k": 4096, "n": 4096,
         "groups": rows,
-        "verdict": "g=2 halves additions but needs a 64 GiB table per 4096x4096 layer that must be streamed per attempt; memory-bound and slower than tensor-core GEMM. Not a practical shortcut (attack FAILS on known hardware; recorded as a constant-factor risk for custom silicon).",
+        "verdict": "g=2 halves additions but needs a 32 GiB table per 4096x4096 layer that must be streamed per attempt; memory-bound and slower than tensor-core GEMM. Not a practical shortcut (attack FAILS on known hardware; recorded as a constant-factor risk for custom silicon).",
     })
 }
 
