@@ -70,7 +70,7 @@ PAGE = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name=
 CSS = """
 :root{--bg:#FAFAFA;--surface:#fff;--line:#ECECEF;--ink:#0B0B0F;--muted:#4A4A55;--faint:#6B6B76;--accent:#1F43D6;color-scheme:light}
 @media (prefers-color-scheme:dark){:root{--bg:#09090B;--surface:#121215;--line:#232329;--ink:#F4F4F6;--muted:#A9A9B3;--faint:#8A8A93;--accent:#9DB0FF;color-scheme:dark}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:300 16px/1.7 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}@media (min-width:761px){html{zoom:.9}}body{margin:0;background:var(--bg);color:var(--ink);font:300 16px/1.7 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
 .w{max-width:860px;margin:0 auto;padding:0 24px}
 header{border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}

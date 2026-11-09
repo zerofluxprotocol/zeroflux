@@ -61,6 +61,8 @@
 }
 
 * { box-sizing: border-box; }
+/* The design reads best at 90% on desktop; phones stay at 100%. */
+@media (min-width: 761px) { html { zoom: .9; } }
 html { scroll-behavior: smooth; }
 body {
   margin: 0; background: var(--bg); color: var(--ink);
