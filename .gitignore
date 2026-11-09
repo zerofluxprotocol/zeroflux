@@ -1,0 +1,9 @@
+/target
+/.venv
+__pycache__/
+*.pyc
+/testnet/run/
+/miner/cuda/build/
+node_modules/
+/explorer/dist/
+.DS_Store
