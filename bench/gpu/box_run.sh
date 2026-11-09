@@ -88,7 +88,7 @@ fi
 # independent CPU node re-syncs and re-validates the whole chain.
 if [ "${WITH_MINE:-0}" = 1 ] && [ "${WITH_RUST:-0}" = 1 ]; then
   step build_node cargo build --release -q -p zfx-node -p zpu-cli -p zfx-wallet
-  bash bench/gpu/box_mine.sh "$BIN --backend gpu --gemm blas-int8 --batch 32768" "${MINE_SECS:-120}" > "$R/mine.log" 2>&1
+  bash bench/gpu/box_mine.sh "$BIN --backend gpu --gemm blas-int8 --batch 32768" "${MINE_SECS:-120}" "$R" > "$R/mine.log" 2>&1
   m=$(grep -h '^{"step": "gpu_block_submissions"' "$R/mine.log" | tail -1)
   if [ -n "$m" ]; then rec "$m"; else rec '{"step":"gpu_block_submissions","result":"FAIL","error":"no output, see mine.log"}'; fi
 fi

@@ -1,0 +1,32 @@
+{
+  "method": "zfx_get_mining_work",
+  "params": {
+    "address": "zfx1c3ff7fe16b3f62c283d771a145a755abdb2e2fd8afbf7d8c895b80d30a5215246e819ab2"
+  },
+  "result": {
+    "api_version": 2,
+    "bridge_ops": 0,
+    "chain_id": 1514536962,
+    "challenge": "28fffe761d567c1473df95d1092efc583ac7b01ca81d7d987284b4f33291a6d6",
+    "epoch_seed": "21b79559c0130fc04a474706533d78a4f67c5ae3c581993dfb97e283dc6a24e7",
+    "expiry": {
+      "parent": "56037aecefa8ad14152d33f47216ec6410aadeedc02f7e4f83af250b6963716e"
+    },
+    "header_without_nonce": "5a465832020000000200465a5b0000000000000056037aecefa8ad14152d33f47216ec6410aadeedc02f7e4f83af250b6963716e2254c5cd7dd71f5c26f71f5103973dfe95d8138c53ceafec7b73e40a2f2858a350f31e587fbcd8cad30886e883d8b15235e3d5eaa3e600819acdd0db00d80a778008f26a00000000000025d66d277b122b0b96f05db883f1b731cec28ae47f784d77da65d47ddcfc",
+    "height": 91,
+    "profile": {
+      "d_in": 64,
+      "d_out": 64,
+      "hidden": 256,
+      "id": 2,
+      "n_hidden": 3,
+      "name": "zfx-fp8c-v0.1-dev",
+      "shift_hidden": 0,
+      "shift_in": 0
+    },
+    "target": "000025d66d277b122b0b96f05db883f1b731cec28ae47f784d77da65d47ddcfc",
+    "txs": 0,
+    "version": 2,
+    "work_id": "5d05682012a182ce"
+  }
+}

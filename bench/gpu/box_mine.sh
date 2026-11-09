@@ -7,7 +7,7 @@
 # syncs the whole chain from A and must reach the same tip: an independent
 # re-validation of every GPU-mined block. Prints one JSON line.
 set -u
-MINER=$1; SECS=${2:-120}
+MINER=$1; SECS=${2:-120}; LOGS=${3:-}
 T=$(mktemp -d)
 B=./target/release
 get() { python3 -c "import urllib.request,sys;print(urllib.request.urlopen(sys.argv[1],timeout=5).read().decode())" "$1" 2>/dev/null; }
@@ -37,6 +37,7 @@ for i in $(seq 1 120); do
   sleep 1
 done
 kill $NA $NB; wait 2>/dev/null
+[ -n "$LOGS" ] && cp $T/miner.log $T/nodeA.log $T/nodeB.log $T/chain.json "$LOGS/" 2>/dev/null
 python3 - "$STA" "$STB" "$T/miner.log" "$MINER" "$SECS" <<'EOF'
 import json, re, sys
 a, b = json.loads(sys.argv[1]), json.loads(sys.argv[2] or "{}")

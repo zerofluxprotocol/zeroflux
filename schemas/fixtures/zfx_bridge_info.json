@@ -1,0 +1,27 @@
+{
+  "method": "zfx_bridge_info",
+  "params": {},
+  "result": {
+    "admin_nonce": 0,
+    "confirmations_required": 3,
+    "enabled": true,
+    "epoch": 0,
+    "height": 90,
+    "lockbox": "zfx14730eacff6233e39bede61f51cb03a9ebd790e0f5372840705dc6d0b92938112c4a1fc29",
+    "lockbox_balance": 5000,
+    "locked_total": "5000",
+    "members": [
+      "d13bee65464d6a64caee2505cdc40c662de586a4d2337a2f50e3b95ca949c10e",
+      "28691caaa9d1c35b9e8074fce9dd7266854c93d64c3c5121b1302e2333debd84",
+      "40c741adde90e8dd3a2f288a98e999ef37738b0b5576d19fa3fbd755bf22ac6d"
+    ],
+    "min_lock": 1000,
+    "native_asset_id": "zfx:5a460002:native",
+    "near_contract": "wzfx.test.near",
+    "paused": false,
+    "pending_rotation_height": null,
+    "released_total": "0",
+    "threshold": 2,
+    "trust_model": "v1 is custodied by a 2-of-3 committee; two compromised members can steal locked ZFX or authorize releases."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "method": "zfx_node_get_block",
+  "params": {
+    "hash": "56037aecefa8ad14152d33f47216ec6410aadeedc02f7e4f83af250b6963716e"
+  },
+  "result": {
+    "bridge_ops": [],
+    "coinbase": {
+      "amount": 5000000000,
+      "height": 90,
+      "to": "zfx1c3ff7fe16b3f62c283d771a145a755abdb2e2fd8afbf7d8c895b80d30a5215246e819ab2"
+    },
+    "confirmations": 1,
+    "cum_work_log2": 22.123654765205554,
+    "hash": "56037aecefa8ad14152d33f47216ec6410aadeedc02f7e4f83af250b6963716e",
+    "header": {
+      "chain_id": 1514536962,
+      "height": 90,
+      "nonce": 6157235926553846494,
+      "parent": "08909b93b5c95d8cdea35015bd95266d1e84726d8d68c3f03521a3273802c769",
+      "state_root": "84734b48648822c1cf3ba5d4c59f8c01c803d199ff9db640c46811f3339d1e84",
+      "target": "00002989d1c58d8395cfb273d6eea1717a672b74d4e3306a2d86ca6dbedcca8a",
+      "timestamp": 1794246784,
+      "tx_root": "d7184897694f29f51e1f32d6d0a1324928b84fbf12c37e5d16883dcdb7f95c53",
+      "version": 2
+    },
+    "header_hex": "5a465832020000000200465a5a0000000000000008909b93b5c95d8cdea35015bd95266d1e84726d8d68c3f03521a3273802c769d7184897694f29f51e1f32d6d0a1324928b84fbf12c37e5d16883dcdb7f95c5384734b48648822c1cf3ba5d4c59f8c01c803d199ff9db640c46811f3339d1e848008f26a0000000000002989d1c58d8395cfb273d6eea1717a672b74d4e3306a2d86ca6dbedcca8adee283e873e57255",
+    "height": 90,
+    "in_best_chain": true,
+    "pow_digest": "000002dd77104d5ddbfefa6bd81182e745c568f1e6e7157b7cba11831575692f",
+    "size": 220,
+    "status": "Connected",
+    "txs": []
+  }
+}

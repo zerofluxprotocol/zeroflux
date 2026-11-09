@@ -1,0 +1,746 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zeroflux.local/schemas/zfx-node-rpc-v1.json",
+  "title": "ZeroFlux node JSON-RPC, API version 1 (consensus v2)",
+  "description": "POST /rpc, JSON-RPC 2.0. Params are an object (or a one-element array holding that object). Every method below is exercised live by tests/contract_api/test_contract_api.py: valid calls must match `result`, and negatives derived from `params` must return the listed error code.",
+  "x-error-codes": {
+    "-32700": "PARSE: body is not JSON",
+    "-32600": "INVALID_REQUEST: jsonrpc != \"2.0\" or method missing",
+    "-32601": "METHOD_NOT_FOUND",
+    "-32602": "INVALID_PARAMS: missing/ill-typed parameter, bad hex, bad address checksum",
+    "1001": "TX_REJECTED: transaction failed validation (signature, nonce, balance, chain id, fee, memo)",
+    "1002": "STALE_WORK: mining work id unknown or superseded",
+    "1003": "NOT_FOUND: block or transaction not found",
+    "1004": "UNAUTHORIZED: zfx_admin_* without a valid bearer token",
+    "1005": "RATE_LIMITED",
+    "1006": "BRIDGE_REJECTED: bridge disabled/paused, wrong lockbox, quorum/nonce/replay/timelock violation",
+    "1007": "FAUCET: faucet disabled or cooldown",
+    "1099": "INTERNAL"
+  },
+  "$defs": {
+    "hash32": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "address": {
+      "type": "string",
+      "pattern": "^zfx1[0-9a-f]{72}$",
+      "description": "P2MR: 'zfx1' + hex(32-byte script commitment) + hex(4-byte checksum)"
+    },
+    "u64": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 18446744073709551615
+    },
+    "u64str": {
+      "type": "string",
+      "pattern": "^[0-9]{1,20}$"
+    },
+    "near_account": {
+      "type": "string",
+      "pattern": "^(([a-z\\d]+[-_])*[a-z\\d]+\\.)*([a-z\\d]+[-_])*[a-z\\d]+$",
+      "minLength": 2,
+      "maxLength": 64
+    },
+    "header": {
+      "type": "object",
+      "required": [
+        "version",
+        "chain_id",
+        "height",
+        "parent",
+        "tx_root",
+        "state_root",
+        "timestamp",
+        "target",
+        "nonce"
+      ],
+      "properties": {
+        "version": {
+          "const": 2
+        },
+        "chain_id": {
+          "$ref": "#/$defs/u64"
+        },
+        "height": {
+          "$ref": "#/$defs/u64"
+        },
+        "parent": {
+          "$ref": "#/$defs/hash32"
+        },
+        "tx_root": {
+          "$ref": "#/$defs/hash32"
+        },
+        "state_root": {
+          "$ref": "#/$defs/hash32"
+        },
+        "timestamp": {
+          "$ref": "#/$defs/u64"
+        },
+        "target": {
+          "$ref": "#/$defs/hash32"
+        },
+        "nonce": {
+          "$ref": "#/$defs/u64"
+        }
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "description": "Signing message: 'ZFX-tx-v0.1' || core_bytes, core_bytes = chain_id u32le || from (32) || to (32) || amount u64le || fee u64le || nonce u64le [|| 0x01 || memo_len u8 || memo utf8, only when a memo is set]. Signature: SLH-DSA-SHA2-128s (scheme 1) or -192s (scheme 2), FIPS 205 context 'ZFX-v0.1'. txid = sha256('ZFX-txid-v0.1' || core_bytes). The witness (leaf scheme, leaf pubkey, P2MR path, signature) proves the leaf is committed by `from`.",
+      "required": [
+        "chain_id",
+        "from",
+        "to",
+        "amount",
+        "fee",
+        "nonce"
+      ],
+      "properties": {
+        "chain_id": {
+          "$ref": "#/$defs/u64"
+        },
+        "from": {
+          "$ref": "#/$defs/address"
+        },
+        "to": {
+          "$ref": "#/$defs/address"
+        },
+        "amount": {
+          "$ref": "#/$defs/u64"
+        },
+        "fee": {
+          "$ref": "#/$defs/u64"
+        },
+        "nonce": {
+          "$ref": "#/$defs/u64"
+        },
+        "memo": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 64
+        }
+      }
+    }
+  },
+  "methods": {
+    "zfx_node_get_tip": {
+      "params": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "height",
+          "hash",
+          "state_root",
+          "timestamp",
+          "target",
+          "cum_work_log2",
+          "chain_id",
+          "consensus_version"
+        ],
+        "properties": {
+          "height": {
+            "$ref": "#/$defs/u64"
+          },
+          "hash": {
+            "$ref": "#/$defs/hash32"
+          },
+          "state_root": {
+            "$ref": "#/$defs/hash32"
+          },
+          "timestamp": {
+            "$ref": "#/$defs/u64"
+          },
+          "target": {
+            "$ref": "#/$defs/hash32"
+          },
+          "cum_work_log2": {
+            "type": "number"
+          },
+          "chain_id": {
+            "$ref": "#/$defs/u64"
+          },
+          "consensus_version": {
+            "const": 2
+          }
+        }
+      }
+    },
+    "zfx_node_get_block": {
+      "params": {
+        "type": "object",
+        "oneOf": [
+          {
+            "required": [
+              "hash"
+            ]
+          },
+          {
+            "required": [
+              "height"
+            ]
+          }
+        ],
+        "properties": {
+          "hash": {
+            "$ref": "#/$defs/hash32"
+          },
+          "height": {
+            "$ref": "#/$defs/u64"
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "hash",
+          "header",
+          "header_hex",
+          "coinbase",
+          "confirmations",
+          "bridge_ops"
+        ],
+        "properties": {
+          "hash": {
+            "$ref": "#/$defs/hash32"
+          },
+          "header": {
+            "$ref": "#/$defs/header"
+          },
+          "header_hex": {
+            "type": "string",
+            "pattern": "^5a465832[0-9a-f]{320}$"
+          },
+          "coinbase": {
+            "type": "object",
+            "required": [
+              "height",
+              "to",
+              "amount"
+            ]
+          },
+          "confirmations": {
+            "$ref": "#/$defs/u64"
+          },
+          "bridge_ops": {
+            "type": "array"
+          }
+        }
+      },
+      "x-negative": {
+        "missing": -32602,
+        "not_found": 1003
+      }
+    },
+    "zfx_node_get_transaction": {
+      "params": {
+        "type": "object",
+        "required": [
+          "txid"
+        ],
+        "properties": {
+          "txid": {
+            "$ref": "#/$defs/hash32"
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "tx",
+          "status"
+        ],
+        "properties": {
+          "tx": {
+            "$ref": "#/$defs/transaction"
+          },
+          "status": {
+            "enum": [
+              "confirmed",
+              "mempool"
+            ]
+          },
+          "block": {
+            "$ref": "#/$defs/hash32"
+          },
+          "height": {
+            "$ref": "#/$defs/u64"
+          },
+          "confirmations": {
+            "$ref": "#/$defs/u64"
+          },
+          "receipt": {
+            "type": "object",
+            "description": "header_hex + Merkle inclusion proof of the tx leaf against header.tx_root"
+          }
+        }
+      },
+      "x-negative": {
+        "missing": -32602,
+        "bad_hex": -32602,
+        "not_found": 1003
+      }
+    },
+    "zfx_get_account": {
+      "params": {
+        "type": "object",
+        "required": [
+          "address"
+        ],
+        "properties": {
+          "address": {
+            "$ref": "#/$defs/address"
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "address",
+          "balance",
+          "immature",
+          "nonce",
+          "next_nonce",
+          "pending"
+        ],
+        "properties": {
+          "address": {
+            "$ref": "#/$defs/address"
+          },
+          "balance": {
+            "$ref": "#/$defs/u64"
+          },
+          "immature": {
+            "$ref": "#/$defs/u64"
+          },
+          "nonce": {
+            "$ref": "#/$defs/u64"
+          },
+          "next_nonce": {
+            "$ref": "#/$defs/u64"
+          },
+          "pending": {
+            "type": "array"
+          }
+        }
+      },
+      "x-negative": {
+        "missing": -32602,
+        "bad_address": -32602
+      }
+    },
+    "zfx_get_address_history": {
+      "params": {
+        "type": "object",
+        "required": [
+          "address"
+        ],
+        "properties": {
+          "address": {
+            "$ref": "#/$defs/address"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500
+          }
+        }
+      },
+      "result": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "txid",
+            "direction",
+            "amount",
+            "height"
+          ],
+          "properties": {
+            "txid": {
+              "$ref": "#/$defs/hash32"
+            },
+            "direction": {
+              "enum": [
+                "in",
+                "out",
+                "coinbase"
+              ]
+            },
+            "amount": {
+              "$ref": "#/$defs/u64"
+            },
+            "height": {
+              "$ref": "#/$defs/u64"
+            }
+          }
+        }
+      },
+      "x-negative": {
+        "missing": -32602,
+        "bad_address": -32602
+      }
+    },
+    "zfx_estimate_fee": {
+      "params": {
+        "type": "object"
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "fee_per_tx",
+          "mempool",
+          "basis"
+        ],
+        "properties": {
+          "fee_per_tx": {
+            "$ref": "#/$defs/u64"
+          },
+          "mempool": {
+            "$ref": "#/$defs/u64"
+          },
+          "basis": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "zfx_submit_transaction": {
+      "params": {
+        "type": "object",
+        "required": [
+          "tx"
+        ],
+        "properties": {
+          "tx": {
+            "$ref": "#/$defs/transaction"
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "txid"
+        ],
+        "properties": {
+          "txid": {
+            "$ref": "#/$defs/hash32"
+          },
+          "duplicate": {
+            "const": true
+          }
+        }
+      },
+      "x-idempotent": "resubmitting an identical tx returns the same txid with duplicate=true",
+      "x-negative": {
+        "missing": -32602,
+        "tampered_signature": 1001,
+        "replayed_nonce": 1001
+      }
+    },
+    "zfx_bridge_lock": {
+      "params": {
+        "type": "object",
+        "required": [
+          "tx"
+        ],
+        "properties": {
+          "tx": {
+            "$ref": "#/$defs/transaction"
+          }
+        }
+      },
+      "description": "A transfer to the lockbox address whose memo is the NEAR recipient account. deposit_id = txid. Units: 1 ZFX = 10^8 base units on both chains (wZFX decimals 8).",
+      "result": {
+        "type": "object",
+        "required": [
+          "txid",
+          "deposit_id"
+        ],
+        "properties": {
+          "txid": {
+            "$ref": "#/$defs/hash32"
+          },
+          "deposit_id": {
+            "$ref": "#/$defs/hash32"
+          }
+        }
+      },
+      "x-negative": {
+        "not_lockbox": 1006
+      }
+    },
+    "zfx_get_mining_work": {
+      "params": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/$defs/address"
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "api_version",
+          "chain_id",
+          "challenge",
+          "epoch_seed",
+          "header_without_nonce"
+        ],
+        "properties": {
+          "api_version": {
+            "const": 2
+          },
+          "chain_id": {
+            "$ref": "#/$defs/u64"
+          },
+          "challenge": {
+            "$ref": "#/$defs/hash32"
+          },
+          "epoch_seed": {
+            "$ref": "#/$defs/hash32"
+          }
+        }
+      },
+      "x-negative": {
+        "bad_address": -32602
+      }
+    },
+    "zfx_submit_mining_result": {
+      "params": {
+        "type": "object",
+        "required": [
+          "work_id",
+          "nonce"
+        ],
+        "properties": {
+          "work_id": {
+            "type": "string"
+          },
+          "nonce": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/u64"
+              },
+              {
+                "$ref": "#/$defs/u64str"
+              }
+            ]
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "accepted"
+        ],
+        "properties": {
+          "accepted": {
+            "const": true
+          }
+        }
+      },
+      "x-negative": {
+        "missing": -32602,
+        "stale_work": 1002
+      }
+    },
+    "zfx_bridge_info": {
+      "params": {
+        "type": "object"
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "trust_model": {
+            "type": "string"
+          },
+          "lockbox": {
+            "$ref": "#/$defs/address"
+          },
+          "threshold": {
+            "const": 2
+          },
+          "epoch": {
+            "$ref": "#/$defs/u64"
+          },
+          "paused": {
+            "type": "boolean"
+          },
+          "admin_nonce": {
+            "$ref": "#/$defs/u64"
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "locked_total": {
+            "$ref": "#/$defs/u64str"
+          },
+          "released_total": {
+            "$ref": "#/$defs/u64str"
+          }
+        },
+        "if": {
+          "properties": {
+            "enabled": {
+              "const": true
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "trust_model",
+            "lockbox",
+            "threshold",
+            "epoch",
+            "paused",
+            "admin_nonce",
+            "members"
+          ]
+        }
+      }
+    },
+    "zfx_bridge_deposit_status": {
+      "params": {
+        "type": "object",
+        "required": [
+          "deposit_id"
+        ],
+        "properties": {
+          "deposit_id": {
+            "$ref": "#/$defs/hash32"
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "deposit_id",
+          "state"
+        ],
+        "properties": {
+          "deposit_id": {
+            "$ref": "#/$defs/hash32"
+          },
+          "state": {
+            "enum": [
+              "unknown",
+              "mempool",
+              "awaiting_confirmations",
+              "final"
+            ]
+          },
+          "confirmations": {
+            "$ref": "#/$defs/u64"
+          },
+          "amount": {
+            "$ref": "#/$defs/u64"
+          },
+          "near_recipient": {
+            "$ref": "#/$defs/near_account"
+          }
+        }
+      },
+      "x-negative": {
+        "missing": -32602,
+        "bad_hex": -32602
+      }
+    },
+    "zfx_bridge_redeem_status": {
+      "params": {
+        "type": "object",
+        "required": [
+          "withdrawal_id"
+        ],
+        "properties": {
+          "withdrawal_id": {
+            "$ref": "#/$defs/hash32"
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "withdrawal_id",
+          "state"
+        ],
+        "properties": {
+          "withdrawal_id": {
+            "$ref": "#/$defs/hash32"
+          },
+          "state": {
+            "enum": [
+              "unknown",
+              "mempool",
+              "released_awaiting_confirmations",
+              "final"
+            ]
+          }
+        }
+      },
+      "x-negative": {
+        "missing": -32602,
+        "bad_hex": -32602
+      }
+    },
+    "zfx_bridge_submit_op": {
+      "params": {
+        "type": "object",
+        "required": [
+          "op"
+        ],
+        "properties": {
+          "op": {
+            "type": "object",
+            "required": [
+              "op"
+            ],
+            "properties": {
+              "op": {
+                "enum": [
+                  "release",
+                  "admin"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "description": "Release signing bytes: sha256('ZFX-bridge-release-v1' || chain_id u32le || asset_id (u16le length-prefixed) || epoch u32le || withdrawal_id || recipient || amount u64le || expiry_height u64le || sha256(near_burn_ref)). Admin: sha256('ZFX-bridge-admin-v1' || chain_id || epoch || op_nonce u64le || action). SLH-DSA-SHA2-128s, context 'ZFX-bridge-v1'. Release/unpause/rotate need 2 distinct members, pause needs 1.",
+      "result": {
+        "type": "object",
+        "required": [
+          "op_id"
+        ],
+        "properties": {
+          "op_id": {
+            "$ref": "#/$defs/hash32"
+          }
+        }
+      },
+      "x-negative": {
+        "missing": -32602,
+        "one_of_three_release": 1006,
+        "replayed_admin_nonce": 1006
+      }
+    }
+  }
+}

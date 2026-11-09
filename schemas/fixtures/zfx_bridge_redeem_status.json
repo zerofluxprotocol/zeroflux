@@ -1,0 +1,10 @@
+{
+  "method": "zfx_bridge_redeem_status",
+  "params": {
+    "withdrawal_id": "abababababababababababababababababababababababababababababababab"
+  },
+  "result": {
+    "state": "unknown",
+    "withdrawal_id": "abababababababababababababababababababababababababababababababab"
+  }
+}

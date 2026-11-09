@@ -1,0 +1,9 @@
+{
+  "method": "zfx_estimate_fee",
+  "params": {},
+  "result": {
+    "basis": "median per-tx fee of the last 100 blocks with transactions, floor 1000",
+    "fee_per_tx": 1000,
+    "mempool": 0
+  }
+}

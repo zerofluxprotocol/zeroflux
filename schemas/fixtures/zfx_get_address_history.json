@@ -1,0 +1,83 @@
+{
+  "method": "zfx_get_address_history",
+  "params": {
+    "address": "zfx1c3ff7fe16b3f62c283d771a145a755abdb2e2fd8afbf7d8c895b80d30a5215246e819ab2",
+    "limit": 5
+  },
+  "result": [
+    {
+      "amount": 5000,
+      "counterparty": "zfx14730eacff6233e39bede61f51cb03a9ebd790e0f5372840705dc6d0b92938112c4a1fc29",
+      "direction": "out",
+      "fee": 1000,
+      "height": 87,
+      "memo": "alice.test.near",
+      "txid": "9e2d90432a7eef89db84a44291905158e171e63148f22a50c044be30f6216530"
+    },
+    {
+      "amount": 1000,
+      "counterparty": "zfx12db3372a1990dc993b2329749cc9b30a6e0be443ddd894262c8ef1421f6d9c0d3a3f819f",
+      "direction": "out",
+      "fee": 1000,
+      "height": 71,
+      "memo": "api",
+      "txid": "31ef71ab3e5fca6717e1c4b6d66f9f30ff3a4abaaf4d987692f68cc51ed4362c"
+    },
+    {
+      "amount": 5000000000,
+      "direction": "coinbase",
+      "height": 90,
+      "mature_at": 95,
+      "txid": "18eae04c5a71d60f69d4cfcba29067d0ec1ea41818a56ac1583cc7c5c8ee9e45"
+    },
+    {
+      "amount": 5000000000,
+      "direction": "coinbase",
+      "height": 89,
+      "mature_at": 94,
+      "txid": "699fb9a183765d33a4ecc3390bfad52a3c431b968c003cc7f3f4f4eb99bcbaed"
+    },
+    {
+      "amount": 5000000000,
+      "direction": "coinbase",
+      "height": 88,
+      "mature_at": 93,
+      "txid": "1049e9db8b61c7d90113a8c25dc745a42f39c2da2a23850d393a0adb300670f7"
+    },
+    {
+      "amount": 5000001000,
+      "direction": "coinbase",
+      "height": 87,
+      "mature_at": 92,
+      "txid": "9ef33d6aced4aecad421fcb1e10ea3f6afec0e7af904d92c4e851c12a73c15de"
+    },
+    {
+      "amount": 5000000000,
+      "direction": "coinbase",
+      "height": 86,
+      "mature_at": 91,
+      "txid": "9ad38cc1133a6b29d04751d6cd4375136b9f6ac59ef3708edda80f28df61d033"
+    },
+    {
+      "amount": 5000000000,
+      "direction": "coinbase",
+      "height": 85,
+      "mature_at": 90,
+      "txid": "98b10f470c4ad9a161c50895936262afcbadaf764f0f4584e075a55a15488ebc"
+    },
+    {
+      "amount": 5000000000,
+      "direction": "coinbase",
+      "height": 84,
+      "mature_at": 89,
+      "txid": "2fe21862102f32b4ba3ebce617f9b613927a87212b2fe9a63dce61f4a3002472"
+    },
+    {
+      "amount": 5000000000,
+      "direction": "coinbase",
+      "height": 83,
+      "mature_at": 88,
+      "txid": "950437c4ce34d6cce7446e6a97970d2554e8c75aedb512d1d325eac2364f78e4"
+    }
+  ]
+}

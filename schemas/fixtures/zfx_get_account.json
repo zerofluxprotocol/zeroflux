@@ -1,0 +1,14 @@
+{
+  "method": "zfx_get_account",
+  "params": {
+    "address": "zfx1c3ff7fe16b3f62c283d771a145a755abdb2e2fd8afbf7d8c895b80d30a5215246e819ab2"
+  },
+  "result": {
+    "address": "zfx1c3ff7fe16b3f62c283d771a145a755abdb2e2fd8afbf7d8c895b80d30a5215246e819ab2",
+    "balance": 424999993000,
+    "immature": 25000001000,
+    "next_nonce": 2,
+    "nonce": 2,
+    "pending": []
+  }
+}
