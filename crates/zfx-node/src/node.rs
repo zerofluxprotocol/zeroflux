@@ -172,13 +172,16 @@ impl Node {
                         let new: HashSet<Hash32> = g.chain.best.iter().copied().collect();
                         let dis: Vec<Transaction> = old_best.iter().filter(|h| !new.contains(*h)).flat_map(|h| g.chain.entries[h].block.txs.clone()).collect();
                         let st = g.chain.state.clone();
-                        let cid = g.chain.cfg.chain_id;
+                        let p = g.chain.params.clone();
+                        let h = g.chain.height() + 1;
                         for t in dis {
-                            let _ = g.mempool.admit(t, cid, &st);
+                            let _ = g.mempool.admit(t, &p, h, &st);
                         }
                     }
                     let st = g.chain.state.clone();
-                    g.mempool.revalidate(&st);
+                    let p = g.chain.params.clone();
+                    let h = g.chain.height() + 1;
+                    g.mempool.revalidate(&p, h, &st);
                 }
                 let inv = Msg::Inv { hashes: vec![to_hex(&hash)] };
                 for (id, p) in g.peers.iter() {
@@ -205,8 +208,9 @@ impl Node {
     pub fn submit_tx(&self, tx: Transaction, from_peer: Option<u64>) -> Result<Hash32, String> {
         let mut g = self.0.lock().unwrap();
         let st = g.chain.state.clone();
-        let cid = g.chain.cfg.chain_id;
-        let id = g.mempool.admit(tx.clone(), cid, &st)?;
+        let p = g.chain.params.clone();
+        let h = g.chain.height() + 1;
+        let id = g.mempool.admit(tx.clone(), &p, h, &st)?;
         let m = Msg::Tx { tx };
         for (pid, p) in g.peers.iter() {
             if Some(*pid) != from_peer && p.handshaken {
@@ -413,7 +417,8 @@ impl Node {
         let mut g = self.0.lock().unwrap();
         let miner = miner.or(g.default_miner).ok_or("no miner address (pass ?address= or start node with --miner-address)")?;
         let txs = g.mempool.ordered();
-        let b = g.chain.template(miner, &txs, now_secs());
+        let ops = g.mempool.ordered_ops();
+        let b = g.chain.template_with_ops(miner, &txs, &ops, now_secs());
         let seed = g.chain.epoch_seed_for_next();
         let p = g.chain.profile;
         let work_id = format!("{:016x}", rand::random::<u64>());
@@ -553,7 +558,7 @@ impl Node {
         if let Some(t) = g.mempool.txs.get(id) {
             return Some(json!({"status": "mempool", "tx": t}));
         }
-        let (bh, height) = g.chain.tx_index.get(id)?;
+        let (bh, height) = g.chain.idx.tx.get(id)?;
         let t = g.chain.entries[bh].block.txs.iter().find(|t| &t.txid() == id)?;
         Some(json!({"status": "confirmed", "block": to_hex(bh), "height": height, "confirmations": g.chain.height() - height + 1, "tx": t}))
     }

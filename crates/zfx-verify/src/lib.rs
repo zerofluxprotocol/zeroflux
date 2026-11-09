@@ -2,10 +2,12 @@
 //! whether a block is valid lives here; no GPU runtime is linked.
 
 pub mod block;
+pub mod bridge;
 pub mod difficulty;
 pub mod hash;
 pub mod header;
 pub mod pow;
+pub mod state;
 pub mod tx;
 pub mod u256;
 pub mod vectors;

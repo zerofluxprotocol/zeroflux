@@ -13,6 +13,7 @@ pub fn sample_header(profile: &Profile) -> BlockHeader {
         height: 33,
         parent: sha256(&[b"vector-parent"]),
         tx_root: sha256(&[b"vector-txroot"]),
+        state_root: [0; 32],
         timestamp: 1_800_000_000,
         target: [0xff; 32],
         nonce: 0,
@@ -33,8 +34,11 @@ pub fn profile_vectors(profile: &Profile, full_out: bool) -> Value {
     let anchor = sha256(&[b"vector-anchor"]);
     let seed = epoch_seed(&anchor, profile);
     let w = Weights::generate_par(profile, &seed, 8);
+    // PoW vectors are frozen on the v1 header bytes (consensus v1); the PoW
+    // function is identical in v2, only the header layout changed.
     let header = sample_header(profile);
-    let c = challenge(&header);
+    let hwn = header.encode_v1_without_nonce();
+    let c = challenge_bytes(&hwn);
     let layer_digests: Vec<String> = (0..w.layers.len()).map(|l| to_hex(&w.layer_digest(l))).collect();
     let first_rows: Vec<String> = w
         .layers
@@ -77,7 +81,7 @@ pub fn profile_vectors(profile: &Profile, full_out: bool) -> Value {
         "epoch_seed": to_hex(&seed),
         "weight_layer_sha256": layer_digests,
         "weight_first_row_hex": first_rows,
-        "header_without_nonce_hex": hex::encode(header.encode_without_nonce()),
+        "header_without_nonce_hex": hex::encode(hwn),
         "challenge": to_hex(&c),
         "attempts": attempts,
     })

@@ -1,13 +1,21 @@
 //! Canonical block header encoding (CONSENSUS.md section 2). Fixed layout,
 //! little-endian integers, no language serialization involved.
+//!
+//! Consensus v2 (hard fork from v1): magic `ZFX2`, adds `state_root` (the
+//! post-block state commitment) after `tx_root`. The PoW function is defined
+//! over `header_without_nonce` bytes and is unchanged, so the v1 PoW golden
+//! vectors (built from v1 header bytes) remain valid; `encode_v1_without_nonce`
+//! reproduces the v1 layout for them.
 
 use crate::hash::{sha256, Hash32};
 use crate::u256::U256;
 use serde::{Deserialize, Serialize};
 
-pub const HEADER_MAGIC: &[u8; 4] = b"ZFXH";
-pub const HEADER_WITHOUT_NONCE_LEN: usize = 124;
-pub const HEADER_LEN: usize = 132;
+pub const HEADER_MAGIC_V1: &[u8; 4] = b"ZFXH";
+pub const HEADER_MAGIC: &[u8; 4] = b"ZFX2";
+pub const HEADER_V1_WITHOUT_NONCE_LEN: usize = 124;
+pub const HEADER_WITHOUT_NONCE_LEN: usize = 156;
+pub const HEADER_LEN: usize = 164;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct BlockHeader {
@@ -19,6 +27,10 @@ pub struct BlockHeader {
     pub parent: Hash32,
     #[serde(with = "hex32")]
     pub tx_root: Hash32,
+    /// Commitment to the full consensus state after applying this block
+    /// (`state::State::root`).
+    #[serde(with = "hex32")]
+    pub state_root: Hash32,
     /// Unix seconds.
     pub timestamp: u64,
     /// uint256 big-endian.
@@ -36,6 +48,22 @@ impl BlockHeader {
         b[12..20].copy_from_slice(&self.height.to_le_bytes());
         b[20..52].copy_from_slice(&self.parent);
         b[52..84].copy_from_slice(&self.tx_root);
+        b[84..116].copy_from_slice(&self.state_root);
+        b[116..124].copy_from_slice(&self.timestamp.to_le_bytes());
+        b[124..156].copy_from_slice(&self.target);
+        b
+    }
+
+    /// Legacy v1 layout (no state_root). Used only to reproduce the v1 PoW
+    /// golden vectors; v1 headers are not valid on v2 chains.
+    pub fn encode_v1_without_nonce(&self) -> [u8; HEADER_V1_WITHOUT_NONCE_LEN] {
+        let mut b = [0u8; HEADER_V1_WITHOUT_NONCE_LEN];
+        b[0..4].copy_from_slice(HEADER_MAGIC_V1);
+        b[4..8].copy_from_slice(&self.version.to_le_bytes());
+        b[8..12].copy_from_slice(&self.chain_id.to_le_bytes());
+        b[12..20].copy_from_slice(&self.height.to_le_bytes());
+        b[20..52].copy_from_slice(&self.parent);
+        b[52..84].copy_from_slice(&self.tx_root);
         b[84..92].copy_from_slice(&self.timestamp.to_le_bytes());
         b[92..124].copy_from_slice(&self.target);
         b
@@ -44,7 +72,7 @@ impl BlockHeader {
     pub fn encode(&self) -> [u8; HEADER_LEN] {
         let mut b = [0u8; HEADER_LEN];
         b[..HEADER_WITHOUT_NONCE_LEN].copy_from_slice(&self.encode_without_nonce());
-        b[124..132].copy_from_slice(&self.nonce.to_le_bytes());
+        b[156..164].copy_from_slice(&self.nonce.to_le_bytes());
         b
     }
 
@@ -64,9 +92,10 @@ impl BlockHeader {
             height: u64_at(12),
             parent: h32(20),
             tx_root: h32(52),
-            timestamp: u64_at(84),
-            target: h32(92),
-            nonce: u64_at(124),
+            state_root: h32(84),
+            timestamp: u64_at(116),
+            target: h32(124),
+            nonce: u64_at(156),
         })
     }
 
@@ -102,12 +131,16 @@ mod tests {
             height: 9,
             parent: [1; 32],
             tx_root: [2; 32],
+            state_root: [3; 32],
             timestamp: 1_800_000_000,
             target: [0xff; 32],
             nonce: 0xdead_beef,
         };
         let e = h.encode();
         assert_eq!(BlockHeader::decode(&e).unwrap(), h);
-        assert!(BlockHeader::decode(&e[..131]).is_err());
+        assert!(BlockHeader::decode(&e[..163]).is_err());
+        let mut v1 = e;
+        v1[0..4].copy_from_slice(HEADER_MAGIC_V1);
+        assert!(BlockHeader::decode(&v1).is_err(), "v1 magic rejected on v2");
     }
 }

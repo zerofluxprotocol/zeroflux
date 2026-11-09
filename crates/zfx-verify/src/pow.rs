@@ -147,7 +147,12 @@ pub fn requant(y: i32, s: u32) -> i8 {
 }
 
 pub fn challenge(header: &BlockHeader) -> Hash32 {
-    sha256(&[CHALLENGE_DOMAIN, &header.encode_without_nonce()])
+    challenge_bytes(&header.encode_without_nonce())
+}
+
+/// PoW challenge over raw `header_without_nonce` bytes (any header version).
+pub fn challenge_bytes(header_without_nonce: &[u8]) -> Hash32 {
+    sha256(&[CHALLENGE_DOMAIN, header_without_nonce])
 }
 
 /// Spec 4.1 form: SHA256(challenge || uint64_le(nonce)), domain-separated.

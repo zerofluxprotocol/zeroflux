@@ -3,7 +3,9 @@
 //! have different genesis hashes and refuse each other.
 
 use serde::{Deserialize, Serialize};
+use zfx_verify::bridge::BridgeParams;
 use zfx_verify::hash::{sha256, Hash32};
+use zfx_verify::state::ConsensusParams;
 use zfx_verify::tx::{address_from_string, Address};
 use zfx_verify::U256;
 
@@ -29,6 +31,24 @@ pub struct ChainConfig {
     pub max_future_secs: u64,
     #[serde(default)]
     pub allocations: Vec<Allocation>,
+    /// Consensus rule-set version committed at genesis (2 = header v2 with
+    /// state_root, coinbase maturity, memos, bridge module).
+    #[serde(default = "default_consensus_version")]
+    pub consensus_version: u32,
+    /// Blocks before a coinbase reward becomes spendable.
+    #[serde(default)]
+    pub coinbase_maturity: u64,
+    /// Native bridge parameters; None disables the bridge module.
+    #[serde(default)]
+    pub bridge: Option<BridgeParams>,
+    /// Testnet faucet amount per request (0 disables; node-local policy
+    /// is in NodeOptions, this only documents the testnet default).
+    #[serde(default)]
+    pub label: String,
+}
+
+fn default_consensus_version() -> u32 {
+    2
 }
 
 impl ChainConfig {
@@ -44,6 +64,10 @@ impl ChainConfig {
             block_subsidy: 50_0000_0000,
             max_future_secs: 120,
             allocations: vec![],
+            consensus_version: 2,
+            coinbase_maturity: 5,
+            bridge: None,
+            label: "zeroflux-devnet".into(),
         }
     }
 
@@ -53,7 +77,18 @@ impl ChainConfig {
             profile: 1,
             genesis_target: U256::MAX.shr(12).to_hex(),
             target_spacing_secs: 30,
+            coinbase_maturity: 20,
+            label: "zeroflux-testnet-v0.2".into(),
             ..Self::devnet()
+        }
+    }
+
+    pub fn params(&self) -> ConsensusParams {
+        ConsensusParams {
+            chain_id: self.chain_id,
+            block_subsidy: self.block_subsidy,
+            coinbase_maturity: self.coinbase_maturity,
+            bridge: self.bridge.clone(),
         }
     }
 
@@ -81,6 +116,15 @@ impl ChainConfig {
         b.push(self.fixed_difficulty as u8);
         b.extend_from_slice(&self.block_subsidy.to_le_bytes());
         b.extend_from_slice(&self.max_future_secs.to_le_bytes());
+        b.extend_from_slice(&self.consensus_version.to_le_bytes());
+        b.extend_from_slice(&self.coinbase_maturity.to_le_bytes());
+        match &self.bridge {
+            None => b.push(0),
+            Some(bp) => {
+                b.push(1);
+                b.extend_from_slice(&bp.canonical_bytes());
+            }
+        }
         let al = self.allocations_parsed().expect("allocation addresses");
         b.extend_from_slice(&(al.len() as u32).to_le_bytes());
         for (a, v) in al {

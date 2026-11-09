@@ -15,6 +15,7 @@ fn cfg(fixed: bool) -> ChainConfig {
     c.genesis_timestamp = now_secs() - 100_000;
     c.genesis_target = U256::MAX.shr(4).to_hex();
     c.fixed_difficulty = fixed;
+    c.coinbase_maturity = 0;
     c
 }
 
@@ -34,23 +35,8 @@ fn mine(mut b: Block, chain: &mut Chain) -> Block {
 
 /// Template on an arbitrary parent (for building forks).
 fn template_on(chain: &Chain, parent: [u8; 32], miner: [u8; 32], ts: u64) -> Block {
-    let pe = &chain.entries[&parent];
-    let mut b = Block {
-        header: zfx_verify::BlockHeader {
-            version: chain.cfg.profile,
-            chain_id: chain.cfg.chain_id,
-            height: pe.height + 1,
-            parent,
-            tx_root: [0; 32],
-            timestamp: ts.max(chain.mtp(&parent) + 1),
-            target: chain.expected_target(&parent).to_be_bytes(),
-            nonce: 0,
-        },
-        coinbase: zfx_verify::tx::Coinbase { height: pe.height + 1, to: miner, amount: chain.cfg.block_subsidy },
-        txs: vec![],
-    };
-    b.header.tx_root = b.compute_tx_root();
-    b
+    let st = chain.state_at(&parent).unwrap();
+    chain.template_on(parent, &st, miner, &[], &[], ts)
 }
 
 #[test]
@@ -65,6 +51,7 @@ fn linear_chain_and_rewards() {
     assert_eq!(ch.height(), 5);
     assert_eq!(ch.state.account(&m).balance, 5 * ch.cfg.block_subsidy);
     assert_eq!(ch.state.supply, 5 * ch.cfg.block_subsidy as u128);
+    ch.state.audit().unwrap();
 }
 
 #[test]
@@ -128,6 +115,7 @@ fn invalid_blocks_rejected() {
     let mut over = ch.template(m, &[], now_secs() - 40);
     over.coinbase.amount += 1;
     over.header.tx_root = over.compute_tx_root();
+    // (state_root stays the honest one: the block fails on the coinbase rule first)
     let over = mine(over, &mut ch);
     ch.add_block(over.clone(), now_secs()).unwrap();
     assert_eq!(ch.height(), 0, "state-invalid block not connected");
@@ -138,7 +126,6 @@ fn invalid_blocks_rejected() {
     // 7. Timestamp <= median time past.
     let mut old = ch.template(m, &[], 0);
     old.header.timestamp = ch.cfg.genesis_timestamp;
-    old.header.tx_root = old.compute_tx_root();
     let old = mine(old, &mut ch);
     assert!(ch.add_block(old, now_secs()).unwrap_err().contains("median"));
 }
@@ -190,6 +177,7 @@ fn transactions_double_spend_and_reorg_return() {
     dbl.txs = vec![t1b.clone()];
     dbl.coinbase.amount += 10;
     dbl.header.tx_root = dbl.compute_tx_root();
+    // state_root left as the empty-template root: the block is rejected at connect
     let dbl = { let mut g = node.0.lock().unwrap(); mine(dbl, &mut g.chain) };
     node.process_block(dbl, None).unwrap();
     assert_eq!(node.0.lock().unwrap().chain.height(), 1, "double-spend block rejected at connect");

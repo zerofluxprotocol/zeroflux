@@ -141,10 +141,34 @@ pub struct Transaction {
     pub fee: u64,
     /// Sender account nonce; must equal the account's next nonce.
     pub nonce: u64,
+    /// Optional memo (consensus v2). Required on bridge deposits, where it
+    /// names the NEAR recipient account. Signed as part of the core.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub memo: Option<String>,
     pub witness: Witness,
 }
 
 pub const TX_CORE_LEN: usize = 4 + 32 + 32 + 8 + 8 + 8;
+pub const MAX_MEMO_LEN: usize = 64;
+
+/// NEAR account-id grammar (2..64 chars, lowercase alnum separated by
+/// single `-`, `_` or `.`). Used for bridge deposit memos.
+pub fn is_valid_near_account_id(s: &str) -> bool {
+    let b = s.as_bytes();
+    if b.len() < 2 || b.len() > 64 {
+        return false;
+    }
+    let mut prev_sep = true;
+    for &c in b {
+        let alnum = c.is_ascii_lowercase() || c.is_ascii_digit();
+        let sep = c == b'-' || c == b'_' || c == b'.';
+        if !(alnum || sep) || (sep && prev_sep) {
+            return false;
+        }
+        prev_sep = sep;
+    }
+    !prev_sep
+}
 
 impl Transaction {
     pub fn core_bytes(&self) -> Vec<u8> {
@@ -155,7 +179,23 @@ impl Transaction {
         b.extend_from_slice(&self.amount.to_le_bytes());
         b.extend_from_slice(&self.fee.to_le_bytes());
         b.extend_from_slice(&self.nonce.to_le_bytes());
+        if let Some(m) = &self.memo {
+            // Present only when set, so memo-less transactions keep the v1
+            // core encoding. Length-prefixed; lengths are validated.
+            b.push(1);
+            b.push(m.len().min(255) as u8);
+            b.extend_from_slice(m.as_bytes());
+        }
         b
+    }
+
+    pub fn check_memo(&self) -> Result<(), String> {
+        match &self.memo {
+            None => Ok(()),
+            Some(m) if m.len() > MAX_MEMO_LEN => Err("memo too long".into()),
+            Some(m) if !m.is_ascii() || m.bytes().any(|c| c < 0x20 || c == 0x7f) => Err("memo must be printable ASCII".into()),
+            Some(_) => Ok(()),
+        }
     }
 
     pub fn signing_message(&self) -> Vec<u8> {
@@ -180,7 +220,7 @@ impl Transaction {
     }
 
     pub fn encoded_len(&self) -> usize {
-        TX_CORE_LEN + 1 + 2 + self.witness.leaf.pubkey.len() + 1 + 32 * self.witness.path.len() + 2 + self.witness.signature.len()
+        TX_CORE_LEN + self.memo.as_ref().map(|m| 2 + m.len()).unwrap_or(0) + 1 + 2 + self.witness.leaf.pubkey.len() + 1 + 32 * self.witness.path.len() + 2 + self.witness.signature.len()
     }
 
     pub fn txid(&self) -> Hash32 {
@@ -194,6 +234,7 @@ impl Transaction {
     /// Stateless authorization: leaf is in the sender's P2MR tree and the
     /// SLH-DSA signature verifies under that leaf's key.
     pub fn verify_authorization(&self) -> Result<(), String> {
+        self.check_memo()?;
         let w = &self.witness;
         let (pk_len, sig_len) = scheme_lens(w.leaf.scheme).ok_or_else(|| format!("inactive signature scheme {}", w.leaf.scheme))?;
         if w.leaf.pubkey.len() != pk_len || w.signature.len() != sig_len {
@@ -226,6 +267,23 @@ impl Transaction {
         } else {
             Err("SLH-DSA signature invalid".into())
         }
+    }
+}
+
+/// Verify a raw SLH-DSA signature for `scheme` under context `ctx`.
+pub fn verify_slh(scheme: u8, pubkey: &[u8], msg: &[u8], sig: &[u8], ctx: &[u8]) -> bool {
+    let Some((pk_len, sig_len)) = scheme_lens(scheme) else { return false };
+    if pubkey.len() != pk_len || sig.len() != sig_len {
+        return false;
+    }
+    match scheme {
+        SCHEME_SLH_DSA_SHA2_128S => s128::PublicKey::try_from_bytes(pubkey.try_into().unwrap())
+            .map(|pk| pk.verify(msg, &sig.try_into().unwrap(), ctx))
+            .unwrap_or(false),
+        SCHEME_SLH_DSA_SHA2_192S => s192::PublicKey::try_from_bytes(pubkey.try_into().unwrap())
+            .map(|pk| pk.verify(msg, &sig.try_into().unwrap(), ctx))
+            .unwrap_or(false),
+        _ => false,
     }
 }
 
@@ -264,10 +322,20 @@ impl LeafKey {
 
     /// Hedged signing (FIPS 205 default) using the OS RNG.
     pub fn sign(&self, msg: &[u8]) -> Result<Vec<u8>, String> {
+        self.sign_ctx(msg, SIG_CTX)
+    }
+
+    /// Sign under an explicit FIPS 205 context string (domain separation,
+    /// e.g. bridge committee approvals use `ZFX-bridge-v1`).
+    pub fn sign_ctx(&self, msg: &[u8], ctx: &[u8]) -> Result<Vec<u8>, String> {
         match self {
-            LeafKey::S128(sk, _) => sk.try_sign(msg, SIG_CTX, true).map(|s| s.to_vec()).map_err(String::from),
-            LeafKey::S192(sk, _) => sk.try_sign(msg, SIG_CTX, true).map(|s| s.to_vec()).map_err(String::from),
+            LeafKey::S128(sk, _) => sk.try_sign(msg, ctx, true).map(|s| s.to_vec()).map_err(String::from),
+            LeafKey::S192(sk, _) => sk.try_sign(msg, ctx, true).map(|s| s.to_vec()).map_err(String::from),
         }
+    }
+
+    pub fn public_key_bytes(&self) -> Vec<u8> {
+        self.leaf().pubkey
     }
 }
 
@@ -298,6 +366,11 @@ impl P2mrKeys {
 
     /// Build and sign a transaction spending via leaf `leaf_idx`.
     pub fn sign_tx(&self, chain_id: u32, to: Address, amount: u64, fee: u64, nonce: u64, leaf_idx: usize) -> Result<Transaction, String> {
+        self.sign_tx_memo(chain_id, to, amount, fee, nonce, leaf_idx, None)
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub fn sign_tx_memo(&self, chain_id: u32, to: Address, amount: u64, fee: u64, nonce: u64, leaf_idx: usize, memo: Option<String>) -> Result<Transaction, String> {
         let leaves = self.leaves();
         let hashes: Vec<Hash32> = leaves.iter().map(|l| l.hash()).collect();
         let mut tx = Transaction {
@@ -307,6 +380,7 @@ impl P2mrKeys {
             amount,
             fee,
             nonce,
+            memo,
             witness: Witness { leaf: leaves[leaf_idx].clone(), path: p2mr_path(&hashes, leaf_idx), signature: vec![] },
         };
         tx.witness.signature = self.keys[leaf_idx].sign(&tx.signing_message())?;
@@ -414,6 +488,25 @@ mod tests {
         let mut t = s.clone().into_bytes();
         t[10] = if t[10] == b'0' { b'1' } else { b'0' };
         assert!(address_from_string(std::str::from_utf8(&t).unwrap()).is_err());
+    }
+
+    #[test]
+    fn memo_is_signed_and_validated() {
+        let k = P2mrKeys::from_seed(&[3u8; 32]);
+        let tx = k.sign_tx_memo(1, [9u8; 32], 5, 1, 0, 0, Some("alice.testnet".into())).unwrap();
+        tx.verify_authorization().unwrap();
+        let mut t2 = tx.clone();
+        t2.memo = Some("mallory.testnet".into());
+        assert!(t2.verify_authorization().is_err(), "memo is covered by the signature");
+        assert_ne!(tx.txid(), t2.txid());
+        assert!(is_valid_near_account_id("alice.testnet"));
+        assert!(is_valid_near_account_id("a1-b_c.near"));
+        for bad in ["A.near", "-a.near", "a..near", "a", "a.", &"x".repeat(65)] {
+            assert!(!is_valid_near_account_id(bad), "{}", bad);
+        }
+        // memo-less core encoding is unchanged from v1 (92 bytes)
+        let plain = k.sign_tx(1, [9u8; 32], 5, 1, 0, 0).unwrap();
+        assert_eq!(plain.core_bytes().len(), TX_CORE_LEN);
     }
 
     #[test]
