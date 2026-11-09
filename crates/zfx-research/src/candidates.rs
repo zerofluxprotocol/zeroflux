@@ -190,12 +190,3 @@ pub fn digest_f32(domain: &[u8], attempt: &Hash32, c: &[f32]) -> Hash32 {
     h.finalize().into()
 }
 
-pub fn digest_i32(domain: &[u8], attempt: &Hash32, c: &[i32]) -> Hash32 {
-    let mut h = sha2::Sha256::new();
-    h.update(domain);
-    h.update(attempt);
-    for v in c {
-        h.update(v.to_le_bytes());
-    }
-    h.finalize().into()
-}

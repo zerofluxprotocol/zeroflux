@@ -18,6 +18,7 @@ pub fn e4m3_to_fixed9(b: u8) -> Option<i64> {
     Some(s * mag)
 }
 
+#[cfg(test)]
 pub fn e4m3_to_f32(b: u8) -> f32 {
     e4m3_to_fixed9(b).map(|v| v as f32 / 512.0).unwrap_or(f32::NAN)
 }
@@ -34,6 +35,7 @@ pub fn bf16w_from_byte_pair(b0: u8, b1: u8) -> (u16, i64) {
     (bits, if s == 1 { -mag } else { mag })
 }
 
+#[cfg(test)]
 pub fn bf16_to_f32(bits: u16) -> f32 {
     f32::from_bits((bits as u32) << 16)
 }
