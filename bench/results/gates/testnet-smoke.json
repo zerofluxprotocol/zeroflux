@@ -1,8 +1,8 @@
 {
   "target": "testnet-smoke",
-  "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+  "commit": "826e412cec5dbcaff92f7e61543a1b265fb38aeb",
   "dirty_tree": true,
-  "started": "2026-11-09T18:28:22Z",
+  "started": "2026-11-09T18:43:08Z",
   "host": "arm64",
   "steps": [
     {
@@ -10,10 +10,10 @@
       "kind": "external",
       "cmd": ".venv/bin/python tests/e2e/testnet_smoke.py",
       "result": "BLOCKED",
-      "reason": "NEAR_TESTNET_ACCOUNT is not set"
+      "reason": "testnet RPC https://rpc.testnet.near.org unreachable: <HTTPError 429: 'Too Many Requests'>"
     }
   ],
-  "finished": "2026-11-09T18:28:22Z",
+  "finished": "2026-11-09T18:43:08Z",
   "counts": {
     "PASS": 0,
     "FAIL": 0,

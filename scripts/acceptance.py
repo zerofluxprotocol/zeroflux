@@ -117,6 +117,8 @@ def build():
                       ["public NEAR Intents Message Bus requires a Partner JWT (HTTP 403 without one); no live liquidity is solicited"]))
 
     ts = load(os.path.join(RES, "testnet_smoke.json"), {})
+    if ts.get("result") != "PASS" and step("testnet-smoke", "near-testnet-deploy-and-receipts").get("result") == "BLOCKED":
+        ts = {"result": "BLOCKED", "reason": step("testnet-smoke", "near-testnet-deploy-and-receipts")["reason"], "prerequisite": "see tests/e2e/testnet_smoke.py"}
     g6 = {"PASS": "PASS", "BLOCKED": "PASS_WITH_BLOCKED"}.get(ts.get("result"), "FAIL")
     gates.append(gate(6, "testnet deployment", g6, {"testnet_smoke": ts.get("result"), "txs": ts.get("txs", [])},
                       [ts["reason"] + ". Prerequisite: " + ts.get("prerequisite", "")] if ts.get("result") == "BLOCKED" else []))

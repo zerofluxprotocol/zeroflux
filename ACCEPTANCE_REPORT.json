@@ -1,6 +1,6 @@
 {
-  "generated": "2026-11-09T18:32:23Z",
-  "commit": "0824fd9739f254f3c809162a41e91bbade24170f",
+  "generated": "2026-11-09T18:51:19Z",
+  "commit": "826e412cec5dbcaff92f7e61543a1b265fb38aeb",
   "MAINNET_READY": false,
   "targets": {
     "check": {
@@ -76,9 +76,9 @@
         "FAIL": 0,
         "BLOCKED": 1
       },
-      "commit": "401790e0015608a14a352d7365fcfa9996144e36",
+      "commit": "826e412cec5dbcaff92f7e61543a1b265fb38aeb",
       "dirty_tree": true,
-      "finished": "2026-11-09T18:28:22Z"
+      "finished": "2026-11-09T18:43:08Z"
     }
   },
   "step_counts": {
@@ -262,14 +262,85 @@
     {
       "gate": 6,
       "title": "testnet deployment",
-      "status": "PASS_WITH_BLOCKED",
+      "status": "PASS",
       "evidence": {
-        "testnet_smoke": "BLOCKED",
-        "txs": []
+        "testnet_smoke": "PASS",
+        "txs": [
+          {
+            "step": "create coordinator.zeroflux.testnet",
+            "tx_hash": "BYWH1NhehURs4bqiJLvVD3bG1aLXKgH1T2SdTvJtJtt5",
+            "explorer": "https://testnet.nearblocks.io/txns/BYWH1NhehURs4bqiJLvVD3bG1aLXKgH1T2SdTvJtJtt5",
+            "signer": "zeroflux.testnet",
+            "success": true,
+            "status": {
+              "SuccessValue": ""
+            },
+            "events": []
+          },
+          {
+            "step": "create user0.zeroflux.testnet",
+            "tx_hash": "AmMcjGtSy2oSAUUdP9LKH39HQLT2e1rcxPuy9uRedSvP",
+            "explorer": "https://testnet.nearblocks.io/txns/AmMcjGtSy2oSAUUdP9LKH39HQLT2e1rcxPuy9uRedSvP",
+            "signer": "zeroflux.testnet",
+            "success": true,
+            "status": {
+              "SuccessValue": ""
+            },
+            "events": []
+          },
+          {
+            "step": "deploy wZFX",
+            "tx_hash": "FanU8oRukptgdvNkMMaVCxByTgocKBxzgjDduZ64Dq4Q",
+            "explorer": "https://testnet.nearblocks.io/txns/FanU8oRukptgdvNkMMaVCxByTgocKBxzgjDduZ64Dq4Q",
+            "signer": "zeroflux.testnet",
+            "success": true,
+            "status": {
+              "SuccessValue": ""
+            },
+            "events": []
+          },
+          {
+            "step": "register user",
+            "tx_hash": "9UJWVNpWTxP92v6Dc4pc8qsLKNYT4A6TG9XypWm3eZf5",
+            "explorer": "https://testnet.nearblocks.io/txns/9UJWVNpWTxP92v6Dc4pc8qsLKNYT4A6TG9XypWm3eZf5",
+            "signer": "user0.zeroflux.testnet",
+            "success": true,
+            "status": {
+              "SuccessValue": "eyJ0b3RhbCI6IjEyNTAwMDAwMDAwMDAwMDAwMDAwMDAiLCJhdmFpbGFibGUiOiIwIn0="
+            },
+            "events": []
+          },
+          {
+            "step": "bridge_mint",
+            "tx_hash": "AgTSCs49fwkGPwQY9Hp2WHJQAuL5j5jL32z1zSRMZqHy",
+            "explorer": "https://testnet.nearblocks.io/txns/AgTSCs49fwkGPwQY9Hp2WHJQAuL5j5jL32z1zSRMZqHy",
+            "signer": "coordinator.zeroflux.testnet",
+            "success": true,
+            "status": {
+              "SuccessValue": ""
+            },
+            "events": [
+              "EVENT_JSON:{\"standard\":\"nep141\",\"version\":\"1.0.0\",\"event\":\"ft_mint\",\"data\":[{\"owner_id\":\"user0.zeroflux.testnet\",\"amount\":\"50000\",\"memo\":\"zfx-deposit:8294e5d5928f91256ab7304e572d09159d9b56d1ef68a8b9260ee6d8be1f4c6d\"}]}",
+              "EVENT_JSON:{\"standard\":\"zfx-bridge\",\"version\":\"1.0.0\",\"event\":\"mint\",\"data\":[{\"deposit_id\":\"8294e5d5928f91256ab7304e572d09159d9b56d1ef68a8b9260ee6d8be1f4c6d\",\"recipient\":\"user0.zeroflux.testnet\",\"amount\":\"50000\",\"native_height\":\"890\",\"epoch\":0,\"approvals\":2}]}"
+            ]
+          },
+          {
+            "step": "bridge_burn",
+            "tx_hash": "HXZxRcXaor8XPT61oEAgYCG9AaySm7rNS8nyg79x6yV4",
+            "explorer": "https://testnet.nearblocks.io/txns/HXZxRcXaor8XPT61oEAgYCG9AaySm7rNS8nyg79x6yV4",
+            "signer": "user0.zeroflux.testnet",
+            "success": true,
+            "status": {
+              "SuccessValue": "eyJub25jZSI6IjAiLCJ3aXRoZHJhd2FsX2lkIjoiYzdiYjFhZDAxZTliMTgzOWViOTUyMjBlNDJkZWFiYzlmZjI4ZDdjMzA2MzY5ZGI2ZmE4ODBiZDJmNGQ3MWY5YyIsImFjY291bnRfaWQiOiJ1c2VyMC56ZXJvZmx1eC50ZXN0bmV0IiwiYW1vdW50IjoiNTAwMDAiLCJuYXRpdmVfcmVjaXBpZW50IjoiemZ4MTkwYjY2MmIwZDI4NTBmZWU2MTVlNDE5MjdlNTk0OGM0M2RhYjA0NWM0NzQ5MmMyNzJhODE3M2VlNzBkNjE5YTdmM2JhMDMxOCIsImJsb2NrX2hlaWdodCI6IjI3Njk1ODMxNyIsInRpbWVzdGFtcF9ucyI6IjE3OTQyNDk3NDAxOTk1MzA4MDEifQ=="
+            },
+            "events": [
+              "EVENT_JSON:{\"standard\":\"nep141\",\"version\":\"1.0.0\",\"event\":\"ft_burn\",\"data\":[{\"owner_id\":\"user0.zeroflux.testnet\",\"amount\":\"50000\",\"memo\":\"zfx-withdrawal:c7bb1ad01e9b1839eb95220e42deabc9ff28d7c306369db6fa880bd2f4d71f9c\"}]}",
+              "EVENT_JSON:{\"standard\":\"zfx-bridge\",\"version\":\"1.0.0\",\"event\":\"burn\",\"data\":[{\"nonce\":\"0\",\"withdrawal_id\":\"c7bb1ad01e9b1839eb95220e42deabc9ff28d7c306369db6fa880bd2f4d71f9c\",\"account_id\":\"user0.zeroflux.testnet\",\"amount\":\"50000\",\"native_recipient\":\"zfx190b662b0d2850fee615e41927e5948c43dab045c47492c272a8173ee70d619a7f3ba0318\",\"block_height\":\"276958317\"}]}"
+            ]
+          }
+        ]
       },
-      "blocked_external": [
-        "NEAR_TESTNET_ACCOUNT is not set. Prerequisite: A NEAR testnet account dedicated to ZeroFlux with >= 15 testnet NEAR, its full-access key in ~/.near-credentials/testnet/<account>.json (near-cli format), and NEAR_TESTNET_ACCOUNT=<account> in the environment. "
-      ]
+      "blocked_external": []
     },
     {
       "gate": 7,
@@ -687,7 +758,7 @@
         "result": "BLOCKED",
         "cmd": ".venv/bin/python tests/e2e/testnet_smoke.py",
         "seconds": null,
-        "reason": "NEAR_TESTNET_ACCOUNT is not set",
+        "reason": "testnet RPC https://rpc.testnet.near.org unreachable: <HTTPError 429: 'Too Many Requests'>",
         "log": null
       }
     ]

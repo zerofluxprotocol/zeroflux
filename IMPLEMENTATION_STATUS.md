@@ -71,7 +71,7 @@ Living document. Each row links to evidence. States: EXISTING (verified working)
 | B2 | native lockbox, 2-of-3 SLH-DSA release/admin in consensus | DONE | `consensus_v2.rs`, e2e-bridge |
 | B3 | relayers (anti-equivocation), coordinator, job state machine, reconciliation, halt and audited resume | DONE | e2e-bridge, relayer unit tests |
 | B4 | sandbox e2e: 100 round trips, reorgs, governance | DONE | `make e2e-bridge` |
-| B4 | NEAR testnet deployment | BLOCKED | needs a ZeroFlux testnet account (`make testnet-smoke` names it) |
+| B4 | NEAR testnet deployment | DONE | `wzfx.zeroflux.testnet`, code hash verified, deposit -> mint -> burn -> release on testnet (`bench/results/testnet_smoke.json`) |
 | B5 | Intents adapter, test solver, local settlement and failure cases | DONE | `make e2e-intents` |
 | B5 | live Message Bus routing | BLOCKED | Partner JWT |
 | experiments | algorithm, tokenomics, fork resilience, workload, trust-minimization (on-chain PoW, STARK) | DONE | `bench/results/*.json` |

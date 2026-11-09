@@ -34,8 +34,8 @@ BRIDGE                = 2-of-3 trusted custodian (testnet only)
 | 7 | Undo-based reorgs instead of replay from genesis; stronger eclipse resistance | open | ZeroFlux core |
 | 8 | DoS economics of PoW-valid spam; encrypted wallet files | open | ZeroFlux core |
 | 9 | Release signing key and signed artifacts; container images built and scanned | no key exists; Docker not available on the build host | project owner (key), ZeroFlux ops |
-| 10 | NEAR testnet deployment and public testnet explorer | code ready (`make testnet-smoke`); blocked on a ZeroFlux testnet account | project owner (account) |
+| 10 | Public testnet with persistent relayers and explorer | wZFX is deployed at `wzfx.zeroflux.testnet` and a full round trip ran there (`bench/results/testnet_smoke.json`); the ZeroFlux side and relayers ran locally for the test and are not hosted | ZeroFlux ops |
 | 11 | Live Intents access and liquidity | adapter ready; public Message Bus needs a Partner JWT; no liquidity solicited | project owner (partner program) |
 | 12 | Economic, operational and legal review | not started | project owner |
 
-Nothing in this repository issues, distributes or markets a live token, and nothing has been deployed to NEAR mainnet or testnet.
+Nothing in this repository issues, distributes or markets a live token. Nothing is deployed to NEAR mainnet. On NEAR testnet: `zeroflux.testnet` (faucet-funded), `wzfx.zeroflux.testnet` (wZFX contract), `coordinator.zeroflux.testnet`, `user0.zeroflux.testnet`.

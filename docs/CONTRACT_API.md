@@ -70,7 +70,7 @@ NEAR-side `put_str` is a u32le length + bytes. Committee signatures are ed25519 
 
 The relayer computes the same bytes in `bridge/relayers/src/digest.rs`. Golden-vector tests in both crates (`digests_match_golden_vectors`, `digests_match_relayer_golden_vectors`) pin them to identical values.
 
-Events (`EVENT_JSON:` logs): NEP-141 `ft_mint` (memo `zfx-deposit:<deposit_id>`) and `ft_burn` (memo `zfx-withdrawal:<withdrawal_id>`); bridge events with `standard: "zfx-bridge"`, `version: "1.0.0"`: `pause`, `unpause`, `rotation_proposed`, `rotation_applied`, `upgrade_staged`, `upgrade_deployed`, `refund_burned`.
+Events (`EVENT_JSON:` logs): NEP-141 `ft_mint` (memo `zfx-deposit:<deposit_id>`) and `ft_burn` (memo `zfx-withdrawal:<withdrawal_id>`); bridge events with `standard: "zfx-bridge"`, `version: "1.0.0"`: `mint`, `burn`, `pause`, `unpause`, `rotation_proposed`, `rotation_applied`, `upgrade_staged`, `upgrade_deployed`, `refund_burned`.
 
 Panic messages are the error codes on NEAR. Examples asserted by tests: `insufficient committee approvals`, `invalid committee signature`, `deposit already minted (replay)`, `attestation expired`, `attestation for wrong committee epoch`, `bridge paused`, `unpause needs threshold approvals`, `rotation timelock not elapsed`, `owner only`, `upgrade timelock not elapsed`, `WASM does not match the staged code hash`.
 

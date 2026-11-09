@@ -1,6 +1,6 @@
 # Acceptance report
 
-Generated 2026-11-09T18:32:23Z at commit `0824fd9739f2`. **MAINNET_READY = false.**
+Generated 2026-11-09T18:51:19Z at commit `826e412cec5d`. **MAINNET_READY = false.**
 
 Regenerate: `make acceptance` (runs every target) or `ZFX_ACCEPT_REUSE=1 .venv/bin/python scripts/acceptance.py` (report only).
 
@@ -14,7 +14,7 @@ Regenerate: `make acceptance` (runs every target) or `ZFX_ACCEPT_REUSE=1 .venv/b
 | 3 bridge contracts | PASS | wzfx_unit_tests: PASS; conformance_replay_access_in_e2e_bridge: ["B1 deployed wZFX: NEP-148 metadata, zero supply, committee configured", "B1/B3 1-of-3 cannot mint (on-chain rejection) and a forged member index is rejected; ; governance_upgrade_rotation: 8/8 checks (bench/results/e2e_bridge_governance.json) | - |
 | 4 real two-way bridge | PASS | two_way_fault_injection: 10/10 checks; finality_reorg: 3/3 checks | - |
 | 5 Intents | PASS_WITH_BLOCKED | local: 11/11 checks | public NEAR Intents Message Bus requires a Partner JWT (HTTP 403 without one); no live liquidity is solicited |
-| 6 testnet deployment | PASS_WITH_BLOCKED | testnet_smoke: BLOCKED; txs: [] | NEAR_TESTNET_ACCOUNT is not set. Prerequisite: A NEAR testnet account dedicated to ZeroFlux with >= 15 testnet NEAR, its full-access key in ~/.near-credentials/testnet/<account>.json (near-cli format), and NEAR_TESTNET_ACCOUNT=<account> in the environment.  |
+| 6 testnet deployment | PASS | testnet_smoke: PASS; txs: [{"step": "create coordinator.zeroflux.testnet", "tx_hash": "BYWH1NhehURs4bqiJLvVD3bG1aLXKgH1T2SdTvJtJtt5", "explorer": "https://testnet.nearblocks.io/txns/BYWH | - |
 | 7 packaging and handoff | PASS_WITH_BLOCKED | check: PASS; security_test: PASS; reproducible_build: PASS; sbom: PASS; licenses: PASS; docs_missing: []; one_command_env: make localnet; schemas: schemas/zfx-node-rpc-v1.json | container images not built: Docker is not installed on this host; release artifacts unsigned: no owner release key exists; no live public testnet explorer/API: not authorized and no testnet deployment |
 | 8 truthful readiness | PASS | MAINNET_READY: False; tracked_in: docs/RELEASE_READINESS.md | independent cryptanalysis of the PoW hardness assumption; external security audit (node, P2P, wZFX, relayers); owner decision on the monetary schedule (recommendation in bench/results/tokenomics.json); real liquidity for wZFX (none solicited); unmeasured GPU models (see Gate 2) |
 
@@ -28,7 +28,7 @@ Regenerate: `make acceptance` (runs every target) or `ZFX_ACCEPT_REUSE=1 .venv/b
 | `make e2e-intents` | PASS | 1 | 0 | 0 | `401790e001` (dirty) | 2026-11-09T18:21:51Z |
 | `make security-test` | PASS | 10 | 0 | 0 | `401790e001` (dirty) | 2026-11-09T18:27:45Z |
 | `make gpu-test` | PASS_WITH_BLOCKED_EXTERNAL | 5 | 0 | 3 | `401790e001` (dirty) | 2026-11-09T18:28:22Z |
-| `make testnet-smoke` | PASS_WITH_BLOCKED_EXTERNAL | 0 | 0 | 1 | `401790e001` (dirty) | 2026-11-09T18:28:22Z |
+| `make testnet-smoke` | PASS_WITH_BLOCKED_EXTERNAL | 0 | 0 | 1 | `826e412cec` (dirty) | 2026-11-09T18:43:08Z |
 
 ## Steps
 
@@ -111,6 +111,6 @@ Regenerate: `make acceptance` (runs every target) or `ZFX_ACCEPT_REUSE=1 .venv/b
 
 | step | result | seconds | command or reason |
 |---|---|---|---|
-| near-testnet-deploy-and-receipts | BLOCKED | - | NEAR_TESTNET_ACCOUNT is not set |
+| near-testnet-deploy-and-receipts | BLOCKED | - | testnet RPC https://rpc.testnet.near.org unreachable: <HTTPError 429: 'Too Many Requests'> |
 
 Full output of every step: `bench/results/gates/logs/<target>/<step>.log`. Raw experiment and e2e results: `bench/results/`.

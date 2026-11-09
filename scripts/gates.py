@@ -70,8 +70,8 @@ def near_testnet():
     r = subprocess.run([PY, "tests/e2e/testnet_smoke.py", "--preflight"], cwd=ROOT, capture_output=True, text=True)
     if r.returncode == 0:
         return True, ""
-    # Record the BLOCKED evidence file too, then report the exact reason.
-    subprocess.run([PY, "tests/e2e/testnet_smoke.py"], cwd=ROOT, capture_output=True, env=dict(ENV, ZFX_REQUIRE_TESTNET="0"))
+    # Never touch bench/results/testnet_smoke.json here: a blocked preflight
+    # must not overwrite the evidence of an earlier real run.
     try:
         return False, json.loads(r.stdout.strip().splitlines()[-1])["reason"]
     except Exception:

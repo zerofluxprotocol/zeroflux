@@ -153,11 +153,11 @@ class Localnet:
         return f"http://127.0.0.1:{zfxnet.ports(i)[1]}"
 
     # ---------------- contracts ----------------
-    def deploy_wzfx(self, timelock=5):
+    def deploy_wzfx(self, timelock=5, deposit_near=10):
         init = {"owner_id": self.owner, "committee": [r["ed25519"] for r in self.relayers], "threshold": 2,
                 "native_chain_id": self.chain_id, "native_asset_id": self.asset_id, "timelock_sec": timelock, "metadata": None}
         out = jrun([f"{BIN}/zfx-bridge", "deploy", "--rpc", self.rpc, "--signer", self.owner, "--key-file", self.key(self.owner),
-                    "--contract", CONTRACT, "--wasm", WASM, "--init", json.dumps(init)])
+                    "--contract", CONTRACT, "--wasm", WASM, "--init", json.dumps(init), "--deposit-near", str(deposit_near)])
         self.deploy_record = out
         return out
 
