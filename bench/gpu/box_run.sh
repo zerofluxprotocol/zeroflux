@@ -18,11 +18,16 @@ step() { # name, command...
 }
 power_start() { # sample board power every 200 ms into $R/power_$1.csv
   if [ "$V" = cuda ]; then nvidia-smi --query-gpu=power.draw --format=csv,noheader,nounits -lms 200 > "$R/power_$1.csv" 2>/dev/null &
-  else ( while true; do (amd-smi metric -p --csv 2>/dev/null || rocm-smi --showpower --csv 2>/dev/null) | tail -1 >> "$R/power_$1.csv"; sleep 0.2; done ) & fi
+  else ( while true; do
+      w=$(cat /sys/class/drm/card*/device/hwmon/hwmon*/power1_average 2>/dev/null | awk '$1>0{print $1/1e6; exit}')
+      [ -z "$w" ] && w=$(amd-smi metric -p 2>/dev/null | grep -iE "socket_power|power_usage|current_socket" | grep -oE "[0-9]+(\.[0-9]+)?" | head -1)
+      [ -n "$w" ] && echo "$w" >> "$R/power_$1.csv"
+      sleep 0.2; done ) & fi
   PPID_SAMPLER=$!
 }
 power_stop() { kill $PPID_SAMPLER 2>/dev/null; wait $PPID_SAMPLER 2>/dev/null; }
 
+(amd-smi metric -p 2>&1 | head -20; ls /sys/class/drm/card*/device/hwmon/hwmon*/ 2>&1 | head -20) > "$R/power_probe.txt" 2>&1
 rec "{\"step\":\"host\",\"uname\":\"$(uname -a)\",\"cpus\":$(nproc)}"
 if [ "$V" = cuda ]; then step gpu_info nvidia-smi; step toolchain nvcc --version
 else step gpu_info bash -c "(amd-smi static --asic 2>/dev/null || rocm-smi --showproductname); rocminfo | grep -m4 -E 'gfx|Marketing'"; step toolchain bash -c "hipcc --version || /opt/rocm/bin/hipcc --version"; fi
@@ -33,23 +38,28 @@ else step build make -C miner/cuda hip HIPCC="$(command -v hipcc || echo /opt/ro
 BIN=miner/cuda/build/zpu-miner-$V
 if [ "$V" = hip ]; then
   # pip-packaged ROCm SDKs may ship rocBLAS/hipBLASLt kernel libraries outside
-  # the SDK dir (e.g. inside the PyTorch wheel). Find them and point the libs there.
-  RB=$(find / -type d -path "*rocblas/library" 2>/dev/null | while read d; do ls "$d" 2>/dev/null | grep -q gfx950 && echo "$d" && break; done)
-  HB=$(find / -type d -path "*hipblaslt/library" 2>/dev/null | while read d; do ls "$d" 2>/dev/null | grep -q gfx950 && echo "$d" && break; done)
-  [ -n "$RB" ] && export ROCBLAS_TENSILE_LIBPATH=$RB
-  [ -n "$HB" ] && export HIPBLASLT_TENSILE_LIBPATH=$HB
+  # the SDK dir. Find the directories that really hold gfx950 code objects and
+  # point only the C++ miner at them (PyTorch keeps its own defaults).
+  find / \( -name "Kernels.so-000-gfx950*" -o -name "TensileLibrary*gfx950*" \) 2>/dev/null | head -40 > "$R/rocm_kernel_files.txt"
+  RB=$(grep -m1 "rocblas/library/TensileLibrary" "$R/rocm_kernel_files.txt" | xargs -r dirname)
+  HB=$(grep -m1 "hipblaslt.*Kernels.so-000-gfx950" "$R/rocm_kernel_files.txt" | xargs -r dirname)
+  CPPENV="env ${RB:+ROCBLAS_TENSILE_LIBPATH=$RB} ${HB:+HIPBLASLT_TENSILE_LIBPATH=$HB}"
   rec "{\"step\":\"rocm_libpaths\",\"rocblas\":\"$RB\",\"hipblaslt\":\"$HB\",\"HSA_XNACK\":\"${HSA_XNACK:-unset}\"}"
+else
+  CPPENV=env
 fi
+BIN="$CPPENV $BIN"
 step cpu_selftest_in_gpu_binary $BIN selftest tests/vectors/fp8c_v0.1.json --backend cpu --threads 8
 
 for g in blas-int8 lt-fp8 naive; do
   step "selftest_$g" $BIN selftest tests/vectors/fp8c_v0.1.json --backend gpu --gemm $g
   step "stress_$g" $BIN stress --backend gpu --gemm $g
   # warm run, then size the timed run to about 10 s so power samples are meaningful
-  rate=$($BIN bench --backend gpu --gemm $g --batch 8192 --count 65536 2>/dev/null | python3 -c "import json,sys;print(int(json.loads(sys.stdin.read().strip().splitlines()[-1])['attempts_per_s']))" 2>/dev/null || echo 0)
-  cnt=$(( (rate * 10 / 8192 + 1) * 8192 )); [ $cnt -lt 65536 ] && cnt=65536
+  rate=$($BIN bench --backend gpu --gemm $g --batch 32768 --count 131072 2>/dev/null | python3 -c "import json,sys;print(int(json.loads(sys.stdin.read().strip().splitlines()[-1])['attempts_per_s']))" 2>/dev/null || echo 0)
+  cnt=$(( (rate * 10 / 32768 + 1) * 32768 )); [ $cnt -lt 131072 ] && cnt=131072
+  for pb in 8192 32768; do step "profile_${g}_b$pb" $BIN profile --backend gpu --gemm $g --batch $pb; done
   power_start $g
-  step "bench_$g" $BIN bench --backend gpu --gemm $g --batch 8192 --count $cnt
+  step "bench_$g" $BIN bench --backend gpu --gemm $g --batch 32768 --count $cnt
   power_stop
   bj=$(grep -h '^{' "$R/bench_$g.log" | tail -1); bj=${bj:-null}
   pw=$(python3 bench/gpu/avgpower.py "$R/power_$g.csv" 2>/dev/null || echo null)

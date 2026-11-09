@@ -35,11 +35,18 @@ __device__ __forceinline__ int32_t as_i32<int32_t>(int32_t v) { return v; }
 template <>
 __device__ __forceinline__ int32_t as_i32<float>(float v) { return (int32_t)__float2int_rn(v); }
 
+// Requantization. The S-box index is data-dependent, so a __constant__
+// lookup serializes across a warp on NVIDIA (measured: 79% of batch time on
+// H100). Each block stages the fused 256-entry table (S-box -> 5-bit index ->
+// storage byte) in shared memory and walks the tensor with a grid-stride loop.
 template <typename T>
 __global__ void k_requant(const T* Y, size_t n, uint32_t s, Lut lut, uint8_t* X) {
-    size_t i = (size_t)blockIdx.x * blockDim.x + threadIdx.x;
-    if (i >= n) return;
-    X[i] = lut.b[requant_idx(as_i32(Y[i]), s)];
+    __shared__ uint8_t tab[256];
+    for (unsigned i = threadIdx.x; i < 256; i += blockDim.x) tab[i] = lut.b[AES_SBOX[i] >> 3];
+    __syncthreads();
+    size_t stride = (size_t)gridDim.x * blockDim.x;
+    for (size_t i = (size_t)blockIdx.x * blockDim.x + threadIdx.x; i < n; i += stride)
+        X[i] = tab[(uint8_t)((as_i32(Y[i]) >> s) & 0xff)];
 }
 
 template <typename T>
@@ -48,10 +55,23 @@ __global__ void k_digest(const T* Y, int B, int d_out, Bytes32 ch, uint64_t star
     int i = blockIdx.x * blockDim.x + threadIdx.x;
     if (i >= B) return;
     uint64_t n = nonces ? nonces[i] : start + i;
-    int32_t row[1024];
-    for (int j = 0; j < d_out; j++) row[j] = as_i32(Y[(size_t)i * d_out + j]);
+    // Stream the output row into SHA-256 (same bytes as result_digest, no
+    // per-thread 4 KiB scratch copy).
+    Sha256 h;
+    h.init();
+    absorb_str(h, RESULT_DOMAIN);
+    h.update(ch.b, 32);
+    uint8_t nb[8];
+    le64(n, nb);
+    h.update(nb, 8);
+    const T* yr = Y + (size_t)i * d_out;
+    for (int j = 0; j < d_out; j++) {
+        uint8_t b4[4];
+        le32((uint32_t)as_i32(yr[j]), b4);
+        h.update(b4, 4);
+    }
     uint8_t d[32];
-    result_digest(ch.b, n, row, d_out, d);
+    h.final(d);
     if (all_dig)
         for (int q = 0; q < 32; q++) all_dig[(size_t)i * 32 + q] = d[q];
     if (below_target(d, target.b)) {

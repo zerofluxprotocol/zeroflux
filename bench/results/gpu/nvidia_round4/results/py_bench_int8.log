@@ -1,0 +1,1 @@
+{"backend": "torch-cuda:NVIDIA H100 80GB HBM3:NVIDIA H100 80GB HBM3:int8", "impl": "zpu-miner-python", "profile": "zfx-fp8c-v0.1", "attempts": 65536, "elapsed_s": 0.4324197769165039, "attempts_per_s": 151556.4354325412, "tera_macs_per_s": 7.826733211375532}

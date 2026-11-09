@@ -40,6 +40,8 @@ class Backend {
     virtual std::vector<std::array<uint8_t, 32>> digests(const Job& job, const std::vector<uint64_t>& nonces) = 0;
     // Raw GEMM Y[B][N] = X[B][K] * W[N][K]^T on this backend's real GEMM path
     // (operands in D). Returns int64 results; empty if unsupported.
+    // Per-stage device time (ms) for one batch of B attempts; empty if unsupported.
+    virtual std::string profile(const Job&, int) { return ""; }
     virtual std::vector<int64_t> raw_gemm(const std::vector<int8_t>&, const std::vector<int8_t>&, int, int, int) { return {}; }
 };
 

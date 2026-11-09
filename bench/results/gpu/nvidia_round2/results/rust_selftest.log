@@ -1,0 +1,11 @@
+PASS zfx-fp8c-v0.1-dev nonce=0 cpu-rust x16
+PASS zfx-fp8c-v0.1-dev nonce=1 cpu-rust x16
+PASS zfx-fp8c-v0.1-dev nonce=2 cpu-rust x16
+PASS zfx-fp8c-v0.1-dev nonce=81985529216486895 cpu-rust x16
+PASS zfx-fp8c-v0.1-dev nonce=18446744073709551615 cpu-rust x16
+PASS zfx-fp8c-v0.1 nonce=0 cpu-rust x16
+PASS zfx-fp8c-v0.1 nonce=1 cpu-rust x16
+PASS zfx-fp8c-v0.1 nonce=2 cpu-rust x16
+PASS zfx-fp8c-v0.1 nonce=81985529216486895 cpu-rust x16
+PASS zfx-fp8c-v0.1 nonce=18446744073709551615 cpu-rust x16
+10/10 vectors bit-exact on cpu-rust x16

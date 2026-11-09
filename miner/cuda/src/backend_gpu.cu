@@ -14,7 +14,9 @@
 // integers. Hardware with a reduced-precision accumulator (e.g. FP8 MMA
 // without FP32 promotion) fails the max-magnitude self-test and is refused.
 
+#include <algorithm>
 #include <array>
+#include <chrono>
 #include <cstring>
 #include <string>
 #include <vector>
@@ -147,7 +149,7 @@ class GpuBackend : public Backend {
             if (l != p.n_layers() - 1) {
                 size_t tot = (size_t)B * n;
                 int th = 256;
-                unsigned blocks = (unsigned)((tot + th - 1) / th);
+                unsigned blocks = (unsigned)std::min<size_t>((tot + th * 8 - 1) / (th * 8), 65535);
                 if (gemm_ == Gemm::LtFp8)
                     k_requant<float><<<blocks, th>>>((const float*)dY_, tot, p.layer_shift(l), lut_, nx);
                 else
@@ -235,6 +237,50 @@ class GpuBackend : public Backend {
         }
         GPU_CHECK(gpuDeviceSynchronize());
         return out;
+    }
+
+    std::string profile(const Job& job, int B) override {
+        ensure(job);
+        B = std::min(B, batch_);
+        auto now = [] { GPU_CHECK(gpuDeviceSynchronize()); return std::chrono::steady_clock::now(); };
+        auto ms = [](std::chrono::steady_clock::time_point a, std::chrono::steady_clock::time_point b) { return std::chrono::duration<double, std::milli>(b - a).count(); };
+        std::string out = "{\"B\":" + std::to_string(B);
+        for (int rep = 0; rep < 2; rep++) {  // rep 0 warms caches and heuristics
+            GPU_CHECK(gpuMemset(dNFound_, 0, 4));
+            auto t0 = now();
+            launch_x0(B, job, job.start, nullptr);
+            auto t1 = now();
+            double g = 0, rq = 0;
+            uint8_t* x = dXa_;
+            uint8_t* nx = dXb_;
+            int Bg = gemm_ == Gemm::LtFp8 ? (B + 15) / 16 * 16 : B;
+            for (int l = 0; l < prof_.n_layers(); l++) {
+                auto a = now();
+                gemm(x, dW_[l], Bg, prof_.layer_n(l), prof_.layer_k(l));
+                auto b = now();
+                g += ms(a, b);
+                if (l != prof_.n_layers() - 1) {
+                    size_t tot = (size_t)B * prof_.layer_n(l);
+                    unsigned blocks = (unsigned)std::min<size_t>((tot + 2047) / 2048, 65535);
+                    if (gemm_ == Gemm::LtFp8) k_requant<float><<<blocks, 256>>>((const float*)dY_, tot, prof_.layer_shift(l), lut_, nx);
+                    else k_requant<int32_t><<<blocks, 256>>>((const int32_t*)dY_, tot, prof_.layer_shift(l), lut_, nx);
+                    auto c = now();
+                    rq += ms(b, c);
+                    std::swap(x, nx);
+                }
+            }
+            auto t2 = now();
+            launch_digest(B, job, nullptr, nullptr);
+            auto t3 = now();
+            if (rep == 1) {
+                double tot = ms(t0, t3);
+                out += ",\"x0_ms\":" + std::to_string(ms(t0, t1)) + ",\"gemm_ms\":" + std::to_string(g) + ",\"requant_ms\":" + std::to_string(rq) +
+                       ",\"digest_ms\":" + std::to_string(ms(t2, t3)) + ",\"total_ms\":" + std::to_string(tot) +
+                       ",\"gemm_tmac_s\":" + std::to_string(B * (double)prof_.macs() / (g / 1e3) / 1e12) +
+                       ",\"attempts_per_s_stage_sum\":" + std::to_string(B / (tot / 1e3));
+            }
+        }
+        return out + ",\"backend\":\"" + name_ + "\"}";
     }
 
     std::vector<int64_t> raw_gemm(const std::vector<int8_t>& X, const std::vector<int8_t>& W, int B, int N, int K) override {

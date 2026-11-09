@@ -200,5 +200,15 @@ int main(int argc, char** argv) {
     if (cmd == "selftest") return selftest(*b, argc > 2 ? argv[2] : "tests/vectors/fp8c_v0.1.json");
     if (cmd == "bench") return bench(*b, argc, argv);
     if (cmd == "stress") return stress(*b, 512, 4096, 4096);
+    if (cmd == "profile") {
+        Job j;
+        j.profile = FP8C_V01;
+        std::memset(j.seed, 0x5e, 32);
+        std::memset(j.challenge, 0xc4, 32);
+        std::memset(j.target, 0, 32);
+        std::string r = b->profile(j, std::stoi(argv_val(argc, argv, "--batch", "8192")));
+        std::cout << (r.empty() ? "{\"verdict\":\"UNSUPPORTED\"}" : r) << std::endl;
+        return r.empty() ? 2 : 0;
+    }
     return serve(*b);
 }

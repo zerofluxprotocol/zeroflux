@@ -1,0 +1,30 @@
+GPU: 0
+    POWER:
+        SOCKET_POWER: 253 W
+        GFX_VOLTAGE: N/A
+        SOC_VOLTAGE: N/A
+        MEM_VOLTAGE: N/A
+        THROTTLE_STATUS: N/A
+        POWER_MANAGEMENT: ENABLED
+        UBB_POWER: N/A
+
+/sys/class/drm/card1/device/hwmon/hwmon0/:
+device
+freq1_input
+freq1_label
+freq2_input
+freq2_label
+in2_input
+in2_label
+name
+power
+power1_cap
+power1_cap_default
+power1_cap_max
+power1_cap_min
+power1_input
+power1_label
+subsystem
+temp2_crit
+temp2_crit_hyst
+temp2_emergency
