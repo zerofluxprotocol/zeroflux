@@ -1,0 +1,11 @@
+PASS dev nonce=0 torch-rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:fp8
+PASS dev nonce=1 torch-rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:fp8
+PASS dev nonce=2 torch-rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:fp8
+PASS dev nonce=81985529216486895 torch-rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:fp8
+PASS dev nonce=18446744073709551615 torch-rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:fp8
+PASS v01 nonce=0 torch-rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:fp8
+PASS v01 nonce=1 torch-rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:fp8
+PASS v01 nonce=2 torch-rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:fp8
+PASS v01 nonce=81985529216486895 torch-rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:fp8
+PASS v01 nonce=18446744073709551615 torch-rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:fp8
+278/278 checks bit-exact on torch-rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:fp8

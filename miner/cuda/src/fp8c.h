@@ -49,10 +49,17 @@ ZPU_HD int8_t byte_to_val(uint8_t b) { return idx_to_val(b & 31); }
 ZPU_HD uint8_t requant_idx(int32_t y, uint32_t s) { return AES_SBOX[(uint8_t)((y >> s) & 0xff)] >> 3; }
 ZPU_HD int8_t requant(int32_t y, uint32_t s) { return idx_to_val(requant_idx(y, s)); }
 
-static const char ATTEMPT_DOMAIN[] = "ZFX-attempt-v0.1";
-static const char RESULT_DOMAIN[] = "ZFX-result-v0.1";
-static const char X0_DOMAIN[] = "ZFX-FP8C-X0-v0.1";
-static const char W_DOMAIN[] = "ZFX-FP8C-W-v0.1";
+// Domain strings live in __constant__ memory in device passes (nvcc rejects
+// host statics referenced from device code), host memory otherwise.
+#if defined(__CUDA_ARCH__) || defined(__HIP_DEVICE_COMPILE__)
+#define ZPU_DOMAIN_STR __device__ __constant__ static const char
+#else
+#define ZPU_DOMAIN_STR static const char
+#endif
+ZPU_DOMAIN_STR ATTEMPT_DOMAIN[] = "ZFX-attempt-v0.1";
+ZPU_DOMAIN_STR RESULT_DOMAIN[] = "ZFX-result-v0.1";
+ZPU_DOMAIN_STR X0_DOMAIN[] = "ZFX-FP8C-X0-v0.1";
+static const char W_DOMAIN[] = "ZFX-FP8C-W-v0.1";  // host-only (weights are generated on the CPU)
 
 template <size_t N>
 ZPU_HD void absorb_str(Sha256& h, const char (&s)[N]) { h.update((const uint8_t*)s, N - 1); }

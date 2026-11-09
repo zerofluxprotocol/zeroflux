@@ -160,11 +160,45 @@ static int bench(Backend& b, int argc, char** argv) {
     return 0;
 }
 
+// Max-magnitude accumulator stress on the backend's real GEMM path:
+// rows with sum = +-2^20, cancellation, big-then-tiny terms, plus random D.
+static int stress(Backend& b, int B, int K, int N) {
+    std::vector<int8_t> X((size_t)B * K), W((size_t)N * K);
+    uint64_t s = 0x9e3779b97f4a7c15ULL;
+    auto rnd = [&]() { s ^= s << 13; s ^= s >> 7; s ^= s << 17; return idx_to_val((uint8_t)(s & 31)); };
+    for (auto& v : X) v = rnd();
+    for (auto& v : W) v = rnd();
+    for (int k = 0; k < K; k++) {
+        X[k] = 16; W[k] = 16;                                  // row0 x col0 = +2^20
+        X[(size_t)K + k] = 16; W[(size_t)K + k] = -16;          // row1 x col1 = -2^20
+        X[2 * (size_t)K + k] = (k & 1) ? -16 : 16;               // cancellation
+        X[3 * (size_t)K + k] = k < K / 2 ? 16 : 1;               // big then tiny
+        W[2 * (size_t)K + k] = k < K / 2 ? 16 : 1;
+    }
+    auto t0 = std::chrono::steady_clock::now();
+    auto got = b.raw_gemm(X, W, B, N, K);
+    double el = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
+    if (got.empty()) { std::cout << "{\"backend\":\"" << b.name() << "\",\"verdict\":\"UNSUPPORTED\"}" << std::endl; return 2; }
+    long long bad = 0, maxabs = 0;
+    for (int i = 0; i < B; i++)
+        for (int j = 0; j < N; j++) {
+            long long r = 0;
+            for (int k = 0; k < K; k++) r += (long long)X[(size_t)i * K + k] * W[(size_t)j * K + k];
+            if (r < 0 ? -r > maxabs : r > maxabs) maxabs = r < 0 ? -r : r;
+            if (got[(size_t)i * N + j] != r) bad++;
+        }
+    std::cout << "{\"backend\":\"" << b.name() << "\",\"impl\":\"zpu-miner-cpp\",\"rows\":" << B << ",\"k\":" << K << ",\"n\":" << N
+              << ",\"max_abs_ref\":" << maxabs << ",\"mismatches\":" << bad << ",\"gemm_s\":" << el
+              << ",\"verdict\":\"" << (bad ? "FAIL" : "PASS") << "\"}" << std::endl;
+    return bad ? 1 : 0;
+}
+
 int main(int argc, char** argv) {
     std::ios::sync_with_stdio(false);
     std::string cmd = argc > 1 ? argv[1] : "";
     auto b = make(argc, argv);
     if (cmd == "selftest") return selftest(*b, argc > 2 ? argv[2] : "tests/vectors/fp8c_v0.1.json");
     if (cmd == "bench") return bench(*b, argc, argv);
+    if (cmd == "stress") return stress(*b, 512, 4096, 4096);
     return serve(*b);
 }

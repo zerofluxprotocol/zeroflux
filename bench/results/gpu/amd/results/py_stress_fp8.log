@@ -1,0 +1,1 @@
+{"backend": "torch-rocm:AMD Instinct MI355X VF:gfx950:sramecc+:xnack-:fp8", "rows": 512, "k": 4096, "n": 4096, "max_abs_ref": 1048576, "mismatches": 0, "elapsed_s": 1.1630117893218994, "verdict": "PASS"}

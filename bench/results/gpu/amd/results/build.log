@@ -1,0 +1,5 @@
+make: Entering directory '/root/zfxwork/zeroflux/miner/cuda'
+mkdir -p build
+/opt/python/lib/python3.14/site-packages/_rocm_sdk_devel/bin/hipcc -O3 -std=c++17 -DZPU_WITH_GPU -DZPU_HIP --offload-arch=gfx950 \
+  -x hip src/main.cpp src/backend_cpu.cpp src/backend_gpu.cu -o build/zpu-miner-hip -lhipblas -lhipblaslt
+make: Leaving directory '/root/zfxwork/zeroflux/miner/cuda'

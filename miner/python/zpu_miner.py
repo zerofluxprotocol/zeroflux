@@ -154,7 +154,7 @@ class TorchBackend(Backend):
             pad = (-m) % 32 if m <= 16 or m % 8 else 0  # _int_mm needs m > 16 and m % 8 == 0
             if pad:
                 x = t.cat([x, t.ones((pad, x.shape[1]), dtype=x.dtype, device=x.device)])
-            y = t._int_mm(x, w.t().contiguous().t())
+            y = t._int_mm(x, w.t())  # w is [N][K]; w.t() is the [K][N] column-major operand
             return y[:m]
         one = t.ones((), device=self.dev, dtype=t.float32)
         m = x.shape[0]

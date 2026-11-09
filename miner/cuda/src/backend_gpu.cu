@@ -237,6 +237,39 @@ class GpuBackend : public Backend {
         return out;
     }
 
+    std::vector<int64_t> raw_gemm(const std::vector<int8_t>& X, const std::vector<int8_t>& W, int B, int N, int K) override {
+        int Bp = gemm_ == Gemm::LtFp8 ? (B + 15) / 16 * 16 : B;
+        std::vector<uint8_t> ex((size_t)Bp * K, encode(store_, 1)), ew(W.size());
+        for (size_t i = 0; i < X.size(); i++) ex[i] = encode(store_, X[i]);
+        for (size_t i = 0; i < W.size(); i++) ew[i] = encode(store_, W[i]);
+        uint8_t *dx, *dw;
+        void* dy;
+        GPU_CHECK(gpuMalloc(&dx, ex.size()));
+        GPU_CHECK(gpuMalloc(&dw, ew.size()));
+        GPU_CHECK(gpuMalloc(&dy, (size_t)Bp * N * 4));
+        GPU_CHECK(gpuMemcpy(dx, ex.data(), ex.size(), gpuMemcpyHostToDevice));
+        GPU_CHECK(gpuMemcpy(dw, ew.data(), ew.size(), gpuMemcpyHostToDevice));
+        void* saveY = dY_;
+        dY_ = dy;
+        gemm(dx, dw, Bp, N, K);
+        dY_ = saveY;
+        GPU_CHECK(gpuDeviceSynchronize());
+        std::vector<int64_t> out((size_t)B * N);
+        if (gemm_ == Gemm::LtFp8) {
+            std::vector<float> y((size_t)Bp * N);
+            GPU_CHECK(gpuMemcpy(y.data(), dy, y.size() * 4, gpuMemcpyDeviceToHost));
+            for (size_t i = 0; i < out.size(); i++) out[i] = (int64_t)y[i];
+        } else {
+            std::vector<int32_t> y((size_t)Bp * N);
+            GPU_CHECK(gpuMemcpy(y.data(), dy, y.size() * 4, gpuMemcpyDeviceToHost));
+            for (size_t i = 0; i < out.size(); i++) out[i] = y[i];
+        }
+        GPU_CHECK(gpuFree(dx));
+        GPU_CHECK(gpuFree(dw));
+        GPU_CHECK(gpuFree(dy));
+        return out;
+    }
+
     std::vector<std::array<uint8_t, 32>> digests(const Job& job, const std::vector<uint64_t>& nonces) override {
         ensure(job);
         std::vector<std::array<uint8_t, 32>> out(nonces.size());

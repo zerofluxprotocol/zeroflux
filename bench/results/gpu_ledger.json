@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1d14213b-8fb2-4132-9882-7e92ca886f1a",
+    "name": "qx-5f068c14",
+    "gpu": "MI355X",
+    "created_utc": "2026-11-09T08:02:55Z",
+    "state": "stopped->deleted (verified 404)",
+    "note": "API key lacks delete permission; GPU sandboxes are deleted on stop"
+  },
+  {
+    "id": "fea96b93-e4e3-4402-84af-a360d0893de2",
+    "name": "qx-261dd030",
+    "gpu": "H100",
+    "created_utc": "2026-11-09T08:02:36Z",
+    "state": "deleted (verified 404)",
+    "note": "create call timed out client-side; id from create error",
+    "deleted_utc": "2026-11-09T08:10:18Z",
+    "wall_s": 54
+  },
+  {
+    "id": "f6e011f3-0eb0-4378-b811-b5c8d0b677e8",
+    "name": "qx-94fa9144",
+    "gpu": "MI355X",
+    "created_utc": "2026-11-09T08:09:27Z",
+    "state": "deleted (verified 404)",
+    "deleted_utc": "2026-11-09T08:10:19Z",
+    "wall_s": 55
+  }
+]

@@ -3,6 +3,7 @@
 // (-nocudainc / -nogpuinc). Used for compile checks only; real builds
 // use the vendor SDK headers.
 #pragma once
+#define ZPU_SDK_SHIM 1
 #define __host__ __attribute__((host))
 #define __device__ __attribute__((device))
 #define __global__ __attribute__((global))
