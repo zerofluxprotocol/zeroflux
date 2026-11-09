@@ -1,6 +1,6 @@
 {
-  "generated": "2026-11-09T20:59:05Z",
-  "commit": "dbd43f311e06a3aa39f0160fa0f14088ad4ea576",
+  "generated": "2026-11-09T21:02:00Z",
+  "commit": "75298049813bbe7fc503981ece35609499f6f258",
   "MAINNET_READY": false,
   "targets": {
     "check": {
@@ -15,15 +15,15 @@
       "finished": "2026-11-09T20:57:38Z"
     },
     "e2e-native": {
-      "result": "FAIL",
+      "result": "PASS",
       "counts": {
-        "PASS": 1,
-        "FAIL": 1,
+        "PASS": 2,
+        "FAIL": 0,
         "BLOCKED": 0
       },
       "commit": "dbd43f311e06a3aa39f0160fa0f14088ad4ea576",
       "dirty_tree": true,
-      "finished": "2026-11-09T20:59:05Z"
+      "finished": "2026-11-09T21:01:55Z"
     },
     "e2e-bridge": {
       "result": "PASS",
@@ -82,8 +82,8 @@
     }
   },
   "step_counts": {
-    "PASS": 41,
-    "FAIL": 1,
+    "PASS": 42,
+    "FAIL": 0,
     "BLOCKED": 4
   },
   "gates": [
@@ -100,9 +100,9 @@
     {
       "gate": 1,
       "title": "native chain",
-      "status": "FAIL",
+      "status": "PASS",
       "evidence": {
-        "e2e_native": "17/18 checks",
+        "e2e_native": "18/18 checks",
         "contract_api": "48/48 cases",
         "note": "e2e uses PoW profile zfx-fp8c-v0.1-dev (H=256) for speed; v0.1 profile mined on GPUs below"
       },
@@ -553,9 +553,9 @@
     "e2e-native": [
       {
         "name": "native-3-nodes-1000-blocks",
-        "result": "FAIL",
+        "result": "PASS",
         "cmd": ".venv/bin/python tests/e2e/native.py",
-        "seconds": 61.6,
+        "seconds": 60.9,
         "reason": null,
         "log": "bench/results/gates/logs/e2e-native/native-3-nodes-1000-blocks.log"
       },
@@ -563,7 +563,7 @@
         "name": "contract-api-schema-conformance",
         "result": "PASS",
         "cmd": ".venv/bin/python tests/contract_api/test_contract_api.py",
-        "seconds": 18.9,
+        "seconds": 12.9,
         "reason": null,
         "log": "bench/results/gates/logs/e2e-native/contract-api-schema-conformance.log"
       }
