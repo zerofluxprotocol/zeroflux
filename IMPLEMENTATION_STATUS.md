@@ -8,7 +8,7 @@ Living document. Each row links to evidence. States: EXISTING (verified working)
 - `tests/run_all.sh`: 13/13 PASS (cargo test, vectors Rust/C++/Python, stress NumPy/MPS/MLX, GPU device compile, explorer typecheck). Output: `/tmp/gate0_baseline.txt`, reproduced in TEST_REPORT.md.
 - Prior GPU evidence (not rerun at Gate 0): H100 and MI355X bit-exact, `bench/results/gpu_summary.json`, sandbox ledger `bench/results/gpu_ledger.json`.
 - Toolchains: Rust 1.99.1 with `wasm32-unknown-unknown`, cargo-near 0.23.0, near-cli-rs 0.31.1, NEAR sandbox (protocol 88) runs natively on macOS arm64.
-- NEAR credentials: `~/.near-credentials/testnet` holds 14 accounts named `other*` belonging to a different project. None is a ZeroFlux account. Deploying onto them would overwrite another project's contracts. Gate 6 status below.
+- NEAR credentials at Gate 0: no ZeroFlux testnet account was configured (later created as `zeroflux.testnet`, see Gate 6).
 - NEAR Intents: Message Bus RPC/WebSocket requires a Partner Portal JWT plus KYC/KYB and a mainnet account. The official Verifier contract is open source (`near/intents`, MIT). Mainnet `intents.near` code hash `BtA1BEFNS619KkvXFsgcpQ21Tb5yMm32aaUkn7xNothk` matches no published release artifact (checked v0.4.0, v0.4.1, v0.4.2, global-deployer v0.1.0/v0.2.0).
 
 ### Requirement inventory at Gate 0

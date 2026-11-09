@@ -29,7 +29,7 @@ BRIDGE                = 2-of-3 trusted custodian (testnet only)
 | 2 | Written soundness argument for the PoW | not started | ZeroFlux research |
 | 3 | External security audit: node, P2P transport, SLH-DSA/P2MR integration, wallet, wZFX contract, relayers | not started | external auditor |
 | 4 | Exactness on B200/B300, RTX 50, RTX PRO 6000 and MI300X hardware | code compiles for sm_100/sm_120/gfx942; no device reached | ZeroFlux core (needs hardware access) |
-| 5 | Monetary schedule (block time, subsidy curve, tail, supply) | parameterized and modeled; recommendation `D_smooth_decay_tail`; node refuses `network: mainnet` until chosen | project owner (owner decision) |
+| 5 | Monetary schedule (block time, subsidy curve, tail, supply) | parameterized and modeled; recommendation `D_smooth_decay_tail`; node refuses `network: mainnet` until chosen | project owner (decision) |
 | 6 | Bridge beyond a trusted custodian | measured infeasible on NEAR today (`onchain_pow_gas.json`, `stark_prototype.json`); committee remains | ZeroFlux research, then external review |
 | 7 | Undo-based reorgs instead of replay from genesis; stronger eclipse resistance | open | ZeroFlux core |
 | 8 | DoS economics of PoW-valid spam; encrypted wallet files | open | ZeroFlux core |

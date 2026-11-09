@@ -191,7 +191,9 @@ def run_target(target):
     failed = [x["name"] for x in st if x["result"] == "FAIL" or (require_ext and x["result"] == "BLOCKED")]
     rep["result"] = "FAIL" if failed else ("PASS" if not rep["counts"]["BLOCKED"] else "PASS_WITH_BLOCKED_EXTERNAL")
     rep["failed"] = failed
-    json.dump(rep, open(os.path.join(OUTDIR, f"{target}.json"), "w"), indent=2)
+    # Evidence is committed: keep machine-specific paths out of it.
+    text = json.dumps(rep, indent=2).replace(ROOT + "/", "").replace(ROOT, ".").replace(os.path.expanduser("~"), "~")
+    open(os.path.join(OUTDIR, f"{target}.json"), "w").write(text)
     print(f"{target}: {rep['result']} {rep['counts']}")
     return 1 if failed else 0
 

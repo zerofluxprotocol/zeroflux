@@ -180,8 +180,10 @@ def main():
         for k in TARGETS:
             subprocess.run([PY if os.path.exists(PY) else sys.executable, os.path.join(ROOT, "scripts", "gates.py"), k], cwd=ROOT)
     r = build()
-    json.dump(r, open(os.path.join(ROOT, "ACCEPTANCE_REPORT.json"), "w"), indent=2, default=str)
-    open(os.path.join(ROOT, "ACCEPTANCE_REPORT.md"), "w").write(markdown(r))
+    home = os.path.expanduser("~")
+    clean = lambda t: t.replace(ROOT + "/", "").replace(ROOT, ".").replace(home, "~")  # noqa: E731
+    open(os.path.join(ROOT, "ACCEPTANCE_REPORT.json"), "w").write(clean(json.dumps(r, indent=2, default=str)))
+    open(os.path.join(ROOT, "ACCEPTANCE_REPORT.md"), "w").write(clean(markdown(r)))
     for g in r["gates"]:
         print(f"Gate {g['gate']} {g['title']}: {g['status']}")
     print(f"MAINNET_READY={str(r['MAINNET_READY']).lower()}")

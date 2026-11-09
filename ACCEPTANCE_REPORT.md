@@ -1,6 +1,6 @@
 # Acceptance report
 
-Generated 2026-11-09T19:00:53Z at commit `8270a11cf9aa`. **MAINNET_READY = false.**
+Generated 2026-11-09T20:23:22Z at commit `f6ed2eab52e3`. **MAINNET_READY = false.**
 
 Regenerate: `make acceptance` (runs every target) or `ZFX_ACCEPT_REUSE=1 .venv/bin/python scripts/acceptance.py` (report only).
 
