@@ -1,6 +1,6 @@
 # Acceptance report
 
-Generated 2026-11-09T18:28:22Z at commit `401790e00156`. **MAINNET_READY = false.**
+Generated 2026-11-09T18:32:23Z at commit `0824fd9739f2`. **MAINNET_READY = false.**
 
 Regenerate: `make acceptance` (runs every target) or `ZFX_ACCEPT_REUSE=1 .venv/bin/python scripts/acceptance.py` (report only).
 
@@ -8,21 +8,21 @@ Regenerate: `make acceptance` (runs every target) or `ZFX_ACCEPT_REUSE=1 .venv/b
 
 | gate | status | evidence | blocked externally |
 |---|---|---|---|
-| 0 baseline | PASS | inventory: IMPLEMENTATION_STATUS.md (Gate 0 baseline, requirement inventory); check_target: FAIL | - |
+| 0 baseline | PASS | inventory: IMPLEMENTATION_STATUS.md (Gate 0 baseline, requirement inventory); check_target: PASS | - |
 | 1 native chain | PASS | e2e_native: 18/18 checks; contract_api: 48/48 cases; note: e2e uses PoW profile zfx-fp8c-v0.1-dev (H=256) for speed; v0.1 profile mined on GPUs below | - |
 | 2 miner | PASS_WITH_BLOCKED | local: {"vectors-rust": "PASS", "vectors-cpp": "PASS", "vectors-python-numpy": "PASS", "vectors-mlx-metal": "PASS", "vectors-torch-mps": "PASS", "gpu-device-compile": ; gpu_rerun_new: {"nvidia": {"dir": "bench/results/gpu_rerun_2026-11-09_r2", "device": "cuda:NVIDIA H100 80GB HBM3:sm_90:blas-int8:int8", "correctness_steps": 13, "correctness_f; gpu_block_submissions: {"nvidia": "PASS", "amd": "PASS"}; prior_evidence: bench/results/gpu_summary.json (H100, MI355X, earlier run; not re-measured by this report) | NVIDIA B200/B300 (sm_100), RTX 50 (sm_120) and AMD MI300X (gfx942): code compiles for these targets; no such device was reachable, so no hardware result |
 | 3 bridge contracts | PASS | wzfx_unit_tests: PASS; conformance_replay_access_in_e2e_bridge: ["B1 deployed wZFX: NEP-148 metadata, zero supply, committee configured", "B1/B3 1-of-3 cannot mint (on-chain rejection) and a forged member index is rejected; ; governance_upgrade_rotation: 8/8 checks (bench/results/e2e_bridge_governance.json) | - |
 | 4 real two-way bridge | PASS | two_way_fault_injection: 10/10 checks; finality_reorg: 3/3 checks | - |
 | 5 Intents | PASS_WITH_BLOCKED | local: 11/11 checks | public NEAR Intents Message Bus requires a Partner JWT (HTTP 403 without one); no live liquidity is solicited |
 | 6 testnet deployment | PASS_WITH_BLOCKED | testnet_smoke: BLOCKED; txs: [] | NEAR_TESTNET_ACCOUNT is not set. Prerequisite: A NEAR testnet account dedicated to ZeroFlux with >= 15 testnet NEAR, its full-access key in ~/.near-credentials/testnet/<account>.json (near-cli format), and NEAR_TESTNET_ACCOUNT=<account> in the environment.  |
-| 7 packaging and handoff | PASS_WITH_BLOCKED | security_test: PASS; reproducible_build: PASS; sbom: PASS; licenses: PASS; docs_missing: []; one_command_env: make localnet; schemas: schemas/zfx-node-rpc-v1.json | container images not built: Docker is not installed on this host; release artifacts unsigned: no owner release key exists; no live public testnet explorer/API: not authorized and no testnet deployment |
+| 7 packaging and handoff | PASS_WITH_BLOCKED | check: PASS; security_test: PASS; reproducible_build: PASS; sbom: PASS; licenses: PASS; docs_missing: []; one_command_env: make localnet; schemas: schemas/zfx-node-rpc-v1.json | container images not built: Docker is not installed on this host; release artifacts unsigned: no owner release key exists; no live public testnet explorer/API: not authorized and no testnet deployment |
 | 8 truthful readiness | PASS | MAINNET_READY: False; tracked_in: docs/RELEASE_READINESS.md | independent cryptanalysis of the PoW hardness assumption; external security audit (node, P2P, wZFX, relayers); owner decision on the monetary schedule (recommendation in bench/results/tokenomics.json); real liquidity for wZFX (none solicited); unmeasured GPU models (see Gate 2) |
 
 ## Targets
 
 | target | result | PASS | FAIL | BLOCKED | commit | finished |
 |---|---|---|---|---|---|---|
-| `make check` | FAIL | 19 | 2 | 0 | `401790e001` (dirty) | 2026-11-09T18:11:19Z |
+| `make check` | PASS | 21 | 0 | 0 | `0824fd9739` | 2026-11-09T18:31:06Z |
 | `make e2e-native` | PASS | 2 | 0 | 0 | `401790e001` (dirty) | 2026-11-09T18:12:28Z |
 | `make e2e-bridge` | PASS | 3 | 0 | 0 | `401790e001` (dirty) | 2026-11-09T18:20:34Z |
 | `make e2e-intents` | PASS | 1 | 0 | 0 | `401790e001` (dirty) | 2026-11-09T18:21:51Z |
@@ -36,27 +36,27 @@ Regenerate: `make acceptance` (runs every target) or `ZFX_ACCEPT_REUSE=1 .venv/b
 
 | step | result | seconds | command or reason |
 |---|---|---|---|
-| rustfmt | FAIL | 0.2 | `cargo fmt --all --check && (cd bridge/near && cargo fmt --all --check)` |
-| clippy-workspace | PASS | 0.2 | `cargo clippy --release --workspace --all-targets -q -- -D warnings` |
-| clippy-near-contracts | PASS | 0.7 | `cd bridge/near && cargo clippy -q --all-targets -- -D warnings` |
-| cargo-test-workspace | PASS | 53.5 | `cargo test --release -q --workspace` |
-| cargo-test-near-contracts | PASS | 1.1 | `cd bridge/near && cargo test -q` |
-| wasm-build-wzfx | PASS | 5.9 | `cd bridge/near/wzfx && cargo near build non-reproducible-wasm` |
-| wasm-build-test-ft | PASS | 3.9 | `cd bridge/near/test-ft && cargo near build non-reproducible-wasm` |
-| wasm-build-pow-verifier | PASS | 0.4 | `cd bridge/near/pow-verifier && cargo near build non-reproducible-wasm --no-abi` |
-| build-release | PASS | 4.6 | `cargo build --release -q` |
-| vectors-rust | PASS | 0.3 | `./target/release/zpu-cli selftest` |
-| vectors-consensus-v2 | PASS | 15.6 | `cargo test --release -q -p zfx-verify --test consensus_v2` |
-| cpp-build | PASS | - | `make -C miner/cuda cpu -s` |
-| vectors-cpp | PASS | - | `./miner/cuda/build/zpu-miner selftest tests/vectors/fp8c_v0.1.json` |
-| vectors-python-numpy | PASS | 0.5 | `.venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend numpy` |
-| stress-python-numpy | PASS | 4.6 | `.venv/bin/python miner/python/zpu_miner.py stress --backend numpy` |
-| vectors-mlx-metal | PASS | 0.8 | `.venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend mlx` |
-| vectors-torch-mps | PASS | 1.5 | `.venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend torch --device mps` |
-| gpu-device-compile | PASS | 8.4 | `CLANG='.venv/bin/python -m ziglang clang' bench/compile/device_check.sh` |
-| python-lint | FAIL | 0.4 | `uvx pyflakes tests/e2e deploy/localnet.py testnet/zfxnet.py scripts bridge/intents/zfx_intents miner/python bench/gpu` |
-| explorer-typecheck | PASS | 0.7 | `cd explorer && npx --no-install tsc -p . --noEmit` |
-| intents-nep413-conformance | PASS | 14.0 | `cargo test --release -q -p zfx-bridge --test nep413_conformance` |
+| rustfmt | PASS | 0.3 | `cargo fmt --all --check && (cd bridge/near && cargo fmt --all --check)` |
+| clippy-workspace | PASS | 1.1 | `cargo clippy --release --workspace --all-targets -q -- -D warnings` |
+| clippy-near-contracts | PASS | 1.4 | `cd bridge/near && cargo clippy -q --all-targets -- -D warnings` |
+| cargo-test-workspace | PASS | 59.9 | `cargo test --release -q --workspace` |
+| cargo-test-near-contracts | PASS | 6.1 | `cd bridge/near && cargo test -q` |
+| wasm-build-wzfx | PASS | 11.4 | `cd bridge/near/wzfx && cargo near build non-reproducible-wasm` |
+| wasm-build-test-ft | PASS | 9.6 | `cd bridge/near/test-ft && cargo near build non-reproducible-wasm` |
+| wasm-build-pow-verifier | PASS | 0.7 | `cd bridge/near/pow-verifier && cargo near build non-reproducible-wasm --no-abi` |
+| build-release | PASS | 0.5 | `cargo build --release -q` |
+| vectors-rust | PASS | 0.5 | `./target/release/zpu-cli selftest` |
+| vectors-consensus-v2 | PASS | 24.3 | `cargo test --release -q -p zfx-verify --test consensus_v2` |
+| cpp-build | PASS | 0.1 | `make -C miner/cuda cpu -s` |
+| vectors-cpp | PASS | 0.2 | `./miner/cuda/build/zpu-miner selftest tests/vectors/fp8c_v0.1.json` |
+| vectors-python-numpy | PASS | 1.3 | `.venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend numpy` |
+| stress-python-numpy | PASS | 6.7 | `.venv/bin/python miner/python/zpu_miner.py stress --backend numpy` |
+| vectors-mlx-metal | PASS | 1.4 | `.venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend mlx` |
+| vectors-torch-mps | PASS | 5.4 | `.venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend torch --device mps` |
+| gpu-device-compile | PASS | 14.3 | `CLANG='.venv/bin/python -m ziglang clang' bench/compile/device_check.sh` |
+| python-lint | PASS | 0.6 | `uvx pyflakes tests/e2e deploy/localnet.py testnet/zfxnet.py scripts bridge/intents/zfx_intents miner/python bench/gpu` |
+| explorer-typecheck | PASS | 1.8 | `cd explorer && npx --no-install tsc -p . --noEmit` |
+| intents-nep413-conformance | PASS | 0.8 | `cargo test --release -q -p zfx-bridge --test nep413_conformance` |
 
 ### make e2e-native
 

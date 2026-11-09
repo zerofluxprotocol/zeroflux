@@ -1,39 +1,26 @@
 {
   "target": "check",
-  "commit": "401790e0015608a14a352d7365fcfa9996144e36",
-  "dirty_tree": true,
-  "started": "2026-11-09T18:09:20Z",
+  "commit": "0824fd9739f254f3c809162a41e91bbade24170f",
+  "dirty_tree": false,
+  "started": "2026-11-09T18:28:35Z",
   "host": "arm64",
   "steps": [
     {
       "name": "rustfmt",
       "kind": "required",
       "cmd": "cargo fmt --all --check && (cd bridge/near && cargo fmt --all --check)",
-      "rc": 1,
-      "seconds": 0.2,
-      "result": "FAIL",
+      "rc": 0,
+      "seconds": 0.3,
+      "result": "PASS",
       "log": "bench/results/gates/logs/check/rustfmt.log",
-      "tail": [
-        "Diff in bridge/near/wzfx/src/tests.rs:280:",
-        "         native_height: U64(77),",
-        "         expiry_ns: U64(1800000000000000000),",
-        "     };",
-        "\u001b[31m-    assert_eq!(hex::encode(mint_digest(\"wzfx.test.near\", 0x5a460002, \"zfx:5a460002:native\", &a)), \"3507a0edc7baab770827cebebe5c7df439be2f91c33f9d3f7391c3b2a9647e98\");",
-        "\u001b[m\u000f\u001b[32m+    assert_eq!(",
-        "\u001b[m\u000f\u001b[32m+        hex::encode(mint_digest(\"wzfx.test.near\", 0x5a460002, \"zfx:5a460002:native\", &a)),",
-        "\u001b[m\u000f\u001b[32m+        \"3507a0edc7baab770827cebebe5c7df439be2f91c33f9d3f7391c3b2a9647e98\"",
-        "\u001b[m\u000f\u001b[32m+    );",
-        "\u001b[m\u000f     let rot = AdminAction::Rotate { committee: vec![\"11\".repeat(32), \"22\".repeat(32), \"33\".repeat(32)] };",
-        "     assert_eq!(hex::encode(admin_digest(\"wzfx.test.near\", 3, 9, &rot)), \"038fb280438db03918560ae6fc462deb4003faa6e4d6c58380d486bfb24d139c\");",
-        "     assert_eq!(withdrawal_id(\"wzfx.test.near\", 42), \"b1447206675f11affd8453b8d33f158c2b4e9b0ca809e2e5c6beaa0d26649b82\");"
-      ]
+      "tail": []
     },
     {
       "name": "clippy-workspace",
       "kind": "required",
       "cmd": "cargo clippy --release --workspace --all-targets -q -- -D warnings",
       "rc": 0,
-      "seconds": 0.2,
+      "seconds": 1.1,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/clippy-workspace.log",
       "tail": []
@@ -43,7 +30,7 @@
       "kind": "required",
       "cmd": "cd bridge/near && cargo clippy -q --all-targets -- -D warnings",
       "rc": 0,
-      "seconds": 0.7,
+      "seconds": 1.4,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/clippy-near-contracts.log",
       "tail": []
@@ -53,14 +40,14 @@
       "kind": "required",
       "cmd": "cargo test --release -q --workspace",
       "rc": 0,
-      "seconds": 53.5,
+      "seconds": 59.9,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/cargo-test-workspace.log",
       "tail": [
         "",
         "running 1 test",
         ".",
-        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.61s",
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.01s",
         "",
         "",
         "running 0 tests",
@@ -89,7 +76,7 @@
       "kind": "required",
       "cmd": "cd bridge/near && cargo test -q",
       "rc": 0,
-      "seconds": 1.1,
+      "seconds": 6.1,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/cargo-test-near-contracts.log",
       "tail": [
@@ -101,7 +88,7 @@
         "",
         "running 17 tests",
         ".................",
-        "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.22s",
+        "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.49s",
         "",
         "",
         "running 0 tests",
@@ -125,7 +112,7 @@
       "kind": "required",
       "cmd": "cd bridge/near/wzfx && cargo near build non-reproducible-wasm",
       "rc": 0,
-      "seconds": 5.9,
+      "seconds": 11.4,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/wasm-build-wzfx.log",
       "tail": [
@@ -134,14 +121,14 @@
         " \u2502    Compiling near-sdk v5.30.1",
         " \u2502    Compiling near-contract-standards v5.30.1",
         " \u2502    Compiling wzfx v1.0.0 (bridge/near/wzfx)",
-        " \u2502     Finished `release` profile [optimized] target(s) in 4.17s",
+        " \u2502     Finished `release` profile [optimized] target(s) in 7.51s",
         "",
         "Modification timestamps of:",
-        " |    \"bridge/near/target/wasm32-unknown-unknown/release/wzfx.wasm\" = SystemTime { tv_sec: 1794247822, tv_nsec: 88146961 }",
+        " |    \"bridge/near/target/wasm32-unknown-unknown/release/wzfx.wasm\" = SystemTime { tv_sec: 1794248994, tv_nsec: 505507101 }",
         " |    \"bridge/near/target/near/wzfx/wzfx.wasm\" = SystemTime { tv_sec: 1794246491, tv_nsec: 469478843 }",
         "",
         "\u2022 Running an optimize for size post-step with wasm-opt --enable-nontrapping-float-to-int --enable-bulk-memory...",
-        "    Finished wasm-opt -O in 288ms",
+        "    Finished wasm-opt -O in 728ms",
         "\u2022 done",
         "",
         "\u2713 Contract successfully built! (in CARGO_NEAR_BUILD_ENVIRONMENT=host)",
@@ -151,7 +138,7 @@
         "     - SHA-256 checksum bs58: 67jJRM7obHrgEzxZaTSHftMD6STVMXuPxdXTPVJT9VEQ",
         "     -                   ABI: bridge/near/target/near/wzfx/wzfx_abi.json",
         "     -          Embedded ABI: bridge/near/target/near/wzfx/wzfx_abi.zst",
-        "    Finished cargo near build in 5s",
+        "    Finished cargo near build in 11s",
         "Here is the console command if you ever need to re-run it again:",
         "cargo near build non-reproducible-wasm"
       ]
@@ -161,7 +148,7 @@
       "kind": "required",
       "cmd": "cd bridge/near/test-ft && cargo near build non-reproducible-wasm",
       "rc": 0,
-      "seconds": 3.9,
+      "seconds": 9.6,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/wasm-build-test-ft.log",
       "tail": [
@@ -170,14 +157,14 @@
         " \u2502    Compiling near-sdk v5.30.1",
         " \u2502    Compiling near-contract-standards v5.30.1",
         " \u2502    Compiling test-ft v1.0.0 (bridge/near/test-ft)",
-        " \u2502     Finished `release` profile [optimized] target(s) in 3.01s",
+        " \u2502     Finished `release` profile [optimized] target(s) in 7.52s",
         "",
         "Modification timestamps of:",
-        " |    \"bridge/near/target/wasm32-unknown-unknown/release/test_ft.wasm\" = SystemTime { tv_sec: 1794247826, tv_nsec: 45827970 }",
+        " |    \"bridge/near/target/wasm32-unknown-unknown/release/test_ft.wasm\" = SystemTime { tv_sec: 1794249004, tv_nsec: 338132909 }",
         " |    \"bridge/near/target/near/test_ft/test_ft.wasm\" = SystemTime { tv_sec: 1794246495, tv_nsec: 645355189 }",
         "",
         "\u2022 Running an optimize for size post-step with wasm-opt --enable-nontrapping-float-to-int --enable-bulk-memory...",
-        "    Finished wasm-opt -O in 229ms",
+        "    Finished wasm-opt -O in 566ms",
         "\u2022 done",
         "",
         "\u2713 Contract successfully built! (in CARGO_NEAR_BUILD_ENVIRONMENT=host)",
@@ -187,7 +174,7 @@
         "     - SHA-256 checksum bs58: AiDihNa3vE5u3L8hPL1BfECytwEqafA4qsejhMccbbZ2",
         "     -                   ABI: bridge/near/target/near/test_ft/test_ft_abi.json",
         "     -          Embedded ABI: bridge/near/target/near/test_ft/test_ft_abi.zst",
-        "    Finished cargo near build in 3s",
+        "    Finished cargo near build in 9s",
         "Here is the console command if you ever need to re-run it again:",
         "cargo near build non-reproducible-wasm"
       ]
@@ -197,7 +184,7 @@
       "kind": "required",
       "cmd": "cd bridge/near/pow-verifier && cargo near build non-reproducible-wasm --no-abi",
       "rc": 0,
-      "seconds": 0.4,
+      "seconds": 0.7,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/wasm-build-pow-verifier.log",
       "tail": [
@@ -210,7 +197,7 @@
         "\u2022 done",
         "",
         "\u2022 Building contract",
-        " \u2502     Finished `release` profile [optimized] target(s) in 0.07s",
+        " \u2502     Finished `release` profile [optimized] target(s) in 0.12s",
         "",
         "Modification timestamps of:",
         " |    \"bridge/near/target/wasm32-unknown-unknown/release/pow_verifier.wasm\" = SystemTime { tv_sec: 1794246496, tv_nsec: 592432463 }",
@@ -233,7 +220,7 @@
       "kind": "required",
       "cmd": "cargo build --release -q",
       "rc": 0,
-      "seconds": 4.6,
+      "seconds": 0.5,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/build-release.log",
       "tail": []
@@ -243,7 +230,7 @@
       "kind": "required",
       "cmd": "./target/release/zpu-cli selftest",
       "rc": 0,
-      "seconds": 0.3,
+      "seconds": 0.5,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/vectors-rust.log",
       "tail": [
@@ -265,14 +252,14 @@
       "kind": "required",
       "cmd": "cargo test --release -q -p zfx-verify --test consensus_v2",
       "rc": 0,
-      "seconds": 15.6,
+      "seconds": 24.3,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/vectors-consensus-v2.log",
       "tail": [
         "",
         "running 5 tests",
         ".....",
-        "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 15.53s",
+        "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 24.12s",
         ""
       ]
     },
@@ -281,7 +268,7 @@
       "kind": "required",
       "cmd": "make -C miner/cuda cpu -s",
       "rc": 0,
-      "seconds": 0.0,
+      "seconds": 0.1,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/cpp-build.log",
       "tail": []
@@ -291,7 +278,7 @@
       "kind": "required",
       "cmd": "./miner/cuda/build/zpu-miner selftest tests/vectors/fp8c_v0.1.json",
       "rc": 0,
-      "seconds": 0.0,
+      "seconds": 0.2,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/vectors-cpp.log",
       "tail": [
@@ -313,7 +300,7 @@
       "kind": "required",
       "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend numpy",
       "rc": 0,
-      "seconds": 0.5,
+      "seconds": 1.3,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/vectors-python-numpy.log",
       "tail": [
@@ -335,11 +322,11 @@
       "kind": "required",
       "cmd": ".venv/bin/python miner/python/zpu_miner.py stress --backend numpy",
       "rc": 0,
-      "seconds": 4.6,
+      "seconds": 6.7,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/stress-python-numpy.log",
       "tail": [
-        "{\"backend\": \"numpy-f32blas\", \"rows\": 512, \"k\": 4096, \"n\": 4096, \"max_abs_ref\": 1048576, \"mismatches\": 0, \"elapsed_s\": 0.12175893783569336, \"verdict\": \"PASS\"}"
+        "{\"backend\": \"numpy-f32blas\", \"rows\": 512, \"k\": 4096, \"n\": 4096, \"max_abs_ref\": 1048576, \"mismatches\": 0, \"elapsed_s\": 0.04937005043029785, \"verdict\": \"PASS\"}"
       ]
     },
     {
@@ -347,7 +334,7 @@
       "kind": "external",
       "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend mlx",
       "rc": 0,
-      "seconds": 0.8,
+      "seconds": 1.4,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/vectors-mlx-metal.log",
       "tail": [
@@ -369,7 +356,7 @@
       "kind": "external",
       "cmd": ".venv/bin/python miner/python/zpu_miner.py selftest tests/vectors/fp8c_v0.1.json --backend torch --device mps",
       "rc": 0,
-      "seconds": 1.5,
+      "seconds": 5.4,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/vectors-torch-mps.log",
       "tail": [
@@ -391,7 +378,7 @@
       "kind": "external",
       "cmd": "CLANG='.venv/bin/python -m ziglang clang' bench/compile/device_check.sh",
       "rc": 0,
-      "seconds": 8.4,
+      "seconds": 14.3,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/gpu-device-compile.log",
       "tail": [
@@ -402,20 +389,18 @@
       "name": "python-lint",
       "kind": "required",
       "cmd": "uvx pyflakes tests/e2e deploy/localnet.py testnet/zfxnet.py scripts bridge/intents/zfx_intents miner/python bench/gpu",
-      "rc": 1,
-      "seconds": 0.4,
-      "result": "FAIL",
+      "rc": 0,
+      "seconds": 0.6,
+      "result": "PASS",
       "log": "bench/results/gates/logs/check/python-lint.log",
-      "tail": [
-        "scripts/acceptance.py:152:10: f-string is missing placeholders"
-      ]
+      "tail": []
     },
     {
       "name": "explorer-typecheck",
       "kind": "required",
       "cmd": "cd explorer && npx --no-install tsc -p . --noEmit",
       "rc": 0,
-      "seconds": 0.7,
+      "seconds": 1.8,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/explorer-typecheck.log",
       "tail": []
@@ -425,27 +410,24 @@
       "kind": "required",
       "cmd": "cargo test --release -q -p zfx-bridge --test nep413_conformance",
       "rc": 0,
-      "seconds": 14.0,
+      "seconds": 0.8,
       "result": "PASS",
       "log": "bench/results/gates/logs/check/intents-nep413-conformance.log",
       "tail": [
         "",
         "running 1 test",
         ".",
-        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
         ""
       ]
     }
   ],
-  "finished": "2026-11-09T18:11:19Z",
+  "finished": "2026-11-09T18:31:06Z",
   "counts": {
-    "PASS": 19,
-    "FAIL": 2,
+    "PASS": 21,
+    "FAIL": 0,
     "BLOCKED": 0
   },
-  "result": "FAIL",
-  "failed": [
-    "rustfmt",
-    "python-lint"
-  ]
+  "result": "PASS",
+  "failed": []
 }

@@ -17,12 +17,25 @@ The consensus function is defined on integers in {±1..±16}, with every accumul
 
 ## Measured (2026-11-09)
 
-| GPU | path | attempts/s | µJ/attempt | exact |
+Rerun 2 (`bench/results/gpu_rerun_2026-11-09_r2/`, ephemeral Cloud sandboxes, ledger `bench/results/gpu_ledger.json`). Every GEMM path passed the 278-check selftest and the 2^20 accumulator stress; every benchmark re-checked sample digests against the CPU reference.
+
+| GPU | path | attempts/s | TMAC/s | launch overhead | board power | exact |
+|---|---|---|---|---|---|---|
+| H100 80GB HBM3 | `blas-int8` | 8,078,510 | 417 | 0.11 s | ~690 W | PASS |
+| H100 | `lt-fp8` (E4M3) | 7,379,190 | 381 | 0.43 s | ~690 W | PASS |
+| MI355X | `blas-int8` | 13,124,061 | 678 | 0.13 s | ~1,230 W | PASS |
+| MI355X | `lt-fp8` (E4M3) | 13,102,900 | 677 | 1.25 s | ~1,200 W | PASS |
+
+Real mining on the production v0.1 profile (`bench/gpu/box_mine.sh`): GPU miner -> `zpu-cli` -> CPU-only node, 120 s, then a second CPU-only node syncs and re-validates the chain from scratch.
+
+| GPU | effective mining rate | blocks accepted | rejected | independent re-sync |
 |---|---|---|---|---|
-| H100 80GB HBM3 | `blas-int8` | 8,079,420 | 85.9 | PASS |
-| H100 | `lt-fp8` | 7,388,540 | 93.5 | PASS |
-| MI355X | `lt-fp8` | 13,084,500 | 91.4 | PASS |
-| MI355X | `blas-int8` | 13,052,673 | 94.6 | PASS |
+| H100 | 7.56 M attempts/s | 42 | 0 | same tip (height 42) |
+| MI355X | 12.39 M attempts/s | 57 | 0 | same tip (height 57) |
+
+Rerun 1 found that `zpu-cli` handed GPU miners 2,000-attempt jobs, capping real mining at 29k attempts/s; adaptive job sizing (`--job-secs`, default 0.5 s) fixed it. The earlier H100/MI355X measurements in `bench/results/gpu_summary.json` agree within 1%.
+
+Not measured on hardware (no device reachable): B200/B300 (sm_100), RTX 50 / RTX PRO 6000 (sm_120), MI300X (gfx942, E4M3FNUZ). Device code for all of them compiles in `make check` (`gpu-device-compile`).
 
 ROCm from pip (`_rocm_sdk_devel`, e.g. the `rocm/vllm` images) keeps rocBLAS/hipBLASLt code objects in `_rocm_sdk_libraries/lib/{rocblas,hipblaslt}/library`. Point `ROCBLAS_TENSILE_LIBPATH` / `HIPBLASLT_TENSILE_LIBPATH` there (`bench/gpu/box_run.sh` does it automatically), or hipBLAS/hipBLASLt fail with "Could not initialize Tensile host" / "hipModuleLoad failed".
 

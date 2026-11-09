@@ -133,3 +133,39 @@ See RELEASE_READINESS.md for owners. In short: B200, B300, RTX and MI300X not ye
 ## Sign-off
 
 Selected and implemented by the ZeroFlux build agent, 2026-11-09, for the private testnet only. A production decision needs the Gate 3 to 6 reviews in RELEASE_READINESS.md.
+
+## Track B experiments (2026-11-09)
+
+Raw results are in `bench/results/`. Each experiment names its winner and what lost.
+
+### Difficulty rule under timestamp manipulation (`fork_resilience.json`)
+
+4,000-block simulations, 60 s target, mean block time over the second half:
+
+| scenario | classic LWMA-1 (previous-block solvetime) | RunningMax (selected, consensus v2) |
+|---|---|---|
+| steady | 60.6 s | 60.6 s |
+| hashrate x10 jump | 60.6 s | 60.6 s (recovers in 51 blocks) |
+| hashrate x0.1 drop | 60.5 s | 60.5 s |
+| 30% attacker, minimal timestamps | **24.4 s** | 61.0 s |
+| 30% attacker, max-future timestamps | 43.1 s | 60.3 s |
+
+Winner: RunningMax (`t_i - max(t_0..t_{i-1})`). Classic LWMA-1 lost: a 30% miner could more than double block production. This was found by the experiment, not assumed.
+
+### Monetary schedule (`tokenomics.json`)
+
+Four consensus-parameterized families were modeled over 20 years: A constant 50 ZFX (uncapped), B halving every 2 years with a 0.5 ZFX tail, C Bitcoin-like 4-year halving with a hard cap, D smooth daily decay (half-life about 4 years) with a 0.5 ZFX tail. Recommendation: **D**, because miner revenue has no step changes for the LWMA to absorb and the tail keeps a security budget once fees are small. C is the main alternative if a hard cap is a product requirement. This is an owner decision; the node refuses `network: "mainnet"` until one is chosen.
+
+### Miner workload sizing (`workload_cpu.json`)
+
+GPU batch 32,768 (measured +14% on H100 and +40% on MI355X over 8,192); one CPU thread per core; minimum supported GPU memory about 0.7 GB. On real v0.1 mining, `zpu-cli` jobs sized to 0.5 s of backend work reach 94% (H100) and 94% (MI355X) of the raw benchmark rate; fixed 2,000-attempt jobs reached 0.4%.
+
+### Trust-minimized bridge feasibility (`onchain_pow_gas.json`, `stark_prototype.json`)
+
+| approach | result |
+|---|---|
+| NEAR contract re-executes ZeroFlux PoW (compiled from the consensus sources) | dev profile: 71.8 Tgas, digest matches the golden vector. v0.1 profile: does not fit in 300 Tgas; modeled at about 2,080 Tgas for one attempt before weight generation. Infeasible. |
+| STARK of the PoW (Winterfell, f128, Blake3, >= 95-bit conjectured security), GEMV core only | 16 x 4096 MACs: prove 0.27 s, 68.6 KB proof, verify 0.9 ms, tampered output rejected. Prover cost about 3.4 to 4.2 µs per MAC, so the MAC core alone of one v0.1 attempt models at 175 s or more; SHAKE generation, S-box lookups and SHA-256 are excluded and dominate. |
+| 2-of-3 committee (selected for v1) | works today, tested end to end; trust assumption stated everywhere |
+
+Winner for v1: the committee. A proof-verified bridge needs a full PoW circuit, a NEAR verifier gas measurement, and external review first.

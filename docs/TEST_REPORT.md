@@ -1,6 +1,45 @@
 # Test report
 
-Date: 2026-11-09. Host: Apple M5 Pro, macOS 26.6 (Darwin 25.6, arm64), Rust 1.99.1, Apple clang 21, Python 3.12.15, NumPy 2.5.4, PyTorch 2.15.0 (MPS), MLX 0.32.4, Node 24.22, TypeScript 5.x, zig 0.17.1 (bundled clang 22.1.8, compile checks only).
+Date: 2026-11-09. Host: Apple M5 Pro, macOS 26.6 (arm64), Rust 1.99.1, Apple clang 21, Python 3.12, NumPy 2.5, PyTorch 2.15 (MPS), MLX 0.32, cargo-near 0.23, NEAR sandbox (nearcore, protocol 88). GPU hosts: ephemeral Cloud sandboxes with H100 80GB (CUDA 12.8) and MI355X (ROCm 10.0).
+
+The authoritative, regenerated matrix is `ACCEPTANCE_REPORT.md` (per step: command, result, seconds; full logs under `bench/results/gates/logs/`). This page summarizes it.
+
+## Commands
+
+```
+make check            make e2e-native      make e2e-bridge      make e2e-intents
+make security-test    make gpu-test        make testnet-smoke   make acceptance
+ZFX_GPU_RUNNER make gpu-test      # rents ephemeral H100 + MI355X sandboxes
+```
+
+## Results (commit 401790e and later)
+
+| target | result | content |
+|---|---|---|
+| `make check` | PASS 21/21 | rustfmt, clippy `-D warnings` (2 workspaces), 78 unit tests, 3 WASM builds, golden vectors in Rust, C++, NumPy, MLX (Metal), PyTorch MPS, GPU device compile (5 targets), pyflakes, explorer typecheck, NEP-413 conformance |
+| `make e2e-native` | PASS 2/2 | 18/18 network checks at 1,033 blocks on 3 nodes (dev PoW profile); contract API 48/48 cases against a live node |
+| `make e2e-bridge` | PASS 3/3 | 10/10 (100 two-way transfers under fault injection, exact reconciliation, per-user conservation); reorg 3/3; governance and recovery 8/8 |
+| `make e2e-intents` | PASS 1/1 | 11/11 on the official Verifier defuse/v0.4.2 |
+| `make security-test` | PASS 10/10 | fuzzing (8 parsers, 20,000 inputs each, 0 panics), crash/corruption/backup, adversarial consensus, contract negatives, ASan+UBSan miner, attack experiments, `cargo audit` x2, SBOM + license gate + reproducible build (identical hashes from two clean builds) |
+| `make gpu-test` | PASS 5, BLOCKED 3 | device compile and Apple GPU (MLX, MPS) selftest + stress pass; local NVIDIA/AMD absent; remote rerun opt-in (run separately, below) |
+| `make testnet-smoke` | BLOCKED 1 | `NEAR_TESTNET_ACCOUNT` not set (see ACCEPTANCE_REPORT Gate 6) |
+
+GPU rerun 2 (`bench/results/gpu_rerun_2026-11-09_r2/`): H100 34/34 and MI355X 34/34 steps PASS, covering selftest and 2^20 stress for every GEMM path (int8, FP8, portable), PyTorch backends, Rust tests on x86-64, and real v0.1 mining: 42 (H100) and 57 (MI355X) GPU-mined blocks accepted by a CPU node and re-validated by an independent CPU node. Numbers: `docs/HARDWARE.md`.
+
+## Defects found by these tests and fixed
+
+| defect | found by | fix |
+|---|---|---|
+| `zfx_node_get_block {"hash": "00..00"}` returned the genesis block (all-digit hash parsed as a height) | contract API negative case | 64-char keys are always hashes |
+| GPU mining capped at 29k attempts/s (2,000-attempt jobs) | GPU rerun 1 block submissions (0 blocks) | adaptive job sizing in `zpu-cli` |
+| relayer could sign a second, different payout for an id after a restart | runbook review | persistent anti-equivocation guard, unit-tested |
+| a halted coordinator had no supported resume path | runbook review | `--resume-after-incident`, refuses unless books are clean (e2e tested both ways) |
+| a replayed duplicate mint injected by the chaos thread would only have been logged | lint (unused variable) | Gate 4 check now fails on it and counts completed round trips |
+| relayer/contract digest equality was only implied by e2e | doc review | shared golden vectors in both crates |
+| `zfx-node --help`, `zpu-cli mine --help` started processes | manual use | usage on `--help` for all CLIs |
+| unmaintained `wee_alloc` in the wZFX WASM | `cargo audit` | near-sdk default features off; bridge e2e rerun on the new WASM |
+
+## Appendix: v0.1 detail (earlier run)
 
 Outcome vocabulary: PASS, FAIL, UNSUPPORTED (hardware not present), BLOCKED (cannot run here, with the reason).
 

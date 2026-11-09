@@ -159,7 +159,9 @@ def tail(path, n=25):
 def run_target(target):
     os.makedirs(os.path.join(OUTDIR, "logs", target), exist_ok=True)
     commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
-    dirty = bool(subprocess.run(["git", "status", "--porcelain", "--untracked-files=no"], cwd=ROOT, capture_output=True, text=True).stdout.strip())
+    # Source changes only: the suites themselves rewrite tracked evidence files.
+    dirty = bool(subprocess.run(["git", "status", "--porcelain", "--untracked-files=no", "--", ".", ":!bench/results", ":!schemas/fixtures",
+                                 ":!ACCEPTANCE_REPORT.json", ":!ACCEPTANCE_REPORT.md"], cwd=ROOT, capture_output=True, text=True).stdout.strip())
     rep = {"target": target, "commit": commit, "dirty_tree": dirty, "started": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "host": os.uname().machine,
            "steps": []}
     require_ext = os.environ.get("ZFX_REQUIRE_EXTERNAL") == "1"
