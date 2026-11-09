@@ -178,3 +178,31 @@ fn long_sync_beyond_one_inventory_batch() {
     }
     assert_eq!(b.lock().chain.height(), 1200, "synced past the 500-hash inventory limit");
 }
+
+#[test]
+fn backup_and_restore_reproduce_state() {
+    // Backup = copy of a cleanly shut down data dir (block log + snapshot).
+    let d = tmpdir("backup");
+    let (best, root) = {
+        let node = Node::new(cfg(), Some(&d), None, 0).unwrap();
+        mine_on(&node, 9);
+        node.clean_shutdown();
+        let g = node.lock();
+        (*g.chain.best.last().unwrap(), g.chain.tip().block.header.state_root)
+    };
+    let r = tmpdir("restore");
+    std::fs::create_dir_all(&r).unwrap();
+    for f in ["blocks.zfxlog", "chain.json"] {
+        std::fs::copy(std::path::Path::new(&d).join(f), std::path::Path::new(&r).join(f)).unwrap();
+    }
+    std::fs::create_dir_all(format!("{}/snapshots", r)).unwrap();
+    std::fs::copy(format!("{}/snapshots/latest.json", d), format!("{}/snapshots/latest.json", r)).unwrap();
+    let node = Node::new(cfg(), Some(&r), None, 0).unwrap();
+    let g = node.lock();
+    assert_eq!(*g.chain.best.last().unwrap(), best);
+    assert_eq!(g.chain.tip().block.header.state_root, root);
+    drop(g);
+    assert_eq!(node.snapshot_verify(&format!("{}/snapshots/latest.json", r)).unwrap()["ok"], true);
+    std::fs::remove_dir_all(&d).ok();
+    std::fs::remove_dir_all(&r).ok();
+}
