@@ -113,7 +113,9 @@ pub fn rpc(node: &Node, ip: Option<std::net::IpAddr>, auth: Option<&str>, req: &
             }
             "zfx_node_get_status" => Ok(node.status()),
             "zfx_node_get_block" => {
-                let key = param(&p, "hash").and_then(|v| v.as_str().map(String::from)).or_else(|| param(&p, "height").and_then(|v| v.as_u64()).map(|h| h.to_string()));
+                let key = param(&p, "hash")
+                    .and_then(|v| v.as_str().map(String::from))
+                    .or_else(|| param(&p, "height").and_then(|v| v.as_u64()).map(|h| h.to_string()));
                 let key = key.ok_or_else(|| bad("need `hash` or `height`".into()))?;
                 node.block_json(&key).ok_or((codes::NOT_FOUND, "block not found".into()))
             }
@@ -141,7 +143,9 @@ pub fn rpc(node: &Node, ip: Option<std::net::IpAddr>, auth: Option<&str>, req: &
                 }
                 let txid = tx.txid();
                 match node.submit_tx(tx, None) {
-                    Ok(id) => Ok(json!({"txid": hex::encode(id), "deposit_id": if method == "zfx_bridge_lock" { json!(hex::encode(id)) } else { Value::Null }})),
+                    Ok(id) => {
+                        Ok(json!({"txid": hex::encode(id), "deposit_id": if method == "zfx_bridge_lock" { json!(hex::encode(id)) } else { Value::Null }}))
+                    }
                     // Idempotent resubmission of an identical tx.
                     Err(e) if e.contains("already in mempool") => Ok(json!({"txid": hex::encode(txid), "duplicate": true})),
                     Err(e) => Err((if method == "zfx_bridge_lock" { codes::BRIDGE_REJECTED } else { codes::TX_REJECTED }, e)),
@@ -153,7 +157,9 @@ pub fn rpc(node: &Node, ip: Option<std::net::IpAddr>, auth: Option<&str>, req: &
             }
             "zfx_submit_mining_result" => {
                 let wid = param(&p, "work_id").and_then(|v| v.as_str()).ok_or_else(|| bad("need `work_id`".into()))?;
-                let nonce = param(&p, "nonce").and_then(|v| v.as_u64().or_else(|| v.as_str().and_then(|s| s.parse().ok()))).ok_or_else(|| bad("need `nonce` (u64)".into()))?;
+                let nonce = param(&p, "nonce")
+                    .and_then(|v| v.as_u64().or_else(|| v.as_str().and_then(|s| s.parse().ok())))
+                    .ok_or_else(|| bad("need `nonce` (u64)".into()))?;
                 let r = node.submit_work(ip, wid, nonce);
                 if r["accepted"] == true {
                     Ok(r)
@@ -215,11 +221,7 @@ fn handle(node: &Node, explorer: &Option<String>, mut req: Request) {
     let path = url.split('?').next().unwrap_or("").to_string();
     let method = req.method().clone();
     let ip = req.remote_addr().map(|a| a.ip());
-    let auth = req
-        .headers()
-        .iter()
-        .find(|h| h.field.equiv("Authorization"))
-        .and_then(|h| h.value.as_str().strip_prefix("Bearer ").map(String::from));
+    let auth = req.headers().iter().find(|h| h.field.equiv("Authorization")).and_then(|h| h.value.as_str().strip_prefix("Bearer ").map(String::from));
     let mut body = String::new();
     if method == Method::Post && (req.as_reader().take(MAX_BODY + 1).read_to_string(&mut body).is_err() || body.len() as u64 > MAX_BODY) {
         return json_reply(req, 413, json!({"error": "body too large"}));
@@ -303,7 +305,8 @@ fn handle(node: &Node, explorer: &Option<String>, mut req: Request) {
         },
         (Method::Get, ["v1", "mempool"]) => {
             let g = node.lock();
-            let v: Vec<Value> = g.mempool.ordered().iter().map(|t| json!({"txid": hex::encode(t.txid()), "nonce": t.nonce, "amount": t.amount, "fee": t.fee})).collect();
+            let v: Vec<Value> =
+                g.mempool.ordered().iter().map(|t| json!({"txid": hex::encode(t.txid()), "nonce": t.nonce, "amount": t.amount, "fee": t.fee})).collect();
             drop(g);
             json_reply(req, 200, json!(v))
         }

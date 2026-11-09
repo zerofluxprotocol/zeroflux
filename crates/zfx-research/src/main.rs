@@ -21,9 +21,17 @@ use zfx_verify::pow::{self, Weights, FP8C_V01, FP8C_V01_DEV};
 use zfx_verify::U256;
 
 fn host() -> Value {
-    let cpu = std::process::Command::new("sysctl").args(["-n", "machdep.cpu.brand_string"]).output().ok()
-        .and_then(|o| String::from_utf8(o.stdout).ok()).map(|s| s.trim().to_string())
-        .or_else(|| std::fs::read_to_string("/proc/cpuinfo").ok().and_then(|c| c.lines().find(|l| l.starts_with("model name")).map(|l| l.split(':').nth(1).unwrap_or("").trim().to_string())))
+    let cpu = std::process::Command::new("sysctl")
+        .args(["-n", "machdep.cpu.brand_string"])
+        .output()
+        .ok()
+        .and_then(|o| String::from_utf8(o.stdout).ok())
+        .map(|s| s.trim().to_string())
+        .or_else(|| {
+            std::fs::read_to_string("/proc/cpuinfo")
+                .ok()
+                .and_then(|c| c.lines().find(|l| l.starts_with("model name")).map(|l| l.split(':').nth(1).unwrap_or("").trim().to_string()))
+        })
         .unwrap_or_else(|| "unknown".into());
     json!({
         "cpu": cpu,
@@ -61,11 +69,14 @@ fn divergence(n: usize) -> Value {
         for acc in ALL_ACCUMS {
             let c = if acc == Accum::Canonical { canon.clone() } else { gemm_model(a, b, n, sc, acc) };
             let mism = c.iter().zip(&canon).filter(|(x, y)| x.to_bits() != y.to_bits()).count();
-            res.insert(accum_name(acc), json!({
-                "mismatched_elements": mism,
-                "mismatch_fraction": mism as f64 / (n * n) as f64,
-                "digest_matches_canonical": digest_f32(b"div", &at, &c) == cd,
-            }));
+            res.insert(
+                accum_name(acc),
+                json!({
+                    "mismatched_elements": mism,
+                    "mismatch_fraction": mism as f64 / (n * n) as f64,
+                    "digest_matches_canonical": digest_f32(b"div", &at, &c) == cd,
+                }),
+            );
         }
         out.insert(name.into(), Value::Object(res));
     }
@@ -109,18 +120,38 @@ fn throughput(quick: bool) -> Value {
         let (w, t_w1) = timeit(|| Weights::generate(&p, &seed));
         let (_, t_wn) = timeit(|| Weights::generate_par(&p, &seed, threads));
         let ch = [0x10u8; 32];
-        let n1 = if p.hidden > 1024 { if quick { 20 } else { 100 } } else { 2000 };
-        let (_, t1) = timeit(|| for i in 0..n1 { std::hint::black_box(pow::attempt(&w, &ch, i)); });
+        let n1 = if p.hidden > 1024 {
+            if quick {
+                20
+            } else {
+                100
+            }
+        } else {
+            2000
+        };
+        let (_, t1) = timeit(|| {
+            for i in 0..n1 {
+                std::hint::black_box(pow::attempt(&w, &ch, i));
+            }
+        });
         let nn = n1 * threads as u64;
         let (_, tn) = timeit(|| {
             std::thread::scope(|s| {
                 for t in 0..threads as u64 {
                     let w = &w;
-                    s.spawn(move || for i in 0..n1 { std::hint::black_box(pow::attempt(w, &ch, t * n1 + i)); });
+                    s.spawn(move || {
+                        for i in 0..n1 {
+                            std::hint::black_box(pow::attempt(w, &ch, t * n1 + i));
+                        }
+                    });
                 }
             })
         });
-        let (_, t_x0) = timeit(|| for i in 0..10_000u64 { std::hint::black_box(pow::x0(&pow::attempt_id(&ch, i), p.d_in)); });
+        let (_, t_x0) = timeit(|| {
+            for i in 0..10_000u64 {
+                std::hint::black_box(pow::x0(&pow::attempt_id(&ch, i), p.d_in));
+            }
+        });
         rows.push(json!({"candidate": "E", "profile": p.name, "macs": p.macs_per_attempt(),
             "weight_bytes": p.weight_elems(), "weight_gen_1thread_s": t_w1, "weight_gen_all_threads_s": t_wn,
             "verify_latency_s": t1 / n1 as f64, "attempts_per_s_1thread": n1 as f64 / t1,
@@ -137,7 +168,7 @@ fn transcript_exp(quick: bool) -> Value {
     let p = CParams { n: 256, tile: 32, kchunk: 32, samples: 4 };
     let ch = [0x44u8; 32];
     let target = U256::MAX.shr(3); // p = 1/8
-    // honest C1
+                                   // honest C1
     let (mut proof, mut tries) = (None, 0);
     let (_, t_honest) = timeit(|| {
         for nonce in 0..256 {
@@ -170,7 +201,9 @@ fn transcript_exp(quick: bool) -> Value {
         for x in 0..nt * nt {
             let l = tile_leaf(&p, &a, &bt, x / nt, x % nt);
             let t = c2_ticket(&ch, 7, x / nt, x % nt, &l);
-            if t < best.2 { best = (x / nt, x % nt, t); }
+            if t < best.2 {
+                best = (x / nt, x % nt, t);
+            }
         }
         let tgt = U256::from_be_bytes(&best.2).checked_add(&U256::from_u64(1)).unwrap();
         c2_verify(&p, &ch, &tgt, 7, best.0, best.1)
@@ -216,7 +249,11 @@ fn pq_exp() -> Value {
         let keys = P2mrKeys { keys: vec![k] };
         let tx = keys.sign_tx(1, [7; 32], 1, 1, 0, 0).unwrap();
         let reps = 50;
-        let (_, t_ver) = timeit(|| for _ in 0..reps { tx.verify_authorization().unwrap(); });
+        let (_, t_ver) = timeit(|| {
+            for _ in 0..reps {
+                tx.verify_authorization().unwrap();
+            }
+        });
         rows.push(json!({"scheme": scheme_name(scheme), "nist_category": if scheme == 1 { 1 } else { 3 },
             "pubkey_bytes": keys.keys[0].leaf().pubkey.len(), "signature_bytes": sigs[0].len(), "tx_bytes": tx.encoded_len(),
             "keygen_s": t_kg, "sign_s": t_sign / n as f64, "verify_tx_s": t_ver / reps as f64,

@@ -163,7 +163,10 @@ fn transactions_double_spend_and_reorg_return() {
     assert_eq!(w["txs"], 1);
     let wid = w["work_id"].as_str().unwrap().to_string();
     let block = node.lock().works[&wid].clone();
-    let mined = { let mut g = node.lock(); mine(block, &mut g.chain) };
+    let mined = {
+        let mut g = node.lock();
+        mine(block, &mut g.chain)
+    };
     let r = node.submit_work(None, &wid, mined.header.nonce);
     assert_eq!(r["accepted"], true, "{}", r);
     {
@@ -173,18 +176,30 @@ fn transactions_double_spend_and_reorg_return() {
         assert!(g.mempool.txs.is_empty());
     }
     // Block containing the conflicting spend on top is state-invalid.
-    let mut dbl = { let g = node.lock(); g.chain.template([9u8; 32], &[], now_secs()) };
+    let mut dbl = {
+        let g = node.lock();
+        g.chain.template([9u8; 32], &[], now_secs())
+    };
     dbl.txs = vec![t1b.clone()];
     dbl.coinbase.amount += 10;
     dbl.header.tx_root = dbl.compute_tx_root();
     // state_root left as the empty-template root: the block is rejected at connect
-    let dbl = { let mut g = node.lock(); mine(dbl, &mut g.chain) };
+    let dbl = {
+        let mut g = node.lock();
+        mine(dbl, &mut g.chain)
+    };
     node.process_block(dbl, None).unwrap();
     assert_eq!(node.lock().chain.height(), 1, "double-spend block rejected at connect");
     // Stale work: tip changed after this get_work.
     let w_old = node.get_work(None).unwrap();
-    let g_b = { let g = node.lock(); g.chain.template([9u8; 32], &[], now_secs()) };
-    let g_b = { let mut g = node.lock(); mine(g_b, &mut g.chain) };
+    let g_b = {
+        let g = node.lock();
+        g.chain.template([9u8; 32], &[], now_secs())
+    };
+    let g_b = {
+        let mut g = node.lock();
+        mine(g_b, &mut g.chain)
+    };
     node.process_block(g_b, None).unwrap();
     let r = node.submit_work(None, w_old["work_id"].as_str().unwrap(), 0);
     assert!(r["error"].as_str().unwrap().contains("stale"), "{}", r);
@@ -192,8 +207,14 @@ fn transactions_double_spend_and_reorg_return() {
     let genesis = node.lock().chain.genesis_hash;
     let mut p = genesis;
     for i in 0..3 {
-        let b = { let g = node.lock(); template_on(&g.chain, p, [5u8; 32], now_secs() - 900 + i) };
-        let b = { let mut g = node.lock(); mine(b, &mut g.chain) };
+        let b = {
+            let g = node.lock();
+            template_on(&g.chain, p, [5u8; 32], now_secs() - 900 + i)
+        };
+        let b = {
+            let mut g = node.lock();
+            mine(b, &mut g.chain)
+        };
         p = b.hash();
         node.process_block(b, None).unwrap();
     }
@@ -211,8 +232,14 @@ fn restart_recovery_from_disk() {
     let best = {
         let node = Node::new(c.clone(), Some(&d), Some([4u8; 32]), 0).unwrap();
         for i in 0..6 {
-            let b = { let g = node.lock(); g.chain.template([4u8; 32], &[], now_secs() - 500 + i) };
-            let b = { let mut g = node.lock(); mine(b, &mut g.chain) };
+            let b = {
+                let g = node.lock();
+                g.chain.template([4u8; 32], &[], now_secs() - 500 + i)
+            };
+            let b = {
+                let mut g = node.lock();
+                mine(b, &mut g.chain)
+            };
             node.process_block(b, None).unwrap();
         }
         let g = node.lock();

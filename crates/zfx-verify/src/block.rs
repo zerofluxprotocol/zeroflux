@@ -1,8 +1,8 @@
 //! Blocks and the transaction commitment.
 
+use crate::bridge::{encode_op, op_id, BridgeOp, MAX_BRIDGE_OPS_PER_BLOCK};
 use crate::hash::{sha256, Hash32};
 use crate::header::BlockHeader;
-use crate::bridge::{encode_op, op_id, BridgeOp, MAX_BRIDGE_OPS_PER_BLOCK};
 use crate::tx::{Coinbase, Transaction};
 use serde::{Deserialize, Serialize};
 
@@ -51,7 +51,12 @@ impl Block {
     }
 
     pub fn encoded_size(&self) -> usize {
-        crate::header::HEADER_LEN + 48 + 4 + self.txs.iter().map(|t| t.encoded_len()).sum::<usize>() + 4 + self.bridge_ops.iter().map(|o| encode_op(o).len()).sum::<usize>()
+        crate::header::HEADER_LEN
+            + 48
+            + 4
+            + self.txs.iter().map(|t| t.encoded_len()).sum::<usize>()
+            + 4
+            + self.bridge_ops.iter().map(|o| encode_op(o).len()).sum::<usize>()
     }
 
     pub fn hash(&self) -> Hash32 {

@@ -97,7 +97,10 @@ impl Relayer {
             return Err("amount mismatch".into());
         }
         let header = BlockHeader::decode(&hex::decode(inc["header_hex"].as_str().unwrap_or("")).map_err(|e| e.to_string())?)?;
-        if header.chain_id != self.cfg.native_chain_id || header.height.to_string() != a.native_height || header.height != st["height"].as_u64().unwrap_or(u64::MAX) {
+        if header.chain_id != self.cfg.native_chain_id
+            || header.height.to_string() != a.native_height
+            || header.height != st["height"].as_u64().unwrap_or(u64::MAX)
+        {
             return Err("header chain/height mismatch".into());
         }
         let leaf = tx.wtxid();
@@ -108,7 +111,9 @@ impl Relayer {
             .as_array()
             .ok_or("no proof")?
             .iter()
-            .map(|p| (hex::decode(p["hash"].as_str().unwrap_or("")).ok().and_then(|v| v.try_into().ok()).unwrap_or([0; 32]), p["right"].as_bool().unwrap_or(false)))
+            .map(|p| {
+                (hex::decode(p["hash"].as_str().unwrap_or("")).ok().and_then(|v| v.try_into().ok()).unwrap_or([0; 32]), p["right"].as_bool().unwrap_or(false))
+            })
             .collect();
         if !verify_merkle_proof(&header.tx_root, inc["leaf_count"].as_u64().unwrap_or(0) as u32, &leaf, &proof) {
             return Err("Merkle inclusion proof does not verify against the header tx_root".into());
@@ -224,7 +229,9 @@ pub fn serve(r: Arc<Relayer>) -> Result<(), String> {
                         Ok(json!({"refuse": v["refuse"] == true}))
                     }
                     _ if refuse => Err("relayer refusing (test hook)".into()),
-                    (Method::Post, "/attest/mint") => serde_json::from_value::<MintAttestation>(v.clone()).map_err(|e| e.to_string()).and_then(|a| r.attest_mint(&a)),
+                    (Method::Post, "/attest/mint") => {
+                        serde_json::from_value::<MintAttestation>(v.clone()).map_err(|e| e.to_string()).and_then(|a| r.attest_mint(&a))
+                    }
                     (Method::Post, "/attest/release") => {
                         let nonce = v["burn_nonce"].as_u64().unwrap_or(u64::MAX);
                         serde_json::from_value::<Release>(v["release"].clone()).map_err(|e| e.to_string()).and_then(|rel| r.attest_release(&rel, nonce))

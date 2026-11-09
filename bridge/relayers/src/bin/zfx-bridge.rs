@@ -30,7 +30,11 @@ fn signer(args: &[String]) -> NearSigner {
 }
 fn new_key_file(account: &str, path: &str) -> ed25519_dalek::SigningKey {
     let k = ed25519_dalek::SigningKey::generate(&mut rand::rngs::OsRng);
-    zfx_bridge::keys::write_secret(path, &json!({"account_id": account, "public_key": public_key_string(&k), "private_key": secret_key_string(&k)}).to_string()).unwrap();
+    zfx_bridge::keys::write_secret(
+        path,
+        &json!({"account_id": account, "public_key": public_key_string(&k), "private_key": secret_key_string(&k)}).to_string(),
+    )
+    .unwrap();
     k
 }
 fn print_outcome(o: &zfx_bridge::near::Outcome) {
@@ -140,8 +144,11 @@ async fn main() {
             }
             let o = near.send(&s, &contract, actions).unwrap_or_else(|e| panic!("{}", e));
             let hash = sha2::Digest::finalize(<sha2::Sha256 as sha2::Digest>::new_with_prefix(&wasm));
-            println!("{}", json!({"contract": contract, "tx_hash": o.tx_hash, "success": o.success, "failure": o.failure,
-                "wasm_sha256": hex::encode(hash), "code_hash_b58": bs58::encode(hash).into_string()}));
+            println!(
+                "{}",
+                json!({"contract": contract, "tx_hash": o.tx_hash, "success": o.success, "failure": o.failure,
+                "wasm_sha256": hex::encode(hash), "code_hash_b58": bs58::encode(hash).into_string()})
+            );
             if !o.success {
                 std::process::exit(3);
             }
@@ -162,18 +169,35 @@ async fn main() {
         Some("view") => {
             let near = NearClient::new(&need(&args, "--rpc"));
             let a: Value = serde_json::from_str(&arg(&args, "--args").unwrap_or("{}".into())).unwrap();
-            println!("{}", near.view(&need(&args, "--contract"), &need(&args, "--method"), a, &arg(&args, "--finality").unwrap_or("final".into())).unwrap_or_else(|e| panic!("{}", e)));
+            println!(
+                "{}",
+                near.view(&need(&args, "--contract"), &need(&args, "--method"), a, &arg(&args, "--finality").unwrap_or("final".into()))
+                    .unwrap_or_else(|e| panic!("{}", e))
+            );
         }
         Some("burn") => {
             let near = NearClient::new(&need(&args, "--rpc"));
             let o = near
-                .call(&signer(&args), &need(&args, "--contract"), "bridge_burn", json!({"amount": need(&args, "--amount"), "native_recipient": need(&args, "--native-recipient")}), 30, 1)
+                .call(
+                    &signer(&args),
+                    &need(&args, "--contract"),
+                    "bridge_burn",
+                    json!({"amount": need(&args, "--amount"), "native_recipient": need(&args, "--native-recipient")}),
+                    30,
+                    1,
+                )
                 .unwrap_or_else(|e| panic!("{}", e));
             print_outcome(&o);
         }
         Some("reconcile") => {
             let env: zfx_bridge::config::BridgeEnv = zfx_bridge::config::load(&need(&args, "--env")).unwrap();
-            let r = zfx_bridge::reconcile::reconcile(&zfx_bridge::zfx::ZfxClient::new(&need(&args, "--zfx")), &NearClient::new(&env.near_rpc), &env.wzfx_contract, env.native_chain_id).unwrap();
+            let r = zfx_bridge::reconcile::reconcile(
+                &zfx_bridge::zfx::ZfxClient::new(&need(&args, "--zfx")),
+                &NearClient::new(&env.near_rpc),
+                &env.wzfx_contract,
+                env.native_chain_id,
+            )
+            .unwrap();
             println!("{}", serde_json::to_string_pretty(&r).unwrap());
             if r["ok"] != true {
                 std::process::exit(4);

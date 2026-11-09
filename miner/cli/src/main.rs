@@ -180,7 +180,11 @@ impl Backend for ExecBackend {
                     found.push((n, from_hex32(v["digest"].as_str().unwrap_or("")).unwrap_or([0; 32])));
                 }
                 Some("done") => {
-                    return JobResult { found, attempts: v["attempts"].as_str().and_then(|s| s.parse().ok()).or(v["attempts"].as_u64()).unwrap_or(0), elapsed: v["elapsed_s"].as_f64().unwrap_or(0.0) }
+                    return JobResult {
+                        found,
+                        attempts: v["attempts"].as_str().and_then(|s| s.parse().ok()).or(v["attempts"].as_u64()).unwrap_or(0),
+                        elapsed: v["elapsed_s"].as_f64().unwrap_or(0.0),
+                    }
                 }
                 Some("error") => die(&format!("miner error: {}", v["message"])),
                 _ => {}
@@ -252,7 +256,13 @@ fn mine(args: &[String]) {
             challenge: from_hex32(w["challenge"].as_str().unwrap()).unwrap(),
             target: U256::from_hex(w["target"].as_str().unwrap()).unwrap(),
             start: nonce_base,
-            count: if batch > 0 { batch } else if profile.hidden > 1024 { 2000 } else { 200_000 },
+            count: if batch > 0 {
+                batch
+            } else if profile.hidden > 1024 {
+                2000
+            } else {
+                200_000
+            },
             stop_on_found: true,
         };
         // Header-binding self-check: the challenge must match the header bytes.
@@ -283,7 +293,8 @@ fn mine(args: &[String]) {
             }
         }
         for (n, _) in r.found {
-            let res: Value = agent().post(&format!("{}/v1/submit", node))
+            let res: Value = agent()
+                .post(&format!("{}/v1/submit", node))
                 .send_json(json!({"work_id": w["work_id"], "nonce": n.to_string()}))
                 .map(|r| r.into_json().unwrap_or(Value::Null))
                 .unwrap_or_else(|e| json!({"accepted": false, "error": e.to_string()}));
@@ -300,7 +311,13 @@ fn mine(args: &[String]) {
         let el = t_start.elapsed().as_secs_f64();
         eprintln!(
             "[zpu] h={} attempts={} rate={:.1}/s job_rate={:.1}/s accepted={} rejected={} gpu_errors={}",
-            w["height"], total_attempts, total_attempts as f64 / el, r.attempts as f64 / r.elapsed.max(1e-9), accepted, rejected, gpu_errors
+            w["height"],
+            total_attempts,
+            total_attempts as f64 / el,
+            r.attempts as f64 / r.elapsed.max(1e-9),
+            accepted,
+            rejected,
+            gpu_errors
         );
     }
 }

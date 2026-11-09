@@ -158,7 +158,12 @@ impl Chain {
     }
 
     pub fn diff_params(&self) -> DifficultyParams {
-        DifficultyParams { solvetime_rule: zfx_verify::difficulty::SolvetimeRule::RunningMax, target_spacing_secs: self.cfg.target_spacing_secs, pow_limit: self.cfg.pow_limit_u256(), fixed: self.cfg.fixed_difficulty }
+        DifficultyParams {
+            solvetime_rule: zfx_verify::difficulty::SolvetimeRule::RunningMax,
+            target_spacing_secs: self.cfg.target_spacing_secs,
+            pow_limit: self.cfg.pow_limit_u256(),
+            fixed: self.cfg.fixed_difficulty,
+        }
     }
 
     pub fn ancestor(&self, from: &Hash32, height: u64) -> Option<Hash32> {
@@ -337,10 +342,12 @@ impl Chain {
             }
             for (dep, amt, memo) in eff.deposits {
                 let sender = b.txs.iter().find(|t| t.txid() == dep).map(|t| zfx_verify::tx::address_to_string(&t.from)).unwrap_or_default();
-                ix.deposits.insert(dep, DepositRecord { deposit_id: hex::encode(dep), block: hex::encode(bh), height: h, amount: amt, near_recipient: memo, sender });
+                ix.deposits
+                    .insert(dep, DepositRecord { deposit_id: hex::encode(dep), block: hex::encode(bh), height: h, amount: amt, near_recipient: memo, sender });
             }
             for (op, wid, amt) in eff.releases {
-                ix.releases.insert(wid, ReleaseRecord { withdrawal_id: hex::encode(wid), op_id: hex::encode(op), block: hex::encode(bh), height: h, amount: amt });
+                ix.releases
+                    .insert(wid, ReleaseRecord { withdrawal_id: hex::encode(wid), op_id: hex::encode(op), block: hex::encode(bh), height: h, amount: amt });
             }
             ix.fees.push_back(if b.txs.is_empty() { 0 } else { eff.fees / b.txs.len() as u64 });
             if ix.fees.len() > 100 {
@@ -450,10 +457,7 @@ impl Chain {
     }
 
     pub fn hashes_after_locator(&self, loc: &[Hash32], max: usize) -> Vec<Hash32> {
-        let start = loc
-            .iter()
-            .find_map(|h| self.entries.get(h).filter(|e| self.best.get(e.height as usize) == Some(h)).map(|e| e.height))
-            .unwrap_or(0);
+        let start = loc.iter().find_map(|h| self.entries.get(h).filter(|e| self.best.get(e.height as usize) == Some(h)).map(|e| e.height)).unwrap_or(0);
         self.best.iter().skip(start as usize + 1).take(max).copied().collect()
     }
 

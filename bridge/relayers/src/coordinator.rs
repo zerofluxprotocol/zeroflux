@@ -56,7 +56,15 @@ fn post(url: &str, body: &Value, timeout_s: u64) -> Result<Value, String> {
 
 impl Coordinator {
     #[allow(clippy::too_many_arguments)]
-    pub fn new(env: BridgeEnv, zfx_url: &str, signer: NearSigner, store_path: &str, incident_dir: &str, auto_register: bool, fault_rate: f64) -> Result<Coordinator, String> {
+    pub fn new(
+        env: BridgeEnv,
+        zfx_url: &str,
+        signer: NearSigner,
+        store_path: &str,
+        incident_dir: &str,
+        auto_register: bool,
+        fault_rate: f64,
+    ) -> Result<Coordinator, String> {
         std::fs::create_dir_all(incident_dir).map_err(|e| e.to_string())?;
         Ok(Coordinator {
             near: NearClient::new(&env.near_rpc),
@@ -159,7 +167,8 @@ impl Coordinator {
                     return Ok(());
                 }
                 let ns = self.near_state()?;
-                let expiry = (std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos() as u64) + self.env.mint_validity_secs * 1_000_000_000;
+                let expiry = (std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos() as u64)
+                    + self.env.mint_validity_secs * 1_000_000_000;
                 let a = MintAttestation {
                     epoch: ns["epoch"].as_u64().unwrap_or(0) as u32,
                     deposit_id: id.clone(),
@@ -169,7 +178,8 @@ impl Coordinator {
                     expiry_ns: expiry.to_string(),
                 };
                 let (oks, errs) = self.gather("/attest/mint", serde_json::to_value(&a).unwrap());
-                let committee: Vec<String> = ns["committee"].as_array().map(|v| v.iter().filter_map(|k| k.as_str().map(String::from)).collect()).unwrap_or_default();
+                let committee: Vec<String> =
+                    ns["committee"].as_array().map(|v| v.iter().filter_map(|k| k.as_str().map(String::from)).collect()).unwrap_or_default();
                 let d = digest::mint_digest(&self.env.wzfx_contract, self.env.native_chain_id, &self.env.native_asset_id, &a);
                 let valid: Vec<Value> = oks.into_iter().filter(|ap| verify_ed25519(&committee, ap, &d)).collect();
                 let need = ns["threshold"].as_u64().unwrap_or(2) as usize;
@@ -208,7 +218,14 @@ impl Coordinator {
                         j.backoff("recipient not registered on wZFX and auto-register disabled");
                         return Ok(());
                     }
-                    let o = self.near.call(&self.signer, &self.env.wzfx_contract, "storage_deposit", json!({"account_id": a.recipient, "registration_only": true}), 30, 1_250_000_000_000_000_000_000)?;
+                    let o = self.near.call(
+                        &self.signer,
+                        &self.env.wzfx_contract,
+                        "storage_deposit",
+                        json!({"account_id": a.recipient, "registration_only": true}),
+                        30,
+                        1_250_000_000_000_000_000_000,
+                    )?;
                     if !o.success {
                         j.backoff(&format!("storage_deposit failed: {:?}", o.failure));
                         return Ok(());
@@ -265,7 +282,8 @@ impl Coordinator {
                     approvals: vec![],
                 };
                 let (oks, errs) = self.gather("/attest/release", json!({"release": r, "burn_nonce": nonce}));
-                let members: Vec<Vec<u8>> = info["members"].as_array().map(|v| v.iter().filter_map(|k| k.as_str().and_then(|h| hex::decode(h).ok())).collect()).unwrap_or_default();
+                let members: Vec<Vec<u8>> =
+                    info["members"].as_array().map(|v| v.iter().filter_map(|k| k.as_str().and_then(|h| hex::decode(h).ok())).collect()).unwrap_or_default();
                 let d = bridge::release_digest(self.env.native_chain_id, &r);
                 let mut approvals: Vec<Approval> = Vec::new();
                 for v in oks {
@@ -379,7 +397,10 @@ impl Coordinator {
     pub fn reconcile_and_guard(&self) -> Result<Value, String> {
         let rep = reconcile(&self.zfx, &self.near, &self.env.wzfx_contract, self.env.native_chain_id)?;
         *self.last_report.lock().unwrap() = rep.clone();
-        let violation = rep["invariant_ok"] != true || !rep["orphans"].as_array().map(|a| a.is_empty()).unwrap_or(true) || rep["native_custody_ok"] != true || rep["wrapped_supply_ok"] != true;
+        let violation = rep["invariant_ok"] != true
+            || !rep["orphans"].as_array().map(|a| a.is_empty()).unwrap_or(true)
+            || rep["native_custody_ok"] != true
+            || rep["wrapped_supply_ok"] != true;
         let mut bad = self.bad_reconciles.lock().unwrap();
         if !violation {
             *bad = 0;
@@ -396,7 +417,12 @@ impl Coordinator {
     pub fn halt(&self, rep: &Value) -> Result<(), String> {
         let reason = format!("reconciliation violation: {}", rep["orphans"]);
         let path = format!("{}/incident-{}.json", self.incident_dir, now_ms());
-        std::fs::write(&path, serde_json::to_string_pretty(&json!({"reason": reason, "report": rep, "action": "bridge halted; pauses requested; manual review required"})).unwrap()).map_err(|e| e.to_string())?;
+        std::fs::write(
+            &path,
+            serde_json::to_string_pretty(&json!({"reason": reason, "report": rep, "action": "bridge halted; pauses requested; manual review required"}))
+                .unwrap(),
+        )
+        .map_err(|e| e.to_string())?;
         {
             let mut s = self.store.lock().unwrap();
             s.halted = Some(reason.clone());
@@ -413,8 +439,11 @@ impl Coordinator {
         );
         if let Some(p) = oks.first() {
             let _ = self.near.call(&self.signer, &self.env.wzfx_contract, "bridge_pause", json!({"approvals": [p["near_approval"]]}), 30, 0);
-            let _ = self.zfx.call("zfx_bridge_submit_op", json!({"op": {"op": "admin", "epoch": p["native_op"]["epoch"], "op_nonce": p["native_op"]["op_nonce"],
-                "action": "pause", "approvals": p["native_op"]["approvals"]}}));
+            let _ = self.zfx.call(
+                "zfx_bridge_submit_op",
+                json!({"op": {"op": "admin", "epoch": p["native_op"]["epoch"], "op_nonce": p["native_op"]["op_nonce"],
+                "action": "pause", "approvals": p["native_op"]["approvals"]}}),
+            );
         }
         Ok(())
     }

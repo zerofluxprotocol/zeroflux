@@ -80,7 +80,9 @@ pub enum AdminAction {
     Pause,
     Unpause,
     /// New committee (3 hex ed25519 keys); activates after the timelock.
-    Rotate { committee: Vec<String> },
+    Rotate {
+        committee: Vec<String>,
+    },
 }
 
 #[near(serializers = [json, borsh])]
@@ -237,7 +239,8 @@ impl Contract {
             let i = a.member as usize;
             require!(i < self.committee.len(), "approval from unknown member");
             require!(!seen[i], "duplicate approval from the same member");
-            let sig: [u8; 64] = hex::decode(&a.signature).ok().and_then(|v| v.try_into().ok()).unwrap_or_else(|| env::panic_str("signature must be 64 bytes hex"));
+            let sig: [u8; 64] =
+                hex::decode(&a.signature).ok().and_then(|v| v.try_into().ok()).unwrap_or_else(|| env::panic_str("signature must be 64 bytes hex"));
             require!(env::ed25519_verify(&sig, digest, &self.committee[i]), "invalid committee signature");
             seen[i] = true;
         }
@@ -263,8 +266,11 @@ impl Contract {
         self.minted.insert(attestation.deposit_id.clone());
         self.token.internal_deposit(&attestation.recipient, attestation.amount.0);
         FtMint { owner_id: &attestation.recipient, amount: attestation.amount, memo: Some(&format!("zfx-deposit:{}", attestation.deposit_id)) }.emit();
-        event("mint", json!({"deposit_id": attestation.deposit_id, "recipient": attestation.recipient, "amount": attestation.amount,
-            "native_height": attestation.native_height, "epoch": attestation.epoch, "approvals": n}));
+        event(
+            "mint",
+            json!({"deposit_id": attestation.deposit_id, "recipient": attestation.recipient, "amount": attestation.amount,
+            "native_height": attestation.native_height, "epoch": attestation.epoch, "approvals": n}),
+        );
     }
 
     /// Burn wZFX to redeem native ZFX at `native_recipient` (zfx1...).
@@ -291,8 +297,11 @@ impl Contract {
         };
         self.burns.insert(nonce, rec.clone());
         FtBurn { owner_id: &account, amount, memo: Some(&format!("zfx-withdrawal:{}", rec.withdrawal_id)) }.emit();
-        event("burn", json!({"nonce": rec.nonce, "withdrawal_id": rec.withdrawal_id, "account_id": account, "amount": amount,
-            "native_recipient": native_recipient, "block_height": rec.block_height}));
+        event(
+            "burn",
+            json!({"nonce": rec.nonce, "withdrawal_id": rec.withdrawal_id, "account_id": account, "amount": amount,
+            "native_recipient": native_recipient, "block_height": rec.block_height}),
+        );
         rec
     }
 
@@ -360,7 +369,12 @@ impl Contract {
         require!(hex::encode(env::sha256(&code)) == hash, "WASM does not match the staged code hash");
         self.staged_upgrade = None;
         event("upgrade_deployed", json!({"code_hash": hash}));
-        Promise::new(env::current_account_id()).deploy_contract(code).function_call("migrate".to_string(), vec![], NearToken::from_yoctonear(0), Gas::from_tgas(20))
+        Promise::new(env::current_account_id()).deploy_contract(code).function_call(
+            "migrate".to_string(),
+            vec![],
+            NearToken::from_yoctonear(0),
+            Gas::from_tgas(20),
+        )
     }
 
     /// State layout is unchanged across these versions; migrate re-reads it.

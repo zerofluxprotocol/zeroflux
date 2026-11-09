@@ -36,7 +36,10 @@ fn mine(mut b: Block, chain: &mut Chain) -> Block {
 fn mine_on(node: &Node, n: u64) {
     for i in 0..n {
         let b = { node.lock().chain.template([4u8; 32], &[], now_secs() - 5000 + i) };
-        let b = { let mut g = node.lock(); mine(b, &mut g.chain) };
+        let b = {
+            let mut g = node.lock();
+            mine(b, &mut g.chain)
+        };
         node.process_block(b, None).unwrap();
     }
 }
@@ -161,7 +164,10 @@ fn long_sync_beyond_one_inventory_batch() {
     let a = Node::with_options(c.clone(), NodeOptions { identity_seed: Some([5; 32]), ..Default::default() }).unwrap();
     for i in 0..1200u64 {
         let b = { a.lock().chain.template([4u8; 32], &[], now_secs() - 100_000 + i) };
-        let b = { let mut g = a.lock(); mine(b, &mut g.chain) };
+        let b = {
+            let mut g = a.lock();
+            mine(b, &mut g.chain)
+        };
         a.process_block(b, None).unwrap();
     }
     let l = std::net::TcpListener::bind("127.0.0.1:0").unwrap();

@@ -40,21 +40,12 @@ pub fn profile_vectors(profile: &Profile, full_out: bool) -> Value {
     let hwn = header.encode_v1_without_nonce();
     let c = challenge_bytes(&hwn);
     let layer_digests: Vec<String> = (0..w.layers.len()).map(|l| to_hex(&w.layer_digest(l))).collect();
-    let first_rows: Vec<String> = w
-        .layers
-        .iter()
-        .zip(profile.layers())
-        .map(|(lw, (k, _, _))| i8_hex(&lw[..k.min(64)]))
-        .collect();
+    let first_rows: Vec<String> = w.layers.iter().zip(profile.layers()).map(|(lw, (k, _, _))| i8_hex(&lw[..k.min(64)])).collect();
     let attempts: Vec<Value> = VECTOR_NONCES
         .iter()
         .map(|&n| {
             let (t, d) = trace(&w, &c, n);
-            let act_digests: Vec<String> = t
-                .acts
-                .iter()
-                .map(|a| to_hex(&sha256(&[&a.iter().map(|x| *x as u8).collect::<Vec<u8>>()])))
-                .collect();
+            let act_digests: Vec<String> = t.acts.iter().map(|a| to_hex(&sha256(&[&a.iter().map(|x| *x as u8).collect::<Vec<u8>>()]))).collect();
             let mut v = json!({
                 "nonce": n.to_string(),
                 "attempt_id": to_hex(&attempt_id(&c, n)),
@@ -106,10 +97,7 @@ pub fn edge_vectors() -> Value {
         })
         .collect();
     let ys: Vec<i32> = vec![0, 1, -1, 255, 256, -256, 1 << 20, -(1 << 20), 123456, -987654, i32::MAX, i32::MIN];
-    let rq: Vec<Value> = ys
-        .iter()
-        .map(|&y| json!({"y": y, "s0": requant(y, 0), "s2": requant(y, 2)}))
-        .collect();
+    let rq: Vec<Value> = ys.iter().map(|&y| json!({"y": y, "s0": requant(y, 0), "s2": requant(y, 2)})).collect();
     let byte_map: Vec<i8> = (0..=255u8).map(byte_to_val).collect();
     json!({"dot_cases": dots, "requant_cases": rq, "byte_to_val": byte_map})
 }
@@ -159,12 +147,22 @@ pub fn consensus_v2_vectors() -> Value {
     let alice = P2mrKeys::from_seed(&[0xa1; 32]);
     let plain = alice.sign_tx(cid, [0xb2; 32], 1234, 1000, 0, 0).unwrap();
     let memo = alice.sign_tx_memo(cid, lockbox_address(cid), 5000, 1000, 1, 0, Some("alice.test.near".into())).unwrap();
-    let rel = Release { epoch: 0, withdrawal_id: [0x11; 32], near_burn_ref: "wzfx.test.near:7:abc".into(), recipient: [0x22; 32], amount: 777, expiry_height: 900, approvals: vec![] };
+    let rel = Release {
+        epoch: 0,
+        withdrawal_id: [0x11; 32],
+        near_burn_ref: "wzfx.test.near:7:abc".into(),
+        recipient: [0x22; 32],
+        amount: 777,
+        expiry_height: 900,
+        approvals: vec![],
+    };
     let adm = AdminOp { epoch: 0, op_nonce: 3, action: AdminAction::Pause, approvals: vec![] };
-    let dp = DifficultyParams { solvetime_rule: crate::difficulty::SolvetimeRule::RunningMax, target_spacing_secs: 30, pow_limit: U256::MAX.shr(2), fixed: false };
+    let dp =
+        DifficultyParams { solvetime_rule: crate::difficulty::SolvetimeRule::RunningMax, target_spacing_secs: 30, pow_limit: U256::MAX.shr(2), fixed: false };
     let g = U256::MAX.shr(12);
     let hist: Vec<(u64, U256)> = (0..31u64).map(|i| (1_790_000_000 + i * 20, g)).collect();
-    let params = ConsensusParams { chain_id: cid, subsidy: crate::monetary::SubsidySchedule::Constant { per_block: 50_0000_0000 }, coinbase_maturity: 5, bridge: None };
+    let params =
+        ConsensusParams { chain_id: cid, subsidy: crate::monetary::SubsidySchedule::Constant { per_block: 50_0000_0000 }, coinbase_maturity: 5, bridge: None };
     let st = State::genesis(&params, &[(alice.address(), 1_000_000)]).unwrap();
     json!({
         "format": "zfx-consensus-v2-vectors",

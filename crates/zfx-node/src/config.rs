@@ -96,12 +96,7 @@ impl ChainConfig {
     }
 
     pub fn params(&self) -> ConsensusParams {
-        ConsensusParams {
-            chain_id: self.chain_id,
-            subsidy: self.schedule(),
-            coinbase_maturity: self.coinbase_maturity,
-            bridge: self.bridge.clone(),
-        }
+        ConsensusParams { chain_id: self.chain_id, subsidy: self.schedule(), coinbase_maturity: self.coinbase_maturity, bridge: self.bridge.clone() }
     }
 
     pub fn schedule(&self) -> zfx_verify::monetary::SubsidySchedule {

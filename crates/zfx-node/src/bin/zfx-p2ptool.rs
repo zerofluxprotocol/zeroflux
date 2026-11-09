@@ -44,7 +44,11 @@ fn main() {
             let header = zfx_verify::BlockHeader::decode(&full).unwrap();
             let block = zfx_verify::Block {
                 header,
-                coinbase: zfx_verify::tx::Coinbase { height: work["height"].as_u64().unwrap(), to: zfx_verify::tx::address_from_string(&miner).unwrap(), amount: cfg.block_subsidy },
+                coinbase: zfx_verify::tx::Coinbase {
+                    height: work["height"].as_u64().unwrap(),
+                    to: zfx_verify::tx::address_from_string(&miner).unwrap(),
+                    amount: cfg.block_subsidy,
+                },
                 txs: vec![],
                 bridge_ops: vec![],
             };

@@ -66,7 +66,8 @@ fn sample_tx() -> Transaction {
 
 #[test]
 fn fuzz_header_decode() {
-    let h = BlockHeader { version: 2, chain_id: 1, height: 5, parent: [1; 32], tx_root: [2; 32], state_root: [3; 32], timestamp: 9, target: [0xff; 32], nonce: 4 };
+    let h =
+        BlockHeader { version: 2, chain_id: 1, height: 5, parent: [1; 32], tx_root: [2; 32], state_root: [3; 32], timestamp: 9, target: [0xff; 32], nonce: 4 };
     run("header_decode", &[h.encode().to_vec()], |b| {
         let _ = BlockHeader::decode(b);
     });
@@ -89,7 +90,17 @@ fn fuzz_tx_json_and_authorization() {
 fn fuzz_block_json_and_structure() {
     let tx = sample_tx();
     let b = Block {
-        header: BlockHeader { version: 2, chain_id: 7, height: 1, parent: [0; 32], tx_root: [0; 32], state_root: [0; 32], timestamp: 1, target: [0xff; 32], nonce: 0 },
+        header: BlockHeader {
+            version: 2,
+            chain_id: 7,
+            height: 1,
+            parent: [0; 32],
+            tx_root: [0; 32],
+            state_root: [0; 32],
+            timestamp: 1,
+            target: [0xff; 32],
+            nonce: 0,
+        },
         coinbase: zfx_verify::tx::Coinbase { height: 1, to: [1; 32], amount: 5 },
         txs: vec![tx],
         bridge_ops: vec![],
@@ -118,7 +129,15 @@ fn fuzz_p2p_messages() {
 #[test]
 fn fuzz_bridge_ops() {
     use zfx_verify::bridge::{BridgeOp, Release};
-    let op = BridgeOp::Release(Release { epoch: 0, withdrawal_id: [1; 32], near_burn_ref: "w:1:2".into(), recipient: [2; 32], amount: 5, expiry_height: 9, approvals: vec![] });
+    let op = BridgeOp::Release(Release {
+        epoch: 0,
+        withdrawal_id: [1; 32],
+        near_burn_ref: "w:1:2".into(),
+        recipient: [2; 32],
+        amount: 5,
+        expiry_height: 9,
+        approvals: vec![],
+    });
     run("bridge_op_json", &[serde_json::to_vec(&op).unwrap()], |b| {
         if let Ok(o) = serde_json::from_slice::<BridgeOp>(b) {
             let _ = zfx_verify::bridge::encode_op(&o);

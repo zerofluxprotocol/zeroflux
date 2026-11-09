@@ -50,9 +50,8 @@ pub fn parity_attack(profile: &Profile, attempts: usize) -> Value {
             .collect()
     };
     let mats: Vec<Vec<Vec<u64>>> = (0..layers.len()).map(bitmat).collect();
-    let apply = |m: &Vec<Vec<u64>>, v: &[u64]| -> Vec<bool> {
-        m.iter().map(|r| r.iter().zip(v).fold(0u32, |a, (x, y)| a + (x & y).count_ones()) % 2 == 1).collect()
-    };
+    let apply =
+        |m: &Vec<Vec<u64>>, v: &[u64]| -> Vec<bool> { m.iter().map(|r| r.iter().zip(v).fold(0u32, |a, (x, y)| a + (x & y).count_ones()) % 2 == 1).collect() };
     let pack = |b: &[bool]| -> Vec<u64> {
         let mut o = vec![0u64; b.len().div_ceil(64)];
         for (i, x) in b.iter().enumerate() {
@@ -149,9 +148,7 @@ pub fn accumulator_models(profile: &Profile, rows: usize) -> Value {
     let x = x0(&[0x55; 32], profile.d_in);
     // layer-0 activations for layer-1 inputs
     let (k0, _, s0) = profile.layers()[0];
-    let act: Vec<i8> = (0..profile.hidden)
-        .map(|j| requant(dot_i8(&x, &w.layers[0][j * k0..(j + 1) * k0]), s0.unwrap()))
-        .collect();
+    let act: Vec<i8> = (0..profile.hidden).map(|j| requant(dot_i8(&x, &w.layers[0][j * k0..(j + 1) * k0]), s0.unwrap())).collect();
     let mut res = serde_json::Map::new();
     for acc in ALL_ACCUMS {
         let mut mism = [0usize; 2];
@@ -166,10 +163,7 @@ pub fn accumulator_models(profile: &Profile, rows: usize) -> Value {
                 }
             }
         }
-        res.insert(
-            crate::arith::accum_name(acc),
-            json!({"k64_mismatch_rows": mism[0], "k4096_mismatch_rows": mism[1], "rows": rows}),
-        );
+        res.insert(crate::arith::accum_name(acc), json!({"k64_mismatch_rows": mism[0], "k4096_mismatch_rows": mism[1], "rows": rows}));
     }
     // Chunked tensor-core model with exact chunks of 16 promoted to FP32.
     json!({"experiment": "selected_domain_under_accumulator_models", "profile": profile.name, "results": res})
@@ -275,7 +269,10 @@ pub fn strassen_experiment(n: usize) -> Value {
          int8 hardware holds {} level(s) of Strassen operands (MAC fraction {:.3}, <= {:.2}x fewer MACs); \
          FP8 E4M3 holds {} level(s) because pairwise sums such as 17 or 31 need 5 significant bits. \
          Measured CPU speedups are below the MAC ratio because the extra additions are memory-bound.",
-        int8_levels, (7f64 / 8f64).powi(int8_levels as i32), (8f64 / 7f64).powi(int8_levels as i32), e4_levels
+        int8_levels,
+        (7f64 / 8f64).powi(int8_levels as i32),
+        (8f64 / 7f64).powi(int8_levels as i32),
+        e4_levels
     );
     json!({
         "experiment": "strassen_fast_matmul",

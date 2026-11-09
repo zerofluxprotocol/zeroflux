@@ -757,8 +757,10 @@ impl Node {
         let g = self.lock();
         let tip = g.chain.tip();
         let tgt = tip.block.header.target_u256();
-        let bs = g.chain.state.bridge.as_ref().map(|b| json!({"epoch": b.epoch, "paused": b.paused, "locked_total": b.locked_total.to_string(),
-            "released_total": b.released_total.to_string(), "deposits": b.deposits, "releases": b.releases}));
+        let bs = g.chain.state.bridge.as_ref().map(|b| {
+            json!({"epoch": b.epoch, "paused": b.paused, "locked_total": b.locked_total.to_string(),
+            "released_total": b.released_total.to_string(), "deposits": b.deposits, "releases": b.releases})
+        });
         json!({
             "api_version": 2,
             "chain_id": g.chain.cfg.chain_id,
@@ -837,7 +839,13 @@ impl Node {
     pub fn account_json(&self, a: &Address) -> Value {
         let g = self.lock();
         let acc = g.chain.state.account(a);
-        let pending: Vec<Value> = g.mempool.txs.values().filter(|t| &t.from == a || &t.to == a).map(|t| json!({"txid": to_hex(&t.txid()), "nonce": t.nonce, "amount": t.amount})).collect();
+        let pending: Vec<Value> = g
+            .mempool
+            .txs
+            .values()
+            .filter(|t| &t.from == a || &t.to == a)
+            .map(|t| json!({"txid": to_hex(&t.txid()), "nonce": t.nonce, "amount": t.amount}))
+            .collect();
         let next_nonce = acc.nonce + g.mempool.txs.values().filter(|t| &t.from == a).count() as u64;
         json!({"address": address_to_string(a), "balance": acc.balance, "immature": g.chain.state.immature_of(a), "nonce": acc.nonce,
                "next_nonce": next_nonce, "pending": pending})
@@ -989,8 +997,12 @@ impl Node {
         let mut v: Vec<&crate::chain::DepositRecord> = g.chain.idx.deposits.values().filter(|d| d.height >= from).collect();
         v.sort_by(|a, b| a.height.cmp(&b.height).then(a.deposit_id.cmp(&b.deposit_id)));
         let tip = g.chain.height();
-        json!(v.into_iter().take(limit).map(|d| json!({"deposit_id": d.deposit_id, "height": d.height, "amount": d.amount,
-            "near_recipient": d.near_recipient, "confirmations": tip - d.height + 1, "block": d.block})).collect::<Vec<_>>())
+        json!(v
+            .into_iter()
+            .take(limit)
+            .map(|d| json!({"deposit_id": d.deposit_id, "height": d.height, "amount": d.amount,
+            "near_recipient": d.near_recipient, "confirmations": tip - d.height + 1, "block": d.block}))
+            .collect::<Vec<_>>())
     }
 
     pub fn list_releases(&self) -> Value {
@@ -1032,8 +1044,12 @@ impl Node {
 
     pub fn peers_json(&self) -> Value {
         let g = self.lock();
-        json!(g.peers.values().map(|p| json!({"addr": p.addr.to_string(), "peer_id": hex::encode(p.peer_id), "height": p.height,
-            "outbound": p.outbound, "handshaken": p.handshaken, "listen": p.listen})).collect::<Vec<_>>())
+        json!(g
+            .peers
+            .values()
+            .map(|p| json!({"addr": p.addr.to_string(), "peer_id": hex::encode(p.peer_id), "height": p.height,
+            "outbound": p.outbound, "handshaken": p.handshaken, "listen": p.listen}))
+            .collect::<Vec<_>>())
     }
 
     pub fn snapshot_export(&self, path: &str) -> Result<Value, String> {

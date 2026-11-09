@@ -220,7 +220,15 @@ impl Transaction {
     }
 
     pub fn encoded_len(&self) -> usize {
-        TX_CORE_LEN + self.memo.as_ref().map(|m| 2 + m.len()).unwrap_or(0) + 1 + 2 + self.witness.leaf.pubkey.len() + 1 + 32 * self.witness.path.len() + 2 + self.witness.signature.len()
+        TX_CORE_LEN
+            + self.memo.as_ref().map(|m| 2 + m.len()).unwrap_or(0)
+            + 1
+            + 2
+            + self.witness.leaf.pubkey.len()
+            + 1
+            + 32 * self.witness.path.len()
+            + 2
+            + self.witness.signature.len()
     }
 
     pub fn txid(&self) -> Hash32 {
@@ -277,12 +285,12 @@ pub fn verify_slh(scheme: u8, pubkey: &[u8], msg: &[u8], sig: &[u8], ctx: &[u8])
         return false;
     }
     match scheme {
-        SCHEME_SLH_DSA_SHA2_128S => s128::PublicKey::try_from_bytes(pubkey.try_into().unwrap())
-            .map(|pk| pk.verify(msg, &sig.try_into().unwrap(), ctx))
-            .unwrap_or(false),
-        SCHEME_SLH_DSA_SHA2_192S => s192::PublicKey::try_from_bytes(pubkey.try_into().unwrap())
-            .map(|pk| pk.verify(msg, &sig.try_into().unwrap(), ctx))
-            .unwrap_or(false),
+        SCHEME_SLH_DSA_SHA2_128S => {
+            s128::PublicKey::try_from_bytes(pubkey.try_into().unwrap()).map(|pk| pk.verify(msg, &sig.try_into().unwrap(), ctx)).unwrap_or(false)
+        }
+        SCHEME_SLH_DSA_SHA2_192S => {
+            s192::PublicKey::try_from_bytes(pubkey.try_into().unwrap()).map(|pk| pk.verify(msg, &sig.try_into().unwrap(), ctx)).unwrap_or(false)
+        }
         _ => false,
     }
 }
@@ -348,12 +356,7 @@ impl P2mrKeys {
     /// Default layout: leaf 0 = SLH-DSA-SHA2-128s (daily use), leaf 1 =
     /// SLH-DSA-SHA2-192s (higher-security backup).
     pub fn from_seed(seed: &[u8; 32]) -> P2mrKeys {
-        P2mrKeys {
-            keys: vec![
-                LeafKey::derive(seed, SCHEME_SLH_DSA_SHA2_128S, 0).unwrap(),
-                LeafKey::derive(seed, SCHEME_SLH_DSA_SHA2_192S, 1).unwrap(),
-            ],
-        }
+        P2mrKeys { keys: vec![LeafKey::derive(seed, SCHEME_SLH_DSA_SHA2_128S, 0).unwrap(), LeafKey::derive(seed, SCHEME_SLH_DSA_SHA2_192S, 1).unwrap()] }
     }
 
     pub fn leaves(&self) -> Vec<SpendLeaf> {
@@ -370,7 +373,16 @@ impl P2mrKeys {
     }
 
     #[allow(clippy::too_many_arguments)]
-    pub fn sign_tx_memo(&self, chain_id: u32, to: Address, amount: u64, fee: u64, nonce: u64, leaf_idx: usize, memo: Option<String>) -> Result<Transaction, String> {
+    pub fn sign_tx_memo(
+        &self,
+        chain_id: u32,
+        to: Address,
+        amount: u64,
+        fee: u64,
+        nonce: u64,
+        leaf_idx: usize,
+        memo: Option<String>,
+    ) -> Result<Transaction, String> {
         let leaves = self.leaves();
         let hashes: Vec<Hash32> = leaves.iter().map(|l| l.hash()).collect();
         let mut tx = Transaction {

@@ -47,7 +47,19 @@ pub fn now_ms() -> u64 {
 impl Job {
     pub fn new(id: String, kind: JobKind, data: serde_json::Value) -> Job {
         let t = now_ms();
-        Job { id, kind, state: JobState::Observed, data, approvals: vec![], attempts: 0, next_attempt_ms: 0, lease_until_ms: 0, submission: None, history: vec![(t, "OBSERVED".into())], created_ms: t }
+        Job {
+            id,
+            kind,
+            state: JobState::Observed,
+            data,
+            approvals: vec![],
+            attempts: 0,
+            next_attempt_ms: 0,
+            lease_until_ms: 0,
+            submission: None,
+            history: vec![(t, "OBSERVED".into())],
+            created_ms: t,
+        }
     }
 
     pub fn to(&mut self, s: JobState, note: &str) {

@@ -43,7 +43,17 @@ fn params(c: &Committee, maturity: u64) -> ConsensusParams {
 
 fn block(height: u64, miner: [u8; 32], amount: u64, txs: Vec<zfx_verify::tx::Transaction>, ops: Vec<BridgeOp>) -> Block {
     Block {
-        header: BlockHeader { version: 2, chain_id: CID, height, parent: [0; 32], tx_root: [0; 32], state_root: [0; 32], timestamp: 0, target: [0; 32], nonce: 0 },
+        header: BlockHeader {
+            version: 2,
+            chain_id: CID,
+            height,
+            parent: [0; 32],
+            tx_root: [0; 32],
+            state_root: [0; 32],
+            timestamp: 0,
+            target: [0; 32],
+            nonce: 0,
+        },
         coinbase: Coinbase { height, to: miner, amount },
         txs,
         bridge_ops: ops,
@@ -195,7 +205,8 @@ fn bridge_admin_pause_unpause_rotate() {
     st.apply_block(&p, &block(13, [1; 32], 50, vec![], vec![])).unwrap();
     assert_eq!(st.bridge.as_ref().unwrap().epoch, 1);
     // old committee can no longer release; new one can
-    let mut r = Release { epoch: 1, withdrawal_id: [9; 32], near_burn_ref: "x:1:t".into(), recipient: [5; 32], amount: 10, expiry_height: 100, approvals: vec![] };
+    let mut r =
+        Release { epoch: 1, withdrawal_id: [9; 32], near_burn_ref: "x:1:t".into(), recipient: [5; 32], amount: 10, expiry_height: 100, approvals: vec![] };
     let d = bridge::release_digest(CID, &r);
     r.approvals = c.approve(&d, &[0, 1]);
     assert!(st.clone().apply_bridge_op(&p, 14, &BridgeOp::Release(r.clone())).is_err());

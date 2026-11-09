@@ -68,15 +68,8 @@ pub enum Accum {
     F16Acc,
 }
 
-pub const ALL_ACCUMS: [Accum; 7] = [
-    Accum::Canonical,
-    Accum::SeqF32,
-    Accum::RevF32,
-    Accum::PairwiseF32,
-    Accum::SplitK4F32,
-    Accum::TruncAlign { chunk: 32, keep: 14 },
-    Accum::F16Acc,
-];
+pub const ALL_ACCUMS: [Accum; 7] =
+    [Accum::Canonical, Accum::SeqF32, Accum::RevF32, Accum::PairwiseF32, Accum::SplitK4F32, Accum::TruncAlign { chunk: 32, keep: 14 }, Accum::F16Acc];
 
 pub fn accum_name(a: Accum) -> String {
     match a {
@@ -148,9 +141,7 @@ pub fn reduce(p: &[i128], scale_log2: i32, a: Accum) -> f32 {
         }
         Accum::SplitK4F32 => {
             let q = p.len().div_ceil(4).max(1);
-            p.chunks(q)
-                .map(|c| c.iter().fold(0f32, |acc, v| acc + f(*v)))
-                .fold(0f32, |a, b| a + b)
+            p.chunks(q).map(|c| c.iter().fold(0f32, |acc, v| acc + f(*v))).fold(0f32, |a, b| a + b)
         }
         Accum::TruncAlign { chunk, keep } => {
             // Accumulator kept exactly as an integer but truncated on every

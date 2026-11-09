@@ -130,7 +130,8 @@ impl NearClient {
 
     pub fn call_rpc(&self, method: &str, params: Value) -> Result<Value, String> {
         let body = json!({"jsonrpc": "2.0", "id": "zfx", "method": method, "params": params});
-        let r = crate::agent().post(&self.rpc).timeout(std::time::Duration::from_secs(60)).send_json(body).map_err(|e| format!("NEAR RPC {}: {}", method, e))?;
+        let r =
+            crate::agent().post(&self.rpc).timeout(std::time::Duration::from_secs(60)).send_json(body).map_err(|e| format!("NEAR RPC {}: {}", method, e))?;
         let v: Value = r.into_json().map_err(|e| e.to_string())?;
         if let Some(e) = v.get("error") {
             return Err(format!("NEAR RPC {} error: {}", method, e));
@@ -166,7 +167,8 @@ impl NearClient {
     }
 
     fn nonce_and_block(&self, s: &NearSigner) -> Result<(u64, [u8; 32]), String> {
-        let r = self.call_rpc("query", json!({"request_type": "view_access_key", "finality": "final", "account_id": s.account_id, "public_key": s.public_key()}))?;
+        let r =
+            self.call_rpc("query", json!({"request_type": "view_access_key", "finality": "final", "account_id": s.account_id, "public_key": s.public_key()}))?;
         let nonce = r["nonce"].as_u64().ok_or("no access key nonce")?;
         let bh = bs58::decode(r["block_hash"].as_str().ok_or("no block hash")?).into_vec().map_err(|e| e.to_string())?;
         Ok((nonce, bh.try_into().map_err(|_| "bad block hash")?))
@@ -233,7 +235,11 @@ fn parse_outcome(tx_hash: String, r: Value) -> Outcome {
             }
         }
     }
-    let value = status.get("SuccessValue").and_then(|v| v.as_str()).and_then(|b| base64::engine::general_purpose::STANDARD.decode(b).ok()).and_then(|b| serde_json::from_slice(&b).ok());
+    let value = status
+        .get("SuccessValue")
+        .and_then(|v| v.as_str())
+        .and_then(|b| base64::engine::general_purpose::STANDARD.decode(b).ok())
+        .and_then(|b| serde_json::from_slice(&b).ok());
     Outcome { tx_hash, success: failure.is_none() && status.get("SuccessValue").is_some(), value, failure, logs, raw: r }
 }
 

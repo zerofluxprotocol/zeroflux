@@ -58,7 +58,8 @@ pub fn reconcile(zfx: &ZfxClient, near: &NearClient, contract: &str, chain_id: u
             pending_dep_list.push(json!({"deposit_id": id, "amount": amt.to_string(), "confirmations": d["confirmations"]}));
         }
     }
-    let released_ids: HashMap<String, u128> = releases.iter().map(|r| (r["withdrawal_id"].as_str().unwrap_or("").to_string(), r["amount"].as_u64().unwrap_or(0) as u128)).collect();
+    let released_ids: HashMap<String, u128> =
+        releases.iter().map(|r| (r["withdrawal_id"].as_str().unwrap_or("").to_string(), r["amount"].as_u64().unwrap_or(0) as u128)).collect();
     let burn_ids: HashSet<String> = burns.iter().map(|b| b["withdrawal_id"].as_str().unwrap_or("").to_string()).collect();
     let mut pending_releases = 0u128;
     let mut pending_rel_list = Vec::new();

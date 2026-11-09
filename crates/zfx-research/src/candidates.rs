@@ -3,9 +3,9 @@
 //! in transcript.rs; candidate E is zfx_verify::pow (the selected design).
 
 use crate::arith::*;
+use sha2::Digest;
 use zfx_verify::hash::{sha256, Hash32};
 use zfx_verify::pow::byte_to_val;
-use sha2::Digest;
 
 pub fn xof_bytes(domain: &[u8], seed: &Hash32, len: usize) -> Vec<u8> {
     zfx_verify::hash::shake256(&[domain, seed], len)
@@ -189,4 +189,3 @@ pub fn digest_f32(domain: &[u8], attempt: &Hash32, c: &[f32]) -> Hash32 {
     }
     h.finalize().into()
 }
-

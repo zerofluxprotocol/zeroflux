@@ -27,7 +27,15 @@ pub struct Contract {
 impl Contract {
     #[init]
     pub fn new(owner_id: AccountId, symbol: String, decimals: u8) -> Self {
-        let md = FungibleTokenMetadata { spec: FT_METADATA_SPEC.into(), name: format!("Test {} (fixture)", symbol), symbol, icon: None, reference: None, reference_hash: None, decimals };
+        let md = FungibleTokenMetadata {
+            spec: FT_METADATA_SPEC.into(),
+            name: format!("Test {} (fixture)", symbol),
+            symbol,
+            icon: None,
+            reference: None,
+            reference_hash: None,
+            decimals,
+        };
         Self { token: FungibleToken::new(Key::T), metadata: LazyOption::new(Key::M, Some(md)), owner_id }
     }
 

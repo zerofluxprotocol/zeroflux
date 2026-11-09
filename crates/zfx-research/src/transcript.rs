@@ -172,14 +172,7 @@ pub fn c1_verify(p: &CParams, challenge: &Hash32, target: &U256, pr: &C1Proof) -
 /// one Merkle path update (log2 T hashes) and zero GEMM work. A try wins
 /// if the lottery passes AND all s sampled tiles are honest ones.
 /// Returns (proof, root tries, hash calls).
-pub fn c1_grind_attack(
-    p: &CParams,
-    challenge: &Hash32,
-    target: &U256,
-    nonce: u64,
-    honest_frac: f64,
-    max_tries: u64,
-) -> (Option<C1Proof>, u64, u64) {
+pub fn c1_grind_attack(p: &CParams, challenge: &Hash32, target: &U256, nonce: u64, honest_frac: f64, max_tries: u64) -> (Option<C1Proof>, u64, u64) {
     let at = attempt_of(challenge, nonce);
     let nt = p.n / p.tile;
     let ntiles = nt * nt;
@@ -187,9 +180,8 @@ pub fn c1_grind_attack(
     // Only rows/cols for the first n_honest tiles are needed; generate all
     // for simplicity, but count MACs only for computed tiles.
     let (a, bt) = inputs(&at, p.n);
-    let mut leaves: Vec<Hash32> = (0..ntiles)
-        .map(|x| if x < n_honest { tile_leaf(p, &a, &bt, x / nt, x % nt) } else { sha256(&[b"junk", &(x as u64).to_le_bytes()]) })
-        .collect();
+    let mut leaves: Vec<Hash32> =
+        (0..ntiles).map(|x| if x < n_honest { tile_leaf(p, &a, &bt, x / nt, x % nt) } else { sha256(&[b"junk", &(x as u64).to_le_bytes()]) }).collect();
     let grind_leaf = ntiles - 1;
     let mut hashes = 0u64;
     for ctr in 0..max_tries {

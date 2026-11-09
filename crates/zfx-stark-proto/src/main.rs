@@ -20,8 +20,8 @@ use winterfell::{
     math::{fields::f128::BaseElement, FieldElement, ToElements},
     matrix::ColMatrix,
     Air, AirContext, Assertion, AuxRandElements, BatchingMethod, CompositionPoly, CompositionPolyTrace, DefaultConstraintCommitment,
-    DefaultConstraintEvaluator, DefaultTraceLde, EvaluationFrame, FieldExtension, PartitionOptions, ProofOptions, Prover, StarkDomain, Trace,
-    TraceInfo, TracePolyTable, TraceTable, TransitionConstraintDegree,
+    DefaultConstraintEvaluator, DefaultTraceLde, EvaluationFrame, FieldExtension, PartitionOptions, ProofOptions, Prover, StarkDomain, Trace, TraceInfo,
+    TracePolyTable, TraceTable, TransitionConstraintDegree,
 };
 
 fn fe(v: i64) -> BaseElement {
@@ -173,12 +173,20 @@ fn main() {
     let bytes = proof.to_bytes().len();
     let t2 = Instant::now();
     let min = winterfell::AcceptableOptions::MinConjecturedSecurity(95);
-    let ok = winterfell::verify::<GemvAir, Blake3_256<BaseElement>, DefaultRandomCoin<Blake3_256<BaseElement>>, MerkleTree<Blake3_256<BaseElement>>>(proof.clone(), pubs.clone(), &min).is_ok();
+    let ok = winterfell::verify::<GemvAir, Blake3_256<BaseElement>, DefaultRandomCoin<Blake3_256<BaseElement>>, MerkleTree<Blake3_256<BaseElement>>>(
+        proof.clone(),
+        pubs.clone(),
+        &min,
+    )
+    .is_ok();
     let t_verify = t2.elapsed().as_secs_f64();
     // tamper: a wrong output must not verify
     let mut bad = pubs.clone();
     bad.outputs[0] += BaseElement::ONE;
-    let rejects = winterfell::verify::<GemvAir, Blake3_256<BaseElement>, DefaultRandomCoin<Blake3_256<BaseElement>>, MerkleTree<Blake3_256<BaseElement>>>(proof, bad, &min).is_err();
+    let rejects = winterfell::verify::<GemvAir, Blake3_256<BaseElement>, DefaultRandomCoin<Blake3_256<BaseElement>>, MerkleTree<Blake3_256<BaseElement>>>(
+        proof, bad, &min,
+    )
+    .is_err();
     let macs = (rows * k) as f64;
     let attempt_macs = zfx_verify::pow::FP8C_V01.macs_per_attempt() as f64;
     let out = json!({

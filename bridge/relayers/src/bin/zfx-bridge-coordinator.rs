@@ -7,10 +7,12 @@ use std::sync::Arc;
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     let v = |k: &str| args.iter().position(|a| a == k).and_then(|i| args.get(i + 1)).cloned();
-    let need = |k: &str| v(k).unwrap_or_else(|| {
-        eprintln!("missing {}", k);
-        std::process::exit(2)
-    });
+    let need = |k: &str| {
+        v(k).unwrap_or_else(|| {
+            eprintln!("missing {}", k);
+            std::process::exit(2)
+        })
+    };
     let env: zfx_bridge::config::BridgeEnv = zfx_bridge::config::load(&need("--env")).unwrap_or_else(|e| panic!("{}", e));
     let kf: serde_json::Value = serde_json::from_str(&std::fs::read_to_string(need("--near-key-file")).unwrap()).unwrap();
     let signer = zfx_bridge::near::NearSigner::new(&need("--near-account"), kf["private_key"].as_str().unwrap()).unwrap();

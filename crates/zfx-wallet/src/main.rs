@@ -106,7 +106,8 @@ fn main() {
     let home = std::env::var("HOME").unwrap_or(".".into());
     let wallet = arg(&args, "--wallet").unwrap_or_else(|| format!("{}/.zeroflux/wallet.json", home));
     let rpc = Rpc { url: arg(&args, "--node").unwrap_or_else(|| "http://127.0.0.1:9441".into()) };
-    let addr_of = |args: &[String]| -> String { arg(args, "--address").unwrap_or_else(|| address_to_string(&P2mrKeys::from_seed(&load_seed(&wallet)).address())) };
+    let addr_of =
+        |args: &[String]| -> String { arg(args, "--address").unwrap_or_else(|| address_to_string(&P2mrKeys::from_seed(&load_seed(&wallet)).address())) };
     let ok = |r: Result<Value, String>| -> Value { r.unwrap_or_else(|e| die(&e)) };
     match cmd.as_str() {
         "new" => {

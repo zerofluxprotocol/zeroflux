@@ -17,8 +17,11 @@ pub fn tokenomics() -> Value {
         ("A_constant_50", SubsidySchedule::Constant { per_block: 50 * ZFX }, "current testnet; uncapped, inflation falls as 1/t"),
         ("B_halving_2y_tail", SubsidySchedule::Halving { initial: 50 * ZFX, interval: 2 * per_year, tail: ZFX / 2 }, "halving every 2 years, 0.5 ZFX tail"),
         ("C_halving_4y_cap", SubsidySchedule::Halving { initial: 50 * ZFX, interval: 4 * per_year, tail: 0 }, "Bitcoin-like, hard cap, no tail"),
-        ("D_smooth_decay_tail", SubsidySchedule::SmoothDecay { initial: 50 * ZFX, epoch: 86_400 / spacing, decay_ppm: 474, tail: ZFX / 2 },
-            "daily ~0.0474% decay (halves every ~4 y), 0.5 ZFX tail: no halving shocks"),
+        (
+            "D_smooth_decay_tail",
+            SubsidySchedule::SmoothDecay { initial: 50 * ZFX, epoch: 86_400 / spacing, decay_ppm: 474, tail: ZFX / 2 },
+            "daily ~0.0474% decay (halves every ~4 y), 0.5 ZFX tail: no halving shocks",
+        ),
     ];
     let years = [1u64, 2, 4, 8, 16, 32, 64];
     let rows: Vec<Value> = cands
@@ -75,7 +78,7 @@ fn simulate_rule(blocks: usize, seed: u64, hash: &dyn Fn(usize) -> f64, attacker
             if rng.gen::<f64>() < share {
                 ts = match mode {
                     "future" => (true_time as u64 + 120).max(mtp + 1), // max future drift
-                    _ => mtp + 1,                                       // minimal timestamps
+                    _ => mtp + 1,                                      // minimal timestamps
                 };
             }
         }
@@ -96,7 +99,12 @@ pub fn fork_resilience() -> Value {
     let low = simulate(n, 6, &|_| 1.0, Some((0.3, "minimal")));
     // recovery speed after a 10x jump: blocks until a 30-block mean is within 25% of target
     let recovery = {
-        let p = DifficultyParams { solvetime_rule: zfx_verify::difficulty::SolvetimeRule::RunningMax, target_spacing_secs: 60, pow_limit: U256::MAX.shr(2), fixed: false };
+        let p = DifficultyParams {
+            solvetime_rule: zfx_verify::difficulty::SolvetimeRule::RunningMax,
+            target_spacing_secs: 60,
+            pow_limit: U256::MAX.shr(2),
+            fixed: false,
+        };
         let g = U256::MAX.shr(20);
         let mut rng = StdRng::seed_from_u64(9);
         let mut hist: Vec<(u64, U256)> = (0..31).map(|i| (i * 60, g)).collect();
