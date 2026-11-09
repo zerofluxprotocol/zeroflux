@@ -438,7 +438,9 @@ footer .wrap { padding-top: 48px; padding-bottom: 48px; }
   </div>
   <div class="cmd">
     <div class="cmd-head"><span>macOS or Linux · Rust 1.90+, Python 3.11+ with uv, a C++17 compiler</span><button class="copy" type="button" data-copy="q1">Copy</button></div>
-<pre id="q1"><span class="c"># build, then check bit-exactness against the published test vectors</span>
+<pre id="q1">git clone https://github.com/zerofluxprotocol/zeroflux &amp;&amp; cd zeroflux
+
+<span class="c"># build, then check bit-exactness against the published test vectors</span>
 cargo build --release &amp;&amp; make -C miner/cuda cpu
 ./target/release/zpu-cli selftest
 
@@ -471,6 +473,7 @@ make acceptance     <span class="c"># all of the above, then ACCEPTANCE_REPORT.m
     <p class="body">Apache-2.0. The design documents, threat model and test evidence are published below, including what is not done yet: independent cryptanalysis, an external audit, and a mainnet monetary policy.</p>
   </div>
   <div class="big-links">
+    <a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener"><span class="bl-title">GitHub</span><span class="bl-sub">Source code, Apache-2.0</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
     <a href="/docs/"><span class="bl-title">Documentation</span><span class="bl-sub">Consensus, hardware, bridge, threat model</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
     <a href="/docs/acceptance.html"><span class="bl-title">Test evidence</span><span class="bl-sub">Every check, its command and result</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
     <a href="https://testnet.nearblocks.io/address/wzfx.zeroflux.testnet" target="_blank" rel="noopener"><span class="bl-title">wZFX on NEAR testnet</span><span class="bl-sub">The live bridge contract</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
@@ -493,7 +496,7 @@ make acceptance     <span class="c"># all of the above, then ACCEPTANCE_REPORT.m
   <div class="wrap">
     <div class="foot-row">
       <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap"><span class="logo-word" style="font-size: 17px">ZeroFlux</span><span class="small" style="font-size: 14px">The compute-native blockchain.</span></div>
-      <nav class="foot-nav" aria-label="Footer"><a href="#tech">Technology</a><a href="#mining">Mining</a><a href="#network">NEAR</a><a href="#run">Run it</a><a href="/docs/">Documentation</a><a href="/docs/bridge_trust_model.html">Bridge trust model</a></nav>
+      <nav class="foot-nav" aria-label="Footer"><a href="#tech">Technology</a><a href="#mining">Mining</a><a href="#network">NEAR</a><a href="#run">Run it</a><a href="/docs/">Documentation</a><a href="/docs/bridge_trust_model.html">Bridge trust model</a><a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener">GitHub</a></nav>
     </div>
     <p class="legal">ZeroFlux is a testnet. There is no mainnet, no token sale, and testnet ZFX and wZFX have no monetary value. Any future mainnet depends on independent security review. The v1 NEAR bridge is custodied by a 2-of-3 committee. Mining consumes electricity and computing resources. Hardware support and network features depend on implementation and release status. © 2026 ZeroFlux.</p>
   </div>

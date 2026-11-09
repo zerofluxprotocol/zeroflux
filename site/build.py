@@ -78,7 +78,7 @@ PAGE = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name=
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/static/docs.css"></head><body>
 <header><div class="w"><a class="logo" href="/">{logo}<span>ZeroFlux</span></a>
-<nav><a href="/docs/">Docs</a><a href="/#run">Run it</a><a href="https://testnet.nearblocks.io/address/wzfx.zeroflux.testnet" target="_blank" rel="noopener">wZFX on NEAR</a></nav></div></header>
+<nav><a href="/docs/">Docs</a><a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener">GitHub</a><a href="/#run">Run it</a><a href="https://testnet.nearblocks.io/address/wzfx.zeroflux.testnet" target="_blank" rel="noopener">wZFX on NEAR</a></nav></div></header>
 <div class="status">Testnet · mainnet not launched · testnet ZFX has no monetary value</div>
 <main class="w doc">{body}</main>
 <footer class="w">Apache-2.0 · <a href="/">zeroflux.network</a></footer></body></html>"""
