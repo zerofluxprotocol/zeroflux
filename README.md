@@ -17,7 +17,7 @@ PRIVATE_TESTNET_READY = true      MAINNET_READY = false      testnet only, no mo
 | `make e2e-bridge` | native chain + NEAR sandbox: 100 two-way transfers under fault injection, finality and reorg cases, governance (pause, rotation, upgrade) and recovery |
 | `make e2e-intents` | official Verifier, local Message Bus, test solver: quotes, settlement both ways, expiry, liquidity, duplicates, refunds |
 | `make security-test` | parser fuzzing, crash/corruption/backup tests, adversarial consensus tests, ASan+UBSan miner, attack experiments, `cargo audit`, SBOM, license gate, reproducible build |
-| `make gpu-test` | every GPU backend on this host; missing NVIDIA/AMD hardware reported as BLOCKED (remote rerun: `ZFX_GPU_RUNNER`) |
+| `make gpu-test` | every GPU backend on this host; missing NVIDIA/AMD hardware reported as BLOCKED (remote rerun: set `ZFX_GPU_RUNNER`) |
 | `make testnet-smoke` | real NEAR testnet, only with an explicitly configured ZeroFlux account (`NEAR_TESTNET_ACCOUNT`) |
 | `make acceptance` | all of the above, then `ACCEPTANCE_REPORT.md` and `.json` |
 | `make localnet` | the full local stack for manual use |

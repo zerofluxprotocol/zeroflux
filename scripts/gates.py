@@ -78,9 +78,12 @@ def near_testnet():
         return False, r.stdout[-300:] + r.stderr[-300:]
 
 
-def cloud_opt_in():
-    if os.environ.get("ZFX_GPU_REMOTE") not in ("cloud", "cloud"):
-        return False, "remote GPU rerun is opt-in (ZFX_GPU_RUNNER); it rents GPU sandboxes"
+def remote_gpu_runner():
+    # Optional, kept outside the repository: a script that rents ephemeral GPU
+    # machines and runs bench/gpu/box_run.sh on them.
+    r = os.environ.get("ZFX_GPU_RUNNER", "")
+    if not r or not os.path.exists(r):
+        return False, "remote GPU rerun is opt-in: set ZFX_GPU_RUNNER to a runner script (it rents GPU machines)"
     return True, ""
 
 
@@ -140,7 +143,7 @@ TARGETS = {
         step("apple-mps-stress", f"{PY} miner/python/zpu_miner.py stress --backend torch --device mps", "external", mps),
         step("nvidia-local", "make -C miner/cuda cuda && ZPU_GPU_BIN=miner/cuda/build/zpu-miner-cuda deploy/gpu/entrypoint.sh gpu-test", "external", nvidia),
         step("amd-local", "make -C miner/cuda hip && ZPU_GPU_BIN=miner/cuda/build/zpu-miner-hip deploy/gpu/entrypoint.sh gpu-test", "external", amd),
-        step("remote-h100-mi355x-cloud", f"{PY} bench/gpu/cloud_gpu_run.py --tag gpu_rerun_$(date +%Y-%m-%d)", "external", cloud_opt_in,
+        step("remote-h100-mi355x-cloud", f"{PY} \"$ZFX_GPU_RUNNER\" --tag gpu_rerun_$(date +%Y-%m-%d)", "external", remote_gpu_runner,
              timeout=7200),
     ],
     "testnet-smoke": [

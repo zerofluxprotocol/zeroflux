@@ -1,0 +1,35 @@
+{
+  "experiment": "signature_costs",
+  "host": {
+    "arch": "aarch64",
+    "cpu": "Apple M5 Pro",
+    "os": "macos",
+    "rustc_profile": "release",
+    "threads": 18
+  },
+  "library": "fips205 0.5 (pure Rust, NIST ACVP-tested)",
+  "rows": [
+    {
+      "keygen_s": 0.097668166,
+      "nist_category": 1,
+      "pubkey_bytes": 32,
+      "scheme": "SLH-DSA-SHA2-128s",
+      "sign_s": 0.7514065334,
+      "signature_bytes": 7856,
+      "tx_bytes": 7986,
+      "txs_per_4MiB_block": 525,
+      "verify_tx_s": 0.00070895332
+    },
+    {
+      "keygen_s": 0.141957083,
+      "nist_category": 3,
+      "pubkey_bytes": 48,
+      "scheme": "SLH-DSA-SHA2-192s",
+      "sign_s": 1.3500319250000001,
+      "signature_bytes": 16224,
+      "tx_bytes": 16370,
+      "txs_per_4MiB_block": 256,
+      "verify_tx_s": 0.0010850925
+    }
+  ]
+}

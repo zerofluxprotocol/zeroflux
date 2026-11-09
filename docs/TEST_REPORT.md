@@ -9,7 +9,7 @@ The authoritative, regenerated matrix is `ACCEPTANCE_REPORT.md` (per step: comma
 ```
 make check            make e2e-native      make e2e-bridge      make e2e-intents
 make security-test    make gpu-test        make testnet-smoke   make acceptance
-ZFX_GPU_RUNNER make gpu-test      # rents ephemeral H100 + MI355X sandboxes
+ZFX_GPU_RUNNER=/path/to/runner make gpu-test   # optional: rents ephemeral GPU machines
 ```
 
 ## Results (commit 401790e and later)
@@ -107,7 +107,7 @@ Testnet scenario checks (real processes: 3 Rust nodes; miners in Rust, C++ and P
 
 ## 3b. GPU runs
 
-Driver: `.venv/bin/python bench/gpu/cloud_gpu_run.py` (ephemeral cloud GPU machines, obfuscated names, TTL plus auto-stop backstops). It runs `bench/gpu/box_run.sh` inside each box. Every sandbox id is ledgered in `bench/results/gpu_ledger.json`. The API key has no delete permission, so teardown is stop (Cloud deletes stopped GPU sandboxes), then a 404 check. 12 sandboxes in total (6 H100, 6 MI355X), all verified absent afterwards.
+Driver: an external runner (`ZFX_GPU_RUNNER`) that rents ephemeral GPU machines with auto-stop backstops, and deletes them after each run. It runs `bench/gpu/box_run.sh` inside each box. Every sandbox id is ledgered in `bench/results/gpu_ledger.json`. The API key has no delete permission, so teardown is stop (Cloud deletes stopped GPU sandboxes), then a 404 check. 12 sandboxes in total (6 H100, 6 MI355X), all verified absent afterwards.
 
 ## 4. Not run here
 

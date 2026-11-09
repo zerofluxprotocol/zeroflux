@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Build zeroflux.network into site/dist: the landing page, static assets, and
-HTML renderings of the public design docs. Private material (the original
-specification files, internal status notes) is not published, and vendor or
-personal names are replaced.
+HTML renderings of the public design docs. Local paths are scrubbed.
 
     .venv/bin/python site/build.py && cf pages deploy site/dist ...
 """
@@ -42,25 +40,6 @@ def scrub(t):
     for a, b in SCRUB:
         t = re.sub(a, b, t)
     return t
-
-
-def drop_section(text, heading):
-    """Remove a markdown section (heading line through the next heading of the same or higher level)."""
-    lines = text.split("\n")
-    out, skip, level = [], False, 0
-    for ln in lines:
-        if ln.startswith("#"):
-            lvl = len(ln) - len(ln.lstrip("#"))
-            if skip and lvl <= level:
-                skip = False
-            if ln.strip() == heading:
-                skip, level = True, lvl
-                continue
-        if not skip:
-            out.append(ln)
-    return "\n".join(out)
-
-
 
 
 def relink(h):
@@ -120,7 +99,7 @@ def main():
     md = markdown.Markdown(extensions=["tables", "fenced_code", "sane_lists"])
     idx = []
     for src, slug, title, desc in DOCS:
-        text = public_edit(slug, scrub(open(os.path.join(ROOT, src)).read()))
+        text = scrub(open(os.path.join(ROOT, src)).read())
         body = relink(md.reset().convert(text))
         open(os.path.join(DIST, "docs", f"{slug}.html"), "w").write(PAGE.format(logo=LOGO, title=html.escape(title), desc=html.escape(desc), body=body))
         idx.append(f'<a href="{slug}.html"><div class="t">{html.escape(title)}</div><div class="s">{html.escape(desc)}</div></a>')
@@ -134,7 +113,7 @@ def main():
         for f in fs:
             if f.endswith(".html"):
                 t = open(os.path.join(dp, f)).read()
-                for bad in ("/Users/"):
+                for bad in ("/Users/",):
                     if bad in t:
                         leaks.append((f, bad))
     if leaks:
