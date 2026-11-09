@@ -73,18 +73,25 @@ class Net:
         self.procs = {}
         os.makedirs(RUN, exist_ok=True)
 
-    def start_node(self, i, peers, cfg):
+    def start_node(self, i, peers, cfg, extra=None, expect_fail=False, peer_ports=None):
         p2p, rpc = ports(i)
         log = open(os.path.join(RUN, f"node{i}.log"), "a")
         args = [f"{BIN}/zfx-node", "--config", cfg, "--data-dir", os.path.join(RUN, f"node{i}"), "--p2p-port", str(p2p),
-                "--rpc-port", str(rpc), "--explorer-dir", os.path.join(ROOT, "explorer", "dist")]
+                "--rpc-port", str(rpc), "--rpc-bind", "127.0.0.1", "--explorer-dir", os.path.join(ROOT, "explorer", "dist")] + (extra or [])
         for j in peers:
             args += ["--peer", f"127.0.0.1:{ports(j)[0]}"]
-        self.procs[f"node{i}"] = subprocess.Popen(args, stdout=log, stderr=log)
-        for _ in range(100):
+        for pp in peer_ports or []:
+            args += ["--peer", f"127.0.0.1:{pp}"]
+        proc = subprocess.Popen(args, stdout=log, stderr=log)
+        self.procs[f"node{i}"] = proc
+        for _ in range(300):
+            if proc.poll() is not None:
+                if expect_fail:
+                    return proc.returncode
+                raise RuntimeError(f"node{i} exited with {proc.returncode}")
             try:
                 if http(rpc, "/v1/status"):
-                    return
+                    return 0
             except Exception:
                 time.sleep(0.1)
         raise RuntimeError(f"node{i} did not start")
@@ -132,6 +139,13 @@ def wait_for(cond, timeout, what):
             pass
         time.sleep(0.5)
     raise AssertionError(f"timeout waiting for {what}")
+
+
+def push_invalid_block_v2(i, cfg):
+    """Encrypted-transport adversary: handshake, then an invalid-PoW block."""
+    out = subprocess.run([f"{BIN}/zfx-p2ptool", "inject-invalid-block", "--peer", f"127.0.0.1:{ports(i)[0]}",
+                          "--rpc", f"http://127.0.0.1:{ports(i)[1]}", "--config", cfg], capture_output=True, text=True, timeout=60)
+    return json.loads(out.stdout.strip().splitlines()[-1])
 
 
 def push_invalid_block(i):

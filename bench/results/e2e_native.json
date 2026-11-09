@@ -1,0 +1,442 @@
+{
+  "started": "2026-11-09T16:12:02Z",
+  "checks": [
+    {
+      "check": "A2 peer discovery via Addr gossip (node3 configured only with node2 reaches node1)",
+      "result": "PASS",
+      "evidence": {
+        "node3_peers": [
+          "ac7f54c1ceaa",
+          "8b2710564696"
+        ]
+      }
+    },
+    {
+      "check": "A3 faucet pays a fresh wallet",
+      "result": "PASS",
+      "evidence": {
+        "amount": 5000000,
+        "to": "zfx1768c18722fdda40c4694310d2fe5947b66383f9fa42ef92207f4700852eab443b95f215d",
+        "txid": "4799f33d35556764722e3458bd8e1d4f0a9514e76f2bb1cf50916d48e19b19ff"
+      }
+    },
+    {
+      "check": "A3 SLH-DSA transfer accepted",
+      "result": "PASS",
+      "evidence": {
+        "stderr": "signed with SLH-DSA-SHA2-128s in 0.77s (8018 bytes, fee 2000)",
+        "out": {
+          "accepted": true,
+          "deposit_id": null,
+          "txid": "c7f91f5e4f49538119d1e81316d038b23525865b46ec678c45ee9606b129c89e"
+        }
+      }
+    },
+    {
+      "check": "A3 balances and fee conservation on a different node",
+      "result": "PASS",
+      "evidence": {
+        "alice": 3763433,
+        "bob": 1234567
+      }
+    },
+    {
+      "check": "A3 receipt Merkle proof verifies independently (Python) against header tx_root",
+      "result": "PASS",
+      "evidence": {
+        "height": 353,
+        "leaf_count": 2
+      }
+    },
+    {
+      "check": "A3 address history shows in/out",
+      "result": "PASS",
+      "evidence": [
+        {
+          "amount": 1234567,
+          "counterparty": "zfx17407fb9ef982c3dbad978f9ba91ca1088ade62aebe2af612a2f7440b6c94ef8146ebfa5b",
+          "direction": "out",
+          "fee": 2000,
+          "height": 353,
+          "memo": null,
+          "txid": "c7f91f5e4f49538119d1e81316d038b23525865b46ec678c45ee9606b129c89e"
+        },
+        {
+          "amount": 5000000,
+          "counterparty": "zfx14b715d74c84d1bd5444a52d1b74b2606d9da746a5db2bb2cdced7755a6874bdf62434721",
+          "direction": "in",
+          "fee": 1000,
+          "height": 266,
+          "memo": null,
+          "txid": "4799f33d35556764722e3458bd8e1d4f0a9514e76f2bb1cf50916d48e19b19ff"
+        }
+      ]
+    },
+    {
+      "check": "A1 invalid signature rejected with structured error",
+      "result": "PASS",
+      "evidence": {
+        "code": 1001,
+        "message": "SLH-DSA signature invalid"
+      }
+    },
+    {
+      "check": "A3 backup/restore reproduces the address",
+      "result": "PASS",
+      "evidence": {
+        "restored": true
+      }
+    },
+    {
+      "check": "A3 explorer served by node",
+      "result": "PASS",
+      "evidence": {
+        "bytes": 743
+      }
+    },
+    {
+      "check": "A2 invalid-PoW block over encrypted P2P rejected and peer disconnected; 60 malformed connections survived",
+      "result": "PASS",
+      "evidence": {
+        "inject": {
+          "disconnected_by_node": true,
+          "handshake": "ok",
+          "invalid_block_sent": true
+        },
+        "garbage": {
+          "malformed_connections": 60
+        },
+        "handshakes_failed": 60,
+        "blocks_rejected": 1
+      }
+    },
+    {
+      "check": "A2 transport encryption: no plaintext markers on the wire; AEAD frame bodies are uniformly distributed",
+      "result": "PASS",
+      "evidence": {
+        "wire_bytes": 8563671,
+        "encrypted_frames": 5652,
+        "plaintext_markers_found": [],
+        "chi2_255dof_over_2MiB_ciphertext": 261.7,
+        "p_0.001_critical_value": 330.5,
+        "new_node_synced_from_genesis_to": 847
+      }
+    },
+    {
+      "check": "A1 400+ blocks: 3 nodes converge; supply == allocations + height*subsidy exactly; audits pass",
+      "result": "PASS",
+      "evidence": {
+        "height": 847,
+        "supply": "14235000000000",
+        "expected": 14235000000000,
+        "state_root": "d446fea8049d7ff0993b291588a0c768c425e8442709adfa4b95b98067c466e3",
+        "reached_in_s": 2.0,
+        "health": [
+          "ok",
+          "ok",
+          "ok"
+        ]
+      }
+    },
+    {
+      "check": "Gate 2: blocks from all three independent miner implementations accepted by independent nodes",
+      "result": "PASS",
+      "evidence": {
+        "last_200_blocks_by_miner": {
+          "rust": 54,
+          "cpp": 107,
+          "py": 39
+        }
+      }
+    },
+    {
+      "check": "A1 coinbase maturity: recent rewards immature, older spendable",
+      "result": "PASS",
+      "evidence": {
+        "rust_miner": {
+          "address": "zfx14e30e02b88a39bcfedb098d539717e12fee195024d4d158a95ee424cf6582f31ab58dcf8",
+          "balance": 1875000001000,
+          "immature": 0,
+          "next_nonce": 0,
+          "nonce": 0,
+          "pending": []
+        }
+      }
+    },
+    {
+      "check": "A2 partition then rejoin: converge on most cumulative work via reorg",
+      "result": "PASS",
+      "evidence": {
+        "node3_reorgs": 145,
+        "max_depth": 30,
+        "height": 871
+      }
+    },
+    {
+      "check": "A2 10 restart/recovery runs (5 SIGTERM clean, 5 SIGKILL crash) reload, revalidate and resync",
+      "result": "PASS",
+      "evidence": [
+        {
+          "signal": "TERM",
+          "height_before": 871,
+          "reloaded": 1833,
+          "previous_clean": true,
+          "resynced": 871
+        },
+        {
+          "signal": "KILL",
+          "height_before": 871,
+          "reloaded": 1833,
+          "previous_clean": false,
+          "resynced": 871
+        },
+        {
+          "signal": "TERM",
+          "height_before": 871,
+          "reloaded": 1833,
+          "previous_clean": true,
+          "resynced": 871
+        },
+        {
+          "signal": "KILL",
+          "height_before": 871,
+          "reloaded": 1833,
+          "previous_clean": false,
+          "resynced": 871
+        },
+        {
+          "signal": "TERM",
+          "height_before": 871,
+          "reloaded": 1833,
+          "previous_clean": true,
+          "resynced": 871
+        },
+        {
+          "signal": "KILL",
+          "height_before": 871,
+          "reloaded": 1833,
+          "previous_clean": false,
+          "resynced": 871
+        },
+        {
+          "signal": "TERM",
+          "height_before": 871,
+          "reloaded": 1833,
+          "previous_clean": true,
+          "resynced": 871
+        },
+        {
+          "signal": "KILL",
+          "height_before": 871,
+          "reloaded": 1833,
+          "previous_clean": false,
+          "resynced": 871
+        },
+        {
+          "signal": "TERM",
+          "height_before": 871,
+          "reloaded": 1833,
+          "previous_clean": true,
+          "resynced": 871
+        },
+        {
+          "signal": "KILL",
+          "height_before": 871,
+          "reloaded": 1833,
+          "previous_clean": false,
+          "resynced": 871
+        }
+      ]
+    },
+    {
+      "check": "A2 corrupted block log detected (refuses to start) and --repair truncates, revalidates, resyncs",
+      "result": "PASS",
+      "evidence": {
+        "exit_code_on_corruption": 1,
+        "load_report": {
+          "height": 443,
+          "previous_shutdown_clean": false,
+          "records": 853,
+          "rejected": 0,
+          "repaired_from_line": 854,
+          "revalidated": 853,
+          "torn_tail_dropped": false
+        }
+      }
+    },
+    {
+      "check": "A5 admin RPC refused without bearer token",
+      "result": "PASS",
+      "evidence": {
+        "code": 1004,
+        "message": "admin method requires a valid bearer token"
+      }
+    }
+  ],
+  "final": {
+    "node1": {
+      "api_version": 2,
+      "best_hash": "6114d41bc660740df238e505da18f0c1989cbd2eee3d32a7d1ede1ef278cd9c0",
+      "bridge": null,
+      "bridge_ops_pending": 0,
+      "chain_id": 1514536962,
+      "coinbase_maturity": 5,
+      "consensus_version": 2,
+      "cum_work_log2": 17.766528908598865,
+      "difficulty_log2": 8.0,
+      "genesis": "bd4a5b47759de9582aa8881482f5d01d32eaf36ba0b2a0613e292a98bc246292",
+      "height": 871,
+      "invalid_blocks": 242,
+      "load_report": {
+        "height": 0,
+        "previous_shutdown_clean": false,
+        "records": 0,
+        "rejected": 0,
+        "repaired_from_line": null,
+        "revalidated": 0,
+        "torn_tail_dropped": false
+      },
+      "max_reorg_depth": 31,
+      "mempool": 0,
+      "next_target": "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "orphans": 0,
+      "peer_count": 2,
+      "peer_id": "ac7f54c1ceaaccff7dd24f8ac3f63b032b7fb1b9e75f46c514495d5d97abfd12",
+      "crypto": "consensus: SLH-DSA + SHA-256/SHAKE256 only; transport: ML-KEM-768 hybrid",
+      "profile": "zfx-fp8c-v0.1-dev",
+      "reorgs": 79,
+      "signature_schemes": [
+        "SLH-DSA-SHA2-128s",
+        "SLH-DSA-SHA2-192s"
+      ],
+      "state_root": "661229f6d18d69c1901a8474f2b1705b9ebde5d6a3839cbd14d23a8cd35f171a",
+      "stats": {
+        "blocks_accepted": 1833,
+        "blocks_rejected": 242,
+        "faucet_payouts": 1,
+        "frames_rejected": 0,
+        "handshakes_failed": 60,
+        "handshakes_ok": 18,
+        "last_pow_verify_ms": 0.0030410000000000003,
+        "peers_banned": 1,
+        "submissions": 2529,
+        "submissions_accepted": 694,
+        "submissions_rate_limited": 1522
+      },
+      "supply": "14355000000000",
+      "target": "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "tip_timestamp": 1794240869,
+      "transport": "ZFXP2P/2: ML-KEM-768 + X25519 hybrid key exchange, ML-DSA-65 peer identities, ChaCha20-Poly1305 frames"
+    },
+    "node2": {
+      "api_version": 2,
+      "best_hash": "6114d41bc660740df238e505da18f0c1989cbd2eee3d32a7d1ede1ef278cd9c0",
+      "bridge": null,
+      "bridge_ops_pending": 0,
+      "chain_id": 1514536962,
+      "coinbase_maturity": 5,
+      "consensus_version": 2,
+      "cum_work_log2": 17.766528908598865,
+      "difficulty_log2": 8.0,
+      "genesis": "bd4a5b47759de9582aa8881482f5d01d32eaf36ba0b2a0613e292a98bc246292",
+      "height": 871,
+      "invalid_blocks": 0,
+      "load_report": {
+        "height": 871,
+        "previous_shutdown_clean": false,
+        "records": 1833,
+        "rejected": 0,
+        "repaired_from_line": null,
+        "revalidated": 1833,
+        "torn_tail_dropped": false
+      },
+      "max_reorg_depth": 21,
+      "mempool": 0,
+      "next_target": "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "orphans": 0,
+      "peer_count": 1,
+      "peer_id": "8b27105646966ad2254e5da2daefd29a0030ad3a0c89b241521b1601b7df5532",
+      "crypto": "consensus: SLH-DSA + SHA-256/SHAKE256 only; transport: ML-KEM-768 hybrid",
+      "profile": "zfx-fp8c-v0.1-dev",
+      "reorgs": 70,
+      "signature_schemes": [
+        "SLH-DSA-SHA2-128s",
+        "SLH-DSA-SHA2-192s"
+      ],
+      "state_root": "661229f6d18d69c1901a8474f2b1705b9ebde5d6a3839cbd14d23a8cd35f171a",
+      "stats": {
+        "blocks_accepted": 0,
+        "blocks_rejected": 0,
+        "faucet_payouts": 0,
+        "frames_rejected": 0,
+        "handshakes_failed": 0,
+        "handshakes_ok": 1,
+        "last_pow_verify_ms": 0.0,
+        "peers_banned": 0,
+        "submissions": 0,
+        "submissions_accepted": 0,
+        "submissions_rate_limited": 0
+      },
+      "supply": "14355000000000",
+      "target": "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "tip_timestamp": 1794240869,
+      "transport": "ZFXP2P/2: ML-KEM-768 + X25519 hybrid key exchange, ML-DSA-65 peer identities, ChaCha20-Poly1305 frames"
+    },
+    "node3": {
+      "api_version": 2,
+      "best_hash": "6114d41bc660740df238e505da18f0c1989cbd2eee3d32a7d1ede1ef278cd9c0",
+      "bridge": null,
+      "bridge_ops_pending": 0,
+      "chain_id": 1514536962,
+      "coinbase_maturity": 5,
+      "consensus_version": 2,
+      "cum_work_log2": 17.766528908598865,
+      "difficulty_log2": 8.0,
+      "genesis": "bd4a5b47759de9582aa8881482f5d01d32eaf36ba0b2a0613e292a98bc246292",
+      "height": 871,
+      "invalid_blocks": 0,
+      "load_report": {
+        "height": 443,
+        "previous_shutdown_clean": false,
+        "records": 853,
+        "rejected": 0,
+        "repaired_from_line": 854,
+        "revalidated": 853,
+        "torn_tail_dropped": false
+      },
+      "max_reorg_depth": 22,
+      "mempool": 0,
+      "next_target": "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "orphans": 0,
+      "peer_count": 1,
+      "peer_id": "18f6d6a0f69975ebaf46e5ab7124010d043cda28ddd9bf6cff5f07587eb1d9f8",
+      "crypto": "consensus: SLH-DSA + SHA-256/SHAKE256 only; transport: ML-KEM-768 hybrid",
+      "profile": "zfx-fp8c-v0.1-dev",
+      "reorgs": 81,
+      "signature_schemes": [
+        "SLH-DSA-SHA2-128s",
+        "SLH-DSA-SHA2-192s"
+      ],
+      "state_root": "661229f6d18d69c1901a8474f2b1705b9ebde5d6a3839cbd14d23a8cd35f171a",
+      "stats": {
+        "blocks_accepted": 429,
+        "blocks_rejected": 0,
+        "faucet_payouts": 0,
+        "frames_rejected": 0,
+        "handshakes_failed": 0,
+        "handshakes_ok": 1,
+        "last_pow_verify_ms": 0.021459,
+        "peers_banned": 0,
+        "submissions": 0,
+        "submissions_accepted": 0,
+        "submissions_rate_limited": 0
+      },
+      "supply": "14355000000000",
+      "target": "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "tip_timestamp": 1794240869,
+      "transport": "ZFXP2P/2: ML-KEM-768 + X25519 hybrid key exchange, ML-DSA-65 peer identities, ChaCha20-Poly1305 frames"
+    }
+  },
+  "passed": 18,
+  "total": 18
+}
