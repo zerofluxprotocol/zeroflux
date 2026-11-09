@@ -2,7 +2,7 @@
 //! The modules below are the consensus sources of crates/zfx-verify, included
 //! verbatim with #[path], so on-chain results equal the reference by
 //! construction; tests check them against the published vectors.
-#![allow(dead_code)]
+#![allow(dead_code, clippy::needless_range_loop, clippy::manual_is_multiple_of)]
 #[path = "../../../../crates/zfx-verify/src/hash.rs"]
 pub mod hash;
 #[path = "../../../../crates/zfx-verify/src/header.rs"]

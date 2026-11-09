@@ -10,8 +10,12 @@
 //!   - `bridge_burn`: the holder burns, producing a burn record whose
 //!     `withdrawal_id` the committee must see *finalized* before signing a
 //!     native release (2-of-3 SLH-DSA, enforced by ZeroFlux consensus).
+//!
 //! Trust model: 2-of-3 custodial committee. Two compromised members can
 //! mint unbacked wZFX.
+// `new` takes 8 named JSON fields (the public init ABI); near-sdk expands it
+// into a generated extern fn, so the allow has to be crate-level.
+#![allow(clippy::too_many_arguments)]
 
 use near_contract_standards::fungible_token::events::{FtBurn, FtMint};
 use near_contract_standards::fungible_token::metadata::{FungibleTokenMetadata, FungibleTokenMetadataProvider, FT_METADATA_SPEC};
