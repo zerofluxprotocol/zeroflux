@@ -391,21 +391,21 @@ footer .wrap { padding-top: 48px; padding-bottom: 48px; }
     <p class="body" style="max-width: 560px; margin: 24px auto 0">Built for the GPUs already deployed across AI infrastructure. No mining ASIC required. Data-center GPUs mine roughly 2,500 to 4,000 times faster than a laptop CPU, by design.</p>
   </div>
   <div class="grid-cells grid-4">
-    <div><div class="tag">CUDA</div><h3>NVIDIA</h3><p class="small">int8 (cuBLAS) and FP8 (cuBLASLt) paths, both exact.</p><div class="stat">H100 <b>8.08 M</b> attempts/s<br>Blackwell, RTX 50: builds, not yet measured</div></div>
-    <div><div class="tag">ROCm</div><h3>AMD</h3><p class="small">int8 (hipBLAS) and FP8 (hipBLASLt) paths, both exact.</p><div class="stat">MI355X <b>13.1 M</b> attempts/s<br>MI300X: builds, not yet measured</div></div>
+    <div><div class="tag">CUDA</div><h3>NVIDIA</h3><p class="small">int8 (cuBLAS) and FP8 (cuBLASLt) paths, both exact.</p><div class="stat">H100 <b>8.08 M</b> attempts/s<br>≈ 86 µJ per attempt</div></div>
+    <div><div class="tag">ROCm</div><h3>AMD</h3><p class="small">int8 (hipBLAS) and FP8 (hipBLASLt) paths, both exact.</p><div class="stat">MI355X <b>13.1 M</b> attempts/s<br>≈ 93 µJ per attempt</div></div>
     <div><div class="tag">MLX · METAL</div><h3>Apple Silicon</h3><p class="small">GPU mining through MLX or PyTorch MPS.</p><div class="stat">M5 Pro GPU <b>80 K</b> attempts/s<br>24x the same chip's CPU</div></div>
     <div><div class="tag">REFERENCE</div><h3>Any CPU</h3><p class="small">Rust and C++ miners; every full node verifies on CPU.</p><div class="stat">M5 Pro, 18 threads <b>3.3 K</b> attempts/s</div></div>
   </div>
   <div class="scroll-x"><table class="mtable">
-    <thead><tr><th>Hardware</th><th>Attempts / s</th><th>Energy / attempt</th><th>Real blocks mined</th></tr></thead>
+    <thead><tr><th>Hardware</th><th>Attempts / s</th><th>Real blocks mined</th></tr></thead>
     <tbody>
-      <tr class="hl"><td>AMD MI355X</td><td class="n">13,124,061</td><td class="n">≈ 93 µJ</td><td class="n">57 in 120 s, all re-verified by an independent CPU node</td></tr>
-      <tr class="hl"><td>NVIDIA H100 80GB</td><td class="n">8,078,510</td><td class="n">≈ 86 µJ</td><td class="n">42 in 120 s, all re-verified by an independent CPU node</td></tr>
-      <tr><td>Apple M5 Pro GPU (MLX)</td><td class="n">80,131</td><td class="n">not measured</td><td class="n">88 in 30 s on an easy local target, re-verified</td></tr>
-      <tr><td>Apple M5 Pro CPU (18 threads)</td><td class="n">3,293</td><td class="n">not measured</td><td class="n">55 in 25 s on an easy local target, re-verified</td></tr>
+      <tr class="hl"><td>AMD MI355X</td><td class="n">13,124,061</td><td class="n">57 in 120 s, all re-verified by an independent CPU node</td></tr>
+      <tr class="hl"><td>NVIDIA H100 80GB</td><td class="n">8,078,510</td><td class="n">42 in 120 s, all re-verified by an independent CPU node</td></tr>
+      <tr><td>Apple M5 Pro GPU (MLX)</td><td class="n">80,131</td><td class="n">88 in 30 s on an easy local target, re-verified</td></tr>
+      <tr><td>Apple M5 Pro CPU (18 threads)</td><td class="n">3,293</td><td class="n">55 in 25 s on an easy local target, re-verified</td></tr>
     </tbody>
   </table></div>
-  <p class="note">Production proof-of-work profile, measured 2026-11-09. Every GPU path passed 278 bit-exactness checks against the reference and a worst-case accumulator stress test. Hardware not listed as measured has not been tested on real devices.</p>
+  <p class="note">Production proof-of-work profile, measured 2026-11-09. Every GPU path passed 278 bit-exactness checks against the reference and a worst-case accumulator stress test. We are also developing support for NVIDIA Blackwell (B200, B300), RTX 50 series and RTX PRO 6000, and AMD MI300X.</p>
   <div class="btns center" style="margin-top: 32px">
     <a href="/docs/hardware.html" class="btn btn-line btn-md">View Hardware Support</a>
     <a href="#run" class="btn btn-ink btn-md"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>Explore the Miner</a>
