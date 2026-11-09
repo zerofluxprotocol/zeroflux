@@ -1,0 +1,27 @@
+# Three CPU-only nodes + two independent CPU miners on a private network.
+#   docker compose up --build
+# Explorer: http://localhost:9441/
+# Set ZFX_MINER to a zfx1... address (zfx-wallet new) before starting.
+x-node: &node
+  build: .
+  image: zeroflux/zfx:0.1
+  volumes: []
+services:
+  node1:
+    <<: *node
+    command: ["--data-dir", "/data", "--explorer-dir", "/opt/zfx/explorer", "--miner-address", "${ZFX_MINER}"]
+    ports: ["9441:9441"]
+  node2:
+    <<: *node
+    command: ["--data-dir", "/data", "--peer", "node1:9440", "--miner-address", "${ZFX_MINER}"]
+  node3:
+    <<: *node
+    command: ["--data-dir", "/data", "--peer", "node1:9440", "--peer", "node2:9440", "--miner-address", "${ZFX_MINER}"]
+  miner-rust:
+    image: zeroflux/zfx:0.1
+    entrypoint: ["zpu-cli", "mine", "--node", "http://node1:9441", "--threads", "2"]
+    depends_on: [node1]
+  miner-cpp:
+    image: zeroflux/zfx:0.1
+    entrypoint: ["zpu-cli", "mine", "--node", "http://node2:9441", "--backend", "exec", "--exec", "zpu-miner --backend cpu --threads 2"]
+    depends_on: [node2]

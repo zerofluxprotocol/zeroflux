@@ -191,7 +191,7 @@ def scenario(out_path, profile):
         net.start_miner("miner_rust", 1, miners["rust"], "rust")
         net.start_miner("miner_cpp", 2, miners["cpp"], "cpp")
         net.start_miner("miner_py", 3, miners["py"], "python:numpy")
-        wait_for(lambda: status(1)["height"] >= 12 and status(3)["height"] >= 3, 300, "initial mining")
+        wait_for(lambda: status(1)["height"] >= 12 and status(3)["height"] >= 3, 300 if profile == "dev" else 900, "initial mining")
         s1, s2 = status(1), status(2)
         h = min(s1["height"], s2["height"]) - 2
         b1, b2 = http(ports(1)[1], f"/v1/block/{h}"), http(ports(2)[1], f"/v1/block/{h}")
@@ -258,7 +258,7 @@ def scenario(out_path, profile):
         wait_for(lambda: any(b["miner"] == miners["py"] for b in http(ports(1)[1], "/v1/blocks?count=50")), 300, "python-miner block on main chain")
         check("third implementation (Python miner) block accepted on main chain", True, {"miner": miners["py"]})
         # difficulty adjusts (LWMA needs 31 blocks of history)
-        wait_for(lambda: status(1)["height"] >= 40, 300, "height 40 for LWMA")
+        wait_for(lambda: status(1)["height"] >= 40, 300 if profile == "dev" else 1500, "height 40 for LWMA")
         s1 = status(1)
         gen_t = json.load(open(cfg))["genesis_target"]
         check("LWMA difficulty moved off genesis target", s1["target"] != gen_t and s1["next_target"] != gen_t, {"target": s1["target"], "difficulty_log2": s1["difficulty_log2"], "height": s1["height"]})

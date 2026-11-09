@@ -1,0 +1,24 @@
+{"host":"Apple M5 Pro","threads":18,"date":"2026-11-09T05:55:58Z"}
+{"selftest":"./target/release/zpu-cli selftest","summary":"10/10 vectors bit-exact on cpu-rust x18"}
+{"selftest":"./miner/cuda/build/zpu-miner selftest tests/vectors/fp8c_v0.1.json","summary":"278/278 checks bit-exact on cpu-cpp x18"}
+{"selftest":"python --backend numpy","summary":"278/278 checks bit-exact on numpy-f32blas"}
+{"backend": "numpy-f32blas", "rows": 512, "k": 4096, "n": 4096, "max_abs_ref": 1048576, "mismatches": 0, "elapsed_s": 0.03246808052062988, "verdict": "PASS"}
+{"selftest":"python --backend torch --device cpu --gemm fp32","summary":"278/278 checks bit-exact on torch-cpu:fp32"}
+{"backend": "torch-cpu:fp32", "rows": 512, "k": 4096, "n": 4096, "max_abs_ref": 1048576, "mismatches": 0, "elapsed_s": 0.03232097625732422, "verdict": "PASS"}
+{"selftest":"python --backend torch --device mps --gemm fp32","summary":"278/278 checks bit-exact on torch-mps:fp32"}
+{"backend": "torch-mps:fp32", "rows": 512, "k": 4096, "n": 4096, "max_abs_ref": 1048576, "mismatches": 0, "elapsed_s": 0.17322421073913574, "verdict": "PASS"}
+{"selftest":"python --backend mlx","summary":"278/278 checks bit-exact on mlx-metal:Device(gpu, 0):fp32"}
+{"backend": "mlx-metal:Device(gpu, 0):fp32", "rows": 512, "k": 4096, "n": 4096, "max_abs_ref": 1048576, "mismatches": 0, "elapsed_s": 0.10995101928710938, "verdict": "PASS"}
+{"attempts":4767,"attempts_per_s":1002.8401797095661,"backend":"cpu-rust x1","elapsed_s":4.753499208,"profile":"zfx-fp8c-v0.1","tera_macs_per_s":0.05178904160574754}
+{"backend":"cpu-cpp x1","impl":"zpu-miner-cpp","profile":1,"attempts":300,"elapsed_s":0.361127,"attempts_per_s":830.732,"tera_macs_per_s":0.042901}
+{"attempts":42047,"attempts_per_s":3293.316712972365,"backend":"cpu-rust x18","elapsed_s":12.767372125,"profile":"zfx-fp8c-v0.1","tera_macs_per_s":0.17007467363186926}
+{"backend":"cpu-cpp x18","impl":"zpu-miner-cpp","profile":1,"attempts":5400,"elapsed_s":1.7721,"attempts_per_s":3047.23,"tera_macs_per_s":0.157366}
+{"attempts":554851,"attempts_per_s":133006.2365606996,"backend":"cpu-rust x1","elapsed_s":4.171616417,"profile":"zfx-fp8c-v0.1-dev","tera_macs_per_s":0.030508438517347032}
+{"backend":"cpu-cpp x1","impl":"zpu-miner-cpp","profile":2,"attempts":20000,"elapsed_s":0.142908,"attempts_per_s":139950,"tera_macs_per_s":0.0321012}
+{"attempts":7162299,"attempts_per_s":708817.482500807,"backend":"cpu-rust x18","elapsed_s":10.104574417,"profile":"zfx-fp8c-v0.1-dev","tera_macs_per_s":0.1625857188661051}
+{"backend":"cpu-cpp x18","impl":"zpu-miner-cpp","profile":2,"attempts":360000,"elapsed_s":0.428568,"attempts_per_s":840006,"tera_macs_per_s":0.192677}
+{"backend": "numpy-f32blas", "impl": "zpu-miner-python", "profile": "zfx-fp8c-v0.1", "attempts": 16384, "elapsed_s": 2.1181859970092773, "attempts_per_s": 7734.920362580529, "tera_macs_per_s": 0.39944960381507716}
+{"backend": "mlx-metal:Device(gpu, 0):fp32", "impl": "zpu-miner-python", "profile": "zfx-fp8c-v0.1", "attempts": 16384, "elapsed_s": 0.20446395874023438, "attempts_per_s": 80131.48185600477, "tera_macs_per_s": 4.138179474393121}
+{"backend": "torch-mps:fp32", "impl": "zpu-miner-python", "profile": "zfx-fp8c-v0.1", "attempts": 16384, "elapsed_s": 0.38686418533325195, "attempts_per_s": 42350.77999243202, "tera_macs_per_s": 2.1870945654562117}
+{"backend":"cuda (H100/H200/B200/RTX)","result":"UNSUPPORTED","reason":"no NVIDIA GPU on this host"}
+{"backend":"rocm (MI300X/MI355X)","result":"UNSUPPORTED","reason":"no AMD GPU on this host"}
