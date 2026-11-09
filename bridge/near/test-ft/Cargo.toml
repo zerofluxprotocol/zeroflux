@@ -1,0 +1,13 @@
+[package]
+name = "test-ft"
+description = "Test-only NEP-141 token (tUSDC fixture for NEAR Intents tests). Owner can mint. Not for any real network."
+version = "1.0.0"
+edition = "2021"
+license = "Apache-2.0"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+near-sdk.workspace = true
+near-contract-standards.workspace = true

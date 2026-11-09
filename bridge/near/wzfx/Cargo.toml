@@ -1,0 +1,29 @@
+[package]
+name = "wzfx"
+description = "Wrapped ZeroFlux (wZFX): NEP-141/145/148 token minted 1:1 against native ZFX locked on ZeroFlux, under a 2-of-3 committee"
+version = "1.0.0"
+edition = "2021"
+license = "Apache-2.0"
+repository = "https://github.com/zerofluxprotocol/zeroflux"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+# Used only by the upgrade test to produce a distinguishable v2 binary.
+upgrade-test-v2 = []
+
+[dependencies]
+near-sdk.workspace = true
+near-contract-standards.workspace = true
+hex = "0.4"
+
+[dev-dependencies]
+near-sdk = { workspace = true, features = ["unit-testing"] }
+ed25519-dalek = "2"
+
+[package.metadata.near.reproducible_build]
+image = "sourcescan/cargo-near:0.23.0-rust-1.95.0"
+image_digest = "unpinned"
+passed_env = []
+container_build_command = ["cargo", "near", "build", "non-reproducible-wasm", "--locked"]
