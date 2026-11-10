@@ -1,4 +1,4 @@
-//! Prompt VPN daemon: loopback-only HTTP server for the OpenAI-compatible
+//! ZFX VPN daemon: loopback-only HTTP server for the OpenAI-compatible
 //! proxy, the admin API and the embedded dashboard.
 
 pub mod admin;
@@ -23,6 +23,8 @@ pub fn router(st: Arc<AppState>) -> Router {
         .route("/v1/chat/completions", post(proxy_routes::chat))
         .route("/v1/responses", post(proxy_routes::responses))
         .route("/v1/models", get(proxy_routes::models))
+        .route("/v1/zfx/requests/{id}/privacy", get(proxy_routes::request_privacy))
+        .route("/v1/zfx/privacy-policy", get(proxy_routes::privacy_policy))
         .route("/v1/{*rest}", any(proxy_routes::unsupported))
         .nest("/api/admin/v1", admin::router(st.clone()))
         .route("/dashboard/login", get(assets::login))
@@ -50,7 +52,7 @@ pub async fn bind(port: u16) -> std::io::Result<tokio::net::TcpListener> {
     let addr: SocketAddr = ([127, 0, 0, 1], port).into();
     tokio::net::TcpListener::bind(addr).await.map_err(|e| {
         if e.kind() == std::io::ErrorKind::AddrInUse {
-            std::io::Error::new(e.kind(), format!("127.0.0.1:{port} is already in use; stop the other process or choose another port with --port (Prompt VPN never binds to non-loopback addresses)"))
+            std::io::Error::new(e.kind(), format!("127.0.0.1:{port} is already in use; stop the other process or choose another port with --port (ZFX VPN never binds to non-loopback addresses)"))
         } else {
             e
         }

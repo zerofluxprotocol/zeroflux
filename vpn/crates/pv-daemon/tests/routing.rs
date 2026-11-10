@@ -99,7 +99,8 @@ async fn no_downgrade_when_tee_unverified_or_failing() {
     });
     let (s, v) = h.chat(user("draft text")).await;
     assert_eq!(s, 403, "{v}");
-    assert_eq!(v["error"]["code"], "PV_ROUTE_FORBIDDEN");
+    assert_eq!(v["error"]["code"], "ZFX_TEE_UNVERIFIED");
+    assert_eq!(v["error"]["legacy_code"], "PV_ROUTE_FORBIDDEN");
     assert_eq!(near.rec.count() + h.rec.count(), 0);
     // Verified but the TEE upstream fails: still no downgrade.
     near.backend.eligible.store(true, std::sync::atomic::Ordering::SeqCst);
@@ -208,6 +209,6 @@ async fn retries_after_stream_failure_do_not_leak() {
     let mut b = user("hello b@example.com");
     b["stream"] = json!(true);
     let (_, sse) = h.stream("/v1/chat/completions", b).await;
-    assert!(sse.contains("PV_OUTPUT_BLOCKED") || sse.contains("PV_PROVIDER_ERROR"), "{}", &sse[..sse.len().min(300)]);
+    assert!(sse.contains("ZFX_OUTPUT_BLOCKED") || sse.contains("ZFX_UPSTREAM_FAILURE"), "{}", &sse[..sse.len().min(300)]);
     assert!(!h.upstream_text().contains("b@example.com"));
 }

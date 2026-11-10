@@ -6,8 +6,7 @@
 use pv_core::{evaluate, Action, Decision, DestinationRef, Direction, Disposition, EvalContext, FallbackSettings, Finding, PolicySet};
 use pv_detectors::exact::ExactMatcher;
 use pv_detectors::{detect_deterministic, Detector};
-use pv_transform::{restore, safe_release_len};
-use pv_vault::Vault;
+use pv_transform::{restore, safe_release_len, TokenStore};
 use std::sync::Arc;
 
 /// Bytes held back from release while streaming (longer than any built-in pattern
@@ -30,7 +29,8 @@ pub struct OutCtx {
     pub agent_id: Option<String>,
     pub app_id: Option<String>,
     pub destination: DestinationRef,
-    pub vault: Arc<Vault>,
+    /// Mapping store for this caller (local vault or per-request ephemeral store).
+    pub vault: Arc<dyn TokenStore>,
     pub detector: Arc<Detector>,
     pub exact: Arc<ExactMatcher>,
     pub scope: String,
@@ -92,7 +92,7 @@ impl OutCtx {
             if fs.iter().any(|f| f.whole_field && d.action_for(&f.finding_id).is_some_and(|a| a != Action::Allow)) {
                 return Err(OutputBlocked { categories: d.categories() });
             }
-            let r = pv_transform::apply(&mut fields, &fs, &d, &self.vault, &self.scope, chrono::Duration::minutes(1)).map_err(|_| OutputBlocked { categories: d.categories() })?;
+            let r = pv_transform::apply(&mut fields, &fs, &d, self.vault.as_ref(), &self.scope, chrono::Duration::minutes(1)).map_err(|_| OutputBlocked { categories: d.categories() })?;
             stats.redacted += r.redacted;
             for c in d.findings.iter().filter(|f| f.action != Action::Allow).map(|f| f.category.clone()) {
                 if !stats.categories.contains(&c) {
@@ -102,7 +102,7 @@ impl OutCtx {
             out = fields.pop().unwrap();
         }
         if self.restore {
-            match restore(&out, &self.vault, &self.scope) {
+            match restore(&out, self.vault.as_ref(), &self.scope) {
                 Ok((s, st)) => {
                     stats.restored += st.restored;
                     out = s;

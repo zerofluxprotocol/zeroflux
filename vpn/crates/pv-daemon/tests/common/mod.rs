@@ -35,6 +35,7 @@ pub fn provider(id: &str, base: &str, model: &str, tier: DestinationTier, failov
         allow_failover: failover,
         supports_responses: responses,
         timeout_secs: 10,
+        zfx_hosted_transport: false,
     }
 }
 

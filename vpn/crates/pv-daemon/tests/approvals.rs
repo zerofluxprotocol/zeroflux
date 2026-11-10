@@ -19,7 +19,7 @@ async fn approval_required_then_explicit_retry_single_use() {
     let body = user("call me at (555) 010-1234 tomorrow");
     let (s, v) = h.chat(body.clone()).await;
     assert_eq!(s, 428, "{v}");
-    assert_eq!(v["error"]["code"], "PV_APPROVAL_REQUIRED");
+    assert_eq!(v["error"]["code"], "ZFX_APPROVAL_REQUIRED");
     assert_eq!(v["error"]["retryable"], true);
     let id = v["error"]["approval_id"].as_str().unwrap().to_string();
     assert_eq!(h.rec.count(), 0, "held request is not forwarded");
@@ -149,7 +149,7 @@ async fn edit_and_retry_reclassifies() {
     let (s, v) = h.admin_post(&format!("/approvals/{id}/resubmit"), json!({"body": user("phone (555) 010-9999")})).await;
     assert_eq!(s, 200);
     assert_eq!(v["ok"], false);
-    assert_eq!(v["error"]["code"], "PV_APPROVAL_REQUIRED");
+    assert_eq!(v["error"]["code"], "ZFX_APPROVAL_REQUIRED");
     let id2 = v["error"]["approval_id"].as_str().unwrap().to_string();
     // Edit that removes the phone → sent, response returned to the dashboard.
     let (_, v) = h.admin_post(&format!("/approvals/{id2}/resubmit"), json!({"body": user("please call me tomorrow")})).await;

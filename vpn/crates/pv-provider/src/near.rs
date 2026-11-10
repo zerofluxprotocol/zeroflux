@@ -301,6 +301,8 @@ mod sdk {
 pub struct MockNear {
     pub upstream: pv_core::ProviderConfig,
     pub eligible: std::sync::atomic::AtomicBool,
+    /// Signature kind the mock reports for receipts (`ProviderTee`, `Gateway`, or `none` = unverifiable).
+    pub receipt_kind: std::sync::Mutex<String>,
     pub http: reqwest::Client,
     pub models: Vec<NearModelInfo>,
 }
@@ -321,8 +323,10 @@ impl MockNear {
                 allow_failover: false,
                 supports_responses: true,
                 timeout_secs: 30,
+                zfx_hosted_transport: false,
             },
             eligible: std::sync::atomic::AtomicBool::new(eligible),
+            receipt_kind: std::sync::Mutex::new(crate::registry::PROVIDER_TEE_SIGNATURE.into()),
             http: reqwest::Client::new(),
             models: vec![],
         }
@@ -354,7 +358,11 @@ impl NearBackend for MockNear {
         crate::openai::send(&self.http, &self.upstream, endpoint, &body, None).await
     }
     async fn verify_receipt(&self, completion_id: &str) -> ReceiptSummary {
-        ReceiptSummary { completion_id: completion_id.into(), verified: true, signature_kind: "Mock".into(), signer: None, error: None }
+        let kind = self.receipt_kind.lock().unwrap().clone();
+        if kind == "none" {
+            return ReceiptSummary { completion_id: completion_id.into(), verified: false, signature_kind: "unknown".into(), signer: None, error: Some("mock: signature unavailable".into()) };
+        }
+        ReceiptSummary { completion_id: completion_id.into(), verified: true, signature_kind: kind, signer: Some("0xmock".into()), error: None }
     }
     fn has_api_key(&self) -> bool {
         true

@@ -114,8 +114,8 @@ async fn no_cross_conversation_or_cross_app_restoration() {
     let r = h.http.post(format!("{}/v1/chat/completions", h.base)).bearer_auth(&h.key).header("x-promptvpn-conversation", "conv-A").json(&user("mail alice@example.com")).send().await.unwrap();
     assert_eq!(r.status(), 200);
     let up = h.upstream_text();
-    let tok = up.split("[[PV_EMAIL_").nth(1).unwrap().split("]]").next().unwrap();
-    let token = format!("[[PV_EMAIL_{tok}]]");
+    let tok = up.split("[[ZFX_EMAIL_").nth(1).unwrap().split("]]").next().unwrap();
+    let token = format!("[[ZFX_EMAIL_{tok}]]");
     // Model (conversation B) tries to get it restored.
     let model = format!("mock-fixed:here is {token}");
     pv_daemon::admin::put_provider_inner(&h.st, provider("mock", &h.mock_base, &model, pv_core::DestinationTier::ExternalUnverified, false, true), None).map_err(|_| ()).unwrap();

@@ -237,9 +237,9 @@ impl Vault {
         }
         let label = token_label(category);
         for _ in 0..8 {
-            let mut b = [0u8; 4];
+            let mut b = [0u8; 8];
             rand::rngs::OsRng.fill_bytes(&mut b);
-            let token = format!("[[PV_{label}_{}]]", hex::encode(b));
+            let token = format!("[[ZFX_{label}_{}]]", hex::encode(b));
             let (kid, nonce, ct) = self.seal(&format!("mappings:{token}:{scope}"), value.as_bytes())?;
             let r = self.db.conn().execute(
                 "INSERT OR IGNORE INTO mappings(token,scope_id,category,fingerprint,key_id,nonce,ct,created_at,expires_at) VALUES(?1,?2,?3,?4,?5,?6,?7,?8,?9)",
@@ -438,7 +438,8 @@ impl Vault {
     }
 }
 
-/// Token label for a category: `[[PV_EMAIL_xxxxxxxx]]`, `[[PV_CUSTOM_xxxxxxxx]]`.
+/// Token label for a category: `[[ZFX_EMAIL_<16 hex>]]`, `[[ZFX_CUSTOM_<16 hex>]]`.
+/// Prompt VPN 0.1 minted `[[PV_<LABEL>_<8 hex>]]`; those rows still resolve.
 pub fn token_label(category: &str) -> String {
     let base = category.split(':').next().unwrap_or("DATA");
     let l: String = base.chars().filter(|c| c.is_ascii_alphanumeric() || *c == '_').collect::<String>().to_ascii_uppercase();
@@ -493,7 +494,7 @@ mod tests {
         let t3 = v.token_for("conv-b", "EMAIL", "jane@example.com", Duration::hours(1)).unwrap();
         assert_eq!(t1, t2);
         assert_ne!(t1, t3);
-        assert!(t1.starts_with("[[PV_EMAIL_") && t1.ends_with("]]"));
+        assert!(t1.starts_with("[[ZFX_EMAIL_") && t1.ends_with("]]") && t1.len() == "[[ZFX_EMAIL_".len() + 16 + 2);
         assert_eq!(v.resolve_token("conv-a", &t1).unwrap().unwrap().as_str(), "jane@example.com");
         assert!(v.resolve_token("conv-b", &t1).unwrap().is_none(), "cross-scope restoration must fail");
         assert!(v.resolve_token("conv-a", "[[PV_EMAIL_00000000]]").unwrap().is_none());

@@ -7,6 +7,10 @@ use serde_json::Value;
 use std::time::Duration;
 
 pub async fn send(http: &reqwest::Client, cfg: &ProviderConfig, endpoint: Endpoint, body: &Value, token: Option<&str>) -> Result<UpstreamResponse, ProviderError> {
+    send_with_headers(http, cfg, endpoint, body, token, &[]).await
+}
+
+pub async fn send_with_headers(http: &reqwest::Client, cfg: &ProviderConfig, endpoint: Endpoint, body: &Value, token: Option<&str>, extra: &[(&str, &str)]) -> Result<UpstreamResponse, ProviderError> {
     let url = format!("{}/{}", cfg.base_url.trim_end_matches('/'), endpoint.path());
     let bytes = serde_json::to_vec(body).map_err(|e| ProviderError::Protocol(e.to_string()))?;
     let mut req = http
@@ -15,6 +19,9 @@ pub async fn send(http: &reqwest::Client, cfg: &ProviderConfig, endpoint: Endpoi
         .header("accept-encoding", "identity")
         .timeout(Duration::from_secs(cfg.timeout_secs.max(1)))
         .body(bytes);
+    for (k, v) in extra {
+        req = req.header(*k, *v);
+    }
     // Only this destination's own credential is ever attached.
     if let Some(t) = token {
         req = req.bearer_auth(t);

@@ -306,10 +306,15 @@ fn finding_validation() {
 fn error_envelope_shape() {
     let e = PvError::new(ErrorCode::PolicyBlocked, "Request blocked by local policy").with_event("e1");
     let v = serde_json::to_value(e.envelope()).unwrap();
-    assert_eq!(v["error"]["type"], "promptvpn_policy_block");
-    assert_eq!(v["error"]["code"], "PV_POLICY_BLOCKED");
+    assert_eq!(v["error"]["type"], "zfx_policy_block");
+    assert_eq!(v["error"]["code"], "ZFX_POLICY_BLOCKED");
+    assert_eq!(v["error"]["legacy_code"], "PV_POLICY_BLOCKED");
     assert_eq!(v["error"]["retryable"], false);
     assert!(v["error"]["approval_id"].is_null());
+    // Prompt VPN 0.1 callers can ask for the old names.
+    let v = e.envelope_json(true);
+    assert_eq!(v["error"]["type"], "promptvpn_policy_block");
+    assert_eq!(v["error"]["code"], "PV_POLICY_BLOCKED");
 }
 
 #[test]

@@ -73,7 +73,27 @@ pub const MIGRATIONS: &[&str] = &[
     CREATE TABLE integrations(id TEXT PRIMARY KEY, json TEXT NOT NULL);
     CREATE TABLE attestations(destination_id TEXT NOT NULL, model TEXT NOT NULL, json TEXT NOT NULL, verified_at TEXT NOT NULL, PRIMARY KEY(destination_id, model));
     "#,
+    // v2 (ZFX VPN): per-request route records (metadata only) for
+    // `GET /v1/zfx/requests/{id}/privacy`. Additive; see DOWN_MIGRATIONS.
+    r#"
+    CREATE TABLE privacy_routes(
+        request_id TEXT PRIMARY KEY,
+        app_id TEXT NOT NULL,
+        json TEXT NOT NULL,
+        created_at TEXT NOT NULL
+    );
+    CREATE INDEX privacy_routes_ts ON privacy_routes(created_at);
+    "#,
 ];
+
+/// Reverse of each migration, used only by `zfx-vpn migrate rollback` to hand
+/// an install back to Prompt VPN 0.1. Index i undoes MIGRATIONS[i]. v1 has no
+/// reverse: it is the Prompt VPN 0.1 baseline. Reversals may drop only data
+/// that 0.1 never had.
+pub const DOWN_MIGRATIONS: &[Option<&str>] = &[None, Some("DROP INDEX IF EXISTS privacy_routes_ts; DROP TABLE IF EXISTS privacy_routes;")];
+
+/// Schema version written by Prompt VPN 0.1.
+pub const LEGACY_SCHEMA_VERSION: i64 = 1;
 
 pub const SCHEMA_VERSION: i64 = MIGRATIONS.len() as i64;
 
@@ -135,6 +155,63 @@ impl Db {
             tx.commit()?;
         }
         Ok(())
+    }
+
+    /// Undo migrations down to `target` (rollback to an older release).
+    pub fn downgrade_file(path: &Path, target: i64) -> Result<i64> {
+        let mut c = Connection::open(path)?;
+        let v: i64 = c.query_row("PRAGMA user_version", [], |r| r.get(0))?;
+        if v > SCHEMA_VERSION {
+            return Err(StoreError::TooNew { found: v, supported: SCHEMA_VERSION });
+        }
+        let mut cur = v;
+        while cur > target {
+            let Some(Some(down)) = DOWN_MIGRATIONS.get((cur - 1) as usize) else {
+                return Err(StoreError::Integrity(format!("no down-migration from schema {cur}")));
+            };
+            let tx = c.transaction()?;
+            tx.execute_batch(down)?;
+            tx.execute_batch(&format!("PRAGMA user_version = {}", cur - 1))?;
+            tx.commit()?;
+            cur -= 1;
+        }
+        let _: String = c.query_row("PRAGMA wal_checkpoint(TRUNCATE)", [], |r| r.get::<_, i64>(0).map(|x| x.to_string())).unwrap_or_default();
+        Ok(cur)
+    }
+
+    pub fn put_route(&self, app_id: &str, route: &pv_core::PrivacyRoute) -> Result<()> {
+        self.conn().execute(
+            "INSERT OR REPLACE INTO privacy_routes(request_id,app_id,json,created_at) VALUES(?1,?2,?3,?4)",
+            params![route.request_id, app_id, serde_json::to_string(route)?, route.created_at],
+        )?;
+        Ok(())
+    }
+
+    /// Route record, only for the app that made the request.
+    pub fn route(&self, request_id: &str, app_id: Option<&str>) -> Result<Option<pv_core::PrivacyRoute>> {
+        let row: Option<(String, String)> = self
+            .conn()
+            .query_row("SELECT app_id,json FROM privacy_routes WHERE request_id=?1", params![request_id], |r| Ok((r.get(0)?, r.get(1)?)))
+            .optional()?;
+        match row {
+            Some((a, j)) if app_id.is_none_or(|x| x == a) => Ok(Some(serde_json::from_str(&j)?)),
+            _ => Ok(None),
+        }
+    }
+
+    pub fn set_route_verification(&self, request_id: &str, status: pv_core::VerificationStatus, verifier: Option<&str>) -> Result<bool> {
+        let Some(mut r) = self.route(request_id, None)? else { return Ok(false) };
+        let app: String = self.conn().query_row("SELECT app_id FROM privacy_routes WHERE request_id=?1", params![request_id], |r| r.get(0))?;
+        r.verification = status;
+        if let Some(v) = verifier {
+            r.verifier = Some(v.to_string());
+        }
+        self.put_route(&app, &r)?;
+        Ok(true)
+    }
+
+    pub fn expire_routes(&self, before: DateTime<Utc>) -> Result<u64> {
+        Ok(self.conn().execute("DELETE FROM privacy_routes WHERE created_at < ?1", params![before.to_rfc3339()])? as u64)
     }
 
     pub fn integrity_ok(&self) -> bool {

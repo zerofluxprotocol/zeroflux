@@ -10,8 +10,8 @@ async fn ssn_never_reaches_upstream_and_events_omit_values() {
     let h = harness("mock-echo").await;
     let (s, v) = h.chat(user("Please update my file. SSN: 123-45-6789")).await;
     assert_eq!(s, 403, "{v}");
-    assert_eq!(v["error"]["code"], "PV_POLICY_BLOCKED");
-    assert_eq!(v["error"]["type"], "promptvpn_policy_block");
+    assert_eq!(v["error"]["code"], "ZFX_POLICY_BLOCKED");
+    assert_eq!(v["error"]["type"], "zfx_policy_block");
     assert!(!v.to_string().contains("123-45-6789"));
     assert!(v["error"]["event_id"].is_string());
     assert_eq!(h.rec.count(), 0, "nothing may reach the upstream");
@@ -29,10 +29,10 @@ async fn email_tokenized_upstream_and_restored_for_caller() {
     assert_eq!(s, 200, "{v}");
     let up = h.upstream_text();
     assert!(!up.contains("jane.doe@example.com"), "{up}");
-    assert!(up.contains("[[PV_EMAIL_"));
+    assert!(up.contains("[[ZFX_EMAIL_"));
     let content = v["choices"][0]["message"]["content"].as_str().unwrap();
     assert!(content.contains("jane.doe@example.com"), "{content}");
-    assert!(!content.contains("[[PV_"));
+    assert!(!content.contains("[[ZFX_"));
     let ev = h.events_text().await;
     assert!(ev.contains("TRANSFORM") && !ev.contains("jane.doe"));
     assert!(!h.disk_text().contains("jane.doe@example.com"));
@@ -46,7 +46,7 @@ async fn same_value_same_token_within_conversation() {
     assert_eq!(s, 200);
     let last = h.rec.last().unwrap();
     let t = last["messages"][0]["content"].as_str().unwrap();
-    let toks: Vec<&str> = t.split_whitespace().filter(|w| w.starts_with("[[PV_EMAIL_")).collect();
+    let toks: Vec<&str> = t.split_whitespace().filter(|w| w.starts_with("[[ZFX_EMAIL_")).collect();
     assert_eq!(toks.len(), 2);
     assert_eq!(toks[0], toks[1]);
 }
@@ -61,7 +61,7 @@ async fn streaming_chat_restores_and_never_leaks_upstream() {
     assert!(sse.trim_end().ends_with("data: [DONE]"), "{sse}");
     let text = sse_content(&sse);
     assert!(text.contains("stream.user@example.org"), "{text}");
-    assert!(!sse.contains("[[PV_"), "no partial placeholders in stream: {sse}");
+    assert!(!sse.contains("[[ZFX_"), "no partial placeholders in stream: {sse}");
     assert!(!h.upstream_text().contains("stream.user@example.org"));
 }
 
@@ -76,7 +76,7 @@ async fn responses_api_nonstream_and_stream() {
     assert_eq!(s, 200);
     assert!(sse_resp_text(&sse).contains("rs@example.com"), "{sse}");
     assert!(sse.contains("response.completed"));
-    assert!(!sse.contains("[[PV_"));
+    assert!(!sse.contains("[[ZFX_"));
     let (s, v) = h.responses(json!({"model": "m", "input": "token sk-proj-AbCdEfGhIjKlMnOpQrStUvWx123456"})).await;
     assert_eq!(s, 403, "{v}");
 }
@@ -139,11 +139,11 @@ async fn output_block_policy_stops_stream() {
     assert_eq!(s, 200, "{v}");
     let (s, v) = h.chat(user("tell me")).await;
     assert_eq!(s, 403);
-    assert_eq!(v["error"]["code"], "PV_OUTPUT_BLOCKED");
+    assert_eq!(v["error"]["code"], "ZFX_OUTPUT_BLOCKED");
     let mut b = user("tell me");
     b["stream"] = json!(true);
     let (_, sse) = h.stream("/v1/chat/completions", b).await;
-    assert!(sse.contains("PV_OUTPUT_BLOCKED"), "{sse}");
+    assert!(sse.contains("ZFX_OUTPUT_BLOCKED"), "{sse}");
     assert!(!sse.contains("123-45-6789"));
 }
 
@@ -214,7 +214,7 @@ async fn custom_entity_types_tokenized_and_restored() {
     let (s, v) = h.chat(user("renew policy number: PX-4471 before friday")).await;
     assert_eq!(s, 200, "{v}");
     assert!(!h.upstream_text().contains("PX-4471"));
-    assert!(h.upstream_text().contains("[[PV_CUSTOM_"));
+    assert!(h.upstream_text().contains("[[ZFX_CUSTOM_"));
     assert!(v["choices"][0]["message"]["content"].as_str().unwrap().contains("PX-4471"));
     // Per-entity action: block.
     let (_, l) = h.admin_get("/entities").await;

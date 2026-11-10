@@ -1,13 +1,15 @@
-//! Prompt VPN core contracts: typed IRs, findings, policy evaluation, errors.
+//! ZFX VPN core contracts: typed IRs, findings, policy evaluation, errors.
 
 pub mod category;
 pub mod errors;
 pub mod policy;
+pub mod privacy;
 pub mod schema;
 pub mod types;
 
 pub use errors::{ErrorCode, PvError};
 pub use policy::*;
+pub use privacy::{OnUnavailable, PrivacyMode, PrivacyRequest, PrivacyRoute, PrivacyTier, StreamBuffering, VerificationStatus};
 pub use types::*;
 
 /// Hex SHA-256 helper with `sha256:` prefix.

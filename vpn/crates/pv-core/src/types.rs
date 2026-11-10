@@ -212,6 +212,11 @@ pub struct ProviderConfig {
     pub supports_responses: bool,
     #[serde(default = "default_timeout")]
     pub timeout_secs: u64,
+    /// ZFX hosted gateway used as protected transport: the local daemon sends
+    /// only transformed payloads, marks them preprocessed, and restores
+    /// placeholders itself. The hosted side never receives raw values or the map.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub zfx_hosted_transport: bool,
 }
 
 fn provider_schema_version() -> u32 {

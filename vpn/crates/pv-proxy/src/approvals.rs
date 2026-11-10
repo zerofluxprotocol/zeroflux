@@ -123,7 +123,7 @@ impl Engine {
         }
         self.cancel(id, "owner-edit")?;
         let endpoint = if p.endpoint.ends_with("responses") { Endpoint::Responses } else { Endpoint::Chat };
-        let caller = Caller { app_id: p.app_id.clone(), agent_id: None, destination_override: Some(p.destination_id.clone()), conversation: None, source: Source::Dashboard };
+        let caller = Caller { destination_override: Some(p.destination_id.clone()), source: Source::Dashboard, ..Caller::client(p.app_id.clone()) };
         let raw = serde_json::to_vec(edited).map_err(|e| ApprovalError::Other(e.to_string()))?;
         Ok(self.handle(caller, endpoint, &raw).await)
     }

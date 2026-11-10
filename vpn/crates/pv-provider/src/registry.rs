@@ -68,6 +68,14 @@ pub struct UpstreamResponse {
     pub receipt_provider: Option<String>,
 }
 
+/// `ReceiptSummary::signature_kind` for a model-TEE (provider-level) signature.
+/// Any other kind (e.g. `Gateway`) does not prove the model TEE produced the bytes.
+pub const PROVIDER_TEE_SIGNATURE: &str = "ProviderTee";
+pub const GATEWAY_SIGNATURE: &str = "Gateway";
+
+/// Header that marks a request as transformed on the client (protected transport).
+pub const PREPROCESSED_HEADER: &str = "x-zfx-preprocessed";
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ReceiptSummary {
     pub completion_id: String,
@@ -209,6 +217,20 @@ impl Registry {
                 crate::openai::send(&self.http, &r.config, endpoint, &body, token.as_deref().map(|s| s.as_str())).await
             }
         }
+    }
+
+    /// Protected transport to a ZFX hosted gateway: the payload is already
+    /// transformed here and the mapping stays on this device. The hosted side is
+    /// told the payload is preprocessed so it never mints or restores tokens.
+    pub async fn send_preprocessed(&self, r: &Resolved, endpoint: Endpoint, mut body: Value, mode: pv_core::PrivacyMode) -> Result<UpstreamResponse, ProviderError> {
+        if !r.config.zfx_hosted_transport {
+            return Err(ProviderError::NotConfigured(r.config.id.clone()));
+        }
+        body["model"] = Value::String(r.model.clone());
+        // Safe policy hints only: never the mapping, values or categories.
+        body[pv_core::privacy::EXTENSION_KEY] = serde_json::json!({"preprocessed": true, "mode": mode});
+        let token = r.config.credential_ref.as_deref().and_then(|c| (self.creds)(c));
+        crate::openai::send_with_headers(&self.http, &r.config, endpoint, &body, token.as_deref().map(|s| s.as_str()), &[(PREPROCESSED_HEADER, "v1")]).await
     }
 
     pub async fn verify_receipt(&self, provider_id: &str, completion_id: &str) -> ReceiptSummary {

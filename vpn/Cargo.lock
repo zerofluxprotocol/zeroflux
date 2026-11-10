@@ -3952,6 +3952,7 @@ dependencies = [
  "pv-audit",
  "pv-core",
  "pv-vault",
+ "rand 0.8.8",
  "regex",
  "thiserror 2.0.21",
  "zeroize",

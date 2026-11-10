@@ -81,7 +81,7 @@ pub fn origin_ok(origin: &str, port: u16) -> bool {
 }
 
 fn deny(status: StatusCode, msg: &str) -> Response {
-    let body = serde_json::json!({"error": {"type": "promptvpn_unauthorized", "code": "PV_UNAUTHORIZED", "message": msg, "event_id": null, "approval_id": null, "retryable": false}});
+    let body = serde_json::json!({"error": {"type": "zfx_unauthorized", "code": "ZFX_UNAUTHORIZED", "legacy_code": "PV_UNAUTHORIZED", "message": msg, "event_id": null, "approval_id": null, "retryable": false}});
     (status, axum::Json(body)).into_response()
 }
 

@@ -1045,6 +1045,7 @@ pub async fn complete_onboarding_inner(st: &AppState, p: OnboardingPayload) -> R
                 allow_failover: true,
                 supports_responses: true,
                 timeout_secs: 180,
+                zfx_hosted_transport: false,
             };
             put_provider_inner(st, cfg, p.near.api_key.clone())?;
             providers_made.push("near");
@@ -1065,6 +1066,7 @@ pub async fn complete_onboarding_inner(st: &AppState, p: OnboardingPayload) -> R
             allow_failover: true,
             supports_responses: false,
             timeout_secs: 300,
+            zfx_hosted_transport: false,
         };
         put_provider_inner(st, cfg, None)?;
         providers_made.push("ollama");
@@ -1086,6 +1088,7 @@ pub async fn complete_onboarding_inner(st: &AppState, p: OnboardingPayload) -> R
             allow_failover: c.allow_failover,
             supports_responses: false,
             timeout_secs: 180,
+            zfx_hosted_transport: false,
         };
         put_provider_inner(st, cfg, c.api_key.clone())?;
         providers_made.push("custom");

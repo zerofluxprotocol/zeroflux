@@ -1070,7 +1070,7 @@ async fn connect_test() -> Result<Value> {
     let (mock, _) = pv_daemon::mock::serve(0, rec.clone()).await?;
     let st = pv_daemon::state::bootstrap(Paths { data: dir.clone() }, Some(std::sync::Arc::new(pv_proxy::notify::Recorder::default()))).await?;
     st.engine.detector.set_settings(pv_detectors::DetectorSettings { span_enabled: false, span_required: false, span_timeout_ms: 1000 });
-    let cfg = pv_core::ProviderConfig { schema_version: 1, id: "mock".into(), kind: pv_core::ProviderKind::OpenaiCompatible, display_name: "mock".into(), base_url: mock.clone(), default_model: "mock-echo".into(), declared_tier: pv_core::DestinationTier::ExternalUnverified, credential_ref: None, enabled: true, allow_failover: false, supports_responses: true, timeout_secs: 10 };
+    let cfg = pv_core::ProviderConfig { schema_version: 1, id: "mock".into(), kind: pv_core::ProviderKind::OpenaiCompatible, display_name: "mock".into(), base_url: mock.clone(), default_model: "mock-echo".into(), declared_tier: pv_core::DestinationTier::ExternalUnverified, credential_ref: None, enabled: true, allow_failover: false, supports_responses: true, timeout_secs: 10, zfx_hosted_transport: false };
     pv_daemon::admin::put_provider_inner(&st, cfg, None).map_err(|_| anyhow!("provider"))?;
     let mut s = st.engine.settings();
     s.default_destination = Some("mock".into());
@@ -1097,7 +1097,7 @@ async fn connect_test() -> Result<Value> {
     check("API key blocked before egress", r.status() == 403 && !rec.all_text().contains(synthetic_key), format!("HTTP {}", r.status()));
     let r = post("/v1/chat/completions", json!({"model": "x", "messages": [{"role": "user", "content": format!("mail {synthetic_email}")}]})).await?;
     let v: Value = r.json().await?;
-    check("email tokenized upstream", !rec.all_text().contains(synthetic_email) && rec.all_text().contains("[[PV_EMAIL_"), "chat completions".into());
+    check("email tokenized upstream", !rec.all_text().contains(synthetic_email) && rec.all_text().contains("[[ZFX_EMAIL_"), "chat completions".into());
     check("email restored for caller", v["choices"][0]["message"]["content"].as_str().unwrap_or("").contains(synthetic_email), "chat completions".into());
     let r = post("/v1/chat/completions", json!({"model": "x", "stream": true, "messages": [{"role": "user", "content": format!("mail {synthetic_email}")}]})).await?;
     let t = r.text().await?;
