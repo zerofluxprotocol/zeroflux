@@ -165,8 +165,8 @@ async fn main() {
                 println!("{}", json!({"account": acct, "created": false, "reason": "exists"}));
                 return;
             }
+            let dep = near_to_yocto(&need(&args, "--deposit-near")).unwrap_or_else(|e| die(&format!("--deposit-near: {}", e)));
             let k = new_key_file(&acct, &out);
-            let dep: u128 = need(&args, "--deposit-near").parse::<u128>().expect("--deposit-near N") * 1_000_000_000_000_000_000_000_000;
             let o = near
                 .send(&s, &acct, vec![Action::CreateAccount, Action::Transfer(dep), Action::AddFullAccessKey(k.verifying_key().to_bytes())])
                 .unwrap_or_else(|e| panic!("{}", e));
@@ -184,11 +184,32 @@ async fn main() {
             let once = args.iter().any(|a| a == "--once");
             let mut wcache: Option<([u8; 32], zfx_verify::pow::Weights)> = None;
             let mut checked = std::collections::HashSet::new();
+            // Heights already verified valid. A pending block can only change by being
+            // reverted, which lowers the head, so after a revert the heights above the new
+            // head are forgotten and re-checked when blocks reappear there.
+            let mut verified: std::collections::BTreeSet<u64> = Default::default();
+            let mut last_head: u64 = 0;
+            let interval: u64 = arg(&args, "--interval-ms").and_then(|v| v.parse().ok()).unwrap_or(700);
             loop {
-                let st = near.view(&contract, "stats", json!({}), "optimistic").unwrap_or(Value::Null);
+                let st = match near.view(&contract, "stats", json!({}), "optimistic") {
+                    Ok(v) => v,
+                    Err(e) => {
+                        eprintln!("[near-opt-watch] stats: {} (retrying)", e);
+                        std::thread::sleep(std::time::Duration::from_millis(interval.max(2000)));
+                        continue;
+                    }
+                };
                 let fin: u64 = st["final_height"].as_str().and_then(|v| v.parse().ok()).unwrap_or(0);
                 let head: u64 = st["head_height"].as_str().and_then(|v| v.parse().ok()).unwrap_or(0);
+                if head < last_head {
+                    verified.retain(|&h| h <= head);
+                }
+                last_head = head;
+                verified.retain(|&h| h > fin);
                 for h in fin + 1..=head {
+                    if verified.contains(&h) {
+                        continue;
+                    }
                     let Ok(b) = near.view(&contract, "block", json!({"height": h.to_string()}), "optimistic") else { continue };
                     if b.is_null() || !checked.insert((h, b["digest"].as_str().unwrap_or("").to_string())) {
                         continue;
@@ -200,7 +221,10 @@ async fn main() {
                     let honest = opt_trace(&mut wcache, &seed, &ch, nonce);
                     let bad = first_mismatch(&posted, &honest);
                     match bad {
-                        None => println!("{}", json!({"event": "valid", "height": h, "miner": b["miner"]})),
+                        None => {
+                            verified.insert(h);
+                            println!("{}", json!({"event": "valid", "height": h, "miner": b["miner"]}))
+                        }
                         Some((layer, row)) => {
                             let o = near.call(&s, &contract, "challenge", json!({"height": h.to_string(), "layer": layer, "row": row}), 300, 0);
                             println!(
@@ -216,7 +240,7 @@ async fn main() {
                 if once {
                     break;
                 }
-                std::thread::sleep(std::time::Duration::from_millis(700));
+                std::thread::sleep(std::time::Duration::from_millis(interval));
             }
         }
         Some("near-opt-cheat") => {
@@ -305,17 +329,40 @@ async fn main() {
             let contract = need(&args, "--contract");
             let listen = arg(&args, "--listen").unwrap_or("127.0.0.1:9551".into());
             let optimistic = args.iter().any(|a| a == "--optimistic");
-            let bond: u128 =
-                arg(&args, "--bond-near").and_then(|v| v.parse::<f64>().ok()).map(|n| (n * 1e24) as u128).unwrap_or(1_000_000_000_000_000_000_000_000);
+            // The bond attached to each submit: exactly --bond-near if given (parsed without
+            // floats; 0.25 * 1e24 in f64 comes out just under 0.25 NEAR), otherwise the bond the
+            // contract itself requires, read from `stats`.
+            let bond: u128 = match arg(&args, "--bond-near") {
+                Some(v) => near_to_yocto(&v).unwrap_or_else(|e| die(&format!("--bond-near: {}", e))),
+                None if optimistic => near
+                    .view(&contract, "stats", json!({}), "final")
+                    .ok()
+                    .and_then(|st| st["bond"].as_str().and_then(|b| b.parse::<u128>().ok()))
+                    .unwrap_or_else(|| die("could not read the contract's bond from stats; pass --bond-near")),
+                None => 0,
+            };
+            eprintln!("[near-mine-proxy] bond per submit: {} yoctoNEAR", bond);
             let mut wcache: Option<([u8; 32], zfx_verify::pow::Weights)> = None;
             let server = tiny_http::Server::http(&listen).unwrap_or_else(|e| panic!("{}", e));
             eprintln!("[near-mine-proxy] {} -> {} as {}", listen, contract, s.account_id);
             let respond = |req: tiny_http::Request, v: Value| {
                 let _ = req.respond(tiny_http::Response::from_string(v.to_string()));
             };
+            let mut work_cache: Option<(std::time::Instant, Value)> = None;
             for mut req in server.incoming_requests() {
                 let url = req.url().to_string();
                 if url.starts_with("/v1/work") {
+                    // Miners poll every job (often twice a second); reuse a view younger than
+                    // WORK_CACHE so a public RPC isn't hit at that rate. A stale answer only costs
+                    // a rejected stale-height submit, which the miner already handles.
+                    const WORK_CACHE: std::time::Duration = std::time::Duration::from_millis(1500);
+                    if let Some((at, v)) = &work_cache {
+                        if at.elapsed() < WORK_CACHE {
+                            let v = v.clone();
+                            respond(req, v);
+                            continue;
+                        }
+                    }
                     let mut w = near.view(&contract, "work", json!({"miner": s.account_id}), "optimistic");
                     // Prepare missing epoch weight layers (one transaction each).
                     if let Ok(v) = &w {
@@ -329,15 +376,20 @@ async fn main() {
                         }
                     }
                     match w {
-                        Ok(v) => respond(
-                            req,
-                            json!({"api_version": 2, "work_id": v["height"].as_str().unwrap_or("0").to_string(), "chain_id": 0, "version": v["profile"],
+                        Ok(v) => {
+                            let out = json!({"api_version": 2, "work_id": v["height"].as_str().unwrap_or("0").to_string(), "chain_id": 0, "version": v["profile"],
                                    "height": v["height"], "header_without_nonce": v["work_bytes"], "challenge": v["challenge"], "target": v["target"],
-                                   "epoch_seed": v["epoch_seed"], "profile": "zfx-near-v1", "expiry": {"height": v["height"]}}),
-                        ),
-                        Err(e) => respond(req, json!({"error": e})),
+                                   "epoch_seed": v["epoch_seed"], "profile": "zfx-near-v1", "expiry": {"height": v["height"]}});
+                            work_cache = Some((std::time::Instant::now(), out.clone()));
+                            respond(req, out)
+                        }
+                        Err(e) => {
+                            eprintln!("[near-mine-proxy] work view failed: {}", e);
+                            respond(req, json!({"error": e}))
+                        }
                     }
                 } else if url.starts_with("/v1/submit") {
+                    work_cache = None; // the head moves after a submit; fetch fresh work next time
                     let mut body = String::new();
                     let _ = req.as_reader().read_to_string(&mut body);
                     let b: Value = serde_json::from_str(&body).unwrap_or(Value::Null);
@@ -486,7 +538,9 @@ async fn main() {
             let s = signer(&args);
             let contract = need(&args, "--contract");
             let wasm = std::fs::read(need(&args, "--wasm")).unwrap();
-            let deposit: u128 = arg(&args, "--deposit-near").and_then(|v| v.parse::<u128>().ok()).unwrap_or(10) * 1_000_000_000_000_000_000_000_000;
+            let deposit: u128 = arg(&args, "--deposit-near")
+                .map(|v| near_to_yocto(&v).unwrap_or_else(|e| die(&format!("--deposit-near: {}", e))))
+                .unwrap_or(10 * 1_000_000_000_000_000_000_000_000);
             let mut actions = Vec::new();
             if !near.account_exists(&contract) {
                 actions.push(Action::CreateAccount);
@@ -567,4 +621,33 @@ async fn main() {
         }
         _ => eprintln!("see source header for usage"),
     }
+}
+
+/// Parse a NEAR amount like "2", "1.5" or "0.125" into yoctoNEAR exactly (no floats).
+fn near_to_yocto(v: &str) -> Result<u128, String> {
+    let v = v.trim();
+    let (int, frac) = v.split_once('.').unwrap_or((v, ""));
+    if int.is_empty() && frac.is_empty() || frac.len() > 24 || !int.chars().chain(frac.chars()).all(|c| c.is_ascii_digit()) {
+        return Err(format!("not a NEAR amount: {:?}", v));
+    }
+    let whole: u128 = if int.is_empty() { 0 } else { int.parse().map_err(|_| format!("not a NEAR amount: {:?}", v))? };
+    let frac_y: u128 = if frac.is_empty() { 0 } else { format!("{:0<24}", frac).parse().map_err(|_| format!("not a NEAR amount: {:?}", v))? };
+    whole.checked_mul(1_000_000_000_000_000_000_000_000).and_then(|w| w.checked_add(frac_y)).ok_or_else(|| format!("amount too large: {:?}", v))
+}
+
+#[cfg(test)]
+mod near_amount_tests {
+    use super::near_to_yocto;
+    #[test]
+    fn parses_exact_decimals() {
+        assert_eq!(near_to_yocto("2").unwrap(), 2 * 10u128.pow(24));
+        assert_eq!(near_to_yocto("1.5").unwrap(), 15 * 10u128.pow(23));
+        assert_eq!(near_to_yocto("0.000000000000000000000001").unwrap(), 1);
+        assert!(near_to_yocto("1.5.0").is_err() && near_to_yocto("abc").is_err() && near_to_yocto("").is_err() && near_to_yocto("-1").is_err());
+    }
+}
+
+fn die(msg: &str) -> ! {
+    eprintln!("zfx-bridge: {}", msg);
+    std::process::exit(2)
 }

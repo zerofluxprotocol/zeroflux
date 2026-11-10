@@ -1,15 +1,23 @@
 {
   "checks": [
     {
+      "check": "O7 init refuses a bond smaller than a pending block's storage cost",
+      "result": "PASS",
+      "evidence": {
+        "bond": "100000000000000000000000",
+        "failure": "{\"ActionError\":{\"index\":4,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: bond must cover a pending block's storage: at least 200000000000000000000000 yoctoNEAR\"}}}}"
+      }
+    },
+    {
       "check": "O1 honest v0.1 blocks posted cheaply; the watcher re-checks each one and challenges none",
       "result": "PASS",
       "evidence": {
         "head": 12,
         "submit_gas_tgas": {
           "n": 12,
-          "min": 5.98440285656,
-          "median": 6.034756644176,
-          "max": 6.068542847667
+          "min": 5.98470350198,
+          "median": 6.035057289596,
+          "max": 6.068843493087
         },
         "watcher_valid": 12,
         "profile": "zfx-fp8c-v0.1",
@@ -20,12 +28,12 @@
       "check": "O2 a cheater who skipped all matrix work is caught by a one-row fraud proof; the bond moves to the watcher",
       "result": "PASS",
       "evidence": {
-        "cheat_grind_iterations": 707,
-        "cheat_submit_gas_tgas": 6.07279018901,
+        "cheat_grind_iterations": 4505,
+        "cheat_submit_gas_tgas": 6.07309083443,
         "challenge": {
           "event": "challenge",
           "failure": null,
-          "gas_burnt_tgas": 3.787360393977,
+          "gas_burnt_tgas": 3.787601290656,
           "height": 13,
           "layer": 0,
           "miner": "cheater.test.near",
@@ -33,7 +41,7 @@
           "result": {
             "check_tgas": 0.100377718191,
             "claimed": 1,
-            "correct": 10,
+            "correct": 8,
             "fraud": true,
             "height": "13",
             "reverted_descendants": [],
@@ -61,7 +69,7 @@
         "challenge": {
           "event": "challenge",
           "failure": null,
-          "gas_burnt_tgas": 5.345805515441,
+          "gas_burnt_tgas": 5.34604641212,
           "height": 13,
           "layer": 0,
           "miner": "cheater.test.near",
@@ -69,7 +77,7 @@
           "result": {
             "check_tgas": 0.100429551819,
             "claimed": 1,
-            "correct": 10,
+            "correct": 8,
             "fraud": true,
             "height": "13",
             "reverted_descendants": [
@@ -83,8 +91,8 @@
           "row": 0
         },
         "honest_miner_near": [
-          995.996,
-          995.995
+          997.996,
+          997.995
         ]
       }
     },
@@ -98,7 +106,7 @@
             "expected_layer": 2,
             "challenge_layer": 2,
             "ok": true,
-            "tx_gas_tgas": 4.522637685033,
+            "tx_gas_tgas": 4.523012888802,
             "check_tgas": 0.834318853503
           },
           {
@@ -106,7 +114,7 @@
             "expected_layer": 4,
             "challenge_layer": 4,
             "ok": true,
-            "tx_gas_tgas": 4.538589361638,
+            "tx_gas_tgas": 4.538958295806,
             "check_tgas": 0.850021151763
           }
         ]
@@ -118,7 +126,7 @@
       "evidence": {
         "height": 12,
         "failure": "onError\":\"Smart contract panicked: no fraud: the value is correct\"}}}}",
-        "check_gas_tgas": 3.0814147032
+        "check_gas_tgas": 3.08171534862
       }
     },
     {
@@ -128,21 +136,21 @@
         "final_height": 12,
         "supply": "60000000000",
         "balances": {
-          "miner1.test.near": 20000000000,
-          "miner2.test.near": 40000000000,
+          "miner1.test.near": 10000000000,
+          "miner2.test.near": 50000000000,
           "cheater.test.near": 0
         },
-        "finalize_gas_tgas": 24.03594548988,
+        "finalize_gas_tgas": 24.036201706476,
         "frauds": 4
       }
     }
   ],
   "submit_gas_tgas": {
     "n": 12,
-    "min": 5.98440285656,
-    "median": 6.034756644176,
-    "max": 6.068542847667
+    "min": 5.98470350198,
+    "median": 6.035057289596,
+    "max": 6.068843493087
   },
-  "passed": 6,
-  "total": 6
+  "passed": 7,
+  "total": 7
 }

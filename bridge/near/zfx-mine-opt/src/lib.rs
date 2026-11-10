@@ -100,12 +100,21 @@ fn out_values(trace: &[u8]) -> Vec<i32> {
     trace[4 * H..].chunks(4).map(|c| i32::from_le_bytes(c.try_into().unwrap())).collect()
 }
 
+/// Upper bound on the storage one pending block occupies: the 17,408-byte trace, the
+/// pending record (including its copy of the difficulty history) and history growth.
+const PENDING_STORAGE_BYTES: u128 = 20_000;
+
 #[near]
 impl Contract {
     #[init]
     pub fn new(genesis_seed: String, genesis_target: String, spacing_secs: u64, reward: U128, bond: U128, window_secs: u64) -> Self {
         let gt = U256::from_hex(&genesis_target).unwrap_or_else(|| env::panic_str("genesis_target must be 64 hex chars"));
         require!(!gt.is_zero() && spacing_secs > 0 && reward.0 > 0 && bond.0 > 0 && window_secs > 0, "bad parameters");
+        // A pending block keeps its trace in contract storage until it finalizes, and the
+        // contract pays for that storage out of the bond. A smaller bond lets miners drain the
+        // contract's balance until every submit fails with LackBalanceForState.
+        let min_bond = env::storage_byte_cost().as_yoctonear() * PENDING_STORAGE_BYTES;
+        require!(bond.0 >= min_bond, format!("bond must cover a pending block's storage: at least {} yoctoNEAR", min_bond));
         let md = FungibleTokenMetadata {
             spec: FT_METADATA_SPEC.to_string(),
             name: "ZeroFlux (testnet, proof-of-work minted)".to_string(),

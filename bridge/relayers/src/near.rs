@@ -125,18 +125,37 @@ pub struct NearClient {
 
 impl NearClient {
     pub fn new(rpc: &str) -> NearClient {
-        NearClient { rpc: rpc.trim_end_matches('/').to_string() }
+        NearClient { rpc: rpc.trim().to_string() }
     }
 
+    /// `rpc` may be a comma-separated list of endpoints. Requests go to the first one
+    /// and fail over to the next on rate limits (429), server errors (5xx) or transport
+    /// errors, with exponential backoff. Retrying is safe: views are reads, and a signed
+    /// transaction is identified by its hash, so resending the same bytes cannot apply it twice.
     pub fn call_rpc(&self, method: &str, params: Value) -> Result<Value, String> {
+        let urls: Vec<&str> = self.rpc.split(',').map(|u| u.trim().trim_end_matches('/')).filter(|u| !u.is_empty()).collect();
         let body = json!({"jsonrpc": "2.0", "id": "zfx", "method": method, "params": params});
-        let r =
-            crate::agent().post(&self.rpc).timeout(std::time::Duration::from_secs(60)).send_json(body).map_err(|e| format!("NEAR RPC {}: {}", method, e))?;
-        let v: Value = r.into_json().map_err(|e| e.to_string())?;
-        if let Some(e) = v.get("error") {
-            return Err(format!("NEAR RPC {} error: {}", method, e));
+        let attempts = 7;
+        let mut last = String::new();
+        for i in 0..attempts {
+            let url = urls[i % urls.len()];
+            match crate::agent().post(url).timeout(std::time::Duration::from_secs(60)).send_json(body.clone()) {
+                Ok(r) => {
+                    let v: Value = r.into_json().map_err(|e| e.to_string())?;
+                    if let Some(e) = v.get("error") {
+                        return Err(format!("NEAR RPC {} error: {}", method, e));
+                    }
+                    return Ok(v["result"].clone());
+                }
+                Err(ureq::Error::Status(code, _)) if code == 429 || code >= 500 => last = format!("NEAR RPC {}: {}: status code {}", method, url, code),
+                Err(ureq::Error::Status(code, _)) => return Err(format!("NEAR RPC {}: {}: status code {}", method, url, code)),
+                Err(e) => last = format!("NEAR RPC {}: {}", method, e),
+            }
+            if i + 1 < attempts {
+                std::thread::sleep(std::time::Duration::from_millis(300u64 << i.min(5)));
+            }
         }
-        Ok(v["result"].clone())
+        Err(last)
     }
 
     /// View call at the given finality ("final" for authoritative state).

@@ -12,6 +12,7 @@ challenged. Checks:
   O3 blocks built on a fraudulent block are reverted with it; their miners
      get their bonds back and no reward
   O4 a challenge against a correct value fails
+  O7 init refuses a bond smaller than a pending block's storage cost
   O5 after the window, only honest blocks mint; supply == reward x final height
 
 Writes bench/results/e2e_near_opt_mining.json.
@@ -91,6 +92,14 @@ def main():
                 "bond": str(10**24), "window_secs": WINDOW}
         jrun([f"{BIN}/zfx-bridge", "deploy", "--rpc", rpc, "--signer", "deployer.test.near", "--key-file", keys["deployer.test.near"], "--contract", CONTRACT,
               "--wasm", WASM, "--init", json.dumps(init), "--deposit-near", "20"])
+
+        # O7: a bond too small to pay for a pending block's storage is refused at init
+        # (otherwise miners drain the contract until submits fail with LackBalanceForState).
+        small = dict(init, bond=str(10**23))
+        bad = jrun([f"{BIN}/zfx-bridge", "deploy", "--rpc", rpc, "--signer", "deployer.test.near", "--key-file", keys["deployer.test.near"], "--contract",
+                    "small.deployer.test.near", "--wasm", WASM, "--init", json.dumps(small), "--deposit-near", "4"], check=False)
+        ok &= check("O7 init refuses a bond smaller than a pending block's storage cost",
+                    not bad.get("success") and "bond must cover" in json.dumps(bad), {"bond": small["bond"], "failure": str(bad.get("failure") or bad)[:300]})
 
         watch_cmd = [f"{BIN}/zfx-bridge", "near-opt-watch", "--rpc", rpc, "--signer", "watcher.test.near", "--key-file", keys["watcher.test.near"],
                      "--contract", CONTRACT]

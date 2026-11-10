@@ -1,9 +1,13 @@
 [package]
 name = "zpu-cli"
-description = "ZPU mining client: connects GPU/CPU miner backends to a ZeroFlux node"
+description = "ZFX mining client (zfx-miner, also installed as zpu-cli): connects GPU/CPU miner backends to a ZeroFlux node or the NEAR mining proxy"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+
+[[bin]]
+name = "zpu-cli"
+path = "src/main.rs"
 
 [dependencies]
 zfx-verify = { path = "../../crates/zfx-verify" }
