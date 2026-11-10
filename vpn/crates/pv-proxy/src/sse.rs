@@ -24,6 +24,8 @@ pub struct SseParser {
 pub enum SseError {
     #[error("SSE event exceeds size limit")]
     TooLarge,
+    #[error("SSE stream is not valid UTF-8")]
+    InvalidUtf8,
 }
 
 impl SseParser {
@@ -32,6 +34,9 @@ impl SseParser {
         // Only decode complete UTF-8 prefixes.
         let valid = match std::str::from_utf8(&self.raw) {
             Ok(_) => self.raw.len(),
+            // An invalid sequence (not just a character split across chunks)
+            // is a malformed stream: never decoded lossily, never buffered forever.
+            Err(e) if e.error_len().is_some() => return Err(SseError::InvalidUtf8),
             Err(e) => e.valid_up_to(),
         };
         let s = String::from_utf8_lossy(&self.raw[..valid]).into_owned();
@@ -71,6 +76,25 @@ fn parse_block(block: &str) -> Option<SseEvent> {
         return None;
     }
     Some(SseEvent { event, data: data.join("\n") })
+}
+
+#[cfg(test)]
+mod parser_tests {
+    use super::*;
+
+    #[test]
+    fn utf8_split_ok_invalid_rejected() {
+        let mut p = SseParser::default();
+        let full = "data: {\"x\":\"é中😀\"}\n\n".as_bytes().to_vec();
+        let mut evs = vec![];
+        for b in &full {
+            evs.extend(p.push(&[*b]).unwrap());
+        }
+        assert_eq!(evs.len(), 1);
+        assert_eq!(evs[0].data, "{\"x\":\"é中😀\"}");
+        let mut p = SseParser::default();
+        assert_eq!(p.push(b"data: ok\xff\xfe\n\n"), Err(SseError::InvalidUtf8));
+    }
 }
 
 pub fn data_line(v: &Value) -> String {

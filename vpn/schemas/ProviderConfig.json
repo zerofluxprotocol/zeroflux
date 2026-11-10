@@ -58,7 +58,7 @@
       "minimum": 0.0
     },
     "supports_responses": {
-      "description": "Whether the upstream natively supports `/v1/responses`. If false, Prompt VPN translates Responses requests into Chat Completions.",
+      "description": "Whether the upstream natively supports `/v1/responses`. If false, ZFX VPN translates Responses requests into Chat Completions.",
       "default": false,
       "type": "boolean"
     },
@@ -67,6 +67,10 @@
       "type": "integer",
       "format": "uint64",
       "minimum": 0.0
+    },
+    "zfx_hosted_transport": {
+      "description": "ZFX hosted gateway used as protected transport: the local daemon sends only transformed payloads, marks them preprocessed, and restores placeholders itself. The hosted side never receives raw values or the map.",
+      "type": "boolean"
     }
   },
   "definitions": {

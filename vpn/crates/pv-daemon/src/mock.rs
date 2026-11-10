@@ -11,6 +11,7 @@
 //! * `mock-malformed`: (streaming) some content, then a data line that is not JSON
 //! * `mock-midstream-error`: (streaming) some content, then an error object that echoes the input
 //! * `mock-stall`: (streaming) one chunk, then silence for 30 s
+//! * `mock-badutf8`: (streaming) a chunk with invalid UTF-8 bytes
 //! * `mock-slow`: (streaming) the echo, one 5-char chunk every 50 ms
 //! * `<any>+split<N>`: the same response, delivered N bytes per network write
 //!   (splits SSE frames, JSON objects and UTF-8 characters at arbitrary points)
@@ -155,6 +156,11 @@ fn chat_inner(model: &str, v: &Value) -> Response {
             "mock-malformed" => return ([("content-type", "text/event-stream")], format!("{}data: {{not json at all\n\n{}data: [DONE]\n\n", chunk("partial "), chunk("more"))).into_response(),
             "mock-midstream-error" => return ([("content-type", "text/event-stream")], format!("{}data: {}\n\ndata: [DONE]\n\n", chunk("partial "), json!({"error": {"message": format!("upstream failed on input: {}", last_text(&v))}}))).into_response(),
             "mock-stall" => return sse_frames(vec![chunk("first "), chunk("never")], 0, Some(1)),
+            "mock-badutf8" => {
+                let mut b = chunk("partial ").into_bytes();
+                b.extend_from_slice(b"data: {\"choices\":[{\"index\":0,\"delta\":{\"content\":\"\xff\xfe\"}}]}\n\n");
+                return ([("content-type", "text/event-stream")], Bytes::from(b)).into_response();
+            }
             "mock-slow" => {
                 let text = format!("You said: {}", last_text(&v));
                 let mut frames: Vec<String> = chunks(&text, 5).iter().map(|c| chunk(c)).collect();

@@ -6735,6 +6735,7 @@ dependencies = [
  "clap",
  "futures",
  "hex",
+ "libc",
  "pv-audit",
  "pv-core",
  "pv-daemon",

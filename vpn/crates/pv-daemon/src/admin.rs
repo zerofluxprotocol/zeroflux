@@ -576,10 +576,30 @@ async fn providers(State(st): St) -> R {
         .into_iter()
         .map(|p| {
             let has_cred = p.credential_ref.as_deref().and_then(|r| st.creds().get(r)).is_some();
-            json!({"config": p, "has_credential": has_cred})
+            json!({"config": p, "has_credential": has_cred, "privacy_tier": privacy_tier_now(&st, &p).as_str()})
         })
         .collect();
     Ok(Json(json!({"providers": list, "verifications": st.engine.registry.cached_verifications(), "attestations": st.db().attestations()?})))
+}
+
+/// Privacy tier a destination provides right now, from cached verification
+/// only (listing never triggers a network attestation).
+pub fn privacy_tier_now(st: &AppState, p: &ProviderConfig) -> pv_core::PrivacyTier {
+    let loopback = pv_provider::is_loopback(&p.base_url);
+    let tier = match p.kind {
+        ProviderKind::Ollama if loopback => DestinationTier::Local,
+        ProviderKind::OpenaiCompatible if loopback && p.declared_tier == DestinationTier::Local => DestinationTier::Local,
+        ProviderKind::NearAi => {
+            let ok = st.engine.registry.cached_verifications().iter().any(|v| v.provider_id == p.id && v.eligible && v.expires_at > chrono::Utc::now());
+            if ok {
+                DestinationTier::AttestedTee
+            } else {
+                DestinationTier::ExternalUnverified
+            }
+        }
+        _ => DestinationTier::ExternalUnverified,
+    };
+    pv_core::PrivacyTier::of(p.kind, tier)
 }
 
 #[derive(Deserialize)]

@@ -206,8 +206,13 @@ async fn malformed_chunks_and_midstream_errors_end_the_stream_safely() {
     let (_, sse) = h.stream("/v1/chat/completions", b).await;
     assert!(sse.contains("ZFX_UPSTREAM_FAILURE"), "{sse}");
     assert!(!sse.contains("upstream failed on input"), "upstream error text is not forwarded: {sse}");
+    model(&h, "mock-badutf8").await;
+    let mut b = user("hello");
+    b["stream"] = json!(true);
+    let (_, sse) = h.stream("/v1/chat/completions", b).await;
+    assert!(sse.contains("ZFX_UPSTREAM_FAILURE"), "invalid UTF-8 ends the stream: {sse}");
     let ev = h.events_text().await;
-    assert!(ev.contains("malformed upstream chunk") && ev.contains("upstream reported an error mid-stream"), "{ev}");
+    assert!(ev.contains("malformed upstream chunk") && ev.contains("upstream reported an error mid-stream") && ev.contains("malformed upstream stream"), "{ev}");
 }
 
 #[tokio::test]

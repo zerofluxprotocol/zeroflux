@@ -363,6 +363,21 @@ enum DestCmd {
         #[arg(long)]
         ack_external_unverified: bool,
     },
+    /// Use a ZFX hosted gateway as protected transport: this device transforms
+    /// requests and keeps the placeholder map; the hosted side only receives
+    /// transformed payloads. The hosted API key is read hidden.
+    AddHosted {
+        id: String,
+        /// Hosted gateway base URL, e.g. https://api.zeroflux.network/v1
+        url: String,
+        /// Model at the hosted gateway, e.g. frontier/<model>
+        model: String,
+        #[arg(long)]
+        allow_failover: bool,
+        /// Make it the default destination.
+        #[arg(long)]
+        default: bool,
+    },
     Remove { id: String },
     /// Make a destination the default for requests.
     Default { id: String },
@@ -885,6 +900,18 @@ async fn run(cli: Cli) -> Result<()> {
                     api.post("/providers", b).await?;
                     println!("added external destination '{id}'");
                 }
+                DestCmd::AddHosted { id, url, model, allow_failover, default } => {
+                    let mut b = base(&id, "OPENAI_COMPATIBLE", &url, &model, "EXTERNAL_UNVERIFIED", allow_failover);
+                    b["zfx_hosted_transport"] = json!(true);
+                    b["supports_responses"] = json!(true);
+                    b["display_name"] = json!("ZFX hosted (protected transport)");
+                    b["api_key"] = json!(read_secret("ZFX hosted API key (hidden): ")?);
+                    api.post("/providers", b).await?;
+                    if default {
+                        api.put("/settings", json!({"engine": {"default_destination": id}})).await?;
+                    }
+                    println!("added '{id}': requests are transformed here and sent preprocessed; the map stays on this device");
+                }
                 DestCmd::Remove { id } => {
                     api.delete(&format!("/providers/{id}")).await?;
                     println!("removed {id}");
@@ -962,6 +989,20 @@ async fn run(cli: Cli) -> Result<()> {
                 }
                 if let Ok(b) = pv_daemon::state::key_backend(&paths) {
                     let _ = b.delete();
+                }
+                // Keychain entries Prompt VPN 0.1 left for rollback, and the old-path link.
+                if let Ok(rec) = std::fs::read(paths.data.join(pv_daemon::migrate::RECORD_FILE)).map_err(anyhow::Error::from).and_then(|b| Ok(serde_json::from_slice::<pv_daemon::migrate::MigrationRecord>(&b)?)) {
+                    let store = pv_daemon::state::secret_store();
+                    if let Some((svc, acct)) = &rec.legacy_keychain {
+                        let _ = store.delete(svc, acct);
+                    }
+                    for r in &rec.credential_refs {
+                        let _ = store.delete(pv_daemon::migrate::LEGACY_SERVICE, &format!("cred:{r}"));
+                        let _ = store.delete(pv_daemon::migrate::SERVICE, &format!("cred:{r}"));
+                    }
+                    if std::fs::symlink_metadata(&rec.from_dir).map(|m| m.file_type().is_symlink()).unwrap_or(false) {
+                        let _ = std::fs::remove_file(&rec.from_dir);
+                    }
                 }
                 std::fs::remove_dir_all(&paths.data).ok();
                 println!("removed all ZFX VPN data");
