@@ -97,6 +97,10 @@ TARGETS = {
         step("wasm-build-wzfx", "cd bridge/near/wzfx && cargo near build non-reproducible-wasm"),
         step("wasm-build-test-ft", "cd bridge/near/test-ft && cargo near build non-reproducible-wasm"),
         step("wasm-build-pow-verifier", "cd bridge/near/pow-verifier && cargo near build non-reproducible-wasm --no-abi"),
+        step("wasm-build-zfx-mine", "cd bridge/near/zfx-mine && cargo near build non-reproducible-wasm --no-abi"),
+        step("wasm-build-zfx-light", "cd bridge/near/zfx-light && cargo near build non-reproducible-wasm --no-abi"),
+        step("vectors-near-profile-cpp", "./miner/cuda/build/zpu-miner selftest tests/vectors/near_v1.json"),
+        step("vectors-near-profile-numpy", f"{PY} miner/python/zpu_miner.py selftest tests/vectors/near_v1.json --backend numpy"),
         step("build-release", "cargo build --release -q"),
         step("vectors-rust", "./target/release/zpu-cli selftest"),
         step("vectors-consensus-v2", "cargo test --release -q -p zfx-verify --test consensus_v2"),
@@ -119,6 +123,11 @@ TARGETS = {
         step("bridge-100-two-way-fault-injection", f"{PY} tests/e2e/bridge.py", timeout=5400),
         step("bridge-finality-reorg", f"{PY} tests/e2e/bridge_reorg.py", timeout=3600),
         step("bridge-governance-recovery", f"{PY} tests/e2e/bridge_governance.py", timeout=3600),
+    ],
+    "e2e-near": [
+        step("near-native-mining-contract", f"{PY} tests/e2e/near_mining.py", timeout=3600),
+        step("near-pow-light-client", f"{PY} tests/e2e/near_light_client.py", timeout=5400),
+        step("onchain-pow-gas", f"{PY} tests/e2e/onchain_pow.py", timeout=1800),
     ],
     "e2e-intents": [
         step("intents-local-solver-settlement", f"{PY} tests/e2e/intents.py", timeout=3600),

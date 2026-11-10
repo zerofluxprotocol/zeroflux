@@ -58,6 +58,7 @@ static Job job_from(const zj::Value& v) {
     j.profile.d_out = (int)p["d_out"].i();
     j.profile.shift_in = (uint32_t)p["shift_in"].i();
     j.profile.shift_hidden = (uint32_t)p["shift_hidden"].i();
+    j.profile.prf = prf_for_profile(j.profile.id);
     unhex32(v["epoch_seed"].s(), j.seed);
     unhex32(v["challenge"].s(), j.challenge);
     if (v["target"].kind == zj::Value::Str) unhex32(v["target"].s(), j.target); else std::memset(j.target, 0, 32);
@@ -114,13 +115,14 @@ static int selftest(Backend& b, const std::string& path) {
     int pass = 0, fail = 0;
     // Edge cases: byte map and requantization table (pure arithmetic).
     const zj::Value& e = v["edge"];
-    for (size_t i = 0; i < e["byte_to_val"].arr.size(); i++)
+    for (size_t i = 0; e.kind && i < e["byte_to_val"].arr.size(); i++)
         (byte_to_val((uint8_t)i) == e["byte_to_val"].arr[i].i() ? pass : fail)++;
-    for (auto& c : e["requant_cases"].arr) {
+    for (auto& c : (e.kind ? e["requant_cases"].arr : std::vector<zj::Value>{})) {
         int32_t y = (int32_t)c["y"].i();
         (requant(y, 0) == c["s0"].i() && requant(y, 2) == c["s2"].i() ? pass : fail)++;
     }
-    for (const char* key : {"dev", "v01"}) {
+    for (const char* key : {"dev", "v01", "near_v1"}) {
+        if (!v[key].kind) continue;
         const zj::Value& pv = v[key];
         zj::Value jv;
         jv.kind = zj::Value::Obj;
@@ -167,7 +169,8 @@ static std::string compiler_id() {
 // reference backend must match bit for bit.
 static int bench(Backend& b, int argc, char** argv) {
     Job j;
-    j.profile = argv_val(argc, argv, "--profile", "v01") == std::string("dev") ? FP8C_V01_DEV : FP8C_V01;
+    std::string pn = argv_val(argc, argv, "--profile", "v01");
+    j.profile = pn == "dev" ? FP8C_V01_DEV : pn == "near" ? NEAR_V1 : FP8C_V01;
     std::memset(j.seed, 0x5e, 32);
     std::memset(j.challenge, 0xc4, 32);
     std::memset(j.target, 0, 32);

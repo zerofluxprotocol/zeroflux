@@ -43,7 +43,7 @@ impl Contract {
         let g2 = env::used_gas();
         let mut h = [0u8; 32];
         for i in 0..rows {
-            h = env::sha256_array(&h);
+            h = env::sha256_array(h);
             let _ = i;
         }
         let g3 = env::used_gas();

@@ -6,7 +6,7 @@
 PY := $(shell [ -x .venv/bin/python ] && echo .venv/bin/python || echo python3)
 GATES := $(PY) scripts/gates.py
 
-.PHONY: check e2e-native e2e-bridge e2e-intents security-test gpu-test testnet-smoke acceptance localnet localnet-down
+.PHONY: check e2e-native e2e-bridge e2e-intents e2e-near security-test gpu-test testnet-smoke acceptance localnet localnet-down
 
 check:          ## unit, lint, types, all deterministic vectors
 	$(GATES) check
@@ -16,6 +16,8 @@ e2e-bridge:     ## native + NEAR sandbox: 100 two-way transfers, reorgs, governa
 	$(GATES) e2e-bridge
 e2e-intents:    ## quotes, fill/expiry/refund against the local test solver
 	$(GATES) e2e-intents
+e2e-near:       ## ZFX mined natively on NEAR (PoW verified on-chain) and the ZeroFlux PoW light client on NEAR
+	$(GATES) e2e-near
 security-test:  ## fuzz/property/adversarial tests, sanitizers, audit, SBOM, licenses, repro build
 	$(GATES) security-test
 gpu-test:       ## all installed GPU backends; untested hardware reported as BLOCKED

@@ -36,6 +36,8 @@ RQ_LUT = VALS[np.frombuffer(SBOX, dtype=np.uint8) >> 3]
 PROFILES = {
     1: dict(id=1, name="zfx-fp8c-v0.1", d_in=64, hidden=4096, n_hidden=3, d_out=256, shift_in=0, shift_hidden=2),
     2: dict(id=2, name="zfx-fp8c-v0.1-dev", d_in=64, hidden=256, n_hidden=3, d_out=64, shift_in=0, shift_hidden=0),
+    # NEAR-verifiable profile: ChaCha8 weights (see crates/zfx-verify/src/pow.rs).
+    3: dict(id=3, name="zfx-near-v1", d_in=64, hidden=1024, n_hidden=3, d_out=256, shift_in=0, shift_hidden=1),
 }
 
 
@@ -55,8 +57,43 @@ def x0(attempt: bytes, d_in: int) -> np.ndarray:
     return BYTE_TO_VAL[np.frombuffer(b, dtype=np.uint8)]
 
 
+def _chacha8_layer(key: bytes, n: int, k: int) -> np.ndarray:
+    """ChaCha8 keystream for rows 0..n-1 (nonce = row u32le || 0^8), k bytes
+    per row, all blocks of the layer computed at once with uint32 arrays."""
+    bpr = (k + 63) // 64
+    rows = np.repeat(np.arange(n, dtype=np.uint32), bpr)
+    ctr = np.tile(np.arange(bpr, dtype=np.uint32), n)
+    kw = np.frombuffer(key, dtype="<u4")
+    st = np.zeros((n * bpr, 16), dtype=np.uint32)
+    st[:, 0:4] = [0x61707865, 0x3320646E, 0x79622D32, 0x6B206574]
+    st[:, 4:12] = kw
+    st[:, 12] = ctr
+    st[:, 13] = rows
+    x = st.copy()
+
+    def rotl(v, c):
+        return (v << np.uint32(c)) | (v >> np.uint32(32 - c))
+
+    def qr(a, b, c, d):
+        x[:, a] += x[:, b]; x[:, d] = rotl(x[:, d] ^ x[:, a], 16)
+        x[:, c] += x[:, d]; x[:, b] = rotl(x[:, b] ^ x[:, c], 12)
+        x[:, a] += x[:, b]; x[:, d] = rotl(x[:, d] ^ x[:, a], 8)
+        x[:, c] += x[:, d]; x[:, b] = rotl(x[:, b] ^ x[:, c], 7)
+
+    for _ in range(4):
+        qr(0, 4, 8, 12); qr(1, 5, 9, 13); qr(2, 6, 10, 14); qr(3, 7, 11, 15)
+        qr(0, 5, 10, 15); qr(1, 6, 11, 12); qr(2, 7, 8, 13); qr(3, 4, 9, 14)
+    ks = (x + st).astype("<u4").view(np.uint8).reshape(n, bpr * 64)[:, :k]
+    return BYTE_TO_VAL[ks]
+
+
 def gen_weights(p, seed: bytes):
     out = []
+    if p["id"] == 3:
+        for l, (k, n, _) in enumerate(layers(p)):
+            key = hashlib.sha256(b"ZFX-near-weights-v1" + seed + struct.pack("<I", l)).digest()
+            out.append(_chacha8_layer(key, n, k))
+        return out
     for l, (k, n, _) in enumerate(layers(p)):
         rows = [hashlib.shake_256(b"ZFX-FP8C-W-v0.1" + seed + struct.pack("<II", l, j)).digest(k) for j in range(n)]
         out.append(BYTE_TO_VAL[np.frombuffer(b"".join(rows), dtype=np.uint8)].reshape(n, k))
@@ -269,7 +306,7 @@ def serve(b, batch):
 def selftest(b, path):
     v = json.load(open(path))
     passed = failed = 0
-    e = v["edge"]
+    e = v.get("edge", {"byte_to_val": [], "requant_cases": []})
     for i, want in enumerate(e["byte_to_val"]):
         ok = int(BYTE_TO_VAL[i]) == want
         passed, failed = passed + ok, failed + (not ok)
@@ -277,7 +314,9 @@ def selftest(b, path):
         y = np.array([c["y"]], dtype=np.int32)
         ok = int(requant_np(y, 0)[0]) == c["s0"] and int(requant_np(y, 2)[0]) == c["s2"]
         passed, failed = passed + ok, failed + (not ok)
-    for key in ("dev", "v01"):
+    for key in ("dev", "v01", "near_v1"):
+        if key not in v:
+            continue
         pv = v[key]
         b.load(pv["profile"], bytes.fromhex(pv["epoch_seed"]))
         ch = bytes.fromhex(pv["challenge"])
@@ -314,7 +353,7 @@ def stress(b, rows=512, k=4096, n=4096, seed=1):
 
 
 def bench(b, profile, count, batch):
-    p = PROFILES[1 if profile == "v01" else 2]
+    p = PROFILES[{"v01": 1, "dev": 2, "near": 3}[profile]]
     seed, ch = b"\x5e" * 32, b"\xc4" * 32
     run_job(b, p, seed, ch, 0, 0, min(batch, 64), batch)  # warm (weights + kernels)
     t0 = time.time()

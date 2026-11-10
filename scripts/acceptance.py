@@ -21,7 +21,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RES = os.path.join(ROOT, "bench", "results")
 GATES = os.path.join(RES, "gates")
 PY = os.path.join(ROOT, ".venv", "bin", "python")
-TARGETS = ["check", "e2e-native", "e2e-bridge", "e2e-intents", "security-test", "gpu-test", "testnet-smoke"]
+TARGETS = ["check", "e2e-native", "e2e-bridge", "e2e-intents", "e2e-near", "security-test", "gpu-test", "testnet-smoke"]
 MAINNET_READY = False
 
 

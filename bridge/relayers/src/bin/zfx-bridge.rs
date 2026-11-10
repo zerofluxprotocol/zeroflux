@@ -65,7 +65,10 @@ fn gas_burnt_tgas(raw: &Value) -> f64 {
 }
 
 fn print_outcome(o: &zfx_bridge::near::Outcome) {
-    println!("{}", json!({"tx_hash": o.tx_hash, "success": o.success, "value": o.value, "failure": o.failure, "logs": o.logs, "gas_burnt_tgas": gas_burnt_tgas(&o.raw)}));
+    println!(
+        "{}",
+        json!({"tx_hash": o.tx_hash, "success": o.success, "value": o.value, "failure": o.failure, "logs": o.logs, "gas_burnt_tgas": gas_burnt_tgas(&o.raw)})
+    );
     if !o.success {
         std::process::exit(3);
     }
@@ -187,7 +190,7 @@ async fn main() {
                     match w {
                         Ok(v) => respond(
                             req,
-                            json!({"api_version": 2, "work_id": format!("{}", v["height"].as_str().unwrap_or("0")), "chain_id": 0, "version": v["profile"],
+                            json!({"api_version": 2, "work_id": v["height"].as_str().unwrap_or("0").to_string(), "chain_id": 0, "version": v["profile"],
                                    "height": v["height"], "header_without_nonce": v["work_bytes"], "challenge": v["challenge"], "target": v["target"],
                                    "epoch_seed": v["epoch_seed"], "profile": "zfx-near-v1", "expiry": {"height": v["height"]}}),
                         ),
@@ -201,7 +204,10 @@ async fn main() {
                     let nonce = b["nonce"].as_str().map(String::from).unwrap_or_else(|| b["nonce"].to_string());
                     match near.call(&s, &contract, "submit", json!({"height": height, "nonce": nonce}), 300, 0) {
                         Ok(o) if o.success => {
-                            eprintln!("{}", json!({"event": "mined", "height": height, "nonce": nonce, "tx": o.tx_hash, "gas_burnt_tgas": gas_burnt_tgas(&o.raw), "result": o.value}));
+                            eprintln!(
+                                "{}",
+                                json!({"event": "mined", "height": height, "nonce": nonce, "tx": o.tx_hash, "gas_burnt_tgas": gas_burnt_tgas(&o.raw), "result": o.value})
+                            );
                             respond(req, json!({"accepted": true, "block_hash": o.tx_hash, "result": o.value, "gas_burnt_tgas": gas_burnt_tgas(&o.raw)}))
                         }
                         Ok(o) => respond(req, json!({"accepted": false, "error": o.failure, "code": 1002})),
@@ -244,12 +250,18 @@ async fn main() {
                     let m = near.view(&contract, "missing_layers", json!({"parent": parent, "height": h.to_string()}), "optimistic").unwrap_or(Value::Null);
                     for l in m["missing_layers"].as_array().cloned().unwrap_or_default() {
                         let o = near.call(&s, &contract, "prepare_weights", json!({"parent": parent, "height": h.to_string(), "layer": l}), 300, 0);
-                        println!("{}", json!({"event": "prepare_weights", "height": h, "layer": l, "ok": o.as_ref().map(|o| o.success).unwrap_or(false),
-                                               "gas_burnt_tgas": o.as_ref().map(|o| gas_burnt_tgas(&o.raw)).unwrap_or(0.0)}));
+                        println!(
+                            "{}",
+                            json!({"event": "prepare_weights", "height": h, "layer": l, "ok": o.as_ref().map(|o| o.success).unwrap_or(false),
+                                               "gas_burnt_tgas": o.as_ref().map(|o| gas_burnt_tgas(&o.raw)).unwrap_or(0.0)})
+                        );
                     }
                     match near.call(&s, &contract, "submit_header", json!({"header": b["header_hex"]}), 300, 0) {
-                        Ok(o) => println!("{}", json!({"event": "header", "height": h, "ok": o.success, "tx": o.tx_hash, "result": o.value,
-                                                     "failure": o.failure, "gas_burnt_tgas": gas_burnt_tgas(&o.raw)})),
+                        Ok(o) => println!(
+                            "{}",
+                            json!({"event": "header", "height": h, "ok": o.success, "tx": o.tx_hash, "result": o.value,
+                                                     "failure": o.failure, "gas_burnt_tgas": gas_burnt_tgas(&o.raw)})
+                        ),
                         Err(e) => println!("{}", json!({"event": "header", "height": h, "ok": false, "error": e})),
                     }
                     sent += 1;

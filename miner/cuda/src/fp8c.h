@@ -25,6 +25,8 @@ struct Profile {
     uint32_t id;
     int d_in, hidden, n_hidden, d_out;
     uint32_t shift_in, shift_hidden;
+    // Weight PRF: 0 = SHAKE256 rows (profiles 1, 2), 1 = ChaCha8 rows (profile 3).
+    uint32_t prf;
     int n_layers() const { return n_hidden + 2; }
     int layer_k(int l) const { return l == 0 ? d_in : hidden; }
     int layer_n(int l) const { return l == n_layers() - 1 ? d_out : hidden; }
@@ -36,8 +38,12 @@ struct Profile {
     }
 };
 
-static const Profile FP8C_V01 = {1, 64, 4096, 3, 256, 0, 2};
-static const Profile FP8C_V01_DEV = {2, 64, 256, 3, 64, 0, 0};
+static const Profile FP8C_V01 = {1, 64, 4096, 3, 256, 0, 2, 0};
+static const Profile FP8C_V01_DEV = {2, 64, 256, 3, 64, 0, 0, 0};
+// NEAR-verifiable profile: H = 1024, ChaCha8 weights (checked on-chain by NEAR contracts).
+static const Profile NEAR_V1 = {3, 64, 1024, 3, 256, 0, 1, 1};
+// The weight PRF is fixed by the profile id (consensus definition).
+inline uint32_t prf_for_profile(uint32_t id) { return id == 3 ? 1u : 0u; }
 
 // 5-bit index -> operand value in D = {+-1..+-16}.
 ZPU_HD int8_t idx_to_val(uint8_t u) {
@@ -86,6 +92,57 @@ ZPU_HD void make_x0(const uint8_t attempt[32], int d_in, int8_t* out) {
     uint8_t buf[256];
     x.squeeze(buf, d_in);
     for (int i = 0; i < d_in; i++) out[i] = byte_to_val(buf[i]);
+}
+
+static const char NEAR_W_DOMAIN[] = "ZFX-near-weights-v1";
+
+// RFC 8439 ChaCha block with `rounds` rounds.
+inline void chacha_block(const uint8_t key[32], uint32_t counter, const uint8_t nonce[12], int rounds, uint8_t out[64]) {
+    uint32_t st[16] = {0x61707865u, 0x3320646eu, 0x79622d32u, 0x6b206574u};
+    for (int i = 0; i < 8; i++) st[4 + i] = (uint32_t)key[4 * i] | (uint32_t)key[4 * i + 1] << 8 | (uint32_t)key[4 * i + 2] << 16 | (uint32_t)key[4 * i + 3] << 24;
+    st[12] = counter;
+    for (int i = 0; i < 3; i++) st[13 + i] = (uint32_t)nonce[4 * i] | (uint32_t)nonce[4 * i + 1] << 8 | (uint32_t)nonce[4 * i + 2] << 16 | (uint32_t)nonce[4 * i + 3] << 24;
+    uint32_t x[16];
+    for (int i = 0; i < 16; i++) x[i] = st[i];
+    auto rotl = [](uint32_t v, int c) { return (v << c) | (v >> (32 - c)); };
+    auto qr = [&](int a, int b, int c, int d) {
+        x[a] += x[b]; x[d] = rotl(x[d] ^ x[a], 16);
+        x[c] += x[d]; x[b] = rotl(x[b] ^ x[c], 12);
+        x[a] += x[b]; x[d] = rotl(x[d] ^ x[a], 8);
+        x[c] += x[d]; x[b] = rotl(x[b] ^ x[c], 7);
+    };
+    for (int r = 0; r < rounds / 2; r++) {
+        qr(0, 4, 8, 12); qr(1, 5, 9, 13); qr(2, 6, 10, 14); qr(3, 7, 11, 15);
+        qr(0, 5, 10, 15); qr(1, 6, 11, 12); qr(2, 7, 8, 13); qr(3, 4, 9, 14);
+    }
+    for (int i = 0; i < 16; i++) {
+        uint32_t v = x[i] + st[i];
+        out[4 * i] = (uint8_t)v; out[4 * i + 1] = (uint8_t)(v >> 8); out[4 * i + 2] = (uint8_t)(v >> 16); out[4 * i + 3] = (uint8_t)(v >> 24);
+    }
+}
+
+// Profile 3: key = SHA256("ZFX-near-weights-v1" || seed || layer u32le); row r
+// is the ChaCha8 keystream with nonce = r u32le || 0^8, counter from 0.
+inline void chacha8_weight_row(const uint8_t seed[32], uint32_t layer, uint32_t row, int k, int8_t* out) {
+    Sha256 h; h.init();
+    absorb_str(h, NEAR_W_DOMAIN);
+    h.update(seed, 32);
+    uint8_t b[4]; le32(layer, b); h.update(b, 4);
+    uint8_t key[32]; h.final(key);
+    uint8_t nonce[12] = {0};
+    le32(row, nonce);
+    uint8_t ks[64];
+    for (int o = 0, blk = 0; o < k; o += 64, blk++) {
+        chacha_block(key, (uint32_t)blk, nonce, 8, ks);
+        int n = k - o < 64 ? k - o : 64;
+        for (int i = 0; i < n; i++) out[o + i] = byte_to_val(ks[i]);
+    }
+}
+
+inline void weight_row(const uint8_t seed[32], uint32_t layer, uint32_t row, int k, int8_t* out);
+inline void weight_row_prf(uint32_t prf, const uint8_t seed[32], uint32_t layer, uint32_t row, int k, int8_t* out) {
+    if (prf == 1) chacha8_weight_row(seed, layer, row, k, out);
+    else weight_row(seed, layer, row, k, out);
 }
 
 inline void weight_row(const uint8_t seed[32], uint32_t layer, uint32_t row, int k, int8_t* out) {

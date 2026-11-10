@@ -15,6 +15,7 @@ PRIVATE_TESTNET_READY = true      MAINNET_READY = false      testnet only, no mo
 | `make check` | rustfmt, clippy `-D warnings`, all Rust and contract unit tests, WASM builds, golden vectors in Rust/C++/Python/MLX/MPS, GPU device compile for sm_90/100/120 and gfx942/950, Python lint, explorer typecheck, NEP-413 conformance |
 | `make e2e-native` | 3 nodes, 1000 mined blocks, restarts, encrypted P2P, wallet transfers, supply audit, explorer receipts |
 | `make e2e-bridge` | native chain + NEAR sandbox: 100 two-way transfers under fault injection, finality and reorg cases, governance (pause, rotation, upgrade) and recovery |
+| `make e2e-near` | ZFX mined natively on NEAR (proof of work checked on-chain) and a ZeroFlux PoW light client on NEAR; see `docs/NEAR_SETTLEMENT.md` |
 | `make e2e-intents` | official Verifier, local Message Bus, test solver: quotes, settlement both ways, expiry, liquidity, duplicates, refunds |
 | `make security-test` | parser fuzzing, crash/corruption/backup tests, adversarial consensus tests, ASan+UBSan miner, attack experiments, `cargo audit`, SBOM, license gate, reproducible build |
 | `make gpu-test` | every GPU backend on this host; missing NVIDIA/AMD hardware reported as BLOCKED (remote rerun: set `ZFX_GPU_RUNNER`) |
@@ -49,6 +50,6 @@ Every attempt derives a 64-value input row from `SHAKE256(SHA256(header) || nonc
 
 ## Documents
 
-`docs/` holds ALGORITHM_DECISION, CONSENSUS, THREAT_MODEL, TOKEN_ACCOUNTING, BRIDGE_TRUST_MODEL, CONTRACT_API, INTENTS_INTEGRATION, TEST_REPORT, HARDWARE, BENCHMARKS, RELEASE_READINESS, OPERATOR_RUNBOOK and the specifications. `IMPLEMENTATION_STATUS.md` and `ACCEPTANCE_REPORT.md` at the root track the gates.
+`docs/` holds ALGORITHM_DECISION, CONSENSUS, THREAT_MODEL, TOKEN_ACCOUNTING, BRIDGE_TRUST_MODEL, CONTRACT_API, INTENTS_INTEGRATION, TEST_REPORT, HARDWARE, BENCHMARKS, RELEASE_READINESS, OPERATOR_RUNBOOK, NEAR_SETTLEMENT and the specifications. `IMPLEMENTATION_STATUS.md` and `ACCEPTANCE_REPORT.md` at the root track the gates.
 
 License: Apache-2.0.

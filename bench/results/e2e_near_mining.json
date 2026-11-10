@@ -45,7 +45,7 @@
       "evidence": {
         "winning_nonce": "30957",
         "stolen_by_miner2": ":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: digest does not meet the target\"}}}}",
-        "miner1_tx": "DkZuGAvNNg3fhEFanDPiUNMVbe4QWmbvmaVK9WuG1Kts",
+        "miner1_tx": "nzoyE7rDCdjWkEq4eajbfPBvNfFVNioQszWZR9AdYe4",
         "miner1_result": {
           "digest": "0000eeabc7ec05f0f57e6daf41f8236e0701121066ff0d882fb3e5218baea412",
           "gas": {
@@ -72,10 +72,10 @@
       "evidence": {
         "height": "40",
         "blocks_by_miner": {
-          "miner1.test.near": 16,
-          "miner2.test.near": 24
+          "miner1.test.near": 19,
+          "miner2.test.near": 21
         },
-        "seconds": 83.4,
+        "seconds": 87.7,
         "submit_gas_tgas": {
           "min": 146.265518551219,
           "median": 146.355300732805,
@@ -91,8 +91,8 @@
         "height": 40,
         "total_supply": "200000000000",
         "balances": {
-          "miner1.test.near": 80000000000,
-          "miner2.test.near": 120000000000
+          "miner1.test.near": 95000000000,
+          "miner2.test.near": 105000000000
         }
       }
     },
@@ -102,31 +102,6 @@
       "evidence": {
         "height": 40,
         "prepare_events": [
-          {
-            "layer": 0,
-            "ok": true,
-            "gas_tgas": 76.268698452632
-          },
-          {
-            "layer": 1,
-            "ok": true,
-            "gas_tgas": 155.217497327632
-          },
-          {
-            "layer": 2,
-            "ok": true,
-            "gas_tgas": 155.22047647237
-          },
-          {
-            "layer": 3,
-            "ok": true,
-            "gas_tgas": 155.218776460612
-          },
-          {
-            "layer": 4,
-            "ok": true,
-            "gas_tgas": 40.736058028531
-          },
           {
             "layer": 0,
             "ok": true,
@@ -151,6 +126,31 @@
             "layer": 4,
             "ok": true,
             "gas_tgas": 2.487318322429
+          },
+          {
+            "layer": 0,
+            "ok": true,
+            "gas_tgas": 76.268698452632
+          },
+          {
+            "layer": 1,
+            "ok": true,
+            "gas_tgas": 155.217497327632
+          },
+          {
+            "layer": 2,
+            "ok": true,
+            "gas_tgas": 155.22047647237
+          },
+          {
+            "layer": 3,
+            "ok": true,
+            "gas_tgas": 155.218776460612
+          },
+          {
+            "layer": 4,
+            "ok": true,
+            "gas_tgas": 40.736058028531
           }
         ]
       }
@@ -160,26 +160,26 @@
       "result": "PASS",
       "evidence": {
         "genesis_target": "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-        "target_now": "00005acf1ac19bd71fb4a6f63c78e0a619ad31ecd04f54cb046089cb9f50f52d"
+        "target_now": "000064eb7c0d0422a7e1254502f663e19bfd5db7b8f5ce5c7488aff6b467d9fe"
       }
     },
     {
       "check": "C8 ZFX moves as a standard NEP-141 token (ft_transfer)",
       "result": "PASS",
       "evidence": {
-        "tx": "J41Hkc3mrJa6rmd7pWazCYRdoQPCHphhfzmLC23L8wwX",
+        "tx": "Hn37VvCEa6ovkrdBKsJspNoXhH2YtLBXAW14WNpNsC7o",
         "before": {
-          "miner1.test.near": 80000000000,
-          "miner2.test.near": 120000000000
+          "miner1.test.near": 95000000000,
+          "miner2.test.near": 105000000000
         },
         "after": {
-          "miner1.test.near": 79900000000,
-          "miner2.test.near": 120100000000
+          "miner1.test.near": 94900000000,
+          "miner2.test.near": 105100000000
         }
       }
     }
   ],
-  "deploy_tx": "Fnk3DpzThryxKw3zCcjq4g19hJzvvAejTqC7nd6H7pwm",
+  "deploy_tx": "9xxD2dKZW1MWFeBW1WBVjQSuTjgSUmvVazAn6b2cLg7u",
   "submit_gas_tgas": {
     "min": 146.265518551219,
     "median": 146.355300732805,
@@ -187,31 +187,6 @@
     "n": 39
   },
   "prepare_epoch_gas_tgas": [
-    {
-      "layer": 0,
-      "ok": true,
-      "gas_tgas": 76.268698452632
-    },
-    {
-      "layer": 1,
-      "ok": true,
-      "gas_tgas": 155.217497327632
-    },
-    {
-      "layer": 2,
-      "ok": true,
-      "gas_tgas": 155.22047647237
-    },
-    {
-      "layer": 3,
-      "ok": true,
-      "gas_tgas": 155.218776460612
-    },
-    {
-      "layer": 4,
-      "ok": true,
-      "gas_tgas": 40.736058028531
-    },
     {
       "layer": 0,
       "ok": true,
@@ -236,6 +211,31 @@
       "layer": 4,
       "ok": true,
       "gas_tgas": 2.487318322429
+    },
+    {
+      "layer": 0,
+      "ok": true,
+      "gas_tgas": 76.268698452632
+    },
+    {
+      "layer": 1,
+      "ok": true,
+      "gas_tgas": 155.217497327632
+    },
+    {
+      "layer": 2,
+      "ok": true,
+      "gas_tgas": 155.22047647237
+    },
+    {
+      "layer": 3,
+      "ok": true,
+      "gas_tgas": 155.218776460612
+    },
+    {
+      "layer": 4,
+      "ok": true,
+      "gas_tgas": 40.736058028531
     }
   ],
   "passed": 8,

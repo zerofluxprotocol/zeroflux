@@ -202,7 +202,8 @@ impl Contract {
         let pow_tgas = (env::used_gas().as_gas() - g0.as_gas()) as f64 / 1e12;
         require!(pow::meets_target(&digest, &U256::from_be_bytes(&h.target)), "invalid proof of work");
         let cum = U256::from_be_bytes(&parent.cum_work).saturating_add(&U256::work_for_target(&U256::from_be_bytes(&h.target)));
-        self.headers.insert(hash, HeaderRec { header: raw, height: h.height, parent: h.parent, timestamp: h.timestamp, target: h.target, cum_work: cum.to_be_bytes() });
+        self.headers
+            .insert(hash, HeaderRec { header: raw, height: h.height, parent: h.parent, timestamp: h.timestamp, target: h.target, cum_work: cum.to_be_bytes() });
         let best_cum = U256::from_be_bytes(&self.rec(&self.best).cum_work);
         let mut reorg_depth = 0u64;
         if cum > best_cum {
@@ -257,7 +258,8 @@ impl Contract {
         require!(u32::from_le_bytes(core[0..4].try_into().unwrap()) == self.chain_id, "wrong chain");
         require!(core[36..68] == self.lockbox, "not a transfer to the lockbox");
         let amount = u64::from_le_bytes(core[68..76].try_into().unwrap()) as u128;
-        let recipient: AccountId = std::str::from_utf8(&core[94..]).ok().and_then(|s| s.parse().ok()).unwrap_or_else(|| env::panic_str("memo is not a NEAR account"));
+        let recipient: AccountId =
+            std::str::from_utf8(&core[94..]).ok().and_then(|s| s.parse().ok()).unwrap_or_else(|| env::panic_str("memo is not a NEAR account"));
         let txid = sha256(&[b"ZFX-txid-v0.1", &core]);
         require!(!self.claimed.contains(&txid), "deposit already claimed");
         let mut enc = core.clone();

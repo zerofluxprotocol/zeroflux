@@ -1,0 +1,100 @@
+{
+  "checks": [
+    {
+      "check": "B1 light client follows the chain, recomputing every header's proof of work on-chain",
+      "result": "PASS",
+      "evidence": {
+        "best_height": "36",
+        "matches_node": true,
+        "header_gas_tgas": {
+          "n": 35,
+          "min": 146.336025866352,
+          "median": 147.738755141117,
+          "max": 148.934715904447,
+          "pow_part_median": 143.676870060417
+        }
+      }
+    },
+    {
+      "check": "B2 epoch boundary: next epoch's weights prepared on-chain (5 layers per epoch)",
+      "result": "PASS",
+      "evidence": {
+        "prepare_events": 10,
+        "gas_tgas": [
+          22.5,
+          155.1,
+          155.1,
+          155.1,
+          40.7,
+          22.5,
+          155.1,
+          155.1,
+          155.1,
+          40.7
+        ]
+      }
+    },
+    {
+      "check": "B3 forged headers rejected on-chain (altered nonce, unknown parent)",
+      "result": "PASS",
+      "evidence": {
+        "bad_nonce": "\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: invalid proof of work\"}}}}",
+        "unknown_parent": "kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: unknown header\"}}}}"
+      }
+    },
+    {
+      "check": "B4 deposit minted on NEAR from a Merkle proof against PoW-verified headers, no committee; replay and tampering rejected",
+      "result": "PASS",
+      "evidence": {
+        "deposit": "bb94e42b8fa66994943aab4d41704c8f591bc6b5b3488b4819e6fe5ecf8b37fa",
+        "claim_tx": "3HsiUA6QMjvVp43uhZpPqpfsLe9rBhNFWLis22HZuuhj",
+        "claim_gas_tgas": 6.59662408718,
+        "alice_balance": 25000,
+        "replay": "rror\":\"Smart contract panicked: deposit already claimed\"}}}}",
+        "tampered": "Smart contract panicked: inclusion proof does not match the block\"}}}}"
+      }
+    },
+    {
+      "check": "B5 a deposit with fewer than K confirmations on the light client cannot be claimed",
+      "result": "PASS",
+      "evidence": {
+        "deposit_height": 44,
+        "light_client_height": 44,
+        "K": 4,
+        "failure": "ror\":\"Smart contract panicked: not enough confirmations\"}}}}"
+      }
+    },
+    {
+      "check": "B6 partition and heavier fork: the light client reorgs to the most work; a block that left the best chain cannot be claimed",
+      "result": "PASS",
+      "evidence": {
+        "reorgs": "1",
+        "max_reorg_depth": "2",
+        "best_height": "50",
+        "orphaned_block_claim": "Smart contract panicked: block is not on the best chain\"}}}}"
+      }
+    }
+  ],
+  "header_gas_tgas": {
+    "n": 35,
+    "min": 146.336025866352,
+    "median": 147.738755141117,
+    "max": 148.934715904447,
+    "pow_part_median": 143.676870060417
+  },
+  "prepare_weights_gas_tgas": [
+    22.5,
+    155.1,
+    155.1,
+    155.1,
+    40.7,
+    22.5,
+    155.1,
+    155.1,
+    155.1,
+    40.7
+  ],
+  "final_supply": "25000",
+  "passed": 6,
+  "total": 6
+}

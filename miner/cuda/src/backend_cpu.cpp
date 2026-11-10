@@ -16,7 +16,7 @@ void generate_weights(const Profile& p, const uint8_t seed[32], int threads, Wei
         std::vector<std::thread> ts;
         for (int t = 0; t < threads; t++)
             ts.emplace_back([&, t] {
-                for (int r = t; r < n; r += threads) weight_row(seed, l, r, k, &w.layers[l][(size_t)r * k]);
+                for (int r = t; r < n; r += threads) weight_row_prf(p.prf, seed, l, r, k, &w.layers[l][(size_t)r * k]);
             });
         for (auto& t : ts) t.join();
     }

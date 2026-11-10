@@ -22,6 +22,7 @@ DOCS = [  # (source, slug, title, one-line summary)
     ("docs/BRIDGE_TRUST_MODEL.md", "bridge_trust_model", "Bridge trust model", "Who can do what in the 2-of-3 NEAR bridge"),
     ("docs/TOKEN_ACCOUNTING.md", "token_accounting", "Token accounting", "Supply, bridge books and the identities checked continuously"),
     ("docs/CONTRACT_API.md", "contract_api", "Contract API", "Node RPC, wZFX contract and Intents adapter, with signing bytes"),
+    ("docs/NEAR_SETTLEMENT.md", "near_settlement", "ZeroFlux on NEAR", "Native mining on NEAR and a PoW light client, with measured gas"),
     ("docs/INTENTS_INTEGRATION.md", "intents", "NEAR Intents integration", "How wZFX trades through NEAR Intents"),
     ("docs/THREAT_MODEL.md", "threat_model", "Threat model", "Attacks tried, assumptions, open risks"),
     ("docs/OPERATOR_RUNBOOK.md", "runbook", "Operator runbook", "Pause, rotation, upgrade, incident and recovery procedures"),

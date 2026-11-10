@@ -9,12 +9,12 @@
       "matches_golden_vector": true,
       "result": {
         "digest": "057d71bc66f5ce94575282ce0a22a575a0452612baaa4fae2bec0dbfe6d03cf7",
-        "gas_attempt": 6977978596779,
-        "gas_weights": 62363323303647,
+        "gas_attempt": 6998538446463,
+        "gas_weights": 62354371718367,
         "macs": 229376
       },
       "failure": null,
-      "tgas_total_in_call": 69.34
+      "tgas_total_in_call": 69.35
     },
     {
       "profile": "zfx-near-v1",
@@ -34,7 +34,7 @@
     }
   ],
   "near_v1_fits_one_transaction": false,
-  "model_v01_attempt_tgas": 1571.0,
+  "model_v01_attempt_tgas": 1575.7,
   "model_basis": "dev-profile measured gas per MAC times v0.1 MACs (attempt only, excluding 51.6 MB weight generation); labeled model, not measurement",
-  "conclusion": "A NEAR contract can verify the dev profile exactly (matches golden vectors), but one production (v0.1) attempt exceeds the 300 Tgas transaction limit by orders of magnitude even before weight generation; a NEAR light client that re-executes ZeroFlux PoW is infeasible. Trust-minimization needs a succinct proof (STARK) of the PoW, verified on NEAR; until that is built and reviewed, the 2-of-3 committee remains."
+  "conclusion": "The v0.1 profile cannot be checked on NEAR: one attempt exceeds the 300 Tgas limit. Profile zfx-near-v1 (3.47 M MACs, ChaCha8 weights) also exceeds it when weights are regenerated inside the call, but fits when each epoch's weights are prepared once into contract storage: zfx-mine checks one attempt in ~146 Tgas and zfx-light verifies a full header in ~148 Tgas (bench/results/e2e_near_mining.json, e2e_near_light_client.json)."
 }

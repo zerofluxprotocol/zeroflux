@@ -156,7 +156,7 @@ impl Contract {
 
         self.height += 1;
         self.prev_hash = sha256(&[b"ZFXM-chain-v1", &self.prev_hash, &digest, miner.as_bytes()]);
-        if self.height % pow::EPOCH_LEN == 0 {
+        if self.height.is_multiple_of(pow::EPOCH_LEN) {
             self.anchors.insert(self.height, self.prev_hash);
             self.stale_seed = Some(seed);
         }

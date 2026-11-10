@@ -53,9 +53,10 @@ def main():
             per_mac = dev["result"]["gas_attempt"] / dev["macs"]
             out["model_v01_attempt_tgas"] = round(per_mac * vec["v01"]["profile"]["macs_per_attempt"] / 1e12, 1)
             out["model_basis"] = "dev-profile measured gas per MAC times v0.1 MACs (attempt only, excluding 51.6 MB weight generation); labeled model, not measurement"
-        out["conclusion"] = ("A NEAR contract can verify the dev profile exactly (matches golden vectors), but one production (v0.1) attempt exceeds the 300 Tgas "
-                             "transaction limit by orders of magnitude even before weight generation; a NEAR light client that re-executes ZeroFlux PoW is infeasible. "
-                             "Trust-minimization needs a succinct proof (STARK) of the PoW, verified on NEAR; until that is built and reviewed, the 2-of-3 committee remains.")
+        out["conclusion"] = ("The v0.1 profile cannot be checked on NEAR: one attempt exceeds the 300 Tgas limit. Profile zfx-near-v1 (3.47 M MACs, ChaCha8 "
+                             "weights) also exceeds it when weights are regenerated inside the call, but fits when each epoch's weights are prepared once "
+                             "into contract storage: zfx-mine checks one attempt in ~146 Tgas and zfx-light verifies a full header in ~148 Tgas "
+                             "(bench/results/e2e_near_mining.json, e2e_near_light_client.json).")
         json.dump(out, open(os.path.join(ROOT, "bench", "results", "onchain_pow_gas.json"), "w"), indent=2)
         print(out["conclusion"])
     finally:
