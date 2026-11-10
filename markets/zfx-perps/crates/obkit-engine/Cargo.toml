@@ -1,0 +1,21 @@
+[package]
+name = "obkit-engine"
+description = "Deterministic single-threaded central limit order book and spot risk engine."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+serde = { workspace = true }
+rustc-hash = { workspace = true }
+bincode = { workspace = true }
+blake3 = { workspace = true }
+
+[dev-dependencies]
+hdrhistogram = "7"
+proptest = "1"
+rand = { version = "0.8", features = ["small_rng"] }
+
+[[bench]]
+name = "engine"
+harness = false
