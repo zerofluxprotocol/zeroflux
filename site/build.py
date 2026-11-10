@@ -23,6 +23,9 @@ DOCS = [  # (source, slug, title, one-line summary, group)
     ("docs/TOKEN_ACCOUNTING.md", "token_accounting", "Token accounting", "Supply, bonds and what mints when", "ZeroFlux on NEAR"),
     ("docs/THREAT_MODEL.md", "threat_model", "Threat model", "What can go wrong, what stops it, open risks", "ZeroFlux on NEAR"),
     ("docs/OPERATOR_RUNBOOK.md", "runbook", "Operator runbook", "Local stack, mining, watching, testnet deployment", "ZeroFlux on NEAR"),
+    ("vpn/README.md", "vpn", "ZFX VPN", "The privacy gateway: modes, tiers, install, hosted gateway, upgrading from Prompt VPN", "ZFX VPN"),
+    ("docs/VPN_THREAT_MODEL.md", "vpn_threat_model", "ZFX VPN threat model", "Who sees plaintext in each mode, what a TEE proves, streaming, key custody", "ZFX VPN"),
+    ("vpn/docs/evaluation.md", "vpn_evaluation", "ZFX VPN detection evaluation", "Measured detection results, including misses", "ZFX VPN"),
     ("docs/CONSENSUS.md", "consensus", "Proof-of-work specification", "Profiles, the matrix computation, difficulty", "Proof of work"),
     ("docs/ALGORITHM_DECISION.md", "algorithm", "Algorithm decision", "Why this proof of work, the candidates that lost, the experiments", "Proof of work"),
     ("docs/HARDWARE.md", "hardware", "Hardware support", "Which GPU path to use, measured throughput, bring-up checklist", "Proof of work"),
@@ -188,6 +191,8 @@ def toc_html(current, headings):
 PAGES = {  # page file in site/pages -> (output path, title, description, nav key)
     "index.html": ("index.html", "ZeroFlux · The economic layer for AI compute",
                    "Earn from idle hardware. Build privately with AI. Trade AI demand. ZFX mining, ZFX VPN and ZFX Markets on NEAR. Testnet.", ""),
+    "build.html": ("build/index.html", "Build · ZFX VPN · ZeroFlux",
+                   "A private AI endpoint for the models you already use. Protect your app's users and your own coding-agent sessions. Local, hosted, or hosted transport with local preprocessing.", "build"),
     "earn.html": ("earn/index.html", "Earn · ZFX Mining · ZeroFlux",
                   "Mine ZFX on NEAR with the GPUs and CPUs you already run. Proof of work made of the integer matrix math AI chips are built for. Live on NEAR testnet.", "earn"),
 }
