@@ -6,7 +6,7 @@
 PY := $(shell [ -x .venv/bin/python ] && echo .venv/bin/python || echo python3)
 GATES := $(PY) scripts/gates.py
 
-.PHONY: check e2e-native e2e-bridge e2e-intents e2e-near security-test gpu-test testnet-smoke acceptance localnet localnet-down
+.PHONY: check e2e-native e2e-bridge e2e-intents e2e-near localnet-bridge security-test gpu-test testnet-smoke acceptance localnet localnet-down
 
 check:          ## unit, lint, types, all deterministic vectors
 	$(GATES) check
@@ -26,7 +26,9 @@ testnet-smoke:  ## real NEAR testnet, only with an explicitly configured account
 	$(GATES) testnet-smoke
 acceptance:     ## runs every target, writes ACCEPTANCE_REPORT.{json,md}
 	$(PY) scripts/acceptance.py
-localnet:       ## start 3 nodes + NEAR sandbox + relayers + coordinator; Ctrl-C stops
-	$(PY) deploy/localnet.py up
+localnet:       ## NEAR sandbox + ZFX mining contract (optimistic PoW) + watcher + mining proxies; Ctrl-C stops
+	$(PY) deploy/near_local.py up
 localnet-down:
-	$(PY) deploy/localnet.py down
+	$(PY) deploy/near_local.py down
+localnet-bridge: ## previous architecture: 3 ZeroFlux nodes + NEAR sandbox + committee bridge
+	$(PY) deploy/localnet.py up

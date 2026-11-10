@@ -1,55 +1,63 @@
 # ZeroFlux (ZFX)
 
-A proof-of-work chain whose mining primitive is the computation AI inference hardware is built for: batched FP8/INT8 GEMMs with FP32/INT32 accumulation. Native ZFX uses hash-based SLH-DSA signatures, P2MR addresses, hash-only verification and an encrypted, authenticated P2P transport. A 2-of-3 committee bridge carries ZFX to NEAR as wZFX, which trades through NEAR Intents.
+ZFX is a token on NEAR that can only be created by proof of work, and the work is the computation AI accelerators are built for: batched int8/FP8 matrix multiplies. Miners run it on NVIDIA and AMD data-center GPUs, Apple Silicon or any CPU. NEAR holds the ledger and referees every block: a block is accepted unless someone proves it wrong within a challenge window, and a fraud proof needs NEAR to recompute only one value.
 
 ```
-PRIVATE_TESTNET_READY = true      MAINNET_READY = false      testnet only, no monetary value
+TESTNET ONLY      MAINNET_READY = false      no monetary value
 ```
 
-> **Bridge trust model.** The v1 bridge is a 2-of-3 trusted custodian. Any two committee members together can steal all locked ZFX or mint unbacked wZFX. Details: `docs/BRIDGE_TRUST_MODEL.md`.
+## How it works
 
-## One-command targets
+1. **Mine off-chain.** Each attempt runs a 64 → 4096 → 4096 → 4096 → 4096 → 256 network of integer matrix layers (51.6 M multiply-adds) and hashes the output. A block is found when the hash is below the target. The challenge commits to the miner's NEAR account, so a found solution is useless to anyone else.
+2. **Submit to NEAR** (`zfx-mine-opt` contract, about 6 Tgas). The miner posts the nonce, the four intermediate layers and the outputs of the winning attempt, plus a bond. The contract checks the output hash against the target and keeps the block pending.
+3. **Anyone can challenge.** A watcher recomputes each pending block on a CPU in milliseconds. If one value is wrong, it calls `challenge(height, layer, row)`; the contract regenerates one weight row, recomputes that value (about 4.5 Tgas), and if it differs reverts the block and everything built on it, paying the bond to the challenger.
+4. **Finalize.** After the window, the reward is minted to the miner and the bond returned. Difficulty retargets on-chain every block.
+5. **Use it on NEAR.** ZFX is a standard NEP-141 token: NEAR wallets, transfers and NEAR Intents work directly, with no bridge.
+
+Security assumption: at least one honest watcher checks pending blocks within the window (the watcher ships with the mining tools, and catching fraud pays the cheater's bond).
+
+## Quick start
+
+```
+cargo build --release && make -C miner/cuda cpu
+./target/release/zpu-cli selftest                     # bit-exact against the published vectors
+make localnet                                         # NEAR sandbox + ZFX contract + watcher + mining proxies
+./target/release/zpu-cli mine --node http://127.0.0.1:9561              # CPU
+./target/release/zpu-cli mine --node http://127.0.0.1:9561 \
+    --backend exec --exec ".venv/bin/python miner/python/zpu_miner.py --backend mlx"   # Apple GPU
+```
+
+GPU miners: `make -C miner/cuda cuda` or `make -C miner/cuda hip`, then `--backend exec --exec "miner/cuda/build/zpu-miner-cuda --backend gpu --gemm blas-int8"`. See `docs/HARDWARE.md`.
+
+Prerequisites: Rust 1.90+, `cargo-near`, a C++17 compiler, Python 3.11+ with `uv` (`uv venv .venv && uv pip install --python .venv/bin/python numpy jsonschema websockets ziglang`, plus `torch`/`mlx` for Apple GPUs). The NEAR sandbox needs liblzma; see `docs/OPERATOR_RUNBOOK.md`.
+
+## Tests
 
 | command | what it runs |
 |---|---|
-| `make check` | rustfmt, clippy `-D warnings`, all Rust and contract unit tests, WASM builds, golden vectors in Rust/C++/Python/MLX/MPS, GPU device compile for sm_90/100/120 and gfx942/950, Python lint, explorer typecheck, NEP-413 conformance |
-| `make e2e-native` | 3 nodes, 1000 mined blocks, restarts, encrypted P2P, wallet transfers, supply audit, explorer receipts |
-| `make e2e-bridge` | native chain + NEAR sandbox: 100 two-way transfers under fault injection, finality and reorg cases, governance (pause, rotation, upgrade) and recovery |
-| `make e2e-near` | ZFX mined natively on NEAR (proof of work checked on-chain) and a ZeroFlux PoW light client on NEAR; see `docs/NEAR_SETTLEMENT.md` |
-| `make e2e-intents` | official Verifier, local Message Bus, test solver: quotes, settlement both ways, expiry, liquidity, duplicates, refunds |
-| `make security-test` | parser fuzzing, crash/corruption/backup tests, adversarial consensus tests, ASan+UBSan miner, attack experiments, `cargo audit`, SBOM, license gate, reproducible build |
-| `make gpu-test` | every GPU backend on this host; missing NVIDIA/AMD hardware reported as BLOCKED (remote rerun: set `ZFX_GPU_RUNNER`) |
-| `make testnet-smoke` | real NEAR testnet, only with an explicitly configured ZeroFlux account (`NEAR_TESTNET_ACCOUNT`) |
-| `make acceptance` | all of the above, then `ACCEPTANCE_REPORT.md` and `.json` |
-| `make localnet` | the full local stack for manual use |
-
-Each target writes per-step evidence to `bench/results/gates/<target>.json` and exits non-zero if a required step fails.
-
-Prerequisites: Rust 1.90+, `cargo-near`, a C++17 compiler, Python 3.11+ with `uv`, Node.js (explorer typecheck). Setup: `uv venv .venv && uv pip install --python .venv/bin/python numpy jsonschema websockets ziglang` (add `torch`, `mlx` for Apple GPU backends). The NEAR sandbox needs liblzma; see `docs/OPERATOR_RUNBOOK.md`.
+| `make check` | lint, unit tests, contract builds, golden vectors in Rust, C++, Python, MLX, MPS, GPU device compile |
+| `make e2e-near` | ZFX mining on NEAR with fraud proofs (honest miners, cheaters at every layer, reverts, finalization), ZFX on NEAR Intents, plus the alternatives below |
+| `make security-test` | fuzzing, sanitizers, dependency audit, SBOM, license gate, reproducible build |
+| `make gpu-test` | every GPU backend on this host |
+| `make acceptance` | everything, then `ACCEPTANCE_REPORT.md` |
 
 ## Where things are
 
-| spec module | path | contents |
-|---|---|---|
-| `node/` | `crates/zfx-node`, consensus in `crates/zfx-verify` | full node, state, P2P, JSON-RPC, persistence, explorer API |
-| `miner/` | `miner/cli`, `miner/cuda`, `miner/python` | Rust client; C++ CPU/CUDA/HIP miner; NumPy/PyTorch/MLX miner |
-| `wallet/` | `crates/zfx-wallet` | SLH-DSA P2MR wallet, backup/restore, bridge deposit |
-| `explorer/` | `explorer` | read-only UI served by the node |
-| `bridge/native/` | `crates/zfx-verify/src/bridge.rs`, `state.rs` | lockbox, 2-of-3 release/admin enforced by consensus, inclusion proofs |
-| `bridge/near/` | `bridge/near/wzfx` | NEP-141/145/148 wZFX contract, governance, unit tests |
-| `bridge/relayers/` | `bridge/relayers` | relayers, coordinator, reconciliation, operator CLI `zfx-bridge` |
-| `bridge/intents/` | `bridge/intents` | Intents adapter, test solver, Verifier fetch, NEP-413 fixtures |
-| `deploy/` | `deploy/localnet.py`, `deploy/gpu`, `Dockerfile`, `docker-compose.yml` | local topology, GPU containers |
-| `tests/e2e/` | `tests/e2e` | the e2e scripts behind the make targets, plus `testnet_smoke.py` |
-| schemas | `schemas/` | JSON-RPC schema and captured fixtures |
-| research | `crates/zfx-research`, `crates/zfx-stark-proto`, `bridge/near/pow-verifier` | algorithm, tokenomics, fork resilience, STARK and on-chain PoW feasibility |
+| path | contents |
+|---|---|
+| `bridge/near/zfx-mine-opt` | the ZFX contract: NEP-141 token, optimistic proof-of-work checking, bonds, fraud proofs |
+| `bridge/near/near-pow` | the consensus PoW code compiled for NEAR contracts |
+| `crates/zfx-verify` | proof of work, test vectors, difficulty |
+| `miner/` | `zpu-cli` (Rust), `zpu-miner` (C++ CPU/CUDA/HIP), `zpu_miner.py` (NumPy/PyTorch/MLX) |
+| `bridge/relayers` | `zfx-bridge`: mining proxy, watcher, NEAR client and tools |
+| `bridge/intents` | NEAR Intents adapter and test solver |
+| `deploy/near_local.py`, `scripts/deploy_testnet.py` | local stack and testnet deployment |
+| `docs/` | `NEAR_SETTLEMENT.md` (design and measured gas), `CONSENSUS.md`, `ALGORITHM_DECISION.md`, `HARDWARE.md`, `THREAT_MODEL.md`, others |
 
-## How the PoW works
+### Alternatives, kept and tested
 
-Every attempt derives a 64-value input row from `SHAKE256(SHA256(header) || nonce)`. The row goes through 64 -> 4096 -> 4096 -> 4096 -> 4096 -> 256 integer layers whose weights are regenerated every 32 blocks, with an AES-S-box requantization between layers. A block is valid when `SHA256(output)` is below the target. Operands are integers in {±1..±16}, so int8 and FP8 tensor cores and every CPU compute the same bits: all sums stay below 2^24. Miners batch thousands of nonces into `[batch x 4096] x [4096 x 4096]` GEMMs; a node verifies a block on one CPU core with no GPU runtime. Details: `docs/CONSENSUS.md`, rationale: `docs/ALGORITHM_DECISION.md`.
-
-## Documents
-
-`docs/` holds ALGORITHM_DECISION, CONSENSUS, THREAT_MODEL, TOKEN_ACCOUNTING, BRIDGE_TRUST_MODEL, CONTRACT_API, INTENTS_INTEGRATION, TEST_REPORT, HARDWARE, BENCHMARKS, RELEASE_READINESS, OPERATOR_RUNBOOK, NEAR_SETTLEMENT and the specifications. `IMPLEMENTATION_STATUS.md` and `ACCEPTANCE_REPORT.md` at the root track the gates.
+- **Own chain with a committee bridge**: `crates/zfx-node`, `crates/zfx-wallet`, `bridge/near/wzfx`, relayers and coordinator (`make e2e-native`, `make e2e-bridge`, `make localnet-bridge`).
+- **NEAR checks every block in full** with a smaller proof-of-work profile: `bridge/near/zfx-mine` (146 Tgas per block; smaller GPU advantage).
+- **PoW light client of a ZeroFlux chain on NEAR**: `bridge/near/zfx-light` (148 Tgas per header, committee-free deposits).
 
 License: Apache-2.0.

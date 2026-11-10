@@ -20,6 +20,8 @@ The smaller profile cuts the GPU lead (Apple M5 Pro: 3.3x over CPU instead of 24
 | challenge against a correct value (rejected) | 3.1 Tgas |
 | `finalize` 12 blocks | 24 Tgas |
 
+Also tested (`tests/e2e/near_intents.py`, 5/5): ZFX mined this way is deposited into the official NEAR Intents Verifier and swapped both ways against a test asset, with no bridge.
+
 Tested: honest blocks are never challenged; a cheater who skips all matrix work, and cheaters who fake only a deep hidden layer or the outputs, are each caught with one row; an honest block built on a fraudulent one is reverted with it and its bond refunded; only honest blocks mint. Assumptions: at least one honest watcher sees every pending block within the window, and challenge transactions are not censored for the whole window. The bond must exceed what a cheater could gain from one unchallenged block.
 
 | | C. ZFX native on NEAR | B. PoW light client on NEAR |

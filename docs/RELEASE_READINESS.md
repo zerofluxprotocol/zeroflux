@@ -1,9 +1,9 @@
 # Release readiness
 
 ```
-PRIVATE_TESTNET_READY = true
-MAINNET_READY         = false
-BRIDGE                = 2-of-3 trusted custodian (testnet only)
+ARCHITECTURE  = ZFX is a NEAR token minted by proof of work, checked optimistically on NEAR (bridge/near/zfx-mine-opt)
+TESTNET_READY = local sandbox end to end; not deployed to NEAR testnet
+MAINNET_READY = false
 ```
 
 `PRIVATE_TESTNET_READY` means: a multi-node network with no monetary value runs, mines with three independent miner implementations, transfers with hash-based signatures, survives crashes, corruption and reorgs, and bridges to a NEAR sandbox and through NEAR Intents with exact accounting. The evidence matrix is `ACCEPTANCE_REPORT.md`; each line there names the command and its result.
