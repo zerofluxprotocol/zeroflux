@@ -2,6 +2,7 @@
 resolver = "3"
 members = [
   "crates/zfx-perps-wire",
+  "crates/zfx-perps-clearing",
   "crates/zfx-perps-engine",
   "crates/zfx-perps-journal",
   "crates/zfx-perps-node",
@@ -25,6 +26,7 @@ crc32fast = "1"
 ed25519-dalek = "2"
 bs58 = "0.5"
 zfx-perps-wire = { path = "crates/zfx-perps-wire" }
+zfx-perps-clearing = { path = "crates/zfx-perps-clearing" }
 zfx-perps-engine = { path = "crates/zfx-perps-engine" }
 zfx-perps-journal = { path = "crates/zfx-perps-journal" }
 zfx-perps-client = { path = "crates/zfx-perps-client" }

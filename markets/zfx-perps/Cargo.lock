@@ -3542,6 +3542,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "zfx-perps-clearing"
+version = "0.1.0"
+dependencies = [
+ "borsh",
+ "ed25519-dalek",
+ "proptest",
+ "rand 0.9.5",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "zfx-perps-clearing",
+]
+
+[[package]]
 name = "zfx-perps-client"
 version = "0.1.0"
 dependencies = [
