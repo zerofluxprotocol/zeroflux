@@ -1,0 +1,59 @@
+{
+  "chain": "local nearcore sandbox",
+  "measured_at_unix": 1794353760,
+  "rows": [
+    {
+      "case": "withdrawal (1 payout)",
+      "ops": 1,
+      "tgas": 7.86546394858
+    },
+    {
+      "case": "independent fills",
+      "fills": 1,
+      "new_orders": 2,
+      "tgas": 4.811436200163,
+      "tgas_per_fill": 4.811436200163
+    },
+    {
+      "case": "independent fills",
+      "fills": 10,
+      "new_orders": 20,
+      "tgas": 16.241109114566,
+      "tgas_per_fill": 1.6241109114566001
+    },
+    {
+      "case": "independent fills",
+      "fills": 25,
+      "new_orders": 50,
+      "tgas": 31.848164286642,
+      "tgas_per_fill": 1.27392657146568
+    },
+    {
+      "case": "independent fills",
+      "fills": 40,
+      "new_orders": 80,
+      "tgas": 47.905834105758,
+      "tgas_per_fill": 1.19764585264395
+    },
+    {
+      "case": "one maker swept",
+      "fills": 10,
+      "new_orders": 11,
+      "tgas": 11.792578327998,
+      "tgas_per_fill": 1.1792578327998
+    },
+    {
+      "case": "one maker swept",
+      "fills": 40,
+      "new_orders": 41,
+      "tgas": 29.67784963152,
+      "tgas_per_fill": 0.741946240788
+    },
+    {
+      "case": "oracle print (1 reporter signature)",
+      "ops": 1,
+      "tgas": 3.019300107317
+    }
+  ],
+  "wasm_bytes": 426024
+}

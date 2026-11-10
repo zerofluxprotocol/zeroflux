@@ -3600,6 +3600,8 @@ name = "zfx-perps-near"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "borsh",
+ "bs58",
  "clap",
  "futures",
  "near-api",
@@ -3611,6 +3613,7 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "url",
+ "zfx-perps-clearing",
  "zfx-perps-client",
  "zfx-perps-node",
  "zfx-perps-wire",

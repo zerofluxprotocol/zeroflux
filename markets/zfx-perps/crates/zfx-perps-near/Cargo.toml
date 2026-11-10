@@ -23,7 +23,11 @@ tempfile = "3"
 url = "2"
 clap = { version = "4", features = ["derive", "env"] }
 zfx-perps-node = { workspace = true }
+zfx-perps-clearing = { workspace = true }
+borsh = "1"
 
 [dev-dependencies]
+bs58 = { workspace = true }
+zfx-perps-clearing = { workspace = true, features = ["testkit"] }
 zfx-perps-wire = { workspace = true }
 futures = "0.3"

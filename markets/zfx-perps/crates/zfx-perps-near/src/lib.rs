@@ -8,6 +8,7 @@
 //! - [`sandbox`]: start a local nearcore sandbox.
 
 pub mod adapter;
+pub mod clearing;
 pub mod sandbox;
 pub mod stack;
 
@@ -49,6 +50,8 @@ impl std::fmt::Debug for Actor {
 #[derive(Clone, Debug)]
 pub struct Outcome {
     pub gas_burnt: u64,
+    /// Transaction hash (base58), for explorers and audit records.
+    pub tx_hash: String,
     pub value: Value,
     pub logs: Vec<String>,
 }
@@ -58,7 +61,7 @@ pub struct Near {
     pub network: NetworkConfig,
 }
 
-fn failure_text(r: &ExecutionFinalResult) -> String {
+pub(crate) fn failure_text(r: &ExecutionFinalResult) -> String {
     let s = format!("{:?}", r.clone().into_result().err());
     // Pull out the contract panic message if there is one; the full debug dump is long.
     match s.find("ExecutionError(") {
@@ -100,15 +103,16 @@ impl Near {
             .with_context(|| format!("{method} on {contract}"))?;
         let full = r.into_full().ok_or_else(|| anyhow!("{method}: transaction still pending"))?;
         let gas_burnt = full.total_gas_burnt.as_gas();
+        let tx_hash = full.outcomes().first().map(|o| o.transaction_hash.to_string()).unwrap_or_default();
         // Only the transaction's own status counts. Detached receipts may fail by design (e.g. a
         // withdrawal's ft_transfer to an unregistered account, which the contract re-credits).
         if full.clone().into_result().is_err() {
-            bail!("{method} on {contract} failed: {}", failure_text(&full));
+            bail!("{method} on {contract} failed (tx {tx_hash}): {}", failure_text(&full));
         }
         let logs = full.logs().into_iter().map(String::from).collect();
         let ok = full.into_result().map_err(|e| anyhow!("{method}: {e:?}"))?;
         let value = ok.json::<Value>().unwrap_or(Value::Null);
-        Ok(Outcome { gas_burnt, value, logs })
+        Ok(Outcome { gas_burnt, tx_hash, value, logs })
     }
 
     pub async fn view<T: DeserializeOwned + Send + Sync + 'static>(&self, contract: &str, method: &str, args: Value) -> Result<T> {

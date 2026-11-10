@@ -26,7 +26,7 @@ impl ActorInfo {
     pub fn actor(&self) -> Result<Actor> {
         Actor::new(&self.account, &self.secret_key)
     }
-    fn of(a: &Actor) -> Self {
+    pub fn of(a: &Actor) -> Self {
         ActorInfo {
             account: a.id.to_string(),
             secret_key: a.secret.clone(),

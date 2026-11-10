@@ -159,15 +159,19 @@ pub fn apply_batch<S: Store, C: Crypto>(s: &mut S, c: &C, batch: &Batch, block_n
     out
 }
 
-/// Rough gas model for packing batches (Tgas, measured on the sandbox; see docs).
+/// Gas model for packing batches, fitted to the sandbox measurements in
+/// `research/data/clearing_gas.json`: about 3.7 Tgas per batch, 0.47 Tgas per order in the table
+/// (one ed25519 check plus hashing), 0.25 Tgas per fill. Conservative per-op figures elsewhere.
+pub const BATCH_BASE_TGAS: f64 = 4.0;
 pub fn estimate_tgas(op: &Op, new_orders: usize) -> f64 {
-    let sig = 0.75 * new_orders as f64;
+    let sig = 0.5 * new_orders as f64;
     sig + match op {
-        Op::Fill { .. } => 2.5,
-        Op::Liquidate { fills, adl, socialize, .. } => 4.0 + 2.0 * fills.len() as f64 + 1.0 * adl.len() as f64 + 0.6 * socialize.len() as f64,
-        Op::Oracle { sigs, .. } => 1.5 + 0.75 * sigs.len() as f64,
-        Op::Withdraw { .. } | Op::Forced { .. } => 9.0,
-        _ => 1.5,
+        Op::Fill { .. } => 0.3,
+        Op::Liquidate { fills, adl, socialize, .. } => 3.0 + 0.5 * fills.len() as f64 + 0.5 * adl.len() as f64 + 0.3 * socialize.len() as f64,
+        Op::Oracle { sigs, .. } => 1.0 + 0.5 * sigs.len() as f64,
+        // A payout schedules a token transfer and a callback (18 Tgas attached, mostly unspent).
+        Op::Withdraw { .. } | Op::Forced { .. } => 20.0,
+        _ => 1.0,
     }
 }
 
