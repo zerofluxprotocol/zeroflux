@@ -1,0 +1,39 @@
+{
+ "network": "NEAR testnet",
+ "contract": "zfx.zeroflux.testnet",
+ "code_hash": "9Z9nFtfAd94eiZAKMEVAWhFJFJSCPrZTjsHoQYB3zthi",
+ "wasm_sha256": "7f1a025b446158d604a21341e2df95d9a7357caa39747ae875757c82645cc5ed",
+ "deploy_tx": "J7RKZCGGtrqTpGGhzezR64gAo9gdCzmeopNsWcCw5Acf",
+ "params": {
+  "bond_near": "0.25",
+  "window_secs": 600,
+  "spacing_secs": 60,
+  "reward_zfx": 50,
+  "genesis_target": "0000ffff\u2026"
+ },
+ "run": {
+  "date_utc": "2026-11-10",
+  "tool": "scripts/mine-testnet.sh miner1.zeroflux.testnet mlx",
+  "hardware": "Apple M5 Pro GPU (MLX)",
+  "duration_min": 15,
+  "blocks_accepted": 29,
+  "finalize_calls_ok": 7
+ },
+ "stats": {
+  "bond": "250000000000000000000000",
+  "expected_supply": "195000000000",
+  "final_height": "39",
+  "frauds": "0",
+  "head_height": "47",
+  "macs_per_attempt": "51642368",
+  "profile": "zfx-fp8c-v0.1",
+  "reward": "5000000000",
+  "target": "000073a99ff58c30a878802ab1f8b0916f3e1a0958795eabbc7e5c5f51a82c3f",
+  "total_supply": "195000000000",
+  "window_ns": "600000000000"
+ },
+ "miner1_zfx": "195000000000",
+ "notes": [
+  "mine.zeroflux.testnet is retired: it was deployed with a 0.1 NEAR bond, below the storage a pending block uses; the contract now refuses such bonds at init (e2e O7)."
+ ]
+}
