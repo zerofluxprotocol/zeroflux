@@ -921,12 +921,8 @@ impl Engine {
             };
             if let Some(cats) = blocked {
                 let err = PvError::new(ErrorCode::OutputBlocked, "Model output blocked by policy").with_event(ev.event_id.clone()).with_categories(cats.clone());
-                let msg = error_event(err);
-                if !buffered {
-                    let _ = tx.send(Bytes::from(msg)).await;
-                } else {
-                    let _ = tx.send(Bytes::from(msg)).await;
-                }
+                // Buffered output is discarded; only the error event is sent.
+                let _ = tx.send(Bytes::from(error_event(err))).await;
                 ev.action = "OUTPUT_BLOCK".into();
                 ev.error_code = Some(ErrorCode::OutputBlocked.as_str().into());
                 ev.summary = summarize(&cats, "OUTPUT_BLOCK");

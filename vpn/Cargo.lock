@@ -6725,6 +6725,38 @@ dependencies = [
 ]
 
 [[package]]
+name = "zfx-vpn-hosted"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "axum",
+ "bytes",
+ "chrono",
+ "clap",
+ "futures",
+ "hex",
+ "pv-audit",
+ "pv-core",
+ "pv-daemon",
+ "pv-detectors",
+ "pv-provider",
+ "pv-proxy",
+ "pv-transform",
+ "pv-vault",
+ "rand 0.8.8",
+ "reqwest 0.12.28",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "uuid",
+ "zeroize",
+]
+
+[[package]]
 name = "zlib-rs"
 version = "0.6.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"

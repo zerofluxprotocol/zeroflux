@@ -10,6 +10,7 @@ members = [
   "crates/pv-proxy",
   "crates/pv-daemon",
   "crates/pv-cli",
+  "hosted",
 ]
 
 [workspace.package]
