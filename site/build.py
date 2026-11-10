@@ -76,11 +76,13 @@ PAGE = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name=
 <a class="cta" href="/#run">Start Mining</a></nav>
 </div></div>
 </header>
-<main class="w doc">{body}</main>
+<div class="w layout"><aside class="toc" aria-label="Documentation"><details id="tocd" open><summary>Documentation menu</summary>{toc}</details></aside><main class="doc">{body}</main></div>
 <footer><div class="w">Apache-2.0 · <a href="/">zeroflux.network</a> · <a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener">GitHub</a></div></footer>
 <script>(function () {{ var r = document.documentElement, b = document.getElementById('themeToggle');
 function dark() {{ var t = r.getAttribute('data-theme'); if (t) return t === 'dark'; return !(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches); }}
 b.addEventListener('click', function () {{ var n = dark() ? 'light' : 'dark'; r.setAttribute('data-theme', n); try {{ localStorage.setItem('zf-theme', n); }} catch (e) {{}} }}); }})();</script>
+<script>if (window.matchMedia('(max-width:900px)').matches) document.getElementById('tocd').removeAttribute('open');</script>
+{copyjs}
 </body></html>"""
 
 CSS = """
@@ -110,7 +112,21 @@ nav{display:flex;align-items:stretch;gap:26px;font-size:14px}nav a{display:flex;
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .theme-toggle .sun{display:block}:root:not([data-theme="light"]) .theme-toggle .moon{display:none}}
 nav a.cta{padding:0 24px;background:var(--btn-bg);color:var(--btn-ink);font-weight:400}nav a.cta:hover{background:var(--btn-hover)}
 @media (max-width:720px){nav a:not(.cta){display:none}}
-.doc{padding-top:56px;padding-bottom:96px}
+.layout{max-width:1280px;display:grid;grid-template-columns:232px minmax(0,1fr);gap:56px;align-items:start}
+.doc{padding-top:56px;padding-bottom:96px;min-width:0;max-width:880px}
+.toc{position:sticky;top:89px;max-height:calc(100vh - 89px);overflow-y:auto;padding:40px 4px 40px 0;font-size:13.5px;scrollbar-width:thin}
+.toc a{border:0;color:var(--muted);display:block;padding:4px 0 4px 12px;border-left:1px solid var(--line-soft);line-height:1.4}
+.toc a:hover{color:var(--ink)}.toc a.on{color:var(--ink);border-left-color:var(--ink)}
+.toc a.home{padding-left:0;border:0;color:var(--ink-2);font-weight:400;margin-bottom:6px}.toc a.home.on{color:var(--ink)}
+.toc .g{font:300 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin:22px 0 8px}
+.toc summary{display:none}.toc a{overflow-wrap:anywhere}
+.toc ul{list-style:none;margin:0;padding:0}.toc ul.sec a{padding-left:24px;font-size:12.5px;color:var(--faint)}.toc ul.sec a:hover{color:var(--ink)}
+.doc-actions{display:flex;justify-content:flex-end;gap:10px;margin:-28px 0 20px}
+.doc-actions button,.doc-actions a{font:300 12px var(--mono);letter-spacing:.04em;color:var(--ink-2);background:transparent;border:1px solid var(--line);padding:6px 12px;cursor:pointer}
+.doc-actions button:hover,.doc-actions a:hover{color:var(--ink);border-color:var(--ink)}
+h2[id],h3[id]{scroll-margin-top:100px}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr);gap:0}.toc{position:static;max-height:none;padding:24px 0 8px;border-bottom:1px solid var(--line)}.doc-actions{margin-top:0}
+.toc summary{display:block;cursor:pointer;font:300 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);padding:4px 0 12px}.toc{padding-bottom:12px}}
 h1{font:200 clamp(36px,5vw,56px)/1.04 var(--display);letter-spacing:-.045em;margin:0 0 28px}
 h2{font:300 28px/1.2 var(--display);letter-spacing:-.03em;margin:56px 0 14px;padding-top:24px;border-top:1px solid var(--line)}
 h3{font:400 19px/1.3 var(--display);margin:32px 0 8px}
@@ -131,33 +147,82 @@ footer{border-top:1px solid var(--line);padding:32px 0 48px;font-size:13px;color
 """
 
 
+COPYJS = """<script>(function () { var b = document.getElementById('copyMd'); if (!b) return;
+b.addEventListener('click', function () { var u = b.getAttribute('data-md'), l = b.textContent;
+fetch(u).then(function (r) { if (!r.ok) throw 0; return r.text(); })
+.then(function (t) { return navigator.clipboard.writeText('<!-- source: https://zeroflux.network' + u + ' -->\\n' + t); })
+.then(function () { b.textContent = 'Copied'; }, function () { window.location.href = u; })
+.finally(function () { setTimeout(function () { b.textContent = l; }, 1600); }); }); })();</script>"""
+MDLINKS = {os.path.basename(src): f"{slug}.md" for src, slug, _, _, _ in DOCS}
+
+
+def relink_md(t):
+    """Point links between docs at their published .md copies."""
+    def fix(m):
+        target, frag = m.group(1), m.group(2) or ""
+        base = os.path.basename(target)
+        return f"]({MDLINKS[base]}{frag})" if base in MDLINKS else m.group(0)
+    return re.sub(r"\]\(([^)#\s]+\.md)(#[^)\s]*)?\)", fix, t)
+
+
+def toc_html(current, headings):
+    """Left sidebar: every doc grouped; the current page expands to its sections."""
+    out, group = [], None
+    for _, slug, title, _, g in DOCS:
+        if g != group:
+            if group is not None:
+                out.append("</ul>")
+            out.append(f'<div class="g">{html.escape(g)}</div><ul>')
+            group = g
+        on = slug == current
+        out.append(f'<li><a href="{slug}.html"' + (' class="on" aria-current="page"' if on else "") + f">{html.escape(title)}</a>")
+        if on and headings:
+            out.append('<ul class="sec">' + "".join(f'<li><a href="#{i}">{html.escape(re.sub(r" \(.*\)$", "", n))}</a></li>' for i, n in headings) + "</ul>")
+        out.append("</li>")
+    out.append("</ul>")
+    top = '<a class="home' + (' on' if current == "index" else "") + '" href="/docs/">All documentation</a>'
+    return top + "".join(out)
+
+
 def main():
     shutil.rmtree(DIST, ignore_errors=True)
     os.makedirs(os.path.join(DIST, "docs"))
     shutil.copytree(os.path.join(SITE, "static"), os.path.join(DIST, "static"), ignore=shutil.ignore_patterns("*.txt"))
     open(os.path.join(DIST, "static", "docs.css"), "w").write(CSS)
     shutil.copy(os.path.join(SITE, "index.html"), os.path.join(DIST, "index.html"))
-    md = markdown.Markdown(extensions=["tables", "fenced_code", "sane_lists"])
+    md = markdown.Markdown(extensions=["tables", "fenced_code", "sane_lists", "toc"])
+    llms = ["# ZeroFlux", "", "> ZeroFlux is a proof-of-work network on NEAR. ZFX is its token. Each page below is plain Markdown.", ""]
+    cur_group = None
     groups = {}
     for src, slug, title, desc, group in DOCS:
         text = scrub(open(os.path.join(ROOT, src)).read())
+        open(os.path.join(DIST, "docs", f"{slug}.md"), "w").write(relink_md(text))
         body = relink(md.reset().convert(text))
+        heads = [(t["id"], html.unescape(t["name"])) for top in md.toc_tokens for t in ([top] if top["level"] == 2 else top["children"]) if t["level"] == 2]
+        actions = f'<div class="doc-actions"><button type="button" id="copyMd" data-md="/docs/{slug}.md">Copy for agent</button><a href="{slug}.md">View .md</a></div>'
+        if group != cur_group:
+            llms += ([""] if cur_group else []) + [f"## {group}", ""]
+            cur_group = group
+        llms.append(f"- [{title}](https://zeroflux.network/docs/{slug}.md): {desc}")
         if 'class="language-mermaid"' in body:
             body = re.sub(r'<pre><code class="language-mermaid">(.*?)</code></pre>', lambda m: '<pre class="mermaid">' + m.group(1) + '</pre>', body, flags=re.S)
             body += MERMAID
-        open(os.path.join(DIST, "docs", f"{slug}.html"), "w").write(PAGE.format(logo=LOGO, title=html.escape(title), desc=html.escape(desc), body=body))
+        open(os.path.join(DIST, "docs", f"{slug}.html"), "w").write(PAGE.format(logo=LOGO, title=html.escape(title), desc=html.escape(desc), body=actions + body, toc=toc_html(slug, heads), copyjs=COPYJS))
         groups.setdefault(group, []).append(f'<a href="{slug}.html"><div class="t">{html.escape(title)}</div><div class="s">{html.escape(desc)}</div></a>')
     body = "<h1>Documentation</h1><p>ZeroFlux is a proof-of-work network on NEAR. Design, evidence and open risks, generated from the repository at build time.</p>"
     for g, items in groups.items():
         body += f"<h2>{html.escape(g)}</h2><div class=\"idx\">" + "".join(items) + "</div>"
-    open(os.path.join(DIST, "docs", "index.html"), "w").write(PAGE.format(logo=LOGO, title="Documentation", desc="ZeroFlux documentation", body=body))
+    actions = '<div class="doc-actions"><button type="button" id="copyMd" data-md="/llms.txt">Copy for agent</button><a href="/llms.txt">llms.txt</a></div>'
+    open(os.path.join(DIST, "docs", "index.html"), "w").write(PAGE.format(logo=LOGO, title="Documentation", desc="ZeroFlux documentation", body=actions + body, toc=toc_html("index", []), copyjs=COPYJS))
+    open(os.path.join(DIST, "llms.txt"), "w").write("\n".join(llms) + "\n")
+    open(os.path.join(DIST, "docs", "index.md"), "w").write("\n".join(llms) + "\n")
     body404 = '<h1>Not found</h1><p>That page does not exist. Go to the <a href="/">home page</a> or the <a href="/docs/">documentation</a>.</p>'
-    open(os.path.join(DIST, "404.html"), "w").write(PAGE.format(logo=LOGO, title="Not found", desc="Page not found", body=body404))
-    open(os.path.join(DIST, "_headers"), "w").write("/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n")
+    open(os.path.join(DIST, "404.html"), "w").write(PAGE.format(logo=LOGO, title="Not found", desc="Page not found", body=body404, toc=toc_html(None, []), copyjs=""))
+    open(os.path.join(DIST, "_headers"), "w").write("/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n/docs/*.md\n  Content-Type: text/plain; charset=utf-8\n  Access-Control-Allow-Origin: *\n/llms.txt\n  Content-Type: text/plain; charset=utf-8\n  Access-Control-Allow-Origin: *\n")
     leaks = []
     for dp, _, fs in os.walk(DIST):
         for f in fs:
-            if f.endswith(".html"):
+            if f.endswith((".html", ".md", ".txt")):
                 t = open(os.path.join(dp, f)).read()
                 for bad in ("/Users/",):
                     if bad in t:
