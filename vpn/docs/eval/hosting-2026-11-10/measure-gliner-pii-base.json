@@ -1,0 +1,85 @@
+{
+  "model": "gliner-pii-base",
+  "cpus": 18,
+  "rss_mb_start": 8.859375,
+  "load_ms": 1261,
+  "load_cpu_s": 1.2148889999999999,
+  "rss_mb_after_load": 814.8125,
+  "detector_only": [
+    {
+      "words": 40,
+      "chars": 234,
+      "p50_ms": 23.027166,
+      "p95_ms": 24.516375,
+      "cpu_ms_per_request": 91.6977
+    },
+    {
+      "words": 400,
+      "chars": 2363,
+      "p50_ms": 196.552875,
+      "p95_ms": 222.244125,
+      "cpu_ms_per_request": 801.272
+    },
+    {
+      "words": 3000,
+      "chars": 17676,
+      "p50_ms": 1631.6567499999999,
+      "p95_ms": 1845.224416,
+      "cpu_ms_per_request": 6590.366900000001
+    }
+  ],
+  "rss_mb_after_detector_runs": 571.75,
+  "hosted_end_to_end_mock_upstream": [
+    {
+      "words": 40,
+      "concurrency": 1,
+      "requests": 20.0,
+      "throughput_rps": 40.47605228902053,
+      "p50_ms": 24.397917000000003,
+      "p95_ms": 27.712542,
+      "cpu_ms_per_request": 97.71860000000032,
+      "rss_mb": 584.53125
+    },
+    {
+      "words": 400,
+      "concurrency": 1,
+      "requests": 20.0,
+      "throughput_rps": 4.8129483712621735,
+      "p50_ms": 204.055292,
+      "p95_ms": 224.435875,
+      "cpu_ms_per_request": 822.8071999999996,
+      "rss_mb": 585.140625
+    },
+    {
+      "words": 400,
+      "concurrency": 4,
+      "requests": 80.0,
+      "throughput_rps": 5.039325835840103,
+      "p50_ms": 771.781666,
+      "p95_ms": 948.929125,
+      "cpu_ms_per_request": 789.2437749999996,
+      "rss_mb": 592.390625
+    },
+    {
+      "words": 400,
+      "concurrency": 8,
+      "requests": 160.0,
+      "throughput_rps": 4.963449904692991,
+      "p50_ms": 1556.261166,
+      "p95_ms": 1857.9573329999998,
+      "cpu_ms_per_request": 795.25620625,
+      "rss_mb": 606.796875
+    },
+    {
+      "words": 3000,
+      "concurrency": 1,
+      "requests": 20.0,
+      "throughput_rps": 0.6548865528161286,
+      "p50_ms": 1519.0983330000001,
+      "p95_ms": 1607.591167,
+      "cpu_ms_per_request": 6081.351150000003,
+      "rss_mb": 608.828125
+    }
+  ],
+  "peak_rss_mb": 955.859375
+}

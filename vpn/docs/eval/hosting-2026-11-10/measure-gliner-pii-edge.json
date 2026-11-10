@@ -1,0 +1,85 @@
+{
+  "model": "gliner-pii-edge",
+  "cpus": 18,
+  "rss_mb_start": 8.875,
+  "load_ms": 288,
+  "load_cpu_s": 0.29251499999999997,
+  "rss_mb_after_load": 200.8125,
+  "detector_only": [
+    {
+      "words": 40,
+      "chars": 234,
+      "p50_ms": 17.619167,
+      "p95_ms": 19.352708,
+      "cpu_ms_per_request": 70.4444
+    },
+    {
+      "words": 400,
+      "chars": 2363,
+      "p50_ms": 185.226917,
+      "p95_ms": 189.75549999999998,
+      "cpu_ms_per_request": 710.9831999999999
+    },
+    {
+      "words": 3000,
+      "chars": 17676,
+      "p50_ms": 1457.843,
+      "p95_ms": 1603.292792,
+      "cpu_ms_per_request": 5669.816700000001
+    }
+  ],
+  "rss_mb_after_detector_runs": 547.046875,
+  "hosted_end_to_end_mock_upstream": [
+    {
+      "words": 40,
+      "concurrency": 1,
+      "requests": 20.0,
+      "throughput_rps": 39.74274521025403,
+      "p50_ms": 25.095875,
+      "p95_ms": 25.945583000000003,
+      "cpu_ms_per_request": 94.3870500000017,
+      "rss_mb": 558.625
+    },
+    {
+      "words": 400,
+      "concurrency": 1,
+      "requests": 20.0,
+      "throughput_rps": 5.396977550900835,
+      "p50_ms": 180.22954199999998,
+      "p95_ms": 220.791125,
+      "cpu_ms_per_request": 717.488200000001,
+      "rss_mb": 559.015625
+    },
+    {
+      "words": 400,
+      "concurrency": 4,
+      "requests": 80.0,
+      "throughput_rps": 5.328843604968028,
+      "p50_ms": 737.324584,
+      "p95_ms": 876.732708,
+      "cpu_ms_per_request": 726.998425,
+      "rss_mb": 568.90625
+    },
+    {
+      "words": 400,
+      "concurrency": 8,
+      "requests": 160.0,
+      "throughput_rps": 5.466729995886413,
+      "p50_ms": 1450.419541,
+      "p95_ms": 1544.7115000000001,
+      "cpu_ms_per_request": 718.1480062500004,
+      "rss_mb": 579.875
+    },
+    {
+      "words": 3000,
+      "concurrency": 1,
+      "requests": 20.0,
+      "throughput_rps": 0.6649184418662497,
+      "p50_ms": 1486.119333,
+      "p95_ms": 1600.546,
+      "cpu_ms_per_request": 5814.336450000002,
+      "rss_mb": 582.0
+    }
+  ],
+  "peak_rss_mb": 582.0
+}

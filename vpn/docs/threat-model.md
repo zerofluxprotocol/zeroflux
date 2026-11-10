@@ -16,7 +16,7 @@
 ## Trust boundaries
 
 ```
- ┌──────────────── this device (trusted: Prompt VPN process, OS keychain) ────────────────┐
+ ┌──────────────── this device (trusted: ZFX VPN process, OS keychain) ────────────────┐
  │                                                                                          │
  │  AI client ──(1) loopback HTTP, pvk_ key──> proxy ──> detectors ──> policy ──> transform │
  │  CLI ───────(2) loopback HTTP, admin token──> admin API                                  │
@@ -56,7 +56,7 @@
 | Span model mislabels harmless IDs as critical | Model-only critical spans below 0.8 confidence become UNCERTAIN (review), not a hard block; shape checks on model spans | `pv-detectors` span tests |
 | Audit tampering | HMAC chain; retention keeps an anchor; verify command | `adversarial::audit_chain_verifies_and_detects_tamper` |
 | Key loss | Vault refuses to open when records exist without a key (no silent re-key); recovery bundle | `pv-vault` tests |
-| Tampered install | `install.sh` builds from the public source over HTTPS (git clone) with a locked dependency set (`--locked`); no prebuilt binaries are downloaded; users can read the script before running it | `skills/promptvpn-setup/tests/run.sh` (no sudo, valid shell) |
+| Tampered install | `install.sh` builds from the public source over HTTPS (git clone) with a locked dependency set (`--locked`); no prebuilt binaries are downloaded; users can read the script before running it | `skills/zfx-vpn-setup/tests/run.sh` (no sudo, valid shell) |
 
 ## Out of scope
 

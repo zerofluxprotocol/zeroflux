@@ -1,6 +1,6 @@
-# Prompt VPN build progress
+# ZFX VPN build progress (formerly Prompt VPN)
 
-Tracks every requirement in `docs/spec-v1.4.md` against what is built and tested.
+Tracks every requirement in `docs/spec-v1.4.md` and the ZeroFlux launch brief (sections 1-3, 6) against what is built and tested.
 Status keys: `[x]` done and tested, `[~]` done with a stated gap, `[!]` blocked on the project owner.
 
 ## Phase 0: contracts and threat model
@@ -63,6 +63,24 @@ Status keys: `[x]` done and tested, `[~]` done with a stated gap, `[!]` blocked 
 ## Docs
 - [x] README (coverage boundary and limits), threat model, policy semantics, operations, evaluation, deviations
 
+## ZFX VPN (launch brief, 2026-11-10)
+- [x] Imported into the ZeroFlux monorepo under `vpn/` (git-tracked files only, secret-scanned)
+- [x] Rename: binary `zfx-vpn` + `promptvpn` link with deprecation note; data dir, keychain service, env vars, headers, skill, UI, docs
+- [x] Upgrade from a Prompt VPN 0.1 install (fixture written by the 0.1 binary) and rollback, with the 0.1 binary serving the install again (`tests/migration.rs`, `tests/migration/upgrade_rollback.sh`)
+- [~] Real macOS Keychain migration: logic tested with an in-memory store; an unattended run is blocked by the macOS access prompt (deviation 31)
+- [x] Error codes `ZFX_*` with `PV_*` aliases, `legacy_code`, `X-ZFX-Error-Codes: pv1`
+- [x] Privacy tiers (LOCAL_ONLY, TRANSFORMED_PUBLIC, ATTESTED_CONFIDENTIAL, UNVERIFIED_EXTERNAL) in `/v1/models`, headers, route records, dashboard badges
+- [x] `zfx_privacy` extension (strict, stripped, tighten-only); route record finalized before the first byte; `GET /v1/zfx/requests/{id}/privacy`
+- [x] Provider-level TEE decision (`pv-provider/src/tee.rs`): gateway-only rejected; model, endpoint, GPU, E2EE, TCB, age, pins; receipts bound to preflight signers; `PENDING_VERIFICATION`; `require_receipt`
+- [x] Live NEAR attestation verified 2026-11-10 (no key needed); recorded report replays offline with full DCAP
+- [!] Live NEAR inference, E2EE and response signatures: no NEAR API key available
+- [x] Streaming red-team: byte-split SSE, UTF-8, tool args, fake/partial placeholders, concurrency, malformed chunks, mid-stream errors, idle timeout, cancellation, no replay after first byte
+- [x] Hosted gateway (`hosted/`): tenants, scoped keys, rate limits, quotas, usage, idempotency, per-request maps, no raw retention, disclosure
+- [x] Protected transport (local preprocessing) with golden test on exact bytes reaching the hosted side
+- [x] Demos for both audiences with assertions (`demos/run_all.sh`)
+- [x] Hosting resource measurements (`docs/hosting-resources.md`)
+- [!] Hosted production deployment, KMS, shared idempotency store, third-party review: not in scope (release notes)
+
 ## Log
 - 2026-11-08: core crates, daemon, CLI built; ~200 tests green (unit, HTTP integration, approvals, routing, adversarial, skill scripts).
 - 2026-11-08: NEAR live: DeepSeek-V4.1-Flash-1017 verifies; DeepSeek-V4-Flash rejected as alias. No API key here.
@@ -74,3 +92,4 @@ Status keys: `[x]` done and tested, `[~]` done with a stated gap, `[!]` blocked 
 - 2026-11-08: Hosted CI removed at the project owner's request (one accidental run cancelled ~1 min in; Actions disabled on the repo). Local `scripts/check.sh` replaces it.
 - 2026-11-08: Clean-install gate passed on macOS from the signed release archive (see Phase 4).
 - 2026-11-08: Signing dropped for build-from-source `install.sh`; old signing key backed up to macOS Keychain; dashboard dist committed so source builds need only Rust.
+- 2026-11-10: Imported into ZeroFlux as ZFX VPN; rename, migration, hosted gateway, TEE decision layer, streaming red-team, demos. Tests found and fixed two detection gaps: base64 of short critical values (min length 24 -> 12) and non-ASCII emails.
