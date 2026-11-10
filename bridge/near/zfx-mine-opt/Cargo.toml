@@ -1,0 +1,15 @@
+[package]
+name = "zfx-mine-opt"
+description = "ZFX on NEAR mined with the full ZeroFlux v0.1 proof of work, checked optimistically: one-row fraud proofs, bonds and a challenge window"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+near-sdk.workspace = true
+near-contract-standards.workspace = true
+near-pow = { path = "../near-pow" }
+hex = "0.4"

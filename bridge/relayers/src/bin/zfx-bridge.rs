@@ -11,6 +11,9 @@
 //!   zfx-bridge near-mine-proxy --rpc URL --signer ID --key-file F --contract ID [--listen ADDR]   mine NEAR-native ZFX with zpu-cli
 //!   zfx-bridge near-light-relay --rpc URL --signer ID --key-file F --contract ID --zfx URL [--once] [--max N]
 //!   zfx-bridge pow-search --profile ID --seed HEX --challenge HEX --target HEX
+//!   zfx-bridge near-mine-proxy ... --optimistic [--bond-near N]   full v0.1 PoW with optimistic checking (zfx-mine-opt)
+//!   zfx-bridge near-opt-watch --rpc URL --signer ID --key-file F --contract ID [--once]   challenge invalid pending blocks
+//!   zfx-bridge near-opt-cheat --rpc URL --signer ID --key-file F --contract ID   test adversary (no PoW work)
 //!   zfx-bridge view --rpc URL --contract ID --method M --args JSON
 //!   zfx-bridge burn --rpc URL --signer ID --key-file F --contract ID --amount N --native-recipient zfx1...
 //!   zfx-bridge reconcile --env ENV --zfx URL
@@ -57,6 +60,48 @@ fn new_key_file(account: &str, path: &str) -> ed25519_dalek::SigningKey {
     .unwrap();
     k
 }
+/// Full trace a1|a2|a3|a4|out of one v0.1 attempt (weights cached per epoch).
+fn opt_trace(cache: &mut Option<([u8; 32], zfx_verify::pow::Weights)>, seed: &[u8; 32], ch: &[u8; 32], nonce: u64) -> Vec<u8> {
+    use zfx_verify::pow;
+    if cache.as_ref().map(|c| &c.0 != seed).unwrap_or(true) {
+        let threads = std::thread::available_parallelism().map(|n| n.get()).unwrap_or(4);
+        *cache = Some((*seed, pow::Weights::generate_par(&pow::FP8C_V01, seed, threads)));
+    }
+    let w = &cache.as_ref().unwrap().1;
+    let x = pow::x0(&pow::attempt_id(ch, nonce), pow::FP8C_V01.d_in);
+    let (out, acts) = pow::forward(w, &x, true);
+    let mut t = Vec::with_capacity(4 * 4096 + 1024);
+    for a in &acts {
+        t.extend(a.iter().map(|v| *v as u8));
+    }
+    for v in &out {
+        t.extend_from_slice(&v.to_le_bytes());
+    }
+    t
+}
+
+/// First (layer, row) where a posted trace differs from the honest one,
+/// in computation order (the earliest wrong value is provably wrong).
+fn first_mismatch(posted: &[u8], honest: &[u8]) -> Option<(u8, u32)> {
+    if posted.len() != honest.len() {
+        return Some((0, 0));
+    }
+    for l in 0..4usize {
+        for r in 0..4096usize {
+            if posted[l * 4096 + r] != honest[l * 4096 + r] {
+                return Some((l as u8, r as u32));
+            }
+        }
+    }
+    for r in 0..256usize {
+        let o = 4 * 4096 + 4 * r;
+        if posted[o..o + 4] != honest[o..o + 4] {
+            return Some((4, r as u32));
+        }
+    }
+    None
+}
+
 /// Total gas burnt by a transaction and all its receipts, in Tgas.
 fn gas_burnt_tgas(raw: &Value) -> f64 {
     let t = raw["transaction_outcome"]["outcome"]["gas_burnt"].as_u64().unwrap_or(0);
@@ -130,6 +175,98 @@ async fn main() {
                 std::process::exit(3);
             }
         }
+        Some("near-opt-watch") => {
+            // Recompute every pending block's trace and challenge the first
+            // wrong value (layer, row). One honest watcher keeps the chain valid.
+            let near = NearClient::new(&need(&args, "--rpc"));
+            let s = signer(&args);
+            let contract = need(&args, "--contract");
+            let once = args.iter().any(|a| a == "--once");
+            let mut wcache: Option<([u8; 32], zfx_verify::pow::Weights)> = None;
+            let mut checked = std::collections::HashSet::new();
+            loop {
+                let st = near.view(&contract, "stats", json!({}), "optimistic").unwrap_or(Value::Null);
+                let fin: u64 = st["final_height"].as_str().and_then(|v| v.parse().ok()).unwrap_or(0);
+                let head: u64 = st["head_height"].as_str().and_then(|v| v.parse().ok()).unwrap_or(0);
+                for h in fin + 1..=head {
+                    let Ok(b) = near.view(&contract, "block", json!({"height": h.to_string()}), "optimistic") else { continue };
+                    if b.is_null() || !checked.insert((h, b["digest"].as_str().unwrap_or("").to_string())) {
+                        continue;
+                    }
+                    let seed: [u8; 32] = hex::decode(b["epoch_seed"].as_str().unwrap()).unwrap().try_into().unwrap();
+                    let ch: [u8; 32] = hex::decode(b["challenge"].as_str().unwrap()).unwrap().try_into().unwrap();
+                    let nonce: u64 = b["nonce"].as_str().unwrap().parse().unwrap();
+                    let posted = base64::engine::general_purpose::STANDARD.decode(b["trace"].as_str().unwrap()).unwrap();
+                    let honest = opt_trace(&mut wcache, &seed, &ch, nonce);
+                    let bad = first_mismatch(&posted, &honest);
+                    match bad {
+                        None => println!("{}", json!({"event": "valid", "height": h, "miner": b["miner"]})),
+                        Some((layer, row)) => {
+                            let o = near.call(&s, &contract, "challenge", json!({"height": h.to_string(), "layer": layer, "row": row}), 300, 0);
+                            println!(
+                                "{}",
+                                json!({"event": "challenge", "height": h, "layer": layer, "row": row, "miner": b["miner"],
+                                "ok": o.as_ref().map(|o| o.success).unwrap_or(false), "result": o.as_ref().ok().and_then(|o| o.value.clone()),
+                                "failure": o.as_ref().ok().and_then(|o| o.failure.clone()), "gas_burnt_tgas": o.as_ref().map(|o| gas_burnt_tgas(&o.raw)).unwrap_or(0.0)})
+                            );
+                            break; // the chain above it was reverted; rescan
+                        }
+                    }
+                }
+                if once {
+                    break;
+                }
+                std::thread::sleep(std::time::Duration::from_millis(700));
+            }
+        }
+        Some("near-opt-cheat") => {
+            // Test adversary: no matrix work at all. Grind fake outputs until
+            // their digest meets the target and post garbage activations.
+            use zfx_verify::pow;
+            let near = NearClient::new(&need(&args, "--rpc"));
+            let s = signer(&args);
+            let contract = need(&args, "--contract");
+            let w = near.view(&contract, "work", json!({"miner": s.account_id}), "optimistic").unwrap_or_else(|e| panic!("{}", e));
+            let ch: [u8; 32] = hex::decode(w["challenge"].as_str().unwrap()).unwrap().try_into().unwrap();
+            let target = zfx_verify::u256::U256::from_hex(w["target"].as_str().unwrap()).unwrap();
+            let mut out = vec![7i32; 256];
+            let mut i = 0i32;
+            loop {
+                out[0] = i;
+                if pow::meets_target(&pow::result_digest(&ch, 0, &out), &target) {
+                    break;
+                }
+                i += 1;
+            }
+            // --honest-layers N: compute activations a1..aN honestly (N <= 4)
+            // and fake the rest, so the fraud sits deep in the trace.
+            let honest_layers: usize = arg(&args, "--honest-layers").and_then(|v| v.parse().ok()).unwrap_or(0);
+            let mut trace = vec![1u8; 4 * 4096];
+            if honest_layers > 0 {
+                let seed: [u8; 32] = hex::decode(w["epoch_seed"].as_str().unwrap()).unwrap().try_into().unwrap();
+                let mut cache = None;
+                let real = opt_trace(&mut cache, &seed, &ch, 0);
+                trace[..honest_layers.min(4) * 4096].copy_from_slice(&real[..honest_layers.min(4) * 4096]);
+            }
+            for v in &out {
+                trace.extend_from_slice(&v.to_le_bytes());
+            }
+            let o = near
+                .call(
+                    &s,
+                    &contract,
+                    "submit",
+                    json!({"height": w["height"], "nonce": "0", "trace": base64::engine::general_purpose::STANDARD.encode(trace)}),
+                    300,
+                    1_000_000_000_000_000_000_000_000,
+                )
+                .unwrap_or_else(|e| panic!("{}", e));
+            println!(
+                "{}",
+                json!({"event": "cheat", "height": w["height"], "grind_iterations": i + 1, "ok": o.success, "failure": o.failure, "tx": o.tx_hash,
+                                  "gas_burnt_tgas": gas_burnt_tgas(&o.raw)})
+            );
+        }
         Some("pow-search") => {
             // Find a nonce meeting --target for --challenge with the given
             // profile and epoch seed (CPU, all cores). Prints {nonce, digest}.
@@ -167,6 +304,10 @@ async fn main() {
             let s = std::sync::Arc::new(signer(&args));
             let contract = need(&args, "--contract");
             let listen = arg(&args, "--listen").unwrap_or("127.0.0.1:9551".into());
+            let optimistic = args.iter().any(|a| a == "--optimistic");
+            let bond: u128 =
+                arg(&args, "--bond-near").and_then(|v| v.parse::<f64>().ok()).map(|n| (n * 1e24) as u128).unwrap_or(1_000_000_000_000_000_000_000_000);
+            let mut wcache: Option<([u8; 32], zfx_verify::pow::Weights)> = None;
             let server = tiny_http::Server::http(&listen).unwrap_or_else(|e| panic!("{}", e));
             eprintln!("[near-mine-proxy] {} -> {} as {}", listen, contract, s.account_id);
             let respond = |req: tiny_http::Request, v: Value| {
@@ -202,7 +343,24 @@ async fn main() {
                     let b: Value = serde_json::from_str(&body).unwrap_or(Value::Null);
                     let height = b["work_id"].as_str().unwrap_or("0").to_string();
                     let nonce = b["nonce"].as_str().map(String::from).unwrap_or_else(|| b["nonce"].to_string());
-                    match near.call(&s, &contract, "submit", json!({"height": height, "nonce": nonce}), 300, 0) {
+                    let res = if optimistic {
+                        // Recompute the winning attempt's full trace and post it with the bond.
+                        let w = near.view(&contract, "work", json!({"miner": s.account_id}), "optimistic").unwrap_or(Value::Null);
+                        let seed: [u8; 32] = hex::decode(w["epoch_seed"].as_str().unwrap_or("")).ok().and_then(|v| v.try_into().ok()).unwrap_or([0; 32]);
+                        let ch: [u8; 32] = hex::decode(w["challenge"].as_str().unwrap_or("")).ok().and_then(|v| v.try_into().ok()).unwrap_or([0; 32]);
+                        let trace = opt_trace(&mut wcache, &seed, &ch, nonce.parse().unwrap_or(0));
+                        near.call(
+                            &s,
+                            &contract,
+                            "submit",
+                            json!({"height": height, "nonce": nonce, "trace": base64::engine::general_purpose::STANDARD.encode(trace)}),
+                            300,
+                            bond,
+                        )
+                    } else {
+                        near.call(&s, &contract, "submit", json!({"height": height, "nonce": nonce}), 300, 0)
+                    };
+                    match res {
                         Ok(o) if o.success => {
                             eprintln!(
                                 "{}",

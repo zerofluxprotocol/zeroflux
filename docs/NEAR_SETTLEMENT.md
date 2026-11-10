@@ -1,6 +1,26 @@
-# ZeroFlux on NEAR: native mining (C) and a PoW light client (B)
+# ZeroFlux on NEAR: native mining (C), optimistic native mining (C+) and a PoW light client (B)
 
-Two ways to tie ZeroFlux to NEAR more tightly than the 2-of-3 committee bridge. Both are built, run end to end on a local NEAR sandbox, and rely on one new piece: a proof-of-work profile NEAR can check inside a single transaction.
+Ways to tie ZeroFlux to NEAR more tightly than the 2-of-3 committee bridge. All are built and run end to end on a local NEAR sandbox (`make e2e-near`). C and B check every proof of work on-chain with a smaller NEAR-sized profile; C+ keeps the full production profile and checks it optimistically.
+
+## C+: full production proof of work, checked optimistically (`bridge/near/zfx-mine-opt`)
+
+The smaller profile cuts the GPU lead (Apple M5 Pro: 3.3x over CPU instead of 24x), because its 3.5 MB of weights fit in a CPU cache. C+ keeps the production profile (51.6 M multiply-adds, 51 MB of weights) and lets NEAR check it only when someone disputes a block.
+
+- `submit` (with a bond, 1 NEAR in the test): the miner posts the nonce, the four 4,096-value hidden layers and the 256 outputs of the winning attempt. The contract checks only that the digest of those outputs meets the target and stores the trace while the block is pending.
+- `challenge(height, layer, row)`: anyone names one value. The contract regenerates that single weight row and recomputes the value from the stored previous layer (the first layer's input is derived on-chain from the challenge and nonce). If the value is wrong, the block and every pending block built on it are reverted, the challenger gets the bond, and the later miners get their bonds back.
+- `finalize`: after the challenge window, blocks mint their reward and return the bond.
+- If every (layer, row) relation holds, the trace is exactly the canonical computation, so one honest watcher (`zfx-bridge near-opt-watch`) is enough to reject any invalid block. The watcher always challenges the earliest wrong value, which is provably wrong.
+- Miners use the unchanged `zpu-cli` and every GPU backend through `zfx-bridge near-mine-proxy --optimistic`.
+
+| operation (measured, `bench/results/e2e_near_opt_mining.json`) | gas |
+|---|---|
+| `submit` an honest block (production profile) | 6.0 Tgas median |
+| fraud proof on layer 0 | 3.8 Tgas transaction (0.1 Tgas of checking) |
+| fraud proof on a 4,096-wide hidden layer or the outputs | 4.5 Tgas transaction (0.83 to 0.85 Tgas of checking) |
+| challenge against a correct value (rejected) | 3.1 Tgas |
+| `finalize` 12 blocks | 24 Tgas |
+
+Tested: honest blocks are never challenged; a cheater who skips all matrix work, and cheaters who fake only a deep hidden layer or the outputs, are each caught with one row; an honest block built on a fraudulent one is reverted with it and its bond refunded; only honest blocks mint. Assumptions: at least one honest watcher sees every pending block within the window, and challenge transactions are not censored for the whole window. The bond must exceed what a cheater could gain from one unchallenged block.
 
 | | C. ZFX native on NEAR | B. PoW light client on NEAR |
 |---|---|---|

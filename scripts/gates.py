@@ -99,6 +99,7 @@ TARGETS = {
         step("wasm-build-pow-verifier", "cd bridge/near/pow-verifier && cargo near build non-reproducible-wasm --no-abi"),
         step("wasm-build-zfx-mine", "cd bridge/near/zfx-mine && cargo near build non-reproducible-wasm --no-abi"),
         step("wasm-build-zfx-light", "cd bridge/near/zfx-light && cargo near build non-reproducible-wasm --no-abi"),
+        step("wasm-build-zfx-mine-opt", "cd bridge/near/zfx-mine-opt && cargo near build non-reproducible-wasm --no-abi"),
         step("vectors-near-profile-cpp", "./miner/cuda/build/zpu-miner selftest tests/vectors/near_v1.json"),
         step("vectors-near-profile-numpy", f"{PY} miner/python/zpu_miner.py selftest tests/vectors/near_v1.json --backend numpy"),
         step("build-release", "cargo build --release -q"),
@@ -127,6 +128,7 @@ TARGETS = {
     "e2e-near": [
         step("near-native-mining-contract", f"{PY} tests/e2e/near_mining.py", timeout=3600),
         step("near-pow-light-client", f"{PY} tests/e2e/near_light_client.py", timeout=5400),
+        step("near-optimistic-mining", f"{PY} tests/e2e/near_opt_mining.py", timeout=3600),
         step("onchain-pow-gas", f"{PY} tests/e2e/onchain_pow.py", timeout=1800),
     ],
     "e2e-intents": [

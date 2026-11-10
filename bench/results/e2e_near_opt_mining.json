@@ -1,0 +1,148 @@
+{
+  "checks": [
+    {
+      "check": "O1 honest v0.1 blocks posted cheaply; the watcher re-checks each one and challenges none",
+      "result": "PASS",
+      "evidence": {
+        "head": 12,
+        "submit_gas_tgas": {
+          "n": 12,
+          "min": 5.98440285656,
+          "median": 6.034756644176,
+          "max": 6.068542847667
+        },
+        "watcher_valid": 12,
+        "profile": "zfx-fp8c-v0.1",
+        "macs_per_attempt": "51642368"
+      }
+    },
+    {
+      "check": "O2 a cheater who skipped all matrix work is caught by a one-row fraud proof; the bond moves to the watcher",
+      "result": "PASS",
+      "evidence": {
+        "cheat_grind_iterations": 707,
+        "cheat_submit_gas_tgas": 6.07279018901,
+        "challenge": {
+          "event": "challenge",
+          "failure": null,
+          "gas_burnt_tgas": 3.787360393977,
+          "height": 13,
+          "layer": 0,
+          "miner": "cheater.test.near",
+          "ok": true,
+          "result": {
+            "check_tgas": 0.100377718191,
+            "claimed": 1,
+            "correct": 10,
+            "fraud": true,
+            "height": "13",
+            "reverted_descendants": [],
+            "slashed_bond": "1000000000000000000000000"
+          },
+          "row": 0
+        },
+        "cheater_near": [
+          1000.0,
+          998.999
+        ],
+        "watcher_near": [
+          1000.0,
+          1001.0
+        ]
+      }
+    },
+    {
+      "check": "O3 an honest block mined on top of a fraudulent block is reverted with it; its miner's bond is refunded",
+      "result": "PASS",
+      "evidence": {
+        "fraud_height": 13,
+        "child_height": 14,
+        "head_after": 12,
+        "challenge": {
+          "event": "challenge",
+          "failure": null,
+          "gas_burnt_tgas": 5.345805515441,
+          "height": 13,
+          "layer": 0,
+          "miner": "cheater.test.near",
+          "ok": true,
+          "result": {
+            "check_tgas": 0.100429551819,
+            "claimed": 1,
+            "correct": 10,
+            "fraud": true,
+            "height": "13",
+            "reverted_descendants": [
+              {
+                "height": "14",
+                "miner": "miner1.test.near"
+              }
+            ],
+            "slashed_bond": "1000000000000000000000000"
+          },
+          "row": 0
+        },
+        "honest_miner_near": [
+          995.996,
+          995.995
+        ]
+      }
+    },
+    {
+      "check": "O6 deep frauds proven with one row: a fake hidden layer (4096-weight row regenerated on-chain) and fake outputs",
+      "result": "PASS",
+      "evidence": {
+        "cases": [
+          {
+            "honest_layers": 2,
+            "expected_layer": 2,
+            "challenge_layer": 2,
+            "ok": true,
+            "tx_gas_tgas": 4.522637685033,
+            "check_tgas": 0.834318853503
+          },
+          {
+            "honest_layers": 4,
+            "expected_layer": 4,
+            "challenge_layer": 4,
+            "ok": true,
+            "tx_gas_tgas": 4.538589361638,
+            "check_tgas": 0.850021151763
+          }
+        ]
+      }
+    },
+    {
+      "check": "O4 a challenge against a correct value fails",
+      "result": "PASS",
+      "evidence": {
+        "height": 12,
+        "failure": "onError\":\"Smart contract panicked: no fraud: the value is correct\"}}}}",
+        "check_gas_tgas": 3.0814147032
+      }
+    },
+    {
+      "check": "O5 after the window only honest blocks mint: supply == reward x final height, the cheater holds no ZFX",
+      "result": "PASS",
+      "evidence": {
+        "final_height": 12,
+        "supply": "60000000000",
+        "balances": {
+          "miner1.test.near": 20000000000,
+          "miner2.test.near": 40000000000,
+          "cheater.test.near": 0
+        },
+        "finalize_gas_tgas": 24.03594548988,
+        "frauds": 4
+      }
+    }
+  ],
+  "submit_gas_tgas": {
+    "n": 12,
+    "min": 5.98440285656,
+    "median": 6.034756644176,
+    "max": 6.068542847667
+  },
+  "passed": 6,
+  "total": 6
+}
