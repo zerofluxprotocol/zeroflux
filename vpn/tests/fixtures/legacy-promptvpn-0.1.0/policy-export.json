@@ -1,0 +1,679 @@
+{
+  "format": "promptvpn-policy-v1",
+  "rules": [
+    {
+      "schema_version": 1,
+      "id": "builtin-address",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "ADDRESS"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "TOKENIZE",
+      "severity": "moderate",
+      "notify": [
+        "local_user"
+      ],
+      "override": "ALLOWED",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "TOKENIZE for Postal addresses",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-classifier-failure",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "CLASSIFIER_FAILURE"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "FALLBACK",
+      "severity": "high",
+      "notify": [
+        "local_user"
+      ],
+      "override": "POLICY_OWNER_ONLY",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Classifier failure follows the fallback choice; never silently allowed",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-critical-api-key",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "API_KEY"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "BLOCK",
+      "severity": "critical",
+      "notify": [
+        "local_user"
+      ],
+      "override": "FORBIDDEN",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Block API keys before any remote destination",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-critical-auth-secret",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "AUTH_SECRET"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "BLOCK",
+      "severity": "critical",
+      "notify": [
+        "local_user"
+      ],
+      "override": "FORBIDDEN",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Block Passwords and auth secrets before any remote destination",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-critical-driver-license",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "DRIVER_LICENSE"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "BLOCK",
+      "severity": "critical",
+      "notify": [
+        "local_user"
+      ],
+      "override": "FORBIDDEN",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Block Driver's licenses before any remote destination",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-critical-government-id",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "GOVERNMENT_ID"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "BLOCK",
+      "severity": "critical",
+      "notify": [
+        "local_user"
+      ],
+      "override": "FORBIDDEN",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Block SSN and government IDs before any remote destination",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-critical-passport",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "PASSPORT"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "BLOCK",
+      "severity": "critical",
+      "notify": [
+        "local_user"
+      ],
+      "override": "FORBIDDEN",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Block Passport numbers before any remote destination",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-critical-payment-card",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "PAYMENT_CARD"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "BLOCK",
+      "severity": "critical",
+      "notify": [
+        "local_user"
+      ],
+      "override": "FORBIDDEN",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Block Payment cards before any remote destination",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-critical-private-key",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "PRIVATE_KEY"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "BLOCK",
+      "severity": "critical",
+      "notify": [
+        "local_user"
+      ],
+      "override": "FORBIDDEN",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Block Private keys before any remote destination",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-custom-entities",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "CUSTOM:*"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "TOKENIZE",
+      "severity": "high",
+      "notify": [
+        "local_user"
+      ],
+      "override": "POLICY_OWNER_ONLY",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Owner-defined entity types are replaced with reversible placeholders unless the entity's own rule says otherwise",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-dob",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "DOB"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "TOKENIZE",
+      "severity": "high",
+      "notify": [
+        "local_user"
+      ],
+      "override": "ALLOWED",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "TOKENIZE for Dates of birth",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-email",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "EMAIL"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "TOKENIZE",
+      "severity": "moderate",
+      "notify": [
+        "local_user"
+      ],
+      "override": "ALLOWED",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "TOKENIZE for Email",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-exact-secrets",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "EXACT_SECRET"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "BLOCK",
+      "severity": "critical",
+      "notify": [
+        "local_user"
+      ],
+      "override": "POLICY_OWNER_ONLY",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Block registered exact values before any remote destination",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-financial-account",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "FINANCIAL_ACCOUNT"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "REDACT",
+      "severity": "high",
+      "notify": [
+        "local_user"
+      ],
+      "override": "ALLOWED",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "REDACT for Bank accounts",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-health-information",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "HEALTH_INFORMATION"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "TOKENIZE",
+      "severity": "high",
+      "notify": [
+        "local_user"
+      ],
+      "override": "ALLOWED",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "TOKENIZE for Health information",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-outbound-critical",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "GOVERNMENT_ID",
+          "PASSPORT",
+          "DRIVER_LICENSE",
+          "PAYMENT_CARD",
+          "API_KEY",
+          "PRIVATE_KEY",
+          "AUTH_SECRET",
+          "EXACT_SECRET"
+        ],
+        "destinations": [
+          "any"
+        ],
+        "direction": "outbound"
+      },
+      "action": "REDACT",
+      "severity": "critical",
+      "notify": [
+        "local_user"
+      ],
+      "override": "POLICY_OWNER_ONLY",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Redact critical values generated by the model",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-person",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "PERSON"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "ALLOW",
+      "severity": "moderate",
+      "notify": [
+        "local_user"
+      ],
+      "override": "ALLOWED",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "ALLOW for Names",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-phone",
+      "version": 2,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "PHONE"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "REDACT",
+      "severity": "moderate",
+      "notify": [
+        "local_user"
+      ],
+      "override": "ALLOWED",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "TOKENIZE for Phone numbers",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-public-information",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "PUBLIC_INFORMATION"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "ALLOW",
+      "severity": "low",
+      "notify": [
+        "local_user"
+      ],
+      "override": "ALLOWED",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "ALLOW for Public information",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-uncertain",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "UNCERTAIN"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "FALLBACK",
+      "severity": "high",
+      "notify": [
+        "local_user"
+      ],
+      "override": "POLICY_OWNER_ONLY",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Uncertain findings follow the fallback choice",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "builtin-unsupported-content",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "UNSUPPORTED_CONTENT"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "BLOCK",
+      "severity": "high",
+      "notify": [
+        "local_user"
+      ],
+      "override": "POLICY_OWNER_ONLY",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Content the proxy cannot inspect is blocked",
+      "origin": "builtin",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "entity-ent_75ce991b23",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "CUSTOM:ent_75ce991b23"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "TOKENIZE",
+      "severity": "high",
+      "notify": [
+        "local_user"
+      ],
+      "override": "POLICY_OWNER_ONLY",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Custom entity type 'insurance policy number'",
+      "origin": "owner",
+      "critical_exception": false
+    },
+    {
+      "schema_version": 1,
+      "id": "secret-sec_26b74a463594",
+      "version": 1,
+      "scope": {
+        "kind": "user",
+        "id": "local-owner"
+      },
+      "selector": {
+        "categories": [
+          "EXACT_SECRET:sec_26b74a463594"
+        ],
+        "destinations": [
+          "external"
+        ],
+        "direction": "inbound"
+      },
+      "action": "TOKENIZE",
+      "severity": "critical",
+      "notify": [
+        "local_user"
+      ],
+      "override": "POLICY_OWNER_ONLY",
+      "retention_days": 30,
+      "enabled": true,
+      "description": "Action for registered value 'project codename'",
+      "origin": "owner",
+      "critical_exception": false
+    }
+  ]
+}
