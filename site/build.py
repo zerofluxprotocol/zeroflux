@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Build zeroflux.network into site/dist: the landing page, static assets, and
-HTML renderings of the public design docs. Local paths are scrubbed.
+"""Build zeroflux.network into site/dist: the pages in site/pages rendered with the
+partials in site/partials, static assets, and HTML (plus Markdown) renderings of
+the public docs. Local paths are scrubbed.
 
     .venv/bin/python site/build.py && cf pages deploy site/dist ...
 """
@@ -71,9 +72,9 @@ PAGE = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name=
 <div class="status"><div class="w"><span><span class="dot"></span>Testnet</span><span>Mainnet not launched</span><span>Testnet ZFX has no monetary value</span></div></div>
 <div class="hbar"><div class="w">
 <a class="brand" href="/" aria-label="ZeroFlux home"><span class="cell">{logo}</span><span class="word">ZeroFlux</span></a>
-<nav><a href="/docs/">Docs</a><a href="/#run">Run it</a><a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener">GitHub</a>
+<nav><a href="/earn">Earn</a><a href="/build">Build</a><a href="/trade">Trade</a><a href="/docs/">Docs</a><a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener">GitHub</a>
 <button class="theme-toggle" type="button" id="themeToggle" aria-label="Switch light or dark mode"><svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg><svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button>
-<a class="cta" href="/#run">Start Mining</a></nav>
+<a class="cta" href="/earn#run">Start Mining</a></nav>
 </div></div>
 </header>
 <div class="w layout"><aside class="toc" aria-label="Documentation"><details id="tocd" open><summary>Documentation menu</summary>{toc}</details></aside><main class="doc">{body}</main></div>
@@ -184,12 +185,60 @@ def toc_html(current, headings):
     return top + "".join(out)
 
 
+PAGES = {  # page file in site/pages -> (output path, title, description, nav key)
+    "index.html": ("index.html", "ZeroFlux · The economic layer for AI compute",
+                   "Earn from idle hardware. Build privately with AI. Trade AI demand. ZFX mining, ZFX VPN and ZFX Markets on NEAR. Testnet.", ""),
+    "earn.html": ("earn/index.html", "Earn · ZFX Mining · ZeroFlux",
+                  "Mine ZFX on NEAR with the GPUs and CPUs you already run. Proof of work made of the integer matrix math AI chips are built for. Live on NEAR testnet.", "earn"),
+}
+
+
+def fill(tpl, **kw):
+    """Replace {key} placeholders without touching other braces (CSS and JS live in the templates)."""
+    for k, v in kw.items():
+        tpl = tpl.replace("{" + k + "}", v)
+    return tpl
+
+
+# Product status lines and the Trade spotlight. Kept here so every page states the same thing.
+SITE_VARS = {
+    "BUILD_STATUS": "Local app for macOS and Linux",
+    "TRADE_STATUS": "Daily index · testnet paper trading",
+    "TRADE_BLURB": "ZFX Markets publishes a daily index for each popular AI model: the tokens it served on OpenRouter for one UTC day, priced at what those tokens cost. Trade perpetuals on that index, cleared on NEAR. Testnet only: no real money.",
+}
+
+
+def trade_table():
+    """Top models from the published index snapshot, if one is in the repo."""
+    return ""
+
+
+def render_pages():
+    head, header, footer = (open(os.path.join(SITE, "partials", f)).read() for f in ("head.html", "header.html", "footer.html"))
+    for src, (out, title, desc, nav) in PAGES.items():
+        path = os.path.join(SITE, "pages", src)
+        if not os.path.exists(path):
+            continue
+        body = fill(open(path).read(), TRADE_TABLE=trade_table(), **SITE_VARS)
+        extra_scripts = ""
+        if 'id="heroCanvas"' in body:
+            extra_scripts += '<script src="/static/hero.js"></script>'
+        page = (fill(head, title=html.escape(title), desc=html.escape(desc), page=nav or "home", extra_head="")
+                + fill(header, **{f"a_{k}": (' aria-current="page"' if k == nav else "") for k in ("earn", "build", "trade")})
+                + body
+                + fill(footer, extra_scripts=extra_scripts))
+        dest = os.path.join(DIST, out)
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        open(dest, "w").write(scrub(page))
+
+
+
 def main():
     shutil.rmtree(DIST, ignore_errors=True)
     os.makedirs(os.path.join(DIST, "docs"))
     shutil.copytree(os.path.join(SITE, "static"), os.path.join(DIST, "static"), ignore=shutil.ignore_patterns("*.txt"))
     open(os.path.join(DIST, "static", "docs.css"), "w").write(CSS)
-    shutil.copy(os.path.join(SITE, "index.html"), os.path.join(DIST, "index.html"))
+    render_pages()
     md = markdown.Markdown(extensions=["tables", "fenced_code", "sane_lists", "toc"])
     llms = ["# ZeroFlux", "", "> ZeroFlux is a proof-of-work network on NEAR. ZFX is its token. Each page below is plain Markdown.", ""]
     cur_group = None

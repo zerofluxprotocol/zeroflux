@@ -1,0 +1,120 @@
+<main>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <canvas id="heroCanvas" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div class="eyebrow muted">On NEAR · Testnet</div>
+    <h1 class="h1">ZeroFlux is the economic layer for <span class="em">AI compute.</span></h1>
+    <p class="lede">Earn from idle hardware. Build privately with AI. Trade AI demand.</p>
+    <div class="btns">
+      <a href="/earn#run" class="btn btn-white"><svg class="mk-logo" width="24" height="16" viewBox="0 0 869 572" aria-hidden="true"><use href="#zf-logo"/></svg>Start Mining</a>
+      <a href="#products" class="btn btn-line">Explore the products</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="block wrap" id="products">
+  <div class="eyebrow">Three products, one network</div>
+  <h2 class="h2" style="margin-top: 18px; max-width: 900px">Earn, build and trade on NEAR.</h2>
+  <div class="pcards">
+    <a class="pcard pcard-lead" href="/earn">
+      <div class="ptag">Earn</div>
+      <h3>ZFX Mining</h3>
+      <p class="small">Turn idle GPU and CPU time into ZFX. The proof of work is the integer matrix math AI chips run fastest, and NEAR referees every block.</p>
+      <div class="pstat"><span class="dot"></span>Live on NEAR testnet</div>
+      <span class="pgo">Start mining</span>
+    </a>
+    <a class="pcard" href="/build">
+      <div class="ptag">Build</div>
+      <h3>ZFX VPN</h3>
+      <p class="small">A private AI endpoint for the models you already use. Keep your users' data out of model prompts, and keep your own coding-agent sessions private.</p>
+      <div class="pstat"><span class="dot"></span>{BUILD_STATUS}</div>
+      <span class="pgo">Build privately</span>
+    </a>
+    <a class="pcard" href="/trade">
+      <div class="ptag">Trade</div>
+      <h3>ZFX Markets</h3>
+      <p class="small">A daily index of AI model demand built from public OpenRouter usage data, and perpetuals on it that clear on NEAR.</p>
+      <div class="pstat"><span class="dot"></span>{TRADE_STATUS}</div>
+      <span class="pgo">See the markets</span>
+    </a>
+  </div>
+</section>
+
+<!-- GPU OWNERS -->
+<section class="block wrap sec-gpu" id="earn">
+  <div class="split">
+    <div style="max-width: 540px">
+      <div class="eyebrow">Earn · ZFX Mining</div>
+      <h2 class="h2" style="margin-top: 18px">One GPU. More ways to earn.</h2>
+      <p class="body" style="margin-top: 24px">Your infrastructure shouldn't depend on a single source of demand. ZeroFlux lets GPU owners mine ZFX on NEAR with the same tensor cores they use for AI. During testnet, ZFX has no monetary value.</p>
+      <div class="duo">
+        <div><div class="t"><span class="sw inf"></span>Inference</div><p class="small">Serve AI models and earn revenue from inference workloads.</p></div>
+        <div><div class="t"><span class="sw zf"></span>ZeroFlux</div><p class="small">Use available GPU capacity to perform proof-of-work computations and compete for ZFX mining rewards.</p></div>
+      </div>
+      <p class="small" style="margin-top: 20px"><span class="strong">Live on NEAR testnet.</span> Mine real blocks at <a class="link" href="https://testnet.nearblocks.io/address/zfx.zeroflux.testnet" target="_blank" rel="noopener">zfx.zeroflux.testnet</a> with a free faucet account.</p>
+      <div class="pbtns"><a href="/earn#run" class="btn btn-white"><svg class="mk-logo" width="24" height="16" viewBox="0 0 869 572" aria-hidden="true"><use href="#zf-logo"/></svg>Start Mining</a><a href="/earn" class="btn btn-line">How mining works</a></div>
+    </div>
+    <div class="chart">
+      <div class="chart-head">
+        <div class="chart-title">One GPU, 24 hours</div>
+        <div class="legend"><span><span class="sw inf"></span>Inference</span><span><span class="sw zf"></span>ZeroFlux</span></div>
+      </div>
+      <div class="bars" id="bars" role="img" aria-label="Illustrative chart: inference demand rises and falls over 24 hours, and ZeroFlux fills the remaining GPU capacity each hour."></div>
+      <div class="axis"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+      <div class="note">Illustrative. Inference demand fluctuates; ZeroFlux can use the capacity in between.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- BUILD -->
+<section class="block wrap" id="build">
+  <div class="split" style="align-items: flex-start">
+    <div style="max-width: 560px">
+      <div class="eyebrow">Build · ZFX VPN</div>
+      <h2 class="h2" style="margin-top: 18px">A private AI endpoint for the models you already use.</h2>
+      <p class="body" style="margin-top: 24px">ZFX VPN sits between your code and the model. It finds sensitive values in each request, replaces them with placeholders the model never sees, and puts the real values back in the answer. Requests that can't be made safe go to a verified confidential model or are blocked.</p>
+      <div class="pbtns"><a href="/build" class="btn btn-white">Build with ZFX VPN</a><a href="/docs/vpn_threat_model.html" class="btn btn-line">Threat model</a></div>
+    </div>
+    <div class="duo2">
+      <div><div class="t">Protect your app's users</div><p class="small">Point your product's OpenAI-compatible client at ZFX VPN. Your end users' names, emails, account numbers and secrets stay out of model prompts.</p></div>
+      <div><div class="t">Protect your own workflow</div><p class="small">Run it on your machine and point your coding agent at <code>http://127.0.0.1:8787/v1</code>. Keys, customer data and private code stay on your laptop.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRADE -->
+<section class="block wrap" id="trade">
+  <div class="split" style="align-items: flex-end">
+    <div>
+      <div class="eyebrow">Trade · ZFX Markets</div>
+      <h2 class="h2" style="margin-top: 18px">Trade AI demand.</h2>
+    </div>
+    <p class="body">{TRADE_BLURB}</p>
+  </div>
+  {TRADE_TABLE}
+  <div class="pbtns"><a href="/trade" class="btn btn-white">Open ZFX Markets</a><a href="/docs/data_method.html" class="btn btn-line">How the index is built</a></div>
+</section>
+
+<!-- ROADMAP -->
+<section class="block wrap" id="next">
+  <div class="eyebrow">Next</div>
+  <div class="rmap">
+    <div><div class="t">ZFX Sandboxes</div><p class="small">Attested CPU and GPU execution environments, rented from the same hardware that mines.</p></div>
+    <div><div class="t">ZPU inference</div><p class="small">Serve open models on enrolled machines, alongside or instead of mining, whichever pays more.</p></div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section class="final wrap center">
+  <h2 class="h1">Put your compute <span class="em">to work.</span></h2>
+  <div class="btns" style="justify-content: center; margin-top: 40px">
+    <a href="/earn#run" class="btn btn-white"><svg class="mk-logo" width="24" height="16" viewBox="0 0 869 572" aria-hidden="true"><use href="#zf-logo"/></svg>Start Mining</a>
+    <a href="/docs/" class="btn btn-line">Read the docs</a>
+  </div>
+</section>
+
+</main>
