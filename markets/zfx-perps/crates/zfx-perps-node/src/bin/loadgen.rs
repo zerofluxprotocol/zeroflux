@@ -49,6 +49,7 @@ async fn main() {
         insurance_account: None,
         funding_interval_ms: 3_600_000,
         oracle: None,
+        clearing: None,
         assets: vec![
             AssetCfg {
                 symbol: "NEAR".into(),

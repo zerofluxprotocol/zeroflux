@@ -2,6 +2,7 @@
 
 pub mod api;
 pub mod auth;
+pub mod clearing_api;
 pub mod config;
 pub mod dto;
 pub mod oracle;
@@ -94,6 +95,47 @@ pub async fn run(cfg: config::Config) -> Result<Running, String> {
                             Err(sequencer::SubmitError::Stopped) => return,
                             Ok(Err(r)) => tracing::warn!(market = m, ?r, "funding tick rejected"),
                             _ => {}
+                        }
+                    }
+                }
+            }));
+        }
+    }
+    if let Some(c) = cfg.clearing.clone() {
+        // Funding: try every market periodically; the clearing rules decide whether it's due.
+        let h = started.handle.clone();
+        tasks.push(tokio::spawn(async move {
+            let mut t = tokio::time::interval(std::time::Duration::from_millis(c.funding_check_ms.max(1_000)));
+            loop {
+                t.tick().await;
+                let Ok(markets) = h.query(|e| e.clearing().map(|c| c.markets.keys().cloned().collect::<Vec<_>>()).unwrap_or_default()).await else {
+                    return;
+                };
+                for m in markets {
+                    let op = zfx_perps_clearing::Op::Funding { market: m.clone() };
+                    match h.submit(zfx_perps_engine::Command::ClearingAction { op: Box::new(op), ts_ns: auth::now_ns() }).await {
+                        Err(sequencer::SubmitError::Stopped) => return,
+                        Ok(Ok(_)) => tracing::info!(market = m, "funding applied"),
+                        _ => {}
+                    }
+                }
+            }
+        }));
+        if let Some(url) = c.print_feed.clone() {
+            let h = started.handle.clone();
+            let every = std::time::Duration::from_millis(c.print_poll_ms.max(1_000));
+            tasks.push(tokio::spawn(async move {
+                let http = reqwest::Client::new();
+                let mut t = tokio::time::interval(every);
+                loop {
+                    t.tick().await;
+                    let Ok(r) = http.get(&url).send().await else { continue };
+                    let Ok(v) = r.json::<serde_json::Value>().await else { continue };
+                    for p in v["prints"].as_array().cloned().unwrap_or_default() {
+                        let Ok(req) = serde_json::from_value::<clearing_api::PrintReq>(p) else { continue };
+                        let Ok(op) = clearing_api::print_op(&req) else { continue };
+                        if let Ok(Ok(_)) = h.submit(zfx_perps_engine::Command::ClearingAction { op: Box::new(op), ts_ns: auth::now_ns() }).await {
+                            tracing::info!(market = req.market, "oracle print accepted");
                         }
                     }
                 }

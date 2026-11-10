@@ -25,6 +25,7 @@ clap = { version = "4", features = ["derive", "env"] }
 zfx-perps-node = { workspace = true }
 zfx-perps-clearing = { workspace = true }
 borsh = "1"
+base64 = "0.22"
 
 [dev-dependencies]
 bs58 = { workspace = true }

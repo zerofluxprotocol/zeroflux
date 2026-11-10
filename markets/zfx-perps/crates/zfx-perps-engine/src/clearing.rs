@@ -102,6 +102,16 @@ pub enum ClearingEvent {
         reporters: Vec<Key>,
         quorum: u8,
     },
+    /// Emitted once by the contract's `new`. The engine refuses to run against a contract whose
+    /// identity or timing parameters differ from its own configuration.
+    Initialized {
+        chain_id: String,
+        contract_id: String,
+        collateral: String,
+        insurance_account: String,
+        settle_grace_ns: u64,
+        max_order_ttl_ns: u64,
+    },
     /// Admin proposals and other informational events.
     Other,
     Frozen,
@@ -870,6 +880,27 @@ impl Engine {
             ClearingEvent::Frozen => {
                 self.cl().frozen = true;
                 self.cancel_where(|_| true, CancelReason::User, out);
+            }
+            ClearingEvent::Initialized {
+                chain_id,
+                contract_id,
+                collateral,
+                insurance_account,
+                settle_grace_ns,
+                max_order_ttl_ns,
+            } => {
+                let g = &self.cl().confirmed.globals;
+                let ok = &g.chain_id == chain_id
+                    && &g.contract_id == contract_id
+                    && &g.collateral == collateral
+                    && &g.insurance_account == insurance_account
+                    && g.settle_grace_ns == *settle_grace_ns
+                    && g.max_order_ttl_ns == *max_order_ttl_ns;
+                if !ok {
+                    let d = format!("contract initialized as {chain_id}/{contract_id} collateral {collateral} insurance {insurance_account} grace {settle_grace_ns} ttl {max_order_ttl_ns}; node configured differently");
+                    out.push(Event::ClearingDivergence { detail: d.clone() });
+                    self.cl().diverged = Some(d);
+                }
             }
             ClearingEvent::Other => {}
         }

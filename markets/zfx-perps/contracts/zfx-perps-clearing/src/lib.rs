@@ -268,7 +268,7 @@ impl Contract {
     ) -> Self {
         require!(wire::valid_chain_id(&chain_id), "BAD_CHAIN_ID");
         require!(quorum as usize <= reporters.len() && quorum > 0, "BAD_QUORUM");
-        Self {
+        let mut c = Self {
             owner,
             operators: vec![operator],
             g: Globals {
@@ -309,7 +309,14 @@ impl Contract {
             last_journal_hash: [0; 32],
             frozen: false,
             escape: Escape::default(),
-        }
+        };
+        // The operator's engine checks these against its own configuration.
+        let g = c.g.clone();
+        c.emit(json!({"type": "initialized", "chain_id": g.chain_id, "contract_id": g.contract_id, "collateral": g.collateral,
+            "insurance_account": g.insurance_account, "settle_grace_ns": g.settle_grace_ns.to_string(),
+            "max_order_ttl_ns": g.max_order_ttl_ns.to_string()}));
+        c.emit_reporters();
+        c
     }
 
     // ---------------- events ----------------

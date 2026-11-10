@@ -175,6 +175,11 @@ pub fn start(cfg: &Config) -> Result<Started, String> {
     for c in &boot {
         seq = append_apply(&mut journal, &mut engine, &mut hash, seq, c)?;
     }
+    if let Some(c) = &cfg.clearing
+        && engine.clearing.is_none()
+    {
+        seq = append_apply(&mut journal, &mut engine, &mut hash, seq, &Command::ClearingInit(c.engine()))?;
+    }
     journal.sync().map_err(|e| e.to_string())?;
 
     let stats = Arc::new(Stats::default());

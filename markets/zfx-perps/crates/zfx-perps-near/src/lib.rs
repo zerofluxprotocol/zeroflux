@@ -9,6 +9,7 @@
 
 pub mod adapter;
 pub mod clearing;
+pub mod clearing_adapter;
 pub mod sandbox;
 pub mod stack;
 

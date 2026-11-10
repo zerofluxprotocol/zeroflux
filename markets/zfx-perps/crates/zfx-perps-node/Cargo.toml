@@ -17,6 +17,8 @@ path = "src/bin/loadgen.rs"
 zfx-perps-engine = { workspace = true }
 zfx-perps-journal = { workspace = true }
 zfx-perps-wire = { workspace = true }
+zfx-perps-clearing = { workspace = true }
+borsh = "1"
 serde = { workspace = true }
 serde_json = { workspace = true }
 bincode = { workspace = true }

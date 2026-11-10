@@ -35,6 +35,19 @@ pub struct App {
 }
 
 pub fn router(app: App) -> Router {
+    if app.cfg.clearing.is_some() {
+        return Router::new()
+            .route("/v1/health", get(health))
+            .route("/v1/info", get(info))
+            .route("/v1/book/{market}", get(book))
+            .route("/v1/trades/{market}", get(trades))
+            .route("/v1/ws", get(ws))
+            .route("/internal/status", get(status))
+            .route("/internal/cut", post(cut))
+            .merge(crate::clearing_api::routes(app.clone()))
+            .layer(tower_http::cors::CorsLayer::permissive())
+            .with_state(app);
+    }
     Router::new()
         .route("/v1/health", get(health))
         .route("/v1/info", get(info))
@@ -58,7 +71,25 @@ pub fn router(app: App) -> Router {
         .with_state(app)
 }
 
-pub struct ApiError(StatusCode, String, String);
+pub struct ApiError(pub StatusCode, pub String, pub String);
+
+impl ApiError {
+    pub fn not_found(code: &str) -> Self {
+        ApiError(StatusCode::NOT_FOUND, code.into(), code.into())
+    }
+    pub fn conflict(code: &str, msg: &str) -> Self {
+        ApiError(StatusCode::CONFLICT, code.into(), msg.into())
+    }
+}
+
+/// An engine reply as JSON, or a 409 with the reject code.
+pub fn reply_ack(r: Reply) -> Result<Value, ApiError> {
+    reply(r).map(|Json(v)| v)
+}
+
+pub fn admin_check(app: &App, h: &HeaderMap) -> Result<(), ApiError> {
+    admin(app, h)
+}
 
 impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
@@ -66,7 +97,7 @@ impl IntoResponse for ApiError {
     }
 }
 
-fn bad(msg: impl Into<String>) -> ApiError {
+pub fn bad(msg: impl Into<String>) -> ApiError {
     ApiError(StatusCode::BAD_REQUEST, "bad_request".into(), msg.into())
 }
 
@@ -95,11 +126,14 @@ impl From<SubmitError> for ApiError {
     }
 }
 
-fn reject_code(r: Reject) -> String {
-    serde_json::to_value(r)
-        .ok()
-        .and_then(|v| v.as_str().map(String::from))
-        .unwrap_or_default()
+pub fn reject_code(r: Reject) -> String {
+    match r {
+        Reject::Clearing(c) => serde_json::to_value(c).ok().and_then(|v| v.as_str().map(String::from)).unwrap_or_default(),
+        _ => serde_json::to_value(r)
+            .ok()
+            .and_then(|v| v.as_str().map(String::from))
+            .unwrap_or_default(),
+    }
 }
 
 fn reply(r: Reply) -> Result<Json<Value>, ApiError> {
@@ -160,6 +194,10 @@ async fn health(State(app): State<App>) -> Json<Value> {
 }
 
 async fn info(State(app): State<App>) -> Json<Value> {
+    if let Some(c) = &app.cfg.clearing {
+        return Json(json!({"mode": "clearing", "chain_id": c.chain_id, "clearing_contract": c.contract, "collateral": c.collateral,
+            "collateral_decimals": c.collateral_decimals, "insurance_account": c.insurance_account}));
+    }
     let d = app.shared.dir.read();
     let assets: Vec<Value> = d
         .assets
@@ -439,7 +477,7 @@ fn ws_op(
             None => vec![json!({"error": "unknown_market"})],
         },
         ("subscribe", Some("perp")) => match market() {
-            Some(m) if app.shared.dir.read().markets[m as usize].perp.is_some() => {
+            Some(m) if app.shared.dir.read().markets[m as usize].perp.is_some() || app.cfg.clearing.is_some() => {
                 perps.insert(m);
                 vec![json!({"op": "subscribed", "channel": "perp", "market": v["market"]})]
             }
@@ -473,9 +511,11 @@ fn ws_op(
             ) else {
                 return vec![json!({"error": "bad_request", "message": "auth needs account, ts, public_key, signature"})];
             };
-            match app
-                .auth
-                .check(&app.shared, acct, pk, sig, &zfx_perps_wire::auth_msg(acct, ts), Some(ts))
+            let msg = match &app.cfg.clearing {
+                Some(c) => zfx_perps_clearing::wire::auth_message(&c.chain_id, &c.contract, acct, ts),
+                None => zfx_perps_wire::auth_msg(acct, ts),
+            };
+            match app.auth.check(&app.shared, acct, pk, sig, &msg, Some(ts))
             {
                 Ok((id, _, _)) => {
                     *account = Some(id);
@@ -512,8 +552,13 @@ async fn status(State(app): State<App>, h: HeaderMap) -> Result<Json<Value>, Api
     let v = app
         .seq
         .query(|e| {
-            json!({"chain_cursor": e.chain_cursor, "last_settled": e.settle.last_settled, "next_batch_id": e.settle.next_batch_id,
-                           "unconfirmed": e.settle.unconfirmed.len(), "pending": !e.settle.is_empty(), "accounts": e.accounts.len()})
+            match e.clearing() {
+                Some(c) => json!({"mode": "clearing", "chain_cursor": e.chain_cursor, "last_settled": c.last_settled,
+                    "next_batch_id": c.next_batch_id, "unconfirmed": c.unconfirmed.len(), "pending": !c.pending.is_empty(),
+                    "accounts": e.accounts.len(), "diverged": c.diverged, "frozen": c.frozen}),
+                None => json!({"chain_cursor": e.chain_cursor, "last_settled": e.settle.last_settled, "next_batch_id": e.settle.next_batch_id,
+                           "unconfirmed": e.settle.unconfirmed.len(), "pending": !e.settle.is_empty(), "accounts": e.accounts.len()}),
+            }
         })
         .await?;
     Ok(Json(v))

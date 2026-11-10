@@ -3602,6 +3602,7 @@ name = "zfx-perps-near"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "base64 0.22.1",
  "borsh",
  "bs58",
  "clap",
@@ -3629,6 +3630,7 @@ dependencies = [
  "base64 0.22.1",
  "bincode",
  "blake3",
+ "borsh",
  "bs58",
  "crossbeam-channel",
  "ed25519-dalek",
@@ -3646,6 +3648,7 @@ dependencies = [
  "tower-http",
  "tracing",
  "tracing-subscriber",
+ "zfx-perps-clearing",
  "zfx-perps-client",
  "zfx-perps-engine",
  "zfx-perps-journal",

@@ -71,6 +71,7 @@ async fn perps_settle_real_tokens_on_sandbox() -> Result<()> {
         insurance_account: Some(insurance.account.clone()),
         funding_interval_ms: 3_600_000,
         oracle: None,
+        clearing: None,
         assets: stk
             .tokens
             .iter()

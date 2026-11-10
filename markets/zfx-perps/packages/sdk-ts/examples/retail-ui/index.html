@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>zfx-perps retail example</title>
+    <style>
+      body { font: 14px/1.4 system-ui, sans-serif; margin: 24px; color: #111; max-width: 1100px; }
+      h2 { font-size: 15px; margin: 24px 0 8px; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid #ddd; font-variant-numeric: tabular-nums; }
+      .ok { color: #116611; } .bad { color: #a11; font-weight: 600; }
+      .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 6px 0; }
+      input, select, button { font: inherit; padding: 4px 6px; }
+      pre { background: #f4f4f4; padding: 8px; overflow: auto; }
+      #status { padding: 6px 8px; background: #f4f4f4; }
+    </style>
+  </head>
+  <body>
+    <h1>zfx-perps</h1>
+    <div id="status">loading</div>
+
+    <h2>Account</h2>
+    <div class="row">
+      <label>Account <input id="account" placeholder="alice.testnet" /></label>
+      <span>Trading key <code id="pubkey"></code></span>
+      <button id="register">Show register_key transaction</button>
+    </div>
+    <pre id="tx" hidden></pre>
+
+    <h2>Markets</h2>
+    <table id="markets"><thead><tr><th>Market</th><th>Status</th><th>Mark</th><th>Open interest</th><th>IM / MM</th><th>Fees maker / taker</th></tr></thead><tbody></tbody></table>
+
+    <h2>Oracle provenance</h2>
+    <div id="oracle"></div>
+
+    <h2>Order ticket</h2>
+    <form id="ticket">
+      <div class="row">
+        <select id="market"></select>
+        <select id="side"><option>BUY</option><option>SELL</option></select>
+        <label>Price (ticks) <input id="price" size="10" inputmode="numeric" /></label>
+        <label>Qty (lots) <input id="qty" size="8" inputmode="numeric" value="1" /></label>
+        <label><input id="postOnly" type="checkbox" /> post only</label>
+        <label><input id="reduceOnly" type="checkbox" /> reduce only</label>
+        <button id="submit" type="submit">Sign and place</button>
+      </div>
+      <div id="estimate"></div>
+    </form>
+
+    <h2>Positions</h2>
+    <table id="positions"><thead><tr><th>Market</th><th>State</th><th>Size</th><th>Margin</th><th>Equity</th><th>Maint. margin</th><th>Liq. price</th><th>Funding owed</th></tr></thead><tbody></tbody></table>
+    <p id="free"></p>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

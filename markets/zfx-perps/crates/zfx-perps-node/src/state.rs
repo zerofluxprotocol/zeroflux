@@ -11,7 +11,7 @@ use crossbeam_channel::Receiver;
 use zfx_perps_engine::{AccountId, AssetSpec, Batch, Engine, Event, MarketSpec, Side};
 use parking_lot::RwLock;
 use rustc_hash::FxHashMap;
-use serde_json::json;
+use serde_json::{Value, json};
 use std::collections::{BTreeMap, VecDeque};
 use std::sync::Arc;
 use std::sync::atomic::{AtomicU64, Ordering};
@@ -427,6 +427,43 @@ pub fn apply(s: &Shared, events: &[Event]) {
                     json!({"channel": "account", "type": "insurance_takeover", "market": symbol, "size": size, "price": price}),
                 );
             }
+            Event::ClearingPosition { account, market, size, margin } => send(
+                s,
+                Channel::Account,
+                None,
+                Some(*account),
+                json!({"channel": "account", "type": "position", "market": market, "size": size.to_string(), "margin": margin.to_string(), "pending": true}),
+            ),
+            Event::ClearingFree { account, free } => send(
+                s,
+                Channel::Account,
+                None,
+                Some(*account),
+                json!({"channel": "account", "type": "free", "free": free.to_string(), "pending": true}),
+            ),
+            Event::Clearing { event } => clearing_event(s, event),
+            Event::ClearingBatchCut { .. } => {}
+            Event::ClearingOpRejected { batch_id, index, reason } => {
+                tracing::warn!(batch_id, index, ?reason, "clearing contract rejected an op");
+            }
+            Event::FillReverted { market, maker, taker, qty, price } => {
+                for who in [maker, taker] {
+                    let id = s.dir.read().by_name.get(who).copied();
+                    if let Some(id) = id {
+                        send(
+                            s,
+                            Channel::Account,
+                            None,
+                            Some(id),
+                            json!({"channel": "account", "type": "fill_reverted", "market": market, "qty": qty.to_string(), "price": price.to_string()}),
+                        );
+                    }
+                }
+            }
+            Event::ClearingOpDropped { op } => tracing::warn!(?op, "pending clearing op no longer applies; dropped"),
+            Event::ClearingLiquidationRetry { account, reason } => tracing::info!(account, ?reason, "liquidation against the book failed; retrying without it"),
+            Event::ClearingLiquidationFailed { account, reason } => tracing::error!(account, ?reason, "liquidation could not be built"),
+            Event::ClearingDivergence { detail } => tracing::error!(detail, "engine diverged from the clearing contract"),
             Event::Bankruptcy { account, deficit } => {
                 send(
                     s,
@@ -467,6 +504,54 @@ pub fn apply(s: &Shared, events: &[Event]) {
             None,
             json!({"channel": "book", "type": "delta", "market": symbol, "seq": seq, "bids": bids, "asks": asks}),
         );
+    }
+}
+
+fn clearing_event(s: &Shared, ev: &zfx_perps_clearing::CEvent) {
+    use zfx_perps_clearing::CEvent as C;
+    let mid = |m: &str| s.dir.read().market_by_symbol.get(m).copied();
+    let aid = |a: &str| s.dir.read().by_name.get(a).copied();
+    let perp = |m: &str, v: Value| send(s, Channel::Perp, mid(m), None, v);
+    match ev {
+        C::OracleAccepted { market, print_hash, mark, usable } => perp(
+            market,
+            json!({"channel": "perp", "type": "oracle", "market": market, "print_hash": zfx_perps_clearing::wire::hex32(print_hash), "mark": mark.to_string(), "usable": usable}),
+        ),
+        C::Funding { market, rate_ppm, pay_per_lot } => perp(
+            market,
+            json!({"channel": "perp", "type": "funding", "market": market, "rate_ppm": rate_ppm, "pay_per_lot": pay_per_lot.to_string()}),
+        ),
+        C::MarketHalted { market, reason } => perp(market, json!({"channel": "perp", "type": "halted", "market": market, "reason": reason})),
+        C::Liquidated { account, market, size, equity, maintenance } => {
+            let v = json!({"channel": "perp", "type": "liquidated", "market": market, "account": account, "size": size.to_string(),
+                           "equity": equity.to_string(), "maintenance": maintenance.to_string()});
+            perp(market, v.clone());
+            if let Some(a) = aid(account) {
+                send(s, Channel::Account, None, Some(a), v);
+            }
+        }
+        C::InsuranceTakeover { account, market, size, price } => perp(
+            market,
+            json!({"channel": "perp", "type": "insurance_takeover", "market": market, "account": account, "size": size.to_string(), "price": price.to_string()}),
+        ),
+        C::Adl { target, market, qty, price } => {
+            let v = json!({"channel": "perp", "type": "adl", "market": market, "account": target, "qty": qty.to_string(), "price": price.to_string()});
+            perp(market, v.clone());
+            if let Some(a) = aid(target) {
+                send(s, Channel::Account, None, Some(a), v);
+            }
+        }
+        C::Deficit { account, market, deficit, insurance_paid, socialized, bad_debt } => perp(
+            market,
+            json!({"channel": "perp", "type": "deficit", "market": market, "account": account, "deficit": deficit.to_string(),
+                   "insurance_paid": insurance_paid.to_string(), "socialized": socialized.to_string(), "bad_debt": bad_debt.to_string()}),
+        ),
+        C::Payout { account, amount, kind } => {
+            if let Some(a) = aid(account) {
+                send(s, Channel::Account, None, Some(a), json!({"channel": "account", "type": "payout_queued", "amount": amount.to_string(), "kind": kind}));
+            }
+        }
+        _ => {}
     }
 }
 

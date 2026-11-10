@@ -114,6 +114,61 @@ fn max_open() -> u32 {
     1_000
 }
 
+/// Clearing mode: perps settle on the NEAR clearing contract (the NEAR v1 path).
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct ClearingCfg {
+    /// Part of every signed message, e.g. `near:testnet`.
+    pub chain_id: String,
+    pub contract: String,
+    /// NEP-141 collateral token id.
+    pub collateral: String,
+    #[serde(default = "six")]
+    pub collateral_decimals: u8,
+    pub insurance_account: String,
+    #[serde(default = "grace")]
+    pub settle_grace_ns: u64,
+    #[serde(default = "ttl")]
+    pub max_order_ttl_ns: u64,
+    /// How often to try funding on every market (the contract decides if it's due).
+    #[serde(default = "funding_check")]
+    pub funding_check_ms: u64,
+    /// Optional URL polled for signed prints (`GET` returning `{"prints":[{"market","print_hex","signatures":[...]}]}`).
+    #[serde(default)]
+    pub print_feed: Option<String>,
+    #[serde(default = "print_poll")]
+    pub print_poll_ms: u64,
+}
+
+fn six() -> u8 {
+    6
+}
+fn grace() -> u64 {
+    300_000_000_000
+}
+fn ttl() -> u64 {
+    30 * 86_400 * 1_000_000_000
+}
+fn funding_check() -> u64 {
+    60_000
+}
+fn print_poll() -> u64 {
+    60_000
+}
+
+impl ClearingCfg {
+    pub fn engine(&self) -> zfx_perps_engine::ClearingConfig {
+        zfx_perps_engine::ClearingConfig {
+            chain_id: self.chain_id.clone(),
+            contract: self.contract.clone(),
+            collateral: self.collateral.clone(),
+            collateral_decimals: self.collateral_decimals,
+            insurance_account: self.insurance_account.clone(),
+            settle_grace_ns: self.settle_grace_ns,
+            max_order_ttl_ns: self.max_order_ttl_ns,
+        }
+    }
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Config {
     #[serde(default = "listen")]
@@ -145,7 +200,12 @@ pub struct Config {
     pub funding_interval_ms: u64,
     #[serde(default)]
     pub oracle: Option<OracleCfg>,
+    /// Clearing mode. Markets then come from the contract's `market_updated` events, not `markets`.
+    #[serde(default)]
+    pub clearing: Option<ClearingCfg>,
+    #[serde(default)]
     pub assets: Vec<AssetCfg>,
+    #[serde(default)]
     pub markets: Vec<MarketCfg>,
 }
 
@@ -217,6 +277,18 @@ impl Config {
                 if f.sources.is_empty() || f.ticks_per_usd == 0 {
                     return Err(format!("oracle feed for {sym}: needs sources and ticks_per_usd"));
                 }
+            }
+        }
+        if let Some(c) = &self.clearing {
+            if !zfx_perps_clearing::wire::valid_chain_id(&c.chain_id)
+                || !zfx_perps_wire::valid_account(&c.contract)
+                || !zfx_perps_wire::valid_account(&c.collateral)
+                || !zfx_perps_wire::valid_account(&c.insurance_account)
+            {
+                return Err("clearing: chain_id, contract, collateral and insurance_account must be valid ids".into());
+            }
+            if self.markets.iter().any(|m| m.perp.is_some()) {
+                return Err("clearing mode lists markets on-chain; remove cross-margin perp markets from the config".into());
             }
         }
         if self.admin_token.len() < 16 {
