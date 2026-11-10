@@ -2,317 +2,382 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ZeroFlux · Compute-native mining on NEAR</title>
 <meta name="description" content="ZeroFlux is a proof-of-work network on NEAR. ZFX is its token, created only by mining with AI hardware: NVIDIA and AMD GPUs, Apple Silicon, or any CPU. Testnet.">
-<link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
-<link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
 <meta property="og:title" content="ZeroFlux · Compute-native mining on NEAR">
 <meta property="og:description" content="Proof of work on AI hardware, settled on NEAR. Testnet.">
 <meta property="og:image" content="https://zeroflux.network/static/logo.png">
-<meta name="theme-color" content="#09090B">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400;500&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <script>
-  (function () {
-    try {
-      var t = localStorage.getItem('zf-theme');
-      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
-    } catch (e) {}
-  })();
+  (function () { try { var t = localStorage.getItem('zf-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();
 </script>
 <style>
 :root {
-  --bg: #FAFAFA;
-  --surface: #FFFFFF;
-  --line: #ECECEF;
-  --line-strong: #D9D9DF;
-  --line-hover: #C9C9D1;
-  --ink: #0B0B0F;
-  --muted: #4A4A55;
-  --faint: #6B6B76;
-  --accent: #2F5BFF;
-  --accent-ink: #1F43D6;
-  --on-accent: #FFFFFF;
-  --bar-base: #0B0B0F;
-  --header-bg: rgba(250,250,250,0.86);
+  --bg: #000000; --scrim: 0,0,0; --surface: #0B0B0B; --line: rgba(255,255,255,0.13); --line-soft: rgba(255,255,255,0.07);
+  --ink: #FFFFFF; --ink-2: #D4D4D4; --muted: #A3A3A3; --faint: #8A8A8A; --h1: #8F8F8F; --nav-ink: #E0E0E0; --sep: #3A3A3A;
+  --acc: 255,255,255; --acc-ink: #FFFFFF; --acc-soft: #E6E6E6;
+  --btn-bg: #FFFFFF; --btn-ink: #000000; --btn-hover: #D9D9D9; --line-btn: rgba(255,255,255,0.7);
+  --bar-inf: #EDEDED;
+  --header-bg: rgba(0,0,0,0.4); --header-bg-s: rgba(0,0,0,0.88); --status-bg: rgba(0,0,0,0.5); --status-ink: #CFCFCF;
+  --paper-bg: #FFFFFF; --paper-ink: #0A0A0A; --paper-muted: #555555; --paper-line: #E2E2E2; --paper-hover: #B5B5B5; --paper-acc: #0A0A0A; --paper-soft: #F2F2F2; --th-bg: #0A0A0A; --th-ink: #FFFFFF;
+  --band-bg: #A8F5D0; --band-ink: #000000; --band-sub: #0B3B26;
+  --tile-1: #2A2A2A; --tile-2: #0F0F0F; --tile-3: #000000;
+  --art-end: #050505; --art-2: #0E5A3B; --art-3: #1B7A52; --art-hi: #5CF0AE; --art-hi2: #A8F5D0; --art-cool: #7CE7FF; --art-cool2: #1C5B72;
+  --chip-sub1: #262626; --chip-sub2: #0C0C0C; --lid1: #FFFFFF; --lid2: #CFCFCF; --lid3: #6E6E6E; --pin1: #EEEEEE; --pin2: #8E8E8E;
+  --chip-trace: rgba(255,255,255,0.22); --chip-via: rgba(255,255,255,0.4); --chip-pulse: #FFFFFF; --chip-edge: rgba(255,255,255,0.4); --chip-cap: #D9D9D9; --chip-glow: rgba(255,255,255,0.4); --chip-ink: #0A0A0A; --chip-ink-soft: rgba(10,10,10,0.6);
+  --star: #FFFFFF; --star-glow: rgba(255,255,255,0.6); --star-blend: lighter; --fringe: 0;
+  color-scheme: dark;
+  --gpu-stroke: rgba(255,255,255,0.85); --gpu-soft: rgba(255,255,255,0.4); --gpu-fin: rgba(255,255,255,0.45); --gpu-body: #0A0A0A; --gpu-lip1: #2A2A2A; --gpu-lip2: #111111;
+  --gpu-board: #262626; --gpu-end1: #1A1A1A; --gpu-end2: #333333; --gpu-port: #050505; --gpu-fingers: rgba(255,255,255,0.8); --gpu-shroud: #0E0E0E; --gpu-well: #050505;
+  --gpu-blade: rgba(255,255,255,0.06); --gpu-blade-line: rgba(255,255,255,0.7); --gpu-logo: #FFFFFF; --gpu-led: #FFFFFF; --gpu-glow: rgba(255,255,255,0.35);
+  --logo-glow-a: rgba(255,255,255,0.3); --logo-glow-b: rgba(255,255,255,0.55);
+  --pop: 92,240,174; --pop-ink: #5CF0AE;
+  --quote-ink: #8A8A8A; --quote-em: #FFFFFF;
   --display: 'Inter Tight', system-ui, sans-serif;
   --body: 'Inter', system-ui, sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) {
+  --bg: #FAFAFA; --scrim: 250,250,250; --surface: #FFFFFF; --line: rgba(0,0,0,0.13); --line-soft: rgba(0,0,0,0.07);
+  --ink: #0A0A0A; --ink-2: #2E2E2E; --muted: #555555; --faint: #6B6B6B; --h1: #8F8F8F; --nav-ink: #2E2E2E; --sep: #C7C7C7;
+  --acc: 10,10,10; --acc-ink: #0A0A0A; --acc-soft: #E6E6E6;
+  --btn-bg: #0A0A0A; --btn-ink: #FFFFFF; --btn-hover: #2A2A2A; --line-btn: rgba(0,0,0,0.7);
+  --bar-inf: #1A1A1A;
+  --header-bg: rgba(250,250,250,0.6); --header-bg-s: rgba(250,250,250,0.94); --status-bg: rgba(250,250,250,0.7); --status-ink: #3A3A3A;
+  --paper-bg: #0A0A0A; --paper-ink: #F2F2F2; --paper-muted: #A3A3A3; --paper-line: rgba(255,255,255,0.14); --paper-hover: rgba(255,255,255,0.32); --paper-acc: #FFFFFF; --paper-soft: rgba(255,255,255,0.08); --th-bg: #F2F2F2; --th-ink: #0A0A0A;
+  --band-bg: #CDF5E2; --band-ink: #04140E; --band-sub: #0B5A37;
+  --tile-1: #E3E3E3; --tile-2: #F3F3F3; --tile-3: #FAFAFA;
+  --art-end: #F3F7F5; --art-2: #A9E9CB; --art-3: #C8F1DE; --art-hi: #16A068; --art-hi2: #5CF0AE; --art-cool: #2BA9D6; --art-cool2: #BFE7F4;
+  --chip-sub1: #262626; --chip-sub2: #0C0C0C; --lid1: #FFFFFF; --lid2: #CFCFCF; --lid3: #6E6E6E; --pin1: #9A9A9A; --pin2: #3A3A3A;
+  --chip-trace: rgba(0,0,0,0.3); --chip-via: rgba(0,0,0,0.45); --chip-pulse: #0A0A0A; --chip-edge: rgba(0,0,0,0.45); --chip-cap: #D9D9D9; --chip-glow: rgba(0,0,0,0.25); --chip-ink: #0A0A0A; --chip-ink-soft: rgba(10,10,10,0.6);
+  --star: #111111; --star-glow: rgba(0,0,0,0.22); --star-blend: source-over; --fringe: 0;
   color-scheme: light;
+  --gpu-stroke: rgba(255,255,255,0.85); --gpu-soft: rgba(255,255,255,0.4); --gpu-fin: rgba(255,255,255,0.45); --gpu-body: #0A0A0A; --gpu-lip1: #2A2A2A; --gpu-lip2: #111111;
+  --gpu-board: #262626; --gpu-end1: #1A1A1A; --gpu-end2: #333333; --gpu-port: #050505; --gpu-fingers: rgba(255,255,255,0.8); --gpu-shroud: #0E0E0E; --gpu-well: #050505;
+  --gpu-blade: rgba(255,255,255,0.06); --gpu-blade-line: rgba(255,255,255,0.7); --gpu-logo: #FFFFFF; --gpu-led: #FFFFFF; --gpu-glow: rgba(255,255,255,0.35);
+  --logo-glow-a: rgba(0,0,0,0.1); --logo-glow-b: rgba(0,0,0,0.18);
+  --pop: 22,160,104; --pop-ink: #0B7547;
+  --quote-ink: #7A7A7A; --quote-em: #0A0A0A;
+} }
+:root[data-theme="light"] {
+  --bg: #FAFAFA; --scrim: 250,250,250; --surface: #FFFFFF; --line: rgba(0,0,0,0.13); --line-soft: rgba(0,0,0,0.07);
+  --ink: #0A0A0A; --ink-2: #2E2E2E; --muted: #555555; --faint: #6B6B6B; --h1: #8F8F8F; --nav-ink: #2E2E2E; --sep: #C7C7C7;
+  --acc: 10,10,10; --acc-ink: #0A0A0A; --acc-soft: #E6E6E6;
+  --btn-bg: #0A0A0A; --btn-ink: #FFFFFF; --btn-hover: #2A2A2A; --line-btn: rgba(0,0,0,0.7);
+  --bar-inf: #1A1A1A;
+  --header-bg: rgba(250,250,250,0.6); --header-bg-s: rgba(250,250,250,0.94); --status-bg: rgba(250,250,250,0.7); --status-ink: #3A3A3A;
+  --paper-bg: #0A0A0A; --paper-ink: #F2F2F2; --paper-muted: #A3A3A3; --paper-line: rgba(255,255,255,0.14); --paper-hover: rgba(255,255,255,0.32); --paper-acc: #FFFFFF; --paper-soft: rgba(255,255,255,0.08); --th-bg: #F2F2F2; --th-ink: #0A0A0A;
+  --band-bg: #CDF5E2; --band-ink: #04140E; --band-sub: #0B5A37;
+  --tile-1: #E3E3E3; --tile-2: #F3F3F3; --tile-3: #FAFAFA;
+  --art-end: #F3F7F5; --art-2: #A9E9CB; --art-3: #C8F1DE; --art-hi: #16A068; --art-hi2: #5CF0AE; --art-cool: #2BA9D6; --art-cool2: #BFE7F4;
+  --chip-sub1: #262626; --chip-sub2: #0C0C0C; --lid1: #FFFFFF; --lid2: #CFCFCF; --lid3: #6E6E6E; --pin1: #9A9A9A; --pin2: #3A3A3A;
+  --chip-trace: rgba(0,0,0,0.3); --chip-via: rgba(0,0,0,0.45); --chip-pulse: #0A0A0A; --chip-edge: rgba(0,0,0,0.45); --chip-cap: #D9D9D9; --chip-glow: rgba(0,0,0,0.25); --chip-ink: #0A0A0A; --chip-ink-soft: rgba(10,10,10,0.6);
+  --star: #111111; --star-glow: rgba(0,0,0,0.22); --star-blend: source-over; --fringe: 0;
+  color-scheme: light;
+  --gpu-stroke: rgba(255,255,255,0.85); --gpu-soft: rgba(255,255,255,0.4); --gpu-fin: rgba(255,255,255,0.45); --gpu-body: #0A0A0A; --gpu-lip1: #2A2A2A; --gpu-lip2: #111111;
+  --gpu-board: #262626; --gpu-end1: #1A1A1A; --gpu-end2: #333333; --gpu-port: #050505; --gpu-fingers: rgba(255,255,255,0.8); --gpu-shroud: #0E0E0E; --gpu-well: #050505;
+  --gpu-blade: rgba(255,255,255,0.06); --gpu-blade-line: rgba(255,255,255,0.7); --gpu-logo: #FFFFFF; --gpu-led: #FFFFFF; --gpu-glow: rgba(255,255,255,0.35);
+  --logo-glow-a: rgba(0,0,0,0.1); --logo-glow-b: rgba(0,0,0,0.18);
+  --pop: 22,160,104; --pop-ink: #0B7547;
+  --quote-ink: #7A7A7A; --quote-em: #0A0A0A;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #09090B; --surface: #121215; --line: #232329; --line-strong: #2E2E36; --line-hover: #3A3A44;
-    --ink: #F4F4F6; --muted: #A9A9B3; --faint: #8A8A93;
-    --accent: #4F72FF; --accent-ink: #9DB0FF; --on-accent: #FFFFFF;
-    --bar-base: #E4E4E7; --header-bg: rgba(9,9,11,0.82);
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #09090B; --surface: #121215; --line: #232329; --line-strong: #2E2E36; --line-hover: #3A3A44;
-  --ink: #F4F4F6; --muted: #A9A9B3; --faint: #8A8A93;
-  --accent: #4F72FF; --accent-ink: #9DB0FF; --on-accent: #FFFFFF;
-  --bar-base: #E4E4E7; --header-bg: rgba(9,9,11,0.82);
-  color-scheme: dark;
-}
-
 * { box-sizing: border-box; }
+/* rounded only where it carries meaning: controls, chart marks, dots */
+/* square everywhere; only the chart keeps rounded marks */
+.bar i { border-radius: 4px; }
+.sw { border-radius: 3px; }
 /* The design reads best at 90% on desktop; phones stay at 100%. */
 @media (min-width: 761px) { html { zoom: .9; } }
 html { scroll-behavior: smooth; }
-body {
-  margin: 0; background: var(--bg); color: var(--ink);
-  font-family: var(--body); font-weight: 400;
-  -webkit-font-smoothing: antialiased; overflow-x: hidden;
-  transition: background .25s ease, color .25s ease;
-}
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-weight: 300; -webkit-font-smoothing: antialiased; overflow-x: hidden; transition: background .25s ease, color .25s ease; }
 a { color: inherit; text-decoration: none; }
 svg { display: block; flex-shrink: 0; }
-.wrap { max-width: 1200px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+.wrap { max-width: 1280px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
 .center { text-align: center; }
 
-/* type */
-.eyebrow { font-family: var(--mono); font-weight: 300; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-ink); }
+.eyebrow { font-family: var(--mono); font-weight: 300; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--acc-ink); }
 .eyebrow.muted { color: var(--muted); }
-.h1 { font-family: var(--display); font-weight: 200; font-size: clamp(52px, 8.4vw, 124px); line-height: .98; letter-spacing: -.055em; margin: 32px auto 0; max-width: 1080px; }
-.h2 { font-family: var(--display); font-weight: 200; font-size: clamp(38px, 5vw, 68px); line-height: 1.02; letter-spacing: -.045em; margin: 20px 0 0; }
-.em { font-weight: inherit; color: var(--accent-ink); }
-.lede { font-size: 19px; line-height: 1.6; font-weight: 300; color: var(--muted); }
-.body { font-size: 17px; line-height: 1.7; font-weight: 300; color: var(--muted); margin: 0; }
-.small { font-size: 15px; line-height: 1.65; font-weight: 300; color: var(--muted); margin: 0; }
-.strong { color: var(--ink); font-weight: 500; }
+.h1 { margin: 0; font-family: var(--display); font-weight: 200; font-size: clamp(52px, 7.4vw, 112px); line-height: .98; letter-spacing: -.05em; color: var(--h1); }
+.h2 { margin: 0; font-family: var(--display); font-weight: 200; font-size: clamp(38px, 4.8vw, 64px); line-height: 1.02; letter-spacing: -.045em; }
+.h3 { margin: 0; font-family: var(--display); font-weight: 300; font-size: clamp(26px, 2.4vw, 32px); line-height: 1.15; letter-spacing: -.03em; }
+.em { color: var(--acc-ink); }
+.lede { font-size: 18px; line-height: 1.6; font-weight: 300; color: var(--ink-2); }
+.body { margin: 0; font-size: 17px; line-height: 1.7; font-weight: 300; color: var(--muted); }
+.small { margin: 0; font-size: 15px; line-height: 1.65; font-weight: 300; color: var(--muted); }
+.strong { color: var(--ink); font-weight: 400; }
 
-/* buttons */
-.btn { height: 52px; padding: 0 28px; display: inline-flex; align-items: center; gap: 10px; border-radius: 999px; font-size: 15px; font-weight: 400; transition: opacity .15s ease, transform .15s ease, border-color .15s ease; }
-.btn:hover { opacity: .88; }
-.btn-accent { background: var(--accent); color: var(--on-accent); font-weight: 500; }
-.btn-ink { background: var(--ink); color: var(--bg); }
-.btn-line { border: 1px solid var(--line-strong); color: var(--ink); }
-.btn-line:hover { border-color: var(--line-hover); opacity: 1; }
-.btn-sm { height: 44px; padding: 0 20px; font-size: 14px; gap: 8px; }
-.btn-md { height: 48px; padding: 0 22px; }
-.btns { display: flex; flex-wrap: wrap; gap: 12px; }
-.btns.center { justify-content: center; }
-.link { display: inline-flex; align-items: center; gap: 6px; font-weight: inherit; color: var(--accent-ink); }
-.link:hover { text-decoration: underline; text-underline-offset: 4px; }
+.btn { height: 48px; padding: 0 22px; display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 400; transition: background .15s ease, border-color .15s ease, color .15s ease; }
+.btn-white { background: var(--btn-bg); color: var(--btn-ink); gap: 12px; }
+.btn-white .mk-logo { color: var(--btn-ink); }
+.btn-white:hover { background: var(--btn-hover); }
+.btn-line { border: 1px solid var(--line-btn); color: var(--ink); }
+.btn-line:hover { border-color: var(--ink); background: var(--line-soft); }
+.btn-dark { background: var(--paper-ink); color: var(--paper-bg); }
+.btn-dark:hover { opacity: .88; }
+.btn-out { border: 1px solid var(--paper-ink); color: var(--paper-ink); }
+.btn-out:hover { background: var(--paper-soft); }
+.link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400; color: var(--ink); border-bottom: 1px solid transparent; padding-bottom: 2px; transition: color .15s ease, border-color .15s ease; }
+.link:hover { color: var(--acc-ink); border-color: var(--acc-ink); }
 
-/* header */
-header.top { position: sticky; top: 0; z-index: 20; background: var(--header-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
-header.top .wrap { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.logo { display: flex; align-items: center; gap: 10px; }
-.logo-mark { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--accent); display: flex; align-items: center; justify-content: center; }
-.logo-mark span { width: 8px; height: 8px; border-radius: 2px; background: var(--accent); }
-.logo-word { font-family: var(--display); font-size: 18px; letter-spacing: -.02em; }
-nav.primary { display: flex; gap: 32px; font-size: 14px; color: var(--muted); }
+header.top { position: fixed; top: 0; left: 0; right: 0; z-index: 30; background: var(--header-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: background .2s ease; }
+header.top.scrolled { background: var(--header-bg-s); }
+header.top .hbar { border-bottom: 1px solid var(--line); }
+header.top .hbar .wrap { height: 54px; display: flex; align-items: stretch; justify-content: space-between; }
+.brand { display: flex; align-items: stretch; }
+.brand .cell { display: flex; align-items: center; padding-left: 0; padding-right: 20px; border-right: 1px solid var(--line); }
+.brand .cell svg { height: 18px; width: auto; color: var(--ink); }
+.brand .word { display: flex; align-items: center; padding-left: 16px; font-family: var(--display); font-size: 19px; font-weight: 300; letter-spacing: -.03em; }
+nav.primary { display: flex; align-items: stretch; gap: 28px; font-size: 14px; font-weight: 300; }
+nav.primary a { color: var(--nav-ink); display: flex; align-items: center; }
+nav.primary .theme-toggle { margin-left: 4px; }
+nav.primary .theme-toggle + .cta { margin-left: -28px; }
 nav.primary a:hover { color: var(--ink); }
-.head-right { display: flex; align-items: center; gap: 10px; }
-.theme-toggle { width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color .15s ease; }
-.theme-toggle:hover { border-color: var(--line-hover); }
-.theme-toggle .moon { display: block; } .theme-toggle .sun { display: none; }
-:root[data-theme="dark"] .theme-toggle .moon { display: none; }
-:root[data-theme="dark"] .theme-toggle .sun { display: block; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle .moon { display: none; }
-  :root:not([data-theme="light"]) .theme-toggle .sun { display: block; }
-}
-@media (max-width: 760px) { nav.primary { display: none; } }
+nav.primary a.cta { align-self: stretch; padding: 0 26px; display: flex; align-items: center; background: var(--btn-bg); color: var(--btn-ink); font-weight: 400; }
+nav.primary a.cta:hover { background: var(--btn-hover); }
+.theme-toggle { width: 54px; align-self: stretch; display: flex; align-items: center; justify-content: center; background: transparent; color: var(--ink); border: 0; border-left: 1px solid var(--line); cursor: pointer; margin: 0; padding: 0; }
+.theme-toggle:hover { background: var(--line-soft); }
+.theme-toggle:focus-visible, .btn:focus-visible, .copy:focus-visible { outline: 2px solid var(--acc-ink); outline-offset: 2px; }
+.theme-toggle .sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .sun { display: block; } :root[data-theme="dark"] .theme-toggle .moon { display: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .theme-toggle .sun { display: block; } :root:not([data-theme="light"]) .theme-toggle .moon { display: none; } }
+@media (max-width: 900px) { nav.primary a:not(.cta) { display: none; } nav.primary { gap: 22px; } }
+.status { border-bottom: 1px solid var(--line); font-family: var(--mono); font-weight: 300; font-size: 11px; letter-spacing: .06em; color: var(--status-ink); background: var(--status-bg); }
+.status .wrap { min-height: 36px; padding-top: 6px; padding-bottom: 6px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 22px; text-align: center; }
+.status .dot { width: 7px; height: 7px; background: rgb(var(--acc)); display: inline-block; margin-right: 8px; vertical-align: middle; box-shadow: 0 0 8px rgba(var(--acc), .8); }
 
-/* sections */
-section { padding-top: clamp(96px, 11vw, 152px); }
-.split { display: flex; flex-wrap: wrap; gap: 40px 72px; }
+.hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--bg); }
+.hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 30% 24% at 50% 55%, rgba(var(--scrim),0.45), rgba(var(--scrim),0) 100%), linear-gradient(to bottom, rgba(var(--scrim),0) 80%, var(--bg) 100%); }
+.hero-inner { position: relative; z-index: 2; text-align: center; padding: 130px 24px 40px; max-width: 980px; }
+.hero .h1 { margin-top: 24px; }
+.hero .lede { margin: 28px auto 0; max-width: 700px; }
+.hero .btns { margin-top: 40px; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+.strip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.strip .wrap { padding-top: 22px; padding-bottom: 22px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 36px; font-family: var(--display); font-weight: 300; font-size: 17px; color: var(--muted); }
+.strip .sep { color: var(--sep); }
+
+section.block { padding-top: clamp(96px, 11vw, 152px); }
+.split { display: flex; flex-wrap: wrap; align-items: center; gap: 48px 80px; }
 .split > * { flex: 1 1 440px; min-width: 0; }
-.cards { display: flex; flex-wrap: wrap; gap: 16px; }
-.card { flex: 1 1 300px; min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 36px; transition: border-color .2s ease, background .25s ease; }
-.card:hover { border-color: var(--line-hover); }
-.card.accent { border-color: var(--accent); }
-.card h3 { font-family: var(--display); font-weight: 300; font-size: 26px; letter-spacing: -.03em; margin: 48px 0 0; }
-.card h3.big { font-size: 40px; letter-spacing: -.04em; margin-top: 64px; }
-.card p { margin: 10px 0 0; }
-.ico { color: var(--accent); }
 
-/* hero */
-.hero { padding-top: clamp(72px, 9vw, 128px); }
-.hero .lede { max-width: 580px; margin: 36px auto 0; }
-.hero .btns { margin-top: 44px; }
-.chart-card { margin: 96px auto 0; max-width: 1000px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 32px; text-align: left; }
-.chart-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 16px; }
-.chart-title { font-family: var(--display); font-weight: 300; font-size: 22px; letter-spacing: -.02em; }
-.legend { display: flex; gap: 20px; font-size: 13px; color: var(--muted); }
-.legend span { display: flex; align-items: center; gap: 8px; }
-.swatch { width: 12px; height: 12px; border-radius: 3px; }
-.bars { margin-top: 32px; height: 220px; display: flex; align-items: stretch; gap: 6px; }
-.bar { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-.bar i { display: block; border-radius: 6px; }
-.bar .zf { background: var(--accent); }
-.bar .inf { background: var(--bar-base); }
-.axis { margin-top: 14px; display: flex; justify-content: space-between; font-family: var(--mono); font-weight: 300; font-size: 12px; color: var(--faint); }
-.chart-note { margin-top: 16px; font-size: 13px; font-weight: 300; color: var(--muted); }
-@media (max-width: 560px) { .bars { gap: 3px; height: 180px; } .chart-card { padding: 22px; } }
+.tile { position: relative; aspect-ratio: 16 / 10; max-width: 100%; overflow: hidden; background: radial-gradient(ellipse 60% 70% at 50% 50%, var(--tile-1) 0%, var(--tile-2) 55%, var(--tile-3) 100%); border: 1px solid var(--line-soft); display: flex; align-items: center; justify-content: center; }
+.tile::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(var(--acc),0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--acc),0.08) 1px, transparent 1px); background-size: 32px 32px; mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, #000, transparent); -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, #000, transparent); }
+.tile .cpu { position: relative; width: 100%; height: 100%; }
+.tile .cpu .pulse { stroke-dasharray: 16 900; animation: cpuRun 3.2s linear infinite; }
+@keyframes cpuRun { from { stroke-dashoffset: 16; } to { stroke-dashoffset: -420; } }
+.gpu-tile { display: block; border: 0; overflow: visible; background: radial-gradient(closest-side at 50% 50%, var(--tile-1) 0%, var(--tile-2) 50%, transparent 100%); }
+.gpu-tile::before { display: none; }
+.gpu-stage { position: absolute; inset: 0; perspective: 2000px; perspective-origin: 50% 30%; }
+.gpu-float { position: absolute; left: 51%; top: 47%; width: 0; height: 0; transform-style: preserve-3d; animation: gpuBob 7s ease-in-out infinite; }
+@keyframes gpuBob { 0%, 100% { transform: translateY(6px); } 50% { transform: translateY(-8px); } }
+.gpu-group { position: absolute; left: 0; top: 0; width: 0; height: 0; transform-style: preserve-3d; transform: scale(var(--s, 0.5)) rotateX(56deg) rotateZ(-30deg); }
+.gpu3d { position: absolute; left: -430px; top: -142px; width: 860px; height: 284px; transform-style: preserve-3d; transform: translate3d(calc((var(--i) - 2) * 150px), calc((var(--i) - 2) * -70px), calc((var(--i) - 2) * 120px)); }
+.gface { position: absolute; left: 50%; top: 50%; }
+.g-top { width: 860px; height: 284px; margin: -142px 0 0 -430px; transform: translateZ(38px); }
+.g-top svg, .g-rim svg { display: block; width: 100%; height: 100%; filter: drop-shadow(0 0 4px var(--gpu-glow)); }
+.g-rim { width: 860px; height: 284px; margin: -142px 0 0 -430px; transform: translateZ(47px); pointer-events: none; }
+.g-front { width: 822px; height: 76px; margin: -38px 0 0 -418px; transform: translateY(142px) rotateX(-90deg); background: repeating-linear-gradient(90deg, var(--gpu-fin) 0 1px, var(--gpu-body) 1px 7px); border-top: 1px solid var(--gpu-stroke); box-shadow: inset 0 -14px 18px rgba(0,0,0,0.65); }
+.g-front .g-lip { position: absolute; left: 0; right: 0; top: 0; height: 9px; background: linear-gradient(var(--gpu-lip1), var(--gpu-lip2)); border-bottom: 1px solid var(--gpu-soft); }
+.g-front .g-board { position: absolute; left: 0; right: 0; bottom: 0; height: 7px; background: var(--gpu-board); border-top: 1px solid var(--gpu-soft); }
+.g-end { width: 112px; height: 304px; margin: -152px 0 0 -56px; transform: translateX(-431px) translateZ(-18px) rotateY(-90deg); background: linear-gradient(90deg, var(--gpu-end1), var(--gpu-end2)); border: 1px solid var(--gpu-stroke); display: flex; flex-direction: column; justify-content: center; gap: 10px; padding: 0 22px; }
+.g-end i { display: block; height: 34px; border: 1px solid var(--gpu-soft); background: var(--gpu-port); }
+.g-end i.s { height: 22px; }
+.g-pcb { width: 560px; height: 26px; margin: 128px 0 0 -250px; transform: translateZ(-34px); background: var(--gpu-board); border: 1px solid var(--gpu-soft); }
+.g-pcb .g-fingers { position: absolute; left: 30px; right: 20px; bottom: 2px; height: 12px; background: repeating-linear-gradient(90deg, var(--gpu-fingers) 0 3px, transparent 3px 6px); }
+.g-shroud { fill: var(--gpu-shroud); stroke: var(--gpu-stroke); stroke-width: 1.6; }
+.g-soft { stroke: var(--gpu-soft); stroke-width: 1; fill: none; }
+.g-led { stroke: var(--gpu-led); stroke-width: 3; animation: ledPulse 3.5s ease-in-out infinite; }
+@keyframes ledPulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+.g-text { font-family: var(--mono); font-size: 10px; letter-spacing: 4px; fill: var(--gpu-soft); }
+.g-rotor { animation: gpuSpin 1.6s linear infinite; }
+@keyframes gpuSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .gpu-float, .g-rotor, .g-led { animation: none; } }
 
-.strip { padding-top: 80px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 40px; font-family: var(--display); font-weight: 300; font-size: 18px; color: var(--muted); }
-.strip .sep { color: var(--line-hover); }
+.logo-tile { display: flex; align-items: center; justify-content: center; }
+.tile-logo { position: relative; width: 56%; height: auto; color: var(--ink); animation: logoGlow 5s ease-in-out infinite; }
+@keyframes logoGlow { 0%, 100% { filter: drop-shadow(0 0 14px var(--logo-glow-a)); } 50% { filter: drop-shadow(0 0 30px var(--logo-glow-b)); } }
+@media (prefers-reduced-motion: reduce) { .tile-logo { animation: none; filter: drop-shadow(0 0 20px var(--logo-glow-a)); } }
 
-/* rule rows */
 .rule-row { display: flex; flex-wrap: wrap; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 64px; }
-.rule-row div { flex: 1 1 300px; padding: 32px 0; display: flex; align-items: center; gap: 16px; font-family: var(--display); font-size: 24px; font-weight: 300; letter-spacing: -.02em; }
-.vs-row { display: flex; align-items: baseline; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.rule-row div { flex: 1 1 280px; padding: 28px 0; display: flex; align-items: center; gap: 16px; font-family: var(--display); font-size: 24px; font-weight: 300; letter-spacing: -.02em; }
+.rule-row .ico { color: var(--acc-ink); }
+
+.chart { background: var(--surface); border: 1px solid var(--line); padding: 28px; }
+.chart-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px; }
+.chart-title { font-family: var(--display); font-weight: 300; font-size: 20px; letter-spacing: -.02em; }
+.legend { display: flex; gap: 18px; font-size: 13px; color: var(--muted); }
+.legend span { display: flex; align-items: center; gap: 8px; }
+.sw { width: 12px; height: 12px; display: inline-block; }
+.sw.inf, .bar .inf { background: var(--bar-inf); }
+.sw.zf, .bar .zf { background: rgb(var(--pop)); }
+.sec-gpu .eyebrow { color: var(--pop-ink); }
+.bars { margin-top: 28px; height: 220px; display: flex; align-items: stretch; gap: 5px; }
+.bar { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.bar i { display: block; }
+.axis { margin-top: 12px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; color: var(--faint); }
+.note { margin-top: 14px; font-size: 13px; line-height: 1.6; color: var(--faint); }
+@media (max-width: 560px) { .bars { height: 170px; gap: 2px; } .chart { padding: 20px; } }
+.duo { margin-top: 32px; display: flex; flex-wrap: wrap; border: 1px solid var(--line); }
+.duo > div { flex: 1 1 220px; padding: 22px 24px; }
+.duo > div + div { border-left: 1px solid var(--line); }
+.duo .t { font-family: var(--display); font-size: 22px; font-weight: 300; letter-spacing: -.02em; display: flex; align-items: center; gap: 10px; }
+.duo .small { margin-top: 8px; }
+@media (max-width: 520px) { .duo > div + div { border-left: 0; border-top: 1px solid var(--line); } }
+
+.vs-row { display: flex; align-items: baseline; gap: 16px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+.vs-row:first-child { border-top: 1px solid var(--line); }
 .vs-row .tag { font-family: var(--mono); font-weight: 300; font-size: 12px; width: 96px; flex-shrink: 0; color: var(--faint); }
-.vs-row .tag.on { color: var(--accent-ink); }
-.vs-row .val { font-family: var(--display); font-size: 24px; letter-spacing: -.02em; }
-.vs-row .val.off { font-weight: 300; color: var(--faint); text-decoration: line-through; text-decoration-thickness: 1px; }
+.vs-row .tag.on { color: var(--acc-ink); }
+.vs-row .val { font-family: var(--display); font-size: 24px; font-weight: 300; letter-spacing: -.02em; }
+.vs-row .val.off { color: var(--faint); text-decoration: line-through; text-decoration-thickness: 1px; }
+.tcards { margin-top: 64px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.tcard { background: var(--surface); border: 1px solid var(--line); padding: 36px; transition: border-color .2s ease; }
+.tcard:hover { border-color: rgba(var(--acc),0.5); }
+.tcard .ico { color: var(--acc-ink); display: block; }
+.tcard h3 { margin: 48px 0 0; font-family: var(--display); font-weight: 300; font-size: 26px; letter-spacing: -.03em; }
+.tcard .small { margin-top: 10px; }
+@media (max-width: 960px) { .tcards { grid-template-columns: 1fr; } }
 .num-list { border-top: 1px solid var(--line); }
 .num-list > div { display: flex; gap: 24px; padding: 26px 0; border-bottom: 1px solid var(--line); }
-.num-list .n { font-family: var(--mono); font-weight: 300; font-size: 12px; color: var(--faint); padding-top: 6px; }
-.num-list .t { font-family: var(--display); font-size: 22px; letter-spacing: -.02em; }
+.num-list .n { font-family: var(--mono); font-weight: 300; font-size: 12px; color: var(--acc-ink); padding-top: 7px; }
+.num-list .t { font-family: var(--display); font-size: 22px; font-weight: 300; letter-spacing: -.02em; }
 .num-list .small { margin-top: 6px; }
 
-.grid-cells { display: flex; flex-wrap: wrap; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; margin-top: 64px; }
-.grid-cells > div { flex: 1 1 300px; min-width: 0; background: var(--surface); padding: 40px; }
-.grid-cells .tag { font-family: var(--mono); font-weight: 300; font-size: 12px; color: var(--accent-ink); }
-.grid-cells h3 { font-family: var(--display); font-weight: 200; font-size: 44px; letter-spacing: -.045em; margin: 16px 0 0; }
-.grid-cells p { margin-top: 14px; }
+.band { margin-top: clamp(96px, 11vw, 152px); background: var(--band-bg); color: var(--band-ink); }
+.band .wrap { padding-top: clamp(64px, 8vw, 112px); padding-bottom: clamp(64px, 8vw, 112px); }
+.band blockquote { margin: 0; max-width: 1040px; font-family: var(--display); font-size: clamp(32px, 4.4vw, 60px); line-height: 1.06; letter-spacing: -.035em; font-weight: 200; }
+.band blockquote b { font-weight: 400; }
+.band .by { margin-top: 28px; font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--band-sub); }
 
-.panel { border: 1px solid var(--line); background: var(--surface); border-radius: 32px; padding: clamp(32px, 6vw, 80px); display: flex; flex-wrap: wrap; gap: 40px 80px; align-items: flex-end; }
-.panel > :first-child { flex: 1.3 1 520px; min-width: 0; }
-.panel > :last-child { flex: 1 1 300px; min-width: 0; }
-.panel .quote { margin: 0; font-family: var(--display); font-size: 26px; line-height: 1.25; letter-spacing: -.025em; font-weight: 300; }
+.paper { background: var(--paper-bg); color: var(--paper-ink); padding: clamp(96px, 11vw, 150px) 0; }
+.paper .eyebrow { color: var(--paper-acc); }
+.paper .h2 { margin-top: 18px; }
+.paper .body { color: var(--paper-muted); }
+.hw { margin-top: 56px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.hw > div { border: 1px solid var(--paper-line); padding: 26px; display: flex; flex-direction: column; transition: border-color .15s ease; }
+.hw > div:hover { border-color: var(--paper-hover); }
+.hw .tag { font-family: var(--mono); font-size: 12px; color: var(--paper-acc); }
+.hw h3 { margin: 40px 0 0; font-family: var(--display); font-weight: 200; font-size: 38px; letter-spacing: -.045em; }
+.hw .small { color: var(--paper-muted); margin-top: 10px; font-size: 14px; }
+.hw .stat { margin-top: auto; padding-top: 22px; font-family: var(--mono); font-size: 13px; line-height: 1.7; color: var(--paper-ink); }
+.hw .stat b { font-weight: 400; color: var(--paper-acc); }
+@media (max-width: 1080px) { .hw { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .hw { grid-template-columns: 1fr; } }
+.scroll-x { overflow-x: auto; margin-top: 48px; border: 1px solid var(--paper-line); }
+.mtable { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 15px; }
+.mtable th, .mtable td { text-align: left; padding: 16px 20px; border-bottom: 1px solid var(--paper-line); font-weight: 300; }
+.mtable tr:last-child td { border-bottom: 0; }
+.mtable th { background: var(--th-bg); color: var(--th-ink); font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; font-weight: 300; }
+.mtable td.n { font-family: var(--mono); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.mtable tr.hl td:first-child { font-weight: 400; }
+.paper .note { color: var(--paper-muted); }
+.paper .ctas { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 12px; }
 
-.big-links { margin-top: 56px; border-top: 1px solid var(--line); }
-.big-links a { display: flex; align-items: center; gap: 20px; padding: 28px 0; border-bottom: 1px solid var(--line); transition: padding .2s ease; }
-.big-links a:hover { padding-left: 8px; }
-.big-links a:hover .bl-title { color: var(--accent-ink); }
-.bl-title { flex: 1; font-family: var(--display); font-size: clamp(28px, 3.4vw, 44px); letter-spacing: -.04em; font-weight: 200; transition: color .2s ease; }
-.bl-sub { font-size: 15px; font-weight: 300; color: var(--muted); }
-@media (max-width: 560px) { .bl-sub { display: none; } }
+.ops { display: flex; flex-wrap: wrap; border: 1px solid var(--line); }
+.ops > div { padding: clamp(28px, 5vw, 56px); }
+.ops > div:first-child { flex: 1.4 1 520px; min-width: 0; }
+.ops > div:last-child { flex: 1 1 320px; min-width: 0; border-left: 1px solid var(--line); background: radial-gradient(ellipse 80% 90% at 100% 100%, rgba(var(--pop),0.2), rgba(var(--pop),0) 70%); display: flex; flex-direction: column; justify-content: space-between; gap: 32px; }
+.ops .quote { color: var(--quote-ink); }
+.ops .quote .em { color: var(--quote-em); }
+.ops .quote { margin: 0; font-family: var(--display); font-size: 28px; line-height: 1.2; letter-spacing: -.025em; font-weight: 200; }
+@media (max-width: 900px) { .ops > div:last-child { border-left: 0; border-top: 1px solid var(--line); } }
 
-.final { padding-top: clamp(120px, 14vw, 200px); padding-bottom: clamp(96px, 11vw, 152px); }
-.final .h1 { font-size: clamp(52px, 8vw, 120px); margin-top: 0; }
+.cmd { margin-top: 48px; background: var(--surface); border: 1px solid var(--line); }
+.cmd + .cmd { margin-top: 16px; }
+.cmd-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-weight: 300; font-size: 12px; color: var(--faint); }
+.cmd pre { margin: 0; padding: 22px 20px; overflow-x: auto; font-family: var(--mono); font-weight: 300; font-size: 13.5px; line-height: 1.75; color: var(--ink-2); }
+.cmd pre .c { color: var(--faint); }
+.copy { font-family: var(--mono); font-size: 12px; border: 1px solid var(--line); background: transparent; color: var(--ink); padding: 6px 14px; cursor: pointer; transition: border-color .15s ease, color .15s ease; }
+.copy:hover { border-color: var(--acc-ink); color: var(--acc-ink); }
+
+.ocards { margin-top: 48px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.ocard { border: 1px solid var(--line); overflow: hidden; background: var(--surface); transition: border-color .2s ease; display: flex; flex-direction: column; }
+.ocard:hover { border-color: var(--faint); }
+.ocard .art { height: 170px; position: relative; overflow: hidden; }
+.ocard .art.a1 { background: radial-gradient(circle at 80% 110%, var(--art-hi) 0%, var(--art-2) 30%, var(--art-end) 70%); }
+.ocard .art.a2 { background: radial-gradient(circle at 20% -10%, var(--art-hi2) 0%, var(--art-3) 28%, var(--art-end) 70%); }
+.ocard .art.a3 { background: radial-gradient(circle at 110% 40%, var(--art-cool) 0%, var(--art-cool2) 26%, var(--art-end) 66%); }
+.ocard .art.a4 { background: radial-gradient(circle at 40% 130%, var(--art-hi2) 0%, var(--art-2) 26%, var(--art-end) 66%); }
+.ocard .art span { position: absolute; left: 22px; bottom: 18px; right: 22px; font-family: var(--display); font-size: 24px; font-weight: 300; letter-spacing: -.02em; line-height: 1.15; }
+.ocard .body2 { padding: 18px 22px 22px; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; color: var(--muted); font-size: 14px; line-height: 1.5; flex: 1; }
+.ocard:hover .body2 svg { color: var(--ink); }
+@media (max-width: 1080px) { .ocards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .ocards { grid-template-columns: 1fr; } }
+
+.final { padding: clamp(120px, 14vw, 200px) 0 clamp(96px, 11vw, 152px); }
+.final .lede { margin: 24px auto 0; }
+.final .btns { margin-top: 40px; display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
 
 footer { border-top: 1px solid var(--line); }
 footer .wrap { padding-top: 48px; padding-bottom: 48px; }
-.foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; }
-.foot-nav { display: flex; flex-wrap: wrap; gap: 10px 24px; font-size: 14px; font-weight: 300; color: var(--muted); }
-.foot-nav a:hover { color: var(--ink); }
-.legal { margin: 32px 0 0; font-size: 12px; line-height: 1.6; font-weight: 300; color: var(--faint); }
+.frow { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; }
+.fnav { display: flex; flex-wrap: wrap; gap: 10px 26px; font-size: 14px; color: var(--muted); }
+.fnav a:hover { color: var(--ink); }
+.legal { margin: 32px 0 0; font-size: 12px; line-height: 1.6; color: var(--faint); max-width: 920px; }
 
-.logo-svg { height: 20px; width: auto; color: var(--ink); display: block; }
-.status { border-bottom: 1px solid var(--line); font-family: var(--mono); font-weight: 300; font-size: 12px; letter-spacing: .06em; color: var(--muted); }
-.status .wrap { min-height: 36px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 18px; text-align: center; }
-.status .dot { width: 7px; height: 7px; border-radius: 99px; background: var(--accent); display: inline-block; margin-right: 8px; vertical-align: middle; }
-.grid-cells .stat { font-family: var(--mono); font-weight: 300; font-size: 13px; color: var(--ink); margin-top: 18px; line-height: 1.7; }
-.grid-cells .stat b { font-weight: inherit; color: var(--accent-ink); }
-.cmd { margin-top: 56px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; }
-.cmd-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 24px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-weight: 300; font-size: 12px; color: var(--faint); }
-.cmd pre { margin: 0; padding: 24px; overflow-x: auto; font-family: var(--mono); font-weight: 300; font-size: 13.5px; line-height: 1.75; color: var(--ink); }
-.cmd pre .c { color: var(--faint); }
-.copy { font-family: var(--mono); font-size: 12px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
-.copy:hover { border-color: var(--line-hover); }
-.mtable { width: 100%; border-collapse: collapse; margin-top: 56px; font-size: 15px; }
-.mtable th, .mtable td { text-align: left; padding: 16px 12px 16px 0; border-bottom: 1px solid var(--line); font-weight: 300; }
-.mtable th { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); font-weight: 300; }
-.mtable td.n { font-family: var(--mono); color: var(--ink); white-space: nowrap; }
-.mtable tr.hl td { color: var(--ink); }
-.scroll-x { overflow-x: auto; }
-.note { margin-top: 20px; font-size: 13px; line-height: 1.6; font-weight: 300; color: var(--faint); }
-.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.grid-4 > div { padding: 32px 28px; }
-.grid-4 h3 { font-size: 36px; }
-@media (max-width: 1080px) { .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 600px) { .grid-4 { grid-template-columns: 1fr; } }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } .tile .cpu .pulse { animation: none; opacity: 0; } }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="zf-logo" viewBox="0 0 869 572"><path fill="currentColor" d="M274.2 564.7 L8.0 565.0 L8.0 564.5 L8.0 563.9 L20.3 548.2 L32.6 532.5 L37.7 526.0 L42.9 519.5 L62.1 495.0 L81.4 470.5 L92.1 457.0 L102.7 443.5 L111.4 432.5 L120.0 421.5 L129.8 409.1 L139.5 396.6 L151.1 382.1 L162.6 367.5 L168.8 359.5 L174.9 351.5 L187.6 335.5 L200.2 319.5 L212.3 304.0 L224.4 288.5 L236.3 273.5 L248.1 258.5 L258.8 245.0 L269.4 231.5 L282.5 215.0 L295.6 198.5 L305.1 186.5 L314.6 174.5 L329.3 155.8 L344.0 137.2 L344.0 136.5 L344.0 135.9 L302.2 136.4 L260.5 137.0 L154.1 137.6 L47.8 138.1 L49.8 135.3 L51.8 132.5 L88.4 84.5 L125.0 36.5 L135.8 22.3 L146.5 8.1 L504.2 8.1 L862.0 8.0 L862.0 8.5 L862.0 9.1 L855.0 19.0 L848.0 29.0 L840.9 39.0 L833.9 49.1 L825.8 60.3 L817.6 71.5 L809.2 83.5 L800.8 95.5 L793.7 105.8 L786.6 116.0 L649.5 116.0 L512.3 116.0 L510.3 118.2 L508.2 120.5 L498.1 133.5 L487.9 146.5 L482.7 153.0 L477.5 159.5 L467.0 173.0 L456.5 186.5 L447.5 197.9 L438.5 209.2 L398.5 259.4 L358.5 309.5 L334.0 340.4 L309.5 371.2 L272.8 417.3 L236.0 463.4 L236.0 464.2 L236.0 465.0 L322.5 465.0 L409.0 465.0 L409.0 390.4 L409.0 315.9 L414.9 308.2 L420.8 300.5 L435.7 281.5 L450.6 262.5 L465.0 244.0 L479.5 225.5 L486.0 216.8 L492.5 208.1 L665.2 208.0 L838.0 208.0 L838.0 208.6 L838.0 209.1 L817.6 236.3 L797.2 263.5 L785.6 279.0 L774.0 294.5 L765.4 305.8 L756.9 317.0 L649.0 317.0 L541.0 317.0 L540.8 440.8 L540.5 564.5 L274.2 564.7 Z"/></symbol></svg>
 
-<header class="top">
-  <div class="wrap">
-    <a href="#top" class="logo" aria-label="ZeroFlux home">
-      <svg class="logo-svg" viewBox="0 0 869 572" fill="currentColor" aria-hidden="true"><path d="M274.2 564.7 L8.0 565.0 L8.0 564.5 L8.0 563.9 L20.3 548.2 L32.6 532.5 L37.7 526.0 L42.9 519.5 L62.1 495.0 L81.4 470.5 L92.1 457.0 L102.7 443.5 L111.4 432.5 L120.0 421.5 L129.8 409.1 L139.5 396.6 L151.1 382.1 L162.6 367.5 L168.8 359.5 L174.9 351.5 L187.6 335.5 L200.2 319.5 L212.3 304.0 L224.4 288.5 L236.3 273.5 L248.1 258.5 L258.8 245.0 L269.4 231.5 L282.5 215.0 L295.6 198.5 L305.1 186.5 L314.6 174.5 L329.3 155.8 L344.0 137.2 L344.0 136.5 L344.0 135.9 L302.2 136.4 L260.5 137.0 L154.1 137.6 L47.8 138.1 L49.8 135.3 L51.8 132.5 L88.4 84.5 L125.0 36.5 L135.8 22.3 L146.5 8.1 L504.2 8.1 L862.0 8.0 L862.0 8.5 L862.0 9.1 L855.0 19.0 L848.0 29.0 L840.9 39.0 L833.9 49.1 L825.8 60.3 L817.6 71.5 L809.2 83.5 L800.8 95.5 L793.7 105.8 L786.6 116.0 L649.5 116.0 L512.3 116.0 L510.3 118.2 L508.2 120.5 L498.1 133.5 L487.9 146.5 L482.7 153.0 L477.5 159.5 L467.0 173.0 L456.5 186.5 L447.5 197.9 L438.5 209.2 L398.5 259.4 L358.5 309.5 L334.0 340.4 L309.5 371.2 L272.8 417.3 L236.0 463.4 L236.0 464.2 L236.0 465.0 L322.5 465.0 L409.0 465.0 L409.0 390.4 L409.0 315.9 L414.9 308.2 L420.8 300.5 L435.7 281.5 L450.6 262.5 L465.0 244.0 L479.5 225.5 L486.0 216.8 L492.5 208.1 L665.2 208.0 L838.0 208.0 L838.0 208.6 L838.0 209.1 L817.6 236.3 L797.2 263.5 L785.6 279.0 L774.0 294.5 L765.4 305.8 L756.9 317.0 L649.0 317.0 L541.0 317.0 L540.8 440.8 L540.5 564.5 L274.2 564.7 Z"/></svg>
-      <span class="logo-word">ZeroFlux</span>
-    </a>
-    <nav class="primary" aria-label="Primary">
-      <a href="#tech">Technology</a><a href="#mining">Mining</a><a href="#network">NEAR</a><a href="#run">Run it</a><a href="/docs/">Docs</a>
-    </nav>
-    <div class="head-right">
-      <button class="theme-toggle" type="button" aria-label="Toggle dark mode" id="themeToggle">
-        <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-        <svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-      </button>
-      <a href="#run" class="btn btn-ink btn-sm">Start Mining<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+<header class="top" id="top-header">
+  <div class="status"><div class="wrap"><span><span class="dot"></span>Testnet</span><span>Mainnet not launched</span><span>Testnet ZFX has no monetary value</span></div></div>
+  <div class="hbar">
+    <div class="wrap">
+      <a href="#top" class="brand" aria-label="ZeroFlux home">
+        <span class="cell"><svg viewBox="0 0 869 572" aria-hidden="true"><use href="#zf-logo"/></svg></span>
+        <span class="word">ZeroFlux</span>
+      </a>
+      <nav class="primary" aria-label="Primary">
+        <a href="#tech">Technology</a><a href="#mining">Mining</a><a href="#network">NEAR</a><a href="#run">Run it</a><a href="/docs/">Docs</a>
+        <button class="theme-toggle" type="button" id="themeToggle" aria-label="Switch light or dark mode">
+          <svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          <svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+        </button>
+        <a href="#run" class="cta">Start Mining</a>
+      </nav>
     </div>
   </div>
 </header>
-<div class="status"><div class="wrap"><span><span class="dot"></span>Testnet</span><span>Mainnet not launched</span><span>Testnet ZFX has no monetary value</span></div></div>
 
 <main>
 
 <!-- HERO -->
-<section id="top" class="hero wrap center">
-  <div class="eyebrow muted">Compute-native mining on NEAR</div>
-  <h1 class="h1">Proof of work for <span class="em">AI hardware.</span></h1>
-  <p class="lede">ZeroFlux is a proof-of-work network on NEAR. ZFX is its token, created only by mining with AI hardware: NVIDIA and AMD data-center GPUs, Apple Silicon or any CPU. NEAR keeps the ledger and referees every block.</p>
-  <div class="btns center">
-    <a href="#run" class="btn btn-accent">Start Mining<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-    <a href="#tech" class="btn btn-line">Explore the Technology</a>
-  </div>
-
-  <div class="chart-card">
-    <div class="chart-head">
-      <div class="chart-title">One GPU, 24 hours</div>
-      <div class="legend">
-        <span><span class="swatch" style="background: var(--bar-base)"></span>Inference</span>
-        <span><span class="swatch" style="background: var(--accent)"></span>ZeroFlux</span>
-      </div>
+<section class="hero" id="top">
+  <canvas id="heroCanvas" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div class="eyebrow muted">Compute-native mining on NEAR</div>
+    <h1 class="h1">Proof of work for <span class="em">AI hardware.</span></h1>
+    <p class="lede">ZeroFlux is a proof-of-work network on NEAR. ZFX is its token, created only by mining with AI hardware: NVIDIA and AMD data-center GPUs, Apple Silicon or any CPU. NEAR keeps the ledger and referees every block.</p>
+    <div class="btns">
+      <a href="#run" class="btn btn-white"><svg class="mk-logo" width="24" height="16" viewBox="0 0 869 572" aria-hidden="true"><use href="#zf-logo"/></svg>Start Mining</a>
+      <a href="#tech" class="btn btn-line">Explore the Technology</a>
     </div>
-    <div class="bars" role="img" aria-label="Illustrative chart: inference demand rises and falls over 24 hours, and ZeroFlux fills the remaining GPU capacity each hour.">
-      <div class="bar"><i class="zf" style="flex:68 1 0"></i><i class="inf" style="flex:32 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:74 1 0"></i><i class="inf" style="flex:26 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:78 1 0"></i><i class="inf" style="flex:22 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:80 1 0"></i><i class="inf" style="flex:20 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:78 1 0"></i><i class="inf" style="flex:22 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:70 1 0"></i><i class="inf" style="flex:30 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:56 1 0"></i><i class="inf" style="flex:44 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:42 1 0"></i><i class="inf" style="flex:58 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:30 1 0"></i><i class="inf" style="flex:70 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:22 1 0"></i><i class="inf" style="flex:78 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:16 1 0"></i><i class="inf" style="flex:84 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:12 1 0"></i><i class="inf" style="flex:88 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:14 1 0"></i><i class="inf" style="flex:86 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:18 1 0"></i><i class="inf" style="flex:82 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:20 1 0"></i><i class="inf" style="flex:80 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:16 1 0"></i><i class="inf" style="flex:84 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:12 1 0"></i><i class="inf" style="flex:88 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:10 1 0"></i><i class="inf" style="flex:90 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:20 1 0"></i><i class="inf" style="flex:80 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:32 1 0"></i><i class="inf" style="flex:68 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:44 1 0"></i><i class="inf" style="flex:56 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:52 1 0"></i><i class="inf" style="flex:48 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:60 1 0"></i><i class="inf" style="flex:40 1 0"></i></div>
-      <div class="bar"><i class="zf" style="flex:64 1 0"></i><i class="inf" style="flex:36 1 0"></i></div>
-    </div>
-    <div class="axis"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
-    <div class="chart-note">Illustrative. Inference demand fluctuates; ZeroFlux can use the capacity in between.</div>
   </div>
 </section>
 
-<div class="wrap strip">
+<div class="strip"><div class="wrap">
   <span>NVIDIA CUDA</span><span class="sep" aria-hidden="true">/</span><span>AMD ROCm</span><span class="sep" aria-hidden="true">/</span><span>Apple Silicon (MLX, Metal)</span><span class="sep" aria-hidden="true">/</span><span>Any CPU</span><span class="sep" aria-hidden="true">/</span><span>Settled on NEAR</span>
-</div>
+</div></div>
 
 <!-- OPPORTUNITY -->
-<section class="wrap">
+<section class="block wrap">
   <div class="split">
+    <div class="tile gpu-tile logo-tile" aria-hidden="true"><svg class="tile-logo" viewBox="0 0 869 572"><use href="#zf-logo"/></svg></div>
     <div>
       <div class="eyebrow">The opportunity</div>
-      <h2 class="h2">The world is building more compute than ever.</h2>
-    </div>
-    <div style="padding-top: 40px">
-      <p class="body">Billions of dollars are flowing into AI infrastructure. Data centers are expanding, GPUs are becoming critical assets, and inference demand continues to grow.</p>
-      <p class="body" style="margin-top: 18px"><span class="strong">But demand isn't constant.</span> Even the most sophisticated inference operations experience fluctuations in utilization. When expensive hardware isn't generating revenue, its costs don't disappear. ZeroFlux gives that hardware a second workload.</p>
+      <h2 class="h2" style="margin-top: 18px">The world is building more compute than ever.</h2>
+      <p class="body" style="margin-top: 24px">Billions of dollars are flowing into AI infrastructure. Data centers are expanding, GPUs are becoming critical assets, and inference demand continues to grow.</p>
+      <p class="body" style="margin-top: 16px"><span class="strong">But demand isn't constant.</span> Even the most sophisticated inference operations experience fluctuations in utilization. When expensive hardware isn't generating revenue, its costs don't disappear. ZeroFlux gives that hardware a second workload.</p>
     </div>
   </div>
   <div class="rule-row">
@@ -323,56 +388,57 @@ footer .wrap { padding-top: 48px; padding-bottom: 48px; }
 </section>
 
 <!-- GPU OWNERS -->
-<section class="wrap">
-  <div class="center">
-    <div class="eyebrow">Built for GPU owners</div>
-    <h2 class="h2">One GPU. More ways to earn.</h2>
-    <p class="body" style="max-width: 620px; margin: 24px auto 0">Your infrastructure shouldn't depend on a single source of demand. ZeroFlux lets GPU owners mine ZFX on NEAR with the same tensor cores they use for AI. During testnet, ZFX has no monetary value.</p>
-  </div>
-  <div class="cards" style="margin-top: 64px">
-    <div class="card" style="flex-basis: 380px; padding: 44px">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
-      <h3 class="big">Inference</h3>
-      <p class="body">Serve AI models and earn revenue from inference workloads.</p>
+<section class="block wrap sec-gpu">
+  <div class="split">
+    <div style="max-width: 540px">
+      <div class="eyebrow">Built for GPU owners</div>
+      <h2 class="h2" style="margin-top: 18px">One GPU. More ways to earn.</h2>
+      <p class="body" style="margin-top: 24px">Your infrastructure shouldn't depend on a single source of demand. ZeroFlux lets GPU owners mine ZFX on NEAR with the same tensor cores they use for AI. During testnet, ZFX has no monetary value.</p>
+      <div class="duo">
+        <div><div class="t"><span class="sw inf"></span>Inference</div><p class="small">Serve AI models and earn revenue from inference workloads.</p></div>
+        <div><div class="t"><span class="sw zf"></span>ZeroFlux</div><p class="small">Use available GPU capacity to perform proof-of-work computations and compete for ZFX mining rewards.</p></div>
+      </div>
+      <p class="small" style="margin-top: 20px"><span class="strong">Your hardware. Your choice.</span> Run on dedicated mining hardware or alongside an existing GPU infrastructure stack, subject to available compute resources.</p>
     </div>
-    <div class="card accent" style="flex-basis: 380px; padding: 44px">
-      <span class="ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg></span>
-      <h3 class="big" style="color: var(--accent-ink)">ZeroFlux</h3>
-      <p class="body">Use available GPU capacity to perform proof-of-work computations and compete for ZFX mining rewards.</p>
+    <div class="chart">
+      <div class="chart-head">
+        <div class="chart-title">One GPU, 24 hours</div>
+        <div class="legend"><span><span class="sw inf"></span>Inference</span><span><span class="sw zf"></span>ZeroFlux</span></div>
+      </div>
+      <div class="bars" id="bars" role="img" aria-label="Illustrative chart: inference demand rises and falls over 24 hours, and ZeroFlux fills the remaining GPU capacity each hour."></div>
+      <div class="axis"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+      <div class="note">Illustrative. Inference demand fluctuates; ZeroFlux can use the capacity in between.</div>
     </div>
-  </div>
-  <div class="center" style="margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px 28px">
-    <p class="small" style="max-width: 680px; font-size: 16px"><span class="strong">Your hardware. Your choice.</span> Run on dedicated mining hardware or alongside an existing GPU infrastructure stack, subject to available compute resources.</p>
-    <a href="#mining" class="link">Explore GPU Mining<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
   </div>
 </section>
 
 <!-- TECHNOLOGY -->
-<section id="tech" class="wrap">
+<section class="block wrap" id="tech">
   <div class="eyebrow">The technology</div>
-  <h2 class="h2" style="max-width: 900px">Proof of work, reimagined for the AI era.</h2>
-  <div class="split" style="margin-top: 56px; align-items: center">
+  <h2 class="h2" style="margin-top: 18px; max-width: 900px">Proof of work, reimagined for the AI era.</h2>
+  <div class="split" style="margin-top: 56px">
     <div>
       <div class="vs-row"><span class="tag">BEFORE</span><span class="val off">Cryptographic hashing</span></div>
       <div class="vs-row"><span class="tag on">ZEROFLUX</span><span class="val">Matrix computation on AI accelerators</span></div>
     </div>
     <p class="body">Each mining attempt runs a 64 → 4096 → 4096 → 4096 → 4096 → 256 network of integer matrix layers, about 51.6 million multiply-adds, then hashes the output. Miners batch thousands of attempts into ordinary GEMMs on int8 or FP8 tensor cores. Every value is a small integer, so int8, FP8, Metal and CPU arithmetic all produce the identical result, bit for bit.</p>
   </div>
-  <div class="cards" style="margin-top: 64px">
-    <div class="card"><span class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg></span><h3>Matrix-native</h3><p class="small">Computational work centered on matrix operations, rather than conventional hash-only mining.</p></div>
-    <div class="card"><span class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span><h3>Hardware-accelerated</h3><p class="small">Runs on NVIDIA and AMD tensor cores through cuBLAS and hipBLASLt, and on Apple Silicon GPUs through MLX and Metal.</p></div>
-    <div class="card"><span class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span><h3>Independently verifiable</h3><p class="small">Anyone can recheck a block on a CPU in milliseconds. To prove a bad block wrong, you name one value and NEAR recomputes just that value.</p></div>
+  <div class="tcards">
+    <div class="tcard"><span class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg></span><h3>Matrix-native</h3><p class="small">Computational work centered on matrix operations, rather than conventional hash-only mining.</p></div>
+    <div class="tcard"><span class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span><h3>Hardware-accelerated</h3><p class="small">Runs on NVIDIA and AMD tensor cores through cuBLAS and hipBLASLt, and on Apple Silicon GPUs through MLX and Metal.</p></div>
+    <div class="tcard"><span class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span><h3>Independently verifiable</h3><p class="small">Anyone can recheck a block on a CPU in milliseconds. To prove a bad block wrong, you name one value and NEAR recomputes just that value.</p></div>
   </div>
-  <a href="/docs/consensus.html" class="link" style="margin-top: 32px">Read the Consensus Specification<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+  <a href="/docs/consensus.html" class="link" style="margin-top: 32px">Read the Proof-of-Work Specification<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
 </section>
 
 <!-- NETWORK -->
-<section id="network" class="wrap">
-  <div class="split">
+<section class="block wrap" id="network">
+  <div class="split" style="align-items: flex-start">
     <div>
       <div class="eyebrow">On NEAR</div>
-      <h2 class="h2">NEAR keeps the ledger.</h2>
+      <h2 class="h2" style="margin-top: 18px">NEAR keeps the ledger.</h2>
       <p class="body" style="margin-top: 24px">ZeroFlux settles on NEAR: ZFX is a standard NEAR token, minted only for proof of work. Miners submit winning attempts to a NEAR contract with a bond. A block counts unless someone proves it wrong during a challenge window; then the reward is minted. No separate chain, no bridge.</p>
+      <a href="/docs/near_settlement.html" class="link" style="margin-top: 28px">How ZFX settles on NEAR<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
     </div>
     <div class="num-list">
       <div><span class="n">01</span><div><div class="t">Open participation</div><p class="small">Anyone with compatible hardware can mine. Difficulty retargets on-chain every block.</p></div></div>
@@ -383,56 +449,68 @@ footer .wrap { padding-top: 48px; padding-bottom: 48px; }
   </div>
 </section>
 
+<!-- QUOTE BAND -->
+<div class="band">
+  <div class="wrap">
+    <blockquote>No new class of hardware. <b>A new opportunity for existing compute.</b></blockquote>
+    <div class="by">ZeroFlux · Compute-native mining on NEAR</div>
+  </div>
+</div>
+
 <!-- MINING -->
-<section id="mining" class="wrap">
-  <div class="center">
-    <div class="eyebrow">Mining</div>
-    <h2 class="h2">Your GPU is already capable.</h2>
-    <p class="body" style="max-width: 560px; margin: 24px auto 0">Built for the GPUs already deployed across AI infrastructure. No mining ASIC required. Data-center GPUs mine roughly 2,500 to 4,000 times faster than a laptop CPU, by design.</p>
-  </div>
-  <div class="grid-cells grid-4">
-    <div><div class="tag">CUDA</div><h3>NVIDIA</h3><p class="small">int8 (cuBLAS) and FP8 (cuBLASLt) paths, both exact.</p><div class="stat">H100 <b>8.08 M</b> attempts/s<br>≈ 86 µJ per attempt</div></div>
-    <div><div class="tag">ROCm</div><h3>AMD</h3><p class="small">int8 (hipBLAS) and FP8 (hipBLASLt) paths, both exact.</p><div class="stat">MI355X <b>13.1 M</b> attempts/s<br>≈ 93 µJ per attempt</div></div>
-    <div><div class="tag">MLX · METAL</div><h3>Apple Silicon</h3><p class="small">GPU mining through MLX or PyTorch MPS.</p><div class="stat">M5 Pro GPU <b>80 K</b> attempts/s<br>24x the same chip's CPU</div></div>
-    <div><div class="tag">REFERENCE</div><h3>Any CPU</h3><p class="small">Rust and C++ miners; watchers recheck blocks on any CPU.</p><div class="stat">M5 Pro, 18 threads <b>3.3 K</b> attempts/s</div></div>
-  </div>
-  <div class="scroll-x"><table class="mtable">
-    <thead><tr><th>Hardware</th><th>Attempts / s</th><th>Real blocks mined</th></tr></thead>
-    <tbody>
-      <tr class="hl"><td>AMD MI355X</td><td class="n">13,124,061</td><td class="n">57 in 120 s, all re-verified by an independent CPU node</td></tr>
-      <tr class="hl"><td>NVIDIA H100 80GB</td><td class="n">8,078,510</td><td class="n">42 in 120 s, all re-verified by an independent CPU node</td></tr>
-      <tr><td>Apple M5 Pro GPU (MLX)</td><td class="n">80,131</td><td class="n">88 in 30 s on an easy local target, re-verified</td></tr>
-      <tr><td>Apple M5 Pro CPU (18 threads)</td><td class="n">3,293</td><td class="n">55 in 25 s on an easy local target, re-verified</td></tr>
-    </tbody>
-  </table></div>
-  <p class="note">Measured on the production proof-of-work profile. Every GPU path passed 278 bit-exactness checks against the reference and a worst-case accumulator stress test. We are also developing support for NVIDIA Blackwell (B200, B300), RTX 50 series and RTX PRO 6000, and AMD MI300X.</p>
-  <div class="btns center" style="margin-top: 32px">
-    <a href="/docs/hardware.html" class="btn btn-line btn-md">View Hardware Support</a>
-    <a href="#run" class="btn btn-ink btn-md"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>Explore the Miner</a>
+<section class="paper" id="mining">
+  <div class="wrap">
+    <div class="split" style="align-items: flex-end">
+      <div>
+        <div class="eyebrow">Mining</div>
+        <h2 class="h2">Your GPU is already capable.</h2>
+      </div>
+      <p class="body">Built for the GPUs already deployed across AI infrastructure. No mining ASIC required. Data-center GPUs mine roughly 2,500 to 4,000 times faster than a laptop CPU, by design.</p>
+    </div>
+    <div class="hw">
+      <div><div class="tag">CUDA</div><h3>NVIDIA</h3><p class="small">int8 (cuBLAS) and FP8 (cuBLASLt) paths, both exact.</p><div class="stat">H100 <b>8.08 M</b> attempts/s<br>≈ 86 µJ per attempt</div></div>
+      <div><div class="tag">ROCm</div><h3>AMD</h3><p class="small">int8 (hipBLAS) and FP8 (hipBLASLt) paths, both exact.</p><div class="stat">MI355X <b>13.1 M</b> attempts/s<br>≈ 93 µJ per attempt</div></div>
+      <div><div class="tag">MLX · METAL</div><h3>Apple Silicon</h3><p class="small">GPU mining through MLX or PyTorch MPS.</p><div class="stat">M5 Pro GPU <b>80 K</b> attempts/s<br>24x the same chip's CPU</div></div>
+      <div><div class="tag">REFERENCE</div><h3>Any CPU</h3><p class="small">Rust and C++ miners; watchers recheck blocks on any CPU.</p><div class="stat">M5 Pro, 18 threads <b>3.3 K</b> attempts/s</div></div>
+    </div>
+    <div class="scroll-x"><table class="mtable">
+      <thead><tr><th>Hardware</th><th>Attempts / s</th><th>Real blocks mined</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td>AMD MI355X</td><td class="n">13,124,061</td><td>57 in 120 s, all re-verified by an independent CPU node</td></tr>
+        <tr class="hl"><td>NVIDIA H100 80GB</td><td class="n">8,078,510</td><td>42 in 120 s, all re-verified by an independent CPU node</td></tr>
+        <tr><td>Apple M5 Pro GPU (MLX)</td><td class="n">80,131</td><td>88 in 30 s on an easy local target, re-verified</td></tr>
+        <tr><td>Apple M5 Pro CPU (18 threads)</td><td class="n">3,293</td><td>55 in 25 s on an easy local target, re-verified</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Measured on the production proof-of-work profile. Every GPU path passed 278 bit-exactness checks against the reference and a worst-case accumulator stress test. We are also developing support for NVIDIA Blackwell (B200, B300), RTX 50 series and RTX PRO 6000, and AMD MI300X.</p>
+    <div class="ctas">
+      <a href="/docs/hardware.html" class="btn btn-out">View Hardware Support</a>
+      <a href="#run" class="btn btn-dark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>Explore the Miner</a>
+    </div>
   </div>
 </section>
 
 <!-- OPERATORS -->
-<section class="wrap">
-  <div class="panel">
+<section class="block wrap">
+  <div class="ops">
     <div>
       <div class="eyebrow">For infrastructure operators</div>
-      <h2 class="h2" style="font-size: clamp(34px, 4.4vw, 58px)">Make more of the infrastructure you already own.</h2>
+      <h2 class="h2" style="margin-top: 18px; font-size: clamp(34px, 4.2vw, 56px)">Make more of the infrastructure you already own.</h2>
       <p class="body" style="margin-top: 24px">AI infrastructure is capital-intensive. Every GPU represents an investment in compute capacity, power, cooling, and operations. Whether you operate a large inference cluster, rent GPU capacity, or own high-performance hardware, ZeroFlux gives it a second workload that runs on the same tensor cores.</p>
     </div>
     <div>
       <p class="quote">No new class of hardware. <span class="em">A new opportunity for existing compute.</span></p>
-      <a href="#run" class="btn btn-accent" style="margin-top: 28px">Get Started<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+      <a href="#run" class="btn btn-white" style="align-self: flex-start; padding-left: 20px">Get Started<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
     </div>
   </div>
 </section>
 
 <!-- RUN -->
-<section id="run" class="wrap">
+<section class="block wrap" id="run">
   <div class="split" style="align-items: flex-end">
     <div>
       <div class="eyebrow">Run it yourself</div>
-      <h2 class="h2">From source to mined blocks in minutes.</h2>
+      <h2 class="h2" style="margin-top: 18px">From source to mined blocks in minutes.</h2>
     </div>
     <p class="body">Everything runs locally: a NEAR sandbox, the ZFX contract, a watcher and your miner. One command checks every claim on this page and writes an evidence report.</p>
   </div>
@@ -452,7 +530,7 @@ make localnet &amp;
 ./target/release/zpu-cli mine --node http://127.0.0.1:9561 \
   --backend exec --exec ".venv/bin/python miner/python/zpu_miner.py --backend mlx"</pre>
   </div>
-  <div class="cmd" style="margin-top: 16px">
+  <div class="cmd">
     <div class="cmd-head"><span>Full verification · about 25 minutes on a laptop</span><button class="copy" type="button" data-copy="q2">Copy</button></div>
 <pre id="q2">make check          <span class="c"># lint, unit tests, test vectors in Rust, C++, Python, MLX</span>
 make e2e-near       <span class="c"># mining on NEAR, cheaters caught at every layer, ZFX on NEAR Intents</span>
@@ -462,28 +540,28 @@ make acceptance     <span class="c"># all of the above, then ACCEPTANCE_REPORT.m
 </section>
 
 <!-- OPEN DEV -->
-<section id="open" class="wrap">
+<section class="block wrap" id="open">
   <div class="split" style="align-items: flex-end">
     <div>
       <div class="eyebrow">Open development</div>
-      <h2 class="h2">Built in the open.</h2>
+      <h2 class="h2" style="margin-top: 18px">Built in the open.</h2>
     </div>
     <p class="body">Apache-2.0. The design documents, threat model and test evidence are published below, including what is not done yet: independent cryptanalysis, an external audit, and a mainnet monetary policy.</p>
   </div>
-  <div class="big-links">
-    <a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener"><span class="bl-title">GitHub</span><span class="bl-sub">Source code, Apache-2.0</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
-    <a href="/docs/"><span class="bl-title">Documentation</span><span class="bl-sub">Proof of work, hardware, NEAR settlement, threat model</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
-    <a href="/docs/acceptance.html"><span class="bl-title">Test evidence</span><span class="bl-sub">Every check, its command and result</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
-    <a href="/docs/near_settlement.html"><span class="bl-title">How ZFX settles on NEAR</span><span class="bl-sub">Design, fraud proofs, measured gas</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+  <div class="ocards">
+    <a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener" class="ocard"><div class="art a1"><span>GitHub</span></div><div class="body2">Source code, Apache-2.0<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></div></a>
+    <a href="/docs/" class="ocard"><div class="art a2"><span>Documentation</span></div><div class="body2">Proof of work, hardware, NEAR settlement, threat model<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></div></a>
+    <a href="/docs/acceptance.html" class="ocard"><div class="art a3"><span>Test evidence</span></div><div class="body2">Every check, its command and result<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></div></a>
+    <a href="/docs/near_settlement.html" class="ocard"><div class="art a4"><span>How ZFX settles on NEAR</span></div><div class="body2">Design, fraud proofs, measured gas<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></div></a>
   </div>
 </section>
 
-<!-- FINAL CTA -->
-<section class="wrap center final">
+<!-- FINAL -->
+<section class="final wrap center">
   <h2 class="h1">Put your compute <span class="em">to work.</span></h2>
-  <p class="lede" style="margin: 28px auto 0">Proof of work for the AI era, settled on NEAR.</p>
-  <div class="btns center" style="margin-top: 44px">
-    <a href="#run" class="btn btn-accent">Start Mining<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+  <p class="lede">Proof of work for the AI era, settled on NEAR.</p>
+  <div class="btns">
+    <a href="#run" class="btn btn-white"><svg class="mk-logo" width="24" height="16" viewBox="0 0 869 572" aria-hidden="true"><use href="#zf-logo"/></svg>Start Mining</a>
     <a href="#top" class="btn btn-line">Explore ZeroFlux</a>
   </div>
 </section>
@@ -492,38 +570,124 @@ make acceptance     <span class="c"># all of the above, then ACCEPTANCE_REPORT.m
 
 <footer>
   <div class="wrap">
-    <div class="foot-row">
-      <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap"><span class="logo-word" style="font-size: 17px">ZeroFlux</span><span class="small" style="font-size: 14px">Compute-native mining on NEAR.</span></div>
-      <nav class="foot-nav" aria-label="Footer"><a href="#tech">Technology</a><a href="#mining">Mining</a><a href="#network">NEAR</a><a href="#run">Run it</a><a href="/docs/">Documentation</a><a href="/docs/near_settlement.html">NEAR settlement</a><a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener">GitHub</a></nav>
+    <div class="frow">
+      <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap"><svg width="26" height="17" viewBox="0 0 869 572" aria-hidden="true" style="color:var(--ink)"><use href="#zf-logo"/></svg><span style="font-family: var(--display); font-size: 18px; font-weight: 300; letter-spacing: -.02em">ZeroFlux</span><span style="font-size: 14px; color: var(--muted)">Compute-native mining on NEAR.</span></div>
+      <nav class="fnav" aria-label="Footer"><a href="#tech">Technology</a><a href="#mining">Mining</a><a href="#network">NEAR</a><a href="#run">Run it</a><a href="/docs/">Documentation</a><a href="/docs/near_settlement.html">NEAR settlement</a><a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener">GitHub</a></nav>
     </div>
     <p class="legal">ZeroFlux is a testnet. There is no mainnet, no token sale, and testnet ZFX has no monetary value. Any future mainnet depends on independent security review. Blocks are checked optimistically: a block is final only after its challenge window passes without a valid fraud proof. Mining consumes electricity and computing resources. Hardware support and network features depend on implementation and release status. © 2026 ZeroFlux.</p>
   </div>
 </footer>
 
 <script>
-  (function () {
-    var root = document.documentElement;
-    var btn = document.getElementById('themeToggle');
-    function isDark() {
-      var t = root.getAttribute('data-theme');
-      if (t) return t === 'dark';
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    function sync() { btn.setAttribute('aria-pressed', isDark() ? 'true' : 'false'); }
-    btn.addEventListener('click', function () {
-      var next = isDark() ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem('zf-theme', next); } catch (e) {}
-      sync();
-    });
+/* header state, theme toggle, copy buttons, chart */
+(function () {
+  var h = document.getElementById('top-header');
+  function on() { h.classList.toggle('scrolled', window.scrollY > 40); }
+  window.addEventListener('scroll', on, { passive: true }); on();
+
+  var root = document.documentElement, btn = document.getElementById('themeToggle');
+  function isDark() { var t = root.getAttribute('data-theme'); if (t) return t === 'dark'; return !(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches); }
+  function sync() { btn.setAttribute('aria-pressed', isDark() ? 'true' : 'false'); window.dispatchEvent(new Event('zf-theme')); }
+  btn.addEventListener('click', function () {
+    var next = isDark() ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('zf-theme', next); } catch (e) {}
     sync();
-    document.querySelectorAll('.copy').forEach(function (b) {
-      b.addEventListener('click', function () {
-        var t = document.getElementById(b.getAttribute('data-copy')).innerText;
-        navigator.clipboard.writeText(t).then(function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1400); });
-      });
+  });
+  if (window.matchMedia) window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', sync);
+  btn.setAttribute('aria-pressed', isDark() ? 'true' : 'false');
+
+  document.querySelectorAll('.copy').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = document.getElementById(b.getAttribute('data-copy')).innerText;
+      navigator.clipboard.writeText(t).then(function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1400); }).catch(function () {});
     });
-  })();
+  });
+
+  var demand = [32,26,22,20,22,30,44,58,70,78,84,88,86,82,80,84,88,90,80,68,56,48,40,36];
+  var el = document.getElementById('bars');
+  demand.forEach(function (d) {
+    var b = document.createElement('div'); b.className = 'bar';
+    b.innerHTML = '<i class="zf" style="flex:' + (100 - d) + ' 1 0"></i><i class="inf" style="flex:' + d + ' 1 0"></i>';
+    el.appendChild(b);
+  });
+})();
 </script>
+<script>
+/* Hero: star funnel. Stars stream along invisible converging curves through one pinch point. Colors come from the theme tokens. */
+(function () {
+  var cvs = document.getElementById('heroCanvas'), ctx = cvs.getContext('2d');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var W = 0, H = 0, DPR = 1, cx = 0, cy = 0, curves = [], parts = [], sprite = null, blend = 'lighter', acc = '92,240,174', last = performance.now(), running = true;
+  var P = 2.3;
+
+  function makeStar(fill, glow) {
+    var s = 128, sh = document.createElement('canvas'); sh.width = sh.height = s;
+    var g = sh.getContext('2d'), m = s / 2, L = s * 0.42, wb = s * 0.07, wt = s * 0.016;
+    g.fillStyle = fill;
+    for (var a = 0; a < 4; a++) {
+      var ang = a * Math.PI / 2, ca = Math.cos(ang), sa = Math.sin(ang), px = -sa, py = ca, tx = m + ca * L, ty = m + sa * L;
+      g.beginPath(); g.moveTo(m + px * wb, m + py * wb); g.lineTo(tx + px * wt, ty + py * wt);
+      g.arc(tx, ty, wt, ang + Math.PI / 2, ang - Math.PI / 2, true); g.lineTo(m - px * wb, m - py * wb); g.closePath(); g.fill();
+    }
+    var r = s * 0.24, k = s * 0.075;
+    g.beginPath(); g.moveTo(m, m - r); g.quadraticCurveTo(m + k, m - k, m + r, m); g.quadraticCurveTo(m + k, m + k, m, m + r);
+    g.quadraticCurveTo(m - k, m + k, m - r, m); g.quadraticCurveTo(m - k, m - k, m, m - r); g.closePath(); g.fill();
+    var c = document.createElement('canvas'); c.width = c.height = s;
+    var o = c.getContext('2d'); o.shadowColor = glow; o.shadowBlur = 10; o.drawImage(sh, 0, 0); o.shadowBlur = 0; o.globalAlpha = .4; o.drawImage(sh, 0, 0);
+    return c;
+  }
+  function theme() {
+    var cs = getComputedStyle(document.documentElement), v = function (n) { return cs.getPropertyValue(n).trim(); };
+    blend = v('--star-blend') || 'lighter'; acc = v('--acc') || acc;
+    sprite = makeStar(v('--star') || '#5CF5A8', v('--star-glow') || 'rgba(80,240,160,0.8)');
+  }
+  function yAt(c, x) { var u = Math.abs(x - cx) / (W / 2); return cy + c.sign * c.amp * Math.pow(u, P); }
+  function pick() { var f = Math.pow(Math.random(), 1.15); return curves[Math.min(curves.length - 1, Math.floor(f * (curves.length - 1)))]; }
+  function spawn(anywhere) {
+    return { dir: Math.random() < 0.5 ? 1 : -1, a: pick(), b: pick(), t: anywhere ? Math.random() : 0, sp: 0.028 + Math.random() * 0.032, size: 7 + Math.random() * 11, ph: Math.random() * 6.28, alpha: 0.55 + Math.random() * 0.45 };
+  }
+  function build() {
+    var r = cvs.getBoundingClientRect();
+    W = r.width; H = r.height; DPR = Math.min(window.devicePixelRatio || 1, 2);
+    cvs.width = Math.round(W * DPR); cvs.height = Math.round(H * DPR); ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    cx = W / 2; var pe = document.querySelector('.hero-inner'), cr = cvs.getBoundingClientRect(); if (pe) { var pr = pe.getBoundingClientRect(); cy = (pr.top + pr.height / 2 - cr.top) * (H / cr.height); } else { cy = H * 0.6; }
+    curves = [];
+    for (var i = 0; i < 46; i++) { var f = (i + 1) / 46, amp = H * 1.7 * Math.pow(f, 1.35); curves.push({ amp: amp, sign: -1 }); curves.push({ amp: amp * 0.9, sign: 1 }); }
+    curves.push({ amp: 0, sign: 1 });
+    parts = []; var count = Math.round(Math.min(760, W * 0.5));
+    for (var k = 0; k < count; k++) parts.push(spawn(true));
+  }
+  function frame(now) {
+    var dt = Math.min(0.05, (now - last) / 1000); last = now;
+    if (running || reduce) {
+      ctx.clearRect(0, 0, W, H);
+      var t = now / 1000, glowA = (blend === 'lighter' ? 0.22 : 0.08) + 0.06 * Math.sin(t * 2);
+      var core = ctx.createRadialGradient(cx, cy, 0, cx, cy, 40);
+      core.addColorStop(0, 'rgba(' + acc + ',' + glowA + ')'); core.addColorStop(1, 'rgba(' + acc + ',0)');
+      ctx.fillStyle = core; ctx.fillRect(cx - 40, cy - 40, 80, 80);
+      ctx.globalCompositeOperation = blend;
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i], x = p.dir > 0 ? p.t * W : W - p.t * W, u = Math.abs(x - cx) / (W / 2);
+        if (!reduce) p.t += dt * p.sp * (0.55 + 1.6 * Math.pow(1 - u, 2));
+        if (p.t > 1) { parts[i] = spawn(false); continue; }
+        var before = p.dir > 0 ? x < cx : x > cx, y = yAt(before ? p.a : p.b, x);
+        if (y < -20 || y > H + 20) continue;
+        var tw = 0.65 + 0.35 * Math.sin(t * 2 + p.ph), s = p.size * (0.35 + 0.65 * u);
+        ctx.globalAlpha = Math.min(1, p.alpha * tw * (0.5 + 0.8 * (1 - u)));
+        ctx.drawImage(sprite, x - s / 2, y - s / 2, s, s);
+      }
+      ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    }
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  theme(); build();
+  window.addEventListener('zf-theme', function () { theme(); if (reduce) frame(performance.now()); });
+  var to; window.addEventListener('resize', function () { clearTimeout(to); to = setTimeout(function () { build(); if (reduce) frame(performance.now()); }, 150); });
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { running = e[0].isIntersecting; }).observe(cvs);
+  if (reduce) frame(performance.now()); else requestAnimationFrame(frame);
+})();
+</script>
+
 </body>
 </html>

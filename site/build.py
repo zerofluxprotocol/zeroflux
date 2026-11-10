@@ -56,38 +56,68 @@ PAGE = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name=
 <link rel="icon" type="image/svg+xml" href="/static/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png"><link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<script>(function () {{ try {{ var t = localStorage.getItem('zf-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); }} catch (e) {{}} }})();</script>
 <link rel="stylesheet" href="/static/docs.css"></head><body>
-<header><div class="w"><a class="logo" href="/">{logo}<span>ZeroFlux</span></a>
-<nav><a href="/docs/">Docs</a><a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener">GitHub</a><a href="/#run">Run it</a><a href="https://testnet.nearblocks.io/address/wzfx.zeroflux.testnet" target="_blank" rel="noopener">wZFX on NEAR</a></nav></div></header>
-<div class="status">Testnet · mainnet not launched · testnet ZFX has no monetary value</div>
+<header class="top">
+<div class="status"><div class="w"><span><span class="dot"></span>Testnet</span><span>Mainnet not launched</span><span>Testnet ZFX has no monetary value</span></div></div>
+<div class="hbar"><div class="w">
+<a class="brand" href="/" aria-label="ZeroFlux home"><span class="cell">{logo}</span><span class="word">ZeroFlux</span></a>
+<nav><a href="/docs/">Docs</a><a href="/#run">Run it</a><a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener">GitHub</a>
+<button class="theme-toggle" type="button" id="themeToggle" aria-label="Switch light or dark mode"><svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg><svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button>
+<a class="cta" href="/#run">Start Mining</a></nav>
+</div></div>
+</header>
 <main class="w doc">{body}</main>
-<footer class="w">Apache-2.0 · <a href="/">zeroflux.network</a></footer></body></html>"""
+<footer><div class="w">Apache-2.0 · <a href="/">zeroflux.network</a> · <a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener">GitHub</a></div></footer>
+<script>(function () {{ var r = document.documentElement, b = document.getElementById('themeToggle');
+function dark() {{ var t = r.getAttribute('data-theme'); if (t) return t === 'dark'; return !(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches); }}
+b.addEventListener('click', function () {{ var n = dark() ? 'light' : 'dark'; r.setAttribute('data-theme', n); try {{ localStorage.setItem('zf-theme', n); }} catch (e) {{}} }}); }})();</script>
+</body></html>"""
 
 CSS = """
-:root{--bg:#FAFAFA;--surface:#fff;--line:#ECECEF;--ink:#0B0B0F;--muted:#4A4A55;--faint:#6B6B76;--accent:#1F43D6;color-scheme:light}
-@media (prefers-color-scheme:dark){:root{--bg:#09090B;--surface:#121215;--line:#232329;--ink:#F4F4F6;--muted:#A9A9B3;--faint:#8A8A93;--accent:#9DB0FF;color-scheme:dark}}
-*{box-sizing:border-box}@media (min-width:761px){html{zoom:.9}}body{margin:0;background:var(--bg);color:var(--ink);font:300 16px/1.7 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
-.w{max-width:860px;margin:0 auto;padding:0 24px}
-header{border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
-header .w{display:flex;justify-content:space-between;align-items:center;min-height:60px;gap:16px}
-.logo{display:flex;gap:10px;align-items:center;color:var(--ink);font:400 17px 'Inter Tight',sans-serif;letter-spacing:-.02em}.logo svg{height:18px;width:auto;color:var(--ink);display:block}
-nav{display:flex;gap:22px;font-size:14px}nav a{color:var(--muted)}
-.status{text-align:center;font:300 12px 'JetBrains Mono',monospace;letter-spacing:.05em;color:var(--muted);border-bottom:1px solid var(--line);padding:9px 12px}
-.doc{padding-top:48px;padding-bottom:80px}
-h1{font:200 clamp(36px,5vw,52px)/1.05 'Inter Tight',sans-serif;letter-spacing:-.04em;margin:0 0 28px}
-h2{font:300 28px/1.2 'Inter Tight',sans-serif;letter-spacing:-.03em;margin:52px 0 12px}
-h3{font:400 19px/1.3 'Inter Tight',sans-serif;margin:32px 0 8px}
-p,li{color:var(--muted)}strong{color:var(--ink);font-weight:500}
-code{font:300 .86em 'JetBrains Mono',monospace;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1px 5px;color:var(--ink)}
-pre{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;overflow-x:auto}pre code{border:0;padding:0;background:none;font-size:13px;line-height:1.6}
-table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow-x:auto;margin:16px 0}
-th,td{text-align:left;padding:10px 12px 10px 0;border-bottom:1px solid var(--line);vertical-align:top}
-th{font:300 11.5px 'JetBrains Mono',monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--faint)}td{color:var(--muted)}
-blockquote{margin:16px 0;padding:14px 18px;border:1px solid var(--accent);border-radius:14px}blockquote p{margin:0}
-.idx a{display:block;padding:20px 0;border-bottom:1px solid var(--line);color:var(--ink)}.idx a:hover{text-decoration:none}
-.idx .t{font:300 24px 'Inter Tight',sans-serif;letter-spacing:-.02em}.idx .s{font-size:14px;color:var(--muted)}
-footer{border-top:1px solid var(--line);padding-top:28px;padding-bottom:40px;font-size:13px;color:var(--faint)}
+:root{--bg:#000;--surface:#0B0B0B;--line:rgba(255,255,255,.13);--line-soft:rgba(255,255,255,.07);--ink:#fff;--ink-2:#D4D4D4;--muted:#A3A3A3;--faint:#8A8A8A;
+--btn-bg:#fff;--btn-ink:#000;--btn-hover:#D9D9D9;--th-bg:#F2F2F2;--th-ink:#0A0A0A;--header-bg:rgba(0,0,0,.88);--status-ink:#CFCFCF;--pop:#5CF0AE;color-scheme:dark;
+--display:'Inter Tight',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#FAFAFA;--surface:#fff;--line:rgba(0,0,0,.13);--line-soft:rgba(0,0,0,.07);--ink:#0A0A0A;--ink-2:#2E2E2E;--muted:#555;--faint:#6B6B6B;
+--btn-bg:#0A0A0A;--btn-ink:#fff;--btn-hover:#2A2A2A;--th-bg:#0A0A0A;--th-ink:#fff;--header-bg:rgba(250,250,250,.94);--status-ink:#3A3A3A;--pop:#0B7547;color-scheme:light}}
+:root[data-theme="light"]{--bg:#FAFAFA;--surface:#fff;--line:rgba(0,0,0,.13);--line-soft:rgba(0,0,0,.07);--ink:#0A0A0A;--ink-2:#2E2E2E;--muted:#555;--faint:#6B6B6B;
+--btn-bg:#0A0A0A;--btn-ink:#fff;--btn-hover:#2A2A2A;--th-bg:#0A0A0A;--th-ink:#fff;--header-bg:rgba(250,250,250,.94);--status-ink:#3A3A3A;--pop:#0B7547;color-scheme:light}
+*{box-sizing:border-box}@media (min-width:761px){html{zoom:.9}}
+body{margin:0;background:var(--bg);color:var(--ink);font:300 16px/1.7 var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}a:hover{border-color:var(--ink)}
+.w{max-width:920px;margin:0 auto;padding:0 24px}
+header.top{position:sticky;top:0;z-index:10;background:var(--header-bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+header a,footer a{border-bottom:0}
+.status{border-bottom:1px solid var(--line);font:300 11px var(--mono);letter-spacing:.06em;color:var(--status-ink)}
+.status .w{min-height:34px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 22px;text-align:center;max-width:1280px}
+.status .dot{width:7px;height:7px;background:var(--ink);display:inline-block;margin-right:8px;vertical-align:middle}
+.hbar{border-bottom:1px solid var(--line)}.hbar .w{height:54px;display:flex;align-items:stretch;justify-content:space-between;max-width:1280px}
+.brand{display:flex;align-items:stretch;color:var(--ink)}.brand .cell{display:flex;align-items:center;padding-right:20px;border-right:1px solid var(--line)}
+.brand .cell svg{height:18px;width:auto;color:var(--ink);display:block}.brand .word{display:flex;align-items:center;padding-left:16px;font:300 19px var(--display);letter-spacing:-.03em}
+nav{display:flex;align-items:stretch;gap:26px;font-size:14px}nav a{display:flex;align-items:center;color:var(--ink-2)}nav a:hover{color:var(--ink)}
+.theme-toggle{width:54px;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--ink);border:0;border-left:1px solid var(--line);cursor:pointer;margin:0 -26px 0 0;padding:0}
+.theme-toggle:hover{background:var(--line-soft)}.theme-toggle .sun{display:none}
+:root[data-theme="dark"] .theme-toggle .sun{display:block}:root[data-theme="dark"] .theme-toggle .moon{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .theme-toggle .sun{display:block}:root:not([data-theme="light"]) .theme-toggle .moon{display:none}}
+nav a.cta{padding:0 24px;background:var(--btn-bg);color:var(--btn-ink);font-weight:400}nav a.cta:hover{background:var(--btn-hover)}
+@media (max-width:720px){nav a:not(.cta){display:none}}
+.doc{padding-top:56px;padding-bottom:96px}
+h1{font:200 clamp(36px,5vw,56px)/1.04 var(--display);letter-spacing:-.045em;margin:0 0 28px}
+h2{font:300 28px/1.2 var(--display);letter-spacing:-.03em;margin:56px 0 14px;padding-top:24px;border-top:1px solid var(--line)}
+h3{font:400 19px/1.3 var(--display);margin:32px 0 8px}
+p,li{color:var(--ink-2)}strong{color:var(--ink);font-weight:500}
+code{font:300 .86em var(--mono);background:var(--surface);border:1px solid var(--line);padding:1px 5px;color:var(--ink)}
+pre{background:var(--surface);border:1px solid var(--line);padding:18px;overflow-x:auto}pre code{border:0;padding:0;background:none;font-size:13px;line-height:1.6}
+table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow-x:auto;margin:18px 0;border:1px solid var(--line)}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--th-bg);color:var(--th-ink);font:300 11.5px var(--mono);letter-spacing:.06em;text-transform:uppercase}td{color:var(--ink-2)}
+tr:last-child td{border-bottom:0}
+blockquote{margin:18px 0;padding:14px 18px;border:1px solid var(--line);border-left:3px solid var(--ink)}blockquote p{margin:0}
+.idx{border-top:1px solid var(--line)}.idx a{display:block;padding:20px 0;border-bottom:1px solid var(--line);color:var(--ink)}
+.idx a:hover{padding-left:6px;transition:padding .15s ease}
+.idx .t{font:300 24px var(--display);letter-spacing:-.02em}.idx .s{font-size:14px;color:var(--muted)}
+.doc h2 + .idx{margin-top:4px;border-top:0}
+footer{border-top:1px solid var(--line);padding:32px 0 48px;font-size:13px;color:var(--faint)}footer a{color:var(--muted)}
 """
 
 
