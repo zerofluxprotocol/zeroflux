@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["zfx-perps-settlement", "mock-ft"]
+members = ["zfx-perps-settlement", "zfx-perps-clearing", "mock-ft"]
 
 [workspace.package]
 version = "0.1.0"

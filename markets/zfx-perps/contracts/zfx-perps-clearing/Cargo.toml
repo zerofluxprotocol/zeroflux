@@ -1,0 +1,21 @@
+[package]
+name = "zfx-perps-clearing-contract"
+description = "NEAR clearing contract for zfx-perps: collateral vault, isolated-margin positions, verified fill batches, signed-print oracle, liquidation and loss waterfall, escape hatch."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+near-sdk = { workspace = true }
+zfx-perps-clearing = { path = "../../crates/zfx-perps-clearing", default-features = false }
+
+[dev-dependencies]
+near-sdk = { workspace = true, features = ["unit-testing"] }
+zfx-perps-clearing = { path = "../../crates/zfx-perps-clearing", features = ["testkit"] }
+
+[lints.rust.unexpected_cfgs]
+level = "warn"
+check-cfg = ['cfg(near)']
