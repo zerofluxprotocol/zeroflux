@@ -10,6 +10,7 @@ serde = { workspace = true }
 rustc-hash = { workspace = true }
 bincode = { workspace = true }
 blake3 = { workspace = true }
+zfx-perps-clearing = { workspace = true, features = ["testkit"] }
 
 [dev-dependencies]
 hdrhistogram = "7"

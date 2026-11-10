@@ -3546,6 +3546,7 @@ name = "zfx-perps-clearing"
 version = "0.1.0"
 dependencies = [
  "borsh",
+ "bs58",
  "ed25519-dalek",
  "proptest",
  "rand 0.9.5",
@@ -3584,6 +3585,7 @@ dependencies = [
  "rand 0.8.8",
  "rustc-hash",
  "serde",
+ "zfx-perps-clearing",
 ]
 
 [[package]]

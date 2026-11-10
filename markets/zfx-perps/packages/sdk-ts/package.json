@@ -6,8 +6,16 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
-  "files": ["dist", "src"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "vitest run",
@@ -15,6 +23,7 @@
   },
   "dependencies": {
     "@noble/curves": "^1.9.0",
+    "@noble/hashes": "^1.8.0",
     "@scure/base": "^1.2.0"
   },
   "devDependencies": {

@@ -2,11 +2,13 @@
 //! netted settlement batches. No I/O; the node crate feeds it commands from a journal.
 
 pub mod book;
+pub mod clearing;
 pub mod engine;
 pub mod perp;
 pub mod testkit;
 pub mod types;
 
+pub use clearing::{ClearingConfig, ClearingEvent, ClearingState};
 pub use engine::{Account, Balance, Engine, EngineConfig, Market, fee};
 pub use perp::{AccountPerp, MarginSummary, PerpState, Position};
 pub use types::*;

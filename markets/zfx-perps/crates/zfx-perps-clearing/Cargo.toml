@@ -24,3 +24,4 @@ rand = { version = "0.9", features = ["small_rng"] }
 zfx-perps-clearing = { path = ".", features = ["testkit"] }
 ed25519-dalek = { version = "2", features = ["rand_core"] }
 serde_json = "1"
+bs58 = "0.5"

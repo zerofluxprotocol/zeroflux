@@ -58,6 +58,9 @@ pub struct Market {
     pub spec: MarketSpec,
     pub book: Book,
     pub halted: bool,
+    /// Positions and collateral of this market live on the NEAR clearing contract.
+    #[serde(default)]
+    pub clearing: bool,
 }
 
 impl Market {
@@ -152,6 +155,12 @@ pub struct Engine {
     pub perp_dirty: BTreeSet<AccountId>,
     /// Perp markets whose mark moved since the last cut.
     pub marks_changed: BTreeSet<MarketId>,
+    /// Clearing mode state (NEAR v1 path); `None` for a spot/cross-margin deployment.
+    #[serde(default)]
+    pub clearing: Option<Box<crate::clearing::ClearingState>>,
+    /// The signed order being matched (transient, never part of state).
+    #[serde(skip)]
+    pub(crate) clearing_taker: Option<(zfx_perps_clearing::SignedOrder, [u8; 32])>,
 }
 
 impl Engine {
@@ -178,6 +187,8 @@ impl Engine {
             insurance: None,
             perp_dirty: BTreeSet::new(),
             marks_changed: BTreeSet::new(),
+            clearing: None,
+            clearing_taker: None,
         };
         e.accounts.push(Account {
             name: fee.clone(),
@@ -238,6 +249,19 @@ impl Engine {
                 ts_ns,
             } => self.set_mark(*market, *mark, *index, *ts_ns, out),
             Command::FundingTick { market, ts_ns } => self.funding_tick(*market, *ts_ns, out),
+            Command::ClearingInit(cfg) => self.clearing_init(cfg, out),
+            Command::PlaceSigned { order, stp, ts_ns } => self.place_signed(order, *ts_ns, *stp, out),
+            Command::ClearingAction { op, ts_ns } => self.clearing_action((**op).clone(), *ts_ns, out),
+            Command::ClearingChain { seq, event, ts_ns } => {
+                if *seq <= self.chain_cursor {
+                    return Ok(Ack::Duplicate);
+                }
+                if *seq != self.chain_cursor + 1 {
+                    return Err(Reject::ChainEventGap);
+                }
+                self.chain_cursor = *seq;
+                self.clearing_chain(event, *ts_ns, out)
+            }
         }
     }
 
@@ -311,9 +335,37 @@ impl Engine {
             spec: m.clone(),
             book: Book::default(),
             halted: false,
+            clearing: false,
         });
         out.push(Event::MarketAdded { market: m.clone() });
         Ok(Ack::Ok)
+    }
+
+    pub(crate) fn account_for_name(&mut self, name: &str, out: &mut Vec<Event>) -> AccountId {
+        self.account_for(name, out)
+    }
+
+    pub(crate) fn add_clearing_market(&mut self, spec: MarketSpec, out: &mut Vec<Event>) {
+        self.market_by_symbol.insert(spec.symbol.clone(), spec.id);
+        self.markets.push(Market {
+            spec: spec.clone(),
+            book: Book::default(),
+            halted: false,
+            clearing: true,
+        });
+        out.push(Event::MarketAdded { market: spec });
+    }
+
+    pub(crate) fn cancel_order_internal(&mut self, account: AccountId, id: OrderId, reason: CancelReason, out: &mut Vec<Event>) -> Result<Ack, Reject> {
+        self.cancel(account, id, reason, out)
+    }
+
+    pub(crate) fn remove_filled_slot(&mut self, mi: usize, slot: u32) -> (OrderId, u64) {
+        self.remove_resting_filled(mi, slot)
+    }
+
+    pub(crate) fn place_book(&mut self, o: &NewOrder, out: &mut Vec<Event>) -> Result<Ack, Reject> {
+        self.place_inner(o, out)
     }
 
     fn account_for(&mut self, name: &str, out: &mut Vec<Event>) -> AccountId {
@@ -445,6 +497,11 @@ impl Engine {
         if market.halted {
             return Err(Reject::MarketHalted);
         }
+        let is_clearing = market.clearing;
+        if is_clearing && self.clearing_taker.is_none() {
+            // Clearing markets take only signed orders (Command::PlaceSigned).
+            return Err(Reject::NotAPerp);
+        }
         let spec = &market.spec;
         if o.qty < spec.min_qty || o.qty > spec.max_qty {
             return Err(Reject::InvalidQty);
@@ -463,7 +520,7 @@ impl Engine {
         if rests && acct.open_per_market.get(&o.market).copied().unwrap_or(0) >= spec.max_open_orders {
             return Err(Reject::TooManyOpenOrders);
         }
-        let is_perp = spec.perp.is_some();
+        let is_perp = spec.perp.is_some() || is_clearing;
         let hold_asset = match o.side {
             Side::Buy => spec.quote,
             Side::Sell => spec.base,
@@ -471,7 +528,9 @@ impl Engine {
         // Perps reserve margin instead of holding balances.
         let per_lot = if is_perp { 0 } else { market.hold_per_lot(o.side, o.price) };
         let hold = per_lot * o.qty as u128;
-        if is_perp {
+        if is_clearing {
+            // Admission already ran against the clearing ledger.
+        } else if is_perp {
             self.perp_check_order(o)?;
         } else if acct.balance(hold_asset).available() < hold || self.withdrawable(o.account, hold_asset) < hold {
             return Err(Reject::InsufficientBalance);
@@ -598,7 +657,8 @@ impl Engine {
             (s.base, s.quote, s.base_lot, s.quote_tick, s.maker_fee_bps, s.taker_fee_bps)
         };
         let opp = o.side.opposite();
-        let is_perp = self.markets[mi].spec.perp.is_some();
+        let is_clearing = self.markets[mi].clearing;
+        let is_perp = self.markets[mi].spec.perp.is_some() || is_clearing;
         let taker_per_lot = if is_perp {
             0
         } else {
@@ -654,13 +714,41 @@ impl Engine {
                 let q = rem.min(mrem);
                 let notional = q as u128 * p as u128 * tick;
                 let base_amt = q as u128 * base_lot;
-                let mfee = fee(notional, mk_bps);
-                let tfee = fee(notional, tk_bps);
+                let mut mfee = fee(notional, mk_bps);
+                let mut tfee = fee(notional, tk_bps);
+                if is_clearing {
+                    match self.clearing_fill(mid, q, p, o.ts_ns, out) {
+                        Ok((mf, tf)) => {
+                            mfee = mf;
+                            tfee = tf;
+                        }
+                        Err(zfx_perps_clearing::Party::Maker) => {
+                            let (_, left) = self.remove_resting(mi, s, CancelReason::Unfillable, out);
+                            level_left = left;
+                            s = next;
+                            continue;
+                        }
+                        Err(_) => {
+                            killed = true;
+                            level_left = self.markets[mi].book.levels(opp).get(&p).map_or(0, |l| l.qty);
+                            out.push(Event::Level {
+                                market: o.market,
+                                side: opp,
+                                price: p,
+                                qty: level_left,
+                            });
+                            break 'levels;
+                        }
+                    }
+                }
                 let (buyer, seller, bfee, sfee) = match o.side {
                     Side::Buy => (o.account, macct, tfee, mfee),
                     Side::Sell => (macct, o.account, mfee, tfee),
                 };
-                if is_perp {
+                if is_clearing {
+                    let _ = (buyer, seller, bfee, sfee);
+                    self.perp_open_sub(macct, o.market, opp, q);
+                } else if is_perp {
                     self.perp_open_sub(macct, o.market, opp, q);
                     self.perp_fill(o.market, buyer, seller, q, p, bfee, sfee, out);
                 } else {
@@ -740,7 +828,7 @@ impl Engine {
     fn remove_resting(&mut self, mi: usize, slot: u32, reason: CancelReason, out: &mut Vec<Event>) -> (OrderId, u64) {
         let m = &mut self.markets[mi];
         let (n, left) = m.book.remove(slot);
-        if m.spec.perp.is_some() {
+        if m.spec.perp.is_some() || m.clearing {
             self.perp_open_sub(n.account, mi as MarketId, n.side, n.rem);
         } else {
             let per_lot = m.hold_per_lot(n.side, n.price);
@@ -759,6 +847,7 @@ impl Engine {
     }
 
     fn forget_open(&mut self, account: AccountId, id: OrderId, market: MarketId, client_id: u64) {
+        self.clearing_forget(id);
         self.order_market.remove(&id);
         let a = &mut self.accounts[account as usize];
         a.open.remove(&id);
@@ -865,6 +954,7 @@ impl Engine {
     /// delta, so a withdrawal funded by this group's trades is covered on-chain); the last batch
     /// is sealed.
     fn cut(&mut self, journal_seq: u64, journal_hash: [u8; 32], out: &mut Vec<Event>) -> Ack {
+        self.clearing_cut(journal_seq, journal_hash, out);
         self.perp_cut(out);
         let first = self.settle.next_batch_id;
         if self.settle.is_empty() {
@@ -998,7 +1088,7 @@ impl Engine {
                     let asset = if side == Side::Buy { m.spec.quote } else { m.spec.base };
                     for (_, acct, rem, _) in orders {
                         // Perp orders reserve margin, not balances.
-                        if m.spec.perp.is_none() {
+                        if m.spec.perp.is_none() && !m.clearing {
                             *held.entry((acct, asset)).or_insert(0) += m.hold_per_lot(side, price) * rem as u128;
                         }
                         open += 1;
@@ -1030,6 +1120,7 @@ impl Engine {
             *sums.entry(c).or_insert(0) += unsettled;
         }
         self.perp_invariants()?;
+        self.clearing_invariants()?;
         if let Some((s, d)) = sums.iter().find(|(_, d)| **d != 0) {
             return Err(format!("pending deltas for asset {s} sum to {d}"));
         }
@@ -1052,6 +1143,7 @@ impl Engine {
             self.insurance,
             &self.perp_dirty,
             &self.marks_changed,
+            &self.clearing,
         )));
         for m in &self.markets {
             put(&enc(&(&m.spec, m.halted, m.book.l3(Side::Buy), m.book.l3(Side::Sell))));

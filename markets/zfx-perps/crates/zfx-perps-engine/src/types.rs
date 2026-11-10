@@ -2,6 +2,7 @@
 //! events go to market data, account streams and the settlement adapter.
 
 use serde::{Deserialize, Serialize};
+use zfx_perps_clearing as zc;
 
 /// Internal account index. Account 0 is the fee collector; real accounts are created from chain
 /// events (first deposit or key registration) in chain order, so ids are deterministic.
@@ -273,6 +274,26 @@ pub enum Command {
         journal_seq: u64,
         journal_hash: [u8; 32],
     },
+    /// Enable clearing mode (NEAR clearing contract). Journaled once at bootstrap.
+    ClearingInit(crate::clearing::ClearingConfig),
+    /// A user-signed order for a clearing market. The gateway verified the signature.
+    PlaceSigned {
+        order: Box<zc::SignedOrder>,
+        stp: Stp,
+        ts_ns: u64,
+    },
+    /// Withdraw, margin move, relayed cancel, nonce floor, oracle print or funding for clearing
+    /// markets. Applied to the predicted ledger and queued for the next batch.
+    ClearingAction {
+        op: Box<zc::Op>,
+        ts_ns: u64,
+    },
+    /// An event from the clearing contract, in its sequence. `ts_ns` is the gateway time it arrived.
+    ClearingChain {
+        seq: u64,
+        event: crate::clearing::ClearingEvent,
+        ts_ns: u64,
+    },
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -301,6 +322,8 @@ pub enum Reject {
     MarkUnavailable,
     PriceOutOfBand,
     InsufficientMargin,
+    /// Refused by the clearing rules (same check the contract runs).
+    Clearing(zc::Reject),
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -312,6 +335,8 @@ pub enum CancelReason {
     SelfTrade,
     ForcedWithdrawal,
     Liquidation,
+    /// A resting clearing order failed its fill check (expired, margin, revoked key...).
+    Unfillable,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -527,5 +552,52 @@ pub enum Event {
     Socialized {
         amount: i128,
         from_accounts: u32,
+    },
+    /// Clearing position after a change (predicted ledger).
+    ClearingPosition {
+        account: AccountId,
+        market: String,
+        size: i64,
+        margin: i128,
+    },
+    ClearingFree {
+        account: AccountId,
+        free: u128,
+    },
+    /// Any other clearing-core event (fills, liquidations, oracle, funding, payouts).
+    Clearing {
+        event: zc::CEvent,
+    },
+    ClearingBatchCut {
+        batch: Box<zc::Batch>,
+    },
+    ClearingOpRejected {
+        batch_id: u64,
+        index: u32,
+        reason: zc::Reject,
+    },
+    /// A fill the engine reported that the chain will not settle (an on-chain change raced it).
+    FillReverted {
+        market: String,
+        maker: String,
+        taker: String,
+        qty: u64,
+        price: u64,
+    },
+    ClearingOpDropped {
+        op: Box<zc::Op>,
+    },
+    ClearingLiquidationRetry {
+        account: String,
+        reason: zc::Reject,
+    },
+    ClearingLiquidationFailed {
+        account: String,
+        reason: zc::Reject,
+    },
+    /// The chain applied something this engine can't reproduce. Clearing markets stop admitting
+    /// orders until an operator investigates.
+    ClearingDivergence {
+        detail: String,
     },
 }
