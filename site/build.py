@@ -33,6 +33,15 @@ DOCS = [  # (source, slug, title, one-line summary, group)
 SCRUB = [
     (r"/Users/[A-Za-z0-9_.-]+/", "~/"),
 ]
+# Mermaid diagrams, themed with the page (dark by default, light on request).
+MERMAID = """<script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+const r = document.documentElement, t = r.getAttribute("data-theme");
+const dark = t ? t === "dark" : !(window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches);
+mermaid.initialize({ startOnLoad: false, theme: dark ? "dark" : "neutral", fontFamily: "Inter, system-ui, sans-serif", htmlLabels: false, flowchart: { htmlLabels: false } });  // SVG text: the page zoom distorts HTML label measurement
+await document.fonts.ready;  // measure labels with the final font, or they get clipped
+await mermaid.run({ querySelector: "pre.mermaid" });
+</script>"""
 LOGO = open(os.path.join(SITE, "static", "logo-inline.txt")).read()
 LINKS = {os.path.basename(src): f"{slug}.html" for src, slug, _, _, _ in DOCS}
 
@@ -112,6 +121,7 @@ table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow-
 th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
 th{background:var(--th-bg);color:var(--th-ink);font:300 11.5px var(--mono);letter-spacing:.06em;text-transform:uppercase}td{color:var(--ink-2)}
 tr:last-child td{border-bottom:0}
+pre.mermaid{background:transparent;border:1px solid var(--line);text-align:center}
 blockquote{margin:18px 0;padding:14px 18px;border:1px solid var(--line);border-left:3px solid var(--ink)}blockquote p{margin:0}
 .idx{border-top:1px solid var(--line)}.idx a{display:block;padding:20px 0;border-bottom:1px solid var(--line);color:var(--ink)}
 .idx a:hover{padding-left:6px;transition:padding .15s ease}
@@ -132,6 +142,9 @@ def main():
     for src, slug, title, desc, group in DOCS:
         text = scrub(open(os.path.join(ROOT, src)).read())
         body = relink(md.reset().convert(text))
+        if 'class="language-mermaid"' in body:
+            body = re.sub(r'<pre><code class="language-mermaid">(.*?)</code></pre>', lambda m: '<pre class="mermaid">' + m.group(1) + '</pre>', body, flags=re.S)
+            body += MERMAID
         open(os.path.join(DIST, "docs", f"{slug}.html"), "w").write(PAGE.format(logo=LOGO, title=html.escape(title), desc=html.escape(desc), body=body))
         groups.setdefault(group, []).append(f'<a href="{slug}.html"><div class="t">{html.escape(title)}</div><div class="s">{html.escape(desc)}</div></a>')
     body = "<h1>Documentation</h1><p>ZeroFlux is a proof-of-work network on NEAR. Design, evidence and open risks, generated from the repository at build time.</p>"

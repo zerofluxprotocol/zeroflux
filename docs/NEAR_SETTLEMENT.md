@@ -13,6 +13,42 @@ Blocks are checked optimistically: a block is accepted unless someone proves it 
 | anyone | finalizes blocks whose window has passed | `finalize` on the contract |
 | NEAR | holds balances, runs the contract, orders transactions | the NEAR protocol |
 
+## At a glance
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant M as Miner (GPU or CPU)
+    participant C as ZFX contract on NEAR
+    participant W as Watcher
+    M->>C: work(miner)
+    C-->>M: height, target, epoch seed, challenge
+    Note over M: search nonces off-chain<br/>(51.6 M multiply-adds per attempt)
+    M->>C: submit(height, nonce, trace) + bond
+    Note over C: checks the output hash against the target<br/>block is pending (about 6 Tgas)
+    C-->>W: block(height)
+    Note over W: recomputes the trace on a CPU
+    alt a value is wrong
+        W->>C: challenge(height, layer, row)
+        Note over C: recomputes one value (about 4.5 Tgas)<br/>reverts the block and its descendants
+        C-->>W: cheater's bond
+    else every value is right
+        Note over C: challenge window passes
+        W->>C: finalize()
+        C-->>M: ZFX block reward + bond returned
+    end
+```
+
+```mermaid
+stateDiagram-v2
+    [*] --> Pending: submit + bond
+    Pending --> Finalized: window passes with no valid fraud proof
+    Pending --> Reverted: a value proven wrong (bond to challenger)
+    Pending --> Reverted: an earlier block reverted (bond refunded)
+    Finalized --> [*]: reward minted, bond returned
+    Reverted --> [*]: nothing minted
+```
+
 ## Mining a block
 
 1. The miner reads `work(miner)`: the next height, the target, the epoch seed and the work bytes.
