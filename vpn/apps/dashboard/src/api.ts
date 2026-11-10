@@ -208,9 +208,13 @@ export interface NearVerification {
   expires_at?: string;
 }
 
+/** What a caller can rely on for a destination right now (ZFX VPN trust tiers). */
+export type PrivacyTier = 'LOCAL_ONLY' | 'TRANSFORMED_PUBLIC' | 'ATTESTED_CONFIDENTIAL' | 'UNVERIFIED_EXTERNAL';
+
 export interface ProviderEntry {
   config: ProviderConfig;
   has_credential: boolean;
+  privacy_tier: PrivacyTier;
 }
 
 export type NearPrivacyTier = 'PRIVATE_TEE' | 'PRIVATE_3P_TEE' | 'INCOGNITO';

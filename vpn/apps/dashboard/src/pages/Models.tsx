@@ -34,6 +34,7 @@ import {
   PageHeader,
   SecretInput,
   TierBadge,
+  PrivacyTierBadge,
   type Loaded,
   useAction,
   useLoad,
@@ -301,7 +302,7 @@ function DestinationsCard({ providers, settings }: { providers: Loaded<{ provide
         <Empty>No destinations. Add NEAR AI, a local Ollama model, or a custom endpoint below.</Empty>
       ) : (
         <div className="list">
-          {list.map(({ config: c, has_credential }) => {
+          {list.map(({ config: c, has_credential, privacy_tier }) => {
             const t = tests[c.id];
             return (
               <div key={c.id} className="list-item" style={{ alignItems: 'flex-start', flexDirection: 'column', gap: 10 }}>
@@ -319,7 +320,7 @@ function DestinationsCard({ providers, settings }: { providers: Loaded<{ provide
                       {c.kind !== 'OLLAMA' ? ` · ${has_credential ? 'credential stored' : 'no credential'}` : ''}
                     </div>
                   </div>
-                  <TierBadge tier={c.declared_tier} />
+                  <PrivacyTierBadge tier={privacy_tier} />
                   <Button
                     small
                     busy={busy === c.id}
@@ -358,7 +359,7 @@ function DestinationsCard({ providers, settings }: { providers: Loaded<{ provide
         </div>
       )}
       <p className="muted small" style={{ marginTop: 12 }}>
-        LOCAL stays on this computer. ATTESTED_TEE is a NEAR model whose hardware attestation verified. EXTERNAL_UNVERIFIED is any other remote endpoint; it never replaces a TEE for prompts that require one. Change the default and failover order in Settings.
+        Privacy tiers: LOCAL_ONLY stays on this computer. TRANSFORMED_PUBLIC is a public or unverified model that only receives transformed content. ATTESTED_CONFIDENTIAL is a NEAR AI model whose provider-level TEE attestation verified for that exact model (still remote). UNVERIFIED_EXTERNAL claims confidentiality but has not verified, and is treated like a public model; it never replaces a verified TEE for prompts that require one. Change the default and failover order in Settings.
       </p>
       {deleting ? (
         <ConfirmDialog
@@ -415,7 +416,7 @@ function NearCard({ verifications, onChanged, hasNear }: { verifications: NearVe
     >
       <div className="stack">
         <p className="muted small">
-          NEAR AI runs models inside hardware TEEs and publishes attestation. Prompt VPN only treats a model as ATTESTED_TEE after verifying its attestation report here. {hasNear ? '' : 'NEAR is not configured yet; verify a model, then use it.'}
+          NEAR AI runs models inside hardware TEEs and publishes attestation. ZFX VPN only treats a model as ATTESTED_TEE after verifying its attestation report here. {hasNear ? '' : 'NEAR is not configured yet; verify a model, then use it.'}
         </p>
         {aliasOf ? (
           <Notice tone="info">
@@ -560,7 +561,7 @@ function OllamaGenCard({ m, onSaved }: { m: ModelsStatus | null; onSaved: () => 
     <Card title="Ollama (optional local generation)" actions={m ? m.ollama.reachable ? <Badge tone="neutral">running{m.ollama.version ? ` v${m.ollama.version}` : ''}</Badge> : <Badge tone="outline">not running</Badge> : null}>
       <div className="stack">
         <p className="muted small">
-          Optional. Ollama can generate replies on this computer (tier LOCAL), as a fallback when NEAR is unavailable or for private handling if you allow it in Settings. Prompt VPN does not use Ollama for detection.
+          Optional. Ollama can generate replies on this computer (tier LOCAL), as a fallback when NEAR is unavailable or for private handling if you allow it in Settings. ZFX VPN does not use Ollama for detection.
         </p>
         {m && !m.ollama.reachable ? <p className="small muted">{m.ollama.install ?? m.ollama.error ?? 'Install Ollama from https://ollama.com/download'}</p> : null}
         <Field label="Model" hint={m?.ollama.reachable ? 'Pick an installed model or type a name' : 'Ollama is not reachable'}>
@@ -648,7 +649,7 @@ function CustomEndpointCard({ onSaved }: { onSaved: () => void }) {
         </Check>
         <div className="alert alert-warn">
           <Check checked={ack} onChange={setAck}>
-            I understand this endpoint is <strong>EXTERNAL_UNVERIFIED</strong>: Prompt VPN cannot verify where it runs or who can read the prompts. It receives only content your policy already allows for external destinations, and it never replaces a verified TEE.
+            I understand this endpoint is <strong>EXTERNAL_UNVERIFIED</strong>: ZFX VPN cannot verify where it runs or who can read the prompts. It receives only content your policy already allows for external destinations, and it never replaces a verified TEE.
           </Check>
         </div>
         {done ? <Notice tone="ok">Saved destination {id}.</Notice> : null}

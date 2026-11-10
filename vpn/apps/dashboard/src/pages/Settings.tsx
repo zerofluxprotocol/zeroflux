@@ -65,7 +65,7 @@ export default function SettingsPage() {
       <Card title="Emergency stop">
         <div className="row between gap">
           <p className="muted">
-            {stopped ? 'Engaged. Every model request is blocked locally until you release it.' : 'Blocks all model traffic through Prompt VPN instantly. Use it if you think something is leaking.'}
+            {stopped ? 'Engaged. Every model request is blocked locally until you release it.' : 'Blocks all model traffic through ZFX VPN instantly. Use it if you think something is leaking.'}
           </p>
           {stopped ? (
             <Button variant="primary" onClick={() => setDialog('release')}>
@@ -260,7 +260,7 @@ export default function SettingsPage() {
           <div className="option-row">
             <div className="li-main">
               <div className="li-title">Sign out</div>
-              <div className="li-sub">Ends this dashboard session. Run promptvpn dashboard to sign in again.</div>
+              <div className="li-sub">Ends this dashboard session. Run zfx-vpn dashboard to sign in again.</div>
             </div>
             <Button
               small
@@ -318,7 +318,7 @@ export default function SettingsPage() {
             await shell.refresh();
           }}
         >
-          <p>Every client request through Prompt VPN is refused until you release the stop. Nothing is deleted.</p>
+          <p>Every client request through ZFX VPN is refused until you release the stop. Nothing is deleted.</p>
         </ConfirmDialog>
       ) : null}
       {dialog === 'release' ? (

@@ -80,13 +80,13 @@ function SignedOut({ error }: { error?: string }) {
   return (
     <div className="gate">
       <div className="card">
-        <div className="brand">prompt vpn</div>
-        <h1 style={{ fontSize: 24 }}>{error ? 'Cannot reach Prompt VPN' : 'Open the dashboard from your terminal'}</h1>
+        <div className="brand">zfx vpn</div>
+        <h1 style={{ fontSize: 24 }}>{error ? 'Cannot reach ZFX VPN' : 'Open the dashboard from your terminal'}</h1>
         {error ? <p className="muted">{error}</p> : null}
         <p className="muted">
           The dashboard only accepts a one-time login link issued by the local daemon. Run this in a terminal on this computer:
         </p>
-        <pre className="code">promptvpn dashboard</pre>
+        <pre className="code">zfx-vpn dashboard</pre>
         <p className="muted small">The link expires after two minutes and works once. Your session lasts 12 hours.</p>
       </div>
     </div>
@@ -128,7 +128,7 @@ function Authed({ version }: { version: string }) {
       <div className="window">
         <header className="topbar">
           <a className="brand" href={href('/overview')}>
-            prompt vpn
+            zfx vpn
           </a>
           <div className="top-right">
             {version ? <span className="faint">v{version}</span> : null}

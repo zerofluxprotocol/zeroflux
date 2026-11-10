@@ -118,6 +118,23 @@ export function Badge({ children, tone = 'neutral', title }: { children: ReactNo
   );
 }
 
+const PRIVACY_TIER_HELP: Record<string, string> = {
+  LOCAL_ONLY: 'Runs on this computer. Nothing leaves the device.',
+  TRANSFORMED_PUBLIC: 'A public or unverified model. It only receives content after sensitive values are transformed.',
+  ATTESTED_CONFIDENTIAL: 'A NEAR AI model whose provider-level TEE attestation verified for this exact model. Still remote; see the threat model.',
+  UNVERIFIED_EXTERNAL: 'Claims confidential execution, but attestation has not verified (or has expired). Treated like a public model.',
+};
+
+/** ZFX VPN privacy tier of a destination, with what it means. */
+export function PrivacyTierBadge({ tier }: { tier: string }) {
+  const tone: Tone = tier === 'LOCAL_ONLY' ? 'neutral' : tier === 'ATTESTED_CONFIDENTIAL' ? 'dark' : tier === 'TRANSFORMED_PUBLIC' ? 'outline' : 'red';
+  return (
+    <span title={PRIVACY_TIER_HELP[tier] ?? tier}>
+      <Badge tone={tone}>{tier}</Badge>
+    </span>
+  );
+}
+
 export function TierBadge({ tier }: { tier: string }) {
   const tone: Tone = tier === 'LOCAL' ? 'neutral' : tier === 'ATTESTED_TEE' || tier === 'PRIVATE_TEE' ? 'dark' : tier === 'PRIVATE_3P_TEE' ? 'outline' : 'red';
   return <Badge tone={tone}>{tier}</Badge>;

@@ -1,4 +1,4 @@
-# Prompt VPN dashboard
+# ZFX VPN dashboard
 
 React + TypeScript + Vite. `npm run build` writes static files to `dist/`, which `pv-daemon` embeds (`crates/pv-daemon/src/assets.rs`) and serves at `http://127.0.0.1:<port>/dashboard/`. Routing uses the URL hash (`#/approvals/apr_...`), so every server path can fall back to `index.html`.
 

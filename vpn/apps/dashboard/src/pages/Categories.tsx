@@ -54,7 +54,7 @@ export default function CategoriesPage() {
 
   return (
     <div className="content narrow">
-      <PageHeader title="Categories" subtitle="Built-in data types Prompt VPN looks for. Critical ones are blocked by default; turning one off needs a typed confirmation." />
+      <PageHeader title="Categories" subtitle="Built-in data types ZFX VPN looks for. Critical ones are blocked by default; turning one off needs a typed confirmation." />
       {notice ? <Notice tone="ok">{notice}</Notice> : null}
       <ErrorText error={act.error || cats.error} />
       {cats.loading && !cats.data ? <Loading /> : null}

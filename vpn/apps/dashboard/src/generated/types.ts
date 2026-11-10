@@ -39,22 +39,34 @@ export type Action =
  */
 export type OverrideMode = 'ALLOWED' | 'APPROVAL_ONCE' | 'POLICY_OWNER_ONLY' | 'FORBIDDEN';
 /**
+ * Error codes. Version 2 (ZFX VPN) names are `ZFX_*`. Prompt VPN 0.1 names (`PV_*`) are accepted on input as aliases and reported in `legacy_code`, and callers that still match on them can request them with the `X-ZFX-Error-Codes: pv1` header for the migration period.
+ *
  * This interface was referenced by `PromptVpnSchemas`'s JSON-Schema
  * via the `definition` "ErrorCode".
  */
 export type ErrorCode =
-  | 'PV_POLICY_BLOCKED'
-  | 'PV_APPROVAL_REQUIRED'
-  | 'PV_CLASSIFIER_UNAVAILABLE'
-  | 'PV_UNSUPPORTED_CONTENT'
-  | 'PV_ROUTE_FORBIDDEN'
-  | 'PV_POLICY_INVALID'
-  | 'PV_VAULT_LOCKED'
-  | 'PV_PROVIDER_ERROR'
-  | 'PV_UNAUTHORIZED'
-  | 'PV_BAD_REQUEST'
-  | 'PV_PAYLOAD_TOO_LARGE'
-  | 'PV_OUTPUT_BLOCKED';
+  | (
+      | 'ZFX_POLICY_BLOCKED'
+      | 'ZFX_APPROVAL_REQUIRED'
+      | 'ZFX_UNSUPPORTED_CONTENT'
+      | 'ZFX_POLICY_INVALID'
+      | 'ZFX_VAULT_LOCKED'
+      | 'ZFX_UPSTREAM_FAILURE'
+      | 'ZFX_UNAUTHORIZED'
+      | 'ZFX_FORBIDDEN_SCOPE'
+      | 'ZFX_BAD_REQUEST'
+      | 'ZFX_PAYLOAD_TOO_LARGE'
+      | 'ZFX_OUTPUT_BLOCKED'
+      | 'ZFX_RATE_LIMITED'
+      | 'ZFX_QUOTA_EXCEEDED'
+      | 'ZFX_IDEMPOTENCY_CONFLICT'
+      | 'ZFX_NOT_FOUND'
+    )
+  | 'ZFX_DETECTION_UNAVAILABLE'
+  | 'ZFX_ROUTE_FORBIDDEN'
+  | 'ZFX_TEE_UNVERIFIED'
+  | 'ZFX_FALLBACK_UNAVAILABLE'
+  | 'ZFX_STREAM_SAFETY_BUFFERED';
 /**
  * This interface was referenced by `PromptVpnSchemas`'s JSON-Schema
  * via the `definition` "FallbackMode".
@@ -205,6 +217,10 @@ export interface PvErrorBody {
   categories?: string[];
   code: ErrorCode;
   event_id?: string | null;
+  /**
+   * Prompt VPN 0.1 code for the same condition (migration aid).
+   */
+  legacy_code?: string | null;
   message: string;
   retryable: boolean;
   type: string;
@@ -382,10 +398,14 @@ export interface ProviderConfig {
   kind: ProviderKind;
   schema_version?: number;
   /**
-   * Whether the upstream natively supports `/v1/responses`. If false, Prompt VPN translates Responses requests into Chat Completions.
+   * Whether the upstream natively supports `/v1/responses`. If false, ZFX VPN translates Responses requests into Chat Completions.
    */
   supports_responses?: boolean;
   timeout_secs?: number;
+  /**
+   * ZFX hosted gateway used as protected transport: the local daemon sends only transformed payloads, marks them preprocessed, and restores placeholders itself. The hosted side never receives raw values or the map.
+   */
+  zfx_hosted_transport?: boolean;
 }
 /**
  * Non-secret metadata about one reversible placeholder. The value itself lives only in the encrypted vault.

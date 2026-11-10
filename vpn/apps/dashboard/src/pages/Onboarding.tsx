@@ -214,10 +214,10 @@ export default function OnboardingPage({ onDone }: { onDone: () => void }) {
     });
 
   const titles = [
-    'Prompt VPN runs on this computer',
+    'ZFX VPN runs on this computer',
     'Critical data stays blocked',
     'Choose what stays private',
-    'When Prompt VPN is unsure',
+    'When ZFX VPN is unsure',
     'Detection model and destinations',
     'Notifications and connect',
   ];
@@ -286,7 +286,7 @@ function WizardFrame({ children, right }: { children: React.ReactNode; right?: R
     <div className="wizard-page">
       <div className="wizard">
         <div className="wizard-top">
-          <span className="brand">prompt vpn</span>
+          <span className="brand">zfx vpn</span>
           {right}
         </div>
         {children}
@@ -301,7 +301,7 @@ function Step1({ info }: { info: OnboardingInfo }) {
   return (
     <>
       <p className="lede">
-        Prompt VPN sits between your AI apps and the model. It checks every prompt on this computer, removes or blocks what you choose, and only then forwards it.
+        ZFX VPN sits between your AI apps and the model. It checks every prompt on this computer, removes or blocks what you choose, and only then forwards it.
       </p>
       <div className="stack">
         <div>
@@ -319,7 +319,7 @@ function Step1({ info }: { info: OnboardingInfo }) {
           </div>
         </div>
         <Notice tone="warn">
-          <strong>Coverage limit.</strong> Prompt VPN inspects messages sent through this API, including tool-call arguments and tool results inside them. It does not intercept tools your agent runs on its own, such as shell commands, HTTP requests or a browser.
+          <strong>Coverage limit.</strong> ZFX VPN inspects messages sent through this API, including tool-call arguments and tool results inside them. It does not intercept tools your agent runs on its own, such as shell commands, HTTP requests or a browser.
         </Notice>
       </div>
     </>
@@ -387,7 +387,7 @@ function Step3({ cats, draft, set, existingEntities }: { cats: CategoryState[]; 
 
   return (
     <>
-      <p className="lede">Prompt VPN scans your prompts and keeps the information you choose private before it ever leaves your device.</p>
+      <p className="lede">ZFX VPN scans your prompts and keeps the information you choose private before it ever leaves your device.</p>
       <p className="muted small">Tokenize swaps a value for a placeholder and restores it in the reply. Redact removes it. Block stops the prompt.</p>
       <div className="list">
         {other.map((c) => {
@@ -520,7 +520,7 @@ function Step4({ draft, set }: { draft: Draft; set: (p: Partial<Draft>) => void 
           <Radio name="fb" checked={draft.fallbackMode === 'TEE_PRIVATE_ROUTE'} onChange={() => set({ fallbackMode: 'TEE_PRIVATE_ROUTE' })}>
             <strong>Verified NEAR TEE auto-route</strong>
             <div className="muted small">
-              Sends the prompt off this device, unredacted, to a NEAR AI model running in a hardware TEE whose attestation Prompt VPN verified. Requires your consent and a configured NEAR model. Critical data is still blocked.
+              Sends the prompt off this device, unredacted, to a NEAR AI model running in a hardware TEE whose attestation ZFX VPN verified. Requires your consent and a configured NEAR model. Critical data is still blocked.
             </div>
           </Radio>
           {draft.fallbackMode === 'TEE_PRIVATE_ROUTE' ? (
@@ -640,7 +640,7 @@ function Step5({
       <div className="section-title">Private inference with NEAR AI (recommended)</div>
       <div className={`radio-card${!draft.nearSkip ? ' selected' : ''}`} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <p className="small">
-          NEAR AI runs open models inside hardware TEEs and publishes attestation reports. Prompt VPN verifies the report before sending anything and lists only models that pass.
+          NEAR AI runs open models inside hardware TEEs and publishes attestation reports. ZFX VPN verifies the report before sending anything and lists only models that pass.
         </p>
         <Field label="Verified model">
           <select className="input" value={draft.nearModel} onChange={(e) => set({ nearModel: e.target.value, nearSkip: false })} disabled={!eligible.length}>
@@ -750,7 +750,7 @@ function Step5({
             </Check>
             <div className="alert alert-warn">
               <Check checked={draft.customAck} onChange={(v) => set({ customAck: v })}>
-                I understand this endpoint is <strong>EXTERNAL_UNVERIFIED</strong>. Prompt VPN cannot verify where it runs. It receives only what my policy allows for external destinations and never stands in for a verified TEE.
+                I understand this endpoint is <strong>EXTERNAL_UNVERIFIED</strong>. ZFX VPN cannot verify where it runs. It receives only what my policy allows for external destinations and never stands in for a verified TEE.
               </Check>
             </div>
           </div>
@@ -849,7 +849,7 @@ function Finished({ result, draft, onDone }: { result: OnboardingComplete; draft
       <div className="wizard-body">
         <span className="wizard-step">Setup complete</span>
         <h1>You are set up</h1>
-        <p className="lede">Your policy is saved{result.near_status === 'NEAR_NOT_CONFIGURED' ? ' and Prompt VPN is running local-only. Add NEAR AI any time from Models & destinations' : ''}.</p>
+        <p className="lede">Your policy is saved{result.near_status === 'NEAR_NOT_CONFIGURED' ? ' and ZFX VPN is running local-only. Add NEAR AI any time from Models & destinations' : ''}.</p>
         {result.api_key ? (
           <KeyOnce apiKey={result.api_key} baseUrl={result.base_url} />
         ) : (
@@ -895,7 +895,7 @@ function Finished({ result, draft, onDone }: { result: OnboardingComplete; draft
         <div className="stack-s">
           <div className="section-title">Connect your agent</div>
           <p className="muted small">
-            To have a coding agent point your clients here with reversible edits, give it the setup skill at <code>skills/promptvpn-setup</code> in the Prompt VPN repository.
+            To have a coding agent point your clients here with reversible edits, give it the setup skill at <code>skills/zfx-vpn-setup</code> in the ZFX VPN repository.
           </p>
         </div>
         <p className="muted small mono">policy {result.policy_hash.slice(0, 23)}</p>

@@ -22,7 +22,7 @@ mkdirSync(out, { recursive: true });
 
 const daemon = process.env.PV_DAEMON_URL ?? 'http://127.0.0.1:8787';
 const dash = process.env.PV_DASH_URL ?? daemon;
-const token = process.env.PV_ADMIN_TOKEN ?? readFileSync(process.env.PV_ADMIN_TOKEN_FILE ?? join(homedir(), '.promptvpn/admin.token'), 'utf8').trim();
+const token = process.env.ZFX_ADMIN_TOKEN ?? process.env.PV_ADMIN_TOKEN ?? readFileSync(process.env.ZFX_ADMIN_TOKEN_FILE ?? process.env.PV_ADMIN_TOKEN_FILE ?? join(homedir(), '.zfx-vpn/admin.token'), 'utf8').trim();
 
 /** Use an already-downloaded Chromium if Playwright's pinned build is absent. */
 function findChromium() {

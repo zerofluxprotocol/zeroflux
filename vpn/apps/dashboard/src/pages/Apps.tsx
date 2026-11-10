@@ -22,7 +22,7 @@ curl ${baseUrl}/chat/completions \\
 export function KeyOnce({ apiKey, baseUrl }: { apiKey: string; baseUrl: string }) {
   return (
     <div className="stack">
-      <Notice tone="warn">This key is shown once. Copy it now; Prompt VPN stores only its hash.</Notice>
+      <Notice tone="warn">This key is shown once. Copy it now; ZFX VPN stores only its hash.</Notice>
       <div className="keybox">
         <code>{apiKey}</code>
         <CopyButton text={apiKey} />
@@ -61,7 +61,7 @@ export default function AppsPage() {
             {baseUrl ? <CopyButton text={baseUrl} /> : null}
           </div>
           <p className="muted small">
-            For guided client setup, an agent can use the setup skill in <code>skills/promptvpn-setup</code>; it makes reversible config edits only after you approve them.
+            For guided client setup, an agent can use the setup skill in <code>skills/zfx-vpn-setup</code>; it makes reversible config edits only after you approve them.
           </p>
         </div>
       </Card>

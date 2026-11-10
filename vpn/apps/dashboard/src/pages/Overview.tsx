@@ -65,7 +65,7 @@ export default function OverviewPage() {
             <CopyButton text={ov.base_url} />
           </div>
           <p className="muted small">
-            Coverage: Prompt VPN inspects requests sent to this API, including tool-call arguments and tool results inside them. It does not intercept tools your agent executes separately (shell, HTTP, browser).
+            Coverage: ZFX VPN inspects requests sent to this API, including tool-call arguments and tool results inside them. It does not intercept tools your agent executes separately (shell, HTTP, browser).
           </p>
         </div>
       </Card>

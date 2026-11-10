@@ -46,7 +46,7 @@ export default function ActivityPage() {
             >
               Verify audit chain
             </Button>
-            <Button small onClick={() => act.run(async () => download('promptvpn-events.jsonl', await getText('/events/export'), 'application/x-ndjson'))}>
+            <Button small onClick={() => act.run(async () => download('zfx-vpn-events.jsonl', await getText('/events/export'), 'application/x-ndjson'))}>
               Export
             </Button>
           </>

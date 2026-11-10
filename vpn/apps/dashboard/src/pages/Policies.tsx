@@ -82,7 +82,7 @@ export default function PoliciesPage() {
         subtitle="Rules decide what happens to each detected category. More specific scopes win; critical rules marked FORBIDDEN cannot be weakened by any other rule."
         actions={
           <>
-            <Button small onClick={() => act.run(async () => download('promptvpn-policy.json', JSON.stringify(await get('/policies/export'), null, 2)))}>
+            <Button small onClick={() => act.run(async () => download('zfx-vpn-policy.json', JSON.stringify(await get('/policies/export'), null, 2)))}>
               Export
             </Button>
             <Button small onClick={() => fileRef.current?.click()}>
