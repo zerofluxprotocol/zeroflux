@@ -20,7 +20,9 @@ macro_rules! lazy_re {
     };
 }
 
-lazy_re!(EMAIL_RE, r"(?i)\b[a-z0-9._%+\-]+@[a-z0-9](?:[a-z0-9\-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9\-]*[a-z0-9])?)*\.[a-z]{2,24}\b");
+// Unicode letters are allowed in local parts and domain labels (RFC 6531 / IDN):
+// an ASCII-only pattern silently missed addresses like zoë@例え.jp.
+lazy_re!(EMAIL_RE, r"(?i)\b[\p{L}\p{M}0-9._%+\-]+@[\p{L}0-9](?:[\p{L}\p{M}0-9\-]*[\p{L}\p{M}0-9])?(?:\.[\p{L}0-9](?:[\p{L}\p{M}0-9\-]*[\p{L}\p{M}0-9])?)*\.\p{L}{2,24}\b");
 lazy_re!(SSN_RE, r"\b(\d{3})[- ](\d{2})[- ](\d{4})\b");
 lazy_re!(NINE_DIGITS_RE, r"\b\d{9}\b");
 lazy_re!(EIN_RE, r"\b\d{2}-\d{7}\b");
@@ -206,7 +208,7 @@ pub fn detect(text: &str) -> Vec<Finding> {
     let mut o = Out { text, findings: Vec::new() };
 
     for m in EMAIL_RE.find_iter(text) {
-        o.push(EMAIL, m.start(), m.end(), 0.97, "email-v1", "pattern");
+        o.push(EMAIL, m.start(), m.end(), 0.97, "email-v2", "pattern");
     }
 
     // Government IDs
@@ -469,6 +471,8 @@ mod tests {
     #[test]
     fn email_phone() {
         assert_eq!(span("mail jane.doe+x@example.co.uk now", EMAIL), "jane.doe+x@example.co.uk");
+        assert_eq!(span("Write to zoë.ünïcode@example.org today", EMAIL), "zoë.ünïcode@example.org");
+        assert_eq!(span("mail 用户@例子.广告 please", EMAIL), "用户@例子.广告");
         assert_eq!(span("call (555) 010-1234", PHONE), "(555) 010-1234");
         assert!(has("reach me at +44 20 7946 0958", PHONE));
         assert!(!has("order 5550101234 shipped", PHONE));

@@ -5,7 +5,11 @@ use pv_core::Finding;
 use regex::Regex;
 use std::sync::LazyLock;
 
-static B64_RE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"[A-Za-z0-9+/_\-]{24,}={0,2}").unwrap());
+/// 12 characters is the base64 length of 9 bytes. The old minimum of 24 let
+/// short encoded critical values through (an SSN is 16 characters of base64).
+/// Decoded text must still be mostly printable UTF-8, which random identifiers
+/// and hex hashes are not.
+static B64_RE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"[A-Za-z0-9+/_\-]{12,}={0,2}").unwrap());
 
 /// Decode a base64/base64url blob to printable UTF-8, if it plausibly is text.
 pub fn decode_b64_text(s: &str) -> Option<String> {
@@ -19,7 +23,7 @@ pub fn decode_b64_text(s: &str) -> Option<String> {
         if let Ok(bytes) = e.decode(s.as_bytes()) {
             if let Ok(t) = String::from_utf8(bytes) {
                 let printable = t.chars().filter(|c| !c.is_control() || c.is_whitespace()).count();
-                if !t.is_empty() && printable * 100 / t.chars().count() >= 90 {
+                if t.chars().count() >= 6 && printable * 100 / t.chars().count() >= 90 {
                     return Some(t);
                 }
             }

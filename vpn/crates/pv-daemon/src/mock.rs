@@ -158,8 +158,8 @@ fn chat_inner(model: &str, v: &Value) -> Response {
             "mock-slow" => {
                 let text = format!("You said: {}", last_text(&v));
                 let mut frames: Vec<String> = chunks(&text, 5).iter().map(|c| chunk(c)).collect();
-                for _ in 0..40 {
-                    frames.push(chunk("....."));
+                for _ in 0..60 {
+                    frames.push(chunk("........................................"));
                 }
                 frames.push("data: [DONE]\n\n".into());
                 return sse_frames(frames, 50, None);
