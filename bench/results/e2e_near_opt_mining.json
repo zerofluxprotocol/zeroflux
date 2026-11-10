@@ -12,14 +12,14 @@
       "check": "O1 honest v0.1 blocks posted cheaply; the watcher re-checks each one and challenges none",
       "result": "PASS",
       "evidence": {
-        "head": 12,
+        "head": 13,
         "submit_gas_tgas": {
-          "n": 12,
+          "n": 13,
           "min": 5.98470350198,
           "median": 6.035057289596,
-          "max": 6.068843493087
+          "max": 6.075333209483
         },
-        "watcher_valid": 12,
+        "watcher_valid": 13,
         "profile": "zfx-fp8c-v0.1",
         "macs_per_attempt": "51642368"
       }
@@ -28,22 +28,22 @@
       "check": "O2 a cheater who skipped all matrix work is caught by a one-row fraud proof; the bond moves to the watcher",
       "result": "PASS",
       "evidence": {
-        "cheat_grind_iterations": 4505,
-        "cheat_submit_gas_tgas": 6.07309083443,
+        "cheat_grind_iterations": 2704,
+        "cheat_submit_gas_tgas": 6.07978953085,
         "challenge": {
           "event": "challenge",
           "failure": null,
-          "gas_burnt_tgas": 3.787601290656,
-          "height": 13,
+          "gas_burnt_tgas": 3.794244908845,
+          "height": 14,
           "layer": 0,
           "miner": "cheater.test.near",
           "ok": true,
           "result": {
-            "check_tgas": 0.100377718191,
+            "check_tgas": 0.100429551819,
             "claimed": 1,
-            "correct": 8,
+            "correct": -1,
             "fraud": true,
-            "height": "13",
+            "height": "14",
             "reverted_descendants": [],
             "slashed_bond": "1000000000000000000000000"
           },
@@ -63,26 +63,26 @@
       "check": "O3 an honest block mined on top of a fraudulent block is reverted with it; its miner's bond is refunded",
       "result": "PASS",
       "evidence": {
-        "fraud_height": 13,
-        "child_height": 14,
-        "head_after": 12,
+        "fraud_height": 14,
+        "child_height": 15,
+        "head_after": 13,
         "challenge": {
           "event": "challenge",
           "failure": null,
-          "gas_burnt_tgas": 5.34604641212,
-          "height": 13,
+          "gas_burnt_tgas": 5.354066728937,
+          "height": 14,
           "layer": 0,
           "miner": "cheater.test.near",
           "ok": true,
           "result": {
             "check_tgas": 0.100429551819,
             "claimed": 1,
-            "correct": 8,
+            "correct": -1,
             "fraud": true,
-            "height": "13",
+            "height": "14",
             "reverted_descendants": [
               {
-                "height": "14",
+                "height": "15",
                 "miner": "miner1.test.near"
               }
             ],
@@ -91,8 +91,8 @@
           "row": 0
         },
         "honest_miner_near": [
-          997.996,
-          997.995
+          988.993,
+          988.993
         ]
       }
     },
@@ -106,7 +106,7 @@
             "expected_layer": 2,
             "challenge_layer": 2,
             "ok": true,
-            "tx_gas_tgas": 4.523012888802,
+            "tx_gas_tgas": 4.528917161794,
             "check_tgas": 0.834318853503
           },
           {
@@ -114,7 +114,7 @@
             "expected_layer": 4,
             "challenge_layer": 4,
             "ok": true,
-            "tx_gas_tgas": 4.538958295806,
+            "tx_gas_tgas": 4.544921182336,
             "check_tgas": 0.850021151763
           }
         ]
@@ -124,32 +124,32 @@
       "check": "O4 a challenge against a correct value fails",
       "result": "PASS",
       "evidence": {
-        "height": 12,
+        "height": 13,
         "failure": "onError\":\"Smart contract panicked: no fraud: the value is correct\"}}}}",
-        "check_gas_tgas": 3.08171534862
+        "check_gas_tgas": 3.083990804236
       }
     },
     {
       "check": "O5 after the window only honest blocks mint: supply == reward x final height, the cheater holds no ZFX",
       "result": "PASS",
       "evidence": {
-        "final_height": 12,
-        "supply": "60000000000",
+        "final_height": 13,
+        "supply": "65000000000",
         "balances": {
-          "miner1.test.near": 10000000000,
-          "miner2.test.near": 50000000000,
+          "miner1.test.near": 55000000000,
+          "miner2.test.near": 10000000000,
           "cheater.test.near": 0
         },
-        "finalize_gas_tgas": 24.036201706476,
+        "finalize_gas_tgas": 25.877719404575,
         "frauds": 4
       }
     }
   ],
   "submit_gas_tgas": {
-    "n": 12,
+    "n": 13,
     "min": 5.98470350198,
     "median": 6.035057289596,
-    "max": 6.068843493087
+    "max": 6.075333209483
   },
   "passed": 7,
   "total": 7

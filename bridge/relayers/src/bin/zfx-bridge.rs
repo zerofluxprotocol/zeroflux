@@ -226,7 +226,10 @@ async fn main() {
                             println!("{}", json!({"event": "valid", "height": h, "miner": b["miner"]}))
                         }
                         Some((layer, row)) => {
-                            let o = near.call(&s, &contract, "challenge", json!({"height": h.to_string(), "layer": layer, "row": row}), 300, 0);
+                            // A one-row proof burns about 4.5 Tgas plus a little per reverted
+                            // descendant; 100 Tgas keeps the prepaid gas (and the balance a
+                            // watcher needs) at about 0.1 NEAR instead of 0.3.
+                            let o = near.call(&s, &contract, "challenge", json!({"height": h.to_string(), "layer": layer, "row": row}), 100, 0);
                             println!(
                                 "{}",
                                 json!({"event": "challenge", "height": h, "layer": layer, "row": row, "miner": b["miner"],
@@ -395,6 +398,22 @@ async fn main() {
                     let b: Value = serde_json::from_str(&body).unwrap_or(Value::Null);
                     let height = b["work_id"].as_str().unwrap_or("0").to_string();
                     let nonce = b["nonce"].as_str().map(String::from).unwrap_or_else(|| b["nonce"].to_string());
+                    // Keep a reserve so the same account can still pay for `finalize` (which
+                    // returns bonds) and for challenges. Spending it all on bonds deadlocks:
+                    // no finalize, so no bonds come back.
+                    const RESERVE: u128 = 300_000_000_000_000_000_000_000; // 0.3 NEAR
+                    const SUBMIT_GAS_COST: u128 = 50_000_000_000_000_000_000_000; // 50 Tgas prepaid, upper bound
+                    if optimistic {
+                        let have = near.view_account(&s.account_id).ok().and_then(|a| a["amount"].as_str().and_then(|v| v.parse::<u128>().ok()));
+                        if let Some(have) = have {
+                            if have < bond + SUBMIT_GAS_COST + RESERVE {
+                                let msg = "not enough NEAR for another bond while keeping 0.3 NEAR for finalize and challenges: mining resumes as pending blocks finalize and return their bonds";
+                                eprintln!("[near-mine-proxy] {}", msg);
+                                respond(req, json!({"accepted": false, "error": msg}));
+                                continue;
+                            }
+                        }
+                    }
                     let res = if optimistic {
                         // Recompute the winning attempt's full trace and post it with the bond.
                         let w = near.view(&contract, "work", json!({"miner": s.account_id}), "optimistic").unwrap_or(Value::Null);
@@ -406,7 +425,9 @@ async fn main() {
                             &contract,
                             "submit",
                             json!({"height": height, "nonce": nonce, "trace": base64::engine::general_purpose::STANDARD.encode(trace)}),
-                            300,
+                            // A submit burns about 6 Tgas; 300 Tgas would reserve ~0.3 NEAR of
+                            // prepaid gas per block on top of the bond.
+                            50,
                             bond,
                         )
                     } else {
@@ -421,6 +442,12 @@ async fn main() {
                             respond(req, json!({"accepted": true, "block_hash": o.tx_hash, "result": o.value, "gas_burnt_tgas": gas_burnt_tgas(&o.raw)}))
                         }
                         Ok(o) => respond(req, json!({"accepted": false, "error": o.failure, "code": 1002})),
+                        Err(e) if e.contains("NotEnoughBalance") => {
+                            // Every pending block holds a bond until its challenge window passes.
+                            let msg = "not enough NEAR for another bond: mining resumes as pending blocks finalize and return their bonds";
+                            eprintln!("[near-mine-proxy] {}", msg);
+                            respond(req, json!({"accepted": false, "error": msg}))
+                        }
                         Err(e) => respond(req, json!({"accepted": false, "error": e})),
                     }
                 } else {

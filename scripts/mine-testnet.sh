@@ -4,8 +4,9 @@
 #   scripts/mine-testnet.sh <account>.testnet [cpu|mlx|mps|cuda|hip]
 #
 # Needs: a NEAR testnet account whose key is in ~/.near-credentials/testnet/
-# (create one free with the faucet, see below) holding about 2 NEAR for bonds
-# (0.25 NEAR per pending block, returned when the block finalizes), and a built
+# (create one free with the faucet, see below) holding about 4 NEAR for bonds
+# (0.25 NEAR per pending block, returned when its 10-minute challenge window
+# passes; a fast miner can have 10 or more blocks pending at once), and a built
 # checkout (`cargo build --release`, plus `make -C miner/cuda cuda|hip` for GPUs
 # or the Python env for mlx/mps).
 #
@@ -60,15 +61,24 @@ fi
 LOG="${ZFX_LOG_DIR:-$ROOT/deploy/run/testnet-miner}"
 mkdir -p "$LOG"
 pids=()
-cleanup() { kill "${pids[@]}" 2>/dev/null || true; echo; echo "balance   $(view ft_balance_of "{\"account_id\":\"$ACCOUNT\"}") (ZFX base units, 8 decimals)"; }
+cleanup() {
+  trap - EXIT INT TERM
+  kill "${pids[@]}" 2>/dev/null || true
+  echo; echo "balance   $(view ft_balance_of "{\"account_id\":\"$ACCOUNT\"}") (ZFX base units, 8 decimals)"
+  exit 0
+}
 trap cleanup EXIT INT TERM
 
 "$BIN/zfx-bridge" near-opt-watch --interval-ms 3000 --rpc "$RPC" --signer "$ACCOUNT" --key-file "$KEY" --contract "$CONTRACT" >"$LOG/watch.log" 2>&1 &
 pids+=($!)
 "$BIN/zfx-bridge" near-mine-proxy --optimistic --rpc "$RPC" --signer "$ACCOUNT" --key-file "$KEY" --contract "$CONTRACT" --listen "127.0.0.1:$PORT" >"$LOG/proxy.log" 2>&1 &
 pids+=($!)
-( while sleep 120; do call --method finalize --args '{"max":50}' --gas 300 >>"$LOG/finalize.log" 2>&1 || true; done ) &
+( while sleep 120; do call --method finalize --args '{"max":20}' --gas 100 >>"$LOG/finalize.log" 2>&1 || true; done ) &
 pids+=($!)
 sleep 2
 echo "mining    backend=$BACKEND  logs in $LOG  (Ctrl-C to stop)"
-"$BIN/zfx-miner" mine --node "http://127.0.0.1:$PORT" "${MINER[@]}"
+# In the background plus `wait`, so a signal to this script (not only Ctrl-C in its
+# terminal) runs cleanup and stops every child.
+"$BIN/zfx-miner" mine --node "http://127.0.0.1:$PORT" "${MINER[@]}" &
+pids+=($!)
+wait "$!"
