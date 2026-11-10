@@ -2,7 +2,7 @@
 
 Versioned public interfaces. Machine-readable schemas live in `schemas/`; `tests/contract_api/test_contract_api.py` checks a live node against them and writes `bench/results/contract_api.json`. Captured fixtures are in `schemas/fixtures/`.
 
-## 0. ZFX contract on NEAR (`zfx-mine-opt`, current design)
+## 1. ZFX token contract on NEAR (`zfx-mine-opt`)
 
 NEP-141 (`ft_transfer`, `ft_transfer_call`, `ft_balance_of`, `ft_total_supply`), NEP-145 storage and NEP-148 metadata (symbol `ZFX`, 8 decimals), plus:
 
@@ -18,9 +18,21 @@ NEP-141 (`ft_transfer`, `ft_transfer_call`, `ft_balance_of`, `ft_total_supply`),
 
 Byte layouts (work bytes, challenge, chain hash, result digest) are in `NEAR_SETTLEMENT.md`. Events (`EVENT_JSON`, standard `zfx-mine-opt`): `submitted`, `fraud`, plus NEP-141 `ft_mint` with memo `zfx-block:<height>`. Errors asserted by tests: `stale height: another miner found this block`, `digest does not meet the target`, `attach the bond`, `no fraud: the value is correct`, `block is not pending`.
 
-Sections 1 and 2 below describe the own-chain alternative.
+## 2. NEAR Intents adapter (`bridge/intents/zfx_intents/adapter.py`)
 
-## 1. ZeroFlux node JSON-RPC (API v1, consensus v2)
+| operation | maps to | terminal states |
+|---|---|---|
+| `intents.quote(token_in, token_out, exact_amount_in \| exact_amount_out, min_deadline_ms)` | Message Bus `quote` | list of solver quotes (empty when no liquidity or stale price) |
+| `intents.submit(quote, signer, key, verifier, salt)` | signs a NEP-413 `token_diff` mirroring the quote; Message Bus `publish_intent` | returns `intent_hash` |
+| `intents.status(intent_hash)` | Message Bus `get_status` | `SETTLED` (with NEAR tx hash) or `NOT_FOUND_OR_NOT_VALID` |
+
+Token ids are `nep141:<contract>`. Nonces follow Verifier defuse/v0.4.2: `5628f6c6 | 0x00 | salt[4] | deadline_ns i64le | random[15]`, base64. Payload: `{"standard":"nep413","payload":{"recipient","nonce","message"},"public_key","signature"}`. See `docs/INTENTS_INTEGRATION.md`.
+
+## Alternative design: own chain with a committee bridge
+
+ZFX on NEAR uses none of this. In the current design the contract above mints ZFX directly on NEAR, so there is no wrapped token and no bridge. These interfaces belong to the own-chain alternative (`BRIDGE_TRUST_MODEL.md`): ZFX lives on a separate ZeroFlux chain, and wZFX is the copy a 2-of-3 committee mints on NEAR against ZFX locked there. They are kept because that design is still built and tested.
+
+### ZeroFlux node JSON-RPC (API v1, consensus v2)
 
 Transport: `POST /rpc`, JSON-RPC 2.0. `params` is an object or a one-element array holding the object. Schema: `schemas/zfx-node-rpc-v1.json` (every method's params, result and listed error codes).
 
@@ -46,7 +58,7 @@ Error codes: `-32700` parse, `-32600` invalid request, `-32601` unknown method, 
 
 Chain identity: `chain_id` u32 (testnet `0x5a460002`); `consensus_version` 2; header magic `ZFX2`, 164 bytes.
 
-### Signing bytes
+#### Signing bytes
 
 Transaction (wallet, SLH-DSA, FIPS 205 context `ZFX-v0.1`):
 
@@ -64,7 +76,7 @@ Bridge release and admin approvals (relayer SLH-DSA-SHA2-128s, context `ZFX-brid
 
 Golden vectors for all of these: `tests/vectors/consensus_v2.json`, recomputed by `cargo test -p zfx-verify`.
 
-## 2. wZFX contract on NEAR
+### wZFX, the bridged copy of own-chain ZFX on NEAR
 
 NEP-141 (fungible token), NEP-145 (storage), NEP-148 (metadata: symbol `wZFX`, decimals 8). Source `bridge/near/wzfx/src/lib.rs`.
 
@@ -91,13 +103,3 @@ The relayer computes the same bytes in `bridge/relayers/src/digest.rs`. Golden-v
 Events (`EVENT_JSON:` logs): NEP-141 `ft_mint` (memo `zfx-deposit:<deposit_id>`) and `ft_burn` (memo `zfx-withdrawal:<withdrawal_id>`); bridge events with `standard: "zfx-bridge"`, `version: "1.0.0"`: `mint`, `burn`, `pause`, `unpause`, `rotation_proposed`, `rotation_applied`, `upgrade_staged`, `upgrade_deployed`, `refund_burned`.
 
 Panic messages are the error codes on NEAR. Examples asserted by tests: `insufficient committee approvals`, `invalid committee signature`, `deposit already minted (replay)`, `attestation expired`, `attestation for wrong committee epoch`, `bridge paused`, `unpause needs threshold approvals`, `rotation timelock not elapsed`, `owner only`, `upgrade timelock not elapsed`, `WASM does not match the staged code hash`.
-
-## 3. Intents adapter (`bridge/intents/zfx_intents/adapter.py`)
-
-| operation | maps to | terminal states |
-|---|---|---|
-| `intents.quote(token_in, token_out, exact_amount_in \| exact_amount_out, min_deadline_ms)` | Message Bus `quote` | list of solver quotes (empty when no liquidity or stale price) |
-| `intents.submit(quote, signer, key, verifier, salt)` | signs a NEP-413 `token_diff` mirroring the quote; Message Bus `publish_intent` | returns `intent_hash` |
-| `intents.status(intent_hash)` | Message Bus `get_status` | `SETTLED` (with NEAR tx hash) or `NOT_FOUND_OR_NOT_VALID` |
-
-Token ids are `nep141:<contract>`. Nonces follow Verifier defuse/v0.4.2: `5628f6c6 | 0x00 | salt[4] | deadline_ns i64le | random[15]`, base64. Payload: `{"standard":"nep413","payload":{"recipient","nonce","message"},"public_key","signature"}`. See `docs/INTENTS_INTEGRATION.md`.

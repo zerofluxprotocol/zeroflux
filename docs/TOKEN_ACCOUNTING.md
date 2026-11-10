@@ -12,6 +12,8 @@ ZFX is a NEP-141 token on NEAR (`zfx-mine-opt`), 8 decimals. All amounts are int
 
 ## Alternative architecture: own chain and committee bridge
 
+ZFX on NEAR has no wrapped copy; the contract mints it directly. Everything below applies only to the own-chain alternative, where ZFX lives on a separate chain and wZFX is the copy a 2-of-3 committee mints on NEAR.
+
 All amounts are integers in base units. 1 ZFX = 10^8 base units on the native chain, and wZFX uses `decimals: 8`, so one base unit maps to one wZFX base unit with no rounding anywhere.
 
 ### Native supply
