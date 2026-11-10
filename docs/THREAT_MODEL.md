@@ -1,6 +1,21 @@
-# Threat model (consensus v2, bridge v1)
+# Threat model
 
 Adversary (spec section 3): arbitrary CPUs, GPUs, ASICs, memory and network nodes. It chooses nonces and headers, parallelizes, precomputes anything that does not depend on the challenge, modifies kernels, crafts proofs, and runs malicious peers.
+
+## 0. ZeroFlux on NEAR (current design)
+
+| threat | outcome | evidence |
+|---|---|---|
+| a miner submits a block without doing the work | any watcher proves one wrong value; the block and its descendants are reverted and the bond goes to the watcher | `near_opt_mining.py` O2, O6 |
+| a cheater computes early layers honestly and fakes a deep one | the earliest wrong value is still a single provable row | O6 |
+| honest miners build on a fraudulent block | their blocks are reverted with it and their bonds returned | O3 |
+| a griefer challenges correct values | the challenge fails and costs the griefer gas | O4 |
+| a front-runner copies a winning nonce from the mempool | the challenge commits to the submitter's account, so the nonce is worthless to anyone else | `near_mining.py` C4 |
+| majority hashpower, including rented GPUs | wins most rewards; cannot reverse transfers or past blocks, because NEAR holds the ledger | by design |
+| no honest watcher during a whole window, or challenges censored for a whole window | a bad block finalizes and mints | assumption: one honest watcher; mitigations: watcher runs with every miner, bond above reward, longer windows on public networks |
+| NEAR outage, gas changes or protocol changes | mining and finalization pause or change cost | dependency on NEAR |
+
+Sections 1 to 3 cover the proof of work itself and apply to every design. Sections 4 and 6 cover the own-chain alternative.
 
 ## 1. Security invariants and their status
 
@@ -34,7 +49,7 @@ Each attack has code in `crates/zfx-research/src/attacks.rs` and data in `bench/
 - **A and B: canonical arithmetic is not native.** 63% to 100% of outputs differ from the canonical bits under every hardware-like reduction order, so honest GPU miners would need 9 int8 GEMMs of Ozaki emulation.
 - **D: generation-bound.** 512 MACs per SHAKE byte means a GPU spends most of its time hashing.
 
-## 4. Network and DoS
+## 4. Network and DoS (own-chain alternative)
 
 | threat | mitigation | status |
 |---|---|---|
@@ -55,7 +70,7 @@ Each attack has code in `crates/zfx-research/src/attacks.rs` and data in `bench/
 3. SLH-DSA security reduces to its hash function (FIPS 205). The `fips205` crate is correct, as its ACVP vector tests indicate, but it is not audited for ZeroFlux.
 4. An honest majority of mining work.
 
-## 6. Bridge (v1)
+## 6. Committee bridge (own-chain alternative)
 
 Full model: `docs/BRIDGE_TRUST_MODEL.md`. Summary of the adversaries and outcomes:
 

@@ -1,4 +1,6 @@
-# ZeroFlux consensus v2 (private testnet)
+# Proof-of-work specification
+
+On NEAR (current design, `NEAR_SETTLEMENT.md`), the parts that apply are section 1 (profiles), section 3 (the proof of work) and section 4 (difficulty). Sections 2, 5, 6 and 7 specify the own-chain alternative: block header, transactions, node API and bridge module.
 
 Status: frozen for the private testnet. v2 is a hard fork of v0.1 (`consensus_version: 2`): it adds `state_root` to the header, coinbase maturity, transaction memos, the native bridge module and the RunningMax difficulty rule. The PoW function and its golden vectors are unchanged. Not frozen for any value-bearing network (`MAINNET_READY = false`, see RELEASE_READINESS.md).
 

@@ -15,26 +15,26 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(ROOT, "site")
 DIST = os.path.join(SITE, "dist")
 
-DOCS = [  # (source, slug, title, one-line summary)
-    ("docs/CONSENSUS.md", "consensus", "Consensus specification", "Byte-level protocol: header, proof of work, transactions, state, bridge module"),
-    ("docs/ALGORITHM_DECISION.md", "algorithm", "Algorithm decision", "Why this proof of work, the candidates that lost, and the experiments"),
-    ("docs/HARDWARE.md", "hardware", "Hardware support", "Which GPU path to use, measured throughput, bring-up checklist"),
-    ("docs/BRIDGE_TRUST_MODEL.md", "bridge_trust_model", "Bridge trust model", "Who can do what in the 2-of-3 NEAR bridge"),
-    ("docs/TOKEN_ACCOUNTING.md", "token_accounting", "Token accounting", "Supply, bridge books and the identities checked continuously"),
-    ("docs/CONTRACT_API.md", "contract_api", "Contract API", "Node RPC, wZFX contract and Intents adapter, with signing bytes"),
-    ("docs/NEAR_SETTLEMENT.md", "near_settlement", "ZeroFlux on NEAR", "Native mining on NEAR and a PoW light client, with measured gas"),
-    ("docs/INTENTS_INTEGRATION.md", "intents", "NEAR Intents integration", "How wZFX trades through NEAR Intents"),
-    ("docs/THREAT_MODEL.md", "threat_model", "Threat model", "Attacks tried, assumptions, open risks"),
-    ("docs/OPERATOR_RUNBOOK.md", "runbook", "Operator runbook", "Pause, rotation, upgrade, incident and recovery procedures"),
-    ("docs/TEST_REPORT.md", "test_report", "Test report", "What was tested and how"),
-    ("ACCEPTANCE_REPORT.md", "acceptance", "Acceptance report", "Every check with its command and result"),
-    ("docs/RELEASE_READINESS.md", "release_readiness", "Release readiness", "What blocks a mainnet, and who owns it"),
+DOCS = [  # (source, slug, title, one-line summary, group)
+    ("docs/NEAR_SETTLEMENT.md", "near_settlement", "How ZeroFlux works on NEAR", "Mining, optimistic checking, fraud proofs, measured gas, security", "ZeroFlux on NEAR"),
+    ("docs/CONTRACT_API.md", "contract_api", "Contract API", "The ZFX contract's methods, byte layouts, events and errors", "ZeroFlux on NEAR"),
+    ("docs/INTENTS_INTEGRATION.md", "intents", "NEAR Intents", "ZFX on NEAR Intents, protocol mapping, test solver", "ZeroFlux on NEAR"),
+    ("docs/TOKEN_ACCOUNTING.md", "token_accounting", "Token accounting", "Supply, bonds and what mints when", "ZeroFlux on NEAR"),
+    ("docs/THREAT_MODEL.md", "threat_model", "Threat model", "What can go wrong, what stops it, open risks", "ZeroFlux on NEAR"),
+    ("docs/OPERATOR_RUNBOOK.md", "runbook", "Operator runbook", "Local stack, mining, watching, testnet deployment", "ZeroFlux on NEAR"),
+    ("docs/CONSENSUS.md", "consensus", "Proof-of-work specification", "Profiles, the matrix computation, difficulty", "Proof of work"),
+    ("docs/ALGORITHM_DECISION.md", "algorithm", "Algorithm decision", "Why this proof of work, the candidates that lost, the experiments", "Proof of work"),
+    ("docs/HARDWARE.md", "hardware", "Hardware support", "Which GPU path to use, measured throughput, bring-up checklist", "Proof of work"),
+    ("docs/TEST_REPORT.md", "test_report", "Test report", "What was tested and how", "Evidence"),
+    ("ACCEPTANCE_REPORT.md", "acceptance", "Acceptance report", "Every check with its command and result", "Evidence"),
+    ("docs/RELEASE_READINESS.md", "release_readiness", "Release readiness", "What blocks a mainnet, and who owns it", "Evidence"),
+    ("docs/BRIDGE_TRUST_MODEL.md", "bridge_trust_model", "Committee bridge trust model", "The own-chain alternative's 2-of-3 bridge", "Alternative architecture"),
 ]
 SCRUB = [
     (r"/Users/[A-Za-z0-9_.-]+/", "~/"),
 ]
 LOGO = open(os.path.join(SITE, "static", "logo-inline.txt")).read()
-LINKS = {os.path.basename(src): f"{slug}.html" for src, slug, _, _ in DOCS}
+LINKS = {os.path.basename(src): f"{slug}.html" for src, slug, _, _, _ in DOCS}
 
 
 def scrub(t):
@@ -98,13 +98,15 @@ def main():
     open(os.path.join(DIST, "static", "docs.css"), "w").write(CSS)
     shutil.copy(os.path.join(SITE, "index.html"), os.path.join(DIST, "index.html"))
     md = markdown.Markdown(extensions=["tables", "fenced_code", "sane_lists"])
-    idx = []
-    for src, slug, title, desc in DOCS:
+    groups = {}
+    for src, slug, title, desc, group in DOCS:
         text = scrub(open(os.path.join(ROOT, src)).read())
         body = relink(md.reset().convert(text))
         open(os.path.join(DIST, "docs", f"{slug}.html"), "w").write(PAGE.format(logo=LOGO, title=html.escape(title), desc=html.escape(desc), body=body))
-        idx.append(f'<a href="{slug}.html"><div class="t">{html.escape(title)}</div><div class="s">{html.escape(desc)}</div></a>')
-    body = "<h1>Documentation</h1><p>Design, evidence and open risks for ZeroFlux. Generated from the repository at build time.</p><div class=\"idx\">" + "".join(idx) + "</div>"
+        groups.setdefault(group, []).append(f'<a href="{slug}.html"><div class="t">{html.escape(title)}</div><div class="s">{html.escape(desc)}</div></a>')
+    body = "<h1>Documentation</h1><p>ZeroFlux is a proof-of-work network on NEAR. Design, evidence and open risks, generated from the repository at build time.</p>"
+    for g, items in groups.items():
+        body += f"<h2>{html.escape(g)}</h2><div class=\"idx\">" + "".join(items) + "</div>"
     open(os.path.join(DIST, "docs", "index.html"), "w").write(PAGE.format(logo=LOGO, title="Documentation", desc="ZeroFlux documentation", body=body))
     body404 = '<h1>Not found</h1><p>That page does not exist. Go to the <a href="/">home page</a> or the <a href="/docs/">documentation</a>.</p>'
     open(os.path.join(DIST, "404.html"), "w").write(PAGE.format(logo=LOGO, title="Not found", desc="Page not found", body=body404))

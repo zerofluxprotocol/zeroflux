@@ -4,6 +4,17 @@ Date: 2026-11-09. Host: Apple M5 Pro, macOS 26.6 (arm64), Rust 1.99.1, Apple cla
 
 The authoritative, regenerated matrix is `ACCEPTANCE_REPORT.md` (per step: command, result, seconds; full logs under `bench/results/gates/logs/`). This page summarizes it.
 
+## ZeroFlux on NEAR (current design)
+
+| test | result |
+|---|---|
+| `tests/e2e/near_opt_mining.py`: mining with the production proof of work, checked optimistically | 6/6: honest blocks never challenged; cheaters caught at layer 0, a hidden layer and the outputs; descendants reverted with bonds refunded; false challenge rejected; only honest blocks mint |
+| `tests/e2e/near_intents.py`: ZFX on NEAR Intents | 5/5: mined ZFX deposited into the official Verifier and swapped both ways; supply fully accounted for |
+| `tests/e2e/near_mining.py`, `near_light_client.py`: alternatives on NEAR | 8/8, 6/6 |
+| `make localnet` quickstart, run by hand | 32 blocks mined in 45 s; the watcher validated all 32; minted supply equals finalized blocks |
+
+Run with `make e2e-near`. The rest of this report covers the own-chain alternative and the proof of work itself.
+
 ## Commands
 
 ```

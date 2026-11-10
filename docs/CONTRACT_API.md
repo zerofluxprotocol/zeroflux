@@ -2,6 +2,24 @@
 
 Versioned public interfaces. Machine-readable schemas live in `schemas/`; `tests/contract_api/test_contract_api.py` checks a live node against them and writes `bench/results/contract_api.json`. Captured fixtures are in `schemas/fixtures/`.
 
+## 0. ZFX contract on NEAR (`zfx-mine-opt`, current design)
+
+NEP-141 (`ft_transfer`, `ft_transfer_call`, `ft_balance_of`, `ft_total_supply`), NEP-145 storage and NEP-148 metadata (symbol `ZFX`, 8 decimals), plus:
+
+| method | caller | effect |
+|---|---|---|
+| `new(genesis_seed, genesis_target, spacing_secs, reward, bond, window_secs)` | deployer | initialize |
+| `work(miner)` (view) | anyone | next `height`, `profile` (1), `epoch_seed`, `target`, `work_bytes`, `challenge` |
+| `submit(height, nonce, trace)` | miner, with `bond` attached | checks the output digest against the target; stores the block as pending. `trace` is base64 of a1..a4 (4,096 int8 each) followed by 256 int32le outputs |
+| `challenge(height, layer, row)` | anyone | recomputes one value; on a mismatch reverts the block and its descendants and pays the bond to the caller |
+| `finalize(max)` | anyone | mints rewards and returns bonds for blocks past the window |
+| `block(height)` (view) | anyone | a pending block: miner, nonce, challenge, epoch seed, digest, trace |
+| `stats()` (view) | anyone | heights, target, reward, bond, window, frauds, supply |
+
+Byte layouts (work bytes, challenge, chain hash, result digest) are in `NEAR_SETTLEMENT.md`. Events (`EVENT_JSON`, standard `zfx-mine-opt`): `submitted`, `fraud`, plus NEP-141 `ft_mint` with memo `zfx-block:<height>`. Errors asserted by tests: `stale height: another miner found this block`, `digest does not meet the target`, `attach the bond`, `no fraud: the value is correct`, `block is not pending`.
+
+Sections 1 and 2 below describe the own-chain alternative.
+
 ## 1. ZeroFlux node JSON-RPC (API v1, consensus v2)
 
 Transport: `POST /rpc`, JSON-RPC 2.0. `params` is an object or a one-element array holding the object. Schema: `schemas/zfx-node-rpc-v1.json` (every method's params, result and listed error codes).

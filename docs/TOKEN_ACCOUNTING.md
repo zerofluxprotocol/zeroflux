@@ -1,8 +1,20 @@
 # Token accounting
 
+## ZFX on NEAR (current design)
+
+ZFX is a NEP-141 token on NEAR (`zfx-mine-opt`), 8 decimals. All amounts are integers in base units (1 ZFX = 10^8).
+
+- **Issuance:** only `finalize` mints, one block reward per finalized block. Total supply is always reward × finalized height; the contract reports both (`stats`: `total_supply`, `expected_supply`).
+- **Pending blocks** mint nothing. A reverted block (fraud, or built on fraud) never mints.
+- **Bonds** are NEAR, not ZFX: attached at `submit`, returned at `finalize`, paid to the challenger when the block is proven fraudulent, and returned without reward when a block is reverted only because its parent was fraudulent.
+- **Transfers** are standard NEP-141, so balances in wallets and in the NEAR Intents Verifier always sum to the supply (`tests/e2e/near_intents.py`, check I5).
+- **Reward schedule:** constant testnet reward today. The production schedule is an owner decision; `bench/results/tokenomics.json` compares four candidates and recommends `D_smooth_decay_tail` (no halving shocks, perpetual tail).
+
+## Alternative architecture: own chain and committee bridge
+
 All amounts are integers in base units. 1 ZFX = 10^8 base units on the native chain, and wZFX uses `decimals: 8`, so one base unit maps to one wZFX base unit with no rounding anywhere.
 
-## Native supply
+### Native supply
 
 - Supply grows only through coinbase subsidies. `crates/zfx-verify/src/monetary.rs` defines the schedule families (`Constant`, `Halving`, `SmoothDecay`, each with an optional tail); testnet uses `Constant` 50 ZFX per block.
 - Fees are paid to the block's miner, so total supply = genesis allocations + sum of subsidies. Each node recomputes this audit on every `/health` request (`supply_audit`), and `tests/e2e/native.py` checks it at 1000 blocks.
@@ -10,7 +22,7 @@ All amounts are integers in base units. 1 ZFX = 10^8 base units on the native ch
 
 The production schedule is an **owner decision**. `bench/results/tokenomics.json` compares four candidates; the data-backed recommendation is `D_smooth_decay_tail` (no halving shocks, perpetual tail). A node refuses `network: "mainnet"` until a schedule is chosen and signed off.
 
-## Bridge accounts
+### Bridge accounts
 
 | quantity | where it lives | changes on |
 |---|---|---|
@@ -23,7 +35,7 @@ The production schedule is an **owner decision**. `bench/results/tokenomics.json
 
 Deposit fees are ordinary native transaction fees paid by the depositor. The bridge itself takes no fee in v1.
 
-## Identities checked by reconciliation
+### Identities checked by reconciliation
 
 1. Backing: `minted - burned <= locked - released` at every moment.
 2. Exact identity with in-flight items: `(locked - released) - (minted - burned) == pending_deposits - pending_releases`, where pending deposits are finalized locks not yet minted and pending releases are finalized burns not yet released.
@@ -33,6 +45,6 @@ Deposit fees are ordinary native transaction fees paid by the depositor. The bri
 
 `tests/e2e/bridge.py` samples identity 1 throughout 100 round trips under fault injection and checks all five at quiescence, plus per-user conservation on both chains (native = initial - deposits - fees + releases; wZFX = deposits - burns). Results: `bench/results/e2e_bridge.json`.
 
-## What the system never does
+### What the system never does
 
 It never mints, burns, releases or edits balances to repair a discrepancy. A failed identity halts the bridge and produces an incident record; resolution is a human decision documented in `docs/OPERATOR_RUNBOOK.md`.

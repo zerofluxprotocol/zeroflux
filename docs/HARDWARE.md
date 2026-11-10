@@ -1,6 +1,6 @@
 # Hardware guide
 
-The consensus function is defined on integers in {±1..±16}, with every accumulation below 2^24. Any device whose GEMM has an exact int32 or a true FP32 accumulator gets the canonical bits. The miner chooses the storage format per device. A wrong path cannot split consensus, because nodes verify on the CPU. It can only waste the miner's work, and `zpu-cli` detects that (every winner plus random spot checks are re-verified on the CPU).
+The consensus function is defined on integers in {±1..±16}, with every accumulation below 2^24. Any device whose GEMM has an exact int32 or a true FP32 accumulator gets the canonical bits. The miner chooses the storage format per device. A wrong path cannot produce accepted blocks, because watchers (and, in the own-chain alternative, nodes) verify on the CPU. It can only waste the miner's work, and `zpu-cli` detects that (every winner plus random spot checks are re-verified on the CPU).
 
 ## Which path per GPU
 
