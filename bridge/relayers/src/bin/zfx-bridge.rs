@@ -8,6 +8,9 @@
 //!   zfx-bridge admin-sign --seed F --member I --chain near|native --epoch E --nonce N --action pause|unpause|rotate
 //!              [--contract ID] [--chain-id N] [--committee K1,K2,K3] [--activate-height H]
 //!   zfx-bridge create-subaccount --rpc URL --signer ID --key-file F --account NEW --deposit-near N --out KEYFILE
+//!   zfx-bridge near-mine-proxy --rpc URL --signer ID --key-file F --contract ID [--listen ADDR]   mine NEAR-native ZFX with zpu-cli
+//!   zfx-bridge near-light-relay --rpc URL --signer ID --key-file F --contract ID --zfx URL [--once] [--max N]
+//!   zfx-bridge pow-search --profile ID --seed HEX --challenge HEX --target HEX
 //!   zfx-bridge view --rpc URL --contract ID --method M --args JSON
 //!   zfx-bridge burn --rpc URL --signer ID --key-file F --contract ID --amount N --native-recipient zfx1...
 //!   zfx-bridge reconcile --env ENV --zfx URL
@@ -54,8 +57,15 @@ fn new_key_file(account: &str, path: &str) -> ed25519_dalek::SigningKey {
     .unwrap();
     k
 }
+/// Total gas burnt by a transaction and all its receipts, in Tgas.
+fn gas_burnt_tgas(raw: &Value) -> f64 {
+    let t = raw["transaction_outcome"]["outcome"]["gas_burnt"].as_u64().unwrap_or(0);
+    let r: u64 = raw["receipts_outcome"].as_array().map(|a| a.iter().filter_map(|x| x["outcome"]["gas_burnt"].as_u64()).sum()).unwrap_or(0);
+    (t + r) as f64 / 1e12
+}
+
 fn print_outcome(o: &zfx_bridge::near::Outcome) {
-    println!("{}", json!({"tx_hash": o.tx_hash, "success": o.success, "value": o.value, "failure": o.failure, "logs": o.logs}));
+    println!("{}", json!({"tx_hash": o.tx_hash, "success": o.success, "value": o.value, "failure": o.failure, "logs": o.logs, "gas_burnt_tgas": gas_burnt_tgas(&o.raw)}));
     if !o.success {
         std::process::exit(3);
     }
@@ -115,6 +125,139 @@ async fn main() {
             println!("{}", json!({"account": acct, "created": o.success, "tx_hash": o.tx_hash, "failure": o.failure, "key_file": out}));
             if !o.success {
                 std::process::exit(3);
+            }
+        }
+        Some("pow-search") => {
+            // Find a nonce meeting --target for --challenge with the given
+            // profile and epoch seed (CPU, all cores). Prints {nonce, digest}.
+            use zfx_verify::pow;
+            let p = pow::profile_by_id(need(&args, "--profile").parse().unwrap()).expect("profile");
+            let seed: [u8; 32] = hex::decode(need(&args, "--seed")).unwrap().try_into().unwrap();
+            let ch: [u8; 32] = hex::decode(need(&args, "--challenge")).unwrap().try_into().unwrap();
+            let target = zfx_verify::u256::U256::from_hex(&need(&args, "--target")).unwrap();
+            let threads = std::thread::available_parallelism().map(|n| n.get()).unwrap_or(4);
+            let w = std::sync::Arc::new(pow::Weights::generate_par(&p, &seed, threads));
+            let found = std::sync::Arc::new(std::sync::Mutex::new(None));
+            std::thread::scope(|sc| {
+                for t in 0..threads as u64 {
+                    let (w, found) = (w.clone(), found.clone());
+                    sc.spawn(move || {
+                        let mut n = t;
+                        while found.lock().unwrap().is_none() {
+                            let d = pow::attempt(&w, &ch, n);
+                            if pow::meets_target(&d, &target) {
+                                *found.lock().unwrap() = Some((n, d));
+                            }
+                            n += threads as u64;
+                        }
+                    });
+                }
+            });
+            let (n, d) = found.lock().unwrap().unwrap();
+            println!("{}", json!({"nonce": n.to_string(), "digest": hex::encode(d)}));
+        }
+        Some("near-mine-proxy") => {
+            // Serve the node mining API (/v1/work, /v1/submit) backed by the
+            // zfx-mine contract, so every existing miner (Rust, C++, Python,
+            // GPU) mines NEAR-native ZFX unchanged through zpu-cli.
+            let near = std::sync::Arc::new(NearClient::new(&need(&args, "--rpc")));
+            let s = std::sync::Arc::new(signer(&args));
+            let contract = need(&args, "--contract");
+            let listen = arg(&args, "--listen").unwrap_or("127.0.0.1:9551".into());
+            let server = tiny_http::Server::http(&listen).unwrap_or_else(|e| panic!("{}", e));
+            eprintln!("[near-mine-proxy] {} -> {} as {}", listen, contract, s.account_id);
+            let respond = |req: tiny_http::Request, v: Value| {
+                let _ = req.respond(tiny_http::Response::from_string(v.to_string()));
+            };
+            for mut req in server.incoming_requests() {
+                let url = req.url().to_string();
+                if url.starts_with("/v1/work") {
+                    let mut w = near.view(&contract, "work", json!({"miner": s.account_id}), "optimistic");
+                    // Prepare missing epoch weight layers (one transaction each).
+                    if let Ok(v) = &w {
+                        let missing: Vec<u64> = v["missing_layers"].as_array().map(|a| a.iter().filter_map(|x| x.as_u64()).collect()).unwrap_or_default();
+                        for l in &missing {
+                            let o = near.call(&s, &contract, "prepare_epoch", json!({"layer": l}), 300, 0);
+                            eprintln!("[near-mine-proxy] prepare_epoch layer {}: {:?}", l, o.as_ref().map(|o| (o.success, gas_burnt_tgas(&o.raw))));
+                        }
+                        if !missing.is_empty() {
+                            w = near.view(&contract, "work", json!({"miner": s.account_id}), "optimistic");
+                        }
+                    }
+                    match w {
+                        Ok(v) => respond(
+                            req,
+                            json!({"api_version": 2, "work_id": format!("{}", v["height"].as_str().unwrap_or("0")), "chain_id": 0, "version": v["profile"],
+                                   "height": v["height"], "header_without_nonce": v["work_bytes"], "challenge": v["challenge"], "target": v["target"],
+                                   "epoch_seed": v["epoch_seed"], "profile": "zfx-near-v1", "expiry": {"height": v["height"]}}),
+                        ),
+                        Err(e) => respond(req, json!({"error": e})),
+                    }
+                } else if url.starts_with("/v1/submit") {
+                    let mut body = String::new();
+                    let _ = req.as_reader().read_to_string(&mut body);
+                    let b: Value = serde_json::from_str(&body).unwrap_or(Value::Null);
+                    let height = b["work_id"].as_str().unwrap_or("0").to_string();
+                    let nonce = b["nonce"].as_str().map(String::from).unwrap_or_else(|| b["nonce"].to_string());
+                    match near.call(&s, &contract, "submit", json!({"height": height, "nonce": nonce}), 300, 0) {
+                        Ok(o) if o.success => {
+                            eprintln!("{}", json!({"event": "mined", "height": height, "nonce": nonce, "tx": o.tx_hash, "gas_burnt_tgas": gas_burnt_tgas(&o.raw), "result": o.value}));
+                            respond(req, json!({"accepted": true, "block_hash": o.tx_hash, "result": o.value, "gas_burnt_tgas": gas_burnt_tgas(&o.raw)}))
+                        }
+                        Ok(o) => respond(req, json!({"accepted": false, "error": o.failure, "code": 1002})),
+                        Err(e) => respond(req, json!({"accepted": false, "error": e})),
+                    }
+                } else {
+                    respond(req, json!({"error": "not found"}));
+                }
+            }
+        }
+        Some("near-light-relay") => {
+            // Feed a ZeroFlux node's headers to the zfx-light contract, from
+            // the fork point with the contract's canonical chain to the tip.
+            let near = NearClient::new(&need(&args, "--rpc"));
+            let s = signer(&args);
+            let contract = need(&args, "--contract");
+            let zfx = zfx_bridge::zfx::ZfxClient::new(&need(&args, "--zfx"));
+            let once = args.iter().any(|a| a == "--once");
+            let max_per_round: u64 = arg(&args, "--max").and_then(|v| v.parse().ok()).unwrap_or(u64::MAX);
+            loop {
+                let best = near.view(&contract, "best", json!({}), "optimistic").unwrap_or_else(|e| panic!("{}", e));
+                let lc_height: u64 = best["height"].as_str().and_then(|v| v.parse().ok()).unwrap_or(0);
+                let tip: u64 = zfx.call("zfx_node_get_tip", json!({})).ok().and_then(|t| t["height"].as_u64()).unwrap_or(0);
+                let node_hash = |h: u64| zfx.call("zfx_node_get_block", json!({"height": h})).ok().and_then(|b| b["hash"].as_str().map(String::from));
+                let mut fork = lc_height.min(tip);
+                while fork > 0 {
+                    let lc = near.view(&contract, "canonical", json!({"height": fork.to_string()}), "optimistic").ok();
+                    if lc.as_ref().and_then(|v| v.as_str().map(String::from)) == node_hash(fork) {
+                        break;
+                    }
+                    fork -= 1;
+                }
+                let mut sent = 0u64;
+                for h in (fork + 1)..=tip {
+                    if sent >= max_per_round {
+                        break;
+                    }
+                    let Ok(b) = zfx.call("zfx_node_get_block", json!({"height": h})) else { break };
+                    let parent = b["header"]["parent"].as_str().unwrap_or("").to_string();
+                    let m = near.view(&contract, "missing_layers", json!({"parent": parent, "height": h.to_string()}), "optimistic").unwrap_or(Value::Null);
+                    for l in m["missing_layers"].as_array().cloned().unwrap_or_default() {
+                        let o = near.call(&s, &contract, "prepare_weights", json!({"parent": parent, "height": h.to_string(), "layer": l}), 300, 0);
+                        println!("{}", json!({"event": "prepare_weights", "height": h, "layer": l, "ok": o.as_ref().map(|o| o.success).unwrap_or(false),
+                                               "gas_burnt_tgas": o.as_ref().map(|o| gas_burnt_tgas(&o.raw)).unwrap_or(0.0)}));
+                    }
+                    match near.call(&s, &contract, "submit_header", json!({"header": b["header_hex"]}), 300, 0) {
+                        Ok(o) => println!("{}", json!({"event": "header", "height": h, "ok": o.success, "tx": o.tx_hash, "result": o.value,
+                                                     "failure": o.failure, "gas_burnt_tgas": gas_burnt_tgas(&o.raw)})),
+                        Err(e) => println!("{}", json!({"event": "header", "height": h, "ok": false, "error": e})),
+                    }
+                    sent += 1;
+                }
+                if once && (sent == 0 || fork + sent >= tip) {
+                    break;
+                }
+                std::thread::sleep(std::time::Duration::from_millis(500));
             }
         }
         Some("admin-sign") => {

@@ -111,6 +111,12 @@ pub fn all_vectors() -> Value {
     })
 }
 
+/// Golden vectors for the NEAR-verifiable profile (id 3). Separate file so
+/// the frozen v0.1 vectors stay byte-identical.
+pub fn near_vectors() -> Value {
+    json!({"format": "zfx-near-vectors-v1", "near_v1": profile_vectors(&NEAR_V1, true)})
+}
+
 #[cfg(test)]
 mod tests {
     /// Consensus-drift guard: regenerated vectors must equal the published file.
@@ -120,6 +126,13 @@ mod tests {
         let published: serde_json::Value = serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
         let now = super::all_vectors();
         assert_eq!(now, published, "consensus output changed; regenerate vectors only for an intentional new version");
+    }
+
+    #[test]
+    fn near_vectors_match_published() {
+        let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../tests/vectors/near_v1.json");
+        let published: serde_json::Value = serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+        assert_eq!(super::near_vectors(), published, "profile 3 output changed");
     }
 }
 

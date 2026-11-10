@@ -1,0 +1,243 @@
+{
+  "checks": [
+    {
+      "check": "C1 epoch weights prepared on-chain, one layer per transaction (5 layers, 3.47 M weights)",
+      "result": "PASS",
+      "evidence": {
+        "layers": [
+          {
+            "layer": 0,
+            "ok": true,
+            "gas_tgas": 22.477607487358,
+            "failure": ""
+          },
+          {
+            "layer": 1,
+            "ok": true,
+            "gas_tgas": 155.091930686788,
+            "failure": ""
+          },
+          {
+            "layer": 2,
+            "ok": true,
+            "gas_tgas": 155.09371189879,
+            "failure": ""
+          },
+          {
+            "layer": 3,
+            "ok": true,
+            "gas_tgas": 155.09262319474,
+            "failure": ""
+          },
+          {
+            "layer": 4,
+            "ok": true,
+            "gas_tgas": 40.609967292115,
+            "failure": ""
+          }
+        ],
+        "missing_after": []
+      }
+    },
+    {
+      "check": "C4 a winning nonce is worthless to another account: the challenge commits to the submitter",
+      "result": "PASS",
+      "evidence": {
+        "winning_nonce": "30957",
+        "stolen_by_miner2": ":{\"index\":0,\"kind\":{\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: digest does not meet the target\"}}}}",
+        "miner1_tx": "DkZuGAvNNg3fhEFanDPiUNMVbe4QWmbvmaVK9WuG1Kts",
+        "miner1_result": {
+          "digest": "0000eeabc7ec05f0f57e6daf41f8236e0701121066ff0d882fb3e5218baea412",
+          "gas": {
+            "attempt_tgas": 100.828413282057,
+            "load_weights_tgas": 42.856219824969
+          },
+          "height": "1",
+          "reward": "5000000000"
+        },
+        "miner1_submit_gas_tgas": 146.308955940049
+      }
+    },
+    {
+      "check": "C5 invalid nonce and stale height rejected",
+      "result": "PASS",
+      "evidence": {
+        "bogus": "\"FunctionCallError\":{\"ExecutionError\":\"Smart contract panicked: digest does not meet the target\"}}}}",
+        "replay": "Error\":{\"ExecutionError\":\"Smart contract panicked: stale height: another miner found this block\"}}}}"
+      }
+    },
+    {
+      "check": "C2 blocks mined through the contract by two independent miners (unchanged zpu-cli via near-mine-proxy)",
+      "result": "PASS",
+      "evidence": {
+        "height": "40",
+        "blocks_by_miner": {
+          "miner1.test.near": 16,
+          "miner2.test.near": 24
+        },
+        "seconds": 83.4,
+        "submit_gas_tgas": {
+          "min": 146.265518551219,
+          "median": 146.355300732805,
+          "max": 146.589443001242,
+          "n": 39
+        }
+      }
+    },
+    {
+      "check": "C3 supply == reward x height == sum of miner balances",
+      "result": "PASS",
+      "evidence": {
+        "height": 40,
+        "total_supply": "200000000000",
+        "balances": {
+          "miner1.test.near": 80000000000,
+          "miner2.test.near": 120000000000
+        }
+      }
+    },
+    {
+      "check": "C6 epoch boundary crossed: next epoch's weights prepared on-chain by the miners' proxies",
+      "result": "PASS",
+      "evidence": {
+        "height": 40,
+        "prepare_events": [
+          {
+            "layer": 0,
+            "ok": true,
+            "gas_tgas": 76.268698452632
+          },
+          {
+            "layer": 1,
+            "ok": true,
+            "gas_tgas": 155.217497327632
+          },
+          {
+            "layer": 2,
+            "ok": true,
+            "gas_tgas": 155.22047647237
+          },
+          {
+            "layer": 3,
+            "ok": true,
+            "gas_tgas": 155.218776460612
+          },
+          {
+            "layer": 4,
+            "ok": true,
+            "gas_tgas": 40.736058028531
+          },
+          {
+            "layer": 0,
+            "ok": true,
+            "gas_tgas": 2.490200717836
+          },
+          {
+            "layer": 1,
+            "ok": true,
+            "gas_tgas": 2.489694525034
+          },
+          {
+            "layer": 2,
+            "ok": true,
+            "gas_tgas": 2.490393669772
+          },
+          {
+            "layer": 3,
+            "ok": true,
+            "gas_tgas": 2.488693658014
+          },
+          {
+            "layer": 4,
+            "ok": true,
+            "gas_tgas": 2.487318322429
+          }
+        ]
+      }
+    },
+    {
+      "check": "C7 difficulty retargets on-chain after the LWMA window",
+      "result": "PASS",
+      "evidence": {
+        "genesis_target": "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "target_now": "00005acf1ac19bd71fb4a6f63c78e0a619ad31ecd04f54cb046089cb9f50f52d"
+      }
+    },
+    {
+      "check": "C8 ZFX moves as a standard NEP-141 token (ft_transfer)",
+      "result": "PASS",
+      "evidence": {
+        "tx": "J41Hkc3mrJa6rmd7pWazCYRdoQPCHphhfzmLC23L8wwX",
+        "before": {
+          "miner1.test.near": 80000000000,
+          "miner2.test.near": 120000000000
+        },
+        "after": {
+          "miner1.test.near": 79900000000,
+          "miner2.test.near": 120100000000
+        }
+      }
+    }
+  ],
+  "deploy_tx": "Fnk3DpzThryxKw3zCcjq4g19hJzvvAejTqC7nd6H7pwm",
+  "submit_gas_tgas": {
+    "min": 146.265518551219,
+    "median": 146.355300732805,
+    "max": 146.589443001242,
+    "n": 39
+  },
+  "prepare_epoch_gas_tgas": [
+    {
+      "layer": 0,
+      "ok": true,
+      "gas_tgas": 76.268698452632
+    },
+    {
+      "layer": 1,
+      "ok": true,
+      "gas_tgas": 155.217497327632
+    },
+    {
+      "layer": 2,
+      "ok": true,
+      "gas_tgas": 155.22047647237
+    },
+    {
+      "layer": 3,
+      "ok": true,
+      "gas_tgas": 155.218776460612
+    },
+    {
+      "layer": 4,
+      "ok": true,
+      "gas_tgas": 40.736058028531
+    },
+    {
+      "layer": 0,
+      "ok": true,
+      "gas_tgas": 2.490200717836
+    },
+    {
+      "layer": 1,
+      "ok": true,
+      "gas_tgas": 2.489694525034
+    },
+    {
+      "layer": 2,
+      "ok": true,
+      "gas_tgas": 2.490393669772
+    },
+    {
+      "layer": 3,
+      "ok": true,
+      "gas_tgas": 2.488693658014
+    },
+    {
+      "layer": 4,
+      "ok": true,
+      "gas_tgas": 2.487318322429
+    }
+  ],
+  "passed": 8,
+  "total": 8
+}

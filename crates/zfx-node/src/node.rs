@@ -989,7 +989,9 @@ impl Node {
             "block": rec.block,
             "height": rec.height,
             "inclusion": {"leaf": to_hex(&leaves[i + 1]), "leaf_index": i + 1, "leaf_count": leaves.len(), "merkle_proof": proof,
-                          "header_hex": hex::encode(b.header.encode()), "tx": b.txs[i]},
+                          "header_hex": hex::encode(b.header.encode()), "tx": b.txs[i],
+                          // Canonical encoding (wtxid preimage), for light clients.
+                          "tx_core": hex::encode(b.txs[i].core_bytes()), "tx_witness": hex::encode(&b.txs[i].encode()[b.txs[i].core_bytes().len()..])},
         })
     }
 

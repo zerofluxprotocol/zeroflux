@@ -32,8 +32,9 @@ def main():
         jrun([f"{BIN}/zfx-bridge", "deploy", "--rpc", s["rpc"], "--signer", "deployer.test.near", "--key-file", key, "--contract", c, "--wasm", WASM, "--init", "{}"])
         vec = json.load(open(os.path.join(ROOT, "tests", "vectors", "fp8c_v0.1.json")))
         out = {"experiment": "onchain_pow_verification_near", "gas_limit_per_tx_tgas": 300, "rows": []}
-        for key_, pid in (("dev", 2), ("v01", 1)):
-            pv = vec[key_]
+        near = json.load(open(os.path.join(ROOT, "tests", "vectors", "near_v1.json")))
+        for key_, pid in (("dev", 2), ("near_v1", 3), ("v01", 1)):
+            pv = vec[key_] if key_ in vec else near[key_]
             a = pv["attempts"][1]
             r = jrun([f"{BIN}/zfx-bridge", "call", "--rpc", s["rpc"], "--signer", "deployer.test.near", "--key-file", key, "--contract", c,
                       "--method", "verify_attempt", "--args", json.dumps({"profile_id": pid, "epoch_seed": pv["epoch_seed"], "challenge": pv["challenge"], "nonce": a["nonce"]}),
@@ -46,6 +47,8 @@ def main():
             out["rows"].append(row)
             print(json.dumps(row)[:400], flush=True)
         dev = out["rows"][0]
+        nr = out["rows"][1]
+        out["near_v1_fits_one_transaction"] = bool(nr.get("success") and nr.get("matches_golden_vector"))
         if dev.get("success"):
             per_mac = dev["result"]["gas_attempt"] / dev["macs"]
             out["model_v01_attempt_tgas"] = round(per_mac * vec["v01"]["profile"]["macs_per_attempt"] / 1e12, 1)

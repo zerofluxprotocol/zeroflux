@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["wzfx", "test-ft", "pow-verifier"]
+members = ["wzfx", "test-ft", "pow-verifier", "near-pow", "zfx-mine", "zfx-light"]
 
 [workspace.dependencies]
 near-sdk = { version = "5.30", default-features = false }  # no wee_alloc (RUSTSEC-2022-0054, unmaintained); std allocator

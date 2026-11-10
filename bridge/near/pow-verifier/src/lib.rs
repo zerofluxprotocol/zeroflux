@@ -25,6 +25,32 @@ impl Contract {
         Self {}
     }
 
+    /// Cost probe: generate `rows` rows of a 1024-wide ChaCha8 layer, then run
+    /// `rows` dot products of length 1024. Returns gas for each part.
+    pub fn probe(&self, rows: u32) -> near_sdk::serde_json::Value {
+        let key = pow::chacha_layer_key(&[7; 32], 1);
+        let mut w = vec![0i8; rows as usize * 1024];
+        let g0 = env::used_gas();
+        for (r, row) in w.chunks_mut(1024).enumerate() {
+            pow::chacha8_row(&key, r as u32, row);
+        }
+        let g1 = env::used_gas();
+        let x: Vec<i8> = w[..1024].to_vec();
+        let mut acc = 0i64;
+        for row in w.chunks(1024) {
+            acc += pow::dot_i8(&x, row) as i64;
+        }
+        let g2 = env::used_gas();
+        let mut h = [0u8; 32];
+        for i in 0..rows {
+            h = env::sha256_array(&h);
+            let _ = i;
+        }
+        let g3 = env::used_gas();
+        near_sdk::serde_json::json!({"rows": rows, "weights": rows * 1024, "gas_chacha": g1.as_gas() - g0.as_gas(),
+            "gas_dot": g2.as_gas() - g1.as_gas(), "gas_sha256_host_calls": g3.as_gas() - g2.as_gas(), "acc": acc, "h": hex::encode(h)})
+    }
+
     /// Generate the epoch weights and evaluate one attempt; returns the
     /// digest (hex) and the gas used inside the call.
     pub fn verify_attempt(&self, profile_id: u32, epoch_seed: String, challenge: String, nonce: String) -> near_sdk::serde_json::Value {

@@ -55,16 +55,36 @@ pub struct Profile {
     /// Requantization shift after the input layer and after hidden layers.
     pub shift_in: u32,
     pub shift_hidden: u32,
+    /// How epoch weights are derived from the epoch seed.
+    pub prf: WeightPrf,
+}
+
+/// Weight derivation. `Shake256`: one SHAKE256 stream per row (profiles 1, 2).
+/// `ChaCha8`: one ChaCha8 keystream per row, keyed per layer by SHA-256
+/// (profile 3). ChaCha8 is cheap to evaluate inside a NEAR contract, which is
+/// what lets NEAR verify a ZeroFlux attempt on-chain.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum WeightPrf {
+    Shake256,
+    ChaCha8,
 }
 
 /// Production-candidate profile (private testnet default).
-pub const FP8C_V01: Profile = Profile { id: 1, name: "zfx-fp8c-v0.1", d_in: 64, hidden: 4096, n_hidden: 3, d_out: 256, shift_in: 0, shift_hidden: 2 };
+pub const FP8C_V01: Profile =
+    Profile { id: 1, name: "zfx-fp8c-v0.1", d_in: 64, hidden: 4096, n_hidden: 3, d_out: 256, shift_in: 0, shift_hidden: 2, prf: WeightPrf::Shake256 };
 
 /// Small profile for unit tests and fast local devnets. Same construction,
 /// H = 256. Not for any shared network.
-pub const FP8C_V01_DEV: Profile = Profile { id: 2, name: "zfx-fp8c-v0.1-dev", d_in: 64, hidden: 256, n_hidden: 3, d_out: 64, shift_in: 0, shift_hidden: 0 };
+pub const FP8C_V01_DEV: Profile =
+    Profile { id: 2, name: "zfx-fp8c-v0.1-dev", d_in: 64, hidden: 256, n_hidden: 3, d_out: 64, shift_in: 0, shift_hidden: 0, prf: WeightPrf::Shake256 };
 
-pub const PROFILES: [Profile; 2] = [FP8C_V01, FP8C_V01_DEV];
+/// NEAR-verifiable profile: same construction, H = 1024, ChaCha8 weights.
+/// One attempt is checked inside a single NEAR transaction (see
+/// bench/results/near_pow_gas.json for the measured gas).
+pub const NEAR_V1: Profile =
+    Profile { id: 3, name: "zfx-near-v1", d_in: 64, hidden: 1024, n_hidden: 3, d_out: 256, shift_in: 0, shift_hidden: 1, prf: WeightPrf::ChaCha8 };
+
+pub const PROFILES: [Profile; 3] = [FP8C_V01, FP8C_V01_DEV, NEAR_V1];
 
 pub fn profile_by_id(id: u32) -> Option<Profile> {
     PROFILES.iter().copied().find(|p| p.id == id)
@@ -155,10 +175,82 @@ pub struct Weights {
 }
 
 pub fn weight_row(seed: &Hash32, layer: u32, row: u32, out: &mut [i8]) {
-    let mut buf = vec![0u8; out.len()];
-    shake256_into(&[WEIGHT_DOMAIN, seed, &layer.to_le_bytes(), &row.to_le_bytes()], &mut buf);
-    for (o, b) in out.iter_mut().zip(buf) {
-        *o = byte_to_val(b);
+    weight_row_prf(WeightPrf::Shake256, seed, layer, row, out)
+}
+
+pub const NEAR_WEIGHT_DOMAIN: &[u8] = b"ZFX-near-weights-v1";
+
+/// Per-layer ChaCha8 key for profile 3.
+pub fn chacha_layer_key(seed: &Hash32, layer: u32) -> [u8; 32] {
+    sha256(&[NEAR_WEIGHT_DOMAIN, seed, &layer.to_le_bytes()])
+}
+
+pub fn weight_row_prf(prf: WeightPrf, seed: &Hash32, layer: u32, row: u32, out: &mut [i8]) {
+    match prf {
+        WeightPrf::Shake256 => {
+            let mut buf = vec![0u8; out.len()];
+            shake256_into(&[WEIGHT_DOMAIN, seed, &layer.to_le_bytes(), &row.to_le_bytes()], &mut buf);
+            for (o, b) in out.iter_mut().zip(buf) {
+                *o = byte_to_val(b);
+            }
+        }
+        WeightPrf::ChaCha8 => chacha8_row(&chacha_layer_key(seed, layer), row, out),
+    }
+}
+
+/// ChaCha keystream (RFC 8439 block function) with `rounds` rounds.
+pub fn chacha_block(key: &[u8; 32], counter: u32, nonce: &[u8; 12], rounds: usize) -> [u8; 64] {
+    let mut st = [0u32; 16];
+    st[0] = 0x61707865;
+    st[1] = 0x3320646e;
+    st[2] = 0x79622d32;
+    st[3] = 0x6b206574;
+    for i in 0..8 {
+        st[4 + i] = u32::from_le_bytes(key[4 * i..4 * i + 4].try_into().unwrap());
+    }
+    st[12] = counter;
+    for i in 0..3 {
+        st[13 + i] = u32::from_le_bytes(nonce[4 * i..4 * i + 4].try_into().unwrap());
+    }
+    let mut x = st;
+    #[inline(always)]
+    fn qr(x: &mut [u32; 16], a: usize, b: usize, c: usize, d: usize) {
+        x[a] = x[a].wrapping_add(x[b]);
+        x[d] = (x[d] ^ x[a]).rotate_left(16);
+        x[c] = x[c].wrapping_add(x[d]);
+        x[b] = (x[b] ^ x[c]).rotate_left(12);
+        x[a] = x[a].wrapping_add(x[b]);
+        x[d] = (x[d] ^ x[a]).rotate_left(8);
+        x[c] = x[c].wrapping_add(x[d]);
+        x[b] = (x[b] ^ x[c]).rotate_left(7);
+    }
+    for _ in 0..rounds / 2 {
+        qr(&mut x, 0, 4, 8, 12);
+        qr(&mut x, 1, 5, 9, 13);
+        qr(&mut x, 2, 6, 10, 14);
+        qr(&mut x, 3, 7, 11, 15);
+        qr(&mut x, 0, 5, 10, 15);
+        qr(&mut x, 1, 6, 11, 12);
+        qr(&mut x, 2, 7, 8, 13);
+        qr(&mut x, 3, 4, 9, 14);
+    }
+    let mut out = [0u8; 64];
+    for i in 0..16 {
+        out[4 * i..4 * i + 4].copy_from_slice(&x[i].wrapping_add(st[i]).to_le_bytes());
+    }
+    out
+}
+
+/// Row `row` of a layer: ChaCha8 keystream with nonce = row (u32le) || 0^8,
+/// block counter from 0; each byte maps to one operand.
+pub fn chacha8_row(key: &[u8; 32], row: u32, out: &mut [i8]) {
+    let mut nonce = [0u8; 12];
+    nonce[..4].copy_from_slice(&row.to_le_bytes());
+    for (blk, chunk) in out.chunks_mut(64).enumerate() {
+        let ks = chacha_block(key, blk as u32, &nonce, 8);
+        for (o, b) in chunk.iter_mut().zip(ks.iter()) {
+            *o = byte_to_val(*b);
+        }
     }
 }
 
@@ -176,7 +268,7 @@ impl Weights {
             if threads == 1 {
                 // Inline path (also used on targets without threads, e.g. wasm32).
                 for (j, row) in w.chunks_mut(k).enumerate() {
-                    weight_row(seed, l as u32, j as u32, row);
+                    weight_row_prf(profile.prf, seed, l as u32, j as u32, row);
                 }
                 layers.push(w);
                 continue;
@@ -185,9 +277,10 @@ impl Weights {
             std::thread::scope(|s| {
                 for (t, chunk) in w.chunks_mut(rows_per * k).enumerate() {
                     let seed = *seed;
+                    let prf = profile.prf;
                     s.spawn(move || {
                         for (i, row) in chunk.chunks_mut(k).enumerate() {
-                            weight_row(&seed, l as u32, (t * rows_per + i) as u32, row);
+                            weight_row_prf(prf, &seed, l as u32, (t * rows_per + i) as u32, row);
                         }
                     });
                 }
@@ -371,5 +464,35 @@ mod tests {
         assert_eq!(epoch_anchor_height(1), 0);
         assert_eq!(epoch_anchor_height(32), 0);
         assert_eq!(epoch_anchor_height(33), 32);
+    }
+}
+
+#[cfg(test)]
+mod chacha_tests {
+    use super::*;
+    #[test]
+    fn chacha20_matches_rfc8439_block_vector() {
+        let key: [u8; 32] = core::array::from_fn(|i| i as u8);
+        let nonce = [0, 0, 0, 0x09, 0, 0, 0, 0x4a, 0, 0, 0, 0];
+        let out = chacha_block(&key, 1, &nonce, 20);
+        assert_eq!(
+            crate::hash::to_hex(&out),
+            "10f1e7e4d13b5915500fdd1fa32071c4c7d1f4c733c068030422aa9ac3d46c4ed2826446079faa0914c2d705d98b02a2b5129cd1de164eb9cbd083e8a2503c4e"
+        );
+    }
+    #[test]
+    fn near_profile_rows_are_uniform_over_the_operand_domain() {
+        let w = Weights::generate(&NEAR_V1, &[7; 32]);
+        let mut counts = [0usize; 33];
+        for v in &w.layers[1] {
+            counts[(*v as i32 + 16) as usize] += 1;
+        }
+        assert_eq!(counts[16], 0, "zero is not in the domain");
+        let n = w.layers[1].len() as f64 / 32.0;
+        for (i, c) in counts.iter().enumerate() {
+            if i != 16 {
+                assert!((*c as f64 - n).abs() < 6.0 * n.sqrt(), "value {} count {} vs {}", i as i32 - 16, c, n);
+            }
+        }
     }
 }

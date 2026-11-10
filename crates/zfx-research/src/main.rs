@@ -286,6 +286,12 @@ fn main() {
         eprintln!("wrote {}", path);
         return;
     }
+    if cmd == "vectors-near" {
+        let v = zfx_verify::vectors::near_vectors();
+        std::fs::write("tests/vectors/near_v1.json", serde_json::to_string_pretty(&v).unwrap()).unwrap();
+        eprintln!("wrote tests/vectors/near_v1.json");
+        return;
+    }
     if cmd == "vectors" {
         let v = zfx_verify::vectors::all_vectors();
         std::fs::create_dir_all("tests/vectors").unwrap();

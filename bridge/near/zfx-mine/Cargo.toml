@@ -1,0 +1,15 @@
+[package]
+name = "zfx-mine"
+description = "ZFX as a NEAR-native NEP-141 token minted by ZeroFlux proof of work verified on-chain"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+near-sdk.workspace = true
+near-contract-standards.workspace = true
+near-pow = { path = "../near-pow" }
+hex = "0.4"

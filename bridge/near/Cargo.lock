@@ -1286,6 +1286,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "near-pow"
+version = "0.1.0"
+dependencies = [
+ "hex",
+ "near-sdk",
+ "serde",
+ "sha2 0.10.9",
+ "sha3 0.10.9",
+]
+
+[[package]]
 name = "near-primitives"
 version = "0.38.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2659,6 +2670,26 @@ dependencies = [
  "lazy_static",
  "rand",
  "rustc-hex",
+]
+
+[[package]]
+name = "zfx-light"
+version = "0.1.0"
+dependencies = [
+ "hex",
+ "near-contract-standards",
+ "near-pow",
+ "near-sdk",
+]
+
+[[package]]
+name = "zfx-mine"
+version = "0.1.0"
+dependencies = [
+ "hex",
+ "near-contract-standards",
+ "near-pow",
+ "near-sdk",
 ]
 
 [[package]]
