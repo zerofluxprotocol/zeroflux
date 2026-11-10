@@ -1603,19 +1603,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "obkit-settlement"
-version = "0.1.0"
-dependencies = [
- "ed25519-dalek",
- "near-sdk",
- "obkit-wire",
-]
-
-[[package]]
-name = "obkit-wire"
-version = "0.1.0"
-
-[[package]]
 name = "once_cell"
 version = "1.21.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2699,6 +2686,19 @@ dependencies = [
  "rand",
  "rustc-hex",
 ]
+
+[[package]]
+name = "zfx-perps-settlement"
+version = "0.1.0"
+dependencies = [
+ "ed25519-dalek",
+ "near-sdk",
+ "zfx-perps-wire",
+]
+
+[[package]]
+name = "zfx-perps-wire"
+version = "0.1.0"
 
 [[package]]
 name = "zmij"

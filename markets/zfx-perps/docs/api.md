@@ -12,11 +12,11 @@ ed25519 over the UTF-8 bytes of a `|`-separated message, sent base64 encoded. Pu
 
 | Request | Message |
 |---|---|
-| order | `obkit-order-v1\|account\|market\|side\|price\|qty\|tif\|stp\|client_id\|ts_ms` |
-| cancel | `obkit-cancel-v1\|account\|market\|order_id\|client_id\|ts_ms` (one of the two ids is 0) |
-| cancel all | `obkit-cancel-all-v1\|account\|market or *\|ts_ms` |
-| withdraw | `obkit-withdraw-v1\|settlement_contract\|account\|token\|amount\|nonce` |
-| account read, WS auth | `obkit-auth-v1\|account\|ts_ms` |
+| order | `zfx-perps-order-v1\|account\|market\|side\|price\|qty\|tif\|stp\|client_id\|ts_ms` |
+| cancel | `zfx-perps-cancel-v1\|account\|market\|order_id\|client_id\|ts_ms` (one of the two ids is 0) |
+| cancel all | `zfx-perps-cancel-all-v1\|account\|market or *\|ts_ms` |
+| withdraw | `zfx-perps-withdraw-v1\|settlement_contract\|account\|token\|amount\|nonce` |
+| account read, WS auth | `zfx-perps-auth-v1\|account\|ts_ms` |
 
 Freshness and replay rules:
 
@@ -44,7 +44,7 @@ Freshness and replay rules:
 | POST | `/v1/orders/cancel` | `{account, market, order_id or client_id, ts, public_key, signature}` |
 | POST | `/v1/orders/cancel_all` | `{account, market?, ts, public_key, signature}` |
 | POST | `/v1/withdraw` | `{account, token, amount, nonce, public_key, signature}` |
-| GET | `/v1/account/{account}` | headers `x-obkit-key`, `x-obkit-ts`, `x-obkit-signature`. Returns balances, open orders, withdrawal nonce, `positions` (size, entry price, mark, unrealized PnL) and `margin` (equity, initial, maintenance, free, perp cash, settled perp value) |
+| GET | `/v1/account/{account}` | headers `x-zfx-perps-key`, `x-zfx-perps-ts`, `x-zfx-perps-signature`. Returns balances, open orders, withdrawal nonce, `positions` (size, entry price, mark, unrealized PnL) and `margin` (equity, initial, maintenance, free, perp cash, settled perp value) |
 
 Field values:
 

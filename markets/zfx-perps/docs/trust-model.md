@@ -36,7 +36,7 @@ Every batch records `journal_seq` and `journal_hash` (blake3 hash chain over the
 the contract stores the latest ones. Anyone with the journal (`Journal::read_all`) can:
 
 1. check that the hash chain matches the on-chain hash;
-2. replay the commands through `obkit-engine`;
+2. replay the commands through `zfx-perps-engine`;
 3. check that the batches it produces equal the ones posted on-chain.
 
 Orders in the journal carry no user signatures, since the gateway verifies them before

@@ -1,0 +1,41 @@
+[package]
+name = "zfx-perps-node"
+description = "zfx-perps operator node: sequencer, journal, matching engine thread, REST/WebSocket gateway and settlement adapter API."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "zfx-perps-node"
+path = "src/main.rs"
+
+[[bin]]
+name = "zfx-perps-loadgen"
+path = "src/bin/loadgen.rs"
+
+[dependencies]
+zfx-perps-engine = { workspace = true }
+zfx-perps-journal = { workspace = true }
+zfx-perps-wire = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+bincode = { workspace = true }
+blake3 = { workspace = true }
+ed25519-dalek = { workspace = true }
+bs58 = { workspace = true }
+rustc-hash = { workspace = true }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "time", "net", "signal"] }
+axum = { version = "0.8", features = ["ws"] }
+tower-http = { version = "0.6", features = ["cors"] }
+crossbeam-channel = "0.5"
+base64 = "0.22"
+hex = "0.4"
+parking_lot = "0.12"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+futures-util = "0.3"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+hdrhistogram = "7"
+rand = { version = "0.8", features = ["small_rng"] }
+zfx-perps-client = { workspace = true }
+tempfile = "3"

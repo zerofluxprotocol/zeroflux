@@ -16,15 +16,15 @@ browser apps (trading keys, signed orders, live feeds, wallet transactions).
 
 | Crate / package | What it does |
 |---|---|
-| `crates/obkit-engine` | Deterministic matching engine: price-time priority, GTC/IOC/FOK/post-only, self-trade prevention, spot balances with holds, maker/taker fees, perps (positions, cross margin, funding, liquidation, insurance, socialization), netted settlement batches |
-| `crates/obkit-journal` | Append-only command log with CRC framing, a blake3 hash chain, snapshots and torn-tail recovery |
-| `crates/obkit-node` | The operator server: sequencer, group-commit journal, REST and WebSocket API, ed25519 request auth, index oracle, funding timer, internal API for the adapter. Also `obkit-loadgen` |
-| `crates/obkit-near` | NEAR adapter (contract events into the node, batches onto the chain), contract client, stack deployer, sandbox launcher, `obkit-near` CLI |
-| `crates/obkit-client` | Rust trading client: signer, typed REST calls, gap-checked book feed. Market maker and taker examples |
-| `crates/obkit-wire` | The exact message formats users sign. Shared by the node, the contract and both SDKs |
-| `contracts/obkit-settlement` | NEAR contract: deposits, trading keys, batch settlement, signed withdrawals, forced withdrawals, freeze and escape |
+| `crates/zfx-perps-engine` | Deterministic matching engine: price-time priority, GTC/IOC/FOK/post-only, self-trade prevention, spot balances with holds, maker/taker fees, perps (positions, cross margin, funding, liquidation, insurance, socialization), netted settlement batches |
+| `crates/zfx-perps-journal` | Append-only command log with CRC framing, a blake3 hash chain, snapshots and torn-tail recovery |
+| `crates/zfx-perps-node` | The operator server: sequencer, group-commit journal, REST and WebSocket API, ed25519 request auth, index oracle, funding timer, internal API for the adapter. Also `zfx-perps-loadgen` |
+| `crates/zfx-perps-near` | NEAR adapter (contract events into the node, batches onto the chain), contract client, stack deployer, sandbox launcher, `zfx-perps-near` CLI |
+| `crates/zfx-perps-client` | Rust trading client: signer, typed REST calls, gap-checked book feed. Market maker and taker examples |
+| `crates/zfx-perps-wire` | The exact message formats users sign. Shared by the node, the contract and both SDKs |
+| `contracts/zfx-perps-settlement` | NEAR contract: deposits, trading keys, batch settlement, signed withdrawals, forced withdrawals, freeze and escape |
 | `contracts/mock-ft` | Test NEP-141 token with an open faucet (sandbox and testnet only) |
-| `packages/client-ts` | `@obkit/client` for browsers and Node |
+| `packages/sdk-ts` | `@zeroflux/zfx-perps-sdk` for browsers and Node |
 
 ## Quick start
 
@@ -40,7 +40,7 @@ scripts/dev.sh               # local chain + contracts + node + adapter + market
 trade as a funded dev user:
 
 ```sh
-OBKIT_URL=http://127.0.0.1:8794 OBKIT_ACCOUNT=alice.test.near OBKIT_TRADING_KEY=ed25519:... \
+ZFX_PERPS_URL=http://127.0.0.1:8794 ZFX_PERPS_ACCOUNT=alice.test.near ZFX_PERPS_TRADING_KEY=ed25519:... \
   target/release/examples/taker buy 50
 ```
 
@@ -116,7 +116,7 @@ The fsync numbers are a Mac laptop's. They have not been measured on a Linux NVM
 ## Why not a fully on-chain order book on NEAR?
 
 Measured, not assumed: [research/](research/data) holds the raw data and the Rust harnesses are
-`crates/obkit-near/examples/{onchain_bench,mainnet_survey}.rs`.
+`crates/zfx-perps-near/examples/{onchain_bench,mainnet_survey}.rs`.
 
 - **Tonic** (`v1.orderbook.near`). The benchmark runs the byte-identical mainnet wasm. Each order
   costs `2.61 + 0.0091 × resting orders` Tgas because the whole book is loaded and saved on every
@@ -133,7 +133,7 @@ Measured, not assumed: [research/](research/data) holds the raw data and the Rus
 Rust:
 
 ```rust
-use obkit_client::{Client, Order, Signer};
+use zfx_perps_client::{Client, Order, Signer};
 let c = Client::new("http://127.0.0.1:8794", "alice.near", Signer::from_near_secret(key)?);
 c.place(&Order::limit("NEAR-USDC", "buy", 42_500, 10).tif("post_only")).await?;
 c.withdraw_next("usdc.near", 5_000_000).await?;
@@ -142,13 +142,13 @@ c.withdraw_next("usdc.near", 5_000_000).await?;
 TypeScript, in a browser app with NEAR Wallet Selector:
 
 ```ts
-import { KeySigner, ObkitClient, ObkitFeed, registerKeyTx, depositTx } from "@obkit/client";
+import { KeySigner, ZfxPerpsClient, ZfxPerpsFeed, registerKeyTx, depositTx } from "@zeroflux/zfx-perps-sdk";
 const key = KeySigner.generate();                                  // keep in IndexedDB
 await wallet.signAndSendTransaction(registerKeyTx(contract, key.publicKey));
 await wallet.signAndSendTransaction(depositTx(contract, usdc, 100_000_000n));
-const client = new ObkitClient(api, accountId, key);
+const client = new ZfxPerpsClient(api, accountId, key);
 await client.place({ market: "NEAR-USDC", side: "buy", price: 42_500, qty: 10 });
-const feed = new ObkitFeed(api, { onBook: (m, b) => render(b.topBids(), b.topAsks()) });
+const feed = new ZfxPerpsFeed(api, { onBook: (m, b) => render(b.topBids(), b.topAsks()) });
 await feed.subscribeBook("NEAR-USDC");
 ```
 
@@ -161,10 +161,10 @@ as a replay. The HTTP API is documented in [docs/api.md](docs/api.md).
 ## Running an exchange
 
 ```sh
-obkit-near deploy --rpc https://rpc.testnet.fastnear.com --master you.testnet --master-key ed25519:... --out stack.json
-obkit-near node-config --stack stack.json --data ./data/node > node.json   # edit markets, admin token
-obkit-node --config node.json
-obkit-near adapter --stack stack.json --node http://127.0.0.1:8794 --admin-token <token>
+zfx-perps-near deploy --rpc https://rpc.testnet.fastnear.com --master you.testnet --master-key ed25519:... --out stack.json
+zfx-perps-near node-config --stack stack.json --data ./data/node > node.json   # edit markets, admin token
+zfx-perps-node --config node.json
+zfx-perps-near adapter --stack stack.json --node http://127.0.0.1:8794 --admin-token <token>
 ```
 
 `stack.json` holds secret keys, so keep it out of version control. The node rebuilds its state from
@@ -176,12 +176,12 @@ a batch twice.
 
 ```sh
 cargo test --workspace                                # engine, journal, node, client, CLI unit tests
-cargo test -p obkit-near --test e2e                   # full lifecycle on a local nearcore sandbox (~3 min)
-cargo test -p obkit-near --test e2e_perp              # perps settling real tokens on the sandbox (~2 min)
+cargo test -p zfx-perps-near --test e2e                   # full lifecycle on a local nearcore sandbox (~3 min)
+cargo test -p zfx-perps-near --test e2e_perp              # perps settling real tokens on the sandbox (~2 min)
 (cd contracts && cargo test)                          # settlement contract unit tests
-(cd packages/client-ts && pnpm test)                  # TS SDK: Rust parity vectors + live test against the node
-cargo bench -p obkit-engine                           # engine latency
-cargo run --release -p obkit-node --bin obkit-loadgen # node latency/throughput over HTTP
+(cd packages/sdk-ts && pnpm test)                  # TS SDK: Rust parity vectors + live test against the node
+cargo bench -p zfx-perps-engine                           # engine latency
+cargo run --release -p zfx-perps-node --bin zfx-perps-loadgen # node latency/throughput over HTTP
 ```
 
 What they cover:

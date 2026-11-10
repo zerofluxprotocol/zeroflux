@@ -4,8 +4,8 @@
 
 | Process | Language | State | Talks to |
 |---|---|---|---|
-| `obkit-node` | Rust | journal + snapshots in `data_dir` | clients (HTTP/WS), adapter (`/internal/*`) |
-| `obkit-near adapter` | Rust | none | node (`/internal/*`), NEAR RPC (operator key) |
+| `zfx-perps-node` | Rust | journal + snapshots in `data_dir` | clients (HTTP/WS), adapter (`/internal/*`) |
+| `zfx-perps-near adapter` | Rust | none | node (`/internal/*`), NEAR RPC (operator key) |
 | settlement contract | Rust (wasm) | balances, keys, nonces, events, forced requests | users' wallets, adapter |
 
 ## Inside the node
@@ -58,7 +58,7 @@ The property test replays random streams from scratch and from mid-stream snapsh
 
 ## Perpetuals
 
-The code is in `crates/obkit-engine/src/perp.rs`.
+The code is in `crates/zfx-perps-engine/src/perp.rs`.
 
 **Accounting.** Each account has a signed perp `cash` next to its collateral balance.
 
@@ -181,7 +181,7 @@ The contract stores:
    - the token is listed;
    - the key is registered to the account;
    - the nonce is greater than the stored one;
-   - the ed25519 signature over `obkit-withdraw-v1|contract|account|token|amount|nonce` verifies;
+   - the ed25519 signature over `zfx-perps-withdraw-v1|contract|account|token|amount|nonce` verifies;
    - the settled balance covers the amount.
 
    A withdrawal that fails a check is skipped and reported as `withdrawal_reverted`, so the engine

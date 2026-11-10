@@ -1,8 +1,0 @@
-[package]
-name = "obkit-wire"
-description = "Canonical signed-message formats shared by the obkit node, the NEAR settlement contract and clients."
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-
-[dependencies]

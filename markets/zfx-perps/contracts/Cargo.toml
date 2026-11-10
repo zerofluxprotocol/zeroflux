@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["obkit-settlement", "mock-ft"]
+members = ["zfx-perps-settlement", "mock-ft"]
 
 [workspace.package]
 version = "0.1.0"
@@ -10,7 +10,7 @@ license = "MIT"
 [workspace.dependencies]
 near-sdk = "5.30.1"
 near-contract-standards = "5.30.1"
-obkit-wire = { path = "../crates/obkit-wire" }
+zfx-perps-wire = { path = "../crates/zfx-perps-wire" }
 
 [profile.release]
 codegen-units = 1

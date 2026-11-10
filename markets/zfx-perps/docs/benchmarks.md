@@ -5,7 +5,7 @@ end-to-end numbers include the load generator's own CPU use. All runs are from 2
 
 ## Engine
 
-`cargo bench -p obkit-engine`. 1,000 accounts. The book is pre-filled with 20k orders, then 2M
+`cargo bench -p zfx-perps-engine`. 1,000 accounts. The book is pre-filled with 20k orders, then 2M
 operations run: 55% passive limits, 35% cancels and 10% IOC sweeps of 1 to 3 levels. Each
 `apply` is timed individually, including timer overhead.
 
@@ -32,7 +32,7 @@ also check perp margin. The p50s didn't change.
 
 ## Node over HTTP
 
-`cargo run --release -p obkit-node --bin obkit-loadgen -- --clients N --seconds 10 [--no-fsync]`.
+`cargo run --release -p zfx-perps-node --bin zfx-perps-loadgen -- --clients N --seconds 10 [--no-fsync]`.
 Same mix as the engine benchmark. Orders are signed before the timer starts. Each request goes
 through signature verification, sequencing and the journal, and the reply waits for durability.
 
@@ -49,7 +49,7 @@ on NVMe usually takes much less time, but that has not been measured.
 
 ## On-chain settlement
 
-`cargo run --release -p obkit-near --example onchain_bench` on a local nearcore sandbox.
+`cargo run --release -p zfx-perps-near --example onchain_bench` on a local nearcore sandbox.
 
 | Batch | Gas |
 |---|---|
@@ -75,7 +75,7 @@ The benchmark deploys `v1.orderbook.near`'s exact mainnet wasm. Its code hash,
   k=64 it fails: `The length of a log message 18039 exceeds the limit 16384`.
 - **A cancel** costs 3.2 to 3.5 Tgas.
 
-Mainnet, from `cargo run --release -p obkit-near --example mainnet_survey`:
+Mainnet, from `cargo run --release -p zfx-perps-near --example mainnet_survey`:
 
 - **Chain.** Protocol 88, 10 shards, 0.57 to 0.59 s mean block time, 1,000 Tgas per shard per
   block, gas price 1e8 yocto (1 Tgas = 0.0001 NEAR).
@@ -86,6 +86,6 @@ Raw data is in `research/data/`.
 
 ## End to end on a local chain
 
-`cargo test -p obkit-near --test e2e -- --nocapture`. An order was acked in 3.9 ms over HTTP, and
+`cargo test -p zfx-perps-near --test e2e -- --nocapture`. An order was acked in 3.9 ms over HTTP, and
 the batch containing its fill was settled on-chain 1.83 s later. The batch interval was 300 ms, and
 the rest was sandbox block production and finality.
