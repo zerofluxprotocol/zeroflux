@@ -21,6 +21,40 @@ TESTNET ONLY      MAINNET_READY = false      no monetary value
 4. **Finalize.** After the window, the reward is minted to the miner and the bond returned. Difficulty retargets on-chain every block.
 5. **Use it on NEAR.** ZFX is a standard NEP-141 token: NEAR wallets, transfers and NEAR Intents work directly, with no bridge.
 
+```mermaid
+sequenceDiagram
+    autonumber
+    participant M as Miner (GPU or CPU)
+    participant C as ZFX contract on NEAR
+    participant W as Watcher
+    M->>C: work(miner)
+    C-->>M: height, target, epoch seed, challenge
+    Note over M: search nonces off-chain<br/>(51.6 M multiply-adds per attempt)
+    M->>C: submit(height, nonce, trace) + bond
+    Note over C: checks the output hash against the target<br/>block is pending (about 6 Tgas)
+    C-->>W: block(height)
+    Note over W: recomputes the trace on a CPU
+    alt a value is wrong
+        W->>C: challenge(height, layer, row)
+        Note over C: recomputes one value (about 4.5 Tgas)<br/>reverts the block and its descendants
+        C-->>W: cheater's bond
+    else every value is right
+        Note over C: challenge window passes
+        W->>C: finalize()
+        C-->>M: ZFX block reward + bond returned
+    end
+```
+
+```mermaid
+stateDiagram-v2
+    [*] --> Pending: submit + bond
+    Pending --> Finalized: window passes with no valid fraud proof
+    Pending --> Reverted: a value proven wrong (bond to challenger)
+    Pending --> Reverted: an earlier block reverted (bond refunded)
+    Finalized --> [*]: reward minted, bond returned
+    Reverted --> [*]: nothing minted
+```
+
 Security assumption: at least one honest watcher checks pending blocks within the window (the watcher ships with the mining tools, and catching fraud pays the cheater's bond).
 
 ## Quick start
