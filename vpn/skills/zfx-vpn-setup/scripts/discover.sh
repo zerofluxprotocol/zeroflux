@@ -1,5 +1,5 @@
 #!/bin/sh
-# Read-only discovery for the promptvpn-setup skill. Prints JSON.
+# Read-only discovery for the zfx-vpn-setup skill. Prints JSON.
 # Reads no secrets, writes nothing, makes no network calls except to a local
 # Ollama on 127.0.0.1 (version probe, 2 s timeout).
 set -eu
@@ -26,9 +26,10 @@ fi
 ollama_running=false
 [ -n "$ollama_version" ] && ollama_running=true
 
-pv_installed=$(has promptvpn)
+pv_installed=$(has zfx-vpn)
+legacy_installed=$(has promptvpn)
 pv_version=""
-[ "$pv_installed" = true ] && pv_version=$(promptvpn --version 2>/dev/null | awk '{print $2}')
+[ "$pv_installed" = true ] && pv_version=$(zfx-vpn --version 2>/dev/null | awk '{print $2}')
 
 client_json() {
   name=$1; bin=$2; cfg=$3
@@ -43,7 +44,8 @@ case "$os$arch" in *unsupported*) supported=false ;; esac
 printf '{\n'
 printf '  "os": "%s",\n  "arch": "%s",\n  "supported_platform": %s,\n  "ram_mb": %s,\n' "$os" "$arch" "$supported" "$ram_mb"
 printf '  "ollama": {"installed": %s, "running": %s, "version": "%s"},\n' "$ollama_installed" "$ollama_running" "$ollama_version"
-printf '  "promptvpn": {"installed": %s, "version": "%s"},\n' "$pv_installed" "$pv_version"
+printf '  "zfx_vpn": {"installed": %s, "version": "%s"},\n' "$pv_installed" "$pv_version"
+printf '  "legacy_promptvpn_command": %s,\n' "$legacy_installed"
 printf '  "clients": [\n    %s,\n    %s,\n    %s,\n    {"client":"env","installed":true,"config_path":"","config_exists":false}\n  ],\n' \
   "$(client_json codex codex "$HOME/.codex/config.toml")" \
   "$(client_json aider aider "$HOME/.aider.conf.yml")" \
