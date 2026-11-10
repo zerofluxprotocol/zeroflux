@@ -1,0 +1,120 @@
+<!-- Generated from skills/promptvpn-setup/SKILL.md by scripts/gen_skill_adapters.py. Do not edit. -->
+
+# Prompt VPN setup
+
+Prompt VPN runs on the user's machine. Clients send OpenAI-compatible requests to `http://127.0.0.1:8787/v1`; Prompt VPN classifies them locally and then allows, transforms, holds for review, or blocks them before anything leaves the device.
+
+Your job is to install it, configure it with the user's choices, prove it protects data with synthetic secrets, and connect the user's client, with approval at every step that changes their system.
+
+## Ground rules (never break these)
+
+1. **Never put real secrets anywhere visible.** Do not ask the user to paste secrets into chat, do not echo them, do not put them in shell arguments, history, logs, screenshots or support requests. Secrets are entered by the user directly into `promptvpn` prompts (hidden input) or the local dashboard.
+2. **Ask before changing anything.** Show the plan and get explicit approval before: installing binaries, installing a background service, pulling models, editing any client config.
+3. **Never install Ollama or other system software yourself.** If missing, show the official instructions and wait for the user.
+4. **Show before you run.** Point the user to `install.sh` and get approval before piping it to a shell.
+5. **Never pre-select consent.** TEE routing sends data off-device; only the user can enable it.
+6. **Use synthetic test data only** (the bundled egress test). Never test with the user's real data.
+7. Be explicit about coverage: Prompt VPN inspects requests sent to its API (including tool-call arguments and tool results inside them). It does **not** intercept shell, HTTP or browser tools an agent runs separately.
+
+## Stop conditions
+
+Stop and report to the user (do not work around) when:
+- they decline a permission you need;
+- the client is not in the supported list below;
+- the synthetic protection test fails (`scripts/egress_test.sh` exit code ≠ 0);
+- a model download or identity verification fails;
+- secure key storage is unavailable (`promptvpn status` warns "data key is stored in a file") and the user has not explicitly accepted the degraded mode.
+
+## Steps
+
+### 1. Discover (read-only)
+```sh
+sh skills/promptvpn-setup/scripts/discover.sh
+```
+It prints JSON: OS, CPU architecture, RAM, Ollama presence/version, whether `promptvpn` is installed, and which supported clients exist. It reads no secrets and changes nothing. Supported platforms: macOS (Apple Silicon, Intel) and Linux (x86_64, ARM64). Windows is not supported.
+
+### 2. Explain the plan and get approval
+Tell the user, in a few lines: what will be installed and where (source in `~/.promptvpn/src`, binary in `~/.local/bin/promptvpn`, data in the OS data dir), that a background service is optional, which models will be downloaded (sizes below), and that client configs are only edited with their approval and can be rolled back.
+
+### 3. Install (build from source)
+If `promptvpn` is not installed, show the user the installer first (https://github.com/numinousmuses/promptvpn/blob/main/install.sh), get approval, then run:
+```sh
+curl -fsSL https://raw.githubusercontent.com/numinousmuses/promptvpn/main/install.sh | sh
+```
+It clones the repository, builds it with Rust (offering to install Rust via rustup only after asking), and installs the binary to `~/.local/bin` without sudo. Needs git and a C compiler (`xcode-select --install` on macOS). Re-running updates it.
+
+### 4. Detection model
+Prompt VPN's detection model is GLiNER PII (Apache-2.0). It runs inside Prompt VPN; no Ollama or GPU is needed. Let the user pick a size:
+
+| Size | Download | Notes |
+|---|---|---|
+| `base` | ~205 MB | Recommended: best accuracy in the bundled benchmark, ~20 ms per request |
+| `small` | ~86 MB | |
+| `edge` | ~49 MB | Lowest memory |
+| `none` | 0 | Deterministic recognizers only; names and free-text details are not detected |
+
+Files are pinned by revision and SHA-256 in `models.lock.json` and verified before use. Ollama is optional and only matters if the user wants a local model to *answer* requests (`promptvpn ollama status`; if missing, show the official instructions it prints and wait for the user).
+
+### 5. Configure (user's choices)
+Interactive (best when the user is at a terminal):
+```sh
+promptvpn init
+```
+Or the web wizard: `promptvpn init --dashboard`. For a scripted run, translate the user's answers into flags, e.g.:
+```sh
+promptvpn init --non-interactive --model base --fallback review --near-skip
+```
+Explain the uncertain/failure choice: **review** (default: hold locally and notify) vs **tee** (send to a NEAR model only after its TEE attestation verifies; still leaves the device; requires the user's explicit `--tee-consent`).
+
+**NEAR AI** is the recommended inference provider. Strongly recommend it, but the user may skip and finish local-only (`NEAR_NOT_CONFIGURED`). If they want it, they run `promptvpn near login` themselves (the key is read with hidden input and stored in the OS credential store). Check a model before selecting it:
+```sh
+promptvpn near models
+promptvpn near verify-attestation deepseek-ai/DeepSeek-V4.1-Flash-1017
+```
+Only models that print `VERIFIED` are eligible for private routing. Models proxied through NEAR ("Incognito") are external endpoints, not TEEs. Note: `deepseek-ai/DeepSeek-V4-Flash` is an alias of a different model on the live gateway and is rejected.
+
+Alternatives the user may choose: a local Ollama generation model (`--ollama-model qwen3.5:4b`, stays on device) or a custom OpenAI-compatible endpoint (`--custom-url ... --custom-model ... --custom-ack`, treated as EXTERNAL_UNVERIFIED).
+
+### 6. Prove protection (synthetic, local mock)
+```sh
+sh skills/promptvpn-setup/scripts/egress_test.sh
+```
+It runs `promptvpn connect test`: a temporary instance with a local mock upstream that records exact bytes; synthetic SSN and API key must be blocked, a synthetic email tokenized upstream and restored for the caller, streaming and the Responses API must work, and no synthetic secret may reach the mock. **If it fails, stop.**
+
+If NEAR is configured, also run `promptvpn near test` (synthetic prompt; verifies the response signature).
+
+### 7. Connect the client (with approval)
+```sh
+promptvpn client detect
+promptvpn connect show
+```
+Supported: `codex`, `aider`, `opencode` (config edited with backup), and `env` (prints `OPENAI_BASE_URL`/`OPENAI_API_KEY` exports for any OpenAI SDK client). For anything else, show `promptvpn connect show` output and let the user point their client's base URL themselves; do not claim unsupported clients work.
+
+After the user approves:
+```sh
+promptvpn client configure codex --yes
+```
+It backs up the original file first and prints the rollback command.
+
+### 8. Show the dashboard and controls
+```sh
+promptvpn dashboard
+```
+Walk the user through: Activity (metadata only, no prompt text), Approvals (approve once / edit / always block / save as rule; held requests expire in 15 minutes; approving does not resend, the client retries), Policies and the playground, Categories (critical protections on; relaxing one needs typed confirmation), Secrets (register exact values; they are encrypted and never shown again), Custom entities (things to find by description, like "insurance policy number"; `promptvpn entity add --label ...`), desktop notifications, and the emergency stop (`promptvpn emergency-stop`).
+
+### 9. Hand-off: diagnostics, rollback, uninstall
+```sh
+promptvpn doctor                 # diagnostics, no secrets
+promptvpn client rollback codex  # restore the client's original config
+promptvpn service install        # optional autostart (asks first)
+promptvpn uninstall              # stops and removes the service; keeps data
+promptvpn uninstall --purge      # deletes data after typing DELETE
+```
+`sh skills/promptvpn-setup/scripts/rollback.sh <client>` wraps the rollback.
+
+## Troubleshooting
+- `PV_APPROVAL_REQUIRED` (HTTP 428): open the dashboard Approvals page, decide, then retry the same request.
+- `PV_POLICY_BLOCKED` (403): expected for critical data; see the event in Activity. Never weaken a critical protection for the user; they can do it themselves under Categories.
+- `CLASSIFIER_FAILURE` events (requests held for review): the detection model is missing or failed to load. Run `promptvpn model list` and `promptvpn model install`.
+- `PV_ROUTE_FORBIDDEN`: content needed a private route but no verified TEE (or approved local model) was available.
+- Port conflict: `promptvpn start --port 8790` (Prompt VPN only ever binds 127.0.0.1).

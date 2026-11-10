@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ProviderConfig",
+  "description": "Configuration of a generation destination. Credentials are never stored here; `credential_ref` names an entry in the OS credential store.",
+  "type": "object",
+  "required": [
+    "base_url",
+    "declared_tier",
+    "default_model",
+    "display_name",
+    "id",
+    "kind"
+  ],
+  "properties": {
+    "allow_failover": {
+      "description": "Whether this destination may be used automatically when the preferred one fails.",
+      "default": false,
+      "type": "boolean"
+    },
+    "base_url": {
+      "type": "string"
+    },
+    "credential_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "declared_tier": {
+      "description": "Tier the owner declared. The runtime tier may be lower (e.g. a NEAR model whose attestation is not verified is treated as EXTERNAL_UNVERIFIED).",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DestinationTier"
+        }
+      ]
+    },
+    "default_model": {
+      "description": "Default model sent upstream when the client's model is not served here.",
+      "type": "string"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "enabled": {
+      "default": true,
+      "type": "boolean"
+    },
+    "id": {
+      "type": "string"
+    },
+    "kind": {
+      "$ref": "#/definitions/ProviderKind"
+    },
+    "schema_version": {
+      "default": 1,
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "supports_responses": {
+      "description": "Whether the upstream natively supports `/v1/responses`. If false, Prompt VPN translates Responses requests into Chat Completions.",
+      "default": false,
+      "type": "boolean"
+    },
+    "timeout_secs": {
+      "default": 120,
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    }
+  },
+  "definitions": {
+    "DestinationTier": {
+      "description": "Privacy tier of a generation destination.",
+      "oneOf": [
+        {
+          "description": "Runs on this device (loopback only).",
+          "type": "string",
+          "enum": [
+            "LOCAL"
+          ]
+        },
+        {
+          "description": "Remote, with attestation verified for the exact model and service.",
+          "type": "string",
+          "enum": [
+            "ATTESTED_TEE"
+          ]
+        },
+        {
+          "description": "Any other remote endpoint, including NEAR models without verified TEE.",
+          "type": "string",
+          "enum": [
+            "EXTERNAL_UNVERIFIED"
+          ]
+        }
+      ]
+    },
+    "ProviderKind": {
+      "type": "string",
+      "enum": [
+        "NEAR_AI",
+        "OLLAMA",
+        "OPENAI_COMPATIBLE"
+      ]
+    }
+  }
+}

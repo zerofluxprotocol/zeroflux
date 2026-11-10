@@ -1,0 +1,872 @@
+[
+  {
+    "config": "deterministic",
+    "cases": 270,
+    "per_category": {
+      "ADDRESS": {
+        "precision": 1.0,
+        "recall": 0.6470588235294118,
+        "fnr": 0.3529411764705882,
+        "counts": {
+          "tp_labels": 11,
+          "fn_labels": 6,
+          "tp_findings": 11,
+          "fp_findings": 0
+        }
+      },
+      "API_KEY": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 27,
+          "fn_labels": 0,
+          "tp_findings": 27,
+          "fp_findings": 0
+        }
+      },
+      "AUTH_SECRET": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 7,
+          "fn_labels": 0,
+          "tp_findings": 7,
+          "fp_findings": 0
+        }
+      },
+      "CUSTOM:employee": {
+        "precision": null,
+        "recall": 0.0,
+        "fnr": 1.0,
+        "counts": {
+          "tp_labels": 0,
+          "fn_labels": 6,
+          "tp_findings": 0,
+          "fp_findings": 0
+        }
+      },
+      "CUSTOM:policy": {
+        "precision": null,
+        "recall": 0.0,
+        "fnr": 1.0,
+        "counts": {
+          "tp_labels": 0,
+          "fn_labels": 6,
+          "tp_findings": 0,
+          "fp_findings": 0
+        }
+      },
+      "DOB": {
+        "precision": 1.0,
+        "recall": 0.9,
+        "fnr": 0.09999999999999998,
+        "counts": {
+          "tp_labels": 9,
+          "fn_labels": 1,
+          "tp_findings": 9,
+          "fp_findings": 0
+        }
+      },
+      "DRIVER_LICENSE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 3,
+          "fn_labels": 0,
+          "tp_findings": 3,
+          "fp_findings": 0
+        }
+      },
+      "EMAIL": {
+        "precision": 0.96875,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 31,
+          "fn_labels": 0,
+          "tp_findings": 31,
+          "fp_findings": 1
+        }
+      },
+      "EXACT_SECRET": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 4,
+          "fn_labels": 0,
+          "tp_findings": 4,
+          "fp_findings": 0
+        }
+      },
+      "FINANCIAL_ACCOUNT": {
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "fnr": 0.16666666666666663,
+        "counts": {
+          "tp_labels": 5,
+          "fn_labels": 1,
+          "tp_findings": 5,
+          "fp_findings": 0
+        }
+      },
+      "GOVERNMENT_ID": {
+        "precision": 1.0,
+        "recall": 0.9772727272727273,
+        "fnr": 0.022727272727272707,
+        "counts": {
+          "tp_labels": 43,
+          "fn_labels": 1,
+          "tp_findings": 43,
+          "fp_findings": 0
+        }
+      },
+      "HEALTH_INFORMATION": {
+        "precision": 1.0,
+        "recall": 0.5238095238095238,
+        "fnr": 0.47619047619047616,
+        "counts": {
+          "tp_labels": 11,
+          "fn_labels": 10,
+          "tp_findings": 18,
+          "fp_findings": 0
+        }
+      },
+      "PASSPORT": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 5,
+          "fn_labels": 0,
+          "tp_findings": 5,
+          "fp_findings": 0
+        }
+      },
+      "PAYMENT_CARD": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 10,
+          "fn_labels": 0,
+          "tp_findings": 10,
+          "fp_findings": 0
+        }
+      },
+      "PERSON": {
+        "precision": 1.0,
+        "recall": 0.2571428571428571,
+        "fnr": 0.7428571428571429,
+        "counts": {
+          "tp_labels": 9,
+          "fn_labels": 26,
+          "tp_findings": 9,
+          "fp_findings": 0
+        }
+      },
+      "PHONE": {
+        "precision": 1.0,
+        "recall": 0.9285714285714286,
+        "fnr": 0.0714285714285714,
+        "counts": {
+          "tp_labels": 13,
+          "fn_labels": 1,
+          "tp_findings": 13,
+          "fp_findings": 0
+        }
+      },
+      "PRIVATE_KEY": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 3,
+          "fn_labels": 0,
+          "tp_findings": 3,
+          "fp_findings": 0
+        }
+      }
+    },
+    "critical_labels": 103,
+    "critical_escapes": 1,
+    "critical_escape_rate": 0.009708737864077669,
+    "decision_accuracy": 0.8814814814814815,
+    "false_block_rate": 0.0,
+    "utility_preserved": 0.8907736863880844,
+    "latency_ms_p50": 0.18720799999999999,
+    "latency_ms_p95": 1.685584,
+    "peak_rss_mb": 30.421875,
+    "classifier_failures": 0,
+    "mismatches": [
+      {
+        "id": "free-address-0",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "address"
+        ]
+      },
+      {
+        "id": "free-address-1",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "address"
+        ]
+      },
+      {
+        "id": "free-address-2",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "address"
+        ]
+      },
+      {
+        "id": "free-address-3",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "address"
+        ]
+      },
+      {
+        "id": "free-address-4",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "address"
+        ]
+      },
+      {
+        "id": "free-address-5",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "address"
+        ]
+      },
+      {
+        "id": "free-health-0",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "health"
+        ]
+      },
+      {
+        "id": "free-health-1",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "health"
+        ]
+      },
+      {
+        "id": "free-health-2",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "health"
+        ]
+      },
+      {
+        "id": "free-health-3",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "health"
+        ]
+      },
+      {
+        "id": "free-health-5",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "health"
+        ]
+      },
+      {
+        "id": "free-health-6",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "health"
+        ]
+      },
+      {
+        "id": "free-health-7",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "health"
+        ]
+      },
+      {
+        "id": "free-health-8",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "health"
+        ]
+      },
+      {
+        "id": "free-dob-0",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text"
+        ]
+      },
+      {
+        "id": "free-phone-0",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text"
+        ]
+      },
+      {
+        "id": "free-acct-0",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text"
+        ]
+      },
+      {
+        "id": "mixed-0",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "mixed"
+        ]
+      },
+      {
+        "id": "mixed-1",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "mixed"
+        ]
+      },
+      {
+        "id": "custom-policy-0",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "custom-entity"
+        ]
+      },
+      {
+        "id": "custom-policy-1",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "custom-entity"
+        ]
+      },
+      {
+        "id": "custom-policy-2",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "custom-entity"
+        ]
+      },
+      {
+        "id": "custom-policy-3",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "custom-entity"
+        ]
+      },
+      {
+        "id": "custom-policy-4",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "custom-entity"
+        ]
+      },
+      {
+        "id": "custom-policy-5",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "custom-entity"
+        ]
+      },
+      {
+        "id": "custom-employee-0",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "custom-entity"
+        ]
+      },
+      {
+        "id": "custom-employee-1",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "custom-entity"
+        ]
+      },
+      {
+        "id": "custom-employee-2",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "custom-entity"
+        ]
+      },
+      {
+        "id": "custom-employee-3",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "custom-entity"
+        ]
+      },
+      {
+        "id": "custom-employee-4",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "custom-entity"
+        ]
+      },
+      {
+        "id": "custom-employee-5",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "custom-entity"
+        ]
+      },
+      {
+        "id": "hard-ssn-words",
+        "expect": "BLOCK",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "hard"
+        ]
+      }
+    ]
+  },
+  {
+    "config": "gliner-base",
+    "cases": 270,
+    "per_category": {
+      "ADDRESS": {
+        "precision": 1.0,
+        "recall": 0.7058823529411765,
+        "fnr": 0.2941176470588235,
+        "counts": {
+          "tp_labels": 12,
+          "fn_labels": 5,
+          "tp_findings": 12,
+          "fp_findings": 0
+        }
+      },
+      "API_KEY": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 27,
+          "fn_labels": 0,
+          "tp_findings": 27,
+          "fp_findings": 0
+        }
+      },
+      "AUTH_SECRET": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 7,
+          "fn_labels": 0,
+          "tp_findings": 8,
+          "fp_findings": 0
+        }
+      },
+      "CUSTOM:employee": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 6,
+          "fn_labels": 0,
+          "tp_findings": 6,
+          "fp_findings": 3
+        }
+      },
+      "CUSTOM:policy": {
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "fnr": 0.6666666666666667,
+        "counts": {
+          "tp_labels": 2,
+          "fn_labels": 4,
+          "tp_findings": 2,
+          "fp_findings": 0
+        }
+      },
+      "DOB": {
+        "precision": 0.9090909090909091,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 10,
+          "fn_labels": 0,
+          "tp_findings": 10,
+          "fp_findings": 1
+        }
+      },
+      "DRIVER_LICENSE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 3,
+          "fn_labels": 0,
+          "tp_findings": 3,
+          "fp_findings": 0
+        }
+      },
+      "EMAIL": {
+        "precision": 0.96875,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 31,
+          "fn_labels": 0,
+          "tp_findings": 31,
+          "fp_findings": 1
+        }
+      },
+      "EXACT_SECRET": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 4,
+          "fn_labels": 0,
+          "tp_findings": 4,
+          "fp_findings": 0
+        }
+      },
+      "FINANCIAL_ACCOUNT": {
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "fnr": 0.16666666666666663,
+        "counts": {
+          "tp_labels": 5,
+          "fn_labels": 1,
+          "tp_findings": 5,
+          "fp_findings": 0
+        }
+      },
+      "GOVERNMENT_ID": {
+        "precision": 1.0,
+        "recall": 0.9772727272727273,
+        "fnr": 0.022727272727272707,
+        "counts": {
+          "tp_labels": 43,
+          "fn_labels": 1,
+          "tp_findings": 43,
+          "fp_findings": 0
+        }
+      },
+      "HEALTH_INFORMATION": {
+        "precision": 0.896551724137931,
+        "recall": 0.8571428571428571,
+        "fnr": 0.1428571428571429,
+        "counts": {
+          "tp_labels": 18,
+          "fn_labels": 3,
+          "tp_findings": 26,
+          "fp_findings": 3
+        }
+      },
+      "PASSPORT": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 5,
+          "fn_labels": 0,
+          "tp_findings": 5,
+          "fp_findings": 0
+        }
+      },
+      "PAYMENT_CARD": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 10,
+          "fn_labels": 0,
+          "tp_findings": 10,
+          "fp_findings": 0
+        }
+      },
+      "PERSON": {
+        "precision": 0.6888888888888889,
+        "recall": 0.8857142857142857,
+        "fnr": 0.11428571428571432,
+        "counts": {
+          "tp_labels": 31,
+          "fn_labels": 4,
+          "tp_findings": 31,
+          "fp_findings": 14
+        }
+      },
+      "PHONE": {
+        "precision": 1.0,
+        "recall": 0.9285714285714286,
+        "fnr": 0.0714285714285714,
+        "counts": {
+          "tp_labels": 13,
+          "fn_labels": 1,
+          "tp_findings": 13,
+          "fp_findings": 0
+        }
+      },
+      "PRIVATE_KEY": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "fnr": 0.0,
+        "counts": {
+          "tp_labels": 3,
+          "fn_labels": 0,
+          "tp_findings": 3,
+          "fp_findings": 0
+        }
+      }
+    },
+    "critical_labels": 103,
+    "critical_escapes": 1,
+    "critical_escape_rate": 0.009708737864077669,
+    "decision_accuracy": 0.9444444444444444,
+    "false_block_rate": 0.005988023952095809,
+    "utility_preserved": 0.9117379435850773,
+    "latency_ms_p50": 20.941917,
+    "latency_ms_p95": 28.113792,
+    "peak_rss_mb": 834.203125,
+    "classifier_failures": 0,
+    "mismatches": [
+      {
+        "id": "free-address-0",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "address"
+        ]
+      },
+      {
+        "id": "free-address-1",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "address"
+        ]
+      },
+      {
+        "id": "free-address-2",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "address"
+        ]
+      },
+      {
+        "id": "free-address-4",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "address"
+        ]
+      },
+      {
+        "id": "free-address-5",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text",
+          "address"
+        ]
+      },
+      {
+        "id": "free-health-1",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [
+          "PERSON"
+        ],
+        "tags": [
+          "free-text",
+          "health"
+        ]
+      },
+      {
+        "id": "free-phone-0",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text"
+        ]
+      },
+      {
+        "id": "free-acct-0",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "free-text"
+        ]
+      },
+      {
+        "id": "mixed-0",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [
+          "PERSON"
+        ],
+        "tags": [
+          "free-text",
+          "mixed"
+        ]
+      },
+      {
+        "id": "mixed-1",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [
+          "PERSON"
+        ],
+        "tags": [
+          "free-text",
+          "mixed"
+        ]
+      },
+      {
+        "id": "custom-policy-4",
+        "expect": "TRANSFORM",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "custom-entity"
+        ]
+      },
+      {
+        "id": "negative-20",
+        "expect": "ALLOW",
+        "got": "TRANSFORM",
+        "categories": [
+          "HEALTH_INFORMATION"
+        ],
+        "tags": [
+          "hard-negative"
+        ]
+      },
+      {
+        "id": "negative-21",
+        "expect": "ALLOW",
+        "got": "TRANSFORM",
+        "categories": [
+          "HEALTH_INFORMATION",
+          "PERSON"
+        ],
+        "tags": [
+          "hard-negative"
+        ]
+      },
+      {
+        "id": "negative-24",
+        "expect": "ALLOW",
+        "got": "REVIEW",
+        "categories": [
+          "UNCERTAIN"
+        ],
+        "tags": [
+          "hard-negative"
+        ]
+      },
+      {
+        "id": "hard-ssn-words",
+        "expect": "BLOCK",
+        "got": "ALLOW",
+        "categories": [],
+        "tags": [
+          "hard"
+        ]
+      }
+    ]
+  }
+]

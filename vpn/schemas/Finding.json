@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Finding",
+  "description": "One detected sensitive span (or a whole-field marker such as a classifier failure).\n\nOffsets are UTF-8 byte offsets into the exact local buffer of `field_path`. A finding never carries the matched text.",
+  "type": "object",
+  "required": [
+    "category",
+    "classifier_type",
+    "confidence",
+    "end_byte",
+    "evidence",
+    "finding_id",
+    "recognizer_id",
+    "sensitivity",
+    "start_byte"
+  ],
+  "properties": {
+    "category": {
+      "description": "Built-in category (e.g. `GOVERNMENT_ID`), `EXACT_SECRET`, `CUSTOM:<id>`, `UNCERTAIN` or `CLASSIFIER_FAILURE`.",
+      "type": "string"
+    },
+    "classifier_type": {
+      "$ref": "#/definitions/ClassifierType"
+    },
+    "classifier_version": {
+      "description": "Classifier/model version that produced the finding.",
+      "default": "",
+      "type": "string"
+    },
+    "confidence": {
+      "type": "number",
+      "format": "float"
+    },
+    "end_byte": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0.0
+    },
+    "entity_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "evidence": {
+      "type": "string"
+    },
+    "field_index": {
+      "description": "Index into the request's extracted content fields.",
+      "default": 0,
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0.0
+    },
+    "finding_id": {
+      "type": "string"
+    },
+    "recognizer_id": {
+      "type": "string"
+    },
+    "schema_version": {
+      "default": 1,
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "secret_id": {
+      "description": "Opaque vault ID for exact-secret findings.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "sensitivity": {
+      "$ref": "#/definitions/Sensitivity"
+    },
+    "start_byte": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0.0
+    },
+    "whole_field": {
+      "description": "True when the finding covers the whole field rather than a localized span.",
+      "default": false,
+      "type": "boolean"
+    }
+  },
+  "definitions": {
+    "ClassifierType": {
+      "description": "Which family of classifier produced a finding.",
+      "oneOf": [
+        {
+          "description": "Built-in concepts: regex/checksum recognizers and the GLiNER span model.",
+          "type": "string",
+          "enum": [
+            "builtin"
+          ]
+        },
+        {
+          "description": "User-registered exact sensitive values.",
+          "type": "string",
+          "enum": [
+            "exact"
+          ]
+        },
+        {
+          "description": "Owner-defined entity types found by the span model (GLiNER zero-shot labels).",
+          "type": "string",
+          "enum": [
+            "custom"
+          ]
+        }
+      ]
+    },
+    "Sensitivity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high",
+        "critical"
+      ]
+    }
+  }
+}

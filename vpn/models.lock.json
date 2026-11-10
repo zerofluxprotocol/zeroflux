@@ -1,0 +1,83 @@
+{
+  "schema_version": 2,
+  "generated": "2026-11-08",
+  "note": "Pinned span-model artifacts (GLiNER PII family, ONNX quint8). Downloaded at install time and verified by sha256; no weights are committed. Runtime: onnxruntime 1.20 via vendored gline-rs 1.1.0 (patched for ModernBERT). The default size is chosen by `promptvpn eval`; see docs/evaluation.md.",
+  "default_span_model": "gliner-pii-base",
+  "span": {
+    "gliner-pii-edge": {
+      "source": "https://huggingface.co/knowledgator/gliner-pii-edge-v1.0",
+      "revision": "9b7f39b0a2da971a5beea78d35f1539d4009c891",
+      "license": "apache-2.0",
+      "span_mode": "token_level",
+      "encoder": "jhu-clsp/ettin-encoder-32m",
+      "threshold": 0.5,
+      "files": {
+        "tokenizer.json": {
+          "path": "tokenizer.json",
+          "size": 3583593,
+          "sha256": "84b3a9b18f04a0ccd03b72d9f871b7e0bec40fd7021ef50bc30a7c3693c11205"
+        },
+        "model.onnx": {
+          "path": "onnx/model_quint8.onnx",
+          "size": 45820894,
+          "sha256": "988acb03456b26e2d9f2521016d820310c2ed64deb4a846297d3289f0c2eb7e4"
+        },
+        "gliner_config.json": {
+          "path": "gliner_config.json",
+          "size": 4316,
+          "sha256": "77e6b57335c4bfd461e9041682196dd6c373a0b09bbd9269ef9e95b807915340"
+        }
+      }
+    },
+    "gliner-pii-small": {
+      "source": "https://huggingface.co/knowledgator/gliner-pii-small-v1.0",
+      "revision": "d21aad5b4a7ec82b3d0970fd1ac74a12c087d85e",
+      "license": "apache-2.0",
+      "span_mode": "token_level",
+      "encoder": "jhu-clsp/ettin-encoder-68m",
+      "threshold": 0.5,
+      "files": {
+        "tokenizer.json": {
+          "path": "tokenizer.json",
+          "size": 3583593,
+          "sha256": "84b3a9b18f04a0ccd03b72d9f871b7e0bec40fd7021ef50bc30a7c3693c11205"
+        },
+        "model.onnx": {
+          "path": "onnx/model_quint8.onnx",
+          "size": 82680500,
+          "sha256": "891589426ee96f2748b16439f44fad8c3f97e198e002a6637e58dee989500216"
+        },
+        "gliner_config.json": {
+          "path": "gliner_config.json",
+          "size": 4316,
+          "sha256": "c10803bade021f40072b194bc78bc2edd2bf3e60637a6f34cc9b00705bf3c168"
+        }
+      }
+    },
+    "gliner-pii-base": {
+      "source": "https://huggingface.co/knowledgator/gliner-pii-base-v1.0",
+      "revision": "61726e0ad791dcab3e29339bbec3ad42ded65641",
+      "license": "apache-2.0",
+      "span_mode": "markerV0",
+      "encoder": "microsoft/deberta-v3-small",
+      "threshold": 0.5,
+      "files": {
+        "tokenizer.json": {
+          "path": "tokenizer.json",
+          "size": 8649232,
+          "sha256": "ee028763434d18611c1c36356ea1d050e90a9fa94ede57fac48b39f85f818ad1"
+        },
+        "model.onnx": {
+          "path": "onnx/model_quint8.onnx",
+          "size": 196757174,
+          "sha256": "0514c8fd86d0513ce5351a3267f132b57d5bcd8f99a90d43cde1228092881d19"
+        },
+        "gliner_config.json": {
+          "path": "gliner_config.json",
+          "size": 3902,
+          "sha256": "e33d3da38e0d369fa7574668d3798ca6c7d2b23cba7d628507112eeb426aaccb"
+        }
+      }
+    }
+  }
+}

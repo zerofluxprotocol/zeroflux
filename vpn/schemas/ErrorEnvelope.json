@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PvErrorEnvelope",
+  "type": "object",
+  "required": [
+    "error"
+  ],
+  "properties": {
+    "error": {
+      "$ref": "#/definitions/PvErrorBody"
+    }
+  },
+  "definitions": {
+    "ErrorCode": {
+      "type": "string",
+      "enum": [
+        "PV_POLICY_BLOCKED",
+        "PV_APPROVAL_REQUIRED",
+        "PV_CLASSIFIER_UNAVAILABLE",
+        "PV_UNSUPPORTED_CONTENT",
+        "PV_ROUTE_FORBIDDEN",
+        "PV_POLICY_INVALID",
+        "PV_VAULT_LOCKED",
+        "PV_PROVIDER_ERROR",
+        "PV_UNAUTHORIZED",
+        "PV_BAD_REQUEST",
+        "PV_PAYLOAD_TOO_LARGE",
+        "PV_OUTPUT_BLOCKED"
+      ]
+    },
+    "PvErrorBody": {
+      "description": "Wire error. `message` must never contain matched sensitive spans.",
+      "type": "object",
+      "required": [
+        "code",
+        "message",
+        "retryable",
+        "type"
+      ],
+      "properties": {
+        "approval_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "code": {
+          "$ref": "#/definitions/ErrorCode"
+        },
+        "event_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

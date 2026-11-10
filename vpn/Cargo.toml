@@ -1,0 +1,76 @@
+[workspace]
+resolver = "2"
+members = [
+  "crates/pv-core",
+  "crates/pv-detectors",
+  "crates/pv-transform",
+  "crates/pv-vault",
+  "crates/pv-audit",
+  "crates/pv-provider",
+  "crates/pv-proxy",
+  "crates/pv-daemon",
+  "crates/pv-cli",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+rust-version = "1.80"
+repository = "https://github.com/numinousmuses/promptvpn"
+
+[workspace.dependencies]
+pv-core = { path = "crates/pv-core" }
+pv-detectors = { path = "crates/pv-detectors" }
+pv-transform = { path = "crates/pv-transform" }
+pv-vault = { path = "crates/pv-vault" }
+pv-audit = { path = "crates/pv-audit" }
+pv-provider = { path = "crates/pv-provider" }
+pv-proxy = { path = "crates/pv-proxy" }
+pv-daemon = { path = "crates/pv-daemon" }
+
+anyhow = "1"
+thiserror = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+schemars = { version = "0.8", features = ["chrono", "uuid1"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde", "clock"], default-features = false }
+regex = "1"
+aho-corasick = "1"
+unicode-normalization = "0.1"
+base64 = "0.22"
+hex = "0.4"
+sha2 = "0.10"
+sha3 = "0.10"
+hmac = "0.12"
+hkdf = "0.12"
+rand = "0.8"
+zeroize = { version = "1", features = ["derive"] }
+chacha20poly1305 = "0.10"
+argon2 = "0.5"
+k256 = { version = "0.13", features = ["ecdsa"] }
+rusqlite = { version = "0.32", features = ["bundled"] }
+tokio = { version = "1", features = ["full"] }
+tokio-stream = "0.1"
+futures = "0.3"
+bytes = "1"
+axum = { version = "0.8", features = ["macros"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json", "stream", "http2"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+clap = { version = "4", features = ["derive", "env"] }
+directories = "5"
+rust-embed = { version = "8", features = ["include-exclude"] }
+mime_guess = "2"
+keyring = { version = "3", features = ["apple-native", "linux-native-sync-persistent", "crypto-rust"] }
+tempfile = "3"
+url = "2"
+
+[profile.release]
+lto = "thin"
+codegen-units = 4
+strip = true
+
+[patch.crates-io]
+gline-rs = { path = "third_party/gline-rs" }
