@@ -1,0 +1,170 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AuditEvent",
+  "description": "Metadata-only audit event. Never contains prompt text or secret values.",
+  "type": "object",
+  "required": [
+    "action",
+    "app_id",
+    "categories",
+    "direction",
+    "event_id",
+    "finding_count",
+    "kind",
+    "latency_ms",
+    "policy_ids",
+    "recognizer_versions",
+    "severity",
+    "summary",
+    "timestamp",
+    "user_id"
+  ],
+  "properties": {
+    "action": {
+      "type": "string"
+    },
+    "agent_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "app_id": {
+      "type": "string"
+    },
+    "approval_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "approval_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "context_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "destination_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "direction": {
+      "$ref": "#/definitions/Direction"
+    },
+    "endpoint": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "error_code": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "event_id": {
+      "type": "string"
+    },
+    "finding_count": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "kind": {
+      "type": "string"
+    },
+    "latency_ms": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0.0
+    },
+    "policy_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "policy_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recognizer_versions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "schema_version": {
+      "default": 1,
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "severity": {
+      "$ref": "#/definitions/Sensitivity"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "user_id": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "Direction": {
+      "description": "Whether content flows to the model (inbound to the provider) or back to the caller.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "both"
+          ]
+        },
+        {
+          "description": "Request content leaving the device toward a destination.",
+          "type": "string",
+          "enum": [
+            "inbound"
+          ]
+        },
+        {
+          "description": "Model-generated content returning to the local caller.",
+          "type": "string",
+          "enum": [
+            "outbound"
+          ]
+        }
+      ]
+    },
+    "Sensitivity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high",
+        "critical"
+      ]
+    }
+  }
+}

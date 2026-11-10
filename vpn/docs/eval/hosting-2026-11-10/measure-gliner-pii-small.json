@@ -1,0 +1,85 @@
+{
+  "model": "gliner-pii-small",
+  "cpus": 18,
+  "rss_mb_start": 8.875,
+  "load_ms": 495,
+  "load_cpu_s": 0.500398,
+  "rss_mb_after_load": 328.734375,
+  "detector_only": [
+    {
+      "words": 40,
+      "chars": 234,
+      "p50_ms": 25.878375,
+      "p95_ms": 29.011917,
+      "cpu_ms_per_request": 104.38520000000001
+    },
+    {
+      "words": 400,
+      "chars": 2363,
+      "p50_ms": 223.845167,
+      "p95_ms": 314.46487499999995,
+      "cpu_ms_per_request": 930.6821
+    },
+    {
+      "words": 3000,
+      "chars": 17676,
+      "p50_ms": 1843.5061670000002,
+      "p95_ms": 1935.948833,
+      "cpu_ms_per_request": 7336.5981
+    }
+  ],
+  "rss_mb_after_detector_runs": 613.71875,
+  "hosted_end_to_end_mock_upstream": [
+    {
+      "words": 40,
+      "concurrency": 1,
+      "requests": 20.0,
+      "throughput_rps": 37.98942250252118,
+      "p50_ms": 26.3165,
+      "p95_ms": 27.6015,
+      "cpu_ms_per_request": 105.01335000000013,
+      "rss_mb": 625.28125
+    },
+    {
+      "words": 400,
+      "concurrency": 1,
+      "requests": 20.0,
+      "throughput_rps": 4.015778931903094,
+      "p50_ms": 252.51362500000002,
+      "p95_ms": 270.92729199999997,
+      "cpu_ms_per_request": 981.157350000001,
+      "rss_mb": 625.78125
+    },
+    {
+      "words": 400,
+      "concurrency": 4,
+      "requests": 80.0,
+      "throughput_rps": 4.095243635941849,
+      "p50_ms": 961.575458,
+      "p95_ms": 1095.1078750000001,
+      "cpu_ms_per_request": 960.8312999999998,
+      "rss_mb": 633.0
+    },
+    {
+      "words": 400,
+      "concurrency": 8,
+      "requests": 160.0,
+      "throughput_rps": 4.1708052133084035,
+      "p50_ms": 1880.813458,
+      "p95_ms": 2111.956208,
+      "cpu_ms_per_request": 947.6215624999999,
+      "rss_mb": 646.375
+    },
+    {
+      "words": 3000,
+      "concurrency": 1,
+      "requests": 20.0,
+      "throughput_rps": 0.5105835377835678,
+      "p50_ms": 1915.1409579999997,
+      "p95_ms": 2245.213625,
+      "cpu_ms_per_request": 7639.422300000004,
+      "rss_mb": 649.328125
+    }
+  ],
+  "peak_rss_mb": 649.328125
+}

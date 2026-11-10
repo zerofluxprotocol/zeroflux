@@ -1,0 +1,142 @@
+<!-- Generated from skills/zfx-vpn-setup/SKILL.md by scripts/gen_skill_adapters.py. Do not edit. -->
+
+## Skill: zfx-vpn-setup
+
+When to use: Install, configure, verify and troubleshoot ZFX VPN (formerly ZFX VPN), an application-layer prompt privacy gateway between OpenAI-compatible LLM clients and model providers. Use when a user asks to set up ZFX VPN or ZFX VPN, protect prompts or secrets sent to LLMs, point a coding agent or chat client at it, configure NEAR AI confidential inference or the hosted protected transport, upgrade from ZFX VPN, or roll back / uninstall.
+
+Scripts live in `skills/zfx-vpn-setup/scripts/`.
+
+# ZFX VPN setup
+
+ZFX VPN runs on the user's machine. It is an application-layer privacy gateway, not a network VPN: it protects what clients send to its OpenAI-compatible API. Clients send requests to `http://127.0.0.1:8787/v1`; ZFX VPN classifies them locally and then allows, transforms, holds for review, or blocks them before anything leaves the device.
+
+Your job is to install it, configure it with the user's choices, prove it protects data with synthetic secrets, and connect the user's client, with approval at every step that changes their system.
+
+## Ground rules (never break these)
+
+1. **Never put real secrets anywhere visible.** Do not ask the user to paste secrets into chat, do not echo them, do not put them in shell arguments, history, logs, screenshots or support requests. Secrets are entered by the user directly into `zfx-vpn` prompts (hidden input) or the local dashboard.
+2. **Ask before changing anything.** Show the plan and get explicit approval before: installing binaries, installing a background service, pulling models, editing any client config.
+3. **Never install Ollama or other system software yourself.** If missing, show the official instructions and wait for the user.
+4. **Show before you run.** Point the user to `install.sh` and get approval before piping it to a shell.
+5. **Never pre-select consent.** TEE routing sends data off-device; only the user can enable it.
+6. **Use synthetic test data only** (the bundled egress test). Never test with the user's real data.
+7. Be explicit about coverage: ZFX VPN inspects requests sent to its API (including tool-call arguments and tool results inside them). It does **not** intercept shell, HTTP or browser tools an agent runs separately.
+
+## Stop conditions
+
+Stop and report to the user (do not work around) when:
+- they decline a permission you need;
+- the client is not in the supported list below;
+- the synthetic protection test fails (`scripts/egress_test.sh` exit code ≠ 0);
+- a model download or identity verification fails;
+- secure key storage is unavailable (`zfx-vpn status` warns "data key is stored in a file") and the user has not explicitly accepted the degraded mode.
+
+## Steps
+
+### 1. Discover (read-only)
+```sh
+sh skills/zfx-vpn-setup/scripts/discover.sh
+```
+It prints JSON: OS, CPU architecture, RAM, Ollama presence/version, whether `zfx-vpn` is installed, and which supported clients exist. It reads no secrets and changes nothing. Supported platforms: macOS (Apple Silicon, Intel) and Linux (x86_64, ARM64). Windows is not supported.
+
+### 2. Explain the plan and get approval
+Tell the user, in a few lines: what will be installed and where (source in `~/.zfx-vpn/src`, binary in `~/.local/bin/zfx-vpn`, data in the OS data dir), that a background service is optional, which models will be downloaded (sizes below), and that client configs are only edited with their approval and can be rolled back.
+
+### 3. Install (build from source)
+If `zfx-vpn` is not installed (an old `promptvpn` binary counts as not installed; see "Upgrading from Prompt VPN"), show the user the installer first (https://github.com/zerofluxprotocol/zeroflux/blob/main/vpn/install.sh), get approval, then run:
+```sh
+curl -fsSL https://raw.githubusercontent.com/zerofluxprotocol/zeroflux/main/vpn/install.sh | sh
+```
+It clones the repository, builds it with Rust (offering to install Rust via rustup only after asking), and installs the binary to `~/.local/bin` without sudo. Needs git and a C compiler (`xcode-select --install` on macOS). Re-running updates it.
+
+### 4. Detection model
+ZFX VPN's detection model is GLiNER PII (Apache-2.0). It runs inside ZFX VPN; no Ollama or GPU is needed. Let the user pick a size:
+
+| Size | Download | Notes |
+|---|---|---|
+| `base` | ~205 MB | Recommended: best accuracy in the bundled benchmark, ~20 ms per request |
+| `small` | ~86 MB | |
+| `edge` | ~49 MB | Lowest memory |
+| `none` | 0 | Deterministic recognizers only; names and free-text details are not detected |
+
+Files are pinned by revision and SHA-256 in `models.lock.json` and verified before use. Ollama is optional and only matters if the user wants a local model to *answer* requests (`zfx-vpn ollama status`; if missing, show the official instructions it prints and wait for the user).
+
+### 5. Configure (user's choices)
+Interactive (best when the user is at a terminal):
+```sh
+zfx-vpn init
+```
+Or the web wizard: `zfx-vpn init --dashboard`. For a scripted run, translate the user's answers into flags, e.g.:
+```sh
+zfx-vpn init --non-interactive --model base --fallback review --near-skip
+```
+Explain the uncertain/failure choice: **review** (default: hold locally and notify) vs **tee** (send to a NEAR model only after its TEE attestation verifies; still leaves the device; requires the user's explicit `--tee-consent`).
+
+**NEAR AI** is the recommended inference provider. Strongly recommend it, but the user may skip and finish local-only (`NEAR_NOT_CONFIGURED`). If they want it, they run `zfx-vpn near login` themselves (the key is read with hidden input and stored in the OS credential store). Check a model before selecting it:
+```sh
+zfx-vpn near models
+zfx-vpn near verify-attestation deepseek-ai/DeepSeek-V4.1-Flash-1017
+```
+Only models that print `VERIFIED` are eligible for private routing. Models proxied through NEAR ("Incognito") are external endpoints, not TEEs. Note: `deepseek-ai/DeepSeek-V4-Flash` is an alias of a different model on the live gateway and is rejected.
+
+Alternatives the user may choose: a local Ollama generation model (`--ollama-model qwen3.5:4b`, stays on device) or a custom OpenAI-compatible endpoint (`--custom-url ... --custom-model ... --custom-ack`, treated as EXTERNAL_UNVERIFIED).
+
+### 6. Prove protection (synthetic, local mock)
+```sh
+sh skills/zfx-vpn-setup/scripts/egress_test.sh
+```
+It runs `zfx-vpn connect test`: a temporary instance with a local mock upstream that records exact bytes; synthetic SSN and API key must be blocked, a synthetic email tokenized upstream and restored for the caller, streaming and the Responses API must work, and no synthetic secret may reach the mock. **If it fails, stop.**
+
+If NEAR is configured, also run `zfx-vpn near test` (synthetic prompt; verifies the response signature).
+
+### 7. Connect the client (with approval)
+```sh
+zfx-vpn client detect
+zfx-vpn connect show
+```
+Supported: `codex`, `aider`, `opencode` (config edited with backup), and `env` (prints `OPENAI_BASE_URL`/`OPENAI_API_KEY` exports for any OpenAI SDK client). For anything else, show `zfx-vpn connect show` output and let the user point their client's base URL themselves; do not claim unsupported clients work.
+
+After the user approves:
+```sh
+zfx-vpn client configure codex --yes
+```
+It backs up the original file first and prints the rollback command.
+
+### 8. Show the dashboard and controls
+```sh
+zfx-vpn dashboard
+```
+Walk the user through: Activity (metadata only, no prompt text), Approvals (approve once / edit / always block / save as rule; held requests expire in 15 minutes; approving does not resend, the client retries), Policies and the playground, Categories (critical protections on; relaxing one needs typed confirmation), Secrets (register exact values; they are encrypted and never shown again), Custom entities (things to find by description, like "insurance policy number"; `zfx-vpn entity add --label ...`), desktop notifications, and the emergency stop (`zfx-vpn emergency-stop`).
+
+### 9. Hand-off: diagnostics, rollback, uninstall
+```sh
+zfx-vpn doctor                 # diagnostics, no secrets
+zfx-vpn client rollback codex  # restore the client's original config
+zfx-vpn service install        # optional autostart (asks first)
+zfx-vpn uninstall              # stops and removes the service; keeps data
+zfx-vpn uninstall --purge      # deletes data after typing DELETE
+```
+`sh skills/zfx-vpn-setup/scripts/rollback.sh <client>` wraps the rollback.
+
+### 10. Optional: hosted transport with local preprocessing
+For a user (or a team) that wants ZFX's hosted gateway to do upstream routing and billing without ever seeing raw values, add it as a protected transport. This device still detects and transforms, and keeps the placeholder map; the hosted side receives only transformed payloads marked `X-ZFX-Preprocessed: v1`, and refuses to transform anything itself:
+```sh
+zfx-vpn destination add-hosted zfx-hosted https://api.zeroflux.network/v1 frontier/<model> --default
+```
+The hosted API key is read with hidden input. Do not suggest the plain hosted endpoint (`https://api.zeroflux.network/v1` called directly) for sensitive prompts: in that mode the raw prompt reaches the ZFX service before transformation, and the operator can see it.
+
+## Upgrading from Prompt VPN
+- Stop the old daemon first: `promptvpn stop`.
+- Install ZFX VPN (step 3). The installer puts `zfx-vpn` in place and turns `promptvpn` into a link to it; the old binary is kept as `promptvpn.0.1.bak`.
+- The first `zfx-vpn` command migrates the data: database renamed and upgraded, keychain entries copied (the old ones are kept), nothing re-encrypted, a backup of the old database in `backups/`. On macOS the user may see one keychain prompt asking whether `zfx-vpn` may read the item `promptvpn`; they should choose Always Allow.
+- `zfx-vpn migrate status` shows the state; `zfx-vpn migrate rollback` hands the install back to Prompt VPN 0.1 (then reinstall the old binary from `promptvpn.0.1.bak`).
+- Client configs written by Prompt VPN keep working (same base URL and key).
+
+## Troubleshooting
+Error codes are `ZFX_*`; responses also carry `legacy_code` with the Prompt VPN 0.1 name, and a client that still matches `PV_*` names can send `X-ZFX-Error-Codes: pv1`.
+
+- `ZFX_APPROVAL_REQUIRED` (HTTP 428): open the dashboard Approvals page, decide, then retry the same request.
+- `ZFX_POLICY_BLOCKED` (403): expected for critical data; see the event in Activity. Never weaken a critical protection for the user; they can do it themselves under Categories.
+- `CLASSIFIER_FAILURE` events (requests held for review): the detection model is missing or failed to load. Run `zfx-vpn model list` and `zfx-vpn model install`.
+- `ZFX_TEE_UNVERIFIED` / `ZFX_FALLBACK_UNAVAILABLE` (403; legacy `PV_ROUTE_FORBIDDEN`): content needed a confidential route, but the NEAR AI model's provider-level attestation did not verify, or no consented TEE (or approved local model) is configured. Nothing was sent. Never work around it by pointing the client at a public model.
+- Port conflict: `zfx-vpn start --port <free port>` (ZFX VPN only ever binds 127.0.0.1).

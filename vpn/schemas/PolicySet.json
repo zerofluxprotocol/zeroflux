@@ -1,0 +1,268 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PolicySet",
+  "description": "An immutable, versioned set of active rules.",
+  "type": "object",
+  "required": [
+    "rules"
+  ],
+  "properties": {
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PolicyRule"
+      }
+    }
+  },
+  "definitions": {
+    "Action": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "ALLOW",
+            "TOKENIZE",
+            "REDACT",
+            "GENERALIZE",
+            "PRIVATE_ROUTE",
+            "REQUIRE_APPROVAL",
+            "BLOCK"
+          ]
+        },
+        {
+          "description": "Resolves to `PRIVATE_ROUTE` (verified TEE, with consent) or to the block-and-review queue, according to the owner's fallback setting.",
+          "type": "string",
+          "enum": [
+            "FALLBACK"
+          ]
+        }
+      ]
+    },
+    "Direction": {
+      "description": "Whether content flows to the model (inbound to the provider) or back to the caller.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "both"
+          ]
+        },
+        {
+          "description": "Request content leaving the device toward a destination.",
+          "type": "string",
+          "enum": [
+            "inbound"
+          ]
+        },
+        {
+          "description": "Model-generated content returning to the local caller.",
+          "type": "string",
+          "enum": [
+            "outbound"
+          ]
+        }
+      ]
+    },
+    "OverrideMode": {
+      "oneOf": [
+        {
+          "description": "Lower scopes may replace this rule with any action.",
+          "type": "string",
+          "enum": [
+            "ALLOWED"
+          ]
+        },
+        {
+          "description": "Lower scopes may not weaken it; a one-time owner approval may.",
+          "type": "string",
+          "enum": [
+            "APPROVAL_ONCE"
+          ]
+        },
+        {
+          "description": "Only the policy owner may change it (by editing the rule itself).",
+          "type": "string",
+          "enum": [
+            "POLICY_OWNER_ONLY"
+          ]
+        },
+        {
+          "description": "Nothing weakens it: not lower scopes, not approvals.",
+          "type": "string",
+          "enum": [
+            "FORBIDDEN"
+          ]
+        }
+      ]
+    },
+    "PolicyRule": {
+      "type": "object",
+      "required": [
+        "action",
+        "id",
+        "scope",
+        "selector",
+        "severity",
+        "version"
+      ],
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/Action"
+        },
+        "critical_exception": {
+          "description": "True when the owner deliberately relaxed a critical default.",
+          "default": false,
+          "type": "boolean"
+        },
+        "description": {
+          "default": "",
+          "type": "string"
+        },
+        "enabled": {
+          "default": true,
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "notify": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "origin": {
+          "description": "`builtin`, `owner`, or `onboarding`.",
+          "default": "",
+          "type": "string"
+        },
+        "override": {
+          "default": "ALLOWED",
+          "allOf": [
+            {
+              "$ref": "#/definitions/OverrideMode"
+            }
+          ]
+        },
+        "retention_days": {
+          "default": 30,
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "schema_version": {
+          "default": 1,
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "scope": {
+          "$ref": "#/definitions/Scope"
+        },
+        "selector": {
+          "$ref": "#/definitions/Selector"
+        },
+        "severity": {
+          "$ref": "#/definitions/Sensitivity"
+        },
+        "version": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        }
+      }
+    },
+    "Scope": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/definitions/ScopeKind"
+        }
+      }
+    },
+    "ScopeKind": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "user",
+            "agent",
+            "application",
+            "request"
+          ]
+        },
+        {
+          "description": "Reserved for later releases; not evaluated in v1.",
+          "type": "string",
+          "enum": [
+            "organization"
+          ]
+        },
+        {
+          "description": "Reserved for later releases; not evaluated in v1.",
+          "type": "string",
+          "enum": [
+            "team"
+          ]
+        }
+      ]
+    },
+    "Selector": {
+      "type": "object",
+      "required": [
+        "categories"
+      ],
+      "properties": {
+        "categories": {
+          "description": "Category IDs. `*` matches all; `CUSTOM:*` all custom entity types; `EXACT_SECRET:<id>` one secret.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "destinations": {
+          "description": "`any`, `external` (any remote), `local`, `attested_tee`, `external_unverified`, or `dest:<id>`.",
+          "default": [
+            "any"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "direction": {
+          "default": "inbound",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Direction"
+            }
+          ]
+        },
+        "min_confidence": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float"
+        }
+      }
+    },
+    "Sensitivity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high",
+        "critical"
+      ]
+    }
+  }
+}

@@ -1,0 +1,246 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Decision",
+  "type": "object",
+  "required": [
+    "destination",
+    "direction",
+    "disposition",
+    "effective_policy_hash",
+    "explanations",
+    "findings",
+    "notify",
+    "schema_version",
+    "severity",
+    "used_approval"
+  ],
+  "properties": {
+    "destination": {
+      "$ref": "#/definitions/DestinationRef"
+    },
+    "direction": {
+      "$ref": "#/definitions/Direction"
+    },
+    "disposition": {
+      "$ref": "#/definitions/Disposition"
+    },
+    "effective_policy_hash": {
+      "type": "string"
+    },
+    "explanations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/FindingDecision"
+      }
+    },
+    "notify": {
+      "type": "boolean"
+    },
+    "schema_version": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "severity": {
+      "$ref": "#/definitions/Sensitivity"
+    },
+    "used_approval": {
+      "description": "True if an owner approval was consumed to reach this decision.",
+      "type": "boolean"
+    }
+  },
+  "definitions": {
+    "Action": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "ALLOW",
+            "TOKENIZE",
+            "REDACT",
+            "GENERALIZE",
+            "PRIVATE_ROUTE",
+            "REQUIRE_APPROVAL",
+            "BLOCK"
+          ]
+        },
+        {
+          "description": "Resolves to `PRIVATE_ROUTE` (verified TEE, with consent) or to the block-and-review queue, according to the owner's fallback setting.",
+          "type": "string",
+          "enum": [
+            "FALLBACK"
+          ]
+        }
+      ]
+    },
+    "DestinationRef": {
+      "description": "A resolved generation destination used for policy evaluation.",
+      "type": "object",
+      "required": [
+        "id",
+        "tier"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "tier": {
+          "$ref": "#/definitions/DestinationTier"
+        }
+      }
+    },
+    "DestinationTier": {
+      "description": "Privacy tier of a generation destination.",
+      "oneOf": [
+        {
+          "description": "Runs on this device (loopback only).",
+          "type": "string",
+          "enum": [
+            "LOCAL"
+          ]
+        },
+        {
+          "description": "Remote, with attestation verified for the exact model and service.",
+          "type": "string",
+          "enum": [
+            "ATTESTED_TEE"
+          ]
+        },
+        {
+          "description": "Any other remote endpoint, including NEAR models without verified TEE.",
+          "type": "string",
+          "enum": [
+            "EXTERNAL_UNVERIFIED"
+          ]
+        }
+      ]
+    },
+    "Direction": {
+      "description": "Whether content flows to the model (inbound to the provider) or back to the caller.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "both"
+          ]
+        },
+        {
+          "description": "Request content leaving the device toward a destination.",
+          "type": "string",
+          "enum": [
+            "inbound"
+          ]
+        },
+        {
+          "description": "Model-generated content returning to the local caller.",
+          "type": "string",
+          "enum": [
+            "outbound"
+          ]
+        }
+      ]
+    },
+    "Disposition": {
+      "type": "string",
+      "enum": [
+        "ALLOW",
+        "TRANSFORM",
+        "PRIVATE_ROUTE",
+        "REQUIRE_APPROVAL",
+        "BLOCK"
+      ]
+    },
+    "FindingDecision": {
+      "type": "object",
+      "required": [
+        "action",
+        "approved",
+        "category",
+        "explanation",
+        "finding_id",
+        "override_mode"
+      ],
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/Action"
+        },
+        "approved": {
+          "type": "boolean"
+        },
+        "category": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "finding_id": {
+          "type": "string"
+        },
+        "override_mode": {
+          "$ref": "#/definitions/OverrideMode"
+        },
+        "policy_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "policy_version": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0.0
+        }
+      }
+    },
+    "OverrideMode": {
+      "oneOf": [
+        {
+          "description": "Lower scopes may replace this rule with any action.",
+          "type": "string",
+          "enum": [
+            "ALLOWED"
+          ]
+        },
+        {
+          "description": "Lower scopes may not weaken it; a one-time owner approval may.",
+          "type": "string",
+          "enum": [
+            "APPROVAL_ONCE"
+          ]
+        },
+        {
+          "description": "Only the policy owner may change it (by editing the rule itself).",
+          "type": "string",
+          "enum": [
+            "POLICY_OWNER_ONLY"
+          ]
+        },
+        {
+          "description": "Nothing weakens it: not lower scopes, not approvals.",
+          "type": "string",
+          "enum": [
+            "FORBIDDEN"
+          ]
+        }
+      ]
+    },
+    "Sensitivity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high",
+        "critical"
+      ]
+    }
+  }
+}

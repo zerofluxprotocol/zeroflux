@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FallbackSettings",
+  "type": "object",
+  "required": [
+    "mode",
+    "tee_consent"
+  ],
+  "properties": {
+    "local_private_handling": {
+      "description": "Explicit owner choice allowing a local Ollama generation model to receive content that otherwise requires TEE confidentiality.",
+      "default": false,
+      "type": "boolean"
+    },
+    "mode": {
+      "$ref": "#/definitions/FallbackMode"
+    },
+    "tee_consent": {
+      "description": "Informed onboarding consent to send uncertain content to an attested TEE.",
+      "type": "boolean"
+    },
+    "uncertain_threshold": {
+      "description": "Noncritical findings below this confidence are treated as uncertain.",
+      "default": 0.5,
+      "type": "number",
+      "format": "float"
+    }
+  },
+  "definitions": {
+    "FallbackMode": {
+      "oneOf": [
+        {
+          "description": "Route uncertain content to a verified NEAR TEE model (only with consent).",
+          "type": "string",
+          "enum": [
+            "TEE_PRIVATE_ROUTE"
+          ]
+        },
+        {
+          "description": "Stop locally, notify, and queue for owner review.",
+          "type": "string",
+          "enum": [
+            "BLOCK_AND_REVIEW"
+          ]
+        }
+      ]
+    }
+  }
+}

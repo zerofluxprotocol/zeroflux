@@ -1,0 +1,45 @@
+[package]
+name = "pv-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+# The installed name is `zfx-vpn`. Installers also create a `promptvpn`
+# symlink to it; invoked under that name the binary warns that the name is
+# deprecated and otherwise behaves identically.
+[[bin]]
+name = "zfx-vpn"
+path = "src/main.rs"
+
+[features]
+default = ["gliner"]
+gliner = ["pv-daemon/gliner"]
+
+[dependencies]
+pv-core.workspace = true
+pv-detectors.workspace = true
+pv-daemon = { path = "../pv-daemon", default-features = false }
+pv-proxy.workspace = true
+pv-audit.workspace = true
+pv-vault.workspace = true
+pv-provider.workspace = true
+zeroize.workspace = true
+futures.workspace = true
+clap.workspace = true
+tokio.workspace = true
+reqwest.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true
+chrono.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+uuid.workspace = true
+sha2.workspace = true
+hex.workspace = true
+toml_edit = "0.22"
+rpassword = "7"
+libc = "0.2"
+
+[dev-dependencies]
+tempfile.workspace = true

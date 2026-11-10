@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PvErrorEnvelope",
+  "type": "object",
+  "required": [
+    "error"
+  ],
+  "properties": {
+    "error": {
+      "$ref": "#/definitions/PvErrorBody"
+    }
+  },
+  "definitions": {
+    "ErrorCode": {
+      "description": "Error codes. Version 2 (ZFX VPN) names are `ZFX_*`. Prompt VPN 0.1 names (`PV_*`) are accepted on input as aliases and reported in `legacy_code`, and callers that still match on them can request them with the `X-ZFX-Error-Codes: pv1` header for the migration period.",
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "ZFX_POLICY_BLOCKED",
+            "ZFX_APPROVAL_REQUIRED",
+            "ZFX_UNSUPPORTED_CONTENT",
+            "ZFX_POLICY_INVALID",
+            "ZFX_VAULT_LOCKED",
+            "ZFX_UPSTREAM_FAILURE",
+            "ZFX_UNAUTHORIZED",
+            "ZFX_FORBIDDEN_SCOPE",
+            "ZFX_BAD_REQUEST",
+            "ZFX_PAYLOAD_TOO_LARGE",
+            "ZFX_OUTPUT_BLOCKED",
+            "ZFX_RATE_LIMITED",
+            "ZFX_QUOTA_EXCEEDED",
+            "ZFX_IDEMPOTENCY_CONFLICT",
+            "ZFX_NOT_FOUND"
+          ]
+        },
+        {
+          "description": "Detection could not run (model failed, missing, or invalid offsets).",
+          "type": "string",
+          "enum": [
+            "ZFX_DETECTION_UNAVAILABLE"
+          ]
+        },
+        {
+          "description": "No destination is permitted for this request (none configured, or policy forbids all).",
+          "type": "string",
+          "enum": [
+            "ZFX_ROUTE_FORBIDDEN"
+          ]
+        },
+        {
+          "description": "Confidential execution was required but the TEE could not be verified.",
+          "type": "string",
+          "enum": [
+            "ZFX_TEE_UNVERIFIED"
+          ]
+        },
+        {
+          "description": "Confidential fallback required but none is configured or consented.",
+          "type": "string",
+          "enum": [
+            "ZFX_FALLBACK_UNAVAILABLE"
+          ]
+        },
+        {
+          "description": "The caller forbade buffering but the privacy policy needs to buffer output.",
+          "type": "string",
+          "enum": [
+            "ZFX_STREAM_SAFETY_BUFFERED"
+          ]
+        }
+      ]
+    },
+    "PvErrorBody": {
+      "description": "Wire error. `message` must never contain matched sensitive spans.",
+      "type": "object",
+      "required": [
+        "code",
+        "message",
+        "retryable",
+        "type"
+      ],
+      "properties": {
+        "approval_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "code": {
+          "$ref": "#/definitions/ErrorCode"
+        },
+        "event_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "legacy_code": {
+          "description": "Prompt VPN 0.1 code for the same condition (migration aid).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

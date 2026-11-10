@@ -1,0 +1,21 @@
+[package]
+name = "pv-audit"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+pv-core.workspace = true
+rusqlite.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+chrono.workspace = true
+hmac.workspace = true
+sha2.workspace = true
+hex.workspace = true
+uuid.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

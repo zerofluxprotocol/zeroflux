@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ClientIntegration",
+  "description": "Record of an approved, reversible edit to a third-party client's configuration.",
+  "type": "object",
+  "required": [
+    "app_id",
+    "applied_at",
+    "base_url",
+    "client",
+    "config_path",
+    "id"
+  ],
+  "properties": {
+    "app_id": {
+      "type": "string"
+    },
+    "applied_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "backup_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "base_url": {
+      "type": "string"
+    },
+    "client": {
+      "type": "string"
+    },
+    "config_path": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "rolled_back_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "schema_version": {
+      "default": 1,
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    }
+  }
+}

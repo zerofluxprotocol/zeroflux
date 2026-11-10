@@ -1,0 +1,17 @@
+[package]
+name = "pv-transform"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+pv-core.workspace = true
+pv-vault.workspace = true
+regex.workspace = true
+chrono.workspace = true
+thiserror.workspace = true
+zeroize.workspace = true
+rand.workspace = true
+
+[dev-dependencies]
+pv-audit.workspace = true

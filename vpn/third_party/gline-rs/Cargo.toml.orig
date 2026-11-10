@@ -1,0 +1,75 @@
+[package]
+name = "gline-rs"
+authors = ["Frédérik Bilhaut <frederik.bilhaut@gmail.com>"]
+version = "1.1.0"
+edition = "2021"
+license = "Apache-2.0"
+keywords = ["NLP", "NER", "GLiNER", "Transformer"]
+readme = "./Readme.md"
+description = "Inference engine for GLiNER models"
+homepage = "https://github.com/fbilhaut/gline-rs"
+repository = "https://github.com/fbilhaut/gline-rs"
+documentation = "https://docs.rs/gline-rs/"
+exclude = [ "data", "models" ]
+
+[lib]
+name = "gliner"
+path = "src/lib.rs"
+
+[[example]]
+name = "token-mode"
+path = "examples/token_mode.rs"
+
+[[example]]
+name = "span-mode"
+path = "examples/span_mode.rs"
+
+[[example]]
+name = "relation-extraction"
+path = "examples/relation_extraction.rs"
+
+[[example]]
+name = "benchmark-cpu"
+path = "examples/benchmark_cpu.rs"
+
+[[example]]
+name = "benchmark-gpu"
+path = "examples/benchmark_gpu.rs"
+
+[dependencies]
+composable = "1.0.0"
+orp = "1.0.0"
+regex = "1.11.1"
+ort = { version="=2.0.0-rc.9" }
+ort-sys = { version = "=2.0.0-rc.9", default-features = false } # see https://github.com/pykeio/ort/issues/399
+tokenizers = { version="0.21.0", features=["http"] }
+ndarray = "0.16.0"
+csv = "1.3"
+cap = { version="0.1", optional=true }
+memory-stats = { version="1.2.0", optional=true }
+humansize = { version="2.1", optional=true }
+
+[features]
+default = []
+memprof = ["cap", "memory-stats", "humansize"]
+load-dynamic = ["ort/load-dynamic"]
+cuda = ["ort/cuda"]
+tensorrt = ["ort/tensorrt"]
+directml = ["ort/directml"]
+coreml = ["ort/coreml"]
+rocm = ["ort/rocm"]
+openvino = ["ort/openvino"]
+onednn = ["ort/onednn"]
+xnnpack = ["ort/xnnpack"]
+qnn = ["ort/qnn"]
+cann = ["ort/cann"]
+nnapi = ["ort/nnapi"]
+tvm = ["ort/tvm"]
+acl = ["ort/acl"]
+armnn = ["ort/armnn"]
+migraphx = ["ort/migraphx"]
+vitis = ["ort/vitis"]
+rknpu = ["ort/rknpu"]
+
+#[lints.clippy]
+#unwrap_used = "warn"

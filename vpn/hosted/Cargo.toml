@@ -1,0 +1,45 @@
+[package]
+name = "zfx-vpn-hosted"
+description = "ZFX VPN hosted gateway: multi-tenant OpenAI-compatible prompt privacy service"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "zfx-vpn-hosted"
+path = "src/main.rs"
+
+[features]
+default = ["gliner"]
+gliner = ["pv-daemon/gliner"]
+
+[dependencies]
+pv-core.workspace = true
+pv-detectors.workspace = true
+pv-transform.workspace = true
+pv-vault.workspace = true
+pv-audit.workspace = true
+pv-provider.workspace = true
+pv-proxy.workspace = true
+pv-daemon = { path = "../crates/pv-daemon", default-features = false }
+axum.workspace = true
+tokio.workspace = true
+futures.workspace = true
+bytes.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true
+chrono.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+clap.workspace = true
+sha2.workspace = true
+hex.workspace = true
+rand.workspace = true
+uuid.workspace = true
+zeroize.workspace = true
+
+[dev-dependencies]
+reqwest.workspace = true
+tempfile.workspace = true
+libc = "0.2"
