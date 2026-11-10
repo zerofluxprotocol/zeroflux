@@ -1,6 +1,6 @@
 # ZeroFlux (ZFX)
 
-ZFX is a token on NEAR that can only be created by proof of work, and the work is the computation AI accelerators are built for: batched int8/FP8 matrix multiplies. Miners run it on NVIDIA and AMD data-center GPUs, Apple Silicon or any CPU. NEAR holds the ledger and referees every block: a block is accepted unless someone proves it wrong within a challenge window, and a fraud proof needs NEAR to recompute only one value.
+ZeroFlux is a proof-of-work network on NEAR. ZFX is its token, created only by proof of work, and the work is the computation AI accelerators are built for: batched int8/FP8 matrix multiplies. Miners run it on NVIDIA and AMD data-center GPUs, Apple Silicon or any CPU. NEAR holds the ledger and referees every block: a block is accepted unless someone proves it wrong within a challenge window, and a fraud proof needs NEAR to recompute only one value.
 
 ```
 TESTNET ONLY      MAINNET_READY = false      no monetary value
