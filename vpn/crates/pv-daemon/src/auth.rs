@@ -158,7 +158,7 @@ pub fn authenticate_caller(st: &AppState, headers: &HeaderMap) -> Result<pv_audi
             return Err(deny(StatusCode::FORBIDDEN, "Browser cross-origin calls to the local proxy are refused"));
         }
     }
-    let key = bearer(headers).or_else(|| headers.get("api-key").and_then(|v| v.to_str().ok()).map(String::from)).ok_or_else(|| deny(StatusCode::UNAUTHORIZED, "Missing local Prompt VPN API key (use the pvk_... key from `promptvpn connect`)"))?;
+    let key = bearer(headers).or_else(|| headers.get("api-key").and_then(|v| v.to_str().ok()).map(String::from)).ok_or_else(|| deny(StatusCode::UNAUTHORIZED, "Missing local ZFX VPN API key (use the key from `zfx-vpn connect show`)"))?;
     match st.db().app_by_key_hash(&key_hash(&key)) {
         Ok(Some(app)) => Ok(app),
         _ => Err(deny(StatusCode::UNAUTHORIZED, "Unknown or revoked local API key")),

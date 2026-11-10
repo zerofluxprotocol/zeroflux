@@ -83,9 +83,9 @@ impl Notifier for Desktop {
         let body = sanitize(&n.body);
         std::thread::spawn(move || {
             let _ = if cfg!(target_os = "macos") {
-                std::process::Command::new("osascript").arg("-e").arg(format!("display notification \"{body}\" with title \"Prompt VPN\" subtitle \"{title}\"")).output()
+                std::process::Command::new("osascript").arg("-e").arg(format!("display notification \"{body}\" with title \"ZFX VPN\" subtitle \"{title}\"")).output()
             } else {
-                std::process::Command::new("notify-send").arg("--app-name=Prompt VPN").arg(format!("Prompt VPN: {title}")).arg(body).output()
+                std::process::Command::new("notify-send").arg("--app-name=ZFX VPN").arg(format!("ZFX VPN: {title}")).arg(body).output()
             };
         });
     }

@@ -1,4 +1,4 @@
-//! `promptvpn init`: the onboarding wizard (guided CLI, or --dashboard).
+//! `zfx-vpn init`: the onboarding wizard (guided CLI, or --dashboard).
 //! Consent is never assumed: TEE routing requires an explicit answer or flag.
 
 use crate::api::Api;
@@ -89,8 +89,8 @@ pub async fn run(paths: &Paths, port: u16, a: InitArgs) -> Result<()> {
     let interactive = !a.non_interactive && std::io::stdin().is_terminal();
     let ob = api.get("/onboarding").await?;
 
-    h("1/6  What Prompt VPN does");
-    println!("Prompt VPN runs on this device and exposes an OpenAI-compatible API at http://127.0.0.1:{port}/v1.");
+    h("1/6  What ZFX VPN does");
+    println!("ZFX VPN runs on this device and exposes an OpenAI-compatible API at http://127.0.0.1:{port}/v1.");
     println!("Point a client's base URL there. Each request is classified locally, then allowed, transformed,");
     println!("held for your review, or blocked before anything leaves this machine. Detection rules, registered");
     println!("secrets and placeholder mappings never leave the device.");
@@ -124,7 +124,7 @@ pub async fn run(paths: &Paths, port: u16, a: InitArgs) -> Result<()> {
             println!("  {k:<20} {}", v.as_str().unwrap_or(""));
         }
     }
-    println!("Add exact terms later with `promptvpn secret add` and custom entity types with `promptvpn entity add`.");
+    println!("Add exact terms later with `zfx-vpn secret add` and custom entity types with `zfx-vpn entity add`.");
 
     h("4/6  When detection is uncertain or the detection model fails");
     println!("  review: stop locally, notify you, queue for your decision (nothing is sent)  [default]");
@@ -147,7 +147,7 @@ pub async fn run(paths: &Paths, port: u16, a: InitArgs) -> Result<()> {
     h("5/6  Models");
     let options = ob["span_options"].as_array().cloned().unwrap_or_default();
     let default = options.iter().find(|o| o["default"] == true).and_then(|o| o["model"].as_str()).unwrap_or("gliner-pii-base").trim_start_matches("gliner-pii-").to_string();
-    println!("  Detection model (runs inside Prompt VPN, no Ollama needed). It finds names, addresses,");
+    println!("  Detection model (runs inside ZFX VPN, no Ollama needed). It finds names, addresses,");
     println!("  health details and your custom entity types that patterns cannot. Apache-2.0.");
     for o in &options {
         println!("    {:<6} {:>4} MB{}", o["model"].as_str().unwrap_or("").trim_start_matches("gliner-pii-"), o["size_bytes"].as_u64().unwrap_or(0) / 1_000_000, if o["default"] == true { "  (recommended)" } else { "" });
@@ -168,7 +168,7 @@ pub async fn run(paths: &Paths, port: u16, a: InitArgs) -> Result<()> {
     }
     if !near_skip {
         let model = near_model.clone().unwrap_or_else(|| pv_provider::near::DEFAULT_NEAR_MODEL.into());
-        println!("  Available models: `promptvpn near models`. Only models whose attestation verifies can be used.");
+        println!("  Available models: `zfx-vpn near models`. Only models whose attestation verifies can be used.");
         let model = if interactive { ask("  NEAR model (must verify as Private TEE)", &model) } else { model };
         let v = api.post("/near/verify", json!({"model": model})).await?;
         if v["eligible"] == true {
@@ -179,7 +179,7 @@ pub async fn run(paths: &Paths, port: u16, a: InitArgs) -> Result<()> {
         near_model = Some(model);
         near_key = if a.near_key_stdin || interactive { Some(read_secret("  NEAR AI Cloud API key (hidden; empty to skip): ")?) } else { None };
         if near_key.as_deref().unwrap_or("").is_empty() {
-            println!("  No key entered: finishing local-only. NEAR_NOT_CONFIGURED until you run `promptvpn near login`.");
+            println!("  No key entered: finishing local-only. NEAR_NOT_CONFIGURED until you run `zfx-vpn near login`.");
             near_skip = true;
         }
     }
@@ -221,7 +221,7 @@ pub async fn run(paths: &Paths, port: u16, a: InitArgs) -> Result<()> {
     let r = api.post("/onboarding/complete", payload).await?;
     if model != "none" {
         match r["span_model"]["error"].as_str() {
-            Some(e) => println!("Detection model not installed: {e}. Retry with `promptvpn model install {model}`."),
+            Some(e) => println!("Detection model not installed: {e}. Retry with `zfx-vpn model install {model}`."),
             None => println!("Detection model {} installed and loaded: {}", r["span_model"]["model"].as_str().unwrap_or(""), r["span_model"]["loaded"]),
         }
     }
@@ -231,7 +231,7 @@ pub async fn run(paths: &Paths, port: u16, a: InitArgs) -> Result<()> {
         println!("Local API key (shown once, also saved to {}): {k}", paths.app_key("default").display());
     }
     println!("NEAR: {}", r["near_status"].as_str().unwrap_or(""));
-    println!("Next: `promptvpn connect test`, `promptvpn dashboard`, `promptvpn client configure <codex|aider|opencode>`.");
-    println!("Re-run `promptvpn init` any time; unrelated data is kept.");
+    println!("Next: `zfx-vpn connect test`, `zfx-vpn dashboard`, `zfx-vpn client configure <codex|aider|opencode>`.");
+    println!("Re-run `zfx-vpn init` any time; unrelated data is kept.");
     Ok(())
 }

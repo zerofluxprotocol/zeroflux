@@ -4,7 +4,7 @@
 //! verifies the gateway TDX quote with TLS SPKI binding, every model report
 //! (TDX quote, report-data nonce binding, signer derivation, compose/RTMR3
 //! measurements, NVIDIA GPU evidence via NRAS JWT), and completion receipts.
-//! Prompt VPN adds: `x-no-aliasing` on every call, GPU evidence REQUIRED,
+//! ZFX VPN adds: `x-no-aliasing` on every call, GPU evidence REQUIRED,
 //! eligibility only for NEAR-operated (`providerType=vllm`) models, and field
 //! E2EE to the attested model key for private routes.
 
@@ -57,6 +57,12 @@ pub struct NearVerification {
     pub e2ee_key: bool,
     pub verifier: String,
     pub error: Option<String>,
+    /// Normalized evidence the eligibility decision was made on.
+    #[serde(default)]
+    pub evidence: Option<crate::tee::TeeEvidence>,
+    /// Why ZFX VPN's confidentiality decision rejected the evidence.
+    #[serde(default)]
+    pub rejection: Option<crate::tee::TeeRejection>,
 }
 
 impl NearVerification {
@@ -77,11 +83,13 @@ impl NearVerification {
             e2ee_key: false,
             verifier: VERIFIER.into(),
             error: Some(err.into()),
+            evidence: None,
+            rejection: None,
         }
     }
 }
 
-pub const VERIFIER: &str = "nearai-inference-sdk 0.3.0 (gpu=required, x-no-aliasing)";
+pub const VERIFIER: &str = "nearai-inference-sdk 0.3.0 (Intel DCAP via PCCS, NVIDIA NRAS, gpu=required, x-no-aliasing)";
 
 #[async_trait]
 pub trait NearBackend: Send + Sync {
@@ -216,13 +224,15 @@ mod sdk {
             match self.private.verify(model).await {
                 Ok(r) => {
                     let gpu_ok = !r.models.is_empty() && r.models.iter().all(|m| m.gpu_evidence == GpuEvidenceStatus::Verified);
-                    let e2ee = r.models.iter().all(|m| m.signing_public_key.is_some());
-                    let eligible = gpu_ok && e2ee;
+                    let e2ee = !r.models.is_empty() && r.models.iter().all(|m| m.signing_public_key.is_some());
+                    // The SDK requested exactly this model with provider=near and
+                    // x-no-aliasing, and binds each report to the request nonce.
+                    let ev = crate::tee::sdk::evidence("near", &self.base_url, model, r.models.iter().map(|_| model.to_string()).collect(), Some(&r.gateway), &r.models, "", VERIFIER);
                     NearVerification {
                         provider_id: "near".into(),
                         model: model.into(),
-                        eligible,
-                        tier: if eligible { DestinationTier::AttestedTee } else { DestinationTier::ExternalUnverified },
+                        eligible: false, // decided by Registry::verify_near (crate::tee::evaluate)
+                        tier: DestinationTier::ExternalUnverified,
                         checked_at: Utc::now(),
                         expires_at: Utc::now(),
                         gateway_signer: Some(r.gateway.evidence.signer.signing_address.clone()),
@@ -236,7 +246,9 @@ mod sdk {
                         gpu_verified: gpu_ok,
                         e2ee_key: e2ee,
                         verifier: VERIFIER.into(),
-                        error: if eligible { None } else { Some("model evidence incomplete (GPU evidence or E2EE key missing)".into()) },
+                        error: None,
+                        evidence: Some(ev),
+                        rejection: None,
                     }
                 }
                 Err(e) => NearVerification::failed("near", model, &e.to_string()),
@@ -303,11 +315,41 @@ pub struct MockNear {
     pub eligible: std::sync::atomic::AtomicBool,
     /// Signature kind the mock reports for receipts (`ProviderTee`, `Gateway`, or `none` = unverifiable).
     pub receipt_kind: std::sync::Mutex<String>,
+    /// Receipt signer the mock reports (must be in the preflight signer set).
+    pub receipt_signer: std::sync::Mutex<String>,
+    /// Evidence the mock "verified" (synthetic; mutate it to test rejections).
+    pub evidence: std::sync::Mutex<Option<crate::tee::TeeEvidence>>,
+    /// Whether E2EE to the model key works for private sends.
+    pub e2ee: std::sync::atomic::AtomicBool,
     pub http: reqwest::Client,
     pub models: Vec<NearModelInfo>,
 }
 
 impl MockNear {
+    /// Synthetic evidence that passes `tee::evaluate` for `model` at the
+    /// default NEAR base URL. Never produced by real verification.
+    pub fn synthetic_evidence(model: &str) -> crate::tee::TeeEvidence {
+        crate::tee::TeeEvidence {
+            provider_id: "near".into(),
+            base_url: DEFAULT_NEAR_BASE.into(),
+            requested_model: model.into(),
+            alias_of: None,
+            attested_models: vec![model.into()],
+            gateway_verified: true,
+            provider_reports: 1,
+            gpu_verified: true,
+            e2ee_keys: true,
+            tcb_statuses: vec!["UpToDate".into()],
+            debug_enabled: false,
+            compose_hashes: vec!["synthetic-compose".into()],
+            os_image_hashes: vec!["synthetic-os".into()],
+            signers: vec!["0xmock-model-signer".into()],
+            nonce: "synthetic".into(),
+            verified_at: chrono::Utc::now(),
+            verifier: "mock (synthetic evidence, nothing verified)".into(),
+        }
+    }
+
     pub fn new(upstream_base: &str, eligible: bool) -> Self {
         MockNear {
             upstream: pv_core::ProviderConfig {
@@ -327,6 +369,9 @@ impl MockNear {
             },
             eligible: std::sync::atomic::AtomicBool::new(eligible),
             receipt_kind: std::sync::Mutex::new(crate::registry::PROVIDER_TEE_SIGNATURE.into()),
+            receipt_signer: std::sync::Mutex::new("0xmock-model-signer".into()),
+            evidence: std::sync::Mutex::new(None),
+            e2ee: std::sync::atomic::AtomicBool::new(true),
             http: reqwest::Client::new(),
             models: vec![],
         }
@@ -342,18 +387,21 @@ impl NearBackend for MockNear {
         let ok = self.eligible.load(std::sync::atomic::Ordering::SeqCst);
         let mut v = NearVerification::failed("near", model, "mock: not eligible");
         if ok {
-            v.eligible = true;
-            v.tier = DestinationTier::AttestedTee;
             v.error = None;
             v.gpu_verified = true;
             v.e2ee_key = true;
-            v.verifier = "mock".into();
+            v.verifier = "mock (synthetic evidence, nothing verified)".into();
+            v.evidence = Some(self.evidence.lock().unwrap().clone().unwrap_or_else(|| MockNear::synthetic_evidence(model)));
         }
         v
     }
     async fn send(&self, endpoint: Endpoint, body: Value, private: bool) -> Result<UpstreamResponse, ProviderError> {
         if private && !self.eligible.load(std::sync::atomic::Ordering::SeqCst) {
             return Err(ProviderError::Verification("mock: not eligible".into()));
+        }
+        if private && !self.e2ee.load(std::sync::atomic::Ordering::SeqCst) {
+            // A real E2EE failure: never fall back to a plaintext send.
+            return Err(ProviderError::Verification("E2EE to the attested model key is unavailable".into()));
         }
         crate::openai::send(&self.http, &self.upstream, endpoint, &body, None).await
     }
@@ -362,7 +410,7 @@ impl NearBackend for MockNear {
         if kind == "none" {
             return ReceiptSummary { completion_id: completion_id.into(), verified: false, signature_kind: "unknown".into(), signer: None, error: Some("mock: signature unavailable".into()) };
         }
-        ReceiptSummary { completion_id: completion_id.into(), verified: true, signature_kind: kind, signer: Some("0xmock".into()), error: None }
+        ReceiptSummary { completion_id: completion_id.into(), verified: true, signature_kind: kind, signer: Some(self.receipt_signer.lock().unwrap().clone()), error: None }
     }
     fn has_api_key(&self) -> bool {
         true

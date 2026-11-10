@@ -18,7 +18,7 @@ pub fn port(paths: &Paths, flag: Option<u16>) -> u16 {
 
 impl Api {
     pub fn new(paths: &Paths, port: u16) -> Result<Api> {
-        let token = std::fs::read_to_string(paths.admin_token()).with_context(|| format!("admin token not found in {}; run `promptvpn init` first", paths.data.display()))?.trim().to_string();
+        let token = std::fs::read_to_string(paths.admin_token()).with_context(|| format!("admin token not found in {}; run `zfx-vpn init` first", paths.data.display()))?.trim().to_string();
         Ok(Api { base: format!("http://127.0.0.1:{port}"), token, http: reqwest::Client::builder().no_proxy().timeout(std::time::Duration::from_secs(600)).build()? })
     }
 
@@ -41,22 +41,22 @@ impl Api {
     }
 
     pub async fn get(&self, path: &str) -> Result<Value> {
-        let r = self.http.get(format!("{}/api/admin/v1{path}", self.base)).bearer_auth(&self.token).send().await.map_err(|_| anyhow!("Prompt VPN daemon is not running; start it with `promptvpn start`"))?;
+        let r = self.http.get(format!("{}/api/admin/v1{path}", self.base)).bearer_auth(&self.token).send().await.map_err(|_| anyhow!("ZFX VPN daemon is not running; start it with `zfx-vpn start`"))?;
         Self::handle(r).await
     }
 
     pub async fn post(&self, path: &str, body: Value) -> Result<Value> {
-        let r = self.http.post(format!("{}/api/admin/v1{path}", self.base)).bearer_auth(&self.token).json(&body).send().await.map_err(|_| anyhow!("Prompt VPN daemon is not running; start it with `promptvpn start`"))?;
+        let r = self.http.post(format!("{}/api/admin/v1{path}", self.base)).bearer_auth(&self.token).json(&body).send().await.map_err(|_| anyhow!("ZFX VPN daemon is not running; start it with `zfx-vpn start`"))?;
         Self::handle(r).await
     }
 
     pub async fn put(&self, path: &str, body: Value) -> Result<Value> {
-        let r = self.http.put(format!("{}/api/admin/v1{path}", self.base)).bearer_auth(&self.token).json(&body).send().await.map_err(|_| anyhow!("Prompt VPN daemon is not running"))?;
+        let r = self.http.put(format!("{}/api/admin/v1{path}", self.base)).bearer_auth(&self.token).json(&body).send().await.map_err(|_| anyhow!("ZFX VPN daemon is not running"))?;
         Self::handle(r).await
     }
 
     pub async fn delete(&self, path: &str) -> Result<Value> {
-        let r = self.http.delete(format!("{}/api/admin/v1{path}", self.base)).bearer_auth(&self.token).send().await.map_err(|_| anyhow!("Prompt VPN daemon is not running"))?;
+        let r = self.http.delete(format!("{}/api/admin/v1{path}", self.base)).bearer_auth(&self.token).send().await.map_err(|_| anyhow!("ZFX VPN daemon is not running"))?;
         Self::handle(r).await
     }
 }

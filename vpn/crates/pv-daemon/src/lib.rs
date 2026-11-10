@@ -4,6 +4,7 @@
 pub mod admin;
 pub mod assets;
 pub mod auth;
+pub mod migrate;
 pub mod mock;
 pub mod models;
 pub mod proxy_routes;

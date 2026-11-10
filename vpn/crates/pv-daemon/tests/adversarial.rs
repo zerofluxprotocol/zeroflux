@@ -233,7 +233,7 @@ async fn restart_preserves_policy_and_cleans_expired_payloads() {
     // Age the pending record, then "restart": bootstrap runs housekeeping.
     h.st.db().conn().execute("UPDATE pending_payloads SET expires_at = '2000-01-01T00:00:00+00:00'", []).unwrap();
     h.st.db().conn().execute("UPDATE pending SET expires_at = '2000-01-01T00:00:00+00:00'", []).unwrap();
-    let st2 = pv_daemon::state::bootstrap(pv_daemon::state::Paths { data: h.dir.path().to_path_buf() }, None).await;
+    let st2 = pv_daemon::state::bootstrap(pv_daemon::state::Paths::at(h.dir.path().to_path_buf()), None).await;
     // The in-memory key backend does not survive a new process; a fresh vault over
     // existing records must refuse to open (fail closed) rather than lose data.
     assert!(st2.is_err());

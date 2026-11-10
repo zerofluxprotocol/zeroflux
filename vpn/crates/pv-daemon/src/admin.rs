@@ -27,7 +27,7 @@ pub struct ApiErr(StatusCode, String);
 
 impl IntoResponse for ApiErr {
     fn into_response(self) -> Response {
-        (self.0, Json(json!({"error": {"message": self.1, "code": "PV_ADMIN_ERROR"}}))).into_response()
+        (self.0, Json(json!({"error": {"message": self.1, "code": "ZFX_ADMIN_ERROR"}}))).into_response()
     }
 }
 
@@ -187,7 +187,7 @@ async fn export_events(State(st): St) -> Result<Response, ApiErr> {
         out.push_str(&serde_json::to_string(e)?);
         out.push('\n');
     }
-    Ok(([("content-type", "application/x-ndjson"), ("content-disposition", "attachment; filename=promptvpn-events.jsonl")], out).into_response())
+    Ok(([("content-type", "application/x-ndjson"), ("content-disposition", "attachment; filename=zfx-vpn-events.jsonl")], out).into_response())
 }
 
 async fn verify_events(State(st): St) -> R {
@@ -255,7 +255,7 @@ async fn policy_history(State(st): St, Path(id): Path<String>) -> R {
 }
 
 async fn validate_policies(Json(v): Json<Value>) -> R {
-    let rules: Vec<PolicyRule> = serde_json::from_value(v.get("rules").cloned().unwrap_or(v.clone())).map_err(|e| bad(format!("PV_POLICY_INVALID: {e}")))?;
+    let rules: Vec<PolicyRule> = serde_json::from_value(v.get("rules").cloned().unwrap_or(v.clone())).map_err(|e| bad(format!("ZFX_POLICY_INVALID: {e}")))?;
     let set = PolicySet { rules };
     match set.validate() {
         Ok(()) => Ok(Json(json!({"valid": true, "rules": set.rules.len()}))),
@@ -264,11 +264,11 @@ async fn validate_policies(Json(v): Json<Value>) -> R {
 }
 
 async fn export_policies(State(st): St) -> R {
-    Ok(Json(json!({"format": "promptvpn-policy-v1", "rules": st.engine.policy().rules})))
+    Ok(Json(json!({"format": "zfx-vpn-policy-v1", "rules": st.engine.policy().rules})))
 }
 
 async fn import_policies(State(st): St, Json(v): Json<Value>) -> R {
-    let rules: Vec<PolicyRule> = serde_json::from_value(v.get("rules").cloned().unwrap_or_default()).map_err(|e| bad(format!("PV_POLICY_INVALID: {e}")))?;
+    let rules: Vec<PolicyRule> = serde_json::from_value(v.get("rules").cloned().unwrap_or_default()).map_err(|e| bad(format!("ZFX_POLICY_INVALID: {e}")))?;
     let mut n = 0;
     for r in rules {
         if r.id.starts_with("builtin-critical-") {
@@ -667,7 +667,7 @@ async fn test_provider(State(st): St, Path(id): Path<String>) -> R {
             let v: Value = serde_json::from_slice(&buf).unwrap_or(Value::Null);
             let id = v["id"].as_str().map(String::from);
             let receipt = match (cfg.kind, id) {
-                (ProviderKind::NearAi, Some(id)) => Some(st.engine.registry.verify_receipt(&cfg.id, &id).await),
+                (ProviderKind::NearAi, Some(id)) => Some(st.engine.registry.verify_receipt(&cfg.id, &r.model, &id).await),
                 _ => None,
             };
             (true, json!({"reply": v["choices"][0]["message"]["content"], "receipt": receipt}))
@@ -1210,7 +1210,7 @@ pub async fn health_report(st: &AppState) -> Value {
         if span.provisioned {
             warnings.push(format!("detection model installed but not loaded; requests fail closed to review: {}", span.error.clone().unwrap_or_default()));
         } else {
-            warnings.push("detection model (GLiNER) not installed: only deterministic recognizers run; run `promptvpn model install`".into());
+            warnings.push("detection model (GLiNER) not installed: only deterministic recognizers run; run `zfx-vpn model install`".into());
         }
     }
     let pending = st.db().list_pending(false).map(|v| v.len()).unwrap_or(0);
@@ -1261,7 +1261,7 @@ async fn integrations(State(st): St) -> R {
 
 async fn add_integration(State(st): St, Json(i): Json<ClientIntegration>) -> R {
     st.db().put_json(JsonTable::Integrations, &i.id, &i)?;
-    owner_event(&st, "integration", if i.rolled_back_at.is_some() { "CLIENT_ROLLBACK" } else { "CLIENT_CONFIGURE" }, &format!("Client {} config {}", i.client, if i.rolled_back_at.is_some() { "rolled back" } else { "pointed at Prompt VPN" }), vec![], Sensitivity::Low);
+    owner_event(&st, "integration", if i.rolled_back_at.is_some() { "CLIENT_ROLLBACK" } else { "CLIENT_CONFIGURE" }, &format!("Client {} config {}", i.client, if i.rolled_back_at.is_some() { "rolled back" } else { "pointed at ZFX VPN" }), vec![], Sensitivity::Low);
     Ok(Json(json!({"ok": true})))
 }
 

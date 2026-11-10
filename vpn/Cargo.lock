@@ -3901,6 +3901,7 @@ dependencies = [
  "async-trait",
  "bytes",
  "chrono",
+ "dcap-qvl",
  "futures",
  "hex",
  "nearai-inference-sdk",

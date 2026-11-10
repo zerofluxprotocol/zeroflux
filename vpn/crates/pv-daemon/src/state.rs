@@ -9,7 +9,7 @@ use pv_detectors::{Detector, DetectorSettings};
 use pv_provider::{CredentialFn, Registry};
 use pv_proxy::notify::{Desktop, NotificationSettings, Notifier, RateLimited, Recorder};
 use pv_proxy::{Engine, Settings};
-use pv_vault::keys::{FileBackend, KeyBackend, KeychainBackend, MemoryBackend};
+use pv_vault::keys::{FileBackend, KeyBackend, MemoryBackend};
 use pv_vault::Vault;
 use rand::RngCore;
 use serde::{Deserialize, Serialize};
@@ -20,22 +20,57 @@ use zeroize::Zeroizing;
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 pub const DEFAULT_PORT: u16 = 8787;
 
+/// `directories::ProjectDirs` triple for the data directory.
+pub const PRODUCT_DIR: (&str, &str, &str) = ("network", "zeroflux", "zfx-vpn");
+/// Prompt VPN 0.1 data directory triple (migrated on first run).
+pub const LEGACY_PRODUCT_DIR: (&str, &str, &str) = ("dev", "promptvpn", "promptvpn");
+
 #[derive(Debug, Clone)]
 pub struct Paths {
     pub data: PathBuf,
+    /// Database file name (`zfx-vpn.db`; `promptvpn.db` only while a Prompt VPN
+    /// 0.1 daemon is still running from an unmigrated install).
+    pub db_name: String,
+    /// An unmigrated Prompt VPN install whose daemon is running: commands talk
+    /// to it over HTTP; migration happens on the next daemon start.
+    pub legacy_running: bool,
 }
 
 impl Paths {
-    /// `PV_HOME` overrides; otherwise the OS data dir.
+    /// Data directory for this process, without side effects. `ZFX_VPN_HOME`
+    /// overrides, then the legacy `PV_HOME`, then the OS data dir.
     pub fn resolve() -> Paths {
-        if let Ok(h) = std::env::var("PV_HOME") {
-            return Paths { data: PathBuf::from(h) };
+        let env = crate::migrate::Env::from_process();
+        match crate::migrate::plan(&env) {
+            crate::migrate::Plan::Ready { data } => Paths::at(data),
+            crate::migrate::Plan::Migrate { from, to, .. } => {
+                if crate::migrate::daemon_running(&from) {
+                    Paths { data: from, db_name: crate::migrate::LEGACY_DB_FILE.into(), legacy_running: true }
+                } else {
+                    Paths::at(to)
+                }
+            }
         }
-        let d = directories::ProjectDirs::from("dev", "promptvpn", "promptvpn").map(|p| p.data_dir().to_path_buf()).unwrap_or_else(|| PathBuf::from(".promptvpn"));
-        Paths { data: d }
     }
+
+    pub fn at(data: impl Into<PathBuf>) -> Paths {
+        Paths { data: data.into(), db_name: crate::migrate::DB_FILE.into(), legacy_running: false }
+    }
+
+    /// Resolve and, if a Prompt VPN 0.1 install is found (and its daemon is
+    /// stopped), migrate it now.
+    pub fn resolve_and_migrate() -> Result<(Paths, Option<crate::migrate::MigrationRecord>)> {
+        let p = Paths::resolve();
+        if p.legacy_running {
+            return Ok((p, None));
+        }
+        let env = crate::migrate::Env::from_process();
+        let (data, rec) = crate::migrate::ensure(&env, secret_store().as_ref())?;
+        Ok((Paths::at(data), rec))
+    }
+
     pub fn db(&self) -> PathBuf {
-        self.data.join("promptvpn.db")
+        self.data.join(&self.db_name)
     }
     pub fn admin_token(&self) -> PathBuf {
         self.data.join("admin.token")
@@ -91,21 +126,82 @@ pub fn random_hex(n: usize) -> String {
     hex::encode(b)
 }
 
-/// Which key backend to use: `keychain` (default), `file` (degraded), `memory` (tests).
-pub fn key_backend(paths: &Paths) -> Result<Arc<dyn KeyBackend>> {
-    match std::env::var("PV_KEY_BACKEND").as_deref() {
-        Ok("file") => Ok(Arc::new(FileBackend { path: paths.key_file() })),
-        Ok("memory") => Ok(Arc::new(MemoryBackend::default())),
-        _ => {
-            let account = format!("keyset:{}", &hex::encode(sha2_digest(paths.data.to_string_lossy().as_bytes()))[..16]);
-            Ok(Arc::new(KeychainBackend::new("promptvpn", &account).map_err(|e| anyhow!(e))?))
-        }
-    }
+static SECRET_STORE: std::sync::OnceLock<Arc<dyn crate::migrate::SecretStore>> = std::sync::OnceLock::new();
+
+/// OS credential store used for the key set and provider credentials.
+pub fn secret_store() -> Arc<dyn crate::migrate::SecretStore> {
+    SECRET_STORE.get_or_init(|| Arc::new(crate::migrate::OsSecretStore)).clone()
+}
+
+/// Tests: replace the OS keychain with an in-memory store (first call wins).
+pub fn use_secret_store(s: Arc<dyn crate::migrate::SecretStore>) -> Arc<dyn crate::migrate::SecretStore> {
+    SECRET_STORE.get_or_init(|| s).clone()
 }
 
 fn sha2_digest(b: &[u8]) -> Vec<u8> {
     use sha2::Digest;
     sha2::Sha256::digest(b).to_vec()
+}
+
+/// Keychain account for a data path: `keyset:<first 16 hex of sha256(path)>`.
+pub fn key_account(path: &str) -> String {
+    format!("keyset:{}", &hex::encode(sha2_digest(path.as_bytes()))[..16])
+}
+
+/// Key set stored in the OS credential store.
+pub struct StoreKeyBackend {
+    store: Arc<dyn crate::migrate::SecretStore>,
+    service: String,
+    account: String,
+    label: String,
+}
+
+impl StoreKeyBackend {
+    pub fn new(store: Arc<dyn crate::migrate::SecretStore>, service: &str, account: &str) -> Self {
+        StoreKeyBackend { store, service: service.into(), account: account.into(), label: format!("os-keychain({service}/{account})") }
+    }
+}
+
+impl KeyBackend for StoreKeyBackend {
+    fn name(&self) -> &str {
+        &self.label
+    }
+    fn secure(&self) -> bool {
+        true
+    }
+    fn load(&self) -> std::result::Result<Option<pv_vault::keys::KeySet>, String> {
+        match self.store.get(&self.service, &self.account)? {
+            Some(s) => pv_vault::keys::KeySet::from_bytes(s.as_bytes()).map(Some),
+            None => Ok(None),
+        }
+    }
+    fn store(&self, ks: &pv_vault::keys::KeySet) -> std::result::Result<(), String> {
+        let b = ks.to_bytes();
+        let s = Zeroizing::new(String::from_utf8_lossy(&b).into_owned());
+        self.store.set(&self.service, &self.account, &s)?;
+        // Read back: some Linux backends accept writes they cannot persist.
+        match self.load()? {
+            Some(back) if back.active == ks.active => Ok(()),
+            _ => Err("keychain write did not persist; secure storage unavailable".into()),
+        }
+    }
+    fn delete(&self) -> std::result::Result<(), String> {
+        self.store.delete(&self.service, &self.account)
+    }
+}
+
+/// Which key backend to use (`ZFX_KEY_BACKEND`, legacy `PV_KEY_BACKEND`):
+/// `keychain` (default), `file` (degraded), `memory` (tests).
+pub fn key_backend(paths: &Paths) -> Result<Arc<dyn KeyBackend>> {
+    let kind = std::env::var("ZFX_KEY_BACKEND").or_else(|_| std::env::var("PV_KEY_BACKEND"));
+    match kind.as_deref() {
+        Ok("file") => Ok(Arc::new(FileBackend { path: paths.key_file() })),
+        Ok("memory") => Ok(Arc::new(MemoryBackend::default())),
+        _ => {
+            let abs = crate::migrate::canonical_future(&paths.data);
+            Ok(Arc::new(StoreKeyBackend::new(secret_store(), crate::migrate::SERVICE, &key_account(&abs.to_string_lossy()))))
+        }
+    }
 }
 
 /// Owner-defined entity type stored in the vault (sealed) with its policy action.
@@ -143,15 +239,16 @@ pub struct AppState {
 pub struct Credentials {
     vault: Arc<Vault>,
     use_keychain: bool,
+    store: Arc<dyn crate::migrate::SecretStore>,
 }
 
 impl Credentials {
     pub fn new(vault: Arc<Vault>, use_keychain: bool) -> Self {
-        Credentials { vault, use_keychain }
+        Credentials { vault, use_keychain, store: secret_store() }
     }
     pub fn set(&self, r: &str, secret: &str) -> Result<()> {
         if self.use_keychain {
-            keyring::Entry::new("promptvpn", &format!("cred:{r}"))?.set_password(secret)?;
+            self.store.set(crate::migrate::SERVICE, &format!("cred:{r}"), secret).map_err(|e| anyhow!(e))?;
         } else {
             self.vault.put_sealed("credential", r, secret.as_bytes())?;
         }
@@ -159,16 +256,14 @@ impl Credentials {
     }
     pub fn get(&self, r: &str) -> Option<Zeroizing<String>> {
         if self.use_keychain {
-            keyring::Entry::new("promptvpn", &format!("cred:{r}")).ok()?.get_password().ok().map(Zeroizing::new)
+            self.store.get(crate::migrate::SERVICE, &format!("cred:{r}")).ok().flatten()
         } else {
             self.vault.get_sealed("credential", r).ok().flatten().map(|b| Zeroizing::new(String::from_utf8_lossy(&b).into_owned()))
         }
     }
     pub fn delete(&self, r: &str) {
         if self.use_keychain {
-            if let Ok(e) = keyring::Entry::new("promptvpn", &format!("cred:{r}")) {
-                let _ = e.delete_credential();
-            }
+            let _ = self.store.delete(crate::migrate::SERVICE, &format!("cred:{r}"));
         } else {
             let _ = self.vault.delete_sealed("credential", r);
         }
@@ -183,7 +278,7 @@ pub fn load_or_create_admin_token(paths: &Paths) -> Result<Zeroizing<String>> {
     match std::fs::read_to_string(paths.admin_token()) {
         Ok(s) if s.trim().len() >= 32 => Ok(Zeroizing::new(s.trim().to_string())),
         _ => {
-            let t = format!("pva_{}", random_hex(32));
+            let t = format!("zfxa_{}", random_hex(32));
             write_private(&paths.admin_token(), t.as_bytes()).context("write admin token")?;
             Ok(Zeroizing::new(t))
         }
@@ -192,6 +287,12 @@ pub fn load_or_create_admin_token(paths: &Paths) -> Result<Zeroizing<String>> {
 
 /// Open everything. `notifier` override is used by tests.
 pub async fn bootstrap(paths: Paths, notifier: Option<Arc<dyn Notifier>>) -> Result<Arc<AppState>> {
+    let backend = key_backend(&paths)?;
+    bootstrap_with_backend(paths, notifier, backend).await
+}
+
+/// `bootstrap` with an explicit key backend (tests, migration checks).
+pub async fn bootstrap_with_backend(paths: Paths, notifier: Option<Arc<dyn Notifier>>, backend: Arc<dyn KeyBackend>) -> Result<Arc<AppState>> {
     std::fs::create_dir_all(&paths.data)?;
     #[cfg(unix)]
     {
@@ -199,7 +300,6 @@ pub async fn bootstrap(paths: Paths, notifier: Option<Arc<dyn Notifier>>) -> Res
         let _ = std::fs::set_permissions(&paths.data, std::fs::Permissions::from_mode(0o700));
     }
     let db = Db::open(&paths.db()).context("open database")?;
-    let backend = key_backend(&paths)?;
     let vault = Arc::new(Vault::open(db.clone(), backend.clone()).map_err(|e| anyhow!("{e}"))?);
     let creds = Arc::new(Credentials::new(vault.clone(), backend.secure()));
     let cf = creds.clone();
@@ -322,7 +422,7 @@ pub fn reload_providers(state: &AppState) -> Result<()> {
     let providers: Vec<ProviderConfig> = state.db().list_json(JsonTable::Providers)?;
     for p in providers.iter().filter(|p| p.kind == ProviderKind::NearAi) {
         let key = p.credential_ref.as_deref().and_then(|r| state.creds().get(r)).map(|k| k.to_string());
-        if std::env::var("PV_NEAR_MOCK").is_ok() {
+        if std::env::var("ZFX_NEAR_MOCK").is_ok() || std::env::var("PV_NEAR_MOCK").is_ok() {
             continue; // tests install mock backends explicitly
         }
         match pv_provider::near::NearSdkBackend::new(&p.base_url, key) {
@@ -343,7 +443,7 @@ pub fn save_settings(state: &AppState, s: &Settings, actor: &str) -> Result<()> 
 
 /// Create a local caller app; returns the key (shown once).
 pub fn create_app(state: &AppState, name: &str, agent_id: Option<String>, destination_id: Option<String>) -> Result<(pv_audit::AppRecord, String)> {
-    let key = format!("pvk_{}", random_hex(24));
+    let key = format!("zfxk_{}", random_hex(24));
     let rec = pv_audit::AppRecord {
         app_id: format!("app_{}", random_hex(6)),
         name: name.to_string(),

@@ -27,7 +27,7 @@ fn serve_file(path: &str) -> Response {
                 r.headers_mut().insert("content-security-policy", "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'".parse().unwrap());
                 r
             }
-            None => (StatusCode::NOT_FOUND, Html("<h1>Prompt VPN</h1><p>Dashboard assets were not built into this binary. Run <code>npm run build</code> in apps/dashboard and rebuild.</p>")).into_response(),
+            None => (StatusCode::NOT_FOUND, Html("<h1>ZFX VPN</h1><p>Dashboard assets were not built into this binary. Run <code>npm run build</code> in apps/dashboard and rebuild.</p>")).into_response(),
         },
     }
 }
@@ -53,6 +53,6 @@ pub async fn login(State(st): State<Arc<AppState>>, Query(t): Query<Ticket>) -> 
             r.headers_mut().insert(header::SET_COOKIE, auth::session_cookie(&id).parse().unwrap());
             r
         }
-        None => (StatusCode::UNAUTHORIZED, Html("<h1>Login link expired</h1><p>Run <code>promptvpn dashboard</code> again.</p>")).into_response(),
+        None => (StatusCode::UNAUTHORIZED, Html("<h1>Login link expired</h1><p>Run <code>zfx-vpn dashboard</code> again.</p>")).into_response(),
     }
 }

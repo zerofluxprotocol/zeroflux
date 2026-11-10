@@ -1,4 +1,5 @@
-//! `promptvpn`: single binary for the daemon and every management command.
+//! `zfx-vpn`: single binary for the daemon and every management command.
+//! Also answers to the deprecated name `promptvpn` (Prompt VPN 0.1) via a symlink.
 
 mod api;
 mod client;
@@ -14,7 +15,7 @@ use serde_json::{json, Value};
 use std::io::{IsTerminal, Read, Write};
 
 #[derive(Parser)]
-#[command(name = "promptvpn", version, about = "Local privacy proxy for OpenAI-compatible LLM clients")]
+#[command(name = "zfx-vpn", version, about = "ZFX VPN: application-layer prompt privacy gateway for OpenAI-compatible LLM clients (not a network VPN)")]
 struct Cli {
     /// Daemon port (default 8787, or the running daemon's port).
     #[arg(long, global = true)]
@@ -144,6 +145,24 @@ enum Cmd {
     Uninstall {
         #[arg(long)]
         purge: bool,
+        #[arg(long)]
+        yes: bool,
+    },
+    /// Prompt VPN 0.1 upgrade state, and rollback to Prompt VPN 0.1.
+    Migrate {
+        #[command(subcommand)]
+        cmd: MigrateCmd,
+    },
+}
+
+#[derive(Subcommand)]
+enum MigrateCmd {
+    /// Show where data lives and whether a Prompt VPN install is pending migration.
+    Status,
+    /// Migrate a Prompt VPN 0.1 install now (other commands do this automatically).
+    Run,
+    /// Hand this install back to Prompt VPN 0.1 (daemon must be stopped).
+    Rollback {
         #[arg(long)]
         yes: bool,
     },
@@ -381,6 +400,68 @@ enum ServiceCmd {
     Uninstall,
 }
 
+/// Commands that do not read or write the data directory.
+async fn run_stateless(cli: Cli) -> Result<()> {
+    let paths = Paths::resolve();
+    match cli.cmd {
+        Cmd::MockUpstream { listen, record } => {
+            let rec = std::sync::Arc::new(pv_daemon::mock::Recorded { file: record.map(Into::into), ..Default::default() });
+            let (url, h) = pv_daemon::mock::serve(listen, rec).await?;
+            println!("mock upstream at {url} (records exact request bytes)");
+            h.await?;
+        }
+        Cmd::Eval { corpus, configs, out, models_dir } => eval_cmd(&paths, &corpus, &configs, out, models_dir).await?,
+        Cmd::Schema { out } => {
+            std::fs::create_dir_all(&out)?;
+            for (n, s) in pv_core::schema::all_schemas() {
+                std::fs::write(std::path::Path::new(&out).join(n), s + "\n")?;
+            }
+            println!("wrote schemas to {out}");
+        }
+        _ => unreachable!(),
+    }
+    Ok(())
+}
+
+fn migrate_cmd(cmd: &MigrateCmd, j: bool) -> Result<()> {
+    use pv_daemon::migrate;
+    let env = migrate::Env::from_process();
+    match cmd {
+        MigrateCmd::Status => {
+            let plan = migrate::plan(&env);
+            let (state, data) = match &plan {
+                migrate::Plan::Ready { data } => {
+                    let rec = std::fs::read_to_string(data.join(migrate::RECORD_FILE)).ok().and_then(|s| serde_json::from_str::<Value>(&s).ok());
+                    (if rec.is_some() { "migrated" } else if data.join(migrate::DB_FILE).exists() { "zfx-vpn" } else { "fresh" }, data.clone())
+                }
+                migrate::Plan::Migrate { from, .. } => ("pending", from.clone()),
+            };
+            print(j, &json!({"state": state, "data_dir": data, "plan": format!("{plan:?}")}), |_| println!("{state}: {}", data.display()));
+        }
+        MigrateCmd::Run => {
+            let (data, rec) = migrate::ensure(&env, pv_daemon::state::secret_store().as_ref())?;
+            match rec {
+                Some(r) => print(j, &serde_json::to_value(&r)?, |_| println!("migrated to {}", r.to_dir.display())),
+                None => print(j, &json!({"migrated": false, "data_dir": data}), |_| println!("nothing to migrate ({})", data.display())),
+            }
+        }
+        MigrateCmd::Rollback { yes } => {
+            let data = env.explicit_home().cloned().unwrap_or(env.default_dir.clone());
+            if !yes {
+                eprint!("Hand {} back to Prompt VPN 0.1? Route records added by ZFX VPN are dropped; placeholders minted by ZFX VPN will not restore under 0.1. Type ROLLBACK: ", data.display());
+                let mut s = String::new();
+                std::io::stdin().read_line(&mut s)?;
+                if s.trim() != "ROLLBACK" {
+                    bail!("cancelled");
+                }
+            }
+            let r = migrate::rollback(&data, pv_daemon::state::secret_store().as_ref())?;
+            print(j, &serde_json::to_value(&r)?, |_| println!("rolled back to Prompt VPN 0.1 layout at {} (schema {}); reinstall Prompt VPN 0.1 to use it", r.restored_dir.display(), r.schema));
+        }
+    }
+    Ok(())
+}
+
 fn print(json_mode: bool, v: &Value, human: impl FnOnce(&Value)) {
     if json_mode {
         println!("{}", serde_json::to_string_pretty(v).unwrap());
@@ -414,7 +495,7 @@ pub fn read_secret(prompt: &str) -> Result<String> {
 async fn ensure_running(paths: &Paths, port: u16) -> Result<Api> {
     let api = Api::new(paths, port)?;
     if !api.healthy().await {
-        bail!("Prompt VPN daemon is not running on 127.0.0.1:{port}; run `promptvpn start`");
+        bail!("ZFX VPN daemon is not running on 127.0.0.1:{port}; run `zfx-vpn start`");
     }
     Ok(api)
 }
@@ -429,7 +510,7 @@ pub async fn start_daemon(paths: &Paths, port: u16) -> Result<()> {
     let exe = std::env::current_exe()?;
     let log = std::fs::OpenOptions::new().create(true).append(true).open(paths.log())?;
     let mut cmd = std::process::Command::new(exe);
-    cmd.arg("daemon").arg("--port").arg(port.to_string()).env("PV_HOME", &paths.data).stdin(std::process::Stdio::null()).stdout(log.try_clone()?).stderr(log);
+    cmd.arg("daemon").arg("--port").arg(port.to_string()).env("ZFX_VPN_HOME", &paths.data).env_remove("PV_HOME").stdin(std::process::Stdio::null()).stdout(log.try_clone()?).stderr(log);
     #[cfg(unix)]
     {
         use std::os::unix::process::CommandExt;
@@ -460,9 +541,21 @@ fn parse_action(s: &str) -> Result<Value> {
     Ok(Value::String(a))
 }
 
+/// Name this binary was invoked as.
+fn invoked_as() -> String {
+    std::env::args_os().next().map(std::path::PathBuf::from).and_then(|p| p.file_name().map(|n| n.to_string_lossy().into_owned())).unwrap_or_default()
+}
+
 #[tokio::main]
 async fn main() {
-    let cli = Cli::parse();
+    let legacy_name = invoked_as() == "promptvpn";
+    let cli = if legacy_name {
+        // Same commands; clap would otherwise print "zfx-vpn" in usage lines.
+        eprintln!("note: `promptvpn` is deprecated and now runs ZFX VPN; use `zfx-vpn` (same commands, same data).");
+        Cli::parse_from(std::iter::once(std::ffi::OsString::from("promptvpn")).chain(std::env::args_os().skip(1)))
+    } else {
+        Cli::parse()
+    };
     if let Err(e) = run(cli).await {
         eprintln!("error: {e:#}");
         std::process::exit(1);
@@ -470,21 +563,38 @@ async fn main() {
 }
 
 async fn run(cli: Cli) -> Result<()> {
-    let paths = Paths::resolve();
+    if let Cmd::Migrate { cmd } = &cli.cmd {
+        return migrate_cmd(cmd, cli.json);
+    }
+    // Commands that never touch the data directory do not trigger migration.
+    if matches!(cli.cmd, Cmd::MockUpstream { .. } | Cmd::Schema { .. } | Cmd::Eval { .. }) {
+        return run_stateless(cli).await;
+    }
+    // Finds a Prompt VPN 0.1 install and migrates it in place (once) unless its
+    // daemon is still running, in which case commands talk to that daemon.
+    let (paths, migrated) = Paths::resolve_and_migrate()?;
+    if let Some(r) = &migrated {
+        let kc = if r.keychain.is_some() { "; keychain entries copied, old ones kept" } else { "" };
+        eprintln!("Migrated Prompt VPN data to ZFX VPN: {} (schema {} -> {}{kc}; backup {}). Undo with `zfx-vpn migrate rollback`.", r.to_dir.display(), r.schema_from, r.schema_to, r.backup_file.display());
+    }
+    if paths.legacy_running && matches!(cli.cmd, Cmd::Daemon | Cmd::Start) {
+        bail!("a Prompt VPN 0.1 daemon is running from {}; stop it first (`zfx-vpn stop`), then start ZFX VPN to migrate", paths.data.display());
+    }
     let port = api::port(&paths, cli.port);
     let j = cli.json;
     match cli.cmd {
+        Cmd::Migrate { .. } => unreachable!("handled above"),
         Cmd::Daemon => {
-            tracing_subscriber::fmt().with_env_filter(tracing_subscriber::EnvFilter::try_from_env("PV_LOG").unwrap_or_else(|_| "info".into())).with_writer(std::io::stderr).init();
+            tracing_subscriber::fmt().with_env_filter(tracing_subscriber::EnvFilter::try_from_env("ZFX_LOG").unwrap_or_else(|_| "info".into())).with_writer(std::io::stderr).init();
             let st = pv_daemon::state::bootstrap(paths.clone(), None).await?;
             let l = pv_daemon::bind(cli.port.unwrap_or(pv_daemon::state::DEFAULT_PORT)).await?;
-            tracing::info!("Prompt VPN {} listening on http://{}", pv_daemon::state::VERSION, l.local_addr()?);
+            tracing::info!("ZFX VPN {} listening on http://{}", pv_daemon::state::VERSION, l.local_addr()?);
             pv_daemon::serve(st, l).await?;
         }
         Cmd::Init(args) => wizard::run(&paths, port, args).await?,
         Cmd::Start => {
             start_daemon(&paths, port).await?;
-            println!("Prompt VPN running at http://127.0.0.1:{port} (OpenAI base URL http://127.0.0.1:{port}/v1)");
+            println!("ZFX VPN running at http://127.0.0.1:{port} (OpenAI base URL http://127.0.0.1:{port}/v1)");
         }
         Cmd::Stop => {
             let api = Api::new(&paths, port)?;
@@ -503,12 +613,12 @@ async fn run(cli: Cli) -> Result<()> {
         Cmd::Status => {
             let api = Api::new(&paths, port)?;
             if !api.healthy().await {
-                print(j, &json!({"running": false}), |_| println!("Prompt VPN is not running (data: {})", paths.data.display()));
+                print(j, &json!({"running": false}), |_| println!("ZFX VPN is not running (data: {})", paths.data.display()));
                 return Ok(());
             }
             let h = api.get("/health").await?;
             print(j, &h, |h| {
-                println!("Prompt VPN {}: {}  ({})", h["version"].as_str().unwrap_or(""), h["status"].as_str().unwrap_or(""), h["base_url"].as_str().unwrap_or(""));
+                println!("ZFX VPN {}: {}  ({})", h["version"].as_str().unwrap_or(""), h["status"].as_str().unwrap_or(""), h["base_url"].as_str().unwrap_or(""));
                 println!("  default destination: {}", h["default_destination"]);
                 println!("  NEAR: {}", h["near"]["status"].as_str().unwrap_or(""));
                 println!("  detection model: {} loaded={}", h["span"]["model"].as_str().unwrap_or(""), h["span"]["loaded"]);
@@ -582,7 +692,7 @@ async fn run(cli: Cli) -> Result<()> {
                 (_, Ok(v)) => println!("Ollama {v} is running at http://127.0.0.1:11434"),
                 (OllamaCmd::Status, Err(_)) => println!("Ollama is not running or not installed.\n{}", pv_detectors::ollama::install_instructions(os)),
                 (OllamaCmd::Setup, Err(_)) => {
-                    println!("Prompt VPN does not install system software for you.\n{}", pv_detectors::ollama::install_instructions(os));
+                    println!("ZFX VPN does not install system software for you.\n{}", pv_detectors::ollama::install_instructions(os));
                     if confirm("Open the official download page now?") {
                         open_url("https://ollama.com/download");
                     }
@@ -681,7 +791,7 @@ async fn run(cli: Cli) -> Result<()> {
                     let r = api.post("/entities", json!({"label": label, "description": description, "action": parse_action(&action)?})).await?;
                     println!("added entity type {}", r["entity_id"].as_str().unwrap_or(""));
                     if r["span_model_loaded"] != true {
-                        println!("note: the detection model is not loaded, so requests will be held for review until you run `promptvpn model install`");
+                        println!("note: the detection model is not loaded, so requests will be held for review until you run `zfx-vpn model install`");
                     }
                 }
                 EntityCmd::List => {
@@ -804,7 +914,7 @@ async fn run(cli: Cli) -> Result<()> {
             VaultCmd::Recover { bundle } => {
                 if let Ok(a) = Api::new(&paths, port) {
                     if a.healthy().await {
-                        bail!("stop the daemon first (`promptvpn stop`)");
+                        bail!("stop the daemon first (`zfx-vpn stop`)");
                     }
                 }
                 let b = std::fs::read_to_string(bundle)?;
@@ -829,20 +939,7 @@ async fn run(cli: Cli) -> Result<()> {
             let v = api.post("/emergency-stop", json!({"engaged": !off})).await?;
             println!("{}", if v["emergency_stop"] == true { "EMERGENCY STOP ENGAGED: all model traffic is blocked locally" } else { "emergency stop released" });
         }
-        Cmd::MockUpstream { listen, record } => {
-            let rec = std::sync::Arc::new(pv_daemon::mock::Recorded { file: record.map(Into::into), ..Default::default() });
-            let (url, h) = pv_daemon::mock::serve(listen, rec).await?;
-            println!("mock upstream at {url} (records exact request bytes)");
-            h.await?;
-        }
-        Cmd::Eval { corpus, configs, out, models_dir } => eval_cmd(&paths, &corpus, &configs, out, models_dir).await?,
-        Cmd::Schema { out } => {
-            std::fs::create_dir_all(&out)?;
-            for (n, s) in pv_core::schema::all_schemas() {
-                std::fs::write(std::path::Path::new(&out).join(n), s + "\n")?;
-            }
-            println!("wrote schemas to {out}");
-        }
+        Cmd::MockUpstream { .. } | Cmd::Eval { .. } | Cmd::Schema { .. } => unreachable!("stateless"),
         Cmd::Uninstall { purge, yes } => {
             let api = Api::new(&paths, port);
             if let Ok(api) = api {
@@ -867,11 +964,11 @@ async fn run(cli: Cli) -> Result<()> {
                     let _ = b.delete();
                 }
                 std::fs::remove_dir_all(&paths.data).ok();
-                println!("removed all Prompt VPN data");
+                println!("removed all ZFX VPN data");
             } else {
                 println!("Service removed and daemon stopped. Data preserved at {} (use --purge to delete).", paths.data.display());
             }
-            println!("Client configs are untouched; restore them with `promptvpn client rollback <client>` before uninstalling if you edited any.");
+            println!("Client configs are untouched; restore them with `zfx-vpn client rollback <client>` before uninstalling if you edited any.");
         }
     }
     Ok(())
@@ -898,7 +995,7 @@ async fn near(paths: &Paths, port: u16, j: bool, cmd: NearCmd) -> Result<()> {
                     let cand = m["privacy_tier"] == "PRIVATE_TEE";
                     println!("{:<52} {:<15} {}", m["id"].as_str().unwrap_or(""), m["privacy_tier"].as_str().unwrap_or(""), if cand { "yes (verify before use)" } else { "no" });
                 }
-                println!("\nNote: the spec's preferred `deepseek-ai/DeepSeek-V4-Flash` is not a catalog model on the live gateway (it is an alias). Use `promptvpn near verify-attestation <model>`.");
+                println!("\nNote: the spec's preferred `deepseek-ai/DeepSeek-V4-Flash` is not a catalog model on the live gateway (it is an alias). Use `zfx-vpn near verify-attestation <model>`.");
             });
         }
         NearCmd::VerifyAttestation { model } => {
@@ -939,7 +1036,7 @@ async fn near(paths: &Paths, port: u16, j: bool, cmd: NearCmd) -> Result<()> {
             let cfg = json!({"schema_version": 1, "id": "near", "kind": "NEAR_AI", "display_name": "NEAR AI", "base_url": "https://cloud-api.near.ai/v1", "default_model": model, "declared_tier": "ATTESTED_TEE", "credential_ref": "provider:near", "enabled": true, "allow_failover": true, "supports_responses": true, "timeout_secs": 180, "api_key": key});
             api.post("/providers", cfg).await?;
             println!("NEAR AI configured (key stored in the OS credential store). Default model {model}.");
-            println!("Make it the default destination: promptvpn init (or Settings in the dashboard).");
+            println!("Make it the default destination: zfx-vpn init (or Settings in the dashboard).");
         }
         NearCmd::Use { model } => {
             let api = ensure_running(paths, port).await?;
@@ -948,7 +1045,7 @@ async fn near(paths: &Paths, port: u16, j: bool, cmd: NearCmd) -> Result<()> {
                 bail!("{model} is not TEE-eligible: {}", v["error"].as_str().unwrap_or(""));
             }
             let p = api.get("/providers").await?;
-            let mut cfg = p["providers"].as_array().into_iter().flatten().find(|x| x["config"]["id"] == "near").map(|x| x["config"].clone()).context("NEAR is not configured; run `promptvpn near login` first")?;
+            let mut cfg = p["providers"].as_array().into_iter().flatten().find(|x| x["config"]["id"] == "near").map(|x| x["config"].clone()).context("NEAR is not configured; run `zfx-vpn near login` first")?;
             cfg["default_model"] = json!(model);
             api.post("/providers", cfg).await?;
             let s = api.get("/settings").await?;
@@ -1040,7 +1137,7 @@ async fn connect(paths: &Paths, port: u16, cmd: ConnectCmd) -> Result<()> {
             println!("OpenAI-compatible base URL: http://127.0.0.1:{port}/v1");
             match key {
                 Some(_) => println!("Local API key: stored at {} (pass it as the client's OpenAI API key)", paths.app_key("default").display()),
-                None => println!("Local API key: none yet; run `promptvpn init` or `promptvpn connect add-app <name>`"),
+                None => println!("Local API key: none yet; run `zfx-vpn init` or `zfx-vpn connect add-app <name>`"),
             }
             println!("\nExamples:\n  export OPENAI_BASE_URL=http://127.0.0.1:{port}/v1\n  export OPENAI_API_KEY=\"$(cat '{}')\"\n  # Python: OpenAI(base_url=\"http://127.0.0.1:{port}/v1\", api_key=...)", paths.app_key("default").display());
             println!("\nCoverage: only requests sent to this API are inspected (including tool-call arguments and tool results inside them). Separately executed shell/HTTP/browser tool calls are not intercepted.");
@@ -1065,10 +1162,10 @@ async fn connect(paths: &Paths, port: u16, cmd: ConnectCmd) -> Result<()> {
 /// keys, local mock upstream; synthetic secrets only.
 async fn connect_test() -> Result<Value> {
     std::env::set_var("PV_KEY_BACKEND", "memory");
-    let dir = std::env::temp_dir().join(format!("promptvpn-connect-test-{}", uuid::Uuid::new_v4().simple()));
+    let dir = std::env::temp_dir().join(format!("zfx-vpn-connect-test-{}", uuid::Uuid::new_v4().simple()));
     let rec = std::sync::Arc::new(pv_daemon::mock::Recorded::default());
     let (mock, _) = pv_daemon::mock::serve(0, rec.clone()).await?;
-    let st = pv_daemon::state::bootstrap(Paths { data: dir.clone() }, Some(std::sync::Arc::new(pv_proxy::notify::Recorder::default()))).await?;
+    let st = pv_daemon::state::bootstrap(Paths::at(dir.clone()), Some(std::sync::Arc::new(pv_proxy::notify::Recorder::default()))).await?;
     st.engine.detector.set_settings(pv_detectors::DetectorSettings { span_enabled: false, span_required: false, span_timeout_ms: 1000 });
     let cfg = pv_core::ProviderConfig { schema_version: 1, id: "mock".into(), kind: pv_core::ProviderKind::OpenaiCompatible, display_name: "mock".into(), base_url: mock.clone(), default_model: "mock-echo".into(), declared_tier: pv_core::DestinationTier::ExternalUnverified, credential_ref: None, enabled: true, allow_failover: false, supports_responses: true, timeout_secs: 10, zfx_hosted_transport: false };
     pv_daemon::admin::put_provider_inner(&st, cfg, None).map_err(|_| anyhow!("provider"))?;
@@ -1118,13 +1215,13 @@ async fn clients(paths: &Paths, port: u16, cmd: ClientCmd) -> Result<()> {
         ClientCmd::Configure { client: c, yes } => {
             let c = client::Client::parse(&c).context("supported clients: codex, aider, opencode, env")?;
             let base = format!("http://127.0.0.1:{port}/v1");
-            let key = std::fs::read_to_string(paths.app_key("default")).context("no local API key; run `promptvpn init` first")?;
+            let key = std::fs::read_to_string(paths.app_key("default")).context("no local API key; run `zfx-vpn init` first")?;
             if c == client::Client::Env {
                 println!("export OPENAI_BASE_URL={base}\nexport OPENAI_API_KEY={}", key.trim());
                 return Ok(());
             }
             let path = c.config_path(&h).unwrap();
-            println!("This will back up and edit {} so {} sends requests to Prompt VPN at {base}.", path.display(), c.name());
+            println!("This will back up and edit {} so {} sends requests to ZFX VPN at {base}.", path.display(), c.name());
             if !yes && !confirm("Proceed?") {
                 bail!("aborted; nothing changed");
             }
@@ -1142,7 +1239,7 @@ async fn clients(paths: &Paths, port: u16, cmd: ClientCmd) -> Result<()> {
             if c == client::Client::Codex {
                 println!("Codex reads the key from PROMPTVPN_API_KEY:  export PROMPTVPN_API_KEY=\"$(cat '{}')\"", paths.app_key("default").display());
             }
-            println!("Undo any time: promptvpn client rollback {}", c.name());
+            println!("Undo any time: zfx-vpn client rollback {}", c.name());
         }
         ClientCmd::Rollback { client: c } => {
             let c = client::Client::parse(&c).context("supported clients: codex, aider, opencode")?;

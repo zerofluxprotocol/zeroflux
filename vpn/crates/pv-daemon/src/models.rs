@@ -158,7 +158,7 @@ impl ModelManager {
             return false;
         }
         if let Err(e) = self.provisioned(model) {
-            st.error = Some(format!("not installed ({e}); run `promptvpn model install`"));
+            st.error = Some(format!("not installed ({e}); run `zfx-vpn model install`"));
             self.detector.set_span(None);
             return false;
         }

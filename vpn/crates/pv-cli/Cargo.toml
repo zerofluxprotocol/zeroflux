@@ -4,8 +4,11 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 
+# The installed name is `zfx-vpn`. Installers also create a `promptvpn`
+# symlink to it; invoked under that name the binary warns that the name is
+# deprecated and otherwise behaves identically.
 [[bin]]
-name = "promptvpn"
+name = "zfx-vpn"
 path = "src/main.rs"
 
 [features]

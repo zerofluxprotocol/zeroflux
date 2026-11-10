@@ -91,10 +91,10 @@ impl Ollama {
 
 }
 
-/// Official install guidance; Prompt VPN never installs Ollama itself.
+/// Official install guidance; ZFX VPN never installs Ollama itself.
 pub fn install_instructions(os: &str) -> &'static str {
     match os {
-        "macos" => "Install Ollama from the official site: https://ollama.com/download/mac (requires macOS 14+). Open the app once so the `ollama` CLI is linked, then re-run `promptvpn ollama status`.",
+        "macos" => "Install Ollama from the official site: https://ollama.com/download/mac (requires macOS 14+). Open the app once so the `ollama` CLI is linked, then re-run `zfx-vpn ollama status`.",
         "linux" => "Install Ollama from the official site: https://ollama.com/download/linux . Review the script before running it (curl -fsSL https://ollama.com/install.sh -o ollama-install.sh && less ollama-install.sh && sh ollama-install.sh), or use the manual tarball from https://docs.ollama.com/linux . Then start it with `ollama serve`.",
         _ => "See https://ollama.com/download for official installers.",
     }

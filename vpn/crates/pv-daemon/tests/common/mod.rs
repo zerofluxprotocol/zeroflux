@@ -47,7 +47,7 @@ pub async fn harness(model: &str) -> H {
     let (mock_base, _) = mock::serve(0, rec.clone()).await.unwrap();
     let notes = Arc::new(Recorder::default());
     let n: Arc<dyn Notifier> = notes.clone();
-    let st = state::bootstrap(Paths { data: dir.path().to_path_buf() }, Some(n)).await.unwrap();
+    let st = state::bootstrap(Paths::at(dir.path().to_path_buf()), Some(n)).await.unwrap();
     // Deterministic detectors only unless a test opts in.
     st.engine.detector.set_settings(pv_detectors::DetectorSettings { span_enabled: false, span_required: false, span_timeout_ms: 2000 });
     pv_daemon::admin::put_provider_inner(&st, provider("mock", &mock_base, model, DestinationTier::ExternalUnverified, false, true), None).map_err(|_| ()).unwrap();

@@ -690,7 +690,7 @@ impl Engine {
         let Some(id) = completion_id else {
             return Err(PvError::new(ErrorCode::TeeUnverified, "Upstream response has no completion id to verify; output withheld"));
         };
-        let r = self.registry.verify_receipt(&dest.config.id, id).await;
+        let r = self.registry.verify_receipt(&dest.config.id, &dest.model, id).await;
         if r.verified && r.signature_kind == pv_provider::PROVIDER_TEE_SIGNATURE {
             Ok(format!("provider_tee signature by {}", r.signer.unwrap_or_default()))
         } else if r.verified {
@@ -976,11 +976,12 @@ impl Engine {
         let Some(id) = resp.get("id").and_then(|i| i.as_str()).map(String::from) else { return };
         let me = self.clone();
         let pid = dest.config.id.clone();
+        let model = dest.model.clone();
         let app = c.caller.app_id.clone();
         let request_id = c.event_id.clone();
         let attested = dest.tier == DestinationTier::AttestedTee;
         tokio::spawn(async move {
-            let r = me.registry.verify_receipt(&pid, &id).await;
+            let r = me.registry.verify_receipt(&pid, &model, &id).await;
             if attested {
                 let status = if r.verified && r.signature_kind == pv_provider::PROVIDER_TEE_SIGNATURE {
                     VerificationStatus::ReceiptVerified

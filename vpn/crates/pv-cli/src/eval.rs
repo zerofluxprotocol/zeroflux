@@ -1,4 +1,4 @@
-//! `promptvpn eval`: reproducible privacy/utility benchmark over a synthetic
+//! `zfx-vpn eval`: reproducible privacy/utility benchmark over a synthetic
 //! labeled corpus, for each classifier configuration.
 
 use anyhow::{Context, Result};

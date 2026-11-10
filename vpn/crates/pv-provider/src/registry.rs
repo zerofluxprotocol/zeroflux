@@ -101,6 +101,8 @@ pub struct Registry {
     near: RwLock<HashMap<String, Arc<dyn NearBackend>>>,
     verifications: RwLock<HashMap<(String, String), NearVerification>>,
     pub verification_ttl: chrono::Duration,
+    /// Confidential-route requirements (pins, TCB, GPU, E2EE, max age).
+    pub tee_requirements: RwLock<crate::tee::TeeRequirements>,
     pub http: reqwest::Client,
     pub creds: CredentialFn,
 }
@@ -112,6 +114,7 @@ impl Registry {
             near: RwLock::new(HashMap::new()),
             verifications: RwLock::new(HashMap::new()),
             verification_ttl: chrono::Duration::minutes(10),
+            tee_requirements: RwLock::new(crate::tee::TeeRequirements::default()),
             http: reqwest::Client::builder().no_proxy().connect_timeout(std::time::Duration::from_secs(5)).build().expect("http"),
             creds,
         }
@@ -162,7 +165,30 @@ impl Registry {
             None => NearVerification::failed(provider_id, model, "NEAR backend not configured"),
         };
         let mut v = v;
-        v.expires_at = v.checked_at + self.verification_ttl;
+        v.provider_id = provider_id.to_string();
+        // ZFX VPN's decision: provider-level proof for this exact model and
+        // endpoint, fresh, GPU + E2EE, accepted TCB, pinned measurements.
+        let base_url = self.get(provider_id).map(|p| p.base_url).unwrap_or_default();
+        let req = self.tee_requirements.read().unwrap().clone();
+        let decision = match &v.evidence {
+            Some(e) => crate::tee::evaluate(e, &req, provider_id, &base_url, model, Utc::now()),
+            None => Err(crate::tee::TeeRejection::Verification(v.error.clone().unwrap_or_else(|| "no evidence".into()))),
+        };
+        match decision {
+            Ok(()) => {
+                v.eligible = true;
+                v.tier = DestinationTier::AttestedTee;
+                v.error = None;
+                v.rejection = None;
+            }
+            Err(r) => {
+                v.eligible = false;
+                v.tier = DestinationTier::ExternalUnverified;
+                v.error = Some(r.to_string());
+                v.rejection = Some(r);
+            }
+        }
+        v.expires_at = v.checked_at + self.verification_ttl.min(chrono::Duration::seconds(req.max_age_secs));
         self.verifications.write().unwrap().insert(key, v.clone());
         v
     }
@@ -233,11 +259,26 @@ impl Registry {
         crate::openai::send_with_headers(&self.http, &r.config, endpoint, &body, token.as_deref().map(|s| s.as_str()), &[(PREPROCESSED_HEADER, "v1")]).await
     }
 
-    pub async fn verify_receipt(&self, provider_id: &str, completion_id: &str) -> ReceiptSummary {
-        match self.near_backend(provider_id) {
+    /// Verify a completion receipt. A provider-TEE signature only counts when
+    /// its signer is one of the model identities verified before sending;
+    /// otherwise a different deployment answered (route substitution).
+    pub async fn verify_receipt(&self, provider_id: &str, model: &str, completion_id: &str) -> ReceiptSummary {
+        let mut r = match self.near_backend(provider_id) {
             Some(b) => b.verify_receipt(completion_id).await,
-            None => ReceiptSummary { completion_id: completion_id.into(), verified: false, signature_kind: "none".into(), signer: None, error: Some("no NEAR backend".into()) },
+            None => return ReceiptSummary { completion_id: completion_id.into(), verified: false, signature_kind: "none".into(), signer: None, error: Some("no NEAR backend".into()) },
+        };
+        if r.verified && r.signature_kind == PROVIDER_TEE_SIGNATURE {
+            let v = self.verifications.read().unwrap().get(&(provider_id.to_string(), model.to_string())).cloned();
+            let ok = match (&v.and_then(|v| v.evidence), &r.signer) {
+                (Some(e), Some(s)) => crate::tee::receipt_signer_matches(e, s),
+                _ => false,
+            };
+            if !ok {
+                r.verified = false;
+                r.error = Some("response signer is not a model identity verified before sending (route substitution)".into());
+            }
         }
+        r
     }
 }
 

@@ -1,7 +1,7 @@
 //! Serialized contracts shared by the daemon, CLI and dashboard.
 //!
 //! Every top-level record carries a `schema_version`. Rust types are the
-//! source of truth; `promptvpn schema export` writes JSON Schema files to
+//! source of truth; `zfx-vpn schema` writes JSON Schema files to
 //! `schemas/`, from which the dashboard TypeScript types are generated.
 
 use chrono::{DateTime, Utc};
@@ -206,7 +206,7 @@ pub struct ProviderConfig {
     /// Whether this destination may be used automatically when the preferred one fails.
     #[serde(default)]
     pub allow_failover: bool,
-    /// Whether the upstream natively supports `/v1/responses`. If false, Prompt VPN
+    /// Whether the upstream natively supports `/v1/responses`. If false, ZFX VPN
     /// translates Responses requests into Chat Completions.
     #[serde(default)]
     pub supports_responses: bool,

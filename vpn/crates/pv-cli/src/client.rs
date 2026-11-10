@@ -82,7 +82,7 @@ pub fn render(client: Client, existing: Option<&str>, base_url: &str, api_key: &
         Client::Codex => {
             let mut doc: toml_edit::DocumentMut = existing.unwrap_or("").parse().context("existing codex config.toml is not valid TOML")?;
             let mut prov = toml_edit::Table::new();
-            prov["name"] = toml_edit::value("Prompt VPN (local privacy proxy)");
+            prov["name"] = toml_edit::value("ZFX VPN (local privacy gateway)");
             prov["base_url"] = toml_edit::value(base_url);
             prov["env_key"] = toml_edit::value("PROMPTVPN_API_KEY");
             prov["wire_api"] = toml_edit::value("responses");
@@ -91,13 +91,13 @@ pub fn render(client: Client, existing: Option<&str>, base_url: &str, api_key: &
                 t.set_implicit(true);
                 doc["model_providers"] = toml_edit::Item::Table(t);
             }
-            doc["model_providers"]["promptvpn"] = toml_edit::Item::Table(prov);
-            doc["model_provider"] = toml_edit::value("promptvpn");
+            doc["model_providers"]["zfx-vpn"] = toml_edit::Item::Table(prov);
+            doc["model_provider"] = toml_edit::value("zfx-vpn");
             Ok(doc.to_string())
         }
         Client::Aider => {
             let mut lines: Vec<String> = existing.unwrap_or("").lines().filter(|l| !l.starts_with("openai-api-base:") && !l.starts_with("openai-api-key:")).map(String::from).collect();
-            lines.push("# Added by Prompt VPN (rollback: promptvpn client rollback aider)".into());
+            lines.push("# Added by ZFX VPN (rollback: zfx-vpn client rollback aider)".into());
             lines.push(format!("openai-api-base: {base_url}"));
             lines.push(format!("openai-api-key: {api_key}"));
             Ok(lines.join("\n") + "\n")
@@ -110,11 +110,11 @@ pub fn render(client: Client, existing: Option<&str>, base_url: &str, api_key: &
             if !v["provider"].is_object() {
                 v["provider"] = json!({});
             }
-            v["provider"]["promptvpn"] = json!({
+            v["provider"]["zfx-vpn"] = json!({
                 "npm": "@ai-sdk/openai-compatible",
-                "name": "Prompt VPN (local privacy proxy)",
+                "name": "ZFX VPN (local privacy gateway)",
                 "options": {"baseURL": base_url, "apiKey": api_key},
-                "models": {"default": {"name": "Prompt VPN default destination"}}
+                "models": {"default": {"name": "ZFX VPN default destination"}}
             });
             Ok(serde_json::to_string_pretty(&v)? + "\n")
         }
@@ -127,7 +127,7 @@ pub fn render(client: Client, existing: Option<&str>, base_url: &str, api_key: &
 /// original backup is kept so repeated runs stay idempotent and rollback still
 /// restores the user's true original.
 pub fn configure(client: Client, home: &Path, backups: &Path, base_url: &str, api_key: &str, app_id: &str, prior_backup: Option<&str>) -> Result<ClientIntegration> {
-    let path = client.config_path(home).context("this client has no config file; use `promptvpn connect show`")?;
+    let path = client.config_path(home).context("this client has no config file; use `zfx-vpn connect show`")?;
     let existing = std::fs::read_to_string(&path).ok();
     let rendered = render(client, existing.as_deref(), base_url, api_key)?;
     std::fs::create_dir_all(backups)?;
@@ -146,7 +146,7 @@ pub fn configure(client: Client, home: &Path, backups: &Path, base_url: &str, ap
     if let Some(d) = path.parent() {
         std::fs::create_dir_all(d)?;
     }
-    let tmp = path.with_extension("promptvpn.tmp");
+    let tmp = path.with_extension("zfx-vpn.tmp");
     std::fs::write(&tmp, rendered)?;
     #[cfg(unix)]
     {
@@ -196,9 +196,9 @@ mod tests {
         let rec2 = configure(Client::Codex, home.path(), &backups, "http://127.0.0.1:8787/v1", "pvk_x", "app_1", rec.backup_path.as_deref()).unwrap();
         assert_eq!(rec.backup_path, rec2.backup_path);
         let now = std::fs::read_to_string(&p).unwrap();
-        assert_eq!(now.matches("[model_providers.promptvpn]").count(), 1);
+        assert_eq!(now.matches("[model_providers.zfx-vpn]").count(), 1);
         assert!(now.contains("# my settings") && now.contains("[model_providers.other]"));
-        assert!(now.contains("[model_providers.promptvpn]") && now.contains("model_provider = \"promptvpn\""));
+        assert!(now.contains("[model_providers.zfx-vpn]") && now.contains("model_provider = \"zfx-vpn\""));
         assert!(!now.contains("pvk_x"), "codex reads the key from PROMPTVPN_API_KEY");
         rollback(&rec).unwrap();
         assert_eq!(std::fs::read_to_string(&p).unwrap(), original);
@@ -210,7 +210,7 @@ mod tests {
         let p = home.path().join(".config/opencode/opencode.json");
         let rec = configure(Client::Opencode, home.path(), &home.path().join("b"), "http://127.0.0.1:8787/v1", "pvk_y", "app", None).unwrap();
         let v: Value = serde_json::from_str(&std::fs::read_to_string(&p).unwrap()).unwrap();
-        assert_eq!(v["provider"]["promptvpn"]["options"]["baseURL"], "http://127.0.0.1:8787/v1");
+        assert_eq!(v["provider"]["zfx-vpn"]["options"]["baseURL"], "http://127.0.0.1:8787/v1");
         rollback(&rec).unwrap();
         assert!(!p.exists());
     }

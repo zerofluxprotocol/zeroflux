@@ -2,13 +2,14 @@
 # Regenerate the legacy install fixture with the ORIGINAL Prompt VPN binary.
 #   sh generate.sh <path to promptvpn 0.1.0 binary> <output dir>
 # The binary must be built from the import commit (promptvpn d2ac753), e.g.
-#   git archive 499f9f6:vpn | tar -x -C /tmp/pv-old && (cd /tmp/pv-old && cargo build -p pv-cli)
+#   git -C <repo root> archive 499f9f6:vpn | tar -x -C /tmp/pv-old && (cd /tmp/pv-old && cargo build -p pv-cli)
 # All values are synthetic. The file key backend is used so the data key is
 # part of the fixture; the keychain path is covered by tests/migration/keychain_e2e.sh.
 set -eu
 B=$1; OUT=$2
 free_port() { python3 -c 'import socket;s=socket.socket();s.bind(("127.0.0.1",0));print(s.getsockname()[1])'; }
 P=$(free_port); M=$(free_port)
+echo "$P $M" >"$OUT/ports"
 export PV_HOME="$OUT/home" PV_KEY_BACKEND=file
 "$B" mock-upstream --listen "$M" --record "$OUT/rec.jsonl" >"$OUT/mock.log" 2>&1 &
 MOCK=$!

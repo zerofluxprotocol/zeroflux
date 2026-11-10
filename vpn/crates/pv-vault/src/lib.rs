@@ -79,7 +79,7 @@ impl Vault {
                     |r| r.get(0),
                 )?;
                 if has_records > 0 {
-                    return Err(VaultError::Locked(format!("no data key in {} but encrypted records exist; restore with `promptvpn vault recover`", backend.name())));
+                    return Err(VaultError::Locked(format!("no data key in {} but encrypted records exist; restore with `zfx-vpn vault recover`", backend.name())));
                 }
                 let ks = KeySet::generate("k1");
                 backend.store(&ks).map_err(VaultError::Backend)?;
