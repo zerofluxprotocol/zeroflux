@@ -18,6 +18,7 @@ C++ implementations except the specification.
 import argparse
 import hashlib
 import json
+import signal
 import struct
 import sys
 import time
@@ -365,6 +366,8 @@ def bench(b, profile, count, batch):
 
 
 def main():
+    # zfx-miner closes our stdout when it stops; exit quietly instead of a BrokenPipe traceback.
+    signal.signal(signal.SIGPIPE, signal.SIG_DFL)
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", nargs="?", default="serve")
     ap.add_argument("path", nargs="?")

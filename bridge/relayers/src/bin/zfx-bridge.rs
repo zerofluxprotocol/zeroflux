@@ -352,6 +352,12 @@ async fn main() {
                 let _ = req.respond(tiny_http::Response::from_string(v.to_string()));
             };
             let mut work_cache: Option<(std::time::Instant, Value)> = None;
+            let mut balance_ok: Option<(std::time::Instant, bool)> = None;
+            // Keep a reserve so the same account can still pay for `finalize` (which returns
+            // bonds) and for challenges. Spending it all on bonds deadlocks: no finalize, so no
+            // bonds come back.
+            const RESERVE: u128 = 300_000_000_000_000_000_000_000; // 0.3 NEAR
+            const SUBMIT_GAS_COST: u128 = 50_000_000_000_000_000_000_000; // 50 Tgas prepaid, upper bound
             for mut req in server.incoming_requests() {
                 let url = req.url().to_string();
                 if url.starts_with("/v1/work") {
@@ -359,6 +365,23 @@ async fn main() {
                     // WORK_CACHE so a public RPC isn't hit at that rate. A stale answer only costs
                     // a rejected stale-height submit, which the miner already handles.
                     const WORK_CACHE: std::time::Duration = std::time::Duration::from_millis(1500);
+                    // Out of bond money: hand out no work until bonds come back, so the miner
+                    // waits instead of finding blocks it can't submit. Balance checked at most
+                    // every 10 s.
+                    if optimistic {
+                        let stale = balance_ok.as_ref().map(|(at, _)| at.elapsed() > std::time::Duration::from_secs(10)).unwrap_or(true);
+                        if stale {
+                            let have = near.view_account(&s.account_id).ok().and_then(|a| a["amount"].as_str().and_then(|v| v.parse::<u128>().ok()));
+                            balance_ok = Some((std::time::Instant::now(), have.map(|h| h >= bond + SUBMIT_GAS_COST + RESERVE).unwrap_or(true)));
+                        }
+                        if let Some((_, false)) = balance_ok {
+                            respond(
+                                req,
+                                json!({"error": "waiting for pending blocks to finalize and return their bonds (keeping 0.3 NEAR for finalize and challenges)"}),
+                            );
+                            continue;
+                        }
+                    }
                     if let Some((at, v)) = &work_cache {
                         if at.elapsed() < WORK_CACHE {
                             let v = v.clone();
@@ -398,17 +421,13 @@ async fn main() {
                     let b: Value = serde_json::from_str(&body).unwrap_or(Value::Null);
                     let height = b["work_id"].as_str().unwrap_or("0").to_string();
                     let nonce = b["nonce"].as_str().map(String::from).unwrap_or_else(|| b["nonce"].to_string());
-                    // Keep a reserve so the same account can still pay for `finalize` (which
-                    // returns bonds) and for challenges. Spending it all on bonds deadlocks:
-                    // no finalize, so no bonds come back.
-                    const RESERVE: u128 = 300_000_000_000_000_000_000_000; // 0.3 NEAR
-                    const SUBMIT_GAS_COST: u128 = 50_000_000_000_000_000_000_000; // 50 Tgas prepaid, upper bound
                     if optimistic {
                         let have = near.view_account(&s.account_id).ok().and_then(|a| a["amount"].as_str().and_then(|v| v.parse::<u128>().ok()));
                         if let Some(have) = have {
                             if have < bond + SUBMIT_GAS_COST + RESERVE {
                                 let msg = "not enough NEAR for another bond while keeping 0.3 NEAR for finalize and challenges: mining resumes as pending blocks finalize and return their bonds";
                                 eprintln!("[near-mine-proxy] {}", msg);
+                                balance_ok = Some((std::time::Instant::now(), false));
                                 respond(req, json!({"accepted": false, "error": msg}));
                                 continue;
                             }
