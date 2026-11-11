@@ -5,15 +5,38 @@
   </picture>
 </p>
 
-# ZeroFlux (ZFX)
+# ZeroFlux
 
-ZeroFlux is a proof-of-work network on NEAR. ZFX is its token, created only by proof of work, and the work is the computation AI accelerators are built for: batched int8/FP8 matrix multiplies. Miners run it on NVIDIA and AMD data-center GPUs, Apple Silicon or any CPU. NEAR holds the ledger and referees every block: a block is accepted unless someone proves it wrong within a challenge window, and a fraud proof needs NEAR to recompute only one value.
+**ZeroFlux is the economic layer for AI compute.** Earn from idle hardware. Build privately with AI. Trade AI demand.
+
+| | Product | What it is | State |
+|---|---|---|---|
+| **Earn** | [ZFX Mining](#earn-zfx-mining) | Proof of work made of the integer matrix math AI chips run fastest. ZFX is a NEAR token minted only for mined blocks; NEAR referees every block | Live on NEAR testnet at `zfx.zeroflux.testnet` |
+| **Build** | [ZFX VPN](vpn/README.md) | A private AI endpoint for the models you already use: keeps your users' data and your own coding-agent sessions out of model prompts | Local app (macOS); hosted gateway built, not hosted publicly |
+| **Trade** | [ZFX Markets](markets/README.md) | A daily index of AI model demand from OpenRouter usage, and perpetuals on it that clear on NEAR | Index published daily; perps on NEAR testnet, paper only |
+
+Site: [zeroflux.network](https://zeroflux.network). Docs: [zeroflux.network/docs](https://zeroflux.network/docs/) (every page also as Markdown; [llms.txt](https://zeroflux.network/llms.txt)).
 
 ```
-TESTNET ONLY      MAINNET_READY = false      no monetary value
+TESTNET ONLY      MAINNET_READY = false      no monetary value      no real-money trading
 ```
 
-## How it works
+## Earn: ZFX Mining
+
+ZFX is created only by proof of work, and the work is the computation AI accelerators are built for: batched int8/FP8 matrix multiplies. Miners run it on NVIDIA and AMD data-center GPUs, Apple Silicon or any CPU. NEAR holds the ledger and referees every block: a block is accepted unless someone proves it wrong within a challenge window, and a fraud proof needs NEAR to recompute only one value.
+
+### Mine on NEAR testnet
+
+```
+cargo build --release
+near account create-account sponsor-by-faucet-service you.testnet \
+  autogenerate-new-keypair save-to-legacy-keychain network-config testnet create   # free, from the official faucet
+scripts/mine-testnet.sh you.testnet mlx      # or cpu, mps, cuda, hip
+```
+
+The script registers the account with the token, then runs the mining proxy, a watcher, a finalizer and the miner. Each pending block holds a 0.25 NEAR bond for its 10-minute challenge window, so keep about 4 NEAR in the account; the faucet gives 10.
+
+### How it works
 
 1. **Mine off-chain.** Each attempt runs a 64 → 4096 → 4096 → 4096 → 4096 → 256 network of integer matrix layers (51.6 M multiply-adds) and hashes the output. A block is found when the hash is below the target. The challenge commits to the miner's NEAR account, so a found solution is useless to anyone else.
 2. **Submit to NEAR** (`zfx-mine-opt` contract, about 6 Tgas). The miner posts the nonce, the four intermediate layers and the outputs of the winning attempt, plus a bond. The contract checks the output hash against the target and keeps the block pending.
@@ -57,20 +80,34 @@ stateDiagram-v2
 
 Security assumption: at least one honest watcher checks pending blocks within the window (the watcher ships with the mining tools, and catching fraud pays the cheater's bond).
 
-## Quick start
+### Run everything locally
 
 ```
 cargo build --release && make -C miner/cuda cpu
-./target/release/zpu-cli selftest                     # bit-exact against the published vectors
+./target/release/zfx-miner selftest                     # bit-exact against the published vectors
 make localnet                                         # NEAR sandbox + ZFX contract + watcher + mining proxies
-./target/release/zpu-cli mine --node http://127.0.0.1:9561              # CPU
-./target/release/zpu-cli mine --node http://127.0.0.1:9561 \
+./target/release/zfx-miner mine --node http://127.0.0.1:9561              # CPU
+./target/release/zfx-miner mine --node http://127.0.0.1:9561 \
     --backend exec --exec ".venv/bin/python miner/python/zpu_miner.py --backend mlx"   # Apple GPU
 ```
 
 GPU miners: `make -C miner/cuda cuda` or `make -C miner/cuda hip`, then `--backend exec --exec "miner/cuda/build/zpu-miner-cuda --backend gpu --gemm blas-int8"`. See `docs/HARDWARE.md`.
 
 Prerequisites: Rust 1.90+, `cargo-near`, a C++17 compiler, Python 3.11+ with `uv` (`uv venv .venv && uv pip install --python .venv/bin/python numpy jsonschema websockets ziglang`, plus `torch`/`mlx` for Apple GPUs). The NEAR sandbox needs liblzma; see `docs/OPERATOR_RUNBOOK.md`.
+
+## Build: ZFX VPN
+
+```
+curl -fsSL https://raw.githubusercontent.com/zerofluxprotocol/zeroflux/main/vpn/install.sh | sh
+zfx-vpn init && zfx-vpn connect test
+export OPENAI_BASE_URL=http://127.0.0.1:8787/v1
+```
+
+Details, modes and privacy tiers: [vpn/README.md](vpn/README.md). Threat model: [docs/VPN_THREAT_MODEL.md](docs/VPN_THREAT_MODEL.md). Prompt VPN installs upgrade in place and the `promptvpn` command keeps working.
+
+## Trade: ZFX Markets
+
+See [markets/README.md](markets/README.md): the index ([docs/DATA_METHOD.md](docs/DATA_METHOD.md)) and the `zfx-perps` exchange ([docs/ORDERBOOK_AND_CLEARING.md](docs/ORDERBOOK_AND_CLEARING.md), [docs/MARKET_RISK.md](docs/MARKET_RISK.md)).
 
 ## Tests
 
@@ -89,11 +126,15 @@ Prerequisites: Rust 1.90+, `cargo-near`, a C++17 compiler, Python 3.11+ with `uv
 | `bridge/near/zfx-mine-opt` | the ZFX contract: NEP-141 token, optimistic proof-of-work checking, bonds, fraud proofs |
 | `bridge/near/near-pow` | the consensus PoW code compiled for NEAR contracts |
 | `crates/zfx-verify` | proof of work, test vectors, difficulty |
-| `miner/` | `zpu-cli` (Rust), `zpu-miner` (C++ CPU/CUDA/HIP), `zpu_miner.py` (NumPy/PyTorch/MLX) |
+| `miner/` | `zfx-miner` (Rust; also installed as `zpu-cli`), `zpu-miner` (C++ CPU/CUDA/HIP), `zpu_miner.py` (NumPy/PyTorch/MLX) |
 | `bridge/relayers` | `zfx-bridge`: mining proxy, watcher, NEAR client and tools |
 | `bridge/intents` | NEAR Intents adapter and test solver |
-| `deploy/near_local.py`, `scripts/deploy_testnet.py` | local stack and testnet deployment |
-| `docs/` | `NEAR_SETTLEMENT.md` (design and measured gas), `CONSENSUS.md`, `ALGORITHM_DECISION.md`, `HARDWARE.md`, `THREAT_MODEL.md`, others |
+| `deploy/near_local.py`, `scripts/deploy_testnet.py`, `scripts/mine-testnet.sh` | local stack, testnet deployment, testnet mining |
+| `vpn/` | ZFX VPN: local daemon and CLI (`zfx-vpn`), dashboard, hosted gateway (`vpn/hosted`), demos |
+| `markets/index/` | ZFX Markets index: ingestion, ledger, formula, signed oracle prints, publisher, API |
+| `markets/zfx-perps/` | ZFX Markets exchange: matching engine, node, NEAR clearing contract, SDKs |
+| `site/` | zeroflux.network: pages, partials and the docs renderer |
+| `docs/` | `REPO_AUDIT.md`, `RELEASE_READINESS.md`, `NEAR_SETTLEMENT.md` (design and measured gas), `CONSENSUS.md`, `ALGORITHM_DECISION.md`, `HARDWARE.md`, `THREAT_MODEL.md`, others |
 
 ### Alternatives, kept and tested
 
