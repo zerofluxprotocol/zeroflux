@@ -279,8 +279,9 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
         <div class="ph"><span class="lbl">How these perps work</span></div>
         <div class="how">
           <div><b>Index</b><span>The 7-day average of what each model's OpenRouter usage cost, in USD per day. A new day lands after 00:00 UTC. Not the model's revenue.</span></div>
-          <div><b>Mark</b><span>Set by trading on the order book: where traders think demand is heading.</span></div>
-          <div><b>Funding</b><span>Paid between longs and shorts while mark and index differ, so the perp tracks the index.</span></div>
+          <div><b>Trading</b><span>An order book: you buy or sell against other traders' orders, at prices within 50% of the mark.</span></div>
+          <div><b>Mark</b><span>The price margin and liquidation use. It follows the daily index, moving at most 20% per print, so one day can't wipe out a healthy position.</span></div>
+          <div><b>Funding</b><span>Every 8 hours, whichever side the order book favors pays the other, so trading prices stay near the index.</span></div>
           <div><b>Caps</b><span>Open interest per market is capped at 25% of the model's 7-day spend, so pushing the index costs more than it can win.</span></div>
           <div><b>Status</b><span>Index live on NEAR testnet. Trading is in private beta.</span></div>
         </div>
