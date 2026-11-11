@@ -216,8 +216,24 @@ SITE_VARS = {
 
 
 def trade_table():
-    """Top models from the published index snapshot, if one is in the repo."""
-    return ""
+    """Top markets by 7-day index, from the board built by build_trade()."""
+    import json
+    bp = os.path.join(DIST, "trade", "board.json")
+    if not os.path.exists(bp):
+        return ""
+    b = json.load(open(bp))
+
+    def usd(v):
+        v = float(v)
+        return f"${v / 1e6:,.2f}M" if v >= 1e6 else f"${v / 1e3:,.1f}K"
+    rows = sorted((m for m in b["markets"] if m.get("index_7d_usd")), key=lambda m: -float(m["index_7d_usd"]))[:6]
+    tr = "".join(
+        f'<tr><td>{html.escape(m["name"])}<span class="sub">{html.escape(m["author"])}</span></td><td class="n">{usd(m["index_7d_usd"])}</td>'
+        f'<td class="n">{float(m["change_7d"]) * 100:+.2f}%</td><td class="n">{usd(m["manipulation_cost_usd_per_pct"])}</td><td class="n">{usd(m["max_open_interest_usd"])}</td></tr>'
+        for m in rows)
+    return ('<table class="ixtable"><thead><tr><th>Model</th><th class="n">7-day index, per day</th><th class="n">7D change</th>'
+            '<th class="n">Cost to move 1%</th><th class="n">OI cap</th></tr></thead><tbody>' + tr + '</tbody></table>'
+            f'<p class="ixnote">Day ending {html.escape(b["latest_day"])} UTC. {html.escape(b["attribution"])}. Implied spend, not revenue.</p>')
 
 
 def render_pages():
@@ -240,11 +256,74 @@ def render_pages():
 
 
 
+INDEX_PUBLIC_CANDIDATES = [os.environ.get("ZFX_INDEX_PUBLIC", ""), os.path.expanduser("~/.local/share/zfx-index/public"),
+                           os.path.join(ROOT, "markets", "index", "public")]
+VENUE_HOWTO = "git clone https://github.com/zerofluxprotocol/zeroflux && cd zeroflux/markets/zfx-perps\n# then follow README.md: Run against NEAR testnet"
+
+
+def index_public():
+    for c in INDEX_PUBLIC_CANDIDATES:
+        if c and os.path.exists(os.path.join(c, "v1", "markets", "models.json")):
+            return c
+    return None
+
+
+def ticker(slug):
+    base = slug.split("/", 1)[-1]
+    base = re.sub(r"-(20\d{6})$", "", base)
+    return base.upper()
+
+
+def build_trade():
+    """/trade (the ZFX Markets app), /v1 (the published index as static files) and /trade/board.json."""
+    pub = index_public()
+    app = os.path.join(ROOT, "markets", "apps", "trade")
+    if not pub or not os.path.exists(app):
+        return None
+    shutil.copytree(os.path.join(pub, "v1"), os.path.join(DIST, "v1"))
+    os.makedirs(os.path.join(DIST, "trade"), exist_ok=True)
+    for f in os.listdir(app):
+        if f.endswith((".html", ".js", ".css")):
+            shutil.copy(os.path.join(app, f), os.path.join(DIST, "trade", f))
+    import json
+    models = json.load(open(os.path.join(pub, "v1", "markets", "models.json")))
+    rows, latest_day = [], None
+    for m in models["markets"]:
+        l7 = (m.get("index_7d") or {}).get("latest") or {}
+        ld = m.get("latest") or {}
+        spark = []
+        sp = os.path.join(pub, "v1", "indices", "or-model-spend-7d", m["permaslug"], "series.json")
+        if os.path.exists(sp):
+            pts = json.load(open(sp))["points"][-30:]
+            spark = [p["value_usd"] if p.get("data_status") == "OK" else "0" for p in pts]
+        if ld.get("utc_date") and (latest_day is None or ld["utc_date"] > latest_day):
+            latest_day = ld["utc_date"]
+        name = m.get("name") or m["permaslug"]
+        rows.append({
+            "market_id": m["market_id"], "permaslug": m["permaslug"], "ticker": ticker(m["permaslug"]),
+            "name": name.split(": ", 1)[-1], "author": name.split(": ", 1)[0] if ": " in name else m.get("author", ""),
+            "open_weights": bool(m.get("hugging_face_id")),
+            "index_7d_usd": l7.get("value_usd") if l7.get("data_status") == "OK" else None, "status_7d": l7.get("data_status"),
+            "change_7d": l7.get("change_vs_prev"), "manipulation_cost_usd_per_pct": l7.get("manipulation_cost_usd_per_pct"),
+            "max_open_interest_usd": l7.get("max_open_interest_usd"), "print_hash_7d": l7.get("print_hash"),
+            "lifecycle": l7.get("lifecycle") or (m.get("lifecycle") or {}).get("status") or "PROPOSED",
+            "lifecycle_reason": l7.get("reason") or (m.get("lifecycle") or {}).get("reason"),
+            "latest_day": ld.get("utc_date"), "latest_day_usd": ld.get("value_usd") if ld.get("data_status") == "OK" else None,
+            "tokens_total": (ld.get("tokens") or {}).get("total"), "confidence": ld.get("confidence"), "spark_7d": spark,
+        })
+    board = {"generated_at": models.get("generated_at"), "latest_day": latest_day, "notice": models.get("notice"),
+             "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of " + str(models.get("generated_at")),
+             "formula": models.get("formula"), "venue_howto": VENUE_HOWTO, "markets": rows}
+    json.dump(board, open(os.path.join(DIST, "trade", "board.json"), "w"), separators=(",", ":"))
+    return len(rows)
+
+
 def main():
     shutil.rmtree(DIST, ignore_errors=True)
     os.makedirs(os.path.join(DIST, "docs"))
     shutil.copytree(os.path.join(SITE, "static"), os.path.join(DIST, "static"), ignore=shutil.ignore_patterns("*.txt"))
     open(os.path.join(DIST, "static", "docs.css"), "w").write(CSS)
+    n_markets = build_trade()
     render_pages()
     md = markdown.Markdown(extensions=["tables", "fenced_code", "sane_lists", "toc"])
     llms = ["# ZeroFlux", "", "> ZeroFlux is a proof-of-work network on NEAR. ZFX is its token. Each page below is plain Markdown.", ""]
@@ -285,7 +364,7 @@ def main():
                         leaks.append((f, bad))
     if leaks:
         raise SystemExit(f"refusing to build: private names in output: {leaks}")
-    print(f"built {DIST}: index + {len(DOCS)} docs")
+    print(f"built {DIST}: pages + {len(DOCS)} docs + trade ({n_markets} markets)")
 
 
 if __name__ == "__main__":
