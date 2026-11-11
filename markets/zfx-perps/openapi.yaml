@@ -15,7 +15,7 @@ info:
       both the predicted state (`pending`) and the state confirmed on-chain (`settled`).
   license: { name: MIT }
 servers:
-  - url: http://127.0.0.1:8796
+  - url: http://127.0.0.1:8900
 paths:
   /v1/health:
     get:
@@ -167,6 +167,21 @@ paths:
       responses:
         "200": { description: ok, content: { application/json: { schema: { $ref: "#/components/schemas/Portfolio" } } } }
         "401": { $ref: "#/components/responses/Error" }
+  /v1/fills/{account}:
+    get:
+      summary: Recent fills of the account, newest first, since node start (authenticated read, same headers as portfolio)
+      parameters:
+        - { name: account, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account: { type: string }
+                  fills: { type: array, items: { type: object, properties: { market: { type: string }, order_id: { type: integer }, trade_id: { type: integer }, role: { enum: [maker, taker] }, side: { type: string }, price: { type: integer }, qty: { type: integer }, fee: { $ref: "#/components/schemas/Int" }, remaining: { type: [integer, "null"] }, ts_ns: { type: integer } } } }
   /v1/ws:
     get:
       summary: WebSocket
@@ -237,6 +252,11 @@ components:
         mark: { $ref: "#/components/schemas/Int" }
         mark_fresh: { type: boolean }
         open_interest: { $ref: "#/components/schemas/Int" }
+        open_interest_notional: { $ref: "#/components/schemas/Int" }
+        index_ticks: { $ref: "#/components/schemas/Int" }
+        print_move_flag: { type: boolean }
+        permaslug: { type: string, description: "index_id after its first '/'" }
+        funding: { type: object, properties: { last_rate_ppm: { type: integer }, cum_funding: { $ref: "#/components/schemas/SignedInt" }, last_funding_ns: { $ref: "#/components/schemas/Int" }, next_funding_ns: { $ref: "#/components/schemas/Int" } } }
         bad_debt: { $ref: "#/components/schemas/Int" }
     Book:
       type: object

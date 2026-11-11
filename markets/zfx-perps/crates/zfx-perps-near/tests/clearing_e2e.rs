@@ -96,6 +96,7 @@ fn node_cfg(dir: &std::path::Path, contract: &str, collateral: &str, insurance: 
         insurance_account: None,
         funding_interval_ms: 3_600_000,
         oracle: None,
+        cors_allow: vec!["*".into()],
         clearing: Some(ClearingCfg {
             chain_id: "near:sandbox".into(),
             contract: contract.into(),

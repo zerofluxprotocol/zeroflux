@@ -43,24 +43,76 @@ scripts/build-contracts.sh                                   # out/zfx_perps_cle
 cargo test -p zfx-perps-near --test clearing_e2e -- --nocapture   # chain + node + relayer, open and close
 ```
 
-## Testnet
+## Run against NEAR testnet
+
+The live testnet deployment is `perps-v2.zeroflux.testnet`: 28 licensed 7-day model markets,
+collateral `tusdc-perps.zeroflux.testnet` (open faucet). Accounts and every transaction are in
+`TESTNET.md`. To run your own node and relayer against it you need the operator key, i.e. the
+stack file `~/.config/zeroflux/perps-v2-testnet-stack.json` from the deployer. Anyone else can
+run a read-only node, but only the operator's relayer can settle.
 
 ```sh
-B=target/release; S=~/.config/zeroflux/perps-testnet-stack.json
-$B/zfx-perps-near clearing-deploy --rpc https://rpc.testnet.fastnear.com --master zeroflux.testnet \
-  --master-credentials ~/.near-credentials/testnet/zeroflux.testnet.json --chain-id near:testnet \
-  --reporters <reporter ed25519 hex> --out $S
-python3 -I deploy/testnet/params_from_models.py <models.json> anthropic/claude-opus-5.5-20260921 OPUS-7D-PERP > m.json
-$B/zfx-perps-near clearing-market --stack $S --params m.json
-$B/zfx-perps-near clearing-node-config --stack $S --data data/testnet/node --admin-token $TOKEN > data/testnet/node.json
-$B/zfx-perps-node --config data/testnet/node.json &
-$B/zfx-perps-near clearing-adapter --stack $S --admin-token $TOKEN --log data/testnet/relayer-batches.jsonl &
-cd packages/sdk-ts && ZFX_STACK=$S ZFX_ADMIN_TOKEN=$TOKEN ZFX_PRINTS=<prints/latest.json> \
-  ZFX_KEYS=~/.config/zeroflux/perps-testnet-traders.json ZFX_OUT=../../research/data/testnet_e2e.json \
-  pnpm dlx tsx examples/testnet-e2e.ts
+cd markets/zfx-perps
+scripts/build-contracts.sh && cargo build --release -p zfx-perps-node -p zfx-perps-near
+B=target/release; S=~/.config/zeroflux/perps-v2-testnet-stack.json
+TOKEN=$(cat ~/.config/zeroflux/perps-v2-testnet-admin-token)       # any 16+ char secret
+PRINTS=~/.local/share/zfx-index/public/v1/indices/prints/latest.json   # or the publisher's https URL
+$B/zfx-perps-near clearing-node-config --stack $S --data data/testnet-v2/node \
+  --listen 127.0.0.1:8900 --admin-token "$TOKEN" --print-feed "$PRINTS" > data/testnet-v2/node.json
+$B/zfx-perps-node --config data/testnet-v2/node.json &                 # REST + WS on 127.0.0.1:8900
+$B/zfx-perps-near clearing-adapter --stack $S --node http://127.0.0.1:8900 --admin-token "$TOKEN" \
+  --log data/testnet-v2/relayer-batches.jsonl &
+curl -s http://127.0.0.1:8900/v1/markets | head -c 400
 ```
 
-`clearing-deploy` refuses mainnet RPC URLs.
+The node rebuilds from `data/testnet-v2/node` on restart, and the relayer is stateless. The print
+feed is polled every minute; the contract accepts only newer, reporter-signed prints.
+
+Connect the trade app: open the site's trade page and press *Connect venue* with
+`http://127.0.0.1:8900`, or pass `?venue=http://127.0.0.1:8900`.
+
+**Browser access (CORS).** `cors_allow` in the node config defaults to
+`["https://zeroflux.network", "http://127.0.0.1:*", "http://localhost:*"]`, where `*` stands for
+any port. Preflights get `Access-Control-Allow-Private-Network: true`, so a page on the public
+site may call a node on 127.0.0.1. `"*"` allows every origin.
+
+Wallet steps (register a trading key, deposit) are NEAR transactions from the user's wallet; the
+SDK builds them (`clearing.clearingTx`). `packages/sdk-ts/examples/testnet-e2e.ts` runs the whole
+flow with near-api-js.
+
+### Venue API for the trade app
+
+All numbers are decimal strings except book levels, bps and enums. Prices are ticks: the market's
+`index_units_per_tick` index units per tick, so 1 tick = $1 of index per day on these markets.
+Sizes are lots, and the notional of `q` lots at price `p` is `q × p × tick_value` tUSDC atoms (6
+decimals). Match a board market to a venue market by `params.index_id ==
+"or-model-spend-lic-7d/" + permaslug` (also given as `permaslug`). On-chain market ids are
+`[A-Z0-9-]` and differ from the board's `market_id`.
+
+| Need | Call | Shape |
+|---|---|---|
+| Deployment | `GET /v1/info` | `{chain_id, clearing_contract, collateral, collateral_decimals, insurance_account, mode}` |
+| Markets with mark, funding, OI | `GET /v1/markets` | `{chain_id, clearing_contract, collateral, markets: [{market_id, permaslug, params{...MarketParams, index_id, tick_value, max_open_interest_notional, ...}, policy_hash, status, effective_status, mark, index_ticks, mark_fresh, print_move_flag, open_interest (lots), open_interest_notional (atoms), bad_debt, funding: {last_rate_ppm, cum_funding, last_funding_ns, next_funding_ns}}]}` |
+| Funding detail | `GET /v1/funding/{market}` | `{last_rate_ppm, cum_funding, next_funding_ns, window_vwap_e6, history: [{ts_ns, rate_ppm, pay_per_lot}]}` |
+| Oracle and provenance | `GET /v1/oracle/{market}` | `{mark, mark_fresh, effective_status, reporters, quorum, print: {hash, canonical_hex, signatures, value, status, data_status, source_start_ms, source_end_ms, published_at_ms, valid_until_ms, revision}}`; verify with SDK `checkOracle` |
+| L2 book | `GET /v1/book/{market}?depth=50`, then WS `{"op":"subscribe","channel":"book","market":M}` | `{channel:"book", type:"snapshot"\|"delta", market, seq, bids: [[price, qty]], asks: [[price, qty]]}`, levels as JSON integers, qty 0 removes a level, seq strictly increasing (a gap means re-subscribe); SDK `subscribeBook` handles this |
+| Trades | `GET /v1/trades/{market}?limit=100`, WS channel `trades` | `{market, trades: [{trade_id, price, qty, taker_side, ts_ns}]}` |
+| Positions, free collateral, open orders | `GET /v1/portfolio/{account}` (signed headers) | `{account, pending: {free, positions: [P]}, settled: {free, positions: [P]}, min_nonce, action_nonce, open_orders: [{order_id, order_hash, market, side, price, quantity, remaining, nonce, expiry_ns, client_order_id}], last_settled_batch, unconfirmed_batches, pending_ops}` where `P = {market, size, margin, equity, mark, initial_margin, maintenance_margin, liquidation_price, funding_owed}`. `pending` includes fills not yet settled on NEAR; `settled` is the contract's state |
+| Fills | `GET /v1/fills/{account}` (signed headers), WS account channel `fill` | `{account, fills: [{market, order_id, trade_id, role: "maker"\|"taker", side, price, qty, fee, remaining, ts_ns}]}`, newest first, since node start |
+| Margin estimate | `POST /v1/estimate` `{accountId?, marketId, side, price, quantity}` | `{initial_margin, fee, required_free, free, ok, mark, liquidation_price}` (or SDK `estimateMargin`, local) |
+| Place a signed order | `POST /v1/orders` with SDK `signOrder` output | body `{chainId, clearingContract, accountId, marketId, side, type, price, quantity, reduceOnly, postOnly, timeInForce, nonce, expiryNs, clientOrderId, maxFeeBps, policyHash, publicKey, signature (base64)}`. Reply `{type:"placed", order_id, order_hash, status: "resting"\|"filled"\|"canceled", filled, remaining}` or HTTP 409 `{error, message}` |
+| Cancel | `POST /v1/orders/cancel` `{accountId, orderHash, expiryNs, publicKey, signature, relayOnChain?}` (SDK `cancelOrder`) | `{type:"canceled", order_id, remaining}`; with `relayOnChain` the cancel is also made final on-chain in the next batch |
+| Cancel all | `POST /v1/orders/min_nonce` (SDK `setMinNonce`) | kills every order below the new floor, here and on-chain |
+| Account events | WS `{"op":"auth","account","ts","public_key","signature"}` | `accepted`, `fill`, `canceled`, `rejected`, `position`, `free`, `fill_reverted`, `payout_queued`, `liquidated`, `adl` |
+
+Signed read headers: `x-zfx-perps-key` (`ed25519:<base58>`), `x-zfx-perps-ts` (unix ms, within
+30 s), and `x-zfx-perps-signature` (base64 signature over
+`zfx-perps-auth-v1|<chain_id>|<clearing_contract>|<account>|<ts>`). Each signature can be used
+once, so sign a fresh one per request.
+
+The ledger doesn't store an entry price: isolated margin absorbs every cash flow. For display,
+derive the average entry from `/v1/fills`, and show `equity`, `liquidation_price` and pending
+vs settled.
 
 ## Tests
 

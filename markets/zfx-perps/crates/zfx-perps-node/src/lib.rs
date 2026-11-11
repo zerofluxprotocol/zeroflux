@@ -129,13 +129,34 @@ pub async fn run(cfg: config::Config) -> Result<Running, String> {
                 let mut t = tokio::time::interval(every);
                 loop {
                     t.tick().await;
-                    let Ok(r) = http.get(&url).send().await else { continue };
-                    let Ok(v) = r.json::<serde_json::Value>().await else { continue };
-                    for p in v["prints"].as_array().cloned().unwrap_or_default() {
-                        let Ok(req) = serde_json::from_value::<clearing_api::PrintReq>(p) else { continue };
-                        let Ok(op) = clearing_api::print_op(&req) else { continue };
-                        if let Ok(Ok(_)) = h.submit(zfx_perps_engine::Command::ClearingAction { op: Box::new(op), ts_ns: auth::now_ns() }).await {
-                            tracing::info!(market = req.market, "oracle print accepted");
+                    // An http(s) URL, or a local file path (e.g. the index publisher's output).
+                    let doc: Option<serde_json::Value> = if url.starts_with("http://") || url.starts_with("https://") {
+                        match http.get(&url).send().await {
+                            Ok(r) => r.json().await.ok(),
+                            Err(_) => None,
+                        }
+                    } else {
+                        std::fs::read_to_string(url.trim_start_matches("file://")).ok().and_then(|s| serde_json::from_str(&s).ok())
+                    };
+                    let Some(doc) = doc else {
+                        tracing::warn!(url, "print feed unreadable");
+                        continue;
+                    };
+                    let Ok(markets) = h
+                        .query(|e| {
+                            e.clearing()
+                                .map(|c| c.spec.markets.values().map(|m| (m.params.market_id.clone(), m.params.index_id.clone(), m.params.index_version.clone())).collect::<Vec<_>>())
+                                .unwrap_or_default()
+                        })
+                        .await
+                    else {
+                        return;
+                    };
+                    for (m, op) in clearing_api::feed_ops(&doc, &markets) {
+                        match h.submit(zfx_perps_engine::Command::ClearingAction { op: Box::new(op), ts_ns: auth::now_ns() }).await {
+                            Ok(Ok(_)) => tracing::info!(market = m, "oracle print accepted"),
+                            Ok(Err(r)) => tracing::debug!(market = m, ?r, "print not applied"),
+                            Err(_) => return,
                         }
                     }
                 }

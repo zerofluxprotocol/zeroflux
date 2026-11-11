@@ -130,6 +130,9 @@ pub struct MarketState {
     /// The last usable print moved the index by more than `print_move_close_only_bps`.
     #[serde(default)]
     pub print_move_flag: bool,
+    /// Raw value of the last usable print (print units, not ticks), for the print-move rule.
+    #[serde(default)]
+    pub index_value: u64,
     pub print: Option<PrintInfo>,
     /// Long open interest in lots; always equals short open interest.
     pub open_interest: u64,

@@ -72,6 +72,8 @@ pub struct Shared {
     pub out: broadcast::Sender<Out>,
     /// Latest oracle round per perp market (price and per-source results).
     pub oracle: RwLock<BTreeMap<u16, serde_json::Value>>,
+    /// Recent fills per account (newest last), for `GET /v1/fills/{account}`.
+    pub fills: RwLock<FxHashMap<AccountId, VecDeque<Value>>>,
 }
 
 impl Shared {
@@ -111,6 +113,7 @@ impl Shared {
             published_seq: AtomicU64::new(0),
             out,
             oracle: RwLock::new(BTreeMap::new()),
+            fills: RwLock::new(FxHashMap::default()),
         })
     }
 
@@ -231,14 +234,17 @@ pub fn apply(s: &Shared, events: &[Event]) {
                     ),
                     (*taker, *taker_order, "taker", *taker_side, *taker_fee, None),
                 ] {
-                    send(
-                        s,
-                        Channel::Account,
-                        None,
-                        Some(acct),
-                        json!({"channel": "account", "type": "fill", "market": symbol, "order_id": order, "trade_id": trade_id, "role": role,
-                               "side": side.as_str(), "price": price, "qty": qty, "fee": fee.to_string(), "remaining": remaining, "ts_ns": ts_ns}),
-                    );
+                    let v = json!({"channel": "account", "type": "fill", "market": symbol, "order_id": order, "trade_id": trade_id, "role": role,
+                               "side": side.as_str(), "price": price, "qty": qty, "fee": fee.to_string(), "remaining": remaining, "ts_ns": ts_ns});
+                    {
+                        let mut f = s.fills.write();
+                        let q = f.entry(acct).or_default();
+                        q.push_back(v.clone());
+                        if q.len() > RECENT_TRADES {
+                            q.pop_front();
+                        }
+                    }
+                    send(s, Channel::Account, None, Some(acct), v);
                 }
             }
             Event::Accepted {

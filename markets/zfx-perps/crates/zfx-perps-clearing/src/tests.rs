@@ -547,3 +547,43 @@ fn large_print_move_is_close_only_until_a_clean_print() {
     w.next_print(1_320); // +1.5%: clean again
     assert_eq!(effective_status(&w.s.markets[MKT], Now::at(w.now), grace), MarketStatus::Active);
 }
+
+/// The contract's print-move rule and the index publisher's published `clamped` flag agree on
+/// every day of the real licensed 7D history (54 markets), with the licensed bound of 25%.
+#[test]
+fn print_move_rule_matches_published_clamp_on_real_history() {
+    let data: serde_json::Value = serde_json::from_str(include_str!("../tests/data/lic7d_series.json")).unwrap();
+    let (mut days, mut clamped) = (0, 0);
+    for (id, rows) in data["markets"].as_object().unwrap() {
+        let mut w = World::new();
+        {
+            let m = w.s.markets.get_mut(MKT).unwrap();
+            m.params.print_move_close_only_bps = 2_500;
+            m.params.mark_limit_bps = 1_000_000;
+            m.params.index_units_per_tick = 1;
+            m.params.max_price = u64::MAX / 2;
+            m.mark = 0;
+            m.index_ticks = 0;
+            m.index_value = 0;
+            m.print = None;
+        }
+        for r in rows.as_array().unwrap() {
+            w.advance_day();
+            let p = match r[1].as_u64() {
+                Some(v) => w.print(v, 1),
+                None => w.print_with(0, 1, |p| {
+                    p.status = OracleStatus::Unavailable;
+                    p.data_status = DataStatus::NotReported;
+                }),
+            };
+            w.post_print(&p).unwrap();
+            if r[1].as_u64().is_some() {
+                let published = r[2].as_bool().unwrap();
+                assert_eq!(w.s.markets[MKT].print_move_flag, published, "{id} {}", r[0]);
+                days += 1;
+                clamped += published as u32;
+            }
+        }
+    }
+    assert!(days > 800 && clamped > 0, "{days} days, {clamped} clamped");
+}

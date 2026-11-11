@@ -34,6 +34,21 @@ pub struct App {
     pub auth: Arc<Auth>,
 }
 
+fn cors(cfg: &Config) -> tower_http::cors::CorsLayer {
+    use tower_http::cors::{AllowOrigin, Any, CorsLayer};
+    if cfg.cors_allow.iter().any(|a| a == "*") {
+        return CorsLayer::permissive();
+    }
+    let allow = cfg.cors_allow.clone();
+    CorsLayer::new()
+        .allow_origin(AllowOrigin::predicate(move |o, _| o.to_str().is_ok_and(|o| crate::config::origin_allowed(&allow, o))))
+        .allow_methods(Any)
+        .allow_headers(Any)
+        // A page on a public origin calling a node on 127.0.0.1 needs this preflight header
+        // (Chrome Private Network Access).
+        .allow_private_network(true)
+}
+
 pub fn router(app: App) -> Router {
     if app.cfg.clearing.is_some() {
         return Router::new()
@@ -45,7 +60,7 @@ pub fn router(app: App) -> Router {
             .route("/internal/status", get(status))
             .route("/internal/cut", post(cut))
             .merge(crate::clearing_api::routes(app.clone()))
-            .layer(tower_http::cors::CorsLayer::permissive())
+            .layer(cors(&app.cfg))
             .with_state(app);
     }
     Router::new()
@@ -67,7 +82,7 @@ pub fn router(app: App) -> Router {
         .route("/internal/mark", post(set_mark))
         .route("/internal/funding", post(funding))
         .route("/v1/perp/{market}", get(perp_info))
-        .layer(tower_http::cors::CorsLayer::permissive())
+        .layer(cors(&app.cfg))
         .with_state(app)
 }
 

@@ -203,10 +203,48 @@ pub struct Config {
     /// Clearing mode. Markets then come from the contract's `market_updated` events, not `markets`.
     #[serde(default)]
     pub clearing: Option<ClearingCfg>,
+    /// Browser origins allowed to call the API (CORS). `*` as the port matches any port, e.g.
+    /// `http://127.0.0.1:*`. A single `"*"` allows every origin.
+    #[serde(default = "cors_default")]
+    pub cors_allow: Vec<String>,
     #[serde(default)]
     pub assets: Vec<AssetCfg>,
     #[serde(default)]
     pub markets: Vec<MarketCfg>,
+}
+
+fn cors_default() -> Vec<String> {
+    ["https://zeroflux.network", "http://127.0.0.1:*", "http://localhost:*"].map(String::from).to_vec()
+}
+
+/// Does `origin` match one of the allowed patterns?
+pub fn origin_allowed(allow: &[String], origin: &str) -> bool {
+    allow.iter().any(|a| {
+        if a == "*" || a == origin {
+            return true;
+        }
+        match a.strip_suffix(":*") {
+            Some(base) => origin.strip_prefix(base).is_some_and(|rest| {
+                rest.strip_prefix(':').is_some_and(|port| !port.is_empty() && port.bytes().all(|b| b.is_ascii_digit()))
+            }),
+            None => false,
+        }
+    })
+}
+
+#[cfg(test)]
+mod cors_tests {
+    #[test]
+    fn origin_patterns() {
+        let a = super::cors_default();
+        assert!(super::origin_allowed(&a, "https://zeroflux.network"));
+        assert!(super::origin_allowed(&a, "http://127.0.0.1:5173"));
+        assert!(super::origin_allowed(&a, "http://localhost:8000"));
+        assert!(!super::origin_allowed(&a, "http://127.0.0.1"));
+        assert!(!super::origin_allowed(&a, "http://127.0.0.1:80.evil.com"));
+        assert!(!super::origin_allowed(&a, "https://zeroflux.network.evil.com"));
+        assert!(!super::origin_allowed(&a, "https://evil.com"));
+    }
 }
 
 fn listen() -> String {

@@ -30,6 +30,7 @@ pub fn routes(app: App) -> Router<App> {
         .route("/v1/withdraw", post(withdraw))
         .route("/v1/margin", post(margin))
         .route("/v1/portfolio/{account}", get(portfolio))
+        .route("/v1/fills/{account}", get(fills))
         .route("/v1/openapi.yaml", get(openapi))
         .route("/internal/clearing/events", post(chain_events))
         .route("/internal/clearing/batches", get(batches))
@@ -68,6 +69,11 @@ pub fn market_json(m: &MarketState, now: u64, grace: u64) -> Value {
         "status": m.status.name(), "effective_status": ledger::effective_status(m, Now::at(now), grace).name(),
         "mark": m.mark.to_string(), "index_ticks": m.index_ticks.to_string(), "print_move_flag": m.print_move_flag, "mark_fresh": ledger::mark_fresh(m, Now::at(now), grace),
         "open_interest": m.open_interest.to_string(), "bad_debt": m.bad_debt.to_string(),
+        "open_interest_notional": m.notional(m.open_interest, m.mark).to_string(),
+        "permaslug": p.index_id.split_once('/').map(|x| x.1).unwrap_or(""),
+        "funding": {"last_rate_ppm": m.last_funding_rate_ppm, "cum_funding": m.cum_funding.to_string(),
+                    "last_funding_ns": m.last_funding_ns.to_string(),
+                    "next_funding_ns": (m.last_funding_ns + p.funding_interval_sec * 1_000_000_000).to_string()},
     })
 }
 
@@ -399,6 +405,30 @@ async fn margin(State(app): State<App>, Json(r): Json<MarginReq>) -> Result<Json
     Ok(Json(reply_ack(app.seq.submit(Command::ClearingAction { op: Box::new(op), ts_ns: now_ns() }).await?)?))
 }
 
+/// Check the signed read headers (`x-zfx-perps-key`, `-ts`, `-signature` over the auth message).
+fn read_auth(app: &App, name: &str, h: &HeaderMap) -> Result<u32, ApiError> {
+    let c = cl(app);
+    let hv = |k: &str| {
+        h.get(k)
+            .and_then(|v| v.to_str().ok())
+            .map(String::from)
+            .ok_or_else(|| bad_req(format!("missing header {k}")))
+    };
+    let ts: u64 = hv("x-zfx-perps-ts")?.parse().map_err(|_| bad_req("x-zfx-perps-ts"))?;
+    let msg = wire::auth_message(&c.chain_id, &c.contract, name, ts);
+    let (id, _, _) = app
+        .auth
+        .check(&app.shared, name, &hv("x-zfx-perps-key")?, &hv("x-zfx-perps-signature")?, &msg, Some(ts))?;
+    Ok(id)
+}
+
+/// Recent fills of the account, newest first (pending until their batch settles).
+async fn fills(State(app): State<App>, Path(name): Path<String>, h: HeaderMap) -> Result<Json<Value>, ApiError> {
+    let id = read_auth(&app, &name, &h)?;
+    let f: Vec<Value> = app.shared.fills.read().get(&id).map(|q| q.iter().rev().cloned().collect()).unwrap_or_default();
+    Ok(Json(json!({"account": name, "fills": f})))
+}
+
 async fn portfolio(State(app): State<App>, Path(name): Path<String>, h: HeaderMap) -> Result<Json<Value>, ApiError> {
     let c = cl(&app);
     let hv = |k: &str| {
@@ -618,4 +648,41 @@ pub fn _unused(_: Query<DepthQ>) {}
 
 pub fn published_seq(app: &App) -> u64 {
     app.shared.published_seq.load(Ordering::Relaxed)
+}
+
+/// Oracle ops from a print feed document. Accepts the index publisher's
+/// `v1/indices/prints/latest.json` (`prints[].indexId/version/canonicalHex/reporterSignatures`,
+/// signatures as `ed25519:<pubkey hex>:<signature hex>`), matched to markets by index id and
+/// formula version, or this API's own `{"prints":[{market, print_hex, signatures}]}`.
+pub fn feed_ops(doc: &Value, markets: &[(String, String, String)]) -> Vec<(String, Op)> {
+    let mut out = vec![];
+    for p in doc["prints"].as_array().cloned().unwrap_or_default() {
+        if let Some(index_id) = p["indexId"].as_str() {
+            let (Some(version), Some(hex)) = (p["version"].as_str(), p["canonicalHex"].as_str()) else { continue };
+            let sigs: Vec<SigDto> = p["reporterSignatures"]
+                .as_array()
+                .into_iter()
+                .flatten()
+                .filter_map(|s| {
+                    let mut it = s.as_str()?.split(':');
+                    let (_, pk, sig) = (it.next()?, it.next()?, it.next()?);
+                    let pk = wire::unhex(pk)?;
+                    Some(SigDto { public_key: key_to_str(&pk.try_into().ok()?), signature_hex: sig.to_string() })
+                })
+                .collect();
+            for (m, idx, ver) in markets {
+                if idx == index_id && ver == version {
+                    let req = PrintReq { market: m.clone(), print_hex: hex.to_string(), signatures: sigs.clone() };
+                    if let Ok(op) = print_op(&req) {
+                        out.push((m.clone(), op));
+                    }
+                }
+            }
+        } else if let Ok(req) = serde_json::from_value::<PrintReq>(p) {
+            if let Ok(op) = print_op(&req) {
+                out.push((req.market.clone(), op));
+            }
+        }
+    }
+    out
 }

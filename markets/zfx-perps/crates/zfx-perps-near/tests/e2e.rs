@@ -52,6 +52,7 @@ fn node_cfg(dir: &Path, s: &stack::Stack) -> Config {
         insurance_account: None,
         funding_interval_ms: 3_600_000,
         oracle: None,
+        cors_allow: vec!["*".into()],
         clearing: None,
         assets: s
             .tokens

@@ -30,6 +30,7 @@ impl Near {
         let full = r.into_full().ok_or_else(|| anyhow!("{method}: transaction still pending"))?;
         let gas_burnt = full.total_gas_burnt.as_gas();
         let tx_hash = full.outcomes().first().map(|o| o.transaction_hash.to_string()).unwrap_or_default();
+        self.record(format!("{method} on {contract} by {}", who.id), &tx_hash);
         if full.clone().into_result().is_err() {
             bail!("{method} on {contract} failed (tx {tx_hash}): {}", crate::failure_text(&full));
         }

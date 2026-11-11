@@ -325,6 +325,13 @@ pub fn limit_move(mark: u64, index: u64, limit_bps: u32) -> u64 {
     if index > mark { index.min(mark.saturating_add(step)) } else { index.max(mark.saturating_sub(step).max(1)) }
 }
 
+/// The publisher's jump clamp, on raw print values: the new value differs from the previous
+/// usable (OK) value by more than `bps`. Same definition as the index's `clamped` flag
+/// (`docs/DATA_METHOD.md` 12.4): strict inequality, exact integer arithmetic.
+pub fn print_move_exceeds(prev: u64, value: u64, bps: u32) -> bool {
+    bps > 0 && prev > 0 && (value.abs_diff(prev) as u128) * 10_000 > prev as u128 * bps as u128
+}
+
 /// The contract's listing rule: a print can't move the mark further than a non-liquidatable
 /// position can absorb. `mark_limit + liq_slippage + max funding over one day <= maintenance`.
 pub fn check_solvency_rule(p: &MarketParams) -> Result<(), &'static str> {
@@ -464,6 +471,7 @@ pub fn new_market<C: Crypto>(c: &C, params: MarketParams, now_ns: u64) -> Result
         mark: 0,
         index_ticks: 0,
         print_move_flag: false,
+        index_value: 0,
         print: None,
         open_interest: 0,
         cum_funding: 0,
@@ -1265,9 +1273,8 @@ pub fn oracle<S: Store, C: Crypto>(s: &mut S, c: &C, now: Now, market: &str, byt
                 reason: HaltReason::IndexJump,
             });
         } else {
-            let thr = m.params.print_move_close_only_bps as u128;
-            let prev = m.index_ticks;
-            m.print_move_flag = thr > 0 && prev > 0 && (t.abs_diff(prev) as u128) * 10_000 > prev as u128 * thr;
+            m.print_move_flag = print_move_exceeds(m.index_value, p.value, m.params.print_move_close_only_bps);
+            m.index_value = p.value;
             m.index_ticks = t;
             m.mark = limit_move(m.mark, t, m.params.mark_limit_bps);
         }

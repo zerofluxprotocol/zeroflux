@@ -60,6 +60,12 @@ pub struct Outcome {
 #[derive(Clone)]
 pub struct Near {
     pub network: NetworkConfig,
+    /// Every transaction sent through this handle: (what, tx hash). Used to record deployments.
+    pub tx_log: Arc<std::sync::Mutex<Vec<(String, String)>>>,
+}
+
+fn hash_of(r: &ExecutionFinalResult) -> String {
+    r.outcomes().first().map(|o| o.transaction_hash.to_string()).unwrap_or_default()
 }
 
 pub(crate) fn failure_text(r: &ExecutionFinalResult) -> String {
@@ -75,18 +81,25 @@ impl Near {
     pub fn rpc(url: &str) -> Result<Self> {
         Ok(Near {
             network: NetworkConfig::from_rpc_url("custom", url.parse().context("rpc url")?),
+            tx_log: Default::default(),
         })
     }
 
     pub fn testnet() -> Self {
         Near {
             network: NetworkConfig::testnet(),
+            tx_log: Default::default(),
         }
+    }
+
+    pub fn record(&self, what: impl Into<String>, hash: &str) {
+        self.tx_log.lock().unwrap().push((what.into(), hash.to_string()));
     }
 
     pub fn mainnet() -> Self {
         Near {
             network: NetworkConfig::mainnet(),
+            tx_log: Default::default(),
         }
     }
 
@@ -105,6 +118,7 @@ impl Near {
         let full = r.into_full().ok_or_else(|| anyhow!("{method}: transaction still pending"))?;
         let gas_burnt = full.total_gas_burnt.as_gas();
         let tx_hash = full.outcomes().first().map(|o| o.transaction_hash.to_string()).unwrap_or_default();
+        self.record(format!("{method} on {contract} by {}", who.id), &tx_hash);
         // Only the transaction's own status counts. Detached receipts may fail by design (e.g. a
         // withdrawal's ft_transfer to an unregistered account, which the contract re-credits).
         if full.clone().into_result().is_err() {
@@ -131,27 +145,34 @@ impl Near {
     pub async fn create_subaccount(&self, parent: &Actor, name: &str, near: NearToken) -> Result<Actor> {
         let id: AccountId = format!("{name}.{}", parent.id).parse()?;
         let sk = near_api::signer::generate_secret_key()?;
-        near_api::Account::create_account(id.clone())
+        let r = near_api::Account::create_account(id.clone())
             .fund_myself(parent.id.clone(), near)
             .with_public_key(sk.public_key())
             .with_signer(parent.signer.clone())
             .send_to(&self.network)
             .await
             .with_context(|| format!("create {id}"))?
-            .into_result()
-            .map_err(|e| anyhow!("create {id}: {e:?}"))?;
+            .into_full()
+            .ok_or_else(|| anyhow!("create {id}: pending"))?;
+        let h = hash_of(&r);
+        r.into_result().map_err(|e| anyhow!("create {id}: {e:?}"))?;
+        self.record(format!("create account {id} funded {near} by {}", parent.id), &h);
         Actor::new(id.as_str(), &sk.to_string())
     }
 
     pub async fn deploy(&self, who: &Actor, wasm: Vec<u8>) -> Result<()> {
-        Contract::deploy(who.id.clone())
+        let n = wasm.len();
+        let r = Contract::deploy(who.id.clone())
             .use_code(wasm)
             .without_init_call()
             .with_signer(who.signer.clone())
             .send_to(&self.network)
             .await?
-            .into_result()
-            .map_err(|e| anyhow!("deploy {}: {e:?}", who.id))?;
+            .into_full()
+            .ok_or_else(|| anyhow!("deploy {}: pending", who.id))?;
+        let h = hash_of(&r);
+        r.into_result().map_err(|e| anyhow!("deploy {}: {e:?}", who.id))?;
+        self.record(format!("deploy {n}-byte wasm to {}", who.id), &h);
         Ok(())
     }
 }

@@ -148,7 +148,7 @@ Other risk scenarios covered by tests:
 | Insurance exhaustion: an empty fund and no counterparties left leave bad debt and halt the market | `insurance_takeover_and_fee_then_bad_debt_halts` |
 | Oracle 24 h staleness: CLOSE_ONLY, no liquidation and no funding on the stale mark | `not_reported_stale_and_disputed_prints_restrict_trading`, `funding_is_zero_sum_and_pauses_when_stale` |
 | Daily print window, lagged publication | `daily_window_and_jump_halt`, `lagged_daily_print_window` |
-| Clamped 7D day | `large_print_move_is_close_only_until_a_clean_print` |
+| Clamped 7D day | `large_print_move_is_close_only_until_a_clean_print`; `print_move_rule_matches_published_clamp_on_real_history`: the contract's rule (raw print values, strictly more than 25% from the previous OK value) equals the publisher's `clamped` flag on all 882 OK licensed-7D days of 54 markets, 4 of them clamped |
 | Manipulation-cost OI cap | `open_interest_notional_cap_from_manipulation_cost` (core), `admission_rejects_what_the_contract_would` (engine) |
 | Cascading liquidations: 300 random runs with ±60% prints; coverage counts 945 liquidations, 662 takeovers, 281 ADL, 104 socializations, 17 bad-debt events, all conserving | `props.rs::generator_reaches_liquidation_waterfall` |
 | Engine against contract under liquidation cascades and on-chain races | `engine_tracks_chain_exactly` (120 cases), `print_drop_liquidates_and_chain_agrees` |
