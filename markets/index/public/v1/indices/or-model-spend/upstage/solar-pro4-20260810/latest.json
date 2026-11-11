@@ -1,0 +1,139 @@
+{
+  "market": "upstage/solar-pro4-20260810",
+  "index_id": "or-model-spend/upstage/solar-pro4-20260810",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-v1",
+  "formula_hash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+  "mode": "ESTIMATED_OBSERVED_MIX",
+  "utc_date": "2026-11-09",
+  "source_start": "2026-11-09T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "value_usd": "338.937477",
+  "value_micro_usd": "338937477",
+  "confidence": "LOW",
+  "tokens": {
+    "prompt": "58385822919",
+    "completion": "575218285",
+    "total": "58961041204",
+    "cached_prompt": "48642614400",
+    "reasoning": "56229296",
+    "requests": "2346627",
+    "byok_prompt": "56288920047",
+    "byok_completion": "450762955",
+    "billed_prompt": "2096902872",
+    "billed_completion": "124455330"
+  },
+  "info_value_usd_incl_byok": "6381.350483",
+  "mix": {
+    "basis": "OBSERVED",
+    "tokens": "billed (excl. BYOK)",
+    "w_in": "0.943973",
+    "w_out": "0.056027"
+  },
+  "price": {
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "p_in_usd_per_m": "0.098878767",
+    "p_out_usd_per_m": "1.057393895",
+    "as_of": "2026-11-10T23:27:56.000Z",
+    "weight_coverage": "1.000000",
+    "endpoints": [
+      {
+        "endpoint_id": "000381e4-18ad-455e-937b-ceeb3863fd67",
+        "provider_slug": "upstage",
+        "weight_tokens": "6811932405",
+        "p_in": "0.188799705",
+        "p_out": "1.113450382"
+      },
+      {
+        "endpoint_id": "a333a821-533b-4977-af91-256dfb08db0d",
+        "provider_slug": "upstage",
+        "weight_tokens": "48751303398",
+        "p_in": "0.086314275",
+        "p_out": "1.049561222"
+      }
+    ]
+  },
+  "rank": 48,
+  "checks": [],
+  "blocked": false,
+  "inputs": [
+    {
+      "role": "tokens",
+      "kind": "model_activity",
+      "documented": false,
+      "fetch_seq": 124,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/model-activity?permaslug=upstage%2Fsolar-pro4-20260810&variant=standard",
+      "sha256": "3d42301aa70c374449fe8328209ecf8493e5d57947390803a248d6dfca392dce",
+      "fetched_at": "2026-11-10T23:27:49.553Z",
+      "source_as_of": "2026-11-10T17:53:40.962Z"
+    },
+    {
+      "role": "rankings_check",
+      "kind": "rankings_day",
+      "documented": false,
+      "fetch_seq": 2,
+      "url": "https://openrouter.ai/api/frontend/v1/rankings/models?view=day",
+      "sha256": "2687ba6486b5a54ef9c87f39ec378e6050e58733ed909e90847d5df4c860ebfe",
+      "fetched_at": "2026-11-10T23:11:35.871Z",
+      "source_as_of": "2026-11-10T23:08:49.000Z"
+    },
+    {
+      "role": "prices",
+      "kind": "effective_pricing",
+      "documented": false,
+      "fetch_seq": 125,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/effective-pricing?permaslug=upstage%2Fsolar-pro4-20260810&variant=standard&shape=v7&range=all",
+      "sha256": "1961ffa1464e0c803bd3e4edca43b0080e6077c9c016ee55a009c4cb38f184ee",
+      "fetched_at": "2026-11-10T23:27:56.521Z",
+      "source_as_of": "2026-11-10T23:27:56.000Z"
+    }
+  ],
+  "value_input_hashes": [
+    "3d42301aa70c374449fe8328209ecf8493e5d57947390803a248d6dfca392dce",
+    "1961ffa1464e0c803bd3e4edca43b0080e6077c9c016ee55a009c4cb38f184ee"
+  ],
+  "source_as_of": "2026-11-10T17:53:40.962Z",
+  "observed_at": "2026-11-10T23:27:49.553Z",
+  "created_at": "2026-11-10T23:40:13.579Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-10T17:53:40.962Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "338937477",
+    "prompt": "58385822919",
+    "completion": "575218285",
+    "p_in": "98878767",
+    "p_out": "1057393895",
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "blocked": false
+  },
+  "print": {
+    "indexId": "or-model-spend/upstage/solar-pro4-20260810",
+    "version": "ZFX-OR-MODEL-SPEND-USD-v1",
+    "value": "338.937477",
+    "valueScale": 6,
+    "valueInt": "338937477",
+    "sourceStartUtc": "2026-11-09T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-10T23:27:49.553Z",
+    "publishedAt": "2026-11-10T23:40:13.579Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "881efb89c961fbcce5e2c58dfd906e099c7a005acd25358f8cf7c491ea9f3e1e",
+    "formulaHash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d76312a0000006f722d6d6f64656c2d7370656e642f757073746167652f736f6c61722d70726f342d3230323630383130190000005a46582d4f522d4d4f44454c2d5350454e442d5553442d76310685c633140000000000c89abda10100000024c1c2a1010000310bcac7a10100008b65d5c7a101000000dc0dcda1010000881efb89c961fbcce5e2c58dfd906e099c7a005acd25358f8cf7c491ea9f3e1efc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "63054df444f2ea363b3360979193bc6a730908aad2fa3a69f62b8d1fcac452d1",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:04058cf67a190ff025b6e63fcf7d96fdfa95387d056dfd83acc66784613f9ee33ab097e77b42b1db78bde618f66917e72be4637ce34fd74f9c939e21cb91d103"
+    ]
+  },
+  "chain": "69b5bb953b01be3b282069affb84378244480e81ba871d75c23399432516871f"
+}

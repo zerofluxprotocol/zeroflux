@@ -1,0 +1,286 @@
+{
+  "market": "qwen/qwen3.8-27b-20260814",
+  "index_id": "or-model-spend/qwen/qwen3.8-27b-20260814",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-v1",
+  "formula_hash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+  "mode": "ESTIMATED_OBSERVED_MIX",
+  "utc_date": "2026-11-09",
+  "source_start": "2026-11-09T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "value_usd": "20595.277107",
+  "value_micro_usd": "20595277107",
+  "confidence": "LOW",
+  "tokens": {
+    "prompt": "94332855634",
+    "completion": "5086040218",
+    "total": "99418895852",
+    "cached_prompt": "62137132382",
+    "reasoning": "3673039134",
+    "requests": "6919789",
+    "byok_prompt": "4930241623",
+    "byok_completion": "135900013",
+    "billed_prompt": "89402614011",
+    "billed_completion": "4950140205"
+  },
+  "info_value_usd_incl_byok": "21412.602500",
+  "mix": {
+    "basis": "OBSERVED",
+    "tokens": "billed (excl. BYOK)",
+    "w_in": "0.947536",
+    "w_out": "0.052464"
+  },
+  "price": {
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "p_in_usd_per_m": "0.101747758",
+    "p_out_usd_per_m": "2.322916341",
+    "as_of": "2026-11-10T23:23:08.000Z",
+    "weight_coverage": "0.999499",
+    "endpoints": [
+      {
+        "endpoint_id": "15086968-df2f-4d69-86bb-c74c31644bb6",
+        "provider_slug": "reka",
+        "weight_tokens": "1710610423",
+        "p_in": "0.111355510",
+        "p_out": "2.499268231"
+      },
+      {
+        "endpoint_id": "214262f7-b9f8-44a9-860d-001c353a9fb7",
+        "provider_slug": "tenstorrent",
+        "weight_tokens": "2005655209",
+        "p_in": "0.074531275",
+        "p_out": "2.000000000"
+      },
+      {
+        "endpoint_id": "255a02bd-df93-4ea7-bda9-44d4373aae18",
+        "provider_slug": "alibaba",
+        "weight_tokens": "44413665649",
+        "p_in": "0.133201738",
+        "p_out": "2.549811956"
+      },
+      {
+        "endpoint_id": "2af35fbf-0463-4d96-96d1-1e82b1a46dc7",
+        "provider_slug": "novita",
+        "weight_tokens": "336922008",
+        "p_in": "0.216477634",
+        "p_out": "3.000000000"
+      },
+      {
+        "endpoint_id": "360e373e-d445-4de9-ae30-e33d6198715b",
+        "provider_slug": "ionstream",
+        "weight_tokens": "1009096143",
+        "p_in": "0.025290201",
+        "p_out": "1.947426055"
+      },
+      {
+        "endpoint_id": "442be870-dbec-4945-9247-8f74095ee8b5",
+        "provider_slug": "nebius",
+        "weight_tokens": "13866433306",
+        "p_in": "0.136461012",
+        "p_out": "3.000000000"
+      },
+      {
+        "endpoint_id": "49f32a08-5bb2-47ee-ad99-1c7c0d65c757",
+        "provider_slug": "deepinfra",
+        "weight_tokens": "10665745296",
+        "p_in": "0.104684295",
+        "p_out": "1.874484127"
+      },
+      {
+        "endpoint_id": "7b8e2bf5-6bda-48ba-9561-51150e859c87",
+        "provider_slug": "mancer",
+        "weight_tokens": "489392493",
+        "p_in": "0.095707532",
+        "p_out": "1.248611182"
+      },
+      {
+        "endpoint_id": "7be5e9de-8a58-47e8-ae55-9aae2c3de86a",
+        "provider_slug": "streamlake",
+        "weight_tokens": "23227369",
+        "p_in": "0.118650983",
+        "p_out": "1.049795092"
+      },
+      {
+        "endpoint_id": "7cb52d81-c430-4e58-87f4-69de4f96808e",
+        "provider_slug": "dekallm",
+        "weight_tokens": "3210432134",
+        "p_in": "0.023746096",
+        "p_out": "2.499680710"
+      },
+      {
+        "endpoint_id": "864c5d5b-af7f-4dda-a797-eb7d1e566f2f",
+        "provider_slug": "chutes",
+        "weight_tokens": "4846036894",
+        "p_in": "0.018475788",
+        "p_out": "1.248629502"
+      },
+      {
+        "endpoint_id": "8eba9d88-f1f1-4280-a5da-29582a63cb76",
+        "provider_slug": "cerebras",
+        "weight_tokens": "744344287",
+        "p_in": "0.989873498",
+        "p_out": "1.488833649"
+      },
+      {
+        "endpoint_id": "96058344-d6fa-4cfe-a99f-dbce2b53c90a",
+        "provider_slug": "venice",
+        "weight_tokens": "24744751",
+        "p_in": "0.449893656",
+        "p_out": "3.199249573"
+      },
+      {
+        "endpoint_id": "a58a4a1f-4e83-4776-a40e-9f55b72783cb",
+        "provider_slug": "parasail",
+        "weight_tokens": "1326411060",
+        "p_in": "0.111387317",
+        "p_out": "2.199671704"
+      },
+      {
+        "endpoint_id": "a5d87341-6ae9-4c73-94c3-447f3c3b6373",
+        "provider_slug": "primeintellect",
+        "weight_tokens": "618146510",
+        "p_in": "0.052048528",
+        "p_out": "0.424570392"
+      },
+      {
+        "endpoint_id": "ac64fd29-1011-4b18-9e66-42d1cecd983c",
+        "provider_slug": "wafer",
+        "weight_tokens": "5899073728",
+        "p_in": "0.059193815",
+        "p_out": "2.299493792"
+      },
+      {
+        "endpoint_id": "adcebe80-d2d9-40e1-a7a4-37444a12860e",
+        "provider_slug": "coreweave",
+        "weight_tokens": "623969868",
+        "p_in": "0.291468402",
+        "p_out": "3.000000000"
+      },
+      {
+        "endpoint_id": "c02dc976-15cf-47bb-9d26-bd5250f94b8d",
+        "provider_slug": "darkbloom",
+        "weight_tokens": "541967216",
+        "p_in": "0.028980546",
+        "p_out": "1.498935859"
+      },
+      {
+        "endpoint_id": "c15e008c-6180-4155-8707-bde541bc7884",
+        "provider_slug": "akashml",
+        "weight_tokens": "477581167",
+        "p_in": "0.129345407",
+        "p_out": "1.978845811"
+      },
+      {
+        "endpoint_id": "c3111adb-ce3c-4a9b-9055-f66c1d7b9423",
+        "provider_slug": "near-ai",
+        "weight_tokens": "7514704276",
+        "p_in": "0.023115238",
+        "p_out": "1.348847802"
+      },
+      {
+        "endpoint_id": "cfc4d0ca-df7c-4b5f-9c74-328c41a7cbc3",
+        "provider_slug": "phala",
+        "weight_tokens": "4891329440",
+        "p_in": "0.069737435",
+        "p_out": "2.499814719"
+      },
+      {
+        "endpoint_id": "e56a0de7-f040-4dee-a36a-824fb379d883",
+        "provider_slug": "cloudflare",
+        "weight_tokens": "19340476",
+        "p_in": "0.449946907",
+        "p_out": "3.198627346"
+      },
+      {
+        "endpoint_id": "efcd1b24-5dbe-40ac-afdd-270a04040bc2",
+        "provider_slug": "modal",
+        "weight_tokens": "12168000345",
+        "p_in": "0.025433628",
+        "p_out": "2.298903336"
+      }
+    ]
+  },
+  "rank": 35,
+  "checks": [],
+  "blocked": false,
+  "inputs": [
+    {
+      "role": "tokens",
+      "kind": "model_activity",
+      "documented": false,
+      "fetch_seq": 88,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/model-activity?permaslug=qwen%2Fqwen3.8-27b-20260814&variant=standard",
+      "sha256": "5804a2e75bc019c0c3cd497b0919693b4e44c64590248557ae1a933f39ea1bb5",
+      "fetched_at": "2026-11-10T23:22:59.541Z",
+      "source_as_of": "2026-11-10T20:32:30.468Z"
+    },
+    {
+      "role": "rankings_check",
+      "kind": "rankings_day",
+      "documented": false,
+      "fetch_seq": 2,
+      "url": "https://openrouter.ai/api/frontend/v1/rankings/models?view=day",
+      "sha256": "2687ba6486b5a54ef9c87f39ec378e6050e58733ed909e90847d5df4c860ebfe",
+      "fetched_at": "2026-11-10T23:11:35.871Z",
+      "source_as_of": "2026-11-10T23:08:49.000Z"
+    },
+    {
+      "role": "prices",
+      "kind": "effective_pricing",
+      "documented": false,
+      "fetch_seq": 89,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/effective-pricing?permaslug=qwen%2Fqwen3.8-27b-20260814&variant=standard&shape=v7&range=all",
+      "sha256": "7fa834cc7194c0de4c9575f00f42578b6820a1a6009278cd8cb4e4cce90f091c",
+      "fetched_at": "2026-11-10T23:23:08.284Z",
+      "source_as_of": "2026-11-10T23:23:08.000Z"
+    }
+  ],
+  "value_input_hashes": [
+    "5804a2e75bc019c0c3cd497b0919693b4e44c64590248557ae1a933f39ea1bb5",
+    "7fa834cc7194c0de4c9575f00f42578b6820a1a6009278cd8cb4e4cce90f091c"
+  ],
+  "source_as_of": "2026-11-10T20:32:30.468Z",
+  "observed_at": "2026-11-10T23:22:59.541Z",
+  "created_at": "2026-11-10T23:40:13.579Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-10T20:32:30.468Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "20595277107",
+    "prompt": "94332855634",
+    "completion": "5086040218",
+    "p_in": "101747758",
+    "p_out": "2322916341",
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "blocked": false
+  },
+  "print": {
+    "indexId": "or-model-spend/qwen/qwen3.8-27b-20260814",
+    "version": "ZFX-OR-MODEL-SPEND-USD-v1",
+    "value": "20595.277107",
+    "valueScale": 6,
+    "valueInt": "20595277107",
+    "sourceStartUtc": "2026-11-09T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-10T23:22:59.541Z",
+    "publishedAt": "2026-11-10T23:40:13.579Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "e9227d3ee833b6046530a64cf89e7bc1e378047092994f7686017f90ab080364",
+    "formulaHash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d7631280000006f722d6d6f64656c2d7370656e642f7177656e2f7177656e332e382d3237622d3230323630383134190000005a46582d4f522d4d4f44454c2d5350454e442d5553442d76310633fd92cb0400000000c89abda10100000024c1c2a1010000559ec5c7a10100008b65d5c7a101000000dc0dcda1010000e9227d3ee833b6046530a64cf89e7bc1e378047092994f7686017f90ab080364fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "5aebf69a104492d5186f79157f4b6d23e24d743b527917a977ddcc7fcc631490",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:f27190a6fd3b8bd81ae0829677ad6604b79a6e2997094999c441427332332112900f3085f41c704f2697d710c3a3b8ea805969cf967a94d45a897b8db279bc02"
+    ]
+  },
+  "chain": "16a5e44580ac8ea75902a30226ad475c2bdfcf044c7fba19a11ce36497e515bc"
+}

@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
 # NEAR contracts build for wasm32 in their own workspace.
-exclude = ["bridge/near", "vpn"]
+exclude = ["bridge/near", "vpn", "markets"]
 members = [
     "crates/zfx-verify",
     "crates/zfx-node",

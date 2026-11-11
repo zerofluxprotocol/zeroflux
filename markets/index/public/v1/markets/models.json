@@ -1,0 +1,3383 @@
+{
+  "generated_at": "2026-11-11T00:12:04.582Z",
+  "notice": "Paper-trading index built from OpenRouter data. Not settlement-grade. Not revenue, royalties or equity.",
+  "what_this_is_not": "Not AI-provider revenue, not model-owner royalties, not equity or any claim on a model's cash flows. One venue (OpenRouter), one declared formula.",
+  "formula": {
+    "version": "ZFX-OR-MODEL-SPEND-USD-v1",
+    "hash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+    "mode": "ESTIMATED_OBSERVED_MIX"
+  },
+  "reporter_pubkey_ed25519": "cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48",
+  "markets": [
+    {
+      "market_id": "ZFX-OR-deepseek/deepseek-v4.1-flash-20261017",
+      "permaslug": "deepseek/deepseek-v4.1-flash-20261017",
+      "index_id": "or-model-spend/deepseek/deepseek-v4.1-flash-20261017",
+      "label": "DeepSeek: DeepSeek V4.1 Flash 1017: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "deepseek/deepseek-v4.1-flash-1017",
+      "name": "DeepSeek: DeepSeek V4.1 Flash 1017",
+      "author": "deepseek",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "deepseek-ai/DeepSeek-V4.1-Flash-1017",
+      "modality": "text+image->text",
+      "created": "2026-10-17T08:27:04.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 1,
+        "basis_tokens": "7191466031431"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "168867.840062",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "7095511192946",
+          "completion": "95954838485",
+          "total": "7191466031431",
+          "cached_prompt": "6557828384787",
+          "reasoning": "60625951668",
+          "requests": "113083668",
+          "byok_prompt": "283846150663",
+          "byok_completion": "3731716897",
+          "billed_prompt": "6811665042283",
+          "billed_completion": "92223121588"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.986642",
+          "w_out": "0.013358"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.015465935",
+          "p_out_usd_per_m": "0.688754297",
+          "as_of": "2026-11-10T23:10:57.000Z"
+        },
+        "rank": 1,
+        "reason": null,
+        "source_as_of": "2026-11-10T20:07:58.729Z",
+        "observed_at": "2026-11-10T23:11:51.766Z",
+        "print_hash": "064f77a8667443f02795653b10d676f723614b50b5a6c15a25813a40b8142313"
+      },
+      "series_path": "/v1/indices/or-model-spend/deepseek/deepseek-v4.1-flash-20261017/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-tencent/hy4-20261104",
+      "permaslug": "tencent/hy4-20261104",
+      "index_id": "or-model-spend/tencent/hy4-20261104",
+      "label": "Tencent: Hy4: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "tencent/hy4",
+      "name": "Tencent: Hy4",
+      "author": "tencent",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "tencent/Hy4",
+      "modality": "text+image->text",
+      "created": "2026-11-04T04:20:31.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 2,
+        "basis_tokens": "3181426700186"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "18146.874302",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "3148826345518",
+          "completion": "32600354668",
+          "total": "3181426700186",
+          "cached_prompt": "2985378737088",
+          "reasoning": "20613243627",
+          "requests": "22532337",
+          "byok_prompt": "3004503963441",
+          "byok_completion": "29939394149",
+          "billed_prompt": "144322382077",
+          "billed_completion": "2660960519"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.981896",
+          "w_out": "0.018104"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.081520058",
+          "p_out_usd_per_m": "2.398271338",
+          "as_of": "2026-11-10T23:11:17.000Z"
+        },
+        "rank": 2,
+        "reason": null,
+        "source_as_of": "2026-11-10T17:18:50.170Z",
+        "observed_at": "2026-11-10T23:12:15.468Z",
+        "print_hash": "897ca02316984038d4852e30267211ce259974651c0839986f9726ef731745dc"
+      },
+      "series_path": "/v1/indices/or-model-spend/tencent/hy4-20261104/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-deepseek/deepseek-v4.1-flash-20260910",
+      "permaslug": "deepseek/deepseek-v4.1-flash-20260910",
+      "index_id": "or-model-spend/deepseek/deepseek-v4.1-flash-20260910",
+      "label": "DeepSeek: DeepSeek V4.1 Flash: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "deepseek/deepseek-v4.1-flash",
+      "name": "DeepSeek: DeepSeek V4.1 Flash",
+      "author": "deepseek",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "deepseek-ai/DeepSeek-V4.1-Flash",
+      "modality": "text+image->text",
+      "created": "2026-09-10T06:21:25.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 3,
+        "basis_tokens": "2333386102957"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "93528.171844",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "2273459229788",
+          "completion": "59926873169",
+          "total": "2333386102957",
+          "cached_prompt": "2044348796268",
+          "reasoning": "41128829988",
+          "requests": "80713980",
+          "byok_prompt": "130365716369",
+          "byok_completion": "2569630193",
+          "billed_prompt": "2143093513419",
+          "billed_completion": "57357242976"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.973934",
+          "w_out": "0.026066"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.023215040",
+          "p_out_usd_per_m": "0.763219568",
+          "as_of": "2026-11-10T23:12:43.000Z"
+        },
+        "rank": 3,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:03:35.372Z",
+        "observed_at": "2026-11-10T23:12:37.019Z",
+        "print_hash": "6beb17cb046ad9bba439e6552b38f9eac3f6b490404d1c2d1ce020d0001b6016"
+      },
+      "series_path": "/v1/indices/or-model-spend/deepseek/deepseek-v4.1-flash-20260910/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-z-ai/glm-5.3-flash-20260826",
+      "permaslug": "z-ai/glm-5.3-flash-20260826",
+      "index_id": "or-model-spend/z-ai/glm-5.3-flash-20260826",
+      "label": "Z.ai: GLM 5.3 Flash: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "z-ai/glm-5.3-flash",
+      "name": "Z.ai: GLM 5.3 Flash",
+      "author": "z-ai",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "zai-org/GLM-5.3-Flash",
+      "modality": "text+image+video->text",
+      "created": "2026-08-26T13:59:01.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 4,
+        "basis_tokens": "1506014993791"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "71356.499703",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "1473921191634",
+          "completion": "32093802157",
+          "total": "1506014993791",
+          "cached_prompt": "1212270419286",
+          "reasoning": "18828338789",
+          "requests": "45416559",
+          "byok_prompt": "135051182518",
+          "byok_completion": "1542493402",
+          "billed_prompt": "1338870009116",
+          "billed_completion": "30551308755"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.977690",
+          "w_out": "0.022310"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.043905210",
+          "p_out_usd_per_m": "0.411541479",
+          "as_of": "2026-11-10T23:13:08.000Z"
+        },
+        "rank": 4,
+        "reason": null,
+        "source_as_of": "2026-11-10T18:19:56.891Z",
+        "observed_at": "2026-11-10T23:12:59.105Z",
+        "print_hash": "9950719eeaaff9569366d67dcd53d6c46201c782def7f6250c37f4f61eee007e"
+      },
+      "series_path": "/v1/indices/or-model-spend/z-ai/glm-5.3-flash-20260826/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-openai/gpt-6-luna-20260922",
+      "permaslug": "openai/gpt-6-luna-20260922",
+      "index_id": "or-model-spend/openai/gpt-6-luna-20260922",
+      "label": "OpenAI: GPT-6 Luna: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "openai/gpt-6-luna",
+      "name": "OpenAI: GPT-6 Luna",
+      "author": "openai",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file->text",
+      "created": "2026-09-22T18:13:06.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 5,
+        "basis_tokens": "1014151321821"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "52858.028043",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "977378036160",
+          "completion": "36773285661",
+          "total": "1014151321821",
+          "cached_prompt": "679571345459",
+          "reasoning": "21008756031",
+          "requests": "81634108",
+          "byok_prompt": "183213452479",
+          "byok_completion": "5633549427",
+          "billed_prompt": "794164583681",
+          "billed_completion": "31139736234"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.962269",
+          "w_out": "0.037731"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.047034607",
+          "p_out_usd_per_m": "0.497910735",
+          "as_of": "2026-11-10T23:13:35.000Z"
+        },
+        "rank": 5,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:36:37.450Z",
+        "observed_at": "2026-11-10T23:13:26.735Z",
+        "print_hash": "02180f5fc603fb72a700015db4a2241ef32d9d8c181ffe3b4e04972bc79effcd"
+      },
+      "series_path": "/v1/indices/or-model-spend/openai/gpt-6-luna-20260922/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-stepfun/step-5-preview-20261008",
+      "permaslug": "stepfun/step-5-preview-20261008",
+      "index_id": "or-model-spend/stepfun/step-5-preview-20261008",
+      "label": "StepFun: Step 5 Preview: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "stepfun/step-5-preview",
+      "name": "StepFun: Step 5 Preview",
+      "author": "stepfun",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "stepfun-ai/Step-5-Preview",
+      "modality": "text+image+video->text",
+      "created": "2026-10-08T12:34:09.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 6,
+        "basis_tokens": "963487289365"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "874.209285",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "959001692202",
+          "completion": "4485597163",
+          "total": "963487289365",
+          "cached_prompt": "910877335687",
+          "reasoning": "681828",
+          "requests": "3786240",
+          "byok_prompt": "954569325569",
+          "byok_completion": "4400113751",
+          "billed_prompt": "4432366633",
+          "billed_completion": "85483412"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.981079",
+          "w_out": "0.018921"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.145167549",
+          "p_out_usd_per_m": "2.699628844",
+          "as_of": "2026-11-10T23:13:59.000Z"
+        },
+        "rank": 6,
+        "reason": null,
+        "source_as_of": "2026-11-10T18:19:56.042Z",
+        "observed_at": "2026-11-10T23:13:51.342Z",
+        "print_hash": "05a4230f1af3141ec4507fcddf314446fdf6f119979f5d7f881911bddef8cc14"
+      },
+      "series_path": "/v1/indices/or-model-spend/stepfun/step-5-preview-20261008/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-anthropic/claude-opus-5.5-20260921",
+      "permaslug": "anthropic/claude-opus-5.5-20260921",
+      "index_id": "or-model-spend/anthropic/claude-opus-5.5-20260921",
+      "label": "Anthropic: Claude Opus 5.5: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "anthropic/claude-opus-5.5",
+      "name": "Anthropic: Claude Opus 5.5",
+      "author": "anthropic",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file->text",
+      "created": "2026-09-22T16:32:12.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 7,
+        "basis_tokens": "951157038754"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "582093.352339",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "942820566056",
+          "completion": "8336472698",
+          "total": "951157038754",
+          "cached_prompt": "837791312152",
+          "reasoning": "3984662726",
+          "requests": "7915890",
+          "byok_prompt": "336274817067",
+          "byok_completion": "2239854989",
+          "billed_prompt": "606545748989",
+          "billed_completion": "6096617709"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.990049",
+          "w_out": "0.009951"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.753222717",
+          "p_out_usd_per_m": "20.540785281",
+          "as_of": "2026-11-10T23:14:24.000Z"
+        },
+        "rank": 7,
+        "reason": null,
+        "source_as_of": "2026-11-10T18:08:54.504Z",
+        "observed_at": "2026-11-10T23:14:16.503Z",
+        "print_hash": "39df75b8edb96521d4337c2bf368830d18e782ea1b2a9fff1a0ec2fb06573d2d"
+      },
+      "series_path": "/v1/indices/or-model-spend/anthropic/claude-opus-5.5-20260921/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-moonshotai/kimi-k3.1-pro-20261023",
+      "permaslug": "moonshotai/kimi-k3.1-pro-20261023",
+      "index_id": "or-model-spend/moonshotai/kimi-k3.1-pro-20261023",
+      "label": "MoonshotAI: Kimi K3.1 Pro: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "moonshotai/kimi-k3.1-pro",
+      "name": "MoonshotAI: Kimi K3.1 Pro",
+      "author": "moonshotai",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "moonshotai/Kimi-K3.1-Pro",
+      "modality": "text+image+video->text",
+      "created": "2026-10-23T17:56:28.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 9,
+        "basis_tokens": "743413098177"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "306288.222501",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "737168171630",
+          "completion": "6244926547",
+          "total": "743413098177",
+          "cached_prompt": "691008889725",
+          "reasoning": "3860503014",
+          "requests": "5772309",
+          "byok_prompt": "35381967774",
+          "byok_completion": "537681171",
+          "billed_prompt": "701786203856",
+          "billed_completion": "5707245376"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.991933",
+          "w_out": "0.008067"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.353355073",
+          "p_out_usd_per_m": "10.216576188",
+          "as_of": "2026-11-10T23:14:50.000Z"
+        },
+        "rank": 9,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:38:48.601Z",
+        "observed_at": "2026-11-10T23:14:42.198Z",
+        "print_hash": "8159e0dbb86d7a930a9e9bd3d62b505aa5ba9935e427eb38c1ece21938d6efff"
+      },
+      "series_path": "/v1/indices/or-model-spend/moonshotai/kimi-k3.1-pro-20261023/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-xiaomi/mimo-v2.6-flash-20260921",
+      "permaslug": "xiaomi/mimo-v2.6-flash-20260921",
+      "index_id": "or-model-spend/xiaomi/mimo-v2.6-flash-20260921",
+      "label": "Xiaomi: MiMo-V2.6-Flash: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "xiaomi/mimo-v2.6-flash",
+      "name": "Xiaomi: MiMo-V2.6-Flash",
+      "author": "xiaomi",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "XiaomiMiMo/MiMo-V2.6-Flash-RL",
+      "modality": "text+image+audio+video->text",
+      "created": "2026-09-21T20:07:44.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 10,
+        "basis_tokens": "658271430032"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "2844.002209",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "650414444159",
+          "completion": "7856985873",
+          "total": "658271430032",
+          "cached_prompt": "594777484160",
+          "reasoning": "4939636610",
+          "requests": "8596648",
+          "byok_prompt": "507617894005",
+          "byok_completion": "5067890111",
+          "billed_prompt": "142796550154",
+          "billed_completion": "2789095762"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.980842",
+          "w_out": "0.019158"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.014462490",
+          "p_out_usd_per_m": "0.279233342",
+          "as_of": "2026-11-10T23:15:15.000Z"
+        },
+        "rank": 10,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:36:40.590Z",
+        "observed_at": "2026-11-10T23:15:05.766Z",
+        "print_hash": "e41b993b5151b6b7ed9b900d60da2c00e7f51b352160e3740c28829f3931101f"
+      },
+      "series_path": "/v1/indices/or-model-spend/xiaomi/mimo-v2.6-flash-20260921/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-minimax/minimax-m3.1-flash-20261019",
+      "permaslug": "minimax/minimax-m3.1-flash-20261019",
+      "index_id": "or-model-spend/minimax/minimax-m3.1-flash-20261019",
+      "label": "MiniMax: MiniMax M3.1 Flash: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "minimax/minimax-m3.1-flash",
+      "name": "MiniMax: MiniMax M3.1 Flash",
+      "author": "minimax",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "MiniMaxAI/MiniMax-M3.1-Flash",
+      "modality": "text+image+video->text",
+      "created": "2026-10-19T03:12:49.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 11,
+        "basis_tokens": "558951837703"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "3012.647948",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "550654609522",
+          "completion": "8297228181",
+          "total": "558951837703",
+          "cached_prompt": "511758064760",
+          "reasoning": "5714600506",
+          "requests": "7036414",
+          "byok_prompt": "443595473980",
+          "byok_completion": "6518589728",
+          "billed_prompt": "107059135542",
+          "billed_completion": "1778638453"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.983658",
+          "w_out": "0.016342"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.020051892",
+          "p_out_usd_per_m": "0.486838527",
+          "as_of": "2026-11-10T23:15:40.000Z"
+        },
+        "rank": 11,
+        "reason": null,
+        "source_as_of": "2026-11-10T17:47:07.366Z",
+        "observed_at": "2026-11-10T23:15:33.817Z",
+        "print_hash": "c120a9905cd0513b49cfccd31479d309a037f06365d0b50501dbd8c990535fe9"
+      },
+      "series_path": "/v1/indices/or-model-spend/minimax/minimax-m3.1-flash-20261019/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-openai/gpt-6.1-sol-20260929",
+      "permaslug": "openai/gpt-6.1-sol-20260929",
+      "index_id": "or-model-spend/openai/gpt-6.1-sol-20260929",
+      "label": "OpenAI: GPT-6.1 Sol: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "openai/gpt-6.1-sol",
+      "name": "OpenAI: GPT-6.1 Sol",
+      "author": "openai",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file->text",
+      "created": "2026-09-29T17:28:02.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 13,
+        "basis_tokens": "479715343929"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "217042.111261",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "470219884739",
+          "completion": "9495459190",
+          "total": "479715343929",
+          "cached_prompt": "416182212688",
+          "reasoning": "3472277782",
+          "requests": "13618474",
+          "byok_prompt": "136839369821",
+          "byok_completion": "993290484",
+          "billed_prompt": "333380514918",
+          "billed_completion": "8502168706"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.975131",
+          "w_out": "0.024869"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.400409992",
+          "p_out_usd_per_m": "9.827283466",
+          "as_of": "2026-11-10T23:16:06.000Z"
+        },
+        "rank": 13,
+        "reason": null,
+        "source_as_of": "2026-11-10T18:28:36.951Z",
+        "observed_at": "2026-11-10T23:15:59.210Z",
+        "print_hash": "71d7b2d08142271341f25d9494f27af29426a45577eb1a060aa85a83ceadb481"
+      },
+      "series_path": "/v1/indices/or-model-spend/openai/gpt-6.1-sol-20260929/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-meta/muse-spark-1.3-contributor-20260902",
+      "permaslug": "meta/muse-spark-1.3-contributor-20260902",
+      "index_id": "or-model-spend/meta/muse-spark-1.3-contributor-20260902",
+      "label": "Meta: Muse Spark 1.3 Contributor: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "meta/muse-spark-1.3-contributor",
+      "name": "Meta: Muse Spark 1.3 Contributor",
+      "author": "meta",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file+video->text",
+      "created": "2026-09-02T20:38:39.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 14,
+        "basis_tokens": "474256690107"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "4998.462160",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "469248788776",
+          "completion": "5007901331",
+          "total": "474256690107",
+          "cached_prompt": "436132173398",
+          "reasoning": "3121559759",
+          "requests": "5521321",
+          "byok_prompt": "17187499302",
+          "byok_completion": "145128141",
+          "billed_prompt": "452061289474",
+          "billed_completion": "4862773190"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.989358",
+          "w_out": "0.010642"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.008910289",
+          "p_out_usd_per_m": "0.199570366",
+          "as_of": "2026-11-10T23:16:30.000Z"
+        },
+        "rank": 14,
+        "reason": null,
+        "source_as_of": "2026-11-10T21:03:35.048Z",
+        "observed_at": "2026-11-10T23:16:22.195Z",
+        "print_hash": "3e35b09c868063071bbf39c282d8a4fdbc956b87c69b4fb12883d5724f7acfae"
+      },
+      "series_path": "/v1/indices/or-model-spend/meta/muse-spark-1.3-contributor-20260902/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-deepseek/deepseek-v4-flash-20260731",
+      "permaslug": "deepseek/deepseek-v4-flash-20260731",
+      "index_id": "or-model-spend/deepseek/deepseek-v4-flash-20260731",
+      "label": "DeepSeek: DeepSeek V4 Flash 0731: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "deepseek/deepseek-v4-flash-0731",
+      "name": "DeepSeek: DeepSeek V4 Flash 0731",
+      "author": "deepseek",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "deepseek-ai/DeepSeek-V4-Flash-0731",
+      "modality": "text->text",
+      "created": "2026-07-31T06:21:48.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 15,
+        "basis_tokens": "467927734310"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "28464.856048",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "443278833764",
+          "completion": "24648900546",
+          "total": "467927734310",
+          "cached_prompt": "313382166278",
+          "reasoning": "13060138535",
+          "requests": "46264242",
+          "byok_prompt": "15577902813",
+          "byok_completion": "1062162584",
+          "billed_prompt": "427700930951",
+          "billed_completion": "23586737962"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.947735",
+          "w_out": "0.052265"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.049387070",
+          "p_out_usd_per_m": "0.311274931",
+          "as_of": "2026-11-10T23:16:55.000Z"
+        },
+        "rank": 15,
+        "reason": null,
+        "source_as_of": "2026-11-10T17:22:06.701Z",
+        "observed_at": "2026-11-10T23:16:46.517Z",
+        "print_hash": "41076b3418cb64281ef660c7bd82cb7fb30da6e62dd80d1405ea92a0b6d65836"
+      },
+      "series_path": "/v1/indices/or-model-spend/deepseek/deepseek-v4-flash-20260731/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-z-ai/glm-5.3-20260816",
+      "permaslug": "z-ai/glm-5.3-20260816",
+      "index_id": "or-model-spend/z-ai/glm-5.3-20260816",
+      "label": "Z.ai: GLM 5.3: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "z-ai/glm-5.3",
+      "name": "Z.ai: GLM 5.3",
+      "author": "z-ai",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "zai-org/GLM-5.3",
+      "modality": "text->text",
+      "created": "2026-08-18T20:57:35.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 16,
+        "basis_tokens": "458660969355"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "114279.386912",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "450105304685",
+          "completion": "8555664670",
+          "total": "458660969355",
+          "cached_prompt": "402508331347",
+          "reasoning": "5938344191",
+          "requests": "9703756",
+          "byok_prompt": "27815203519",
+          "byok_completion": "424115147",
+          "billed_prompt": "422290101166",
+          "billed_completion": "8131549523"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.981108",
+          "w_out": "0.018892"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.207573628",
+          "p_out_usd_per_m": "3.274049856",
+          "as_of": "2026-11-10T23:17:17.000Z"
+        },
+        "rank": 16,
+        "reason": null,
+        "source_as_of": "2026-11-10T17:23:24.712Z",
+        "observed_at": "2026-11-10T23:17:10.103Z",
+        "print_hash": "835c955a8436baac932ed846bcb7e559d8995af581f46e70c7ab8ffde8167f8b"
+      },
+      "series_path": "/v1/indices/or-model-spend/z-ai/glm-5.3-20260816/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-anthropic/claude-haiku-5.5-20261007",
+      "permaslug": "anthropic/claude-haiku-5.5-20261007",
+      "index_id": "or-model-spend/anthropic/claude-haiku-5.5-20261007",
+      "label": "Anthropic: Claude Haiku 5.5: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "anthropic/claude-haiku-5.5",
+      "name": "Anthropic: Claude Haiku 5.5",
+      "author": "anthropic",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file->text",
+      "created": "2026-10-07T18:31:23.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 19,
+        "basis_tokens": "376793375076"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "34983.483844",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "356315224037",
+          "completion": "20478151039",
+          "total": "376793375076",
+          "cached_prompt": "215871391638",
+          "reasoning": "11533545984",
+          "requests": "30249722",
+          "byok_prompt": "52174986414",
+          "byok_completion": "2399393196",
+          "billed_prompt": "304140237623",
+          "billed_completion": "18078757843"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.943893",
+          "w_out": "0.056107"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.079703383",
+          "p_out_usd_per_m": "0.594204430",
+          "as_of": "2026-11-10T23:17:39.000Z"
+        },
+        "rank": 19,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:25:30.638Z",
+        "observed_at": "2026-11-10T23:17:31.477Z",
+        "print_hash": "f11d7d5bfb53299dcaef8af92900f2eadb638ea1f0f8fe0e0be408f316fd68c5"
+      },
+      "series_path": "/v1/indices/or-model-spend/anthropic/claude-haiku-5.5-20261007/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-deepseek/deepseek-v4-flash-20260423",
+      "permaslug": "deepseek/deepseek-v4-flash-20260423",
+      "index_id": "or-model-spend/deepseek/deepseek-v4-flash-20260423",
+      "label": "DeepSeek: DeepSeek V4 Flash 0423: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "deepseek/deepseek-v4-flash",
+      "name": "DeepSeek: DeepSeek V4 Flash 0423",
+      "author": "deepseek",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "deepseek-ai/DeepSeek-V4-Flash",
+      "modality": "text->text",
+      "created": "2026-04-24T03:17:46.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 20,
+        "basis_tokens": "374751276893"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "20590.942233",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "353953459945",
+          "completion": "20797816948",
+          "total": "374751276893",
+          "cached_prompt": "236007641838",
+          "reasoning": "8905479965",
+          "requests": "50889872",
+          "byok_prompt": "54213901325",
+          "byok_completion": "1534320984",
+          "billed_prompt": "299739558620",
+          "billed_completion": "19263495964"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.939613",
+          "w_out": "0.060387"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.053375391",
+          "p_out_usd_per_m": "0.238390067",
+          "as_of": "2026-11-10T23:18:03.000Z"
+        },
+        "rank": 20,
+        "reason": null,
+        "source_as_of": "2026-11-10T17:00:32.862Z",
+        "observed_at": "2026-11-10T23:17:55.709Z",
+        "print_hash": "2e1f5a091fb46f2de99fbb13caf80f33a9d1aea8aa6cc7fb246e0fd500ad9b09"
+      },
+      "series_path": "/v1/indices/or-model-spend/deepseek/deepseek-v4-flash-20260423/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-anthropic/claude-sonnet-5.5-20260928",
+      "permaslug": "anthropic/claude-sonnet-5.5-20260928",
+      "index_id": "or-model-spend/anthropic/claude-sonnet-5.5-20260928",
+      "label": "Anthropic: Claude Sonnet 5.5: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "anthropic/claude-sonnet-5.5",
+      "name": "Anthropic: Claude Sonnet 5.5",
+      "author": "anthropic",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file->text",
+      "created": "2026-09-28T18:04:46.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 21,
+        "basis_tokens": "348917205168"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "191694.873352",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "342820020586",
+          "completion": "6097184582",
+          "total": "348917205168",
+          "cached_prompt": "268920655118",
+          "reasoning": "2590613359",
+          "requests": "7383316",
+          "byok_prompt": "100609434532",
+          "byok_completion": "1110432667",
+          "billed_prompt": "242210586054",
+          "billed_completion": "4986751915"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.979827",
+          "w_out": "0.020173"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.584885607",
+          "p_out_usd_per_m": "10.032459717",
+          "as_of": "2026-11-10T23:18:26.000Z"
+        },
+        "rank": 21,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:54:33.165Z",
+        "observed_at": "2026-11-10T23:18:19.738Z",
+        "print_hash": "17a1a62c16d23dec7f5a5b0dd4d1820f6a12512731d76fbd51ae535b9948d261"
+      },
+      "series_path": "/v1/indices/or-model-spend/anthropic/claude-sonnet-5.5-20260928/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-tencent/hy3-20260706",
+      "permaslug": "tencent/hy3-20260706",
+      "index_id": "or-model-spend/tencent/hy3-20260706",
+      "label": "Tencent: Hy3: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "tencent/hy3",
+      "name": "Tencent: Hy3",
+      "author": "tencent",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "tencent/Hy3",
+      "modality": "text->text",
+      "created": "2026-07-06T13:20:48.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 22,
+        "basis_tokens": "322631806450"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "265.569530",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "317358477879",
+          "completion": "5273328571",
+          "total": "322631806450",
+          "cached_prompt": "289389837184",
+          "reasoning": "3378965871",
+          "requests": "4182876",
+          "byok_prompt": "313516824030",
+          "byok_completion": "5057380354",
+          "billed_prompt": "3841653849",
+          "billed_completion": "215948217"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.946779",
+          "w_out": "0.053221"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.040404980",
+          "p_out_usd_per_m": "0.510990945",
+          "as_of": "2026-11-10T23:18:49.000Z"
+        },
+        "rank": 22,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:51:33.914Z",
+        "observed_at": "2026-11-10T23:18:40.298Z",
+        "print_hash": "5135ff4a83c079b22b12a2c7f857021c9d038009e38bb5b0fff09aaae82c88c8"
+      },
+      "series_path": "/v1/indices/or-model-spend/tencent/hy3-20260706/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-google/gemini-3.8-flash-20260902",
+      "permaslug": "google/gemini-3.8-flash-20260902",
+      "index_id": "or-model-spend/google/gemini-3.8-flash-20260902",
+      "label": "Google: Gemini 3.8 Flash: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "google/gemini-3.8-flash",
+      "name": "Google: Gemini 3.8 Flash",
+      "author": "google",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file+audio+video->text",
+      "created": "2026-09-02T15:14:16.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 24,
+        "basis_tokens": "242078901263"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "99038.368647",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "231465938590",
+          "completion": "10612962673",
+          "total": "242078901263",
+          "cached_prompt": "160471569434",
+          "reasoning": "4920579708",
+          "requests": "12907820",
+          "byok_prompt": "40881234065",
+          "byok_completion": "1134615330",
+          "billed_prompt": "190584704525",
+          "billed_completion": "9478347343"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.952623",
+          "w_out": "0.047377"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.313752370",
+          "p_out_usd_per_m": "4.140169641",
+          "as_of": "2026-11-10T23:19:12.000Z"
+        },
+        "rank": 24,
+        "reason": null,
+        "source_as_of": "2026-11-10T20:50:09.966Z",
+        "observed_at": "2026-11-10T23:19:05.016Z",
+        "print_hash": "7177fc29e9ff0a51757c086002720f7bf026335294eb8140c9ebfb9109f54059"
+      },
+      "series_path": "/v1/indices/or-model-spend/google/gemini-3.8-flash-20260902/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-qwen/qwen3.8-flash-20260826",
+      "permaslug": "qwen/qwen3.8-flash-20260826",
+      "index_id": "or-model-spend/qwen/qwen3.8-flash-20260826",
+      "label": "Qwen: Qwen3.8 Flash: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "qwen/qwen3.8-flash",
+      "name": "Qwen: Qwen3.8 Flash",
+      "author": "qwen",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "Qwen/Qwen3.8-Flash-Next",
+      "modality": "text+image+video->text",
+      "created": "2026-08-26T19:37:40.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 25,
+        "basis_tokens": "206658190699"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "8617.263049",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "197264647805",
+          "completion": "9393542894",
+          "total": "206658190699",
+          "cached_prompt": "179572648259",
+          "reasoning": "4718194668",
+          "requests": "8227572",
+          "byok_prompt": "25545423799",
+          "byok_completion": "1378093801",
+          "billed_prompt": "171719224006",
+          "billed_completion": "8015449093"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.955404",
+          "w_out": "0.044596"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.028264124",
+          "p_out_usd_per_m": "0.469564408",
+          "as_of": "2026-11-10T23:19:36.000Z"
+        },
+        "rank": 25,
+        "reason": null,
+        "source_as_of": "2026-11-10T16:46:10.104Z",
+        "observed_at": "2026-11-10T23:19:28.829Z",
+        "print_hash": "83f71343e541949e068ffdfb5df56debc939fd6a8c844de378badd44f02c9d28"
+      },
+      "series_path": "/v1/indices/or-model-spend/qwen/qwen3.8-flash-20260826/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-openai/gpt-5.6-luna-20260709",
+      "permaslug": "openai/gpt-5.6-luna-20260709",
+      "index_id": "or-model-spend/openai/gpt-5.6-luna-20260709",
+      "label": "OpenAI: GPT-5.6 Luna: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "openai/gpt-5.6-luna",
+      "name": "OpenAI: GPT-5.6 Luna",
+      "author": "openai",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file->text",
+      "created": "2026-07-09T09:54:24.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 26,
+        "basis_tokens": "201276984465"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "22491.576720",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "194946100393",
+          "completion": "6330884072",
+          "total": "201276984465",
+          "cached_prompt": "139208394911",
+          "reasoning": "2957717771",
+          "requests": "16743855",
+          "byok_prompt": "28763354904",
+          "byok_completion": "1073028503",
+          "billed_prompt": "166182745489",
+          "billed_completion": "5257855569"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.969331",
+          "w_out": "0.030669"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.097973571",
+          "p_out_usd_per_m": "1.181101235",
+          "as_of": "2026-11-10T23:20:01.000Z"
+        },
+        "rank": 26,
+        "reason": null,
+        "source_as_of": "2026-11-10T20:41:03.888Z",
+        "observed_at": "2026-11-10T23:19:53.163Z",
+        "print_hash": "78c846b52c12851d00d7a79fa285644c3f8d7fa06fc5a69ff23038b08fe0f5ff"
+      },
+      "series_path": "/v1/indices/or-model-spend/openai/gpt-5.6-luna-20260709/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-upstage/solar-mini4-20260922",
+      "permaslug": "upstage/solar-mini4-20260922",
+      "index_id": "or-model-spend/upstage/solar-mini4-20260922",
+      "label": "Upstage: Solar Mini 4: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "upstage/solar-mini4",
+      "name": "Upstage: Solar Mini 4",
+      "author": "upstage",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text->text",
+      "created": "2026-09-23T10:45:58.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 27,
+        "basis_tokens": "173874897567"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "86.125667",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "172223075679",
+          "completion": "1651821888",
+          "total": "173874897567",
+          "cached_prompt": "120900643200",
+          "reasoning": "1038838326",
+          "requests": "1926284",
+          "byok_prompt": "170416416096",
+          "byok_completion": "1601743071",
+          "billed_prompt": "1806659583",
+          "billed_completion": "50078817"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.973029",
+          "w_out": "0.026971"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.036907935",
+          "p_out_usd_per_m": "0.388299768",
+          "as_of": "2026-11-10T23:20:23.000Z"
+        },
+        "rank": 27,
+        "reason": null,
+        "source_as_of": "2026-11-10T20:14:43.272Z",
+        "observed_at": "2026-11-10T23:20:16.846Z",
+        "print_hash": "a14291f9f575abdd82f391adc447ed0ae41469dda56700b37540682905bf2787"
+      },
+      "series_path": "/v1/indices/or-model-spend/upstage/solar-mini4-20260922/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-openai/gpt-6.1-terra-20261026",
+      "permaslug": "openai/gpt-6.1-terra-20261026",
+      "index_id": "or-model-spend/openai/gpt-6.1-terra-20261026",
+      "label": "OpenAI: GPT-6.1 Terra: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "openai/gpt-6.1-terra",
+      "name": "OpenAI: GPT-6.1 Terra",
+      "author": "openai",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file->text",
+      "created": "2026-10-26T18:13:29.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 28,
+        "basis_tokens": "170316280983"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "34776.149326",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "168861011494",
+          "completion": "1455269489",
+          "total": "170316280983",
+          "cached_prompt": "150096330643",
+          "reasoning": "603100843",
+          "requests": "4946846",
+          "byok_prompt": "28826682352",
+          "byok_completion": "123186827",
+          "billed_prompt": "140034329142",
+          "billed_completion": "1332082662"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.990577",
+          "w_out": "0.009423"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.201627756",
+          "p_out_usd_per_m": "4.910612505",
+          "as_of": "2026-11-10T23:20:48.000Z"
+        },
+        "rank": 28,
+        "reason": null,
+        "source_as_of": "2026-11-10T17:41:11.681Z",
+        "observed_at": "2026-11-10T23:20:39.923Z",
+        "print_hash": "ba21a114f48a1f7548aa344cf0751c4d21ab1a286e436da5bde97f4ccb54dbe8"
+      },
+      "series_path": "/v1/indices/or-model-spend/openai/gpt-6.1-terra-20261026/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-xiaomi/mimo-v2.6-pro-20260921",
+      "permaslug": "xiaomi/mimo-v2.6-pro-20260921",
+      "index_id": "or-model-spend/xiaomi/mimo-v2.6-pro-20260921",
+      "label": "Xiaomi: MiMo-V2.6-Pro: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "xiaomi/mimo-v2.6-pro",
+      "name": "Xiaomi: MiMo-V2.6-Pro",
+      "author": "xiaomi",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "XiaomiMiMo/MiMo-V2.6-Pro-RL",
+      "modality": "text+image+audio+video->text",
+      "created": "2026-09-21T20:07:39.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 29,
+        "basis_tokens": "160552032910"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "11814.764144",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "158136264328",
+          "completion": "2415768582",
+          "total": "160552032910",
+          "cached_prompt": "140640661436",
+          "reasoning": "1365211071",
+          "requests": "2380375",
+          "byok_prompt": "10176711732",
+          "byok_completion": "108459124",
+          "billed_prompt": "147959552596",
+          "billed_completion": "2307309458"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.984645",
+          "w_out": "0.015355"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.062176745",
+          "p_out_usd_per_m": "1.133407035",
+          "as_of": "2026-11-10T23:21:09.000Z"
+        },
+        "rank": 29,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:59:07.752Z",
+        "observed_at": "2026-11-10T23:21:02.425Z",
+        "print_hash": "7290c64474f74b3bf92e6fb6def4f1ad547e725611018b9f3231e201e4e72512"
+      },
+      "series_path": "/v1/indices/or-model-spend/xiaomi/mimo-v2.6-pro-20260921/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-google/gemini-4-argon-20261013",
+      "permaslug": "google/gemini-4-argon-20261013",
+      "index_id": "or-model-spend/google/gemini-4-argon-20261013",
+      "label": "Google: Gemini 4 Argon: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "google/gemini-4-argon",
+      "name": "Google: Gemini 4 Argon",
+      "author": "google",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file+audio+video->text",
+      "created": "2026-10-13T16:04:37.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 30,
+        "basis_tokens": "159022598226"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "117479.903340",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "155470143810",
+          "completion": "3552454416",
+          "total": "159022598226",
+          "cached_prompt": "111925135722",
+          "reasoning": "1297527641",
+          "requests": "3641140",
+          "byok_prompt": "24233282276",
+          "byok_completion": "382752121",
+          "billed_prompt": "131236861534",
+          "billed_completion": "3169702295"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.976417",
+          "w_out": "0.023583"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.641204852",
+          "p_out_usd_per_m": "10.515243345",
+          "as_of": "2026-11-10T23:21:33.000Z"
+        },
+        "rank": 30,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:41:00.580Z",
+        "observed_at": "2026-11-10T23:21:26.247Z",
+        "print_hash": "e004a7058bc7abb7a9670b5be467d172db74eccecc7c2d88c5ad506e4753689a"
+      },
+      "series_path": "/v1/indices/or-model-spend/google/gemini-4-argon-20261013/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-moonshotai/kimi-k3-20260715",
+      "permaslug": "moonshotai/kimi-k3-20260715",
+      "index_id": "or-model-spend/moonshotai/kimi-k3-20260715",
+      "label": "MoonshotAI: Kimi K3: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "moonshotai/kimi-k3",
+      "name": "MoonshotAI: Kimi K3",
+      "author": "moonshotai",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "moonshotai/Kimi-K3",
+      "modality": "text+image+video->text",
+      "created": "2026-07-16T15:30:58.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 32,
+        "basis_tokens": "148943749487"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "77989.035373",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "146236177387",
+          "completion": "2707572100",
+          "total": "148943749487",
+          "cached_prompt": "132686727083",
+          "reasoning": "1631190093",
+          "requests": "2653614",
+          "byok_prompt": "14415651229",
+          "byok_completion": "264961382",
+          "billed_prompt": "131820526158",
+          "billed_completion": "2442610718"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.981807",
+          "w_out": "0.018193"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.332218133",
+          "p_out_usd_per_m": "13.999720066",
+          "as_of": "2026-11-10T23:21:58.000Z"
+        },
+        "rank": 32,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:42:12.145Z",
+        "observed_at": "2026-11-10T23:21:49.288Z",
+        "print_hash": "2d835d2be438aca142355d8f1851a9eab546c66847f1e96bab711bd32780bf94"
+      },
+      "series_path": "/v1/indices/or-model-spend/moonshotai/kimi-k3-20260715/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-z-ai/glm-5.2-20260616",
+      "permaslug": "z-ai/glm-5.2-20260616",
+      "index_id": "or-model-spend/z-ai/glm-5.2-20260616",
+      "label": "Z.ai: GLM 5.2: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "z-ai/glm-5.2",
+      "name": "Z.ai: GLM 5.2",
+      "author": "z-ai",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "zai-org/GLM-5.2",
+      "modality": "text->text",
+      "created": "2026-06-16T17:45:30.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 33,
+        "basis_tokens": "128516211675"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "44820.130871",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "125111747793",
+          "completion": "3404463882",
+          "total": "128516211675",
+          "cached_prompt": "95876231142",
+          "reasoning": "1491573164",
+          "requests": "3945837",
+          "byok_prompt": "404652367",
+          "byok_completion": "14111358",
+          "billed_prompt": "124707095426",
+          "billed_completion": "3390352524"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.973533",
+          "w_out": "0.026467"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.238177650",
+          "p_out_usd_per_m": "4.459031277",
+          "as_of": "2026-11-10T23:22:22.000Z"
+        },
+        "rank": 33,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:00:18.922Z",
+        "observed_at": "2026-11-10T23:22:13.394Z",
+        "print_hash": "7c98adc66462c593fcffa0546cdd21f1750a92fc8285ba7b15e930ad8fa7ae78"
+      },
+      "series_path": "/v1/indices/or-model-spend/z-ai/glm-5.2-20260616/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-deepseek/deepseek-v4-pro-20260813",
+      "permaslug": "deepseek/deepseek-v4-pro-20260813",
+      "index_id": "or-model-spend/deepseek/deepseek-v4-pro-20260813",
+      "label": "DeepSeek: DeepSeek V4 Pro 0813: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "deepseek/deepseek-v4-pro-0813",
+      "name": "DeepSeek: DeepSeek V4 Pro 0813",
+      "author": "deepseek",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "deepseek-ai/DeepSeek-V4-Pro-0813",
+      "modality": "text->text",
+      "created": "2026-08-12T15:42:44.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 34,
+        "basis_tokens": "115054183983"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "31628.416017",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "112187100951",
+          "completion": "2867083032",
+          "total": "115054183983",
+          "cached_prompt": "88310939695",
+          "reasoning": "1615374799",
+          "requests": "6175352",
+          "byok_prompt": "1821515696",
+          "byok_completion": "36549746",
+          "billed_prompt": "110365585255",
+          "billed_completion": "2830533286"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.974994",
+          "w_out": "0.025006"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.196689831",
+          "p_out_usd_per_m": "3.504861700",
+          "as_of": "2026-11-10T23:22:45.000Z"
+        },
+        "rank": 34,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:00:18.441Z",
+        "observed_at": "2026-11-10T23:22:38.449Z",
+        "print_hash": "0dacfb42a293e48d416573a5fd39dc841117610eaea71cd24158e266ba5197f8"
+      },
+      "series_path": "/v1/indices/or-model-spend/deepseek/deepseek-v4-pro-20260813/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-qwen/qwen3.8-27b-20260814",
+      "permaslug": "qwen/qwen3.8-27b-20260814",
+      "index_id": "or-model-spend/qwen/qwen3.8-27b-20260814",
+      "label": "Qwen: Qwen3.8 27B: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "qwen/qwen3.8-27b",
+      "name": "Qwen: Qwen3.8 27B",
+      "author": "qwen",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "Qwen/Qwen3.8-27B",
+      "modality": "text+image+video->text",
+      "created": "2026-08-14T15:55:10.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 35,
+        "basis_tokens": "99418895852"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "20595.277107",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "94332855634",
+          "completion": "5086040218",
+          "total": "99418895852",
+          "cached_prompt": "62137132382",
+          "reasoning": "3673039134",
+          "requests": "6919789",
+          "byok_prompt": "4930241623",
+          "byok_completion": "135900013",
+          "billed_prompt": "89402614011",
+          "billed_completion": "4950140205"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.947536",
+          "w_out": "0.052464"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.101747758",
+          "p_out_usd_per_m": "2.322916341",
+          "as_of": "2026-11-10T23:23:08.000Z"
+        },
+        "rank": 35,
+        "reason": null,
+        "source_as_of": "2026-11-10T20:32:30.468Z",
+        "observed_at": "2026-11-10T23:22:59.541Z",
+        "print_hash": "5aebf69a104492d5186f79157f4b6d23e24d743b527917a977ddcc7fcc631490"
+      },
+      "series_path": "/v1/indices/or-model-spend/qwen/qwen3.8-27b-20260814/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-google/gemini-3-flash-preview-20251217",
+      "permaslug": "google/gemini-3-flash-preview-20251217",
+      "index_id": "or-model-spend/google/gemini-3-flash-preview-20251217",
+      "label": "Google: Gemini 3 Flash Preview: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "google/gemini-3-flash-preview",
+      "name": "Google: Gemini 3 Flash Preview",
+      "author": "google",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file+audio+video->text",
+      "created": "2025-12-17T15:57:58.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 37,
+        "basis_tokens": "94464876841"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "31693.224712",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "90664806933",
+          "completion": "3800069908",
+          "total": "94464876841",
+          "cached_prompt": "49506418088",
+          "reasoning": "571490400",
+          "requests": "11547261",
+          "byok_prompt": "8676044028",
+          "byok_completion": "358224811",
+          "billed_prompt": "81988762905",
+          "billed_completion": "3441845097"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.959712",
+          "w_out": "0.040288"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.266541099",
+          "p_out_usd_per_m": "2.858888028",
+          "as_of": "2026-11-10T23:23:32.000Z"
+        },
+        "rank": 37,
+        "reason": null,
+        "source_as_of": "2026-11-10T18:33:24.688Z",
+        "observed_at": "2026-11-10T23:23:25.881Z",
+        "print_hash": "4c09bb09c01ca739490d4a6ecf88530074ac54d2160facac4873f6d4b7cac7b6"
+      },
+      "series_path": "/v1/indices/or-model-spend/google/gemini-3-flash-preview-20251217/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-openai/gpt-6-luna-pro-20260922",
+      "permaslug": "openai/gpt-6-luna-pro-20260922",
+      "index_id": "or-model-spend/openai/gpt-6-luna-pro-20260922",
+      "label": "OpenAI: GPT-6 Luna Pro: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "openai/gpt-6-luna-pro",
+      "name": "OpenAI: GPT-6 Luna Pro",
+      "author": "openai",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file->text",
+      "created": "2026-09-22T18:13:11.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 38,
+        "basis_tokens": "91089401101"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "4357.968748",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "89318665982",
+          "completion": "1770735119",
+          "total": "91089401101",
+          "cached_prompt": "68984317868",
+          "reasoning": "1129267532",
+          "requests": "990895",
+          "byok_prompt": "857717091",
+          "byok_completion": "13636081",
+          "billed_prompt": "88460948891",
+          "billed_completion": "1757099038"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.980524",
+          "w_out": "0.019476"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.038468147",
+          "p_out_usd_per_m": "0.543532232",
+          "as_of": "2026-11-10T23:23:55.000Z"
+        },
+        "rank": 38,
+        "reason": null,
+        "source_as_of": "2026-11-10T21:10:13.145Z",
+        "observed_at": "2026-11-10T23:23:45.686Z",
+        "print_hash": "63f8fe534bac7c63c2108e5eda7fd4e791c9bd884c7f199ade10d8949eefe916"
+      },
+      "series_path": "/v1/indices/or-model-spend/openai/gpt-6-luna-pro-20260922/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-minimax/minimax-m3-20260531",
+      "permaslug": "minimax/minimax-m3-20260531",
+      "index_id": "or-model-spend/minimax/minimax-m3-20260531",
+      "label": "MiniMax: MiniMax M3: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "minimax/minimax-m3",
+      "name": "MiniMax: MiniMax M3",
+      "author": "minimax",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "MiniMaxAI/Minimax-M3",
+      "modality": "text+image+video->text",
+      "created": "2026-05-31T16:36:14.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 39,
+        "basis_tokens": "88548501177"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "3869.833922",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "87079653125",
+          "completion": "1468848052",
+          "total": "88548501177",
+          "cached_prompt": "79507548528",
+          "reasoning": "1064378475",
+          "requests": "1305430",
+          "byok_prompt": "57106694695",
+          "byok_completion": "204771500",
+          "billed_prompt": "29972958430",
+          "billed_completion": "1264076552"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.959533",
+          "w_out": "0.040467"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.079498887",
+          "p_out_usd_per_m": "1.176366324",
+          "as_of": "2026-11-10T23:24:19.000Z"
+        },
+        "rank": 39,
+        "reason": null,
+        "source_as_of": "2026-11-10T17:05:46.808Z",
+        "observed_at": "2026-11-10T23:24:11.670Z",
+        "print_hash": "75ac6b3fd746aa368b76db6d39e938dbdf784518e19ceb6504effad648431c4d"
+      },
+      "series_path": "/v1/indices/or-model-spend/minimax/minimax-m3-20260531/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-deepseek/deepseek-v4-pro-20260423",
+      "permaslug": "deepseek/deepseek-v4-pro-20260423",
+      "index_id": "or-model-spend/deepseek/deepseek-v4-pro-20260423",
+      "label": "DeepSeek: DeepSeek V4 Pro 0423: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "deepseek/deepseek-v4-pro",
+      "name": "DeepSeek: DeepSeek V4 Pro 0423",
+      "author": "deepseek",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "deepseek-ai/DeepSeek-V4-Pro",
+      "modality": "text->text",
+      "created": "2026-04-24T03:17:59.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 40,
+        "basis_tokens": "81261263686"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "25239.726020",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "78628667666",
+          "completion": "2632596020",
+          "total": "81261263686",
+          "cached_prompt": "67627628480",
+          "reasoning": "1478333639",
+          "requests": "3303081",
+          "byok_prompt": "11240217095",
+          "byok_completion": "146478212",
+          "billed_prompt": "67388450571",
+          "billed_completion": "2486117808"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.964420",
+          "w_out": "0.035580"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.289354741",
+          "p_out_usd_per_m": "2.309045187",
+          "as_of": "2026-11-10T23:24:41.000Z"
+        },
+        "rank": 40,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:03:35.322Z",
+        "observed_at": "2026-11-10T23:24:32.751Z",
+        "print_hash": "95b89d936498b6828fd266b6ca70200537adcd3fed18c8696ce388b133e09765"
+      },
+      "series_path": "/v1/indices/or-model-spend/deepseek/deepseek-v4-pro-20260423/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-google/gemini-3.1-flash-lite-20260507",
+      "permaslug": "google/gemini-3.1-flash-lite-20260507",
+      "index_id": "or-model-spend/google/gemini-3.1-flash-lite-20260507",
+      "label": "Google: Gemini 3.1 Flash Lite: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "google/gemini-3.1-flash-lite",
+      "name": "Google: Gemini 3.1 Flash Lite",
+      "author": "google",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file+audio+video->text",
+      "created": "2026-05-07T15:47:08.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 41,
+        "basis_tokens": "77199796980"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "13775.707765",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "73065431567",
+          "completion": "4134365413",
+          "total": "77199796980",
+          "cached_prompt": "21738923800",
+          "reasoning": "488120701",
+          "requests": "20143282",
+          "byok_prompt": "18223767376",
+          "byok_completion": "1051018016",
+          "billed_prompt": "54841664191",
+          "billed_completion": "3083347397"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.946770",
+          "w_out": "0.053230"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.172418633",
+          "p_out_usd_per_m": "1.401069175",
+          "as_of": "2026-11-10T23:25:04.000Z"
+        },
+        "rank": 41,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:05:31.416Z",
+        "observed_at": "2026-11-10T23:24:54.858Z",
+        "print_hash": "9c72388f5d8e913579ea06800f3dd581568f3080a40772bbab147c8a420c242d"
+      },
+      "series_path": "/v1/indices/or-model-spend/google/gemini-3.1-flash-lite-20260507/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-anthropic/claude-sonnet-5-20260630",
+      "permaslug": "anthropic/claude-sonnet-5-20260630",
+      "index_id": "or-model-spend/anthropic/claude-sonnet-5-20260630",
+      "label": "Anthropic: Claude Sonnet 5: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "anthropic/claude-sonnet-5",
+      "name": "Anthropic: Claude Sonnet 5",
+      "author": "anthropic",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file->text",
+      "created": "2026-06-30T18:11:23.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 42,
+        "basis_tokens": "72702076912"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "47236.653972",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "71401211349",
+          "completion": "1300865563",
+          "total": "72702076912",
+          "cached_prompt": "54638407777",
+          "reasoning": "613901083",
+          "requests": "2022575",
+          "byok_prompt": "17834797771",
+          "byok_completion": "188663169",
+          "billed_prompt": "53566413578",
+          "billed_completion": "1112202394"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.979659",
+          "w_out": "0.020341"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.673391977",
+          "p_out_usd_per_m": "10.039054845",
+          "as_of": "2026-11-10T23:25:26.000Z"
+        },
+        "rank": 42,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:25:30.714Z",
+        "observed_at": "2026-11-10T23:25:18.052Z",
+        "print_hash": "05f5bc81083f23bd7eb3c75ad090c64fabfeb2b5fdd2e7441611f357d5029ae1"
+      },
+      "series_path": "/v1/indices/or-model-spend/anthropic/claude-sonnet-5-20260630/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-openai/gpt-oss-120b",
+      "permaslug": "openai/gpt-oss-120b",
+      "index_id": "or-model-spend/openai/gpt-oss-120b",
+      "label": "OpenAI: gpt-oss-120b: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "openai/gpt-oss-120b",
+      "name": "OpenAI: gpt-oss-120b",
+      "author": "openai",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "openai/gpt-oss-120b",
+      "modality": "text->text",
+      "created": "2025-08-05T17:17:11.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 43,
+        "basis_tokens": "71209721344"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "9050.067138",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "63374013928",
+          "completion": "7835707416",
+          "total": "71209721344",
+          "cached_prompt": "28854477408",
+          "reasoning": "4901804546",
+          "requests": "18158737",
+          "byok_prompt": "5627603681",
+          "byok_completion": "389730674",
+          "billed_prompt": "57746410247",
+          "billed_completion": "7445976742"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.885785",
+          "w_out": "0.114215"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.104302601",
+          "p_out_usd_per_m": "0.406523745",
+          "as_of": "2026-11-10T23:25:52.000Z"
+        },
+        "rank": 43,
+        "reason": null,
+        "source_as_of": "2026-11-10T21:13:41.996Z",
+        "observed_at": "2026-11-10T23:25:42.689Z",
+        "print_hash": "24d4fd036214f0338fdc7e5f79ff1b3649a6eb87f601d530b30bf42bb9e96d61"
+      },
+      "series_path": "/v1/indices/or-model-spend/openai/gpt-oss-120b/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-x-ai/grok-4.7-20260916",
+      "permaslug": "x-ai/grok-4.7-20260916",
+      "index_id": "or-model-spend/x-ai/grok-4.7-20260916",
+      "label": "SpaceXAI: Grok 4.7: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "x-ai/grok-4.7",
+      "name": "SpaceXAI: Grok 4.7",
+      "author": "x-ai",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file->text",
+      "created": "2026-09-21T16:19:01.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 44,
+        "basis_tokens": "65579419465"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "55533.575978",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "64191459161",
+          "completion": "1387960304",
+          "total": "65579419465",
+          "cached_prompt": "58891640015",
+          "reasoning": "1066169088",
+          "requests": "974648",
+          "byok_prompt": "3476346740",
+          "byok_completion": "160914127",
+          "billed_prompt": "60715112421",
+          "billed_completion": "1227046177"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.980190",
+          "w_out": "0.019810"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.785550111",
+          "p_out_usd_per_m": "6.388359968",
+          "as_of": "2026-11-10T23:26:16.000Z"
+        },
+        "rank": 44,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:14:40.062Z",
+        "observed_at": "2026-11-10T23:26:06.211Z",
+        "print_hash": "a28b5e6740799665377c12b96744b09d6414a2fefafa56aa93ee18abdc9d53e8"
+      },
+      "series_path": "/v1/indices/or-model-spend/x-ai/grok-4.7-20260916/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-google/gemma-4-31b-it-20260402",
+      "permaslug": "google/gemma-4-31b-it-20260402",
+      "index_id": "or-model-spend/google/gemma-4-31b-it-20260402",
+      "label": "Google: Gemma 4 31B: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "google/gemma-4-31b-it",
+      "name": "Google: Gemma 4 31B",
+      "author": "google",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "google/gemma-4-31B-it",
+      "modality": "text+image+video->text",
+      "created": "2026-04-02T16:48:06.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 45,
+        "basis_tokens": "65404935131"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "9047.160147",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "60894341299",
+          "completion": "4510593832",
+          "total": "65404935131",
+          "cached_prompt": "18407603249",
+          "reasoning": "935743933",
+          "requests": "13086644",
+          "byok_prompt": "4104503829",
+          "byok_completion": "200168075",
+          "billed_prompt": "56789837470",
+          "billed_completion": "4310425757"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.929453",
+          "w_out": "0.070547"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.128067891",
+          "p_out_usd_per_m": "0.411607932",
+          "as_of": "2026-11-10T23:26:39.000Z"
+        },
+        "rank": 45,
+        "reason": null,
+        "source_as_of": "2026-11-10T16:50:48.770Z",
+        "observed_at": "2026-11-10T23:26:32.637Z",
+        "print_hash": "cea92aa5c9ba2a775669b78314b698d2b10c969ed18d136edebe45e75ec09355"
+      },
+      "series_path": "/v1/indices/or-model-spend/google/gemma-4-31b-it-20260402/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-google/gemma-4-26b-a4b-it-20260403",
+      "permaslug": "google/gemma-4-26b-a4b-it-20260403",
+      "index_id": "or-model-spend/google/gemma-4-26b-a4b-it-20260403",
+      "label": "Google: Gemma 4 26B A4B : OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "google/gemma-4-26b-a4b-it",
+      "name": "Google: Gemma 4 26B A4B ",
+      "author": "google",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "google/gemma-4-26B-A4B-it",
+      "modality": "text+image+video->text",
+      "created": "2026-04-03T14:53:09.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 46,
+        "basis_tokens": "63007549403"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "4908.951821",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "58355391857",
+          "completion": "4652157546",
+          "total": "63007549403",
+          "cached_prompt": "14610079031",
+          "reasoning": "161871694",
+          "requests": "22846309",
+          "byok_prompt": "4082630475",
+          "byok_completion": "351076583",
+          "billed_prompt": "54272761382",
+          "billed_completion": "4301080963"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.926570",
+          "w_out": "0.073430"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.071858135",
+          "p_out_usd_per_m": "0.234595074",
+          "as_of": "2026-11-10T23:27:05.000Z"
+        },
+        "rank": 46,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:03:36.261Z",
+        "observed_at": "2026-11-10T23:26:57.769Z",
+        "print_hash": "0d0f7ffdb9ac613823d26d90a86d09507b8c84d7fdd80f12c209c89f2f328678"
+      },
+      "series_path": "/v1/indices/or-model-spend/google/gemma-4-26b-a4b-it-20260403/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-qwen/qwen3.7-flash-20260727",
+      "permaslug": "qwen/qwen3.7-flash-20260727",
+      "index_id": "or-model-spend/qwen/qwen3.7-flash-20260727",
+      "label": "Qwen: Qwen3.7 Flash: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "qwen/qwen3.7-flash",
+      "name": "Qwen: Qwen3.7 Flash",
+      "author": "qwen",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+video->text",
+      "created": "2026-07-27T22:16:01.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 47,
+        "basis_tokens": "59251923904"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "1843.822438",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "54495037864",
+          "completion": "4756886040",
+          "total": "59251923904",
+          "cached_prompt": "23494730965",
+          "reasoning": "1660947496",
+          "requests": "17740817",
+          "byok_prompt": "1973084383",
+          "byok_completion": "462636052",
+          "billed_prompt": "52521953481",
+          "billed_completion": "4294249988"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.924419",
+          "w_out": "0.075581"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.023938421",
+          "p_out_usd_per_m": "0.136584923",
+          "as_of": "2026-11-10T23:27:33.000Z"
+        },
+        "rank": 47,
+        "reason": null,
+        "source_as_of": "2026-11-10T18:47:37.550Z",
+        "observed_at": "2026-11-10T23:27:23.017Z",
+        "print_hash": "0ed045d56b062a1c7466df14937fff024b82962ae0b1579b05c12d81ec551297"
+      },
+      "series_path": "/v1/indices/or-model-spend/qwen/qwen3.7-flash-20260727/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-upstage/solar-pro4-20260810",
+      "permaslug": "upstage/solar-pro4-20260810",
+      "index_id": "or-model-spend/upstage/solar-pro4-20260810",
+      "label": "Upstage: Solar Pro 4: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "upstage/solar-pro4",
+      "name": "Upstage: Solar Pro 4",
+      "author": "upstage",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text->text",
+      "created": "2026-08-10T14:20:36.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 48,
+        "basis_tokens": "58961041204"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "338.937477",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "58385822919",
+          "completion": "575218285",
+          "total": "58961041204",
+          "cached_prompt": "48642614400",
+          "reasoning": "56229296",
+          "requests": "2346627",
+          "byok_prompt": "56288920047",
+          "byok_completion": "450762955",
+          "billed_prompt": "2096902872",
+          "billed_completion": "124455330"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.943973",
+          "w_out": "0.056027"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.098878767",
+          "p_out_usd_per_m": "1.057393895",
+          "as_of": "2026-11-10T23:27:56.000Z"
+        },
+        "rank": 48,
+        "reason": null,
+        "source_as_of": "2026-11-10T17:53:40.962Z",
+        "observed_at": "2026-11-10T23:27:49.553Z",
+        "print_hash": "63054df444f2ea363b3360979193bc6a730908aad2fa3a69f62b8d1fcac452d1"
+      },
+      "series_path": "/v1/indices/or-model-spend/upstage/solar-pro4-20260810/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-google/gemini-2.5-flash-lite",
+      "permaslug": "google/gemini-2.5-flash-lite",
+      "index_id": "or-model-spend/google/gemini-2.5-flash-lite",
+      "label": "Google: Gemini 2.5 Flash Lite: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "google/gemini-2.5-flash-lite",
+      "name": "Google: Gemini 2.5 Flash Lite",
+      "author": "google",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file+audio+video->text",
+      "created": "2025-07-22T16:04:36.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 50,
+        "basis_tokens": "50117138720"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "5555.078203",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [],
+        "tokens": {
+          "prompt": "43281162593",
+          "completion": "6835976127",
+          "total": "50117138720",
+          "cached_prompt": "13596261169",
+          "reasoning": "339182970",
+          "requests": "22244114",
+          "byok_prompt": "2470908456",
+          "byok_completion": "190498931",
+          "billed_prompt": "40810254137",
+          "billed_completion": "6645477196"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.859965",
+          "w_out": "0.140035"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.071670259",
+          "p_out_usd_per_m": "0.395787487",
+          "as_of": "2026-11-10T23:28:19.000Z"
+        },
+        "rank": 50,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:33:38.278Z",
+        "observed_at": "2026-11-10T23:28:11.180Z",
+        "print_hash": "b0908b3b2677c8dae52a37c6d80bdcadb12302f806c30f3d849876c983145bf5"
+      },
+      "series_path": "/v1/indices/or-model-spend/google/gemini-2.5-flash-lite/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-mistralai/mistral-nemo",
+      "permaslug": "mistralai/mistral-nemo",
+      "index_id": "or-model-spend/mistralai/mistral-nemo",
+      "label": "Mistral: Mistral Nemo: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "mistralai/mistral-nemo",
+      "name": "Mistral: Mistral Nemo",
+      "author": "mistralai",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "mistralai/Mistral-Nemo-Instruct-2407",
+      "modality": "text->text",
+      "created": "2024-07-19T00:00:00.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 52,
+        "basis_tokens": "48416861335"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "1258.951330",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [
+          "TOP_N_DROPOUT"
+        ],
+        "tokens": {
+          "prompt": "45975761076",
+          "completion": "2441100259",
+          "total": "48416861335",
+          "cached_prompt": "1623896354",
+          "reasoning": "0",
+          "requests": "19668923",
+          "byok_prompt": "3460540123",
+          "byok_completion": "88422132",
+          "billed_prompt": "42515220953",
+          "billed_completion": "2352678127"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.947564",
+          "w_out": "0.052436"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.028069802",
+          "p_out_usd_per_m": "0.027865051",
+          "as_of": "2026-11-10T23:28:43.000Z"
+        },
+        "rank": 52,
+        "reason": null,
+        "source_as_of": "2026-11-10T18:56:54.971Z",
+        "observed_at": "2026-11-10T23:28:33.047Z",
+        "print_hash": "61326cd3627cdfa96b6fb85c21fd02060fe0c9fae50788fb5159eb33b59cafe5"
+      },
+      "series_path": "/v1/indices/or-model-spend/mistralai/mistral-nemo/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-nvidia/nemotron-3.5-super-vl-20261015",
+      "permaslug": "nvidia/nemotron-3.5-super-vl-20261015",
+      "index_id": "or-model-spend/nvidia/nemotron-3.5-super-vl-20261015",
+      "label": "NVIDIA: Nemotron 3.5 Super VL: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "nvidia/nemotron-3.5-super-vl",
+      "name": "NVIDIA: Nemotron 3.5 Super VL",
+      "author": "nvidia",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "nvidia/NVIDIA-Nemotron-3.5-Super-VL",
+      "modality": "text+image+video->text",
+      "created": "2026-10-15T15:04:22.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 53,
+        "basis_tokens": "46282692574"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "4049.525370",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [
+          "TOP_N_DROPOUT"
+        ],
+        "tokens": {
+          "prompt": "43567701543",
+          "completion": "2714991031",
+          "total": "46282692574",
+          "cached_prompt": "30890759056",
+          "reasoning": "2101264305",
+          "requests": "1231480",
+          "byok_prompt": "6682264",
+          "byok_completion": "4219185",
+          "billed_prompt": "43561019279",
+          "billed_completion": "2710771846"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.941416",
+          "w_out": "0.058584"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.060005295",
+          "p_out_usd_per_m": "0.529603242",
+          "as_of": "2026-11-10T23:29:05.000Z"
+        },
+        "rank": 53,
+        "reason": null,
+        "source_as_of": "2026-11-10T18:15:32.811Z",
+        "observed_at": "2026-11-10T23:28:55.266Z",
+        "print_hash": "ca5e59f015b9651bb7f746316048896aff441a7ba916c509bce32eaa8ccebe5a"
+      },
+      "series_path": "/v1/indices/or-model-spend/nvidia/nemotron-3.5-super-vl-20261015/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-openai/gpt-6-astra-20260903",
+      "permaslug": "openai/gpt-6-astra-20260903",
+      "index_id": "or-model-spend/openai/gpt-6-astra-20260903",
+      "label": "OpenAI: GPT-6 Astra: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "openai/gpt-6-astra",
+      "name": "OpenAI: GPT-6 Astra",
+      "author": "openai",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file->text",
+      "created": "2026-09-04T20:13:58.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 55,
+        "basis_tokens": "44579732487"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "222532.185337",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [
+          "TOP_N_DROPOUT"
+        ],
+        "tokens": {
+          "prompt": "41769142915",
+          "completion": "2810589572",
+          "total": "44579732487",
+          "cached_prompt": "36604882546",
+          "reasoning": "784416437",
+          "requests": "4511624",
+          "byok_prompt": "9558731777",
+          "byok_completion": "116436513",
+          "billed_prompt": "32210411138",
+          "billed_completion": "2694153059"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.922814",
+          "w_out": "0.077186"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "2.725940814",
+          "p_out_usd_per_m": "50.007741962",
+          "as_of": "2026-11-10T23:29:28.000Z"
+        },
+        "rank": 55,
+        "reason": null,
+        "source_as_of": "2026-11-10T18:43:47.221Z",
+        "observed_at": "2026-11-10T23:29:21.059Z",
+        "print_hash": "738da522a9709e55637672e54e3b59570b45e212680677dd5894883eefd39188"
+      },
+      "series_path": "/v1/indices/or-model-spend/openai/gpt-6-astra-20260903/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-google/gemini-3.7-flash-20260813",
+      "permaslug": "google/gemini-3.7-flash-20260813",
+      "index_id": "or-model-spend/google/gemini-3.7-flash-20260813",
+      "label": "Google: Gemini 3.7 Flash: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "google/gemini-3.7-flash",
+      "name": "Google: Gemini 3.7 Flash",
+      "author": "google",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file+audio+video->text",
+      "created": "2026-08-13T17:03:01.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 56,
+        "basis_tokens": "42143375056"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "23288.703263",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [
+          "TOP_N_DROPOUT"
+        ],
+        "tokens": {
+          "prompt": "39520187968",
+          "completion": "2623187088",
+          "total": "42143375056",
+          "cached_prompt": "19428109886",
+          "reasoning": "1212488337",
+          "requests": "3344778",
+          "byok_prompt": "3759295893",
+          "byok_completion": "412424872",
+          "billed_prompt": "35760892075",
+          "billed_completion": "2210762216"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.941779",
+          "w_out": "0.058221"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.416492943",
+          "p_out_usd_per_m": "3.797126628",
+          "as_of": "2026-11-10T23:29:52.000Z"
+        },
+        "rank": 56,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:38:46.318Z",
+        "observed_at": "2026-11-10T23:29:45.390Z",
+        "print_hash": "efea968365ca500fc64e56aea8475768f2a41f90dc5011d8fccb98c43b3dbcf5"
+      },
+      "series_path": "/v1/indices/or-model-spend/google/gemini-3.7-flash-20260813/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-openai/gpt-5.6-sol-20260709",
+      "permaslug": "openai/gpt-5.6-sol-20260709",
+      "index_id": "or-model-spend/openai/gpt-5.6-sol-20260709",
+      "label": "OpenAI: GPT-5.6 Sol: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "openai/gpt-5.6-sol",
+      "name": "OpenAI: GPT-5.6 Sol",
+      "author": "openai",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file->text",
+      "created": "2026-07-09T09:54:10.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 57,
+        "basis_tokens": "41338796079"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "85035.337506",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [
+          "TOP_N_DROPOUT"
+        ],
+        "tokens": {
+          "prompt": "39252629228",
+          "completion": "2086166851",
+          "total": "41338796079",
+          "cached_prompt": "32659526097",
+          "reasoning": "313538937",
+          "requests": "4320986",
+          "byok_prompt": "3641748764",
+          "byok_completion": "59291296",
+          "billed_prompt": "35610880464",
+          "billed_completion": "2026875555"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.946148",
+          "w_out": "0.053852"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "1.270091379",
+          "p_out_usd_per_m": "19.639225078",
+          "as_of": "2026-11-10T23:30:17.000Z"
+        },
+        "rank": 57,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:00:52.451Z",
+        "observed_at": "2026-11-10T23:30:07.938Z",
+        "print_hash": "76c521f7f14b4a313b1102cd5864c47d1a0a786cd96d419b179f3a08e208fcec"
+      },
+      "series_path": "/v1/indices/or-model-spend/openai/gpt-5.6-sol-20260709/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-deepseek/deepseek-v3.2-20251201",
+      "permaslug": "deepseek/deepseek-v3.2-20251201",
+      "index_id": "or-model-spend/deepseek/deepseek-v3.2-20251201",
+      "label": "DeepSeek: DeepSeek V3.2: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "deepseek/deepseek-v3.2",
+      "name": "DeepSeek: DeepSeek V3.2",
+      "author": "deepseek",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "deepseek-ai/DeepSeek-V3.2",
+      "modality": "text->text",
+      "created": "2025-12-01T13:10:42.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 58,
+        "basis_tokens": "41129551913"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "7450.694045",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [
+          "TOP_N_DROPOUT"
+        ],
+        "tokens": {
+          "prompt": "38053191249",
+          "completion": "3076360664",
+          "total": "41129551913",
+          "cached_prompt": "23452603008",
+          "reasoning": "1476587847",
+          "requests": "4999723",
+          "byok_prompt": "488640905",
+          "byok_completion": "19215622",
+          "billed_prompt": "37564550344",
+          "billed_completion": "3057145042"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.924741",
+          "w_out": "0.075259"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.160504653",
+          "p_out_usd_per_m": "0.464946513",
+          "as_of": "2026-11-10T23:30:41.000Z"
+        },
+        "rank": 58,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:21:29.218Z",
+        "observed_at": "2026-11-10T23:30:32.452Z",
+        "print_hash": "f3df1edaf4e6e02ac6da86e7348080fc846fce0faf7b17fd88549f13c0d0ed8d"
+      },
+      "series_path": "/v1/indices/or-model-spend/deepseek/deepseek-v3.2-20251201/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-google/gemini-2.5-flash",
+      "permaslug": "google/gemini-2.5-flash",
+      "index_id": "or-model-spend/google/gemini-2.5-flash",
+      "label": "Google: Gemini 2.5 Flash: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "google/gemini-2.5-flash",
+      "name": "Google: Gemini 2.5 Flash",
+      "author": "google",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file+audio+video->text",
+      "created": "2025-06-17T15:01:28.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 59,
+        "basis_tokens": "40372379207"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "14029.974746",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [
+          "TOP_N_DROPOUT"
+        ],
+        "tokens": {
+          "prompt": "37419325993",
+          "completion": "2953053214",
+          "total": "40372379207",
+          "cached_prompt": "16350757772",
+          "reasoning": "390284173",
+          "requests": "12004405",
+          "byok_prompt": "783831984",
+          "byok_completion": "73653512",
+          "billed_prompt": "36635494009",
+          "billed_completion": "2879399702"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.927131",
+          "w_out": "0.072869"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "0.187626316",
+          "p_out_usd_per_m": "2.485306908",
+          "as_of": "2026-11-10T23:31:05.000Z"
+        },
+        "rank": 59,
+        "reason": null,
+        "source_as_of": "2026-11-10T20:13:47.796Z",
+        "observed_at": "2026-11-10T23:30:57.963Z",
+        "print_hash": "79c7d41b197124973fa56c5a4344b65123f9e411f1fa5314d51492f480deb066"
+      },
+      "series_path": "/v1/indices/or-model-spend/google/gemini-2.5-flash/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-anthropic/claude-fable-5.1-20260831",
+      "permaslug": "anthropic/claude-fable-5.1-20260831",
+      "index_id": "or-model-spend/anthropic/claude-fable-5.1-20260831",
+      "label": "Anthropic: Claude Fable 5.1: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "anthropic/claude-fable-5.1",
+      "name": "Anthropic: Claude Fable 5.1",
+      "author": "anthropic",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file->text",
+      "created": "2026-09-01T18:03:58.000Z",
+      "listing": {
+        "listed_at": "2026-11-10T23:11:42.286Z",
+        "basis_day": "2026-11-09",
+        "basis_rank": 60,
+        "basis_tokens": "40075640403"
+      },
+      "lifecycle": {
+        "status": "ACTIVE",
+        "reason": "paper trading only",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": {
+        "utc_date": "2026-11-09",
+        "value_usd": "56314.729316",
+        "data_status": "OK",
+        "finality": "FINAL",
+        "revision": 1,
+        "revision_id": "2026-11-09.r1",
+        "confidence": "LOW",
+        "blocked": false,
+        "check_codes": [
+          "TOP_N_DROPOUT"
+        ],
+        "tokens": {
+          "prompt": "39632591480",
+          "completion": "443048923",
+          "total": "40075640403",
+          "cached_prompt": "35788882552",
+          "reasoning": "215453659",
+          "requests": "323798",
+          "byok_prompt": "12104558023",
+          "byok_completion": "88397243",
+          "billed_prompt": "27528033457",
+          "billed_completion": "354651680"
+        },
+        "mix": {
+          "basis": "OBSERVED",
+          "tokens": "billed (excl. BYOK)",
+          "w_in": "0.987281",
+          "w_out": "0.012719"
+        },
+        "price": {
+          "basis": "DAILY_ENDPOINT_REWEIGHTED",
+          "p_in_usd_per_m": "1.401558356",
+          "p_out_usd_per_m": "50.000000000",
+          "as_of": "2026-11-10T23:31:32.000Z"
+        },
+        "rank": 60,
+        "reason": null,
+        "source_as_of": "2026-11-10T19:36:31.881Z",
+        "observed_at": "2026-11-10T23:31:22.744Z",
+        "print_hash": "ac9b7db1260dd97de0cc7fb0015080ef5fbc46e4bad5160501c0450d754393ae"
+      },
+      "series_path": "/v1/indices/or-model-spend/anthropic/claude-fable-5.1-20260831/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-anthropic/claude-fable-5.2-20261109",
+      "permaslug": "anthropic/claude-fable-5.2-20261109",
+      "index_id": "or-model-spend/anthropic/claude-fable-5.2-20261109",
+      "label": "Anthropic: Claude Fable 5.2: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "anthropic/claude-fable-5.2",
+      "name": "Anthropic: Claude Fable 5.2",
+      "author": "anthropic",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file->text",
+      "created": "2026-11-09T19:49:41.000Z",
+      "listing": {
+        "listed_at": "2026-11-11T00:11:07.372Z",
+        "basis_day": "2026-11-10",
+        "basis_rank": 27,
+        "basis_tokens": "179398249249"
+      },
+      "lifecycle": {
+        "status": "PROPOSED",
+        "reason": "no revision yet",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": null,
+      "series_path": "/v1/indices/or-model-spend/anthropic/claude-fable-5.2-20261109/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-meta/muse-ember-20261109",
+      "permaslug": "meta/muse-ember-20261109",
+      "index_id": "or-model-spend/meta/muse-ember-20261109",
+      "label": "Meta: Muse Ember: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "meta/muse-ember",
+      "name": "Meta: Muse Ember",
+      "author": "meta",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file+audio+video->text",
+      "created": "2026-11-09T18:07:28.000Z",
+      "listing": {
+        "listed_at": "2026-11-11T00:11:07.372Z",
+        "basis_day": "2026-11-10",
+        "basis_rank": 44,
+        "basis_tokens": "80093101278"
+      },
+      "lifecycle": {
+        "status": "PROPOSED",
+        "reason": "no revision yet",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": null,
+      "series_path": "/v1/indices/or-model-spend/meta/muse-ember-20261109/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-tencent/hy4-preview-20260827",
+      "permaslug": "tencent/hy4-preview-20260827",
+      "index_id": "or-model-spend/tencent/hy4-preview-20260827",
+      "label": "Tencent: Hy4 preview: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "tencent/hy4-preview",
+      "name": "Tencent: Hy4 preview",
+      "author": "tencent",
+      "weights": "open (Hugging Face id listed in OpenRouter catalog)",
+      "hugging_face_id": "tencent/Hy4-preview",
+      "modality": "text->text",
+      "created": "2026-08-28T06:09:35.000Z",
+      "listing": {
+        "listed_at": "2026-11-11T00:11:07.372Z",
+        "basis_day": "2026-11-10",
+        "basis_rank": 56,
+        "basis_tokens": "48070399620"
+      },
+      "lifecycle": {
+        "status": "PROPOSED",
+        "reason": "no revision yet",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": null,
+      "series_path": "/v1/indices/or-model-spend/tencent/hy4-preview-20260827/series.json"
+    },
+    {
+      "market_id": "ZFX-OR-google/gemini-4-carbon-20261110",
+      "permaslug": "google/gemini-4-carbon-20261110",
+      "index_id": "or-model-spend/google/gemini-4-carbon-20261110",
+      "label": "Google: Gemini 4 Carbon: OpenRouter-implied daily billings proxy, USD/day",
+      "model_id": "google/gemini-4-carbon",
+      "name": "Google: Gemini 4 Carbon",
+      "author": "google",
+      "weights": "not listed as open (no Hugging Face id in OpenRouter catalog)",
+      "hugging_face_id": null,
+      "modality": "text+image+file+audio+video->text",
+      "created": "2026-11-10T16:07:51.000Z",
+      "listing": {
+        "listed_at": "2026-11-11T00:11:07.372Z",
+        "basis_day": "2026-11-10",
+        "basis_rank": 59,
+        "basis_tokens": "43252452766"
+      },
+      "lifecycle": {
+        "status": "PROPOSED",
+        "reason": "no revision yet",
+        "trading": "PAPER_ONLY"
+      },
+      "latest": null,
+      "series_path": "/v1/indices/or-model-spend/google/gemini-4-carbon-20261110/series.json"
+    }
+  ]
+}

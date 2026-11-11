@@ -1,0 +1,20 @@
+[package]
+name = "zfx-index"
+description = "ZFX Markets model-demand index: ingest, ledger, calculator, publisher, oracle reporter, read-only API"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "zfx-index"
+path = "src/main.rs"
+
+[dependencies]
+zfx-oracle-print = { path = "../zfx-oracle-print" }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["arbitrary_precision", "preserve_order"] }
+sha2 = "0.10"
+hex = "0.4"
+ureq = { version = "2", default-features = false, features = ["tls", "gzip"] }
+tungstenite = { version = "0.26", default-features = false, features = ["handshake"] }
+getrandom = "0.2"

@@ -1,0 +1,8 @@
+{
+  "scheme": "ed25519 (RFC 8032) over canonical OraclePrint v1 bytes",
+  "domain": "ZFX-oracle-print-v1",
+  "pubkey_hex": "cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48",
+  "spec": "markets/index/docs/ORACLE_PRINT_V1.md",
+  "vectors": "markets/index/vectors/oracle_print_v1.json",
+  "trust_note": "A valid signature proves which reporter key signed a print. It does not make the OpenRouter input true, complete or manipulation-free."
+}

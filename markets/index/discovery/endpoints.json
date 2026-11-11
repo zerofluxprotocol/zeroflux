@@ -1,0 +1,1148 @@
+{
+ "captured_at": "2026-11-10T22:51Z to 23:05Z",
+ "method": "headless Chrome (playwright-core) loading pages, recording every request; tools/discover.mjs",
+ "pages": [
+  "https://openrouter.ai/rankings",
+  "https://openrouter.ai/anthropic/claude-sonnet-5.5",
+  ".../activity",
+  ".../providers",
+  "https://openrouter.ai/apps",
+  "https://openrouter.ai/models",
+  "https://openrouter.ai/deepseek/deepseek-v4.1-flash/activity"
+ ],
+ "note": "documented=true means the path is under /api/v1 and appears in OpenRouter API reference. /api/frontend/* paths are the public web endpoints openrouter.ai pages call; they can change shape without notice.",
+ "endpoints": [
+  {
+   "path": "/api/frontend/statsig-bootstrap",
+   "methods": [
+    "GET"
+   ],
+   "params": {},
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/anthropic/claude-sonnet-5.5/activity",
+    "/anthropic/claude-sonnet-5.5/providers",
+    "/apps",
+    "/deepseek/deepseek-v4.1-flash",
+    "/deepseek/deepseek-v4.1-flash/activity",
+    "/models",
+    "/rankings"
+   ],
+   "cache_control": [
+    "private, no-store"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 8208,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/all-providers",
+   "methods": [
+    "GET"
+   ],
+   "params": {},
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/anthropic/claude-sonnet-5.5/activity",
+    "/anthropic/claude-sonnet-5.5/providers",
+    "/deepseek/deepseek-v4.1-flash",
+    "/deepseek/deepseek-v4.1-flash/activity",
+    "/models"
+   ],
+   "cache_control": [
+    "public, max-age=60, s-maxage=60"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 76771,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/author-models",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "authorSlug": [
+     "anthropic",
+     "deepseek"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/deepseek/deepseek-v4.1-flash"
+   ],
+   "cache_control": [
+    "public, max-age=60, s-maxage=60, stale-while-revalidate=300"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 366364,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/catalog/authors",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "slug": [
+     "anthropic",
+     "deepseek",
+     "google"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/rankings"
+   ],
+   "cache_control": [
+    "public, max-age=300, s-maxage=300, stale-while-revalidate=600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 912,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/catalog/models",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "slug": [
+     "amazon/nova-micro-v1",
+     "anthropic/claude-4-sonnet-20250522",
+     "anthropic/claude-4.5-haiku-20251001"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/models",
+    "/rankings"
+   ],
+   "cache_control": [
+    "public, max-age=60, s-maxage=300, stale-while-revalidate=300"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 6629913,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/models/find",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "active": [
+     "true"
+    ],
+    "fmt": [
+     "cards"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/models"
+   ],
+   "cache_control": [
+    "public, max-age=60, s-maxage=60, stale-while-revalidate=300"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 6460795,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/newsletter/capture-units",
+   "methods": [
+    "GET"
+   ],
+   "params": {},
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/anthropic/claude-sonnet-5.5/activity",
+    "/anthropic/claude-sonnet-5.5/providers",
+    "/apps",
+    "/deepseek/deepseek-v4.1-flash",
+    "/deepseek/deepseek-v4.1-flash/activity",
+    "/models",
+    "/rankings"
+   ],
+   "cache_control": [
+    "public, max-age=60, s-maxage=60"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 6186,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/private/artificial-analysis-benchmarks",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "slug": [
+     "anthropic/claude-sonnet-5.5-20260928"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5"
+   ],
+   "cache_control": [
+    "private, no-store"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 4889,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/private/artificial-analysis-benchmarks/all",
+   "methods": [
+    "GET"
+   ],
+   "params": {},
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/deepseek/deepseek-v4.1-flash"
+   ],
+   "cache_control": [
+    "private, no-store"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 584537,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/private/design-arena-benchmarks",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "slug": [
+     "anthropic/claude-sonnet-5.5-20260928"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5"
+   ],
+   "cache_control": [
+    "private, no-store"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 6051,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/private/signup-cf-metadata",
+   "methods": [
+    "GET"
+   ],
+   "params": {},
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/apps",
+    "/deepseek/deepseek-v4.1-flash",
+    "/models",
+    "/rankings"
+   ],
+   "cache_control": [
+    "private, no-store"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 812,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/private/vals-ai-benchmarks",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "slug": [
+     "anthropic/claude-sonnet-5.5-20260928"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5"
+   ],
+   "cache_control": [
+    "private, no-store"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 16611,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/provider-filters",
+   "methods": [
+    "GET"
+   ],
+   "params": {},
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/models"
+   ],
+   "cache_control": [
+    "public, max-age=60, s-maxage=60, stale-while-revalidate=300"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 5599,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/rankings/apps",
+   "methods": [
+    "GET"
+   ],
+   "params": {},
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/rankings"
+   ],
+   "cache_control": [
+    "public, max-age=300, stale-while-revalidate=600, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 27810,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/rankings/benchmarks",
+   "methods": [
+    "GET"
+   ],
+   "params": {},
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/rankings"
+   ],
+   "cache_control": [
+    "public, max-age=300, stale-while-revalidate=600, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 461266,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/rankings/modality-category-options",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "routeSegment": [
+     "text"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/rankings"
+   ],
+   "cache_control": [
+    "public, max-age=300, stale-while-revalidate=600, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 980,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/rankings/modality-chart",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "routeSegment": [
+     "text"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/rankings"
+   ],
+   "cache_control": [
+    "public, max-age=300, stale-while-revalidate=600, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 53723,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/rankings/model-rankings-chart",
+   "methods": [
+    "GET"
+   ],
+   "params": {},
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/rankings"
+   ],
+   "cache_control": [
+    "public, max-age=300, stale-while-revalidate=600, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 24877,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/rankings/models",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "view": [
+     "week"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/rankings"
+   ],
+   "cache_control": [
+    "public, max-age=300, stale-while-revalidate=600, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 453725,
+   "index_use": "used: day totals for all models (view=day), spend share (metric=spend), top-N membership, latency"
+  },
+  {
+   "path": "/api/frontend/v1/rankings/natural-language",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "tag": [
+     "English"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/rankings"
+   ],
+   "cache_control": [
+    "public, max-age=300, stale-while-revalidate=600, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 15672,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/rankings/open-closed",
+   "methods": [
+    "GET"
+   ],
+   "params": {},
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/rankings"
+   ],
+   "cache_control": [
+    "public, max-age=300, stale-while-revalidate=600, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 3720,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/rankings/performance",
+   "methods": [
+    "GET"
+   ],
+   "params": {},
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/rankings"
+   ],
+   "cache_control": [
+    "private, no-store"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 67329,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/rankings/programming-language",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "tag": [
+     "Python"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/rankings"
+   ],
+   "cache_control": [
+    "public, max-age=300, stale-while-revalidate=600, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 15629,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/rankings/session-cost",
+   "methods": [
+    "GET"
+   ],
+   "params": {},
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/rankings"
+   ],
+   "cache_control": [
+    "public, max-age=300, stale-while-revalidate=600, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 38982,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/rankings/task-spend",
+   "methods": [
+    "GET"
+   ],
+   "params": {},
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/rankings"
+   ],
+   "cache_control": [
+    "public, max-age=300, stale-while-revalidate=600, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 65613,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/stats/benchmark-scores",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5"
+   ],
+   "cache_control": [
+    "public, max-age=3600, stale-while-revalidate=7200, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 4176,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/stats/cache-hit-rate-comparison",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928",
+     "deepseek/deepseek-v4.1-flash-20260910"
+    ],
+    "timeRange": [
+     "1w"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/deepseek/deepseek-v4.1-flash"
+   ],
+   "cache_control": [
+    "public, max-age=3600, stale-while-revalidate=7200, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 13910,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/stats/effective-pricing",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928",
+     "deepseek/deepseek-v4.1-flash-20260910"
+    ],
+    "range": [
+     "3m"
+    ],
+    "shape": [
+     "v7"
+    ],
+    "variant": [
+     "standard"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/deepseek/deepseek-v4.1-flash"
+   ],
+   "cache_control": [
+    "public, max-age=60, s-maxage=600, stale-while-revalidate=60"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 218244,
+   "index_use": "used: weighted effective input/output price (trailing ~24h) and per-endpoint daily effective prices"
+  },
+  {
+   "path": "/api/frontend/v1/stats/endpoint",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "latencyMetric": [
+     "latency"
+    ],
+    "perfWorkload": [
+     "text_generation"
+    ],
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928"
+    ],
+    "variant": [
+     "standard"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5"
+   ],
+   "cache_control": [
+    "public, max-age=300, stale-while-revalidate=600, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 73652,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/stats/latency-comparison",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "perfWorkload": [
+     "text_generation"
+    ],
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928",
+     "deepseek/deepseek-v4.1-flash-20260910"
+    ],
+    "timeRange": [
+     "1w"
+    ],
+    "variant": [
+     "standard"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/deepseek/deepseek-v4.1-flash"
+   ],
+   "cache_control": [
+    "public, max-age=3600, stale-while-revalidate=7200, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 13068,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/stats/latency-e2e-comparison",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "perfWorkload": [
+     "text_generation"
+    ],
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928",
+     "deepseek/deepseek-v4.1-flash-20260910"
+    ],
+    "timeRange": [
+     "1w"
+    ],
+    "variant": [
+     "standard"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/deepseek/deepseek-v4.1-flash"
+   ],
+   "cache_control": [
+    "public, max-age=3600, stale-while-revalidate=7200, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 13465,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/stats/listed-pricing",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928",
+     "deepseek/deepseek-v4.1-flash-20260910"
+    ],
+    "range": [
+     "3m"
+    ],
+    "shape": [
+     "v6"
+    ],
+    "variant": [
+     "standard"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/deepseek/deepseek-v4.1-flash"
+   ],
+   "cache_control": [
+    "public, max-age=60, s-maxage=600, stale-while-revalidate=60"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 203690,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/stats/model-activity",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928",
+     "deepseek/deepseek-v4.1-flash-20260910"
+    ],
+    "variant": [
+     "standard"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/deepseek/deepseek-v4.1-flash"
+   ],
+   "cache_control": [
+    "public, max-age=60, s-maxage=10800, stale-while-revalidate=10800"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 21577,
+   "index_use": "used: per-model per-UTC-day prompt/completion/cached/reasoning/request/BYOK counts, last ~31 days"
+  },
+  {
+   "path": "/api/frontend/v1/stats/model-uptime-recent",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928"
+    ],
+    "variant": [
+     "standard"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5"
+   ],
+   "cache_control": [
+    "public, max-age=60, s-maxage=60, stale-while-revalidate=600, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 22813,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/stats/structured-output-error-rate",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928",
+     "deepseek/deepseek-v4.1-flash-20260910"
+    ],
+    "timeRange": [
+     "1w"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/deepseek/deepseek-v4.1-flash"
+   ],
+   "cache_control": [
+    "public, max-age=3600, stale-while-revalidate=7200, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 23316,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/stats/throughput-comparison",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "perfWorkload": [
+     "text_generation"
+    ],
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928",
+     "deepseek/deepseek-v4.1-flash-20260910"
+    ],
+    "timeRange": [
+     "1w"
+    ],
+    "variant": [
+     "standard"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/deepseek/deepseek-v4.1-flash"
+   ],
+   "cache_control": [
+    "public, max-age=3600, stale-while-revalidate=7200, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 12830,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/stats/tool-call-error-rate",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928",
+     "deepseek/deepseek-v4.1-flash-20260910"
+    ],
+    "timeRange": [
+     "1w"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5",
+    "/deepseek/deepseek-v4.1-flash"
+   ],
+   "cache_control": [
+    "public, max-age=3600, stale-while-revalidate=7200, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 27301,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/stats/top-apps-for-model",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928"
+    ],
+    "variant": [
+     "standard"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5"
+   ],
+   "cache_control": [
+    "public, max-age=0, s-maxage=300, stale-while-revalidate=600, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 44806,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/stats/top-colos-for-model",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5"
+   ],
+   "cache_control": [
+    "public, max-age=3600, stale-while-revalidate=7200, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 170,
+   "index_use": "not used"
+  },
+  {
+   "path": "/api/frontend/v1/stats/uptime-recent",
+   "methods": [
+    "GET"
+   ],
+   "params": {
+    "permaslug": [
+     "anthropic/claude-sonnet-5.5-20260928"
+    ]
+   },
+   "statuses": [
+    200
+   ],
+   "pages": [
+    "/anthropic/claude-sonnet-5.5"
+   ],
+   "cache_control": [
+    "public, max-age=600, stale-while-revalidate=1200, stale-if-error=3600"
+   ],
+   "content_type": [
+    "application/json"
+   ],
+   "documented": false,
+   "max_body_bytes": 2809,
+   "index_use": "not used"
+  }
+ ],
+ "probed": [
+  {
+   "path": "/api/v1/models/{author}/{slug}/endpoints",
+   "documented": true,
+   "index_use": "used: listed per-provider prices (sanity bound), weekly",
+   "statuses": [
+    200
+   ],
+   "auth": "none"
+  },
+  {
+   "path": "/api/v1/datasets/rankings-daily",
+   "documented": true,
+   "index_use": "implemented, not usable: returns 401 without an API key (tested 2026-11-10T22:50Z)",
+   "statuses": [
+    401
+   ],
+   "auth": "Bearer API key"
+  }
+ ]
+}

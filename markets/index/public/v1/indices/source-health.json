@@ -1,0 +1,567 @@
+{
+  "generated_at": "2026-11-11T00:12:04.582Z",
+  "status": "OK",
+  "notice": "Paper-trading index built from OpenRouter data. Not settlement-grade. Not revenue, royalties or equity.",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:09:57.000Z",
+  "license": "OpenRouter dataset content is published under CC BY 4.0 per OpenRouter's Datasets API documentation.",
+  "formula": {
+    "version": "ZFX-OR-MODEL-SPEND-USD-v1",
+    "hash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+    "mode": "ESTIMATED_OBSERVED_MIX"
+  },
+  "newest_complete_utc_day": "2026-11-10",
+  "newest_rankings_day_seen": "2026-11-10",
+  "late": false,
+  "failing_inputs": [],
+  "parse_errors_total": 0,
+  "kinds": {
+    "catalog_models": {
+      "documented": true,
+      "fetches": 1,
+      "fetches_24h": 1,
+      "failures": 0,
+      "last_fetch": {
+        "at": "2026-11-10T23:11:25.964Z",
+        "status": 200,
+        "url": "https://openrouter.ai/api/v1/models",
+        "seq": 1
+      },
+      "last_success": "2026-11-10T23:11:25.964Z"
+    },
+    "effective_pricing": {
+      "documented": false,
+      "fetches": 50,
+      "fetches_24h": 50,
+      "failures": 0,
+      "last_fetch": {
+        "at": "2026-11-10T23:31:31.916Z",
+        "status": 200,
+        "url": "https://openrouter.ai/api/frontend/v1/stats/effective-pricing?permaslug=anthropic%2Fclaude-fable-5.1-20260831&variant=standard&shape=v7&range=all",
+        "seq": 152
+      },
+      "last_success": "2026-11-10T23:31:31.916Z"
+    },
+    "model_activity": {
+      "documented": false,
+      "fetches": 50,
+      "fetches_24h": 50,
+      "failures": 0,
+      "last_fetch": {
+        "at": "2026-11-10T23:31:22.744Z",
+        "status": 200,
+        "url": "https://openrouter.ai/api/frontend/v1/stats/model-activity?permaslug=anthropic%2Fclaude-fable-5.1-20260831&variant=standard",
+        "seq": 151
+      },
+      "last_success": "2026-11-10T23:31:22.744Z"
+    },
+    "model_endpoints": {
+      "documented": true,
+      "fetches": 50,
+      "fetches_24h": 50,
+      "failures": 0,
+      "last_fetch": {
+        "at": "2026-11-10T23:31:41.674Z",
+        "status": 200,
+        "url": "https://openrouter.ai/api/v1/models/anthropic/claude-fable-5.1/endpoints",
+        "seq": 153
+      },
+      "last_success": "2026-11-10T23:31:41.674Z"
+    },
+    "rankings_day": {
+      "documented": false,
+      "fetches": 3,
+      "fetches_24h": 3,
+      "failures": 0,
+      "last_fetch": {
+        "at": "2026-11-11T00:10:59.244Z",
+        "status": 200,
+        "url": "https://openrouter.ai/api/frontend/v1/rankings/models?view=day",
+        "seq": 155
+      },
+      "last_success": "2026-11-11T00:10:59.244Z"
+    },
+    "rankings_day_spend": {
+      "documented": false,
+      "fetches": 2,
+      "fetches_24h": 2,
+      "failures": 0,
+      "last_fetch": {
+        "at": "2026-11-11T00:11:06.923Z",
+        "status": 200,
+        "url": "https://openrouter.ai/api/frontend/v1/rankings/models?view=day&metric=spend",
+        "seq": 156
+      },
+      "last_success": "2026-11-11T00:11:06.923Z"
+    }
+  },
+  "rate_budget": {
+    "requests_24h": 156,
+    "daily_cap": 400,
+    "min_gap_ms": 6000,
+    "jitter_ms": 4000
+  },
+  "publication_latency": {
+    "method": "first fetch of /rankings/models?view=day that shows day d, minus d+1 00:00Z. Upper bound; the lower bound is the previous fetch that still showed d-1. Rows with measured_live=false were first seen during backfill and say nothing about latency.",
+    "days_measured_live": 1,
+    "target_days": 30,
+    "rows": [
+      {
+        "utc_date": "2026-11-09",
+        "first_seen_fetch_at": "2026-11-10T23:11:35.871Z",
+        "last_modified_at_first_seen": "Tue, 10 Nov 2026 23:08:49 GMT",
+        "latency_upper_bound_minutes": 1391,
+        "previous_fetch_still_showing_prior_day": null,
+        "latency_lower_bound_minutes": null,
+        "measured_live": false
+      },
+      {
+        "utc_date": "2026-11-10",
+        "first_seen_fetch_at": "2026-11-11T00:10:59.244Z",
+        "last_modified_at_first_seen": null,
+        "latency_upper_bound_minutes": 10,
+        "previous_fetch_still_showing_prior_day": "2026-11-11T00:00:36.565Z",
+        "latency_lower_bound_minutes": 0,
+        "measured_live": true
+      }
+    ]
+  },
+  "coverage": {
+    "utc_date": "2026-11-10",
+    "rows": 661,
+    "total_tokens_all_rows": "31489608443316",
+    "top_n": 50,
+    "top_n_tokens": "29599842541008",
+    "top_n_share": "0.939987",
+    "other_tokens": "1889765902308",
+    "note": "The web rankings day view lists every model, so `other` is reconstructed as all rows outside the top N."
+  },
+  "spend_share_crosscheck": [
+    {
+      "utc_date": "2026-11-09",
+      "markets_compared": 50,
+      "implied_market_total_usd": {
+        "p10": "3021183.866064",
+        "median": "3687004.247082",
+        "p90": "4062431.932550"
+      },
+      "implied_market_total_usd_incl_byok_diagnostic": {
+        "p10": "3728266.827746",
+        "median": "4277774.120899",
+        "p90": "16542080.340187"
+      },
+      "note": "For each market: implied_usd / OpenRouter spend share. If the proxy tracked OpenRouter's own spend ranking, every ratio would equal the same market total. The spread measures proxy error (price weighting, cache accounting, tokenizer and promotional effects). The incl_byok diagnostic shows the much wider spread when BYOK tokens, which OpenRouter does not bill, are priced in.",
+      "per_market": [
+        {
+          "permaslug": "tencent/hy3-20260706",
+          "implied_usd": "265.569530",
+          "or_spend_share": "0.000279136304",
+          "implied_market_total_usd": "951397.314481",
+          "implied_usd_incl_byok_diagnostic": "15517.486101",
+          "implied_market_total_usd_incl_byok_diagnostic": "55591071.023853"
+        },
+        {
+          "permaslug": "xiaomi/mimo-v2.6-flash-20260921",
+          "implied_usd": "2844.002209",
+          "or_spend_share": "0.001296486657",
+          "implied_market_total_usd": "2193622.428464",
+          "implied_usd_incl_byok_diagnostic": "11600.544818",
+          "implied_market_total_usd_incl_byok_diagnostic": "8947677.753076"
+        },
+        {
+          "permaslug": "upstage/solar-mini4-20260922",
+          "implied_usd": "86.125667",
+          "or_spend_share": "0.000036415001",
+          "implied_market_total_usd": "2365115.052447",
+          "implied_usd_incl_byok_diagnostic": "6997.800139",
+          "implied_market_total_usd_incl_byok_diagnostic": "192168061.151501"
+        },
+        {
+          "permaslug": "tencent/hy4-20261104",
+          "implied_usd": "18146.874302",
+          "or_spend_share": "0.006566485104",
+          "implied_market_total_usd": "2763559.806287",
+          "implied_usd_incl_byok_diagnostic": "334877.002527",
+          "implied_market_total_usd_incl_byok_diagnostic": "50997907.894896"
+        },
+        {
+          "permaslug": "google/gemma-4-31b-it-20260402",
+          "implied_usd": "9047.160147",
+          "or_spend_share": "0.002994574494",
+          "implied_market_total_usd": "3021183.866064",
+          "implied_usd_incl_byok_diagnostic": "9655.206063",
+          "implied_market_total_usd_incl_byok_diagnostic": "3224233.052924"
+        },
+        {
+          "permaslug": "minimax/minimax-m3-20260531",
+          "implied_usd": "3869.833922",
+          "or_spend_share": "0.001273254768",
+          "implied_market_total_usd": "3039324.115847",
+          "implied_usd_incl_byok_diagnostic": "8650.638887",
+          "implied_market_total_usd_incl_byok_diagnostic": "6794114.661426"
+        },
+        {
+          "permaslug": "google/gemini-3.1-flash-lite-20260507",
+          "implied_usd": "13775.707765",
+          "or_spend_share": "0.004401175440",
+          "implied_market_total_usd": "3130006.506852",
+          "implied_usd_incl_byok_diagnostic": "18390.373769",
+          "implied_market_total_usd_incl_byok_diagnostic": "4178514.130988"
+        },
+        {
+          "permaslug": "stepfun/step-5-preview-20261008",
+          "implied_usd": "874.209285",
+          "or_spend_share": "0.000274358088",
+          "implied_market_total_usd": "3186380.585215",
+          "implied_usd_incl_byok_diagnostic": "151325.372628",
+          "implied_market_total_usd_incl_byok_diagnostic": "551561551.296421"
+        },
+        {
+          "permaslug": "minimax/minimax-m3.1-flash-20261019",
+          "implied_usd": "3012.647948",
+          "or_spend_share": "0.000911679595",
+          "implied_market_total_usd": "3304502.990439",
+          "implied_usd_incl_byok_diagnostic": "15081.077105",
+          "implied_market_total_usd_incl_byok_diagnostic": "16542080.340187"
+        },
+        {
+          "permaslug": "xiaomi/mimo-v2.6-pro-20260921",
+          "implied_usd": "11814.764144",
+          "or_spend_share": "0.003457883163",
+          "implied_market_total_usd": "3416762.101860",
+          "implied_usd_incl_byok_diagnostic": "12570.447288",
+          "implied_market_total_usd_incl_byok_diagnostic": "3635301.337681"
+        },
+        {
+          "permaslug": "anthropic/claude-fable-5.1-20260831",
+          "implied_usd": "56314.729316",
+          "or_spend_share": "0.016421855751",
+          "implied_market_total_usd": "3429254.900900",
+          "implied_usd_incl_byok_diagnostic": "77699.835909",
+          "implied_market_total_usd_incl_byok_diagnostic": "4731489.369237"
+        },
+        {
+          "permaslug": "openai/gpt-6-luna-20260922",
+          "implied_usd": "52858.028043",
+          "or_spend_share": "0.015398932081",
+          "implied_market_total_usd": "3432577.516736",
+          "implied_usd_incl_byok_diagnostic": "64280.405513",
+          "implied_market_total_usd_incl_byok_diagnostic": "4174341.777395"
+        },
+        {
+          "permaslug": "upstage/solar-pro4-20260810",
+          "implied_usd": "338.937477",
+          "or_spend_share": "0.000097647355",
+          "implied_market_total_usd": "3471035.923092",
+          "implied_usd_incl_byok_diagnostic": "6381.350483",
+          "implied_market_total_usd_incl_byok_diagnostic": "65350981.426993"
+        },
+        {
+          "permaslug": "nvidia/nemotron-3.5-super-vl-20261015",
+          "implied_usd": "4049.525370",
+          "or_spend_share": "0.001164410540",
+          "implied_market_total_usd": "3477747.092533",
+          "implied_usd_incl_byok_diagnostic": "4052.160836",
+          "implied_market_total_usd_incl_byok_diagnostic": "3480010.440303"
+        },
+        {
+          "permaslug": "openai/gpt-6.1-sol-20260929",
+          "implied_usd": "217042.111261",
+          "or_spend_share": "0.061684645272",
+          "implied_market_total_usd": "3518575.981169",
+          "implied_usd_incl_byok_diagnostic": "281595.309387",
+          "implied_market_total_usd_incl_byok_diagnostic": "4565079.496612"
+        },
+        {
+          "permaslug": "anthropic/claude-sonnet-5.5-20260928",
+          "implied_usd": "191694.873352",
+          "or_spend_share": "0.053705049803",
+          "implied_market_total_usd": "3569401.277071",
+          "implied_usd_incl_byok_diagnostic": "261680.254538",
+          "implied_market_total_usd_incl_byok_diagnostic": "4872544.676857"
+        },
+        {
+          "permaslug": "deepseek/deepseek-v4-flash-20260423",
+          "implied_usd": "20590.942233",
+          "or_spend_share": "0.005757179662",
+          "implied_market_total_usd": "3576567.597657",
+          "implied_usd_incl_byok_diagnostic": "23850.397296",
+          "implied_market_total_usd_incl_byok_diagnostic": "4142722.425951"
+        },
+        {
+          "permaslug": "anthropic/claude-sonnet-5-20260630",
+          "implied_usd": "47236.653972",
+          "or_spend_share": "0.013186489899",
+          "implied_market_total_usd": "3582200.747416",
+          "implied_usd_incl_byok_diagnostic": "61140.463603",
+          "implied_market_total_usd_incl_byok_diagnostic": "4636598.827382"
+        },
+        {
+          "permaslug": "google/gemini-2.5-flash",
+          "implied_usd": "14029.974746",
+          "or_spend_share": "0.003851680821",
+          "implied_market_total_usd": "3642559.027608",
+          "implied_usd_incl_byok_diagnostic": "14360.093836",
+          "implied_market_total_usd_incl_byok_diagnostic": "3728266.827746"
+        },
+        {
+          "permaslug": "google/gemini-2.5-flash-lite",
+          "implied_usd": "5555.078203",
+          "or_spend_share": "0.001522888067",
+          "implied_market_total_usd": "3647725.872554",
+          "implied_usd_incl_byok_diagnostic": "5807.565945",
+          "implied_market_total_usd_incl_byok_diagnostic": "3813521.210682"
+        },
+        {
+          "permaslug": "mistralai/mistral-nemo",
+          "implied_usd": "1258.951330",
+          "or_spend_share": "0.000345101882",
+          "implied_market_total_usd": "3648056.981619",
+          "implied_usd_incl_byok_diagnostic": "1358.551893",
+          "implied_market_total_usd_incl_byok_diagnostic": "3936669.035609"
+        },
+        {
+          "permaslug": "google/gemini-3-flash-preview-20251217",
+          "implied_usd": "31693.224712",
+          "or_spend_share": "0.008680363761",
+          "implied_market_total_usd": "3651140.157788",
+          "implied_usd_incl_byok_diagnostic": "35029.871646",
+          "implied_market_total_usd_incl_byok_diagnostic": "4035530.377584"
+        },
+        {
+          "permaslug": "anthropic/claude-haiku-5.5-20261007",
+          "implied_usd": "34983.483844",
+          "or_spend_share": "0.009559032564",
+          "implied_market_total_usd": "3659730.585681",
+          "implied_usd_incl_byok_diagnostic": "40567.736836",
+          "implied_market_total_usd_incl_byok_diagnostic": "4243916.585113"
+        },
+        {
+          "permaslug": "z-ai/glm-5.2-20260616",
+          "implied_usd": "44820.130871",
+          "or_spend_share": "0.012198482020",
+          "implied_market_total_usd": "3674238.384539",
+          "implied_usd_incl_byok_diagnostic": "44979.433008",
+          "implied_market_total_usd_incl_byok_diagnostic": "3687297.561635"
+        },
+        {
+          "permaslug": "openai/gpt-6.1-terra-20261026",
+          "implied_usd": "34776.149326",
+          "or_spend_share": "0.009432088220",
+          "implied_market_total_usd": "3687004.247082",
+          "implied_usd_incl_byok_diagnostic": "41193.331374",
+          "implied_market_total_usd_incl_byok_diagnostic": "4367360.696081"
+        },
+        {
+          "permaslug": "qwen/qwen3.7-flash-20260727",
+          "implied_usd": "1843.822438",
+          "or_spend_share": "0.000499725782",
+          "implied_market_total_usd": "3689668.422991",
+          "implied_usd_incl_byok_diagnostic": "1954.244072",
+          "implied_market_total_usd_incl_byok_diagnostic": "3910632.875851"
+        },
+        {
+          "permaslug": "deepseek/deepseek-v3.2-20251201",
+          "implied_usd": "7450.694045",
+          "or_spend_share": "0.002009619166",
+          "implied_market_total_usd": "3707515.419366",
+          "implied_usd_incl_byok_diagnostic": "7538.057420",
+          "implied_market_total_usd_incl_byok_diagnostic": "3750988.021777"
+        },
+        {
+          "permaslug": "deepseek/deepseek-v4-pro-20260423",
+          "implied_usd": "25239.726020",
+          "or_spend_share": "0.006797213238",
+          "implied_market_total_usd": "3713246.169606",
+          "implied_usd_incl_byok_diagnostic": "28830.360937",
+          "implied_market_total_usd_incl_byok_diagnostic": "4241497.202974"
+        },
+        {
+          "permaslug": "openai/gpt-6-luna-pro-20260922",
+          "implied_usd": "4357.968748",
+          "or_spend_share": "0.001173309585",
+          "implied_market_total_usd": "3714253.086920",
+          "implied_usd_incl_byok_diagnostic": "4398.375184",
+          "implied_market_total_usd_incl_byok_diagnostic": "3748691.087356"
+        },
+        {
+          "permaslug": "qwen/qwen3.8-flash-20260826",
+          "implied_usd": "8617.263049",
+          "or_spend_share": "0.002319279425",
+          "implied_market_total_usd": "3715491.525562",
+          "implied_usd_incl_byok_diagnostic": "9986.385874",
+          "implied_market_total_usd_incl_byok_diagnostic": "4305814.024112"
+        },
+        {
+          "permaslug": "x-ai/grok-4.7-20260916",
+          "implied_usd": "55533.575978",
+          "or_spend_share": "0.014903027369",
+          "implied_market_total_usd": "3726328.523929",
+          "implied_usd_incl_byok_diagnostic": "59292.397912",
+          "implied_market_total_usd_incl_byok_diagnostic": "3978547.206813"
+        },
+        {
+          "permaslug": "z-ai/glm-5.3-flash-20260826",
+          "implied_usd": "71356.499703",
+          "or_spend_share": "0.019141784510",
+          "implied_market_total_usd": "3727787.222017",
+          "implied_usd_incl_byok_diagnostic": "77920.750249",
+          "implied_market_total_usd_incl_byok_diagnostic": "4070715.047925"
+        },
+        {
+          "permaslug": "google/gemma-4-26b-a4b-it-20260403",
+          "implied_usd": "4908.951821",
+          "or_spend_share": "0.001289154402",
+          "implied_market_total_usd": "3807885.086056",
+          "implied_usd_incl_byok_diagnostic": "5284.682870",
+          "implied_market_total_usd_incl_byok_diagnostic": "4099340.514837"
+        },
+        {
+          "permaslug": "meta/muse-spark-1.3-contributor-20260902",
+          "implied_usd": "4998.462160",
+          "or_spend_share": "0.001311557726",
+          "implied_market_total_usd": "3811088.189952",
+          "implied_usd_incl_byok_diagnostic": "5180.571022",
+          "implied_market_total_usd_incl_byok_diagnostic": "3949937.482202"
+        },
+        {
+          "permaslug": "google/gemini-3.7-flash-20260813",
+          "implied_usd": "23288.703263",
+          "or_spend_share": "0.006105914183",
+          "implied_market_total_usd": "3814122.269821",
+          "implied_usd_incl_byok_diagnostic": "26420.452937",
+          "implied_market_total_usd_incl_byok_diagnostic": "4327026.575407"
+        },
+        {
+          "permaslug": "openai/gpt-6-astra-20260903",
+          "implied_usd": "222532.185337",
+          "or_spend_share": "0.058036535946",
+          "implied_market_total_usd": "3834346.445901",
+          "implied_usd_incl_byok_diagnostic": "254411.449515",
+          "implied_market_total_usd_incl_byok_diagnostic": "4383642.913348"
+        },
+        {
+          "permaslug": "deepseek/deepseek-v4-pro-20260813",
+          "implied_usd": "31628.416017",
+          "or_spend_share": "0.008182232132",
+          "implied_market_total_usd": "3865499.720217",
+          "implied_usd_incl_byok_diagnostic": "32114.791436",
+          "implied_market_total_usd_incl_byok_diagnostic": "3924942.597314"
+        },
+        {
+          "permaslug": "deepseek/deepseek-v4.1-flash-20260910",
+          "implied_usd": "93528.171844",
+          "or_spend_share": "0.023987013954",
+          "implied_market_total_usd": "3899116.914817",
+          "implied_usd_incl_byok_diagnostic": "98515.809210",
+          "implied_market_total_usd_incl_byok_diagnostic": "4107047.646652"
+        },
+        {
+          "permaslug": "anthropic/claude-opus-5.5-20260921",
+          "implied_usd": "582093.352339",
+          "or_spend_share": "0.149048209610",
+          "implied_market_total_usd": "3905403.183722",
+          "implied_usd_incl_byok_diagnostic": "881391.564099",
+          "implied_market_total_usd_incl_byok_diagnostic": "5913466.296611"
+        },
+        {
+          "permaslug": "openai/gpt-5.6-luna-20260709",
+          "implied_usd": "22491.576720",
+          "or_spend_share": "0.005667984665",
+          "implied_market_total_usd": "3968178.823574",
+          "implied_usd_incl_byok_diagnostic": "26576.980604",
+          "implied_market_total_usd_incl_byok_diagnostic": "4688964.804035"
+        },
+        {
+          "permaslug": "deepseek/deepseek-v4-flash-20260731",
+          "implied_usd": "28464.856048",
+          "or_spend_share": "0.007170789786",
+          "implied_market_total_usd": "3969556.617539",
+          "implied_usd_incl_byok_diagnostic": "29564.827609",
+          "implied_market_total_usd_incl_byok_diagnostic": "4122952.769682"
+        },
+        {
+          "permaslug": "google/gemini-3.8-flash-20260902",
+          "implied_usd": "99038.368647",
+          "or_spend_share": "0.024888640172",
+          "implied_market_total_usd": "3979259.933952",
+          "implied_usd_incl_byok_diagnostic": "116562.452667",
+          "implied_market_total_usd_incl_byok_diagnostic": "4683359.631601"
+        },
+        {
+          "permaslug": "moonshotai/kimi-k3-20260715",
+          "implied_usd": "77989.035373",
+          "or_spend_share": "0.019414621860",
+          "implied_market_total_usd": "4017025.720891",
+          "implied_usd_incl_byok_diagnostic": "86487.561287",
+          "implied_market_total_usd_incl_byok_diagnostic": "4454764.141720"
+        },
+        {
+          "permaslug": "z-ai/glm-5.3-20260816",
+          "implied_usd": "114279.386912",
+          "or_spend_share": "0.028388984627",
+          "implied_market_total_usd": "4025483.419484",
+          "implied_usd_incl_byok_diagnostic": "121441.663756",
+          "implied_market_total_usd_incl_byok_diagnostic": "4277774.120899"
+        },
+        {
+          "permaslug": "openai/gpt-oss-120b",
+          "implied_usd": "9050.067138",
+          "or_spend_share": "0.002227746160",
+          "implied_market_total_usd": "4062431.932550",
+          "implied_usd_incl_byok_diagnostic": "9795.475612",
+          "implied_market_total_usd_incl_byok_diagnostic": "4397034.001396"
+        },
+        {
+          "permaslug": "deepseek/deepseek-v4.1-flash-20261017",
+          "implied_usd": "168867.840062",
+          "or_spend_share": "0.041174371785",
+          "implied_market_total_usd": "4101285.162133",
+          "implied_usd_incl_byok_diagnostic": "175828.022226",
+          "implied_market_total_usd_incl_byok_diagnostic": "4270326.773754"
+        },
+        {
+          "permaslug": "qwen/qwen3.8-27b-20260814",
+          "implied_usd": "20595.277107",
+          "or_spend_share": "0.004956804351",
+          "implied_market_total_usd": "4154950.578762",
+          "implied_usd_incl_byok_diagnostic": "21412.602500",
+          "implied_market_total_usd_incl_byok_diagnostic": "4319840.159856"
+        },
+        {
+          "permaslug": "google/gemini-4-argon-20261013",
+          "implied_usd": "117479.903340",
+          "or_spend_share": "0.028001730142",
+          "implied_market_total_usd": "4195451.593321",
+          "implied_usd_incl_byok_diagnostic": "137043.133208",
+          "implied_market_total_usd_incl_byok_diagnostic": "4894095.204583"
+        },
+        {
+          "permaslug": "moonshotai/kimi-k3.1-pro-20261023",
+          "implied_usd": "306288.222501",
+          "or_spend_share": "0.071938669283",
+          "implied_market_total_usd": "4257629.805412",
+          "implied_usd_incl_byok_diagnostic": "324283.880955",
+          "implied_market_total_usd_incl_byok_diagnostic": "4507782.590185"
+        },
+        {
+          "permaslug": "openai/gpt-5.6-sol-20260709",
+          "implied_usd": "85035.337506",
+          "or_spend_share": "0.019431730205",
+          "implied_market_total_usd": "4376107.356828",
+          "implied_usd_incl_byok_diagnostic": "90825.126323",
+          "implied_market_total_usd_incl_byok_diagnostic": "4674062.750193"
+        }
+      ]
+    }
+  ],
+  "revisions": {
+    "total": 1429,
+    "by_data_status": {
+      "OK": 1426,
+      "UNPRICED": 3
+    },
+    "corrections": 0,
+    "markets_blocked_latest": 0,
+    "blocked_days_total": 8
+  }
+}

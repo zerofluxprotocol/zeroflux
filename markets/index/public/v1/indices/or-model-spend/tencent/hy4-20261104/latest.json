@@ -1,0 +1,132 @@
+{
+  "market": "tencent/hy4-20261104",
+  "index_id": "or-model-spend/tencent/hy4-20261104",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-v1",
+  "formula_hash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+  "mode": "ESTIMATED_OBSERVED_MIX",
+  "utc_date": "2026-11-09",
+  "source_start": "2026-11-09T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "value_usd": "18146.874302",
+  "value_micro_usd": "18146874302",
+  "confidence": "LOW",
+  "tokens": {
+    "prompt": "3148826345518",
+    "completion": "32600354668",
+    "total": "3181426700186",
+    "cached_prompt": "2985378737088",
+    "reasoning": "20613243627",
+    "requests": "22532337",
+    "byok_prompt": "3004503963441",
+    "byok_completion": "29939394149",
+    "billed_prompt": "144322382077",
+    "billed_completion": "2660960519"
+  },
+  "info_value_usd_incl_byok": "334877.002527",
+  "mix": {
+    "basis": "OBSERVED",
+    "tokens": "billed (excl. BYOK)",
+    "w_in": "0.981896",
+    "w_out": "0.018104"
+  },
+  "price": {
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "p_in_usd_per_m": "0.081520058",
+    "p_out_usd_per_m": "2.398271338",
+    "as_of": "2026-11-10T23:11:17.000Z",
+    "weight_coverage": "1.000000",
+    "endpoints": [
+      {
+        "endpoint_id": "b5b076de-19fd-4e5c-adc2-2420a425969e",
+        "provider_slug": "tencent",
+        "weight_tokens": "2791934511464",
+        "p_in": "0.081520058",
+        "p_out": "2.398271338"
+      }
+    ]
+  },
+  "rank": 2,
+  "checks": [],
+  "blocked": false,
+  "inputs": [
+    {
+      "role": "tokens",
+      "kind": "model_activity",
+      "documented": false,
+      "fetch_seq": 7,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/model-activity?permaslug=tencent%2Fhy4-20261104&variant=standard",
+      "sha256": "a5508497ea64be27b8e3fb783789f07f2d51d3e4cb560e160d52a603504aed33",
+      "fetched_at": "2026-11-10T23:12:15.468Z",
+      "source_as_of": "2026-11-10T17:18:50.170Z"
+    },
+    {
+      "role": "rankings_check",
+      "kind": "rankings_day",
+      "documented": false,
+      "fetch_seq": 2,
+      "url": "https://openrouter.ai/api/frontend/v1/rankings/models?view=day",
+      "sha256": "2687ba6486b5a54ef9c87f39ec378e6050e58733ed909e90847d5df4c860ebfe",
+      "fetched_at": "2026-11-10T23:11:35.871Z",
+      "source_as_of": "2026-11-10T23:08:49.000Z"
+    },
+    {
+      "role": "prices",
+      "kind": "effective_pricing",
+      "documented": false,
+      "fetch_seq": 8,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/effective-pricing?permaslug=tencent%2Fhy4-20261104&variant=standard&shape=v7&range=all",
+      "sha256": "75850cabbc3193d6bed38c57af761d6cf92be60cfa8940b2cc7311ae62c4ee14",
+      "fetched_at": "2026-11-10T23:12:21.769Z",
+      "source_as_of": "2026-11-10T23:11:17.000Z"
+    }
+  ],
+  "value_input_hashes": [
+    "a5508497ea64be27b8e3fb783789f07f2d51d3e4cb560e160d52a603504aed33",
+    "75850cabbc3193d6bed38c57af761d6cf92be60cfa8940b2cc7311ae62c4ee14"
+  ],
+  "source_as_of": "2026-11-10T17:18:50.170Z",
+  "observed_at": "2026-11-10T23:12:15.468Z",
+  "created_at": "2026-11-10T23:40:13.579Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-10T17:18:50.170Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "18146874302",
+    "prompt": "3148826345518",
+    "completion": "32600354668",
+    "p_in": "81520058",
+    "p_out": "2398271338",
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "blocked": false
+  },
+  "print": {
+    "indexId": "or-model-spend/tencent/hy4-20261104",
+    "version": "ZFX-OR-MODEL-SPEND-USD-v1",
+    "value": "18146.874302",
+    "valueScale": 6,
+    "valueInt": "18146874302",
+    "sourceStartUtc": "2026-11-09T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-10T23:12:15.468Z",
+    "publishedAt": "2026-11-10T23:40:13.579Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "0c3277b4793369873e3ac0a42716aa6276e771018573bf18a951fb2eefd5272e",
+    "formulaHash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d7631230000006f722d6d6f64656c2d7370656e642f74656e63656e742f6879342d3230323631313034190000005a46582d4f522d4d4f44454c2d5350454e442d5553442d763106be53a3390400000000c89abda10100000024c1c2a10100006ccabbc7a10100008b65d5c7a101000000dc0dcda10100000c3277b4793369873e3ac0a42716aa6276e771018573bf18a951fb2eefd5272efc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "897ca02316984038d4852e30267211ce259974651c0839986f9726ef731745dc",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:bab476354fa92fc6fd879a8bc3d927350d42c5c1787f64e7047ba38aaca1b494f279186a6be978eb90583c970218f8455a4da9a2e111625aaa509247d6650203"
+    ]
+  },
+  "chain": "3f6c6cb7cead29f704ecd9aa3de2b4ad6590bbd47717b73b7ce8d491b4427954"
+}

@@ -1,0 +1,187 @@
+{
+  "market": "openai/gpt-6-astra-20260903",
+  "index_id": "or-model-spend/openai/gpt-6-astra-20260903",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-v1",
+  "formula_hash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+  "mode": "ESTIMATED_OBSERVED_MIX",
+  "utc_date": "2026-11-09",
+  "source_start": "2026-11-09T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "value_usd": "222532.185337",
+  "value_micro_usd": "222532185337",
+  "confidence": "LOW",
+  "tokens": {
+    "prompt": "41769142915",
+    "completion": "2810589572",
+    "total": "44579732487",
+    "cached_prompt": "36604882546",
+    "reasoning": "784416437",
+    "requests": "4511624",
+    "byok_prompt": "9558731777",
+    "byok_completion": "116436513",
+    "billed_prompt": "32210411138",
+    "billed_completion": "2694153059"
+  },
+  "info_value_usd_incl_byok": "254411.449515",
+  "mix": {
+    "basis": "OBSERVED",
+    "tokens": "billed (excl. BYOK)",
+    "w_in": "0.922814",
+    "w_out": "0.077186"
+  },
+  "price": {
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "p_in_usd_per_m": "2.725940814",
+    "p_out_usd_per_m": "50.007741962",
+    "as_of": "2026-11-10T23:29:28.000Z",
+    "weight_coverage": "1.000000",
+    "endpoints": [
+      {
+        "endpoint_id": "1071a095-b9bc-40cd-8d66-88b484b1827d",
+        "provider_slug": "openai",
+        "weight_tokens": "588339869",
+        "p_in": "4.545298827",
+        "p_out": "107.831775695"
+      },
+      {
+        "endpoint_id": "58a1125d-b0a0-4f59-a511-ae45f9a3f0ec",
+        "provider_slug": "azure",
+        "weight_tokens": "8535440702",
+        "p_in": "2.058570658",
+        "p_out": "50.748614211"
+      },
+      {
+        "endpoint_id": "64614955-f8a2-4d65-bad7-88186222018e",
+        "provider_slug": "openai",
+        "weight_tokens": "2003538683",
+        "p_in": "1.088591766",
+        "p_out": "25.059013117"
+      },
+      {
+        "endpoint_id": "87e3a50e-d7ba-4e4b-a8f3-0e6a719e183e",
+        "provider_slug": "openai",
+        "weight_tokens": "5392051",
+        "p_in": "21.837825830",
+        "p_out": "300.000000000"
+      },
+      {
+        "endpoint_id": "c06c7858-73a1-4449-95d2-7ffc7ca3d69c",
+        "provider_slug": "azure",
+        "weight_tokens": "458873061",
+        "p_in": "1.789685617",
+        "p_out": "55.389189129"
+      },
+      {
+        "endpoint_id": "c2928094-b04c-4f41-84b2-2bf508091421",
+        "provider_slug": "openai",
+        "weight_tokens": "31591437310",
+        "p_in": "3.009266600",
+        "p_out": "50.077305195"
+      },
+      {
+        "endpoint_id": "e0865d46-38f6-45b2-adc8-d9405db39cbd",
+        "provider_slug": "amazon-bedrock",
+        "weight_tokens": "1757962123",
+        "p_in": "2.479398711",
+        "p_out": "50.068748227"
+      },
+      {
+        "endpoint_id": "e0ae0cb9-7511-49c7-a7a5-0df5d68b64a5",
+        "provider_slug": "amazon-bedrock",
+        "weight_tokens": "461515781",
+        "p_in": "2.109932866",
+        "p_out": "57.634060540"
+      }
+    ]
+  },
+  "rank": 55,
+  "checks": [
+    {
+      "code": "TOP_N_DROPOUT",
+      "blocking": false,
+      "detail": "rank 55 > top 50"
+    }
+  ],
+  "blocked": false,
+  "inputs": [
+    {
+      "role": "tokens",
+      "kind": "model_activity",
+      "documented": false,
+      "fetch_seq": 136,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/model-activity?permaslug=openai%2Fgpt-6-astra-20260903&variant=standard",
+      "sha256": "3bbfc6673da6b7faefc2938627278dc088fb6399dabef7686d3a801712bb174f",
+      "fetched_at": "2026-11-10T23:29:21.059Z",
+      "source_as_of": "2026-11-10T18:43:47.221Z"
+    },
+    {
+      "role": "rankings_check",
+      "kind": "rankings_day",
+      "documented": false,
+      "fetch_seq": 2,
+      "url": "https://openrouter.ai/api/frontend/v1/rankings/models?view=day",
+      "sha256": "2687ba6486b5a54ef9c87f39ec378e6050e58733ed909e90847d5df4c860ebfe",
+      "fetched_at": "2026-11-10T23:11:35.871Z",
+      "source_as_of": "2026-11-10T23:08:49.000Z"
+    },
+    {
+      "role": "prices",
+      "kind": "effective_pricing",
+      "documented": false,
+      "fetch_seq": 137,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/effective-pricing?permaslug=openai%2Fgpt-6-astra-20260903&variant=standard&shape=v7&range=all",
+      "sha256": "26115dbd1fe6005fce25da68b1f43c9f18cc8ca49d7f0f7d2a4dff06e778b640",
+      "fetched_at": "2026-11-10T23:29:28.535Z",
+      "source_as_of": "2026-11-10T23:29:28.000Z"
+    }
+  ],
+  "value_input_hashes": [
+    "3bbfc6673da6b7faefc2938627278dc088fb6399dabef7686d3a801712bb174f",
+    "26115dbd1fe6005fce25da68b1f43c9f18cc8ca49d7f0f7d2a4dff06e778b640"
+  ],
+  "source_as_of": "2026-11-10T18:43:47.221Z",
+  "observed_at": "2026-11-10T23:29:21.059Z",
+  "created_at": "2026-11-10T23:40:13.579Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-10T18:43:47.221Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "222532185337",
+    "prompt": "41769142915",
+    "completion": "2810589572",
+    "p_in": "2725940814",
+    "p_out": "50007741962",
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "blocked": false
+  },
+  "print": {
+    "indexId": "or-model-spend/openai/gpt-6-astra-20260903",
+    "version": "ZFX-OR-MODEL-SPEND-USD-v1",
+    "value": "222532.185337",
+    "valueScale": 6,
+    "valueInt": "222532185337",
+    "sourceStartUtc": "2026-11-09T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-10T23:29:21.059Z",
+    "publishedAt": "2026-11-10T23:40:13.579Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "2b8341dd4f5046699ee153b363ca05fc8c06cfab51f38928c17674e003dd74e8",
+    "formulaHash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d76312a0000006f722d6d6f64656c2d7370656e642f6f70656e61692f6770742d362d61737472612d3230323630393033190000005a46582d4f522d4d4f44454c2d5350454e442d5553442d763106f9acf3cf3300000000c89abda10100000024c1c2a1010000a370cbc7a10100008b65d5c7a101000000dc0dcda10100002b8341dd4f5046699ee153b363ca05fc8c06cfab51f38928c17674e003dd74e8fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "738da522a9709e55637672e54e3b59570b45e212680677dd5894883eefd39188",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:c51fb14286dae4026e41ce8b78f25db21469666b2cba40c59748730728bc6f3b93d2f45b4c45f34d8ea84a4569d73b775a162c8c748d8f78bf7d0557f720b508"
+    ]
+  },
+  "chain": "698231984c379e34e862f9266b719638e2984f4d29af062947bc0fb007d61388"
+}

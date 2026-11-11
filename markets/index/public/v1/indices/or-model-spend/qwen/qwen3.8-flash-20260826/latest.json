@@ -1,0 +1,139 @@
+{
+  "market": "qwen/qwen3.8-flash-20260826",
+  "index_id": "or-model-spend/qwen/qwen3.8-flash-20260826",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-v1",
+  "formula_hash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+  "mode": "ESTIMATED_OBSERVED_MIX",
+  "utc_date": "2026-11-09",
+  "source_start": "2026-11-09T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "value_usd": "8617.263049",
+  "value_micro_usd": "8617263049",
+  "confidence": "LOW",
+  "tokens": {
+    "prompt": "197264647805",
+    "completion": "9393542894",
+    "total": "206658190699",
+    "cached_prompt": "179572648259",
+    "reasoning": "4718194668",
+    "requests": "8227572",
+    "byok_prompt": "25545423799",
+    "byok_completion": "1378093801",
+    "billed_prompt": "171719224006",
+    "billed_completion": "8015449093"
+  },
+  "info_value_usd_incl_byok": "9986.385874",
+  "mix": {
+    "basis": "OBSERVED",
+    "tokens": "billed (excl. BYOK)",
+    "w_in": "0.955404",
+    "w_out": "0.044596"
+  },
+  "price": {
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "p_in_usd_per_m": "0.028264124",
+    "p_out_usd_per_m": "0.469564408",
+    "as_of": "2026-11-10T23:19:36.000Z",
+    "weight_coverage": "1.000000",
+    "endpoints": [
+      {
+        "endpoint_id": "84b1e4a7-5aed-4464-818f-1994f0b4ee18",
+        "provider_slug": "alibaba",
+        "weight_tokens": "221027920118",
+        "p_in": "0.028166468",
+        "p_out": "0.469561010"
+      },
+      {
+        "endpoint_id": "c00f8f3f-fcaf-4087-92b2-60d0b8402813",
+        "provider_slug": "alibaba",
+        "weight_tokens": "17115180218",
+        "p_in": "0.029525273",
+        "p_out": "0.469608286"
+      }
+    ]
+  },
+  "rank": 25,
+  "checks": [],
+  "blocked": false,
+  "inputs": [
+    {
+      "role": "tokens",
+      "kind": "model_activity",
+      "documented": false,
+      "fetch_seq": 61,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/model-activity?permaslug=qwen%2Fqwen3.8-flash-20260826&variant=standard",
+      "sha256": "bfbf480df98ef495e17120d558f2c4764ad7c8352e75501d22153ca0ed1fd68a",
+      "fetched_at": "2026-11-10T23:19:28.829Z",
+      "source_as_of": "2026-11-10T16:46:10.104Z"
+    },
+    {
+      "role": "rankings_check",
+      "kind": "rankings_day",
+      "documented": false,
+      "fetch_seq": 2,
+      "url": "https://openrouter.ai/api/frontend/v1/rankings/models?view=day",
+      "sha256": "2687ba6486b5a54ef9c87f39ec378e6050e58733ed909e90847d5df4c860ebfe",
+      "fetched_at": "2026-11-10T23:11:35.871Z",
+      "source_as_of": "2026-11-10T23:08:49.000Z"
+    },
+    {
+      "role": "prices",
+      "kind": "effective_pricing",
+      "documented": false,
+      "fetch_seq": 62,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/effective-pricing?permaslug=qwen%2Fqwen3.8-flash-20260826&variant=standard&shape=v7&range=all",
+      "sha256": "72914390ec2b73ec8508060e908f19744bb316a07cff1ff98fbd3604f4c34486",
+      "fetched_at": "2026-11-10T23:19:35.917Z",
+      "source_as_of": "2026-11-10T23:19:36.000Z"
+    }
+  ],
+  "value_input_hashes": [
+    "bfbf480df98ef495e17120d558f2c4764ad7c8352e75501d22153ca0ed1fd68a",
+    "72914390ec2b73ec8508060e908f19744bb316a07cff1ff98fbd3604f4c34486"
+  ],
+  "source_as_of": "2026-11-10T16:46:10.104Z",
+  "observed_at": "2026-11-10T23:19:28.829Z",
+  "created_at": "2026-11-10T23:40:13.579Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-10T16:46:10.104Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "8617263049",
+    "prompt": "197264647805",
+    "completion": "9393542894",
+    "p_in": "28264124",
+    "p_out": "469564408",
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "blocked": false
+  },
+  "print": {
+    "indexId": "or-model-spend/qwen/qwen3.8-flash-20260826",
+    "version": "ZFX-OR-MODEL-SPEND-USD-v1",
+    "value": "8617.263049",
+    "valueScale": 6,
+    "valueInt": "8617263049",
+    "sourceStartUtc": "2026-11-09T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-10T23:19:28.829Z",
+    "publishedAt": "2026-11-10T23:40:13.579Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "556ad5b9d84a3091278399e18a81dd026d24d4810fca3f139d627ca9fee4711f",
+    "formulaHash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d76312a0000006f722d6d6f64656c2d7370656e642f7177656e2f7177656e332e382d666c6173682d3230323630383236190000005a46582d4f522d4d4f44454c2d5350454e442d5553442d763106c9ffa0010200000000c89abda10100000024c1c2a10100003d67c2c7a10100008b65d5c7a101000000dc0dcda1010000556ad5b9d84a3091278399e18a81dd026d24d4810fca3f139d627ca9fee4711ffc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "83f71343e541949e068ffdfb5df56debc939fd6a8c844de378badd44f02c9d28",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:b46c22132f8d3a8607932a75a35499b9cf582edaae86c212dc26408d0f01f49203a6301449542b94af43175994f2a2fe259bcb57f6e08d57a093887650ae6b0b"
+    ]
+  },
+  "chain": "03dee5e50914490edff053c8c01b385f0819c52912cb7d3e60f70c2a3d1cfa3c"
+}

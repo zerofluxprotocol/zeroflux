@@ -1,0 +1,201 @@
+{
+  "market": "nvidia/nemotron-3.5-super-vl-20261015",
+  "index_id": "or-model-spend/nvidia/nemotron-3.5-super-vl-20261015",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-v1",
+  "formula_hash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+  "mode": "ESTIMATED_OBSERVED_MIX",
+  "utc_date": "2026-11-09",
+  "source_start": "2026-11-09T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "value_usd": "4049.525370",
+  "value_micro_usd": "4049525370",
+  "confidence": "LOW",
+  "tokens": {
+    "prompt": "43567701543",
+    "completion": "2714991031",
+    "total": "46282692574",
+    "cached_prompt": "30890759056",
+    "reasoning": "2101264305",
+    "requests": "1231480",
+    "byok_prompt": "6682264",
+    "byok_completion": "4219185",
+    "billed_prompt": "43561019279",
+    "billed_completion": "2710771846"
+  },
+  "info_value_usd_incl_byok": "4052.160836",
+  "mix": {
+    "basis": "OBSERVED",
+    "tokens": "billed (excl. BYOK)",
+    "w_in": "0.941416",
+    "w_out": "0.058584"
+  },
+  "price": {
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "p_in_usd_per_m": "0.060005295",
+    "p_out_usd_per_m": "0.529603242",
+    "as_of": "2026-11-10T23:29:05.000Z",
+    "weight_coverage": "1.000000",
+    "endpoints": [
+      {
+        "endpoint_id": "36dbe4f5-257e-47f0-a30a-5c4890eda440",
+        "provider_slug": "venice",
+        "weight_tokens": "712258848",
+        "p_in": "0.087167992",
+        "p_out": "0.499839028"
+      },
+      {
+        "endpoint_id": "5384b3f0-0402-4832-9b8e-844dba62a32a",
+        "provider_slug": "baseten",
+        "weight_tokens": "1383273309",
+        "p_in": "0.149701942",
+        "p_out": "0.499949570"
+      },
+      {
+        "endpoint_id": "53e78594-2a96-4584-bc98-584e0508e436",
+        "provider_slug": "deepinfra",
+        "weight_tokens": "2588308205",
+        "p_in": "0.046889682",
+        "p_out": "0.499914606"
+      },
+      {
+        "endpoint_id": "6a42a031-5822-4d00-a401-090b7f1bc351",
+        "provider_slug": "together",
+        "weight_tokens": "14990704950",
+        "p_in": "0.053849910",
+        "p_out": "0.499910612"
+      },
+      {
+        "endpoint_id": "719d0b53-cc58-4aa8-856f-dc7192f78729",
+        "provider_slug": "crusoe",
+        "weight_tokens": "6383387901",
+        "p_in": "0.093775683",
+        "p_out": "0.399694183"
+      },
+      {
+        "endpoint_id": "7c584b34-1286-491c-8ee6-d7909f84fc19",
+        "provider_slug": "coreweave",
+        "weight_tokens": "15893135490",
+        "p_in": "0.037667925",
+        "p_out": "0.483252622"
+      },
+      {
+        "endpoint_id": "9797188b-2888-4111-849c-78c9b49a2fd6",
+        "provider_slug": "nebius",
+        "weight_tokens": "7550798099",
+        "p_in": "0.114224220",
+        "p_out": "0.899789469"
+      },
+      {
+        "endpoint_id": "adca81e3-a0fd-4271-a210-7796fb89d3f3",
+        "provider_slug": "primeintellect",
+        "weight_tokens": "9626396458",
+        "p_in": "0.032662190",
+        "p_out": "0.499916225"
+      },
+      {
+        "endpoint_id": "e114048d-f073-4ea2-be12-05d113480be9",
+        "provider_slug": "darkbloom",
+        "weight_tokens": "42914109",
+        "p_in": "0.059912768",
+        "p_out": "0.349364111"
+      },
+      {
+        "endpoint_id": "e8814018-a4b1-47b7-b428-0ee09ed36de6",
+        "provider_slug": "io-net",
+        "weight_tokens": "1529851374",
+        "p_in": "0.044359141",
+        "p_out": "0.299780071"
+      }
+    ]
+  },
+  "rank": 53,
+  "checks": [
+    {
+      "code": "TOP_N_DROPOUT",
+      "blocking": false,
+      "detail": "rank 53 > top 50"
+    }
+  ],
+  "blocked": false,
+  "inputs": [
+    {
+      "role": "tokens",
+      "kind": "model_activity",
+      "documented": false,
+      "fetch_seq": 133,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/model-activity?permaslug=nvidia%2Fnemotron-3.5-super-vl-20261015&variant=standard",
+      "sha256": "f932950e2e6ad4aa6ad5f45ff5e9376658e866b41d17bd2c0b46970fec79f0cc",
+      "fetched_at": "2026-11-10T23:28:55.266Z",
+      "source_as_of": "2026-11-10T18:15:32.811Z"
+    },
+    {
+      "role": "rankings_check",
+      "kind": "rankings_day",
+      "documented": false,
+      "fetch_seq": 2,
+      "url": "https://openrouter.ai/api/frontend/v1/rankings/models?view=day",
+      "sha256": "2687ba6486b5a54ef9c87f39ec378e6050e58733ed909e90847d5df4c860ebfe",
+      "fetched_at": "2026-11-10T23:11:35.871Z",
+      "source_as_of": "2026-11-10T23:08:49.000Z"
+    },
+    {
+      "role": "prices",
+      "kind": "effective_pricing",
+      "documented": false,
+      "fetch_seq": 134,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/effective-pricing?permaslug=nvidia%2Fnemotron-3.5-super-vl-20261015&variant=standard&shape=v7&range=all",
+      "sha256": "aa802a77911035d86232915ee105bab6954e867ce13e8f1c7adabc466b8d010f",
+      "fetched_at": "2026-11-10T23:29:04.869Z",
+      "source_as_of": "2026-11-10T23:29:05.000Z"
+    }
+  ],
+  "value_input_hashes": [
+    "f932950e2e6ad4aa6ad5f45ff5e9376658e866b41d17bd2c0b46970fec79f0cc",
+    "aa802a77911035d86232915ee105bab6954e867ce13e8f1c7adabc466b8d010f"
+  ],
+  "source_as_of": "2026-11-10T18:15:32.811Z",
+  "observed_at": "2026-11-10T23:28:55.266Z",
+  "created_at": "2026-11-10T23:40:13.579Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-10T18:15:32.811Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "4049525370",
+    "prompt": "43567701543",
+    "completion": "2714991031",
+    "p_in": "60005295",
+    "p_out": "529603242",
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "blocked": false
+  },
+  "print": {
+    "indexId": "or-model-spend/nvidia/nemotron-3.5-super-vl-20261015",
+    "version": "ZFX-OR-MODEL-SPEND-USD-v1",
+    "value": "4049.525370",
+    "valueScale": 6,
+    "valueInt": "4049525370",
+    "sourceStartUtc": "2026-11-09T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-10T23:28:55.266Z",
+    "publishedAt": "2026-11-10T23:40:13.579Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "0e96ca4dcae252b35dcfd9dd5ac0de421c46459cb6b3612c66d8f47810fa6faf",
+    "formulaHash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d7631340000006f722d6d6f64656c2d7370656e642f6e76696469612f6e656d6f74726f6e2d332e352d73757065722d766c2d3230323631303135190000005a46582d4f522d4d4f44454c2d5350454e442d5553442d7631067ada5ef10000000000c89abda10100000024c1c2a1010000e20bcbc7a10100008b65d5c7a101000000dc0dcda10100000e96ca4dcae252b35dcfd9dd5ac0de421c46459cb6b3612c66d8f47810fa6faffc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "ca5e59f015b9651bb7f746316048896aff441a7ba916c509bce32eaa8ccebe5a",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:c2003ca60f0120186ac34bc25671162d73e5c2cf35ffb8be79b2e7670519c1f7286f2e45a23c4cba12f0ceb02c4be5760477f844d417dee207b9b9544bdde60f"
+    ]
+  },
+  "chain": "d0affeec839b8e394be599dd06e22afdff0c5b06cc43ce76ba7f9b8f8631804a"
+}

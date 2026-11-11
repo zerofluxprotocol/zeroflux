@@ -1,0 +1,615 @@
+{
+  "market": "openai/gpt-6.1-terra-20261026",
+  "index_id": "or-model-spend/openai/gpt-6.1-terra-20261026",
+  "label": "OpenAI: GPT-6.1 Terra: OpenRouter-implied daily billings proxy, USD/day",
+  "formula": {
+    "version": "ZFX-OR-MODEL-SPEND-USD-v1",
+    "hash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+    "mode": "ESTIMATED_OBSERVED_MIX"
+  },
+  "notice": "Paper-trading index built from OpenRouter data. Not settlement-grade. Not revenue, royalties or equity.",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-10T17:41:11.681Z",
+  "revisions_total": 15,
+  "points": [
+    {
+      "utc_date": "2026-10-26",
+      "value_usd": "2010.495206",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-26.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "7014971612",
+        "completion": "103788965",
+        "total": "7118760577",
+        "cached_prompt": "6125212428",
+        "reasoning": "53257660",
+        "requests": "225548",
+        "byok_prompt": "618237023",
+        "byok_completion": "14084522",
+        "billed_prompt": "6396734589",
+        "billed_completion": "89704443"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.986170",
+        "w_out": "0.013830"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.247032437",
+        "p_out_usd_per_m": "4.796799995",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": null,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "1360e5aedec57e42d85198c5223abb8d9a26fbb3df85b076d5e7b31daf78288a"
+    },
+    {
+      "utc_date": "2026-10-27",
+      "value_usd": "15229.128776",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-27.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "82505733344",
+        "completion": "786704770",
+        "total": "83292438114",
+        "cached_prompt": "74924014721",
+        "reasoning": "325871847",
+        "requests": "1676201",
+        "byok_prompt": "17793594836",
+        "byok_completion": "57070861",
+        "billed_prompt": "64712138508",
+        "billed_completion": "729633909"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.988851",
+        "w_out": "0.011149"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.180885341",
+        "p_out_usd_per_m": "4.829341800",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": null,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "e970fc8afc6b7e78e2bcc66996c69e3b8ce93daad900961fed73666e699171a1"
+    },
+    {
+      "utc_date": "2026-10-28",
+      "value_usd": "17918.218265",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-28.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "83530935056",
+        "completion": "799469854",
+        "total": "84330404910",
+        "cached_prompt": "73018516374",
+        "reasoning": "315164725",
+        "requests": "1952206",
+        "byok_prompt": "15598287149",
+        "byok_completion": "69374468",
+        "billed_prompt": "67932647907",
+        "billed_completion": "730095386"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.989367",
+        "w_out": "0.010633"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.211305537",
+        "p_out_usd_per_m": "4.881106890",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": null,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "c6692688561d9bb2e57cb41c64482ef67e68222473203b5e341358fe4cbd0604"
+    },
+    {
+      "utc_date": "2026-10-29",
+      "value_usd": "28450.026379",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-29.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "147601113351",
+        "completion": "1395777776",
+        "total": "148996891127",
+        "cached_prompt": "133099854773",
+        "reasoning": "637687625",
+        "requests": "2627510",
+        "byok_prompt": "24291859413",
+        "byok_completion": "142626306",
+        "billed_prompt": "123309253938",
+        "billed_completion": "1253151470"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.989940",
+        "w_out": "0.010060"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.181499199",
+        "p_out_usd_per_m": "4.843385421",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": null,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "99192ce92afb009b3abe8ff283f9159f48471050996c7b7cb1b3603ca6597228"
+    },
+    {
+      "utc_date": "2026-10-30",
+      "value_usd": "28365.908005",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-30.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "154918797264",
+        "completion": "1600947355",
+        "total": "156519744619",
+        "cached_prompt": "142471312122",
+        "reasoning": "711835914",
+        "requests": "2922044",
+        "byok_prompt": "20212469787",
+        "byok_completion": "319246650",
+        "billed_prompt": "134706327477",
+        "billed_completion": "1281700705"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.990575",
+        "w_out": "0.009425"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.164595451",
+        "p_out_usd_per_m": "4.832531696",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": null,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "04ec3cea852dc32ccbab7c791342824089f49bcb4938aa2745c998029da84148"
+    },
+    {
+      "utc_date": "2026-10-31",
+      "value_usd": "16865.088154",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-31.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "72154268728",
+        "completion": "790285105",
+        "total": "72944553833",
+        "cached_prompt": "63925050508",
+        "reasoning": "274184011",
+        "requests": "1691015",
+        "byok_prompt": "6495674843",
+        "byok_completion": "144623181",
+        "billed_prompt": "65658593885",
+        "billed_completion": "645661924"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.990262",
+        "w_out": "0.009738"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.209297378",
+        "p_out_usd_per_m": "4.836767501",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": null,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "e3c39b714e9da700ed02b58ea75a5e263c4ade279e72645ea1f862ddd72ebef7"
+    },
+    {
+      "utc_date": "2026-11-01",
+      "value_usd": "22152.793275",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-01.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "91061755683",
+        "completion": "940168711",
+        "total": "92001924394",
+        "cached_prompt": "81340733081",
+        "reasoning": "228019903",
+        "requests": "2357274",
+        "byok_prompt": "3780790799",
+        "byok_completion": "25190703",
+        "billed_prompt": "87280964884",
+        "billed_completion": "914978008"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.989626",
+        "w_out": "0.010374"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.203166516",
+        "p_out_usd_per_m": "4.830961715",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": null,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "c65a991f866311ab9bb0e9dbc6518ac94f9eb98bf43a05dc3aaa5eab623c1d43"
+    },
+    {
+      "utc_date": "2026-11-02",
+      "value_usd": "26997.034451",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-02.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "121601680041",
+        "completion": "1208606457",
+        "total": "122810286498",
+        "cached_prompt": "106579457369",
+        "reasoning": "395518875",
+        "requests": "3754199",
+        "byok_prompt": "22524032826",
+        "byok_completion": "114365541",
+        "billed_prompt": "99077647215",
+        "billed_completion": "1094240916"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.989076",
+        "w_out": "0.010924"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.218882574",
+        "p_out_usd_per_m": "4.853285894",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": null,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "8c83255f5ad4148032dd934b5e42da23f8571c92fa7b8faa5efb7ea20c96d67e"
+    },
+    {
+      "utc_date": "2026-11-03",
+      "value_usd": "34566.052822",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-03.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "141529518480",
+        "completion": "1054011066",
+        "total": "142583529546",
+        "cached_prompt": "124931676984",
+        "reasoning": "417652232",
+        "requests": "4232298",
+        "byok_prompt": "23525826547",
+        "byok_completion": "134001472",
+        "billed_prompt": "118003691933",
+        "billed_completion": "920009594"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.992264",
+        "w_out": "0.007736"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.254620123",
+        "p_out_usd_per_m": "4.912925145",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": null,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "7cea69e4591a289f2a591b0080632d7e9872c2e0b1fb371d49437facda161ebd"
+    },
+    {
+      "utc_date": "2026-11-04",
+      "value_usd": "40981.967068",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-04.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "153716809174",
+        "completion": "1560728381",
+        "total": "155277537555",
+        "cached_prompt": "132559439560",
+        "reasoning": "693009144",
+        "requests": "6271312",
+        "byok_prompt": "25122634930",
+        "byok_completion": "134381049",
+        "billed_prompt": "128594174244",
+        "billed_completion": "1426347332"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.989030",
+        "w_out": "0.010970"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.264508036",
+        "p_out_usd_per_m": "4.885047591",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": null,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "a1786adc25cc10b9de4bcfabf6f9b7056ddc55de0bd5e7c5b376cde9bd730e28"
+    },
+    {
+      "utc_date": "2026-11-05",
+      "value_usd": "45184.281439",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-05.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "186405006538",
+        "completion": "1818991975",
+        "total": "188223998513",
+        "cached_prompt": "161121178751",
+        "reasoning": "698260426",
+        "requests": "6111342",
+        "byok_prompt": "35283482886",
+        "byok_completion": "157748469",
+        "billed_prompt": "151121523652",
+        "billed_completion": "1661243506"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.989127",
+        "w_out": "0.010873"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.245450370",
+        "p_out_usd_per_m": "4.870717336",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": null,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "d105d904f81d5ca964ce2c75deca2ffcf9a8fdd99d2ae7242b9bf74075a57792"
+    },
+    {
+      "utc_date": "2026-11-06",
+      "value_usd": "45095.284729",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-06.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "198462561032",
+        "completion": "1593849097",
+        "total": "200056410129",
+        "cached_prompt": "176525250470",
+        "reasoning": "656432299",
+        "requests": "5604839",
+        "byok_prompt": "26518917504",
+        "byok_completion": "125870652",
+        "billed_prompt": "171943643528",
+        "billed_completion": "1467978445"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.991535",
+        "w_out": "0.008465"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.220614482",
+        "p_out_usd_per_m": "4.878836541",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": null,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "f28dfefbcfbc31cce50ffbace56413d9c2be767b635cbea76f1443722f649423"
+    },
+    {
+      "utc_date": "2026-11-07",
+      "value_usd": "29035.195301",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-07.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "119299976295",
+        "completion": "1037885405",
+        "total": "120337861700",
+        "cached_prompt": "106666940972",
+        "reasoning": "456115390",
+        "requests": "3885287",
+        "byok_prompt": "11003262883",
+        "byok_completion": "77134248",
+        "billed_prompt": "108296713412",
+        "billed_completion": "960751157"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.991207",
+        "w_out": "0.008793"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.224807773",
+        "p_out_usd_per_m": "4.880818827",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": null,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "1c2c1f128631cd314a2267d46910a6ff3d187e1d4c042857db43b618c05a0d20"
+    },
+    {
+      "utc_date": "2026-11-08",
+      "value_usd": "29168.926411",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-08.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "122521584656",
+        "completion": "1078280629",
+        "total": "123599865285",
+        "cached_prompt": "108660353900",
+        "reasoning": "445166163",
+        "requests": "4488575",
+        "byok_prompt": "16037938158",
+        "byok_completion": "76627928",
+        "billed_prompt": "106483646498",
+        "billed_completion": "1001652701"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.990681",
+        "w_out": "0.009319"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.228047147",
+        "p_out_usd_per_m": "4.877573454",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": null,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "f4854aebbc76dd9399b3f64f55b67500da7d525dce23da09c8bd46954befd29f"
+    },
+    {
+      "utc_date": "2026-11-09",
+      "value_usd": "34776.149326",
+      "data_status": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-09.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "check_codes": [],
+      "tokens": {
+        "prompt": "168861011494",
+        "completion": "1455269489",
+        "total": "170316280983",
+        "cached_prompt": "150096330643",
+        "reasoning": "603100843",
+        "requests": "4946846",
+        "byok_prompt": "28826682352",
+        "byok_completion": "123186827",
+        "billed_prompt": "140034329142",
+        "billed_completion": "1332082662"
+      },
+      "mix": {
+        "basis": "OBSERVED",
+        "tokens": "billed (excl. BYOK)",
+        "w_in": "0.990577",
+        "w_out": "0.009423"
+      },
+      "price": {
+        "basis": "DAILY_ENDPOINT_REWEIGHTED",
+        "p_in_usd_per_m": "0.201627756",
+        "p_out_usd_per_m": "4.910612505",
+        "as_of": "2026-11-10T23:20:48.000Z"
+      },
+      "rank": 28,
+      "reason": null,
+      "source_as_of": "2026-11-10T17:41:11.681Z",
+      "observed_at": "2026-11-10T23:20:39.923Z",
+      "print_hash": "ba21a114f48a1f7548aa344cf0751c4d21ab1a286e436da5bde97f4ccb54dbe8"
+    }
+  ]
+}

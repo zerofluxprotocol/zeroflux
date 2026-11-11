@@ -1,0 +1,69 @@
+ZFX-OR-MODEL-SPEND-USD-v1
+OpenRouter-implied daily billings proxy, USD per UTC day, one index per model permaslug (variant "standard").
+This file is hashed (SHA-256 of these exact bytes) into every OraclePrint as formulaHash.
+Changing any line below requires a new formula version.
+
+1. Reference window
+   Day d is [d 00:00:00.000Z, d+1 00:00:00.000Z). UTC only. No DST, no exchange close.
+
+2. Mode
+   mode = ESTIMATED_OBSERVED_MIX
+   The prompt/completion split is observed per model per day from the source, not assumed.
+   ESTIMATED_FIXED_MIX is defined (section 6) but not used by this version.
+   OBSERVED_BILLINGS is not available: no licensed billing data.
+
+3. Token input
+   Source rows: model-activity (date, model_permaslug, variant=standard,
+   total_prompt_tokens, total_completion_tokens, total_byok_prompt_tokens, total_byok_completion_tokens).
+   Billed tokens exclude bring-your-own-key traffic, which the upstream provider bills, not OpenRouter:
+   prompt_billed = total_prompt_tokens - total_byok_prompt_tokens
+   completion_billed = total_completion_tokens - total_byok_completion_tokens
+   Source time of a response: body cachedAt if present, else the Last-Modified header,
+   else Date minus Age (origin response time), else fetch time.
+   A response may be used for day d only if its source time is at or after
+   d+1 00:00:00Z + grace_hours.
+   grace_hours = 6
+   The response covers days [as_of_day - 30, as_of_day - 1]; as_of_day itself is partial and never used.
+   activity_window_days = 31
+   Among usable responses the most recently fetched one is used. A covered day with no row is NOT_REPORTED.
+
+4. Price input (USD per million tokens, effective, cache discounts included by the source)
+   Basis CLOSE_TRAILING_24H (preferred): effective-pricing summary (weightedInputPrice,
+   weightedOutputPrice) whose source time lies in [d+1 00:00Z - close_window_minutes, d+1 00:00Z).
+   The latest such observation is the close. close_window_minutes = 60
+   Basis DAILY_ENDPOINT_REWEIGHTED (fallback): the first-fetched effective-pricing response with
+   source time >= d+1 00:00Z + grace_hours whose daily chart contains d. For each endpoint e present
+   on day d: p_e(d). Weights w_e = providerSummaries[e].totalTokens of that same response
+   (a trailing window, not day d). p(d) = sum(w_e * p_e(d)) / sum(w_e), rounded half-even.
+   Endpoints with w_e = 0 are ignored. If sum(w_e) = 0 the day is UNPRICED.
+   If both p_in and p_out are 0 the day is UNPRICED (free or promotional pricing is not spend).
+
+5. Value (exact integers)
+   prices in nano-USD per million tokens (scale 9), parsed from the literal JSON number text,
+   rounded half-even.
+   index_usd_micro = round_half_even((prompt_billed * p_in + completion_billed * p_out) / 10^9)
+   This equals T_billed / 10^6 * (w_in * p_in + w_out * p_out) with w_in = prompt_billed / T_billed,
+   w_out = completion_billed / T_billed (observed mix).
+   value_scale = 6 (micro-USD)
+
+6. Fixed-mix variant (defined for completeness, not used by v1)
+   p_blended = round_half_even((w_in_ppm * p_in + w_out_ppm * p_out) / 10^6)
+   index_usd_micro = round_half_even(T_total * p_blended / 10^9)
+
+7. Statuses
+   data: OK | NOT_REPORTED | UNPRICED | NO_VALID_CLOSE_PRICE
+   finality: FINAL (first revision) | CORRECTED (any later revision). PROVISIONAL is reserved for an
+   authorized live current-day feed and is not produced.
+   oracle print status: FRESH when data OK, UNAVAILABLE otherwise.
+   valid_until = d+1 00:00Z + valid_for_hours. valid_for_hours = 48
+
+8. Blocking checks (no signed print while any fails)
+   TOKENS_OUTLIER: total > 10x or < 0.1x the median of the up to 7 prior reported days
+   (checked only when at least 3 prior days are reported).
+   PRICE_OUTLIER: p_out < min_listed_out / 4 or p_out > max_listed_out * 4, or p_in > max_listed_in * 4,
+   where min/max run over providers in the newest documented /api/v1/models/{id}/endpoints
+   response (else the /api/v1/models catalog price). Listed prices are current, not historical.
+   SOURCE_SHAPE: the newest response of an input kind for this model failed validation.
+
+9. Source hash
+   source_hash = SHA-256("ZFX-source-set-v1" || u32le(n) || sha256(token response) || sha256(price response))

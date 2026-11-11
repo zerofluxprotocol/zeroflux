@@ -1,0 +1,14 @@
+{
+  "market": "google/gemini-4-carbon-20261110",
+  "index_id": "or-model-spend/google/gemini-4-carbon-20261110",
+  "label": "Google: Gemini 4 Carbon: OpenRouter-implied daily billings proxy, USD/day",
+  "formula": {
+    "version": "ZFX-OR-MODEL-SPEND-USD-v1",
+    "hash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+    "mode": "ESTIMATED_OBSERVED_MIX"
+  },
+  "notice": "Paper-trading index built from OpenRouter data. Not settlement-grade. Not revenue, royalties or equity.",
+  "attribution": null,
+  "revisions_total": 0,
+  "points": []
+}

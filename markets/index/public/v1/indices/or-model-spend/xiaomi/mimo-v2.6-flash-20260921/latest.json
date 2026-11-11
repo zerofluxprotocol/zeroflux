@@ -1,0 +1,181 @@
+{
+  "market": "xiaomi/mimo-v2.6-flash-20260921",
+  "index_id": "or-model-spend/xiaomi/mimo-v2.6-flash-20260921",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-v1",
+  "formula_hash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+  "mode": "ESTIMATED_OBSERVED_MIX",
+  "utc_date": "2026-11-09",
+  "source_start": "2026-11-09T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "value_usd": "2844.002209",
+  "value_micro_usd": "2844002209",
+  "confidence": "LOW",
+  "tokens": {
+    "prompt": "650414444159",
+    "completion": "7856985873",
+    "total": "658271430032",
+    "cached_prompt": "594777484160",
+    "reasoning": "4939636610",
+    "requests": "8596648",
+    "byok_prompt": "507617894005",
+    "byok_completion": "5067890111",
+    "billed_prompt": "142796550154",
+    "billed_completion": "2789095762"
+  },
+  "info_value_usd_incl_byok": "11600.544818",
+  "mix": {
+    "basis": "OBSERVED",
+    "tokens": "billed (excl. BYOK)",
+    "w_in": "0.980842",
+    "w_out": "0.019158"
+  },
+  "price": {
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "p_in_usd_per_m": "0.014462490",
+    "p_out_usd_per_m": "0.279233342",
+    "as_of": "2026-11-10T23:15:15.000Z",
+    "weight_coverage": "0.999342",
+    "endpoints": [
+      {
+        "endpoint_id": "11acf9dd-150f-425d-a435-0a977e7c212a",
+        "provider_slug": "cohere",
+        "weight_tokens": "30189225284",
+        "p_in": "0.048401787",
+        "p_out": "0.279146409"
+      },
+      {
+        "endpoint_id": "3331e09c-fd08-44fc-a81c-12142f4570ef",
+        "provider_slug": "tenstorrent",
+        "weight_tokens": "295957675",
+        "p_in": "0.042109598",
+        "p_out": "0.329280105"
+      },
+      {
+        "endpoint_id": "5a4f83c9-eb01-4268-a607-eaf6d5ce435a",
+        "provider_slug": "venice",
+        "weight_tokens": "4086382596",
+        "p_in": "0.019891786",
+        "p_out": "0.349585697"
+      },
+      {
+        "endpoint_id": "6f7ea660-c5e2-492e-8a39-ec254953b3ae",
+        "provider_slug": "xiaomi",
+        "weight_tokens": "561446093351",
+        "p_in": "0.011094854",
+        "p_out": "0.279544023"
+      },
+      {
+        "endpoint_id": "76fba6e4-0f14-4337-9721-160f5724eb20",
+        "provider_slug": "gmicloud",
+        "weight_tokens": "8439052329",
+        "p_in": "0.026428464",
+        "p_out": "0.223227237"
+      },
+      {
+        "endpoint_id": "784c9d91-dce7-4a89-adc1-98960547e58e",
+        "provider_slug": "makora",
+        "weight_tokens": "19367671358",
+        "p_in": "0.043356957",
+        "p_out": "0.278933156"
+      },
+      {
+        "endpoint_id": "8f1a1d4b-adc8-465f-860a-4dc2aad88765",
+        "provider_slug": "deepinfra",
+        "weight_tokens": "10257695697",
+        "p_in": "0.031060613",
+        "p_out": "0.279660037"
+      },
+      {
+        "endpoint_id": "e4495a5b-36ee-45b8-be70-95af1fa34dc7",
+        "provider_slug": "darkbloom",
+        "weight_tokens": "75321366",
+        "p_in": "0.079752495",
+        "p_out": "0.278850606"
+      }
+    ]
+  },
+  "rank": 10,
+  "checks": [],
+  "blocked": false,
+  "inputs": [
+    {
+      "role": "tokens",
+      "kind": "model_activity",
+      "documented": false,
+      "fetch_seq": 28,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/model-activity?permaslug=xiaomi%2Fmimo-v2.6-flash-20260921&variant=standard",
+      "sha256": "09c63e4ce0acc33c52b294ae208783e1f7d06d98e8bb3b293e7ae9826379ef04",
+      "fetched_at": "2026-11-10T23:15:05.766Z",
+      "source_as_of": "2026-11-10T19:36:40.590Z"
+    },
+    {
+      "role": "rankings_check",
+      "kind": "rankings_day",
+      "documented": false,
+      "fetch_seq": 2,
+      "url": "https://openrouter.ai/api/frontend/v1/rankings/models?view=day",
+      "sha256": "2687ba6486b5a54ef9c87f39ec378e6050e58733ed909e90847d5df4c860ebfe",
+      "fetched_at": "2026-11-10T23:11:35.871Z",
+      "source_as_of": "2026-11-10T23:08:49.000Z"
+    },
+    {
+      "role": "prices",
+      "kind": "effective_pricing",
+      "documented": false,
+      "fetch_seq": 29,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/effective-pricing?permaslug=xiaomi%2Fmimo-v2.6-flash-20260921&variant=standard&shape=v7&range=all",
+      "sha256": "8920c3245966b07dcdf954fc57e94ee3f6292a579541eeb09478f5b99c494845",
+      "fetched_at": "2026-11-10T23:15:15.476Z",
+      "source_as_of": "2026-11-10T23:15:15.000Z"
+    }
+  ],
+  "value_input_hashes": [
+    "09c63e4ce0acc33c52b294ae208783e1f7d06d98e8bb3b293e7ae9826379ef04",
+    "8920c3245966b07dcdf954fc57e94ee3f6292a579541eeb09478f5b99c494845"
+  ],
+  "source_as_of": "2026-11-10T19:36:40.590Z",
+  "observed_at": "2026-11-10T23:15:05.766Z",
+  "created_at": "2026-11-10T23:40:13.579Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-10T19:36:40.590Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "2844002209",
+    "prompt": "650414444159",
+    "completion": "7856985873",
+    "p_in": "14462490",
+    "p_out": "279233342",
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "blocked": false
+  },
+  "print": {
+    "indexId": "or-model-spend/xiaomi/mimo-v2.6-flash-20260921",
+    "version": "ZFX-OR-MODEL-SPEND-USD-v1",
+    "value": "2844.002209",
+    "valueScale": 6,
+    "valueInt": "2844002209",
+    "sourceStartUtc": "2026-11-09T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-10T23:15:05.766Z",
+    "publishedAt": "2026-11-10T23:40:13.579Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "edcc00fb3c05920741a22696142c91f1d4667bcb4aba1dc7bb59b186a94884c0",
+    "formulaHash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d76312e0000006f722d6d6f64656c2d7370656e642f7869616f6d692f6d696d6f2d76322e362d666c6173682d3230323630393231190000005a46582d4f522d4d4f44454c2d5350454e442d5553442d763106a10784a90000000000c89abda10100000024c1c2a1010000a663bec7a10100008b65d5c7a101000000dc0dcda1010000edcc00fb3c05920741a22696142c91f1d4667bcb4aba1dc7bb59b186a94884c0fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "e41b993b5151b6b7ed9b900d60da2c00e7f51b352160e3740c28829f3931101f",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:adb684a217ebf7f66f0027379f67f0770986e4984b5f35f82fd4631fc5378095b77229339acf0bf88d34c23849fd6e8edb62c283c83d9b81d57574d641d81708"
+    ]
+  },
+  "chain": "35c2e3f7a68b1568fad763047f4b4b2478c9c2e62a5814a521b14f29be73a9fd"
+}

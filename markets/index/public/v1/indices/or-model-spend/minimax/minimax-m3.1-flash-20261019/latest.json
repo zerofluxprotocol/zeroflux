@@ -1,0 +1,209 @@
+{
+  "market": "minimax/minimax-m3.1-flash-20261019",
+  "index_id": "or-model-spend/minimax/minimax-m3.1-flash-20261019",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-v1",
+  "formula_hash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+  "mode": "ESTIMATED_OBSERVED_MIX",
+  "utc_date": "2026-11-09",
+  "source_start": "2026-11-09T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "value_usd": "3012.647948",
+  "value_micro_usd": "3012647948",
+  "confidence": "LOW",
+  "tokens": {
+    "prompt": "550654609522",
+    "completion": "8297228181",
+    "total": "558951837703",
+    "cached_prompt": "511758064760",
+    "reasoning": "5714600506",
+    "requests": "7036414",
+    "byok_prompt": "443595473980",
+    "byok_completion": "6518589728",
+    "billed_prompt": "107059135542",
+    "billed_completion": "1778638453"
+  },
+  "info_value_usd_incl_byok": "15081.077105",
+  "mix": {
+    "basis": "OBSERVED",
+    "tokens": "billed (excl. BYOK)",
+    "w_in": "0.983658",
+    "w_out": "0.016342"
+  },
+  "price": {
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "p_in_usd_per_m": "0.020051892",
+    "p_out_usd_per_m": "0.486838527",
+    "as_of": "2026-11-10T23:15:40.000Z",
+    "weight_coverage": "1.000000",
+    "endpoints": [
+      {
+        "endpoint_id": "0a7eec19-891c-42db-b438-391771aa3116",
+        "provider_slug": "fireworks",
+        "weight_tokens": "9673519488",
+        "p_in": "0.028998048",
+        "p_out": "0.599581790"
+      },
+      {
+        "endpoint_id": "24b59984-feca-418b-9b78-5e6d4a39724c",
+        "provider_slug": "minimax",
+        "weight_tokens": "460575543400",
+        "p_in": "0.019582006",
+        "p_out": "0.473219623"
+      },
+      {
+        "endpoint_id": "365202e3-301c-4dfc-9301-53f5f68829d0",
+        "provider_slug": "digitalocean",
+        "weight_tokens": "12176132418",
+        "p_in": "0.020674916",
+        "p_out": "0.599641757"
+      },
+      {
+        "endpoint_id": "3d61bda3-5251-4a1c-9605-3979447cbbc0",
+        "provider_slug": "sambanova",
+        "weight_tokens": "113370319",
+        "p_in": "0.075029925",
+        "p_out": "0.599475941"
+      },
+      {
+        "endpoint_id": "4d9f67d5-db9f-428c-8709-67504d918492",
+        "provider_slug": "gmicloud",
+        "weight_tokens": "4480233873",
+        "p_in": "0.015688476",
+        "p_out": "0.449405789"
+      },
+      {
+        "endpoint_id": "4ea7752e-fcf8-4725-b282-b7d87434971d",
+        "provider_slug": "inference-net",
+        "weight_tokens": "1134965135",
+        "p_in": "0.028184131",
+        "p_out": "0.599009329"
+      },
+      {
+        "endpoint_id": "50179d31-3430-4e07-913a-e3171ef11851",
+        "provider_slug": "together",
+        "weight_tokens": "2503700980",
+        "p_in": "0.028417087",
+        "p_out": "0.599524758"
+      },
+      {
+        "endpoint_id": "7ae32641-3a9f-4be7-b832-0988ef11ea52",
+        "provider_slug": "streamlake",
+        "weight_tokens": "3263269742",
+        "p_in": "0.025707696",
+        "p_out": "0.539565417"
+      },
+      {
+        "endpoint_id": "b7c1636b-c8c0-4a38-a96e-57cf8968e5b7",
+        "provider_slug": "nebius",
+        "weight_tokens": "11772918114",
+        "p_in": "0.024444191",
+        "p_out": "0.599517050"
+      },
+      {
+        "endpoint_id": "c6e051f7-8cb8-453b-9833-5dd708b8a48f",
+        "provider_slug": "parasail",
+        "weight_tokens": "16682889570",
+        "p_in": "0.021872674",
+        "p_out": "0.599679820"
+      },
+      {
+        "endpoint_id": "e624ced3-92f2-414f-b423-3eff7071c4a1",
+        "provider_slug": "novita",
+        "weight_tokens": "1154495721",
+        "p_in": "0.021575045",
+        "p_out": "0.599646463"
+      },
+      {
+        "endpoint_id": "e669e886-8ead-486b-bf03-61465c15dfb4",
+        "provider_slug": "inference-net",
+        "weight_tokens": "379105481",
+        "p_in": "0.028315117",
+        "p_out": "0.599011906"
+      }
+    ]
+  },
+  "rank": 11,
+  "checks": [],
+  "blocked": false,
+  "inputs": [
+    {
+      "role": "tokens",
+      "kind": "model_activity",
+      "documented": false,
+      "fetch_seq": 31,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/model-activity?permaslug=minimax%2Fminimax-m3.1-flash-20261019&variant=standard",
+      "sha256": "4a7b7de3460e01ab87b6ea7eea332a13137068831f279ddcdda467af1ffeb76c",
+      "fetched_at": "2026-11-10T23:15:33.817Z",
+      "source_as_of": "2026-11-10T17:47:07.366Z"
+    },
+    {
+      "role": "rankings_check",
+      "kind": "rankings_day",
+      "documented": false,
+      "fetch_seq": 2,
+      "url": "https://openrouter.ai/api/frontend/v1/rankings/models?view=day",
+      "sha256": "2687ba6486b5a54ef9c87f39ec378e6050e58733ed909e90847d5df4c860ebfe",
+      "fetched_at": "2026-11-10T23:11:35.871Z",
+      "source_as_of": "2026-11-10T23:08:49.000Z"
+    },
+    {
+      "role": "prices",
+      "kind": "effective_pricing",
+      "documented": false,
+      "fetch_seq": 32,
+      "url": "https://openrouter.ai/api/frontend/v1/stats/effective-pricing?permaslug=minimax%2Fminimax-m3.1-flash-20261019&variant=standard&shape=v7&range=all",
+      "sha256": "4c05fe98e0ede3cf5acf6fb0e8b798d54ee9d21ae20795cc63e8966dfa16cd33",
+      "fetched_at": "2026-11-10T23:15:40.627Z",
+      "source_as_of": "2026-11-10T23:15:40.000Z"
+    }
+  ],
+  "value_input_hashes": [
+    "4a7b7de3460e01ab87b6ea7eea332a13137068831f279ddcdda467af1ffeb76c",
+    "4c05fe98e0ede3cf5acf6fb0e8b798d54ee9d21ae20795cc63e8966dfa16cd33"
+  ],
+  "source_as_of": "2026-11-10T17:47:07.366Z",
+  "observed_at": "2026-11-10T23:15:33.817Z",
+  "created_at": "2026-11-10T23:40:13.579Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-10T17:47:07.366Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "3012647948",
+    "prompt": "550654609522",
+    "completion": "8297228181",
+    "p_in": "20051892",
+    "p_out": "486838527",
+    "basis": "DAILY_ENDPOINT_REWEIGHTED",
+    "blocked": false
+  },
+  "print": {
+    "indexId": "or-model-spend/minimax/minimax-m3.1-flash-20261019",
+    "version": "ZFX-OR-MODEL-SPEND-USD-v1",
+    "value": "3012.647948",
+    "valueScale": 6,
+    "valueInt": "3012647948",
+    "sourceStartUtc": "2026-11-09T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-10T23:15:33.817Z",
+    "publishedAt": "2026-11-10T23:40:13.579Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "d969a08cb691a2de40da97505c91fb7f50be696d937d4777e78a57d902d835bc",
+    "formulaHash": "fc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d7631320000006f722d6d6f64656c2d7370656e642f6d696e696d61782f6d696e696d61782d6d332e312d666c6173682d3230323631303139190000005a46582d4f522d4d4f44454c2d5350454e442d5553442d7631060c5c91b30000000000c89abda10100000024c1c2a101000039d1bec7a10100008b65d5c7a101000000dc0dcda1010000d969a08cb691a2de40da97505c91fb7f50be696d937d4777e78a57d902d835bcfc15374794a2d9333dff73f4f88f8052e6901e73df903308aea5902a4684c0d2000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "c120a9905cd0513b49cfccd31479d309a037f06365d0b50501dbd8c990535fe9",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:9871375b08b75b0f6b8d7d567cdb7091e65248ec45b07846f9aa6f22eb29a92442362d561d7d2f54f852bda6dfc6bacff20bc19e94e61b09e0f4fcb6e3f00b01"
+    ]
+  },
+  "chain": "ef05f413d22cd4311c3412f420725712562cc165342e8b65a0b4b0fd400e259a"
+}
