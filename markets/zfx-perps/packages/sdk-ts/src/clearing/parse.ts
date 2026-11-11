@@ -63,7 +63,9 @@ export function parseMarketParams(j: J): MarketParams {
     fundingDivisor: num(j.funding_divisor, "funding_divisor"),
     maxFundingPpm: num(j.max_funding_ppm, "max_funding_ppm"),
     printCloseOnlyFromSec: num(j.print_close_only_from_sec, "print_close_only_from_sec"),
-    maxJumpBps: num(j.max_jump_bps, "max_jump_bps"),
+    printLagDays: num(j.print_lag_days ?? 0, "print_lag_days"),
+    markLimitBps: num(j.mark_limit_bps, "mark_limit_bps"),
+    haltJumpBps: num(j.halt_jump_bps ?? 0, "halt_jump_bps"),
   };
 }
 
@@ -75,6 +77,7 @@ export function parseMarket(j: J): Market {
     status: j.status,
     effectiveStatus: j.effective_status ?? j.status,
     mark: bigOr(j.mark, 0n, "mark"),
+    indexTicks: bigOr(j.index_ticks, 0n, "index_ticks"),
     markFresh: Boolean(j.mark_fresh),
     openInterest: bigOr(j.open_interest, 0n, "open_interest"),
     badDebt: bigOr(j.bad_debt, 0n, "bad_debt"),

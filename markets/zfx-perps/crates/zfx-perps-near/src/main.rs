@@ -121,6 +121,79 @@ enum Cmd {
         #[command(flatten)]
         who: Who,
     },
+    /// Clearing mode: deploy a mock collateral token, the clearing contract and an operator
+    /// account under --master (testnet or sandbox only). Writes the stack file.
+    ClearingDeploy {
+        #[arg(long)]
+        rpc: String,
+        #[arg(long)]
+        master: String,
+        /// Master secret key; or a NEAR credentials JSON via --master-credentials.
+        #[arg(long, env = "ZFX_PERPS_MASTER_KEY")]
+        master_key: Option<String>,
+        #[arg(long)]
+        master_credentials: Option<PathBuf>,
+        #[arg(long, default_value = "near:testnet")]
+        chain_id: String,
+        /// ed25519 reporter public keys (`ed25519:<base58>` or 64 hex chars).
+        #[arg(long, num_args = 1..)]
+        reporters: Vec<String>,
+        #[arg(long, default_value_t = 1)]
+        quorum: u8,
+        #[arg(long, default_value_t = 60)]
+        timelock_secs: u64,
+        #[arg(long, default_value_t = 86400)]
+        force_timeout_secs: u64,
+        #[arg(long, default_value = "perps")]
+        contract_name: String,
+        #[arg(long, default_value = "tusdc-perps")]
+        token_name: String,
+        #[arg(long, default_value = "perps-operator")]
+        operator_name: String,
+        #[arg(long, default_value_t = 5)]
+        contract_near: u128,
+        #[arg(long, default_value_t = 2)]
+        token_near: u128,
+        #[arg(long, default_value_t = 1)]
+        operator_near: u128,
+        #[arg(long)]
+        out: PathBuf,
+    },
+    /// Clearing mode: list a market from a MarketParams JSON file and activate it (waits out the
+    /// timelock).
+    ClearingMarket {
+        #[command(flatten)]
+        c: ClearingArgs,
+        #[arg(long)]
+        params: PathBuf,
+    },
+    /// Clearing mode: print a node config for a clearing stack.
+    ClearingNodeConfig {
+        #[command(flatten)]
+        c: ClearingArgs,
+        #[arg(long)]
+        data: PathBuf,
+        #[arg(long, default_value = "127.0.0.1:8796")]
+        listen: String,
+        #[arg(long)]
+        admin_token: String,
+        #[arg(long)]
+        print_feed: Option<String>,
+    },
+    /// Clearing mode: run the settlement relayer.
+    ClearingAdapter {
+        #[command(flatten)]
+        c: ClearingArgs,
+        #[arg(long, default_value = "http://127.0.0.1:8796")]
+        node: String,
+        #[arg(long)]
+        admin_token: String,
+        #[arg(long, default_value_t = 1000)]
+        poll_ms: u64,
+        /// Append one JSON line per settled batch (id, tx hash, Tgas).
+        #[arg(long)]
+        log: Option<PathBuf>,
+    },
     /// After a freeze: withdraw your whole settled balance of a token.
     Escape {
         #[command(flatten)]
@@ -128,6 +201,13 @@ enum Cmd {
         #[arg(long)]
         token: String,
     },
+}
+
+#[derive(clap::Args)]
+struct ClearingArgs {
+    /// Clearing stack file written by clearing-deploy (contains secret keys; keep outside git).
+    #[arg(long)]
+    stack: PathBuf,
 }
 
 #[derive(clap::Args)]
@@ -354,6 +434,106 @@ async fn main() -> Result<()> {
             let (set, a) = who.parts()?;
             set.freeze(&a).await?;
             println!("frozen");
+        }
+        Cmd::ClearingDeploy {
+            rpc,
+            master,
+            master_key,
+            master_credentials,
+            chain_id,
+            reporters,
+            quorum,
+            timelock_secs,
+            force_timeout_secs,
+            contract_name,
+            token_name,
+            operator_name,
+            contract_near,
+            token_near,
+            operator_near,
+            out,
+        } => {
+            if rpc.contains("mainnet") {
+                anyhow::bail!("refusing to deploy to mainnet");
+            }
+            let key = match (master_key, master_credentials) {
+                (Some(k), _) => k,
+                (None, Some(p)) => {
+                    let v: serde_json::Value = serde_json::from_str(&std::fs::read_to_string(&p)?)?;
+                    v["private_key"].as_str().or(v["secret_key"].as_str()).context("credentials: private_key")?.to_string()
+                }
+                _ => anyhow::bail!("--master-key or --master-credentials"),
+            };
+            let master = Actor::new(&master, &key)?;
+            let reporters = reporters
+                .iter()
+                .map(|r| {
+                    if r.len() == 64 && r.chars().all(|c| c.is_ascii_hexdigit()) {
+                        let b = zfx_perps_clearing::wire::unhex(&r.to_lowercase()).context("hex key")?;
+                        Ok(format!("ed25519:{}", bs58::encode(b).into_string()))
+                    } else {
+                        Ok(r.clone())
+                    }
+                })
+                .collect::<Result<Vec<_>>>()?;
+            let near = Near::rpc(&rpc)?;
+            let o = zfx_perps_near::clearing::ClearingOptions {
+                chain_id,
+                contract_name,
+                token_name,
+                operator_name,
+                contract_near,
+                token_near,
+                operator_near,
+                reporters,
+                quorum,
+                force_timeout_ns: force_timeout_secs * 1_000_000_000,
+                timelock_ns: timelock_secs * 1_000_000_000,
+                collateral: None,
+            };
+            let st = zfx_perps_near::clearing::deploy_clearing(&near, &rpc, &master, &o).await?;
+            std::fs::write(&out, serde_json::to_string_pretty(&st)?)?;
+            eprintln!("wrote {} (contains secret keys; keep it out of git)", out.display());
+            println!("{}", json!({"contract": st.contract, "collateral": st.collateral, "operator": st.operator.account, "insurance": st.insurance_account}));
+        }
+        Cmd::ClearingMarket { c, params } => {
+            let st: zfx_perps_near::clearing::ClearingStack = serde_json::from_str(&std::fs::read_to_string(&c.stack)?)?;
+            let p: zfx_perps_clearing::MarketParams = serde_json::from_str(&std::fs::read_to_string(&params)?)?;
+            let cl = zfx_perps_near::clearing::Clearing::new(Near::rpc(&st.rpc_url)?, &st.contract);
+            let owner = st.owner.actor()?;
+            let o = cl.create_market(&owner, &p).await?;
+            println!("{}", json!({"step": "create_market", "tx": o.tx_hash}));
+            if let Some(id) = cl.set_market_status(&owner, &p.market_id, "ACTIVE").await? {
+                let state = cl.state().await?;
+                let wait: u64 = state["timelock_ns"].as_str().unwrap_or("0").parse()?;
+                eprintln!("activation proposal {id}; waiting {} s for the timelock", wait / 1_000_000_000 + 5);
+                tokio::time::sleep(std::time::Duration::from_nanos(wait) + std::time::Duration::from_secs(5)).await;
+                let o = cl.execute_proposal(&owner, id).await?;
+                println!("{}", json!({"step": "activate", "proposal": id, "tx": o.tx_hash}));
+            }
+            println!("{}", serde_json::to_string_pretty(&cl.market(&p.market_id).await?)?);
+        }
+        Cmd::ClearingNodeConfig { c, data, listen, admin_token, print_feed } => {
+            let st: zfx_perps_near::clearing::ClearingStack = serde_json::from_str(&std::fs::read_to_string(&c.stack)?)?;
+            let cfg = json!({
+                "listen": listen, "data_dir": data, "fsync": true, "settlement_contract": st.contract, "fee_account": st.contract,
+                "admin_token": admin_token, "batch_interval_ms": 1000,
+                "clearing": {"chain_id": st.chain_id, "contract": st.contract, "collateral": st.collateral, "collateral_decimals": 6,
+                             "insurance_account": st.insurance_account, "print_feed": print_feed},
+            });
+            println!("{}", serde_json::to_string_pretty(&cfg)?);
+        }
+        Cmd::ClearingAdapter { c, node, admin_token, poll_ms, log } => {
+            let st: zfx_perps_near::clearing::ClearingStack = serde_json::from_str(&std::fs::read_to_string(&c.stack)?)?;
+            let cl = zfx_perps_near::clearing::Clearing::new(Near::rpc(&st.rpc_url)?, &st.contract);
+            let mut a = zfx_perps_near::clearing_adapter::ClearingAdapter::new(cl, st.operator.actor()?, &node, &admin_token);
+            a.poll = std::time::Duration::from_millis(poll_ms);
+            a.log_path = log;
+            eprintln!("relaying {} <-> {}", node, st.contract);
+            tokio::select! {
+                _ = a.run() => {}
+                _ = shutdown_signal() => {}
+            }
         }
         Cmd::Escape { who, token } => {
             let (set, a) = who.parts()?;

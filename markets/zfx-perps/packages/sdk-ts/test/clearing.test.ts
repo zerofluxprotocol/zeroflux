@@ -325,9 +325,11 @@ const params: MarketParams = {
   fundingDivisor: 24,
   maxFundingPpm: 1000,
   printCloseOnlyFromSec: 0,
-  maxJumpBps: 5000,
+  printLagDays: 0,
+  markLimitBps: 600,
+  haltJumpBps: 0,
 };
-const testMarket = { marketId: "OPUS-PERP", params, policyHash: "ab".repeat(32), status: "ACTIVE" as const, effectiveStatus: "ACTIVE" as const, mark: 1000n, markFresh: true, openInterest: 0n, badDebt: 0n };
+const testMarket = { marketId: "OPUS-PERP", params, policyHash: "ab".repeat(32), status: "ACTIVE" as const, effectiveStatus: "ACTIVE" as const, mark: 1000n, indexTicks: 1000n, markFresh: true, openInterest: 0n, badDebt: 0n };
 
 describe("margin math (port of ledger.rs)", () => {
   it("initial and maintenance margin", () => {
@@ -465,7 +467,7 @@ function fakeNode() {
       market_id: "OPUS-PERP", market_type: "Perpetual", index_id: "idx", index_version: "v1", value_scale: 6, index_units_per_tick: "1", tick_value: "1000",
       min_qty: "1", max_qty: "10000", max_price: "1000000", initial_margin_bps: 5000, maintenance_margin_bps: 2500, max_leverage: 2, max_open_interest: "1000000",
       max_position: "500", maker_fee_bps: 2, taker_fee_bps: 5, liq_fee_bps: 50, liq_slippage_bps: 500, price_band_bps: 2000, oracle_max_age_sec: "172800",
-      funding_interval_sec: "3600", funding_divisor: 24, max_funding_ppm: 1000, print_close_only_from_sec: 0, max_jump_bps: 5000,
+      funding_interval_sec: "3600", funding_divisor: 24, max_funding_ppm: 1000, print_close_only_from_sec: 0, print_lag_days: 0, mark_limit_bps: 600, halt_jump_bps: 0,
     },
     policy_hash: "ab".repeat(32), status: "ACTIVE", effective_status: "ACTIVE", mark: "1000", mark_fresh: true, open_interest: "0", bad_debt: "0",
   };
@@ -584,7 +586,7 @@ function fakeParamsJson() {
   return {
     market_id: "X-PERP", market_type: "Perpetual", index_id: "i", index_version: "v", value_scale: 6, index_units_per_tick: 1, tick_value: "1", min_qty: 1, max_qty: 2, max_price: 3,
     initial_margin_bps: 1, maintenance_margin_bps: 1, max_leverage: 1, max_open_interest: 1, max_position: 1, maker_fee_bps: 0, taker_fee_bps: 0, liq_fee_bps: 0, liq_slippage_bps: 0,
-    price_band_bps: 0, oracle_max_age_sec: 1, funding_interval_sec: 0, funding_divisor: 1, max_funding_ppm: 0, print_close_only_from_sec: 0, max_jump_bps: 0,
+    price_band_bps: 0, oracle_max_age_sec: 1, funding_interval_sec: 0, funding_divisor: 1, max_funding_ppm: 0, print_close_only_from_sec: 0, print_lag_days: 0, mark_limit_bps: 1, halt_jump_bps: 0,
   };
 }
 

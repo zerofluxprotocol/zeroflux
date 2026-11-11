@@ -26,6 +26,7 @@ zfx-perps-node = { workspace = true }
 zfx-perps-clearing = { workspace = true }
 borsh = "1"
 base64 = "0.22"
+bs58 = { workspace = true }
 
 [dev-dependencies]
 bs58 = { workspace = true }

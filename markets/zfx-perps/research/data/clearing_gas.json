@@ -1,59 +1,59 @@
 {
   "chain": "local nearcore sandbox",
-  "measured_at_unix": 1794353760,
+  "measured_at_unix": 1794355845,
   "rows": [
     {
       "case": "withdrawal (1 payout)",
       "ops": 1,
-      "tgas": 7.86546394858
+      "tgas": 7.86834067111
     },
     {
       "case": "independent fills",
       "fills": 1,
       "new_orders": 2,
-      "tgas": 4.811436200163,
-      "tgas_per_fill": 4.811436200163
+      "tgas": 4.814027606669,
+      "tgas_per_fill": 4.814027606669
     },
     {
       "case": "independent fills",
       "fills": 10,
       "new_orders": 20,
-      "tgas": 16.241109114566,
-      "tgas_per_fill": 1.6241109114566001
+      "tgas": 16.246602381484,
+      "tgas_per_fill": 1.6246602381483999
     },
     {
       "case": "independent fills",
       "fills": 25,
       "new_orders": 50,
-      "tgas": 31.848164286642,
-      "tgas_per_fill": 1.27392657146568
+      "tgas": 31.896908012684,
+      "tgas_per_fill": 1.27587632050736
     },
     {
       "case": "independent fills",
       "fills": 40,
       "new_orders": 80,
-      "tgas": 47.905834105758,
-      "tgas_per_fill": 1.19764585264395
+      "tgas": 47.903734658072,
+      "tgas_per_fill": 1.1975933664518
     },
     {
       "case": "one maker swept",
       "fills": 10,
       "new_orders": 11,
-      "tgas": 11.792578327998,
-      "tgas_per_fill": 1.1792578327998
+      "tgas": 11.813105565044,
+      "tgas_per_fill": 1.1813105565044
     },
     {
       "case": "one maker swept",
       "fills": 40,
       "new_orders": 41,
-      "tgas": 29.67784963152,
-      "tgas_per_fill": 0.741946240788
+      "tgas": 29.698762454882,
+      "tgas_per_fill": 0.74246906137205
     },
     {
       "case": "oracle print (1 reporter signature)",
       "ops": 1,
-      "tgas": 3.019300107317
+      "tgas": 3.023928800803
     }
   ],
-  "wasm_bytes": 426024
+  "wasm_bytes": 428391
 }

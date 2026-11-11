@@ -101,7 +101,12 @@ export interface MarketParams {
   fundingDivisor: number;
   maxFundingPpm: number;
   printCloseOnlyFromSec: number;
-  maxJumpBps: number;
+  /** Days the source publishes late (the expected print on day D covers D − lag + 1). */
+  printLagDays: number;
+  /** Limit move: a print moves the mark at most this far toward the index. */
+  markLimitBps: number;
+  /** Prints further than this from the mark halt the market (0 = off). */
+  haltJumpBps: number;
 }
 
 /** Alias: the spec calls the parameter set `MarketSpec`. */
@@ -117,6 +122,8 @@ export interface Market {
   effectiveStatus: MarketStatus;
   /** Mark in ticks (0 = none yet). */
   mark: bigint;
+  /** Last usable index value in ticks. While it differs from `mark` the market is limit-locked (CLOSE_ONLY). */
+  indexTicks: bigint;
   markFresh: boolean;
   openInterest: bigint;
   badDebt: bigint;
