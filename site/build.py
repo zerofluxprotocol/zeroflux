@@ -289,10 +289,13 @@ def build_trade():
     models = json.load(open(os.path.join(pub, "v1", "markets", "models.json")))
     rows, latest_day = [], None
     for m in models["markets"]:
-        l7 = (m.get("index_7d") or {}).get("latest") or {}
-        ld = m.get("latest") or {}
+        # Markets trade the licensed 7-day index (documented OpenRouter sources only); the web-endpoint
+        # 7D series stays published as a cross-check.
+        lic = m.get("licensed") or {}
+        l7 = (lic.get("index_7d") or {}).get("latest") or {}
+        ld = lic.get("latest") or {}
         spark = []
-        sp = os.path.join(pub, "v1", "indices", "or-model-spend-7d", m["permaslug"], "series.json")
+        sp = os.path.join(pub, "v1", "indices", "or-model-spend-lic-7d", m["permaslug"], "series.json")
         if os.path.exists(sp):
             pts = json.load(open(sp))["points"][-30:]
             spark = [p["value_usd"] if p.get("data_status") == "OK" else "0" for p in pts]
@@ -309,10 +312,11 @@ def build_trade():
             "lifecycle": l7.get("lifecycle") or (m.get("lifecycle") or {}).get("status") or "PROPOSED",
             "lifecycle_reason": l7.get("reason") or (m.get("lifecycle") or {}).get("reason"),
             "latest_day": ld.get("utc_date"), "latest_day_usd": ld.get("value_usd") if ld.get("data_status") == "OK" else None,
-            "tokens_total": (ld.get("tokens") or {}).get("total"), "confidence": ld.get("confidence"), "spark_7d": spark,
+            "tokens_total": ld.get("total_tokens") or ((ld.get("tokens") or {}).get("total")), "confidence": ld.get("confidence"), "spark_7d": spark,
         })
     board = {"generated_at": models.get("generated_at"), "latest_day": latest_day, "notice": models.get("notice"),
              "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of " + str(models.get("generated_at")),
+             "index_note": "Traded index: ZFX-OR licensed 7-day (OpenRouter's documented daily token dataset, CC BY 4.0, and documented listed prices). Not revenue, royalties or equity. Paper trading only.",
              "formula": models.get("formula"), "venue_howto": VENUE_HOWTO, "markets": rows}
     json.dump(board, open(os.path.join(DIST, "trade", "board.json"), "w"), separators=(",", ":"))
     return len(rows)

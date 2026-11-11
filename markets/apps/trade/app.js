@@ -55,14 +55,14 @@
           cap: n(m.max_open_interest_usd), life: m.lifecycle, lifeReason: m.lifecycle_reason, spark: (m.spark_7d || []).map(Number), tradable: tradable,
           status7: m.status_7d, conf: m.confidence, printHash: m.print_hash_7d, marketId: m.market_id };
       });
-      $('#srcNote').innerHTML = esc(b.attribution) + ' · ' + esc(b.notice) + ' <a href="/docs/data_method.html">How the index is built</a>.';
+      $('#srcNote').innerHTML = esc(b.index_note || '') + ' ' + esc(b.attribution) + '. <a href="/docs/data_method.html">How the index is built</a>.';
     });
   }
   function loadSeries(m) {
     if (SERIES[m.slug]) return Promise.resolve(SERIES[m.slug]);
     return Promise.all([
-      getJSON('/v1/indices/or-model-spend-7d/' + m.slug + '/series.json'),
-      getJSON('/v1/indices/or-model-spend/' + m.slug + '/series.json')
+      getJSON('/v1/indices/or-model-spend-lic-7d/' + m.slug + '/series.json'),
+      getJSON('/v1/indices/or-model-spend-lic/' + m.slug + '/series.json')
     ]).then(function (r) { SERIES[m.slug] = { d7: r[0].points, d: r[1].points }; return SERIES[m.slug]; });
   }
 
@@ -207,7 +207,7 @@
         html = '<table class="tbl idxtbl"><thead><tr><th class="l">Day</th><th>Value</th><th>Tokens</th><th>Status</th></tr></thead><tbody>' + pts.map(function (p) {
           return '<tr><td class="l">' + esc(dLabel(p.utc_date)) + '</td><td>' + usd(n(p.value_usd)) + '</td><td class="mut">' + tok(p.tokens ? n(p.tokens.total) : null) + '</td><td class="fnt">' + esc((p.data_status || '') + (p.finality ? ' · ' + p.finality.toLowerCase() : '')) + '</td></tr>';
         }).join('') + '</tbody></table>' +
-        '<div class="src">Each day: tokens billed on OpenRouter (bring-your-own-key excluded) times observed effective input and output prices. Every day is signed by the index reporter. Latest 7D print <span class="m">' + esc((m.printHash || '').slice(0, 16)) + '…</span>. <a href="/v1/indices/or-model-spend-7d/' + esc(m.slug) + '/series.json">Raw series</a></div>';
+        '<div class="src">Each day: OpenRouter tokens from its documented daily dataset, times a frozen billed share and input/output mix, times documented listed prices. Every day is signed by the index reporter. Latest 7D print <span class="m">' + esc((m.printHash || '').slice(0, 16)) + '…</span>. <a href="/v1/indices/or-model-spend-7d/' + esc(m.slug) + '/series.json">Raw series</a></div>';
       }
     } else {
       html = V && V.renderBook ? V.renderBook(m) : venueOffline();
@@ -278,9 +278,9 @@
     if (marks.length) { ctx.strokeStyle = C('--short'); ctx.setLineDash([4, 3]); ctx.lineWidth = 1.2; ctx.beginPath(); var mx = Number(marks[marks.length - 1].mark); ctx.moveTo(0, Y(mx)); ctx.lineTo(pw, Y(mx)); ctx.stroke(); ctx.setLineDash([]); }
     var h = S.hover >= 0 && S.hover < pts.length ? pts[S.hover] : pts[pts.length - 1];
     if (S.hover >= 0 && S.hover < pts.length) { var hx = Math.round(X(S.hover)) + 0.5; ctx.strokeStyle = C('--faint'); ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(hx, padT); ctx.lineTo(hx, padT + ph); ctx.stroke(); ctx.setLineDash([]); }
-    var tk = h.dp && h.dp.tokens ? n(h.dp.tokens.total) : null, px = h.dp && h.dp.price;
+    var tk = h.dp ? n(h.dp.total_tokens || (h.dp.tokens && h.dp.tokens.total)) : null, px = h.dp && h.dp.price;
     $('#readout').innerHTML = '<span>' + esc(dLabel(h.k)) + ' UTC</span><span>7D <b>' + usd(h.w) + '</b></span><span>Day <b>' + usd(h.d) + '</b></span><span>Tokens <b>' + tok(tk) + '</b></span>' +
-      (px ? '<span>In <b>$' + Number(px.p_in_usd_per_m).toFixed(3) + '/M</b></span><span>Out <b>$' + Number(px.p_out_usd_per_m).toFixed(2) + '/M</b></span>' : '') +
+      (px ? '<span>In <b>$' + Number(px.p_in_usd_per_m).toFixed(3) + '/M</b></span><span>Out <b>$' + Number(px.p_out_usd_per_m || px.listed_out_usd_per_m).toFixed(2) + '/M</b></span>' : '') +
       (h.wp && h.wp.clamped ? '<span class="dn">clamped: close-only</span>' : '') + (h.dp && h.dp.data_status && h.dp.data_status !== 'OK' ? '<span class="dn">' + esc(h.dp.data_status) + '</span>' : '');
     cv.setAttribute('aria-label', m.name + ' 7-day index ' + usd(m.idx7) + ' per day');
     G = { cw: cw, pw: pw, n: pts.length };
