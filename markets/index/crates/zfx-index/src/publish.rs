@@ -41,6 +41,37 @@ fn write_bytes(path: &Path, b: &[u8]) -> std::io::Result<()> {
     fs::rename(tmp, path)
 }
 
+/// Lifecycle of the traded market (the 7D index), per spec 5.4. Daily anomaly blocking
+/// still halts; a clamped or not-reported 7D day is CLOSE_ONLY.
+pub fn lifecycle_traded(daily: Option<&Value>, d7: Option<&Value>, now: i64) -> (&'static str, String) {
+    if let Some(r) = daily {
+        if r["blocked"].as_bool() == Some(true) {
+            return ("HALTED", "latest daily value failed a blocking integrity check".into());
+        }
+    }
+    let Some(w) = d7 else { return ("PROPOSED", "no 7D value yet".into()) };
+    if w["data_status"] != "OK" {
+        return ("CLOSE_ONLY", format!("latest 7D day {} is {}: {}", w["utc_date"].as_str().unwrap_or(""), w["data_status"].as_str().unwrap_or(""), w["reason"].as_str().unwrap_or("")));
+    }
+    if w["clamped"] == json!(true) {
+        return ("CLOSE_ONLY", format!("7D moved {} vs the prior day, beyond the {} clamp bound", w["change_vs_prev"].as_str().unwrap_or("?"), w["clamp_bound"].as_str().unwrap_or("?")));
+    }
+    if let Some(r) = daily {
+        if r["data_status"] != "OK" {
+            return ("CLOSE_ONLY", format!("latest daily value is {}", r["data_status"].as_str().unwrap_or("")));
+        }
+    }
+    match w["print"]["validUntil"].as_str().and_then(crate::time::parse_rfc3339_ms) {
+        Some(v) if now > v => ("HALTED", format!("latest 7D print expired at {}", fmt_ms(v))),
+        _ => ("ACTIVE", "paper trading only".into()),
+    }
+}
+
+/// Lifecycle a perps engine should apply for one 7D day.
+pub fn day_lifecycle_7d(w: &Value) -> &'static str {
+    if w["data_status"] != "OK" || w["clamped"] == json!(true) { "CLOSE_ONLY" } else { "ACTIVE" }
+}
+
 pub fn lifecycle(latest: Option<&Value>, now: i64) -> (&'static str, String) {
     let Some(r) = latest else { return ("PROPOSED", "no revision yet".into()) };
     let ds = r["data_status"].as_str().unwrap_or("");
@@ -215,6 +246,7 @@ pub fn source_health(l: &Ledger, s: &Loaded, params: &Params, budget: &RateBudge
         },
         "coverage": coverage,
         "spend_share_crosscheck": spend_check,
+        "revisions_7d": revisions_7d_summary(l)?,
         "revisions": {"total": revs.len(), "by_data_status": by_status, "corrections": corrections, "markets_blocked_latest": blocked, "blocked_days_total": blocked_days_total},
     }))
 }
@@ -227,6 +259,17 @@ pub fn publish(l: &Ledger, out: &Path, pubkey: &[u8; 32], params: &Params, budge
     let mut files = 0usize;
     let base = out.join("v1");
     let idx = base.join("indices").join("or-model-spend");
+    let idx7 = base.join("indices").join("or-model-spend-7d");
+    let revs7 = l.read_json(crate::weekly::REVISIONS_7D)?;
+    let latest7 = crate::weekly::latest_7d(l)?;
+    let mut per_market7: BTreeMap<String, usize> = BTreeMap::new();
+    for r in &revs7 {
+        let m = r["market"].as_str().unwrap_or("").to_string();
+        let rid = r["revision_id"].as_str().unwrap_or("");
+        write_json_compact(&idx7.join(&m).join("provenance").join(format!("{rid}.json")), r)?;
+        files += 1;
+        *per_market7.entry(m).or_default() += 1;
+    }
 
     // provenance for every revision
     let mut per_market: BTreeMap<String, Vec<&Value>> = BTreeMap::new();
@@ -242,9 +285,38 @@ pub fn publish(l: &Ledger, out: &Path, pubkey: &[u8; 32], params: &Params, budge
     for m in &markets {
         let mut days: Vec<&Value> = latest.iter().filter(|((mk, _), _)| *mk == m.permaslug).map(|(_, v)| v).collect();
         days.sort_by(|a, b| a["utc_date"].as_str().cmp(&b["utc_date"].as_str()));
-        let points: Vec<Value> = days.iter().map(|r| point(r)).collect();
+        let mut days7: Vec<&Value> = latest7.iter().filter(|((mk, _), _)| *mk == m.permaslug).map(|(_, v)| v).collect();
+        days7.sort_by(|a, b| a["utc_date"].as_str().cmp(&b["utc_date"].as_str()));
+        let by_date7: BTreeMap<&str, &Value> = days7.iter().map(|r| (r["utc_date"].as_str().unwrap_or(""), *r)).collect();
+        let points: Vec<Value> = days
+            .iter()
+            .map(|r| {
+                let mut p = point(r);
+                p["index_7d"] = by_date7.get(r["utc_date"].as_str().unwrap_or("")).map(|w| point7_short(w)).unwrap_or(Value::Null);
+                p
+            })
+            .collect();
         let latest_rev = days.last().copied();
-        let (life, why) = lifecycle(latest_rev, now);
+        let latest7_rev = days7.last().copied();
+        let (life, why) = lifecycle_traded(latest_rev, latest7_rev, now);
+        let points7: Vec<Value> = days7.iter().map(|w| point7(w)).collect();
+        let series7 = json!({
+            "market": m.permaslug,
+            "index_id": crate::weekly::index_id_7d(&m.permaslug),
+            "label": format!("{}: OpenRouter-implied billings proxy, trailing 7-day mean, USD/day", m.name),
+            "formula": {"version": crate::weekly::FORMULA_VERSION_7D, "hash": hex::encode(crate::weekly::formula_hash_7d()), "derived_from": FORMULA_VERSION},
+            "notice": NOT_SETTLEMENT_GRADE,
+            "attribution": latest7_rev.and_then(|r| r["attribution"].as_str()),
+            "revisions_total": per_market7.get(&m.permaslug).copied().unwrap_or(0),
+            "points": points7,
+        });
+        write_json(&idx7.join(&m.permaslug).join("series.json"), &series7)?;
+        files += 1;
+        if let Some(w) = latest7_rev {
+            write_json(&idx7.join(&m.permaslug).join("latest.json"), w)?;
+            files += 1;
+            prints.push(w["print"].clone());
+        }
         let series = json!({
             "market": m.permaslug,
             "index_id": engine::index_id(&m.permaslug),
@@ -278,8 +350,16 @@ pub fn publish(l: &Ledger, out: &Path, pubkey: &[u8; 32], params: &Params, budge
             "created": m.created_s.map(|s| fmt_ms(s * 1000)),
             "listing": {"listed_at": fmt_ms(m.listed_at_ms), "basis_day": m.listing_day, "basis_rank": m.listing_rank, "basis_tokens": m.listing_tokens},
             "lifecycle": {"status": life, "reason": why, "trading": "PAPER_ONLY"},
+            "traded_index": "7D",
             "latest": latest_rev.map(point),
             "series_path": format!("/v1/indices/or-model-spend/{}/series.json", m.permaslug),
+            "index_7d": {
+                "index_id": crate::weekly::index_id_7d(&m.permaslug),
+                "latest": latest7_rev.map(point7),
+                "series_path": format!("/v1/indices/or-model-spend-7d/{}/series.json", m.permaslug),
+            },
+            "manipulation_cost_usd_per_pct": latest7_rev.and_then(|w| w["manipulation_cost_usd_per_pct"].as_str()),
+            "max_open_interest_usd": latest7_rev.and_then(|w| w["max_open_interest_usd"].as_str()),
         }));
     }
     let header = json!({
@@ -287,6 +367,8 @@ pub fn publish(l: &Ledger, out: &Path, pubkey: &[u8; 32], params: &Params, budge
         "notice": NOT_SETTLEMENT_GRADE,
         "what_this_is_not": "Not AI-provider revenue, not model-owner royalties, not equity or any claim on a model's cash flows. One venue (OpenRouter), one declared formula.",
         "formula": {"version": FORMULA_VERSION, "hash": hex::encode(engine::formula_hash()), "mode": MODE},
+        "formula_7d": {"version": crate::weekly::FORMULA_VERSION_7D, "hash": hex::encode(crate::weekly::formula_hash_7d())},
+        "manipulation_note": "manipulation_cost_usd_per_pct is 1% of the 7-day window's counted spend: the OpenRouter-billed spend a third party must add to move the 7D index by 1%. max_open_interest_usd is 25% of that window spend. This bounds the cost of a push; it does not make manipulation impossible. See docs/DATA_METHOD.md, manipulation resistance.",
         "reporter_pubkey_ed25519": hex::encode(pubkey),
     });
     let mut mm = header.clone();
@@ -310,6 +392,40 @@ pub fn publish(l: &Ledger, out: &Path, pubkey: &[u8; 32], params: &Params, budge
     write_json(&base.join("indices").join("source-health.json"), &h)?;
     files += 4;
     Ok(files)
+}
+
+fn point7(w: &Value) -> Value {
+    json!({
+        "utc_date": w["utc_date"],
+        "window": [w["window_start"], w["window_end"]],
+        "value_usd": w["value_usd"],
+        "data_status": w["data_status"],
+        "reason": w["reason"],
+        "valid_days": w["valid_days"],
+        "window_sum_usd": w["window_sum_usd"],
+        "manipulation_cost_usd_per_pct": w["manipulation_cost_usd_per_pct"],
+        "max_open_interest_usd": w["max_open_interest_usd"],
+        "change_vs_prev": w["change_vs_prev"],
+        "clamped": w["clamped"],
+        "lifecycle": day_lifecycle_7d(w),
+        "finality": w["finality"],
+        "revision": w["revision"],
+        "revision_id": w["revision_id"],
+        "observed_at": w["observed_at"],
+        "print_hash": w["print"]["printHash"],
+    })
+}
+
+fn point7_short(w: &Value) -> Value {
+    json!({
+        "value_usd": w["value_usd"],
+        "data_status": w["data_status"],
+        "manipulation_cost_usd_per_pct": w["manipulation_cost_usd_per_pct"],
+        "max_open_interest_usd": w["max_open_interest_usd"],
+        "clamped": w["clamped"],
+        "lifecycle": day_lifecycle_7d(w),
+        "revision_id": w["revision_id"],
+    })
 }
 
 fn point(r: &Value) -> Value {
@@ -344,4 +460,19 @@ pub fn kind_table() -> Vec<(&'static str, bool)> {
 
 pub fn market_dir_ok(m: &Market) -> bool {
     crate::server::slug_ok(&m.permaslug)
+}
+
+fn revisions_7d_summary(l: &Ledger) -> Result<Value, LedgerError> {
+    let revs = l.read_json(crate::weekly::REVISIONS_7D)?;
+    let latest = crate::weekly::latest_7d(l)?;
+    let mut by: BTreeMap<String, u64> = BTreeMap::new();
+    for r in latest.values() {
+        *by.entry(r["data_status"].as_str().unwrap_or("?").to_string()).or_default() += 1;
+    }
+    Ok(json!({
+        "total": revs.len(),
+        "corrections": revs.iter().filter(|r| r["finality"] == "CORRECTED").count(),
+        "days_by_data_status": by,
+        "days_clamped": latest.values().filter(|r| r["clamped"] == json!(true)).count(),
+    }))
 }

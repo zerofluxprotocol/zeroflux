@@ -1,0 +1,163 @@
+{
+  "index": "7D",
+  "market": "openai/gpt-6-luna-pro-20260922",
+  "index_id": "or-model-spend-7d/openai/gpt-6-luna-pro-20260922",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-7D-v1",
+  "formula_hash": "a5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307",
+  "utc_date": "2026-11-09",
+  "window_start": "2026-11-03",
+  "window_end": "2026-11-09",
+  "source_start": "2026-11-03T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "valid_days": 7,
+  "value_usd": "4100.282307",
+  "value_micro_usd": "4100282307",
+  "window_sum_usd": "28701.976150",
+  "manipulation_cost_usd_per_pct": "287.019762",
+  "max_open_interest_usd": "7175.494038",
+  "prev_7d_value_usd": "4216.615779",
+  "change_vs_prev": "-0.027589",
+  "clamped": false,
+  "clamp_bound": "0.150000",
+  "window": [
+    {
+      "utc_date": "2026-11-03",
+      "daily_revision_id": "2026-11-03.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "4522.753689",
+      "print_hash": "c5e2aba2758d5b886486247158c2510a14ecd14e2542d336b479fd2cf06121d8",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-04",
+      "daily_revision_id": "2026-11-04.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "4676.472391",
+      "print_hash": "0f11311c2aa9551d4eafcbfd64a2b640ffd6d3094032b13f907ab6bcc2a55161",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-05",
+      "daily_revision_id": "2026-11-05.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "4594.961948",
+      "print_hash": "43d9f696e1d796df7f6672073062807023a1bff9e8b9ffb987db7fa7d1d34c6f",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-06",
+      "daily_revision_id": "2026-11-06.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "4243.350593",
+      "print_hash": "0ca5cd6fb00c49b386eca7915edaf260fe3b2ba2985df382446920c838468603",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-07",
+      "daily_revision_id": "2026-11-07.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "3157.068217",
+      "print_hash": "087bd06478478e6003e19fa696482914f0492f367e0ae6e959f8a2bb65847644",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-08",
+      "daily_revision_id": "2026-11-08.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "3149.400564",
+      "print_hash": "34e65ce392962a438556e000f2c2d0cf3276f335edfc9be8168dd5e6a1b3f28e",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-09",
+      "daily_revision_id": "2026-11-09.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "4357.968748",
+      "print_hash": "63f8fe534bac7c63c2108e5eda7fd4e791c9bd884c7f199ade10d8949eefe916",
+      "counted": true
+    }
+  ],
+  "observed_at": "2026-11-10T23:23:45.686Z",
+  "created_at": "2026-11-11T00:19:19.221Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-10T21:10:13.145Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "4100282307",
+    "inputs": [
+      [
+        "2026-11-03",
+        "2026-11-03.r1",
+        true
+      ],
+      [
+        "2026-11-04",
+        "2026-11-04.r1",
+        true
+      ],
+      [
+        "2026-11-05",
+        "2026-11-05.r1",
+        true
+      ],
+      [
+        "2026-11-06",
+        "2026-11-06.r1",
+        true
+      ],
+      [
+        "2026-11-07",
+        "2026-11-07.r1",
+        true
+      ],
+      [
+        "2026-11-08",
+        "2026-11-08.r1",
+        true
+      ],
+      [
+        "2026-11-09",
+        "2026-11-09.r1",
+        true
+      ]
+    ],
+    "clamped": false
+  },
+  "print": {
+    "indexId": "or-model-spend-7d/openai/gpt-6-luna-pro-20260922",
+    "version": "ZFX-OR-MODEL-SPEND-USD-7D-v1",
+    "value": "4100.282307",
+    "valueScale": 6,
+    "valueInt": "4100282307",
+    "sourceStartUtc": "2026-11-03T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-10T23:23:45.686Z",
+    "publishedAt": "2026-11-11T00:19:19.221Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "0e9e91bfb01fcff3e758ce1462815e9180fe5cd36f3a0ab1af863a454c1e5a0f",
+    "formulaHash": "a5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d7631300000006f722d6d6f64656c2d7370656e642d37642f6f70656e61692f6770742d362d6c756e612d70726f2d32303236303932321c0000005a46582d4f522d4d4f44454c2d5350454e442d5553442d37442d763106c35765f40000000000a0b49ea10100000024c1c2a10100009652c6c7a10100003530f9c7a101000000dc0dcda10100000e9e91bfb01fcff3e758ce1462815e9180fe5cd36f3a0ab1af863a454c1e5a0fa5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "b3dad79b79e2a9a1e6e878efc1ddd65bf8383ef21e7c1bf140a4fcfd014a24d5",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:d62caac80311f09f15a468d92dc36dcef0570bbff836556d76e3c5197dd492af8a744e4dde738d0587c6951fe82b3c6890a1d196614e720257e76f2680471508"
+    ]
+  },
+  "chain": "9be34d3f9ebc587dd5b296d218363753f0d42b8757a0880ce30c78e71e41465a"
+}

@@ -184,7 +184,7 @@ impl Ledger {
     /// Verifies hash chains of all JSONL files and every referenced blob.
     pub fn verify(&self) -> Result<VerifyReport, LedgerError> {
         let mut rep = VerifyReport::default();
-        for file in ["fetches.jsonl", "revisions.jsonl", "markets.jsonl"] {
+        for file in ["fetches.jsonl", "revisions.jsonl", "markets.jsonl", "revisions_7d.jsonl"] {
             let path = self.root.join(file);
             if !path.exists() {
                 continue;
@@ -207,6 +207,10 @@ impl Ledger {
         }
         for f in self.fetches()? {
             if !f.sha256.is_empty() {
+                if !self.blob_path(&f.sha256).exists() {
+                    rep.blobs_missing += 1;
+                    continue;
+                }
                 self.get_blob(&f.sha256)?;
                 rep.blobs_checked += 1;
             }
@@ -219,6 +223,8 @@ impl Ledger {
 pub struct VerifyReport {
     pub records: BTreeMap<String, u64>,
     pub blobs_checked: u64,
+    /// Referenced by fetches.jsonl but not present (e.g. a published snapshot without raw responses).
+    pub blobs_missing: u64,
 }
 
 fn last_chain(path: &Path) -> Result<String, LedgerError> {

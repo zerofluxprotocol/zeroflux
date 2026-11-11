@@ -1,0 +1,163 @@
+{
+  "index": "7D",
+  "market": "upstage/solar-mini4-20260922",
+  "index_id": "or-model-spend-7d/upstage/solar-mini4-20260922",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-7D-v1",
+  "formula_hash": "a5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307",
+  "utc_date": "2026-11-09",
+  "window_start": "2026-11-03",
+  "window_end": "2026-11-09",
+  "source_start": "2026-11-03T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "valid_days": 7,
+  "value_usd": "839.987135",
+  "value_micro_usd": "839987135",
+  "window_sum_usd": "5879.909945",
+  "manipulation_cost_usd_per_pct": "58.799099",
+  "max_open_interest_usd": "1469.977486",
+  "prev_7d_value_usd": "1264.799591",
+  "change_vs_prev": "-0.335873",
+  "clamped": true,
+  "clamp_bound": "0.150000",
+  "window": [
+    {
+      "utc_date": "2026-11-03",
+      "daily_revision_id": "2026-11-03.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "3233.032253",
+      "print_hash": "d57904a0415853f1d4d172405c4cb094a7bab831fe92f4e4e91acc590f4815a9",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-04",
+      "daily_revision_id": "2026-11-04.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "2246.757627",
+      "print_hash": "a1b30d5a9fe71a726068d57d70966a67abd483ccaf6d5a73ad7facc74e6f5554",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-05",
+      "daily_revision_id": "2026-11-05.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "66.348326",
+      "print_hash": "7f09d236dd380a635ca68fb09a216fd952e7660fe76356f3d678ea0e16d1b29b",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-06",
+      "daily_revision_id": "2026-11-06.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "57.738084",
+      "print_hash": "7fde403af56e5aa281e139fff7209ff879b909dc3f3ead4c68b41e2e7169774a",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-07",
+      "daily_revision_id": "2026-11-07.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "54.182686",
+      "print_hash": "76a123cb2ea00d1b7aacf350e35843ccd61602b3686192e8eebeab00d7d5aa06",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-08",
+      "daily_revision_id": "2026-11-08.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "135.725302",
+      "print_hash": "2db34e0283b9ac462e4dadef9a395426b70cda54d8f321b27f73b8d965ca2fc4",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-09",
+      "daily_revision_id": "2026-11-09.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "86.125667",
+      "print_hash": "a14291f9f575abdd82f391adc447ed0ae41469dda56700b37540682905bf2787",
+      "counted": true
+    }
+  ],
+  "observed_at": "2026-11-10T23:20:16.846Z",
+  "created_at": "2026-11-11T00:19:19.221Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-10T20:14:43.272Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "839987135",
+    "inputs": [
+      [
+        "2026-11-03",
+        "2026-11-03.r1",
+        true
+      ],
+      [
+        "2026-11-04",
+        "2026-11-04.r1",
+        true
+      ],
+      [
+        "2026-11-05",
+        "2026-11-05.r1",
+        true
+      ],
+      [
+        "2026-11-06",
+        "2026-11-06.r1",
+        true
+      ],
+      [
+        "2026-11-07",
+        "2026-11-07.r1",
+        true
+      ],
+      [
+        "2026-11-08",
+        "2026-11-08.r1",
+        true
+      ],
+      [
+        "2026-11-09",
+        "2026-11-09.r1",
+        true
+      ]
+    ],
+    "clamped": true
+  },
+  "print": {
+    "indexId": "or-model-spend-7d/upstage/solar-mini4-20260922",
+    "version": "ZFX-OR-MODEL-SPEND-USD-7D-v1",
+    "value": "839.987135",
+    "valueScale": 6,
+    "valueInt": "839987135",
+    "sourceStartUtc": "2026-11-03T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-10T23:20:16.846Z",
+    "publishedAt": "2026-11-11T00:19:19.221Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "dc02f73eccccbbfc3b24fe547f661f5b78b65ac98dda58d10ec479d72a120b83",
+    "formulaHash": "a5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d76312e0000006f722d6d6f64656c2d7370656e642d37642f757073746167652f736f6c61722d6d696e69342d32303236303932321c0000005a46582d4f522d4d4f44454c2d5350454e442d5553442d37442d763106bf2f11320000000000a0b49ea10100000024c1c2a1010000ce22c3c7a10100003530f9c7a101000000dc0dcda1010000dc02f73eccccbbfc3b24fe547f661f5b78b65ac98dda58d10ec479d72a120b83a5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "54bc29b8f38e080ed776d783de6819ce5c4d4add570556c877353345309f5c69",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:f8e915e97f763c87b5e2d284465ad75b09e3e726a7b5afa5aa7bcb09c7f2649409ec8932be8e2e8c9da667b4cfdfaf2302dd011be13312e52b80ba4d68581b04"
+    ]
+  },
+  "chain": "ee6e10f1dd0733ce03faf1497d81c51b15ca3811336f697233e2777aff66254c"
+}

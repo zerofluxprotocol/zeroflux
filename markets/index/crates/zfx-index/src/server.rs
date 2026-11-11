@@ -9,7 +9,8 @@
 //! GET /v1/indices/source-health
 //! GET /v1/indices/prints/latest
 //! GET /v1/oracle/reporter
-//! WS  /v1/indices/stream[?replay=N]   new revisions (FINAL prints and CORRECTED revisions)
+//! GET /v1/indices/or-model-spend-7d/{permaslug}[?from&to|/latest|/provenance/{revision_id}]
+//! WS  /v1/indices/stream[?replay=N]   new daily and 7D revisions (FINAL prints and CORRECTED revisions)
 //! ```
 
 use crate::time::UtcDate;
@@ -79,28 +80,37 @@ pub fn route(root: &Path, method: &str, target: &str) -> Response {
         "/v1/indices/prints/latest" => return file(&v1.join("indices/prints/latest.json")),
         "/v1/oracle/reporter" => return file(&v1.join("oracle/reporter.json")),
         "/" | "/v1" => {
-            return json_resp(200, &json!({"endpoints": ["/v1/markets/models", "/v1/indices/or-model-spend/{permaslug}?from=&to=", "/v1/indices/or-model-spend/{permaslug}/latest", "/v1/indices/or-model-spend/{permaslug}/provenance/{revision_id}", "/v1/indices/source-health", "/v1/indices/prints/latest", "/v1/oracle/reporter", "WS /v1/indices/stream"]}))
+            return json_resp(200, &json!({"endpoints": ["/v1/markets/models", "/v1/indices/or-model-spend/{permaslug}?from=&to=", "/v1/indices/or-model-spend/{permaslug}/latest", "/v1/indices/or-model-spend/{permaslug}/provenance/{revision_id}", "/v1/indices/source-health", "/v1/indices/prints/latest", "/v1/oracle/reporter", "/v1/indices/or-model-spend-7d/{permaslug}?from=&to=", "/v1/indices/or-model-spend-7d/{permaslug}/latest", "/v1/indices/or-model-spend-7d/{permaslug}/provenance/{revision_id}", "WS /v1/indices/stream"]}))
         }
         _ => {}
     }
-    let Some(rest) = path.strip_prefix("/v1/indices/or-model-spend/") else { return err(404, "not found") };
+    for dir in ["or-model-spend", "or-model-spend-7d"] {
+        if let Some(rest) = path.strip_prefix(&format!("/v1/indices/{dir}/")) {
+            return index_route(&v1.join("indices").join(dir), rest, query);
+        }
+    }
+    err(404, "not found")
+}
+
+/// `{permaslug}[?from&to]`, `{permaslug}/latest`, `{permaslug}/provenance/{revision_id}` under one index dir.
+fn index_route(base: &Path, rest: &str, query: &str) -> Response {
     let rest = rest.trim_end_matches('/');
     if let Some((slug, rid)) = rest.split_once("/provenance/") {
         if !slug_ok(slug) || !slug_ok(rid) || rid.contains('/') {
             return err(400, "bad slug or revision id");
         }
-        return file(&v1.join("indices/or-model-spend").join(slug).join("provenance").join(format!("{rid}.json")));
+        return file(&base.join(slug).join("provenance").join(format!("{rid}.json")));
     }
     if let Some(slug) = rest.strip_suffix("/latest") {
         if !slug_ok(slug) {
             return err(400, "bad slug");
         }
-        return file(&v1.join("indices/or-model-spend").join(slug).join("latest.json"));
+        return file(&base.join(slug).join("latest.json"));
     }
     if !slug_ok(rest) {
         return err(400, "bad slug");
     }
-    let Some(mut series) = read_json(&v1.join("indices/or-model-spend").join(rest).join("series.json")) else {
+    let Some(mut series) = read_json(&base.join(rest).join("series.json")) else {
         return err(404, "unknown market");
     };
     let from = query_param(query, "from");
@@ -176,30 +186,34 @@ fn handle_http(mut stream: TcpStream, root: &Path) -> std::io::Result<()> {
 /// Streams revisions appended to `<ledger>/revisions.jsonl` after connect.
 fn handle_ws(stream: TcpStream, ledger: &Path, replay: usize) {
     let Ok(mut ws) = tungstenite::accept(stream) else { return };
-    let path = ledger.join("revisions.jsonl");
+    let files = [ledger.join("revisions.jsonl"), ledger.join("revisions_7d.jsonl")];
     let read_lines = |p: &PathBuf| -> Vec<String> {
         std::fs::File::open(p).map(|f| BufReader::new(f).lines().map_while(Result::ok).filter(|l| !l.trim().is_empty()).collect()).unwrap_or_default()
     };
-    let lines = read_lines(&path);
-    let mut sent = lines.len();
-    let hello = json!({"type": "hello", "revisions_in_ledger": sent, "note": "Events are new daily revisions. This stream never carries intraday usage."});
+    let mut sent: Vec<usize> = files.iter().map(|f| read_lines(f).len()).collect();
+    let hello = json!({"type": "hello", "revisions_in_ledger": {"daily": sent[0], "7d": sent[1]}, "note": "Events are new daily and 7D revisions. This stream never carries intraday usage."});
     if ws.send(tungstenite::Message::text(hello.to_string())).is_err() {
         return;
     }
-    for l in lines.iter().skip(sent.saturating_sub(replay)) {
-        if send_rev(&mut ws, l).is_err() {
-            return;
-        }
-    }
-    let _ = ws.get_mut().set_read_timeout(Some(Duration::from_millis(500)));
-    loop {
-        let lines = read_lines(&path);
-        for l in lines.iter().skip(sent) {
+    for (i, f) in files.iter().enumerate() {
+        let lines = read_lines(f);
+        for l in lines.iter().skip(sent[i].saturating_sub(replay)) {
             if send_rev(&mut ws, l).is_err() {
                 return;
             }
         }
-        sent = sent.max(lines.len());
+    }
+    let _ = ws.get_mut().set_read_timeout(Some(Duration::from_millis(500)));
+    loop {
+        for (i, f) in files.iter().enumerate() {
+            let lines = read_lines(f);
+            for l in lines.iter().skip(sent[i]) {
+                if send_rev(&mut ws, l).is_err() {
+                    return;
+                }
+            }
+            sent[i] = sent[i].max(lines.len());
+        }
         match ws.read() {
             Ok(tungstenite::Message::Close(_)) => return,
             Ok(_) => {}
@@ -213,7 +227,7 @@ fn handle_ws(stream: TcpStream, ledger: &Path, replay: usize) {
 fn send_rev(ws: &mut tungstenite::WebSocket<TcpStream>, line: &str) -> Result<(), tungstenite::Error> {
     let v: Value = serde_json::from_str(line).unwrap_or(Value::Null);
     let kind = if v["finality"] == "CORRECTED" { "correction" } else { "print" };
-    let ev = json!({"type": kind, "market": v["market"], "utc_date": v["utc_date"], "revision_id": v["revision_id"], "data_status": v["data_status"], "value_usd": v["value_usd"], "blocked": v["blocked"], "print": v["print"]});
+    let ev = json!({"type": kind, "index": if v["index"] == "7D" { "7D" } else { "DAILY" }, "index_id": v["index_id"], "market": v["market"], "utc_date": v["utc_date"], "revision_id": v["revision_id"], "data_status": v["data_status"], "value_usd": v["value_usd"], "blocked": v["blocked"], "clamped": v["clamped"], "print": v["print"]});
     ws.send(tungstenite::Message::text(ev.to_string()))
 }
 
@@ -279,6 +293,14 @@ mod tests {
         assert_eq!(route(&root, "GET", "/v1/indices/or-model-spend/../../x").status, 400);
         assert_eq!(route(&root, "POST", "/v1/markets/models").status, 405);
         assert_eq!(route(&root, "GET", "/v1/indices/or-model-spend/nope/x").status, 404);
+        let d7 = root.join("v1/indices/or-model-spend-7d/a/m-1");
+        std::fs::create_dir_all(&d7).unwrap();
+        std::fs::write(d7.join("series.json"), r#"{"points":[{"utc_date":"2026-11-07"},{"utc_date":"2026-11-08"}]}"#).unwrap();
+        std::fs::write(d7.join("latest.json"), r#"{"utc_date":"2026-11-08","index":"7D"}"#).unwrap();
+        let r = route(&root, "GET", "/v1/indices/or-model-spend-7d/a/m-1?from=2026-11-08");
+        assert_eq!(serde_json::from_slice::<Value>(&r.body).unwrap()["points"].as_array().unwrap().len(), 1);
+        assert_eq!(route(&root, "GET", "/v1/indices/or-model-spend-7d/a/m-1/latest").status, 200);
+        assert_eq!(route(&root, "GET", "/v1/indices/or-model-spend-7d/../x").status, 400);
         let _ = std::fs::remove_dir_all(&root);
     }
 }

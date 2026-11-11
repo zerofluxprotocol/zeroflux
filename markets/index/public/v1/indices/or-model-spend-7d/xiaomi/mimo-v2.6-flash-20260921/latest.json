@@ -1,0 +1,163 @@
+{
+  "index": "7D",
+  "market": "xiaomi/mimo-v2.6-flash-20260921",
+  "index_id": "or-model-spend-7d/xiaomi/mimo-v2.6-flash-20260921",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-7D-v1",
+  "formula_hash": "a5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307",
+  "utc_date": "2026-11-09",
+  "window_start": "2026-11-03",
+  "window_end": "2026-11-09",
+  "source_start": "2026-11-03T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "valid_days": 7,
+  "value_usd": "3607.320382",
+  "value_micro_usd": "3607320382",
+  "window_sum_usd": "25251.242676",
+  "manipulation_cost_usd_per_pct": "252.512427",
+  "max_open_interest_usd": "6312.810669",
+  "prev_7d_value_usd": "3979.344222",
+  "change_vs_prev": "-0.093489",
+  "clamped": false,
+  "clamp_bound": "0.150000",
+  "window": [
+    {
+      "utc_date": "2026-11-03",
+      "daily_revision_id": "2026-11-03.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "5956.729024",
+      "print_hash": "f51e8595c9ff57072202184c4aa41128b5627e084477755fb51a7ba375bff292",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-04",
+      "daily_revision_id": "2026-11-04.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "3821.967734",
+      "print_hash": "6177c5165e4176b7259a9fd8d0ba8af47fa8954a799bb5808dca1b6195681254",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-05",
+      "daily_revision_id": "2026-11-05.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "3480.790950",
+      "print_hash": "fa62e46eaeda76eef0b0fb7a0afca07dd54bbac189b067063a5bd4ca74775b89",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-06",
+      "daily_revision_id": "2026-11-06.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "3804.531839",
+      "print_hash": "d4e539c2f2d2371131b9e72d52cb51f63cba1022ad7512c825452fe21f930075",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-07",
+      "daily_revision_id": "2026-11-07.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "2697.678084",
+      "print_hash": "a2e737aad1d3dfbaf2d7eaa691e8136d82aa0ccdfa0e1799610abbd8284790fd",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-08",
+      "daily_revision_id": "2026-11-08.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "2645.542836",
+      "print_hash": "85f6609828d71a8a6b67e3e175f7567354b25dc0d07f1a7d116c9a9f3b52cb74",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-09",
+      "daily_revision_id": "2026-11-09.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "2844.002209",
+      "print_hash": "e41b993b5151b6b7ed9b900d60da2c00e7f51b352160e3740c28829f3931101f",
+      "counted": true
+    }
+  ],
+  "observed_at": "2026-11-10T23:15:05.766Z",
+  "created_at": "2026-11-11T00:19:19.221Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-10T19:36:40.590Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "3607320382",
+    "inputs": [
+      [
+        "2026-11-03",
+        "2026-11-03.r1",
+        true
+      ],
+      [
+        "2026-11-04",
+        "2026-11-04.r1",
+        true
+      ],
+      [
+        "2026-11-05",
+        "2026-11-05.r1",
+        true
+      ],
+      [
+        "2026-11-06",
+        "2026-11-06.r1",
+        true
+      ],
+      [
+        "2026-11-07",
+        "2026-11-07.r1",
+        true
+      ],
+      [
+        "2026-11-08",
+        "2026-11-08.r1",
+        true
+      ],
+      [
+        "2026-11-09",
+        "2026-11-09.r1",
+        true
+      ]
+    ],
+    "clamped": false
+  },
+  "print": {
+    "indexId": "or-model-spend-7d/xiaomi/mimo-v2.6-flash-20260921",
+    "version": "ZFX-OR-MODEL-SPEND-USD-7D-v1",
+    "value": "3607.320382",
+    "valueScale": 6,
+    "valueInt": "3607320382",
+    "sourceStartUtc": "2026-11-03T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-10T23:15:05.766Z",
+    "publishedAt": "2026-11-11T00:19:19.221Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "d13352775d0043f67643b58d372274deeadd74475fb2a1e90f1e0eac4ec10a60",
+    "formulaHash": "a5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d7631310000006f722d6d6f64656c2d7370656e642d37642f7869616f6d692f6d696d6f2d76322e362d666c6173682d32303236303932311c0000005a46582d4f522d4d4f44454c2d5350454e442d5553442d37442d7631063e5703d70000000000a0b49ea10100000024c1c2a1010000a663bec7a10100003530f9c7a101000000dc0dcda1010000d13352775d0043f67643b58d372274deeadd74475fb2a1e90f1e0eac4ec10a60a5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "27d79ce007a976f6b153a430dab10553bbb0b8beedab4addaa78aff67c4292e3",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:52ee8ea81b4f1301a31ae2f113a3e0d5d7e6bcff9c4982766e78f775d5423f35c57a07a29796726365c8d465b050d88fc827d7d2ae4293a027577eb0fd03960f"
+    ]
+  },
+  "chain": "d881805c05148e029cb93423c5eb4ae2d4eb6a22616cccd919b575d0aae8022d"
+}

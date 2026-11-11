@@ -11,3 +11,4 @@ pub mod server;
 pub mod source;
 pub mod time;
 pub mod vectors;
+pub mod weekly;

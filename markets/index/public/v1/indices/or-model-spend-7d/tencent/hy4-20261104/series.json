@@ -1,0 +1,147 @@
+{
+  "market": "tencent/hy4-20261104",
+  "index_id": "or-model-spend-7d/tencent/hy4-20261104",
+  "label": "Tencent: Hy4: OpenRouter-implied billings proxy, trailing 7-day mean, USD/day",
+  "formula": {
+    "version": "ZFX-OR-MODEL-SPEND-USD-7D-v1",
+    "hash": "a5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307",
+    "derived_from": "ZFX-OR-MODEL-SPEND-USD-v1"
+  },
+  "notice": "Paper-trading index built from OpenRouter data. Not settlement-grade. Not revenue, royalties or equity.",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-10T17:18:50.170Z",
+  "revisions_total": 6,
+  "points": [
+    {
+      "utc_date": "2026-11-04",
+      "window": [
+        "2026-10-29",
+        "2026-11-04"
+      ],
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "1 of 7 window days valid, 6 required",
+      "valid_days": 1,
+      "window_sum_usd": null,
+      "manipulation_cost_usd_per_pct": null,
+      "max_open_interest_usd": null,
+      "change_vs_prev": null,
+      "clamped": false,
+      "lifecycle": "CLOSE_ONLY",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-04.r1",
+      "observed_at": "2026-11-10T23:12:15.468Z",
+      "print_hash": "fb5f40a5fc6c963b5ed4df3339a0014e2f1800ab4d11e5ed93dd407efc27eb41"
+    },
+    {
+      "utc_date": "2026-11-05",
+      "window": [
+        "2026-10-30",
+        "2026-11-05"
+      ],
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "2 of 7 window days valid, 6 required",
+      "valid_days": 2,
+      "window_sum_usd": null,
+      "manipulation_cost_usd_per_pct": null,
+      "max_open_interest_usd": null,
+      "change_vs_prev": null,
+      "clamped": false,
+      "lifecycle": "CLOSE_ONLY",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-05.r1",
+      "observed_at": "2026-11-10T23:12:15.468Z",
+      "print_hash": "e84efc22fe0cb74345a4e32a12df01f960a55e6331b88c86bef1664250b204fe"
+    },
+    {
+      "utc_date": "2026-11-06",
+      "window": [
+        "2026-10-31",
+        "2026-11-06"
+      ],
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "3 of 7 window days valid, 6 required",
+      "valid_days": 3,
+      "window_sum_usd": null,
+      "manipulation_cost_usd_per_pct": null,
+      "max_open_interest_usd": null,
+      "change_vs_prev": null,
+      "clamped": false,
+      "lifecycle": "CLOSE_ONLY",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-06.r1",
+      "observed_at": "2026-11-10T23:12:15.468Z",
+      "print_hash": "697881dc75cfba13cacf10d29f96e0d46f8115ce4669799a67f2d06c77b829a0"
+    },
+    {
+      "utc_date": "2026-11-07",
+      "window": [
+        "2026-11-01",
+        "2026-11-07"
+      ],
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "4 of 7 window days valid, 6 required",
+      "valid_days": 4,
+      "window_sum_usd": null,
+      "manipulation_cost_usd_per_pct": null,
+      "max_open_interest_usd": null,
+      "change_vs_prev": null,
+      "clamped": false,
+      "lifecycle": "CLOSE_ONLY",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-07.r1",
+      "observed_at": "2026-11-10T23:12:15.468Z",
+      "print_hash": "340820fd99662522c192764e7dd025df4a998cdff2acb09e73d770d9be76af28"
+    },
+    {
+      "utc_date": "2026-11-08",
+      "window": [
+        "2026-11-02",
+        "2026-11-08"
+      ],
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "5 of 7 window days valid, 6 required",
+      "valid_days": 5,
+      "window_sum_usd": null,
+      "manipulation_cost_usd_per_pct": null,
+      "max_open_interest_usd": null,
+      "change_vs_prev": null,
+      "clamped": false,
+      "lifecycle": "CLOSE_ONLY",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-08.r1",
+      "observed_at": "2026-11-10T23:12:15.468Z",
+      "print_hash": "f88feaba310a5f1f3c8e5abb65f4cfb9296f53403b2a891640ece25ccacfa38e"
+    },
+    {
+      "utc_date": "2026-11-09",
+      "window": [
+        "2026-11-03",
+        "2026-11-09"
+      ],
+      "value_usd": "10900.994550",
+      "data_status": "OK",
+      "reason": null,
+      "valid_days": 6,
+      "window_sum_usd": "65405.967301",
+      "manipulation_cost_usd_per_pct": "654.059673",
+      "max_open_interest_usd": "16351.491825",
+      "change_vs_prev": null,
+      "clamped": false,
+      "lifecycle": "ACTIVE",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-09.r1",
+      "observed_at": "2026-11-10T23:12:15.468Z",
+      "print_hash": "463dc410b94779c44ba470ef58f17fb940c16646c4eaf142a83781e9ff6343e8"
+    }
+  ]
+}

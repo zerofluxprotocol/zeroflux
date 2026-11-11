@@ -1,0 +1,163 @@
+{
+  "index": "7D",
+  "market": "anthropic/claude-haiku-5.5-20261007",
+  "index_id": "or-model-spend-7d/anthropic/claude-haiku-5.5-20261007",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-7D-v1",
+  "formula_hash": "a5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307",
+  "utc_date": "2026-11-09",
+  "window_start": "2026-11-03",
+  "window_end": "2026-11-09",
+  "source_start": "2026-11-03T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "valid_days": 7,
+  "value_usd": "36589.852769",
+  "value_micro_usd": "36589852769",
+  "window_sum_usd": "256128.969381",
+  "manipulation_cost_usd_per_pct": "2561.289694",
+  "max_open_interest_usd": "64032.242345",
+  "prev_7d_value_usd": "36446.627903",
+  "change_vs_prev": "0.003930",
+  "clamped": false,
+  "clamp_bound": "0.150000",
+  "window": [
+    {
+      "utc_date": "2026-11-03",
+      "daily_revision_id": "2026-11-03.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "37696.324347",
+      "print_hash": "a46cd2adb0a41e06858cceaf24ef5635f84d8fe4836070f665acbd595673f384",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-04",
+      "daily_revision_id": "2026-11-04.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "43322.194982",
+      "print_hash": "4ba8e75d4f8f460c2183ede5a55d893f17ee16a49e2eaacb27cbb999da818133",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-05",
+      "daily_revision_id": "2026-11-05.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "40208.979187",
+      "print_hash": "cbdfdc97a16f131737d54718f7c5b8edbbbe6b1d278feb5d481403d9aca53ead",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-06",
+      "daily_revision_id": "2026-11-06.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "38289.206789",
+      "print_hash": "9d8326916d6fc7dce6cc0bbedfeb9bc7391321427843fa6daf879b283de57444",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-07",
+      "daily_revision_id": "2026-11-07.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "30745.651214",
+      "print_hash": "bad6683c02b79931f50dd1ea8964287b273fff43babcd514c96ad38f0eff8bab",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-08",
+      "daily_revision_id": "2026-11-08.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "30883.129018",
+      "print_hash": "199421ae9f1523d278a4c960f94d7d1934c2bc0be22279139f675d9ef8ea50d6",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-09",
+      "daily_revision_id": "2026-11-09.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "34983.483844",
+      "print_hash": "f11d7d5bfb53299dcaef8af92900f2eadb638ea1f0f8fe0e0be408f316fd68c5",
+      "counted": true
+    }
+  ],
+  "observed_at": "2026-11-10T23:17:31.477Z",
+  "created_at": "2026-11-11T00:19:19.221Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-10T19:25:30.638Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "36589852769",
+    "inputs": [
+      [
+        "2026-11-03",
+        "2026-11-03.r1",
+        true
+      ],
+      [
+        "2026-11-04",
+        "2026-11-04.r1",
+        true
+      ],
+      [
+        "2026-11-05",
+        "2026-11-05.r1",
+        true
+      ],
+      [
+        "2026-11-06",
+        "2026-11-06.r1",
+        true
+      ],
+      [
+        "2026-11-07",
+        "2026-11-07.r1",
+        true
+      ],
+      [
+        "2026-11-08",
+        "2026-11-08.r1",
+        true
+      ],
+      [
+        "2026-11-09",
+        "2026-11-09.r1",
+        true
+      ]
+    ],
+    "clamped": false
+  },
+  "print": {
+    "indexId": "or-model-spend-7d/anthropic/claude-haiku-5.5-20261007",
+    "version": "ZFX-OR-MODEL-SPEND-USD-7D-v1",
+    "value": "36589.852769",
+    "valueScale": 6,
+    "valueInt": "36589852769",
+    "sourceStartUtc": "2026-11-03T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-10T23:17:31.477Z",
+    "publishedAt": "2026-11-11T00:19:19.221Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "8560032acc3cf08ab0801fb711ff91438d65da5d6647db9f2a9c1de94add8af2",
+    "formulaHash": "a5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d7631350000006f722d6d6f64656c2d7370656e642d37642f616e7468726f7069632f636c617564652d6861696b752d352e352d32303236313030371c0000005a46582d4f522d4d4f44454c2d5350454e442d5553442d37442d76310661d8ec840800000000a0b49ea10100000024c1c2a1010000d59cc0c7a10100003530f9c7a101000000dc0dcda10100008560032acc3cf08ab0801fb711ff91438d65da5d6647db9f2a9c1de94add8af2a5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "1f86c431de6b7da2b6d0fba424bbee8baf34ac8aff4b1c1cdf81cc020852ab09",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:980ac9dd10a66c331b9912d956d2f96dd7bbed3ef067418fc7a4314765a8e2ed5ae5707da6c27468d3aebaee4a11bf93faea91e7e4d48dedb85a6481a0ecb301"
+    ]
+  },
+  "chain": "d5c6185be92a2a970fb2d97f088d290000986991e86ea0bed02201bf790d2293"
+}

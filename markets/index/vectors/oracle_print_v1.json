@@ -165,6 +165,41 @@
       "observedAtMs": "1794031200000",
       "publishedAtMs": "1794031260123",
       "validUntilMs": "1794182400000"
+    },
+    {
+      "indexId": "or-model-spend-7d/example/model-20260101",
+      "version": "ZFX-OR-MODEL-SPEND-USD-7D-v1",
+      "value": "41.071429",
+      "valueScale": 6,
+      "valueInt": "41071429",
+      "sourceStartUtc": "2026-10-31T00:00:00.000Z",
+      "sourceEndUtc": "2026-11-07T00:00:00.000Z",
+      "observedAt": "2026-11-07T06:00:00.000Z",
+      "publishedAt": "2026-11-07T06:01:00.123Z",
+      "validUntil": "2026-11-09T00:00:00.000Z",
+      "sourceHash": "b44401a799ee26170d465c90e9b726d4826a9d13573c3ba1d6e0f960a9571e85",
+      "formulaHash": "99b1cd6b55f54d7e025e86c47dc445753a58c010a3b76c87028eeaac320e5498",
+      "status": "FRESH",
+      "dataStatus": "OK",
+      "finality": "FINAL",
+      "revision": 1,
+      "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "canonicalHex": "5a46582d6f7261636c652d7072696e742d7631280000006f722d6d6f64656c2d7370656e642d37642f6578616d706c652f6d6f64656c2d32303236303130311c0000005a46582d4f522d4d4f44454c2d5350454e442d5553442d37442d76310645b3720200000000008c418fa101000000104eb3a101000000a797b4a1010000db9198b4a101000000c89abda1010000b44401a799ee26170d465c90e9b726d4826a9d13573c3ba1d6e0f960a9571e8599b1cd6b55f54d7e025e86c47dc445753a58c010a3b76c87028eeaac320e5498000001010000000000000000000000000000000000000000000000000000000000000000000000",
+      "printHash": "bdd3999d50819be53db8d51ff0c9c5a59db5cd3abb2f972202d38c2a9af4a4b5",
+      "reporterSignatures": [
+        "ed25519:79b5562e8fe654f94078b112e8a98ba7901f853ae695bed7e0e3910bad049664:15eeedf35db893ee2a7e4d714e4fe214cc97da6e14aac427ad2ad52b56367d3f4cd4f22c72507b354a1535b8d99a4dbd0685a0903d040cdb6dd3138147545507"
+      ],
+      "name": "weekly_7d_final",
+      "testSeedHex": "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20",
+      "pubkeyHex": "79b5562e8fe654f94078b112e8a98ba7901f853ae695bed7e0e3910bad049664",
+      "signatureHex": "15eeedf35db893ee2a7e4d714e4fe214cc97da6e14aac427ad2ad52b56367d3f4cd4f22c72507b354a1535b8d99a4dbd0685a0903d040cdb6dd3138147545507",
+      "canonicalLen": 247,
+      "valueUnitsInt": "41071429",
+      "sourceStartMs": "1793404800000",
+      "sourceEndMs": "1794009600000",
+      "observedAtMs": "1794031200000",
+      "publishedAtMs": "1794031260123",
+      "validUntilMs": "1794182400000"
     }
   ],
   "negative": [
