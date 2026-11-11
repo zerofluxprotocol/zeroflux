@@ -76,8 +76,7 @@
     $('#ctaBtn').textContent = on ? (VS.account ? 'Deposit' : 'Sign in') : 'Connect venue';
   }
   function connectVenue(url) {
-    if (!window.ZfxVenue) { alert('Venue support is not loaded.'); return; }
-    window.ZfxVenue.connect(url).then(function (v) {
+    (window.ZfxVenueReady || Promise.reject(new Error('venue support is not loaded'))).then(function (ZV) { return ZV.connect(url); }).then(function (v) {
       V = v; try { localStorage.setItem('zfx-venue', url); } catch (e) {}
       V.onUpdate(function (st) { VS = st; setVenueStatus(); render(); });
       VS = V.state(); setVenueStatus(); render();
@@ -164,8 +163,9 @@
     var P = VS.positions || [];
     el.innerHTML = P.length ? P.map(function (p) {
       var m = M.filter(function (x) { return x.marketId === p.market_id; })[0];
-      return '<div class="prow"><span>' + esc(m ? m.name : p.market_id) + '</span><span class="m ' + cls(Number(p.unrealized_pnl)) + '" style="text-align:right;font-size:12.5px">' + usd(Number(p.unrealized_pnl)) + '</span>' +
-        '<span class="m fnt" style="font-size:11px"><span class="' + (Number(p.size) > 0 ? 'up' : 'dn') + '">' + (Number(p.size) > 0 ? 'Long' : 'Short') + '</span> ' + esc(String(Math.abs(Number(p.size)))) + ' @ ' + usd(Number(p.entry_price)) + '</span><span></span></div>';
+      return '<div class="prow"' + (m ? ' data-open="' + m.i + '"' : '') + '><span>' + esc(m ? m.name : p.market_id) + '</span><span class="m ' + cls(Number(p.unrealized_pnl)) + '" style="text-align:right;font-size:12.5px">' + usd(Number(p.unrealized_pnl)) + '</span>' +
+        '<span class="m fnt" style="font-size:11px"><span class="' + (Number(p.size) > 0 ? 'up' : 'dn') + '">' + (Number(p.size) > 0 ? 'Long' : 'Short') + '</span> ' + esc(String(Math.abs(Number(p.size)))) + ' lots · equity ' + usd(Number(p.equity)) + '</span>' +
+        '<span class="m fnt" style="font-size:11px;text-align:right">' + (p.liquidation_price ? 'liq ' + usd(Number(p.liquidation_price)) : '') + '</span></div>';
     }).join('') : '<div class="empty">No open positions.</div>';
     var tot = P.reduce(function (a, p) { return a + Number(p.unrealized_pnl || 0); }, 0);
     pnlEl.textContent = usd(tot); pnlEl.className = 'm ' + cls(tot);
@@ -314,7 +314,7 @@
   load().then(function () {
     fromHash(); go(S.view);
     var saved = Q.get('venue'); if (!saved) { try { saved = localStorage.getItem('zfx-venue'); } catch (e) {} }
-    if (saved && window.ZfxVenue) connectVenue(saved);
+    if (saved) connectVenue(saved);
   }).catch(function (e) {
     $('#lbBody').innerHTML = '<tr><td colspan="11" class="l dn" style="padding:18px 14px">Could not load the index: ' + esc(e.message) + '</td></tr>';
   });
