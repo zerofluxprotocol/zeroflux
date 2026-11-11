@@ -198,6 +198,52 @@
         "py_stress_fp8": "PASS",
         "py_bench_int8": "PASS"
       }
+    },
+    "AMD Instinct MI355X (gfx950)": {
+      "steps_pass": 34,
+      "steps_fail": [],
+      "image": "rocm/vllm:rocm10.0.0_ubuntu24.04_py3.14_pytorch_2.12.0_vllm_0.27.0",
+      "paths": {
+        "blas-int8": {
+          "attempts_per_s": 13043962.76,
+          "tera_macs_per_s": 673.62,
+          "avg_power_w": 1246.9,
+          "uj_per_attempt": 95.6,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        },
+        "lt-fp8": {
+          "attempts_per_s": 13065200.0,
+          "tera_macs_per_s": 674.718,
+          "avg_power_w": 1211.3,
+          "uj_per_attempt": 92.7,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        },
+        "naive": {
+          "attempts_per_s": 295982,
+          "tera_macs_per_s": 15.2852,
+          "avg_power_w": 1229.6,
+          "uj_per_attempt": 4154.3,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        }
+      },
+      "pytorch": {
+        "py_selftest_fp32": "PASS",
+        "py_stress_fp32": "PASS",
+        "py_selftest_int8": "PASS",
+        "py_stress_int8": "PASS",
+        "py_selftest_fp8": "PASS",
+        "py_stress_fp8": "PASS",
+        "py_bench_int8": "PASS"
+      },
+      "linux_x86_rust": {
+        "cargo_test": "PASS",
+        "rust_selftest": "PASS",
+        "cpp_cpu_selftest_x86": "PASS",
+        "rust_bench_x86": "PASS"
+      }
     }
   }
 }

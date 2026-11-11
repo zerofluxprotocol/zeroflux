@@ -15,14 +15,16 @@ The consensus function is defined on integers in {±1..±16}, with every accumul
 | Apple M-series | Metal | `zpu_miner.py --backend mlx` | `--backend torch --device mps` | fp32 GEMM | measured bit-exact |
 | any CPU | | `zpu-cli --backend cpu` or `zpu-miner --backend cpu` | NumPy fp32 BLAS | | reference |
 
-## Measured (2026-11-11): Hopper, Blackwell and RTX
+## Measured (2026-11-11): Hopper, Blackwell, RTX and AMD
 
-Round 6 (`bench/results/gpu-r6/`, summary `bench/results/gpu-r6/summary.json`). Five ephemeral cloud GPU sandboxes, one image for all (`pytorch/pytorch:2.12.0-cuda13.0-cudnn9-devel`), each built natively for its architecture, each deleted afterwards and confirmed absent (ledger `bench/results/gpu_ledger.json`). On every device, every path passed the 278-check selftest and the 2^20 accumulator stress, and the PyTorch implementation passed selftest and stress in fp32, int8 and fp8: 27 of 27 steps, no failures.
+Round 6 (`bench/results/gpu-r6/`, summary `bench/results/gpu-r6/summary.json`). Six ephemeral cloud GPU sandboxes: five NVIDIA on one image (`pytorch/pytorch:2.12.0-cuda13.0-cudnn9-devel`) and an MI355X on ROCm 10 (`rocm/vllm:rocm10.0.0_ubuntu24.04_py3.14_pytorch_2.12.0_vllm_0.27.0`), each built natively for its architecture, each deleted afterwards and confirmed absent (ledger `bench/results/gpu_ledger.json`). On every device, every path passed the 278-check selftest and the 2^20 accumulator stress, and the PyTorch implementation passed selftest and stress in fp32, int8 and fp8: 27 of 27 steps on each NVIDIA device and 34 of 34 on the MI355X, which also ran the Rust workspace tests and the Rust and C++ CPU references on its Linux x86 host. No failures.
 
 | GPU | path | attempts/s | TMAC/s | board power | µJ/attempt | exact |
 |---|---|---|---|---|---|---|
 | B300 SXM6 (Blackwell Ultra, sm_103) | `blas-int8` | 1,376,540 | 71 | ~438 W | 317.8 | PASS |
 | B300 SXM6 (Blackwell Ultra, sm_103) | `lt-fp8` | 14,910,000 | 770 | ~1054 W | 70.7 | PASS |
+| AMD Instinct MI355X (gfx950) | `blas-int8` | 13,043,963 | 674 | ~1247 W | 95.6 | PASS |
+| AMD Instinct MI355X (gfx950) | `lt-fp8` | 13,065,200 | 675 | ~1211 W | 92.7 | PASS |
 | H200 | `blas-int8` | 8,372,340 | 432 | ~690 W | 82.4 | PASS |
 | H200 | `lt-fp8` | 7,627,060 | 394 | ~692 W | 90.7 | PASS |
 | H100 80GB HBM3 | `blas-int8` | 7,882,540 | 407 | ~693 W | 87.9 | PASS |
@@ -33,9 +35,10 @@ Round 6 (`bench/results/gpu-r6/`, summary `bench/results/gpu-r6/summary.json`). 
 | GeForce RTX 4090 (sm_89) | `lt-fp8` | 2,100,070 | 108 | ~450 W | 214.4 | PASS |
 
 - **B300 mines on FP8.** Its dense INT8 is cut (1.38 M/s), but `lt-fp8` is exact under stress and the fastest path measured anywhere: 14.9 M attempts/s, 71 µJ per attempt, the best energy per attempt of any device. Run it with `--gemm lt-fp8`.
+- **AMD:** the MI355X reproduces its 2026-11-09 numbers on the current code, 13.0 M/s on `blas-int8` and 13.1 M/s on `lt-fp8`, exact on both and in PyTorch-ROCm.
 - **Hopper:** H200 is about 6% faster than H100 at the same power; `blas-int8` is the faster path on both.
 - **RTX:** the RTX PRO 6000 Blackwell is exact on both paths at about 4.8 M/s; the RTX 4090 reaches 3.3 M/s on `blas-int8`. FP8 with FP32 output is exact on these consumer and workstation parts (the FP16-accumulate hazard in the table above does not apply to the shipped path).
-- Not reached: B200 and RTX 5090 (no capacity offered on 2026-11-11), MI300X.
+- Not reached: B200 and RTX 5090 (no capacity offered on 2026-11-11) and MI300X (not offered by the cloud provider).
 
 ## Measured (2026-11-09)
 
