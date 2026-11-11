@@ -198,6 +198,8 @@ pub fn tick(l: &Ledger, f: &Fetcher, params: &Params, now: i64) -> Result<usize,
 
 pub fn run_loop(ledger_dir: &Path, out: &Path, signer: &Signer, params: &Params, budget: RateBudget, once: bool) -> Result<(), PollError> {
     let mut last_publish = 0i64;
+    let mut last_push = 0i64;
+    let mut pending_push = true;
     loop {
         let res = (|| -> Result<(), PollError> {
             let l = Ledger::open_write(ledger_dir)?;
@@ -209,12 +211,33 @@ pub fn run_loop(ledger_dir: &Path, out: &Path, signer: &Signer, params: &Params,
                 let lic = crate::licensed::run(&l, signer, now_ms())?;
                 let lic7 = crate::weekly::run_spec(&l, signer, &crate::weekly::Spec7d::lic(), now_ms())?;
                 eprintln!("[poll] 7d {:?}; lic {:?}; lic 7d {:?}", rep7, lic, lic7);
+                if lic.new_final + lic.new_corrected + lic7.new_final + lic7.new_corrected > 0 {
+                    pending_push = true;
+                }
                 let files = publish::publish(&l, out, &signer.pubkey(), params, &budget, now_ms())?;
                 eprintln!("[poll] {} requests; engine {:?}; published {} files", n, rep, files);
                 last_publish = now_ms();
             }
             Ok(())
         })();
+        // on-chain push after publishing new licensed revisions (or every 6 h), when configured
+        if let Some(cfg) = load_push_config() {
+            if pending_push || now_ms() - last_push > 6 * 3_600_000 {
+                match push_from_config(ledger_dir, &cfg) {
+                    Ok(r) => {
+                        eprintln!("[poll] push-near: queued {} accepted {} rejected {}", r["queued"], r["accepted"], r["rejected"]);
+                        let log = ledger_dir.join("..").join("near-push.jsonl");
+                        if let Ok(mut f) = std::fs::OpenOptions::new().create(true).append(true).open(&log) {
+                            use std::io::Write;
+                            let _ = writeln!(f, "{}", json!({"at": fmt_ms(now_ms()), "result": r}));
+                        }
+                        pending_push = false;
+                    }
+                    Err(e) => eprintln!("[poll] push-near failed (will retry): {e}"),
+                }
+                last_push = now_ms();
+            }
+        }
         match res {
             Ok(()) => {}
             Err(PollError::Ledger(LedgerError::Locked(p))) => eprintln!("[poll] ledger busy ({}), retrying next tick", p.display()),
@@ -276,4 +299,35 @@ pub fn dataset_backfill(l: &Ledger, budget: RateBudget, from: UtcDate, to: UtcDa
         }
     }
     Ok(json!({"requests": log.len(), "log": log}))
+}
+
+
+/// On-chain push configuration, read from a file outside the repository
+/// (default `~/.config/zeroflux/oracle-push.json`):
+/// `{"enabled": true, "contract": "oracle.zeroflux.testnet", "signer": "...", "key_file": "...", "rpc": ["..."], "files": ["revisions_lic.jsonl", "revisions_lic_7d.jsonl"]}`
+pub fn push_config_path() -> std::path::PathBuf {
+    let home = std::env::var("HOME").unwrap_or_else(|_| ".".into());
+    std::path::PathBuf::from(home).join(".config/zeroflux/oracle-push.json")
+}
+
+pub fn load_push_config() -> Option<serde_json::Value> {
+    let v: serde_json::Value = serde_json::from_str(&std::fs::read_to_string(push_config_path()).ok()?).ok()?;
+    if v["enabled"] == json!(true) { Some(v) } else { None }
+}
+
+/// Pushes new prints to the NEAR oracle. Blocking; builds its own runtime.
+pub fn push_near(ledger: &Path, contract: &str, signer: &str, key_file: &Path, rpcs: &[String], files: &[String], from_date: Option<&str>, dry_run: bool) -> Result<serde_json::Value, PollError> {
+    let rt = tokio::runtime::Builder::new_multi_thread().enable_all().build().map_err(|e| PollError::Other(e.to_string()))?;
+    let near = zfx_oracle_near::Near::rpcs(rpcs).map_err(|e| PollError::Other(e.to_string()))?;
+    let who = zfx_oracle_near::Actor::from_key_file(Some(signer), key_file).map_err(|e| PollError::Other(e.to_string()))?;
+    let fl: Vec<&str> = files.iter().map(|s| s.as_str()).collect();
+    let opts = zfx_oracle_near::PushOpts { from_date, only: None, est_tgas_per_print: 1, dry_run, max_prints: None };
+    rt.block_on(zfx_oracle_near::push_new(&near, &who, contract, ledger, &fl, &opts)).map_err(|e| PollError::Other(format!("{e:#}")))
+}
+
+fn push_from_config(ledger: &Path, cfg: &serde_json::Value) -> Result<serde_json::Value, PollError> {
+    let s = |k: &str| cfg[k].as_str().map(String::from).ok_or_else(|| PollError::Other(format!("oracle-push.json: missing {k}")));
+    let rpcs: Vec<String> = cfg["rpc"].as_array().map(|a| a.iter().filter_map(|x| x.as_str().map(String::from)).collect()).unwrap_or_else(|| vec!["https://rpc.testnet.near.org".into(), "https://test.rpc.fastnear.com".into(), "https://rpc.testnet.fastnear.com".into()]);
+    let files: Vec<String> = cfg["files"].as_array().map(|a| a.iter().filter_map(|x| x.as_str().map(String::from)).collect()).unwrap_or_else(|| zfx_oracle_near::DEFAULT_FILES.iter().map(|x| x.to_string()).collect());
+    push_near(ledger, &s("contract")?, &s("signer")?, Path::new(&s("key_file")?), &rpcs, &files, cfg["from_date"].as_str(), false)
 }

@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-11-11T00:33:32.233Z",
+  "generated_at": "2026-11-11T02:02:03.866Z",
   "status": "OK",
   "notice": "Paper-trading index built from OpenRouter data. Not settlement-grade. Not revenue, royalties or equity.",
-  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:09:57.000Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T01:06:34.000Z",
   "license": "OpenRouter dataset content is published under CC BY 4.0 per OpenRouter's Datasets API documentation.",
   "formula": {
     "version": "ZFX-OR-MODEL-SPEND-USD-v1",
@@ -82,16 +82,16 @@
     },
     "rankings_day": {
       "documented": false,
-      "fetches": 3,
-      "fetches_24h": 3,
+      "fetches": 4,
+      "fetches_24h": 4,
       "failures": 0,
       "last_fetch": {
-        "at": "2026-11-11T00:10:59.244Z",
+        "at": "2026-11-11T01:12:16.915Z",
         "status": 200,
         "url": "https://openrouter.ai/api/frontend/v1/rankings/models?view=day",
-        "seq": 155
+        "seq": 160
       },
-      "last_success": "2026-11-11T00:10:59.244Z"
+      "last_success": "2026-11-11T01:12:16.915Z"
     },
     "rankings_day_spend": {
       "documented": false,
@@ -108,7 +108,7 @@
     }
   },
   "rate_budget": {
-    "requests_24h": 159,
+    "requests_24h": 160,
     "daily_cap": 400,
     "min_gap_ms": 6000,
     "jitter_ms": 4000
