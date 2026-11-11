@@ -24,7 +24,7 @@ TESTNET ONLY      MAINNET_READY = false      no monetary value      no real-mone
 ### At a glance
 
 - **Three products, all built.** Mining is live on NEAR testnet; the VPN installs with one command; the markets index updates every day and is pushed to an on-chain oracle. The hosted VPN, trading and Sandboxes are in [private beta](https://zeroflux.network/#beta).
-- **Proof of work for AI hardware.** One attempt is 51.6 million integer multiply-adds. Measured: NVIDIA B300 14.9 M attempts/s, AMD MI355X 13.1 M/s, H200 8.4 M/s, H100 8.1 M/s, RTX PRO 6000 4.8 M/s, RTX 4090 3.3 M/s, Apple M5 Pro GPU 80 K/s vs 3.3 K/s on its CPU. Bit-exact across Rust, C++, CUDA, HIP, NumPy, MLX and MPS, on every one of those devices ([docs/HARDWARE.md](docs/HARDWARE.md)).
+- **Proof of work for AI hardware.** One attempt is 51.6 million integer multiply-adds. Measured: NVIDIA B300 14.9 M attempts/s, AMD MI355X 13.1 M/s, H200 8.4 M/s, H100 7.9 to 8.1 M/s, RTX PRO 6000 4.9 M/s, RTX 4090 3.3 M/s, Apple M5 Pro GPU 80 K/s vs 3.3 K/s on its CPU. Bit-exact across Rust, C++, CUDA, HIP, NumPy, MLX and MPS, on every one of those devices ([docs/HARDWARE.md](docs/HARDWARE.md)).
 - **NEAR checks blocks without redoing them.** A block costs about 6 Tgas to submit; a fraud proof recomputes one value for about 4.5 Tgas and takes the cheater's bond. On testnet: [47 blocks finalized, 2,350 ZFX minted](https://testnet.nearblocks.io/address/zfx.zeroflux.testnet), and one deliberately fake block caught by a watcher and reverted ([evidence](bench/results/testnet_fraud_proof.json)).
 - **Privacy you can check.** ZFX VPN's tests record the exact bytes that reach the model provider and assert that no critical value, and no placeholder map, ever does (206 tests).
 - **A market for AI demand.** 54 models indexed from OpenRouter's documented dataset (history from 2025-01-01), ed25519-signed daily prints, [an on-chain oracle](https://testnet.nearblocks.io/address/oracle.zeroflux.testnet), and [28 perpetual markets](https://testnet.nearblocks.io/address/perps-v2.zeroflux.testnet) whose contract re-verifies both traders' signed orders on every fill. Pushing Claude Opus 5.5's index 1% means buying about $43K of real usage, and open interest is capped below what a push costs.
@@ -91,6 +91,23 @@ stateDiagram-v2
 
 Security assumption: at least one honest watcher checks pending blocks within the window (the watcher ships with the mining tools, and catching fraud pays the cheater's bond).
 
+### Measured hardware
+
+Production profile `zfx-fp8c-v0.1`. Measured 2026-11-11 on ephemeral cloud GPUs (Apple numbers on a local M5 Pro). Every device passed the 278-vector selftest and a 2^20 accumulator stress on every path, so honest blocks from any of them verify on NEAR.
+
+| Device | Best path | Attempts/s | µJ per attempt | vs M5 Pro CPU |
+|---|---|---|---|---|
+| NVIDIA B300 (Blackwell Ultra) | `lt-fp8` | 14.9 M | 71 | 4,500x |
+| AMD Instinct MI355X | `lt-fp8` | 13.1 M | 93 | 4,000x |
+| NVIDIA H200 | `blas-int8` | 8.4 M | 82 | 2,500x |
+| NVIDIA H100 | `blas-int8` | 7.9 M | 88 | 2,400x |
+| NVIDIA RTX PRO 6000 Blackwell | `lt-fp8` | 4.9 M | 122 | 1,500x |
+| NVIDIA GeForce RTX 4090 | `blas-int8` | 3.3 M | 135 | 1,000x |
+| Apple M5 Pro GPU (MLX) | | 80 K | | 24x |
+| Apple M5 Pro CPU, 18 threads | | 3.3 K | | 1x |
+
+B300 has cut dense int8, so it mines on FP8, which stays exact. Every row, with power and both paths: [docs/HARDWARE.md](docs/HARDWARE.md); raw results: `bench/results/gpu-r6/`.
+
 ### Run everything locally
 
 ```
@@ -102,7 +119,7 @@ make localnet                                         # NEAR sandbox + ZFX contr
     --backend exec --exec ".venv/bin/python miner/python/zpu_miner.py --backend mlx"   # Apple GPU
 ```
 
-GPU miners: `make -C miner/cuda cuda` or `make -C miner/cuda hip`, then `--backend exec --exec "miner/cuda/build/zpu-miner-cuda --backend gpu --gemm blas-int8"`. See `docs/HARDWARE.md`.
+GPU miners: `make -C miner/cuda cuda` or `make -C miner/cuda hip`, then `--backend exec --exec "miner/cuda/build/zpu-miner-cuda --backend gpu --gemm blas-int8"` (use `--gemm lt-fp8` on B300, RTX PRO 6000 and MI355X, the faster path in the table above). See `docs/HARDWARE.md`.
 
 Prerequisites: Rust 1.90+, `cargo-near`, a C++17 compiler, Python 3.11+ with `uv` (`uv venv .venv && uv pip install --python .venv/bin/python numpy jsonschema websockets ziglang`, plus `torch`/`mlx` for Apple GPUs). The NEAR sandbox needs liblzma; see `docs/OPERATOR_RUNBOOK.md`.
 
