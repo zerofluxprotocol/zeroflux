@@ -68,8 +68,8 @@ curl -s http://127.0.0.1:8900/v1/markets | head -c 400
 The node rebuilds from `data/testnet-v2/node` on restart, and the relayer is stateless. The print
 feed is polled every minute; the contract accepts only newer, reporter-signed prints.
 
-Connect the trade app: open the site's trade page and press *Connect venue* with
-`http://127.0.0.1:8900`, or pass `?venue=http://127.0.0.1:8900`.
+The public trade page on zeroflux.network is read-only while trading is in private beta; drive the
+node with the TS SDK (`packages/sdk-ts/examples/`).
 
 **Browser access (CORS).** `cors_allow` in the node config defaults to
 `["https://zeroflux.network", "http://127.0.0.1:*", "http://localhost:*"]`, where `*` stands for

@@ -31,26 +31,14 @@ money. Product brief: the launch spec; risk and legal gates: `../docs/RELEASE_RE
   ([`docs/ORDERBOOK_AND_CLEARING.md`](../docs/ORDERBOOK_AND_CLEARING.md),
   [`docs/MARKET_RISK.md`](../docs/MARKET_RISK.md)).
 
-## Trade on testnet
+## Trading
 
-The public site shows the index and the markets. Orders need a zfx-perps node with the operator's
-relayer behind it; ZeroFlux has not hosted one publicly yet, so the site shows "venue offline"
-until it does. With a node running (`zfx-perps/README.md`, "Run against NEAR testnet"):
+Trading is in private beta: request access at [zeroflux.network/#beta](https://zeroflux.network/#beta). The
+exchange is built and deployed on NEAR testnet (`perps-v2.zeroflux.testnet`); the public site shows the
+markets, the index and its history read-only.
 
-```sh
-# a free testnet account from the official faucet (NEAR CLI: cargo install near-cli-rs)
-near account create-account sponsor-by-faucet-service you.testnet \
-  autogenerate-new-keypair save-to-legacy-keychain network-config testnet create
-
-# test USDC from the faucet, a new trading key registered on perps-v2, a deposit
-cd markets/zfx-perps && cargo build --release -p zfx-perps-near
-target/release/zfx-perps-near onboard-testnet --stack-info perps-v2.zeroflux.testnet \
-  --account you.testnet --key-file ~/.near-credentials/testnet/you.testnet.json --deposit 1000
-```
-
-Then open the trade app with `?venue=<node URL>`, press *Sign in* and paste the account and the
-trading secret the command printed. Orders are signed in the browser; the trading key is stored in
-that browser only.
+Developers can run the whole flow themselves on testnet with their own node and a funded test account:
+`zfx-perps/README.md`, "Run against NEAR testnet", and the `zfx-perps-near onboard-testnet` command.
 
 ## Tests
 

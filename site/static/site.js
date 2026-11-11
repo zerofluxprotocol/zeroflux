@@ -36,3 +36,26 @@ function set(o) { h.classList.toggle('open', o); b.setAttribute('aria-expanded',
 b.addEventListener('click', function () { set(!h.classList.contains('open')); });
 document.querySelectorAll('#mnav a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
 document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); }); })();
+/* private beta form: posts to /api/beta, shows the result inline */
+(function () {
+  var f = document.getElementById('betaForm'); if (!f) return;
+  var msg = document.getElementById('betaMsg'), btn = f.querySelector('button[type=submit]');
+  function say(t, cls) { msg.textContent = t; msg.className = 'bmsg' + (cls ? ' ' + cls : ''); }
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var products = Array.prototype.map.call(f.querySelectorAll('input[name=products]:checked'), function (i) { return i.value; });
+    var email = f.email.value.trim();
+    if (!products.length) { say('Pick at least one product.', 'err'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { say('Enter a valid email address.', 'err'); f.email.focus(); return; }
+    btn.disabled = true; say('Sending...');
+    fetch('/api/beta', { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ email: email, products: products, note: f.note.value, website: f.website.value }) })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (r) {
+        if (r.ok) { f.reset(); say("You're on the list. We'll email you when your spot opens.", 'ok'); }
+        else say(r.j.error || 'Something went wrong. Try again.', 'err');
+      })
+      .catch(function () { say('Could not reach the server. Try again.', 'err'); })
+      .finally(function () { btn.disabled = false; });
+  });
+})();

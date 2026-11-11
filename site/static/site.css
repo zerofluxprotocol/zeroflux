@@ -371,3 +371,37 @@ nav.primary a[aria-current="page"] { color: var(--ink); box-shadow: inset 0 -1px
 .pcards.pcards-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 960px) { .pcards.pcards-2 { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .hero.hero-sub .hero-inner { padding-top: 120px; } }
+
+/* spacing above the footer, so the last card on a page never touches it */
+main { padding-bottom: clamp(72px, 8vw, 120px); }
+footer { margin-top: 0; }
+
+/* up/down changes: Lucide chevrons, green up, red down */
+:root { --up: #3DDC97; --dn: #FF6B6B; }
+:root[data-theme="light"] { --up: #0B7547; --dn: #C62828; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --up: #0B7547; --dn: #C62828; } }
+.chg { display: inline-flex; align-items: center; gap: 2px; font-family: var(--mono); font-weight: 400; }
+.chg.up { color: var(--up); } .chg.dn { color: var(--dn); }
+.chg svg { flex: none; }
+
+/* private beta form */
+.beta { flex: 1 1 460px; display: grid; gap: 14px; }
+.beta fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 10px; }
+.beta .opt { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; transition: border-color .15s ease; }
+.beta .opt:hover { border-color: var(--faint); }
+.beta .opt input { margin-top: 3px; accent-color: var(--ink); width: 16px; height: 16px; flex: none; }
+.beta .opt span { display: flex; flex-direction: column; gap: 3px; font-size: 14px; color: var(--muted); }
+.beta .opt b { font-weight: 400; color: var(--ink); font-size: 15.5px; }
+.beta .opt:has(input:checked) { border-color: var(--ink); }
+.beta .brow2 { display: flex; gap: 10px; }
+.beta input[type=email], .beta input[name=note] { flex: 1; height: 48px; padding: 0 16px; background: var(--surface); border: 1px solid var(--line); color: var(--ink); font: 300 15px var(--body); outline: none; }
+.beta input[type=email]:focus, .beta input[name=note]:focus { border-color: var(--ink); }
+.beta .btn { flex: none; border: 0; cursor: pointer; }
+.beta .btn[disabled] { opacity: .5; cursor: default; }
+.beta .bmsg { margin: 0; min-height: 22px; font-size: 14px; color: var(--muted); }
+.beta .bmsg.ok { color: var(--up); } .beta .bmsg.err { color: var(--dn); }
+.beta .hp, .sr { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+@media (max-width: 640px) { .beta .brow2 { flex-direction: column; } .beta .btn { justify-content: center; } }
+.tscroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+@media (max-width: 640px) { .beta .brow2 input[type=email] { flex: none; width: 100%; } }
+@media (max-width: 640px) { .ixmarkets .c-x { display: none; } }

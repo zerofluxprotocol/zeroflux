@@ -82,9 +82,9 @@ PAGE = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name=
 <div class="status"><div class="w"><span><span class="dot"></span>Testnet</span><span>Mainnet not launched</span><span>Testnet ZFX has no monetary value</span></div></div>
 <div class="hbar"><div class="w">
 <a class="brand" href="/" aria-label="ZeroFlux home"><span class="cell">{logo}</span><span class="word">ZeroFlux</span></a>
-<nav><a href="/earn">Earn</a><a href="/build">Build</a><a href="/trade">Trade</a><a href="/docs/">Docs</a><a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener">GitHub</a>
+<nav><a href="/#earn">Earn</a><a href="/#build">Build</a><a href="/#trade">Trade</a><a href="/docs/">Docs</a><a href="https://github.com/zerofluxprotocol/zeroflux" target="_blank" rel="noopener">GitHub</a>
 <button class="theme-toggle" type="button" id="themeToggle" aria-label="Switch light or dark mode"><svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg><svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button>
-<a class="cta" href="/earn#run">Start Mining</a></nav>
+<a class="cta" href="/#mine">Start Mining</a></nav>
 </div></div>
 </header>
 <div class="w layout"><aside class="toc" aria-label="Documentation"><details id="tocd" open><summary>Documentation menu</summary>{toc}</details></aside><main class="doc">{body}</main></div>
@@ -198,10 +198,6 @@ def toc_html(current, headings):
 PAGES = {  # page file in site/pages -> (output path, title, description, nav key)
     "index.html": ("index.html", "ZeroFlux · The economic layer for AI compute",
                    "Earn from idle hardware. Build privately with AI. Trade AI demand. ZFX mining, ZFX VPN and ZFX Markets on NEAR. Testnet.", ""),
-    "build.html": ("build/index.html", "Build · ZFX VPN · ZeroFlux",
-                   "A private AI endpoint for the models you already use. Protect your app's users and your own coding-agent sessions. Local, hosted, or hosted transport with local preprocessing.", "build"),
-    "earn.html": ("earn/index.html", "Earn · ZFX Mining · ZeroFlux",
-                  "Mine ZFX on NEAR with the GPUs and CPUs you already run. Proof of work made of the integer matrix math AI chips are built for. Live on NEAR testnet.", "earn"),
 }
 
 
@@ -220,6 +216,11 @@ SITE_VARS = {
 }
 
 
+# Lucide chevron-up / chevron-down (ISC license), inline so the static pages need no icon library.
+CHEV_UP = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg>'
+CHEV_DN = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>'
+
+
 def trade_table():
     """Top markets by 7-day index, from the board built by build_trade()."""
     import json
@@ -232,12 +233,16 @@ def trade_table():
         v = float(v)
         return f"${v / 1e6:,.2f}M" if v >= 1e6 else f"${v / 1e3:,.1f}K"
     rows = sorted((m for m in b["markets"] if m.get("index_7d_usd")), key=lambda m: -float(m["index_7d_usd"]))[:6]
+
+    def chg(v):
+        v = float(v or 0) * 100
+        return (f'<span class="chg {"up" if v >= 0 else "dn"}">' + (CHEV_UP if v >= 0 else CHEV_DN) + f'{abs(v):.2f}%</span>')
     tr = "".join(
         f'<tr><td>{html.escape(m["name"])}<span class="sub">{html.escape(m["author"])}</span></td><td class="n">{usd(m["index_7d_usd"])}</td>'
-        f'<td class="n">{float(m["change_7d"]) * 100:+.2f}%</td><td class="n">{usd(m["manipulation_cost_usd_per_pct"])}</td><td class="n">{usd(m["max_open_interest_usd"])}</td></tr>'
+        f'<td class="n">{chg(m["change_7d"])}</td><td class="n c-x">{usd(m["manipulation_cost_usd_per_pct"])}</td><td class="n c-x">{usd(m["max_open_interest_usd"])}</td></tr>'
         for m in rows)
-    return ('<table class="ixtable"><thead><tr><th>Model</th><th class="n">7-day index, per day</th><th class="n">7D change</th>'
-            '<th class="n">Cost to move 1%</th><th class="n">OI cap</th></tr></thead><tbody>' + tr + '</tbody></table>'
+    return ('<div class="tscroll"><table class="ixtable ixmarkets"><thead><tr><th>Model</th><th class="n">7-day index, per day</th><th class="n">7D change</th>'
+            '<th class="n c-x">Cost to move 1%</th><th class="n c-x">OI cap</th></tr></thead><tbody>' + tr + '</tbody></table></div>'
             f'<p class="ixnote">Day ending {html.escape(b["latest_day"])} UTC. {html.escape(b["attribution"])}. Implied spend, not revenue.</p>')
 
 
@@ -263,7 +268,6 @@ def render_pages():
 
 INDEX_PUBLIC_CANDIDATES = [os.environ.get("ZFX_INDEX_PUBLIC", ""), os.path.expanduser("~/.local/share/zfx-index/public"),
                            os.path.join(ROOT, "markets", "index", "public")]
-VENUE_HOWTO = "# needs a running zfx-perps node: markets/zfx-perps/README.md\nzfx-perps-near onboard-testnet --stack-info perps-v2.zeroflux.testnet \\\n  --account you.testnet --key-file ~/.near-credentials/testnet/you.testnet.json\n# then open /trade/?venue=<node URL> and Sign in"
 
 
 def index_public():
@@ -343,7 +347,7 @@ def build_trade():
     shutil.copytree(os.path.join(pub, "v1"), os.path.join(DIST, "v1"))
     os.makedirs(os.path.join(DIST, "trade"), exist_ok=True)
     for f in os.listdir(app):
-        if f.endswith((".html", ".js", ".css")):
+        if f.endswith((".html", ".js", ".css")) and f in ("index.html", "app.js"):
             shutil.copy(os.path.join(app, f), os.path.join(DIST, "trade", f))
     import json
     models = json.load(open(os.path.join(pub, "v1", "markets", "models.json")))
@@ -384,8 +388,8 @@ def build_trade():
         })
     board = {"generated_at": models.get("generated_at"), "latest_day": latest_day, "notice": models.get("notice"),
              "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of " + str(models.get("generated_at")),
-             "index_note": "Traded index: ZFX-OR licensed 7-day (OpenRouter's documented daily token dataset, CC BY 4.0, and documented listed prices). Not revenue, royalties or equity. Paper trading only.",
-             "formula": models.get("formula"), "venue_howto": VENUE_HOWTO, "markets": rows}
+             "index_note": "Traded index: ZFX-OR licensed 7-day (OpenRouter's documented daily token dataset, CC BY 4.0, and documented listed prices). Not revenue, royalties or equity. Read-only: trading is in private beta.",
+             "formula": models.get("formula"), "markets": rows}
     board["usage_days"] = build_usage_history([r["permaslug"] for r in rows])
     json.dump(board, open(os.path.join(DIST, "trade", "board.json"), "w"), separators=(",", ":"))
     return len(rows)
@@ -426,6 +430,7 @@ def main():
     open(os.path.join(DIST, "docs", "index.md"), "w").write("\n".join(llms) + "\n")
     body404 = '<h1>Not found</h1><p>That page does not exist. Go to the <a href="/">home page</a> or the <a href="/docs/">documentation</a>.</p>'
     open(os.path.join(DIST, "404.html"), "w").write(PAGE.format(logo=LOGO, title="Not found", desc="Page not found", body=body404, toc=toc_html(None, []), copyjs=""))
+    open(os.path.join(DIST, "_redirects"), "w").write("/earn /#earn 301\n/earn/ /#earn 301\n/build /#build 301\n/build/ /#build 301\n")
     open(os.path.join(DIST, "_headers"), "w").write("/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n/docs/*.md\n  Content-Type: text/plain; charset=utf-8\n  Access-Control-Allow-Origin: *\n/llms.txt\n  Content-Type: text/plain; charset=utf-8\n  Access-Control-Allow-Origin: *\n")
     leaks = []
     for dp, _, fs in os.walk(DIST):

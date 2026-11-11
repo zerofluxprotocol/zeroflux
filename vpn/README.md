@@ -56,6 +56,8 @@ or let ZFX VPN edit a supported client's config with a backup: `zfx-vpn client c
 
 ## Hosted gateway
 
+Built and tested; ZeroFlux does not serve it publicly yet. It is in private beta: request access at [zeroflux.network/#beta](https://zeroflux.network/#beta), or run it yourself:
+
 ```sh
 ZFX_HOSTED_ADMIN_TOKEN=<32+ chars> zfx-vpn-hosted serve --listen 0.0.0.0:8800 --admin-listen 127.0.0.1:8801 --data /var/lib/zfx-vpn-hosted --models-dir <dir with gliner-pii-base/>
 ```

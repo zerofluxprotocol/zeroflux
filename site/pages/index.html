@@ -8,8 +8,8 @@
     <h1 class="h1">ZeroFlux is the economic layer for <span class="em">AI compute.</span></h1>
     <p class="lede">Earn from idle hardware. Build privately with AI. Trade AI demand.</p>
     <div class="btns">
-      <a href="/earn#run" class="btn btn-white"><svg class="mk-logo" width="24" height="16" viewBox="0 0 869 572" aria-hidden="true"><use href="#zf-logo"/></svg>Start Mining</a>
-      <a href="#products" class="btn btn-line">Explore the products</a>
+      <a href="#mine" class="btn btn-white"><svg class="mk-logo" width="24" height="16" viewBox="0 0 869 572" aria-hidden="true"><use href="#zf-logo"/></svg>Start Mining</a>
+      <a href="/trade/" class="btn btn-line">View the markets</a>
     </div>
   </div>
 </section>
@@ -19,25 +19,25 @@
   <div class="eyebrow">Three products, one network</div>
   <h2 class="h2" style="margin-top: 18px; max-width: 900px">Earn, build and trade on NEAR.</h2>
   <div class="pcards">
-    <a class="pcard pcard-lead" href="/earn">
+    <a class="pcard pcard-lead" href="#earn">
       <div class="ptag">Earn</div>
       <h3>ZFX Mining</h3>
       <p class="small">Turn idle GPU and CPU time into ZFX. The proof of work is the integer matrix math AI chips run fastest, and NEAR referees every block.</p>
       <div class="pstat"><span class="dot"></span>Live on NEAR testnet</div>
       <span class="pgo">Start mining</span>
     </a>
-    <a class="pcard" href="/build">
+    <a class="pcard" href="#build">
       <div class="ptag">Build</div>
       <h3>ZFX VPN</h3>
-      <p class="small">A private AI endpoint for the models you already use. Keep your users' data out of model prompts, and keep your own coding-agent sessions private.</p>
-      <div class="pstat"><span class="dot"></span>{BUILD_STATUS}</div>
+      <p class="small">A private AI endpoint for the models you already use. Your users' data and your own coding sessions stay out of model prompts.</p>
+      <div class="pstat"><span class="dot"></span>Local app for macOS</div>
       <span class="pgo">Build privately</span>
     </a>
-    <a class="pcard" href="/trade">
+    <a class="pcard" href="#trade">
       <div class="ptag">Trade</div>
       <h3>ZFX Markets</h3>
-      <p class="small">A daily index of AI model demand built from public OpenRouter usage data, and perpetuals on it that clear on NEAR.</p>
-      <div class="pstat"><span class="dot"></span>{TRADE_STATUS}</div>
+      <p class="small">A daily index of what every popular AI model is worth to its users, published on NEAR. Perpetuals on it are next.</p>
+      <div class="pstat"><span class="dot"></span>Index live · trading in private beta</div>
       <span class="pgo">See the markets</span>
     </a>
   </div>
@@ -55,7 +55,7 @@
         <div><div class="t"><span class="sw zf"></span>ZeroFlux</div><p class="small">Use available GPU capacity to perform proof-of-work computations and compete for ZFX mining rewards.</p></div>
       </div>
       <p class="small" style="margin-top: 20px"><span class="strong">Live on NEAR testnet.</span> Mine real blocks at <a class="link" href="https://testnet.nearblocks.io/address/zfx.zeroflux.testnet" target="_blank" rel="noopener">zfx.zeroflux.testnet</a> with a free faucet account.</p>
-      <div class="pbtns"><a href="/earn#run" class="btn btn-white"><svg class="mk-logo" width="24" height="16" viewBox="0 0 869 572" aria-hidden="true"><use href="#zf-logo"/></svg>Start Mining</a><a href="/earn" class="btn btn-line">How mining works</a></div>
+      <div class="pbtns"><a href="#mine" class="btn btn-white"><svg class="mk-logo" width="24" height="16" viewBox="0 0 869 572" aria-hidden="true"><use href="#zf-logo"/></svg>Start Mining</a><a href="/docs/architecture" class="btn btn-line">How it works</a></div>
     </div>
     <div class="chart">
       <div class="chart-head">
@@ -70,20 +70,100 @@
 </section>
 
 
+<!-- TECHNOLOGY -->
+<section class="block wrap" id="tech">
+  <div class="eyebrow">The technology</div>
+  <h2 class="h2" style="margin-top: 18px; max-width: 900px">Proof of work, reimagined for the AI era.</h2>
+  <div class="split" style="margin-top: 56px">
+    <div>
+      <div class="vs-row"><span class="tag">BEFORE</span><span class="val off">Cryptographic hashing</span></div>
+      <div class="vs-row"><span class="tag on">ZEROFLUX</span><span class="val">Matrix computation on AI accelerators</span></div>
+    </div>
+    <p class="body">Each mining attempt runs a 64 → 4096 → 4096 → 4096 → 4096 → 256 network of integer matrix layers, about 51.6 million multiply-adds, then hashes the output. Miners batch thousands of attempts into ordinary GEMMs on int8 or FP8 tensor cores. Every value is a small integer, so int8, FP8, Metal and CPU arithmetic all produce the identical result, bit for bit.</p>
+  </div>
+  <div class="tcards">
+    <div class="tcard"><span class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg></span><h3>Matrix-native</h3><p class="small">Computational work centered on matrix operations, rather than conventional hash-only mining.</p></div>
+    <div class="tcard"><span class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span><h3>Hardware-accelerated</h3><p class="small">Runs on NVIDIA and AMD tensor cores through cuBLAS and hipBLASLt, and on Apple Silicon GPUs through MLX and Metal.</p></div>
+    <div class="tcard"><span class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span><h3>Independently verifiable</h3><p class="small">Anyone can recheck a block on a CPU in milliseconds. To prove a bad block wrong, you name one value and NEAR recomputes just that value.</p></div>
+  </div>
+  <a href="/docs/consensus.html" class="link" style="margin-top: 32px">Read the Proof-of-Work Specification<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+</section>
+
+<!-- MINING -->
+<section class="paper" id="mining">
+  <div class="wrap">
+    <div class="split" style="align-items: flex-end">
+      <div>
+        <div class="eyebrow">Mining</div>
+        <h2 class="h2">Your GPU is already capable.</h2>
+      </div>
+      <p class="body">Built for the GPUs already deployed across AI infrastructure. No mining ASIC required. Data-center GPUs mine roughly 2,500 to 4,000 times faster than a laptop CPU, by design.</p>
+    </div>
+    <div class="hw">
+      <div><div class="tag">CUDA</div><h3>NVIDIA</h3><p class="small">int8 (cuBLAS) and FP8 (cuBLASLt) paths, both exact.</p><div class="stat">H100 <b>8.08 M</b> attempts/s<br>≈ 86 µJ per attempt</div></div>
+      <div><div class="tag">ROCm</div><h3>AMD</h3><p class="small">int8 (hipBLAS) and FP8 (hipBLASLt) paths, both exact.</p><div class="stat">MI355X <b>13.1 M</b> attempts/s<br>≈ 93 µJ per attempt</div></div>
+      <div><div class="tag">MLX · METAL</div><h3>Apple Silicon</h3><p class="small">GPU mining through MLX or PyTorch MPS.</p><div class="stat">M5 Pro GPU <b>80 K</b> attempts/s<br>24x the same chip's CPU</div></div>
+      <div><div class="tag">REFERENCE</div><h3>Any CPU</h3><p class="small">Rust and C++ miners; watchers recheck blocks on any CPU.</p><div class="stat">M5 Pro, 18 threads <b>3.3 K</b> attempts/s</div></div>
+    </div>
+    <div class="scroll-x"><div class="tscroll"><table class="mtable">
+      <thead><tr><th>Hardware</th><th>Attempts / s</th><th>Real blocks mined</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td>AMD MI355X</td><td class="n">13,124,061</td><td>57 in 120 s, all re-verified by an independent CPU node</td></tr>
+        <tr class="hl"><td>NVIDIA H100 80GB</td><td class="n">8,078,510</td><td>42 in 120 s, all re-verified by an independent CPU node</td></tr>
+        <tr><td>Apple M5 Pro GPU (MLX)</td><td class="n">80,131</td><td>88 in 30 s on an easy local target, re-verified</td></tr>
+        <tr><td>Apple M5 Pro CPU (18 threads)</td><td class="n">3,293</td><td>55 in 25 s on an easy local target, re-verified</td></tr>
+      </tbody>
+    </table></div></div>
+    <p class="note">Measured on the production proof-of-work profile. Every GPU path passed 278 bit-exactness checks against the reference and a worst-case accumulator stress test. We are also developing support for NVIDIA Blackwell (B200, B300), RTX 50 series and RTX PRO 6000, and AMD MI300X.</p>
+    <div class="ctas">
+      <a href="/docs/hardware" class="btn btn-out">Hardware support</a>
+      
+    </div>
+  </div>
+</section>
+
+<!-- RUN -->
+<section class="block wrap" id="mine">
+  <div class="split" style="align-items: flex-end">
+    <div>
+      <div class="eyebrow">Run it yourself</div>
+      <h2 class="h2" style="margin-top: 18px">Mine on testnet in minutes.</h2>
+    </div>
+    <p class="body">Mine real blocks on NEAR testnet with a free faucet account and any GPU or CPU. Each pending block holds a 0.25 NEAR bond until its 10-minute challenge window passes; the faucet gives 10.</p>
+  </div>
+  <div class="cmd">
+    <div class="cmd-head"><span>Mine on NEAR testnet · contract <a href="https://testnet.nearblocks.io/address/zfx.zeroflux.testnet" target="_blank" rel="noopener">zfx.zeroflux.testnet</a></span><button class="copy" type="button" data-copy="q0">Copy</button></div>
+<pre id="q0">git clone https://github.com/zerofluxprotocol/zeroflux &amp;&amp; cd zeroflux &amp;&amp; cargo build --release
+
+<span class="c"># a free testnet account from the official faucet (NEAR CLI: cargo install near-cli-rs)</span>
+near account create-account sponsor-by-faucet-service you.testnet \
+  autogenerate-new-keypair save-to-legacy-keychain network-config testnet create
+
+<span class="c"># mine: cpu, mlx or mps (Apple GPU), cuda or hip. Runs the proxy, a watcher and a finalizer too</span>
+scripts/mine-testnet.sh you.testnet mlx</pre>
+  </div>
+  </section>
+
 <!-- BUILD -->
 <section class="block wrap" id="build">
   <div class="split" style="align-items: flex-start">
     <div style="max-width: 560px">
       <div class="eyebrow">Build · ZFX VPN</div>
       <h2 class="h2" style="margin-top: 18px">A private AI endpoint for the models you already use.</h2>
-      <p class="body" style="margin-top: 24px">ZFX VPN sits between your code and the model. It finds sensitive values in each request, replaces them with placeholders the model never sees, and puts the real values back in the answer. Requests that can't be made safe go to a verified confidential model or are blocked.</p>
-      <div class="pbtns"><a href="/build" class="btn btn-white">Build with ZFX VPN</a><a href="/docs/vpn_threat_model.html" class="btn btn-line">Threat model</a></div>
+      <p class="body" style="margin-top: 24px">ZFX VPN runs on your machine, between your code and the model. It swaps sensitive values for placeholders the model never sees, puts the real values back in the answer, and blocks keys and card numbers outright.</p>
     </div>
     <div class="duo2">
-      <div><div class="t">Protect your app's users</div><p class="small">Point your product's OpenAI-compatible client at ZFX VPN. Your end users' names, emails, account numbers and secrets stay out of model prompts.</p></div>
-      <div><div class="t">Protect your own workflow</div><p class="small">Run it on your machine and point your coding agent at <code>http://127.0.0.1:8787/v1</code>. Keys, customer data and private code stay on your laptop.</p></div>
+      <div><div class="t">Protect your app's users</div><p class="small">Point your product's OpenAI-compatible client at ZFX VPN. Emails, phone numbers, health details and IDs stay out of model prompts; replies come back restored for the right user only.</p></div>
+      <div><div class="t">Protect your own workflow</div><p class="small">Point your coding agent at the local endpoint. Secrets in files it reads are blocked on your machine, and your customers and codenames become placeholders.</p></div>
     </div>
   </div>
+  <div class="cmd">
+    <div class="cmd-head"><span>Install on macOS</span><button class="copy" type="button" data-copy="v1">Copy</button></div>
+<pre id="v1">curl -fsSL https://raw.githubusercontent.com/zerofluxprotocol/zeroflux/main/vpn/install.sh | sh
+zfx-vpn init &amp;&amp; zfx-vpn connect test
+export OPENAI_BASE_URL=http://127.0.0.1:8787/v1</pre>
+  </div>
+  <div class="pbtns"><a href="/docs/vpn" class="btn btn-white">ZFX VPN docs</a><a href="#beta" class="btn btn-line">Join the hosted beta</a></div>
 </section>
 
 <!-- TRADE -->
@@ -93,18 +173,36 @@
       <div class="eyebrow">Trade · ZFX Markets</div>
       <h2 class="h2" style="margin-top: 18px">Trade AI demand.</h2>
     </div>
-    <p class="body">{TRADE_BLURB}</p>
+    <p class="body">Every day, ZFX Markets prices what each popular AI model's users spent on OpenRouter, signs it, and publishes it on NEAR. Markets track the 7-day average, which takes a week of real spending to move.</p>
   </div>
   {TRADE_TABLE}
-  <div class="pbtns"><a href="/trade" class="btn btn-white">Open ZFX Markets</a><a href="/docs/data_method.html" class="btn btn-line">How the index is built</a></div>
+  <div class="pbtns"><a href="/trade/" class="btn btn-white">Open ZFX Markets</a><a href="/docs/data_method" class="btn btn-line">How the index is built</a></div>
 </section>
 
-<!-- ROADMAP -->
-<section class="block wrap" id="next">
-  <div class="eyebrow">Next</div>
-  <div class="rmap">
-    <div><div class="t">ZFX Sandboxes</div><p class="small">Attested CPU and GPU execution environments, rented from the same hardware that mines.</p></div>
-    <div><div class="t">ZPU inference</div><p class="small">Serve open models on enrolled machines, alongside or instead of mining, whichever pays more.</p></div>
+<!-- BETA -->
+<section class="block wrap" id="beta">
+  <div class="split" style="align-items: flex-start">
+    <div style="max-width: 520px">
+      <div class="eyebrow">Private beta</div>
+      <h2 class="h2" style="margin-top: 18px">Built. Opening in waves.</h2>
+      <p class="body" style="margin-top: 24px">These are built and tested, and we are letting people in a few at a time. Tell us what you want to try.</p>
+    </div>
+    <form class="beta" id="betaForm" novalidate>
+      <fieldset>
+        <legend class="sr">Products</legend>
+        <label class="opt"><input type="checkbox" name="products" value="hosted-vpn"><span><b>Hosted ZFX VPN</b>An OpenAI-compatible privacy endpoint we run for you</span></label>
+        <label class="opt"><input type="checkbox" name="products" value="trading"><span><b>Trading on ZFX Markets</b>Perpetuals on the model index, cleared on NEAR</span></label>
+        <label class="opt"><input type="checkbox" name="products" value="sandboxes"><span><b>ZFX Sandboxes</b>Attested CPU and GPU environments on mining hardware</span></label>
+        <label class="opt"><input type="checkbox" name="products" value="zpu"><span><b>ZPU inference</b>Serve open models on enrolled machines</span></label>
+      </fieldset>
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="brow2">
+        <input type="email" name="email" placeholder="you@company.com" autocomplete="email" required aria-label="Email">
+        <button type="submit" class="btn btn-white">Request access</button>
+      </div>
+      <input type="text" name="note" maxlength="500" placeholder="What would you use it for? (optional)" aria-label="Note">
+      <p class="bmsg" id="betaMsg" role="status" aria-live="polite"></p>
+    </form>
   </div>
 </section>
 
@@ -112,7 +210,7 @@
 <section class="final wrap center">
   <h2 class="h1">Put your compute <span class="em">to work.</span></h2>
   <div class="btns" style="justify-content: center; margin-top: 40px">
-    <a href="/earn#run" class="btn btn-white"><svg class="mk-logo" width="24" height="16" viewBox="0 0 869 572" aria-hidden="true"><use href="#zf-logo"/></svg>Start Mining</a>
+    <a href="#mine" class="btn btn-white"><svg class="mk-logo" width="24" height="16" viewBox="0 0 869 572" aria-hidden="true"><use href="#zf-logo"/></svg>Start Mining</a>
     <a href="/docs/" class="btn btn-line">Read the docs</a>
   </div>
 </section>

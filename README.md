@@ -12,8 +12,8 @@
 | | Product | What it is | State |
 |---|---|---|---|
 | **Earn** | [ZFX Mining](#earn-zfx-mining) | Proof of work made of the integer matrix math AI chips run fastest. ZFX is a NEAR token minted only for mined blocks; NEAR referees every block | Live on NEAR testnet at `zfx.zeroflux.testnet` |
-| **Build** | [ZFX VPN](vpn/README.md) | A private AI endpoint for the models you already use: keeps your users' data and your own coding-agent sessions out of model prompts | Local app (macOS); hosted gateway built, not hosted publicly |
-| **Trade** | [ZFX Markets](markets/README.md) | A daily index of AI model demand from OpenRouter usage, and perpetuals on it that clear on NEAR | Index published daily; perps on NEAR testnet, paper only |
+| **Build** | [ZFX VPN](vpn/README.md) | A private AI endpoint for the models you already use: keeps your users' data and your own coding-agent sessions out of model prompts | Local app (macOS). The hosted gateway is built and in [private beta](https://zeroflux.network/#beta) |
+| **Trade** | [ZFX Markets](markets/README.md) | A daily index of AI model demand from OpenRouter usage, and perpetuals on it that clear on NEAR | Daily index and on-chain oracle live; perps deployed on NEAR testnet, trading in [private beta](https://zeroflux.network/#beta) |
 
 Site: [zeroflux.network](https://zeroflux.network). Docs: [zeroflux.network/docs](https://zeroflux.network/docs/) (every page also as Markdown; [llms.txt](https://zeroflux.network/llms.txt)).
 
@@ -23,7 +23,7 @@ TESTNET ONLY      MAINNET_READY = false      no monetary value      no real-mone
 
 ### At a glance
 
-- **Three products, all running.** Mining is live on NEAR testnet; the VPN installs with one command; the markets index updates every day and its traded series is pushed to an on-chain oracle.
+- **Three products, all built.** Mining is live on NEAR testnet; the VPN installs with one command; the markets index updates every day and is pushed to an on-chain oracle. The hosted VPN, trading and Sandboxes are in [private beta](https://zeroflux.network/#beta).
 - **Proof of work for AI hardware.** One attempt is 51.6 million integer multiply-adds. Measured: NVIDIA H100 8.08 M attempts/s, AMD MI355X 13.1 M/s, Apple M5 Pro GPU 80 K/s vs 3.3 K/s on its CPU. Bit-exact across Rust, C++, CUDA, HIP, NumPy, MLX and MPS.
 - **NEAR checks blocks without redoing them.** A block costs about 6 Tgas to submit; a fraud proof recomputes one value for about 4.5 Tgas and takes the cheater's bond. On testnet: [47 blocks finalized, 2,350 ZFX minted](https://testnet.nearblocks.io/address/zfx.zeroflux.testnet).
 - **Privacy you can check.** ZFX VPN's tests record the exact bytes that reach the model provider and assert that no critical value, and no placeholder map, ever does (206 tests).
