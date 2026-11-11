@@ -36,7 +36,7 @@ Parameters and stress results: `../../docs/MARKET_RISK.md`. Testnet accounts and
 ## Quick start (local chain)
 
 Requirements: Rust (pinned by `rust-toolchain.toml`), `cargo-near`, a `near-sandbox` binary
-(`NEAR_SANDBOX_BIN`, default `~/.local/share/basis-amm/near-sandbox`), Node 22 and pnpm.
+(`scripts/install-near-sandbox.sh` at the repository root, or set `NEAR_SANDBOX_BIN`), Node 22 and pnpm.
 
 ```sh
 scripts/build-contracts.sh                                   # out/zfx_perps_clearing.wasm, mock_ft.wasm

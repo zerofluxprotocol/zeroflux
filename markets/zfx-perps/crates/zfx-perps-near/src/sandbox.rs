@@ -1,8 +1,8 @@
 //! Start a local nearcore sandbox node.
 //!
-//! Binary: `$NEAR_SANDBOX_BIN`, else `~/.local/share/basis-amm/near-sandbox` (installed by
-//! basis-amm's `infra/local-dev/install-sandbox.sh`). On macOS, `DYLD_LIBRARY_PATH` is pointed at
-//! the self-built liblzma next to it if present.
+//! Binary: `$NEAR_SANDBOX_BIN`, else `~/.local/share/zeroflux/near-sandbox`, installed by
+//! `scripts/install-near-sandbox.sh` at the repository root. On macOS, `DYLD_LIBRARY_PATH` is
+//! pointed at the self-built liblzma next to it if present.
 
 use crate::Actor;
 use anyhow::{Context, Result, bail};
@@ -18,9 +18,15 @@ pub struct Sandbox {
 }
 
 fn tools() -> PathBuf {
-    std::env::var("ZFX_PERPS_TOOLS")
-        .map(PathBuf::from)
-        .unwrap_or_else(|_| PathBuf::from(std::env::var("HOME").unwrap_or_default()).join(".local/share/basis-amm"))
+    if let Ok(t) = std::env::var("ZFX_PERPS_TOOLS") {
+        return PathBuf::from(t);
+    }
+    let home = PathBuf::from(std::env::var("HOME").unwrap_or_default());
+    // the repository's installer; an older shared tools directory is still accepted
+    [home.join(".local/share/zeroflux"), home.join(".local/share/basis-amm")]
+        .into_iter()
+        .find(|d| d.join("near-sandbox").exists())
+        .unwrap_or_else(|| home.join(".local/share/zeroflux"))
 }
 
 pub fn binary() -> Result<PathBuf> {
@@ -28,7 +34,7 @@ pub fn binary() -> Result<PathBuf> {
         .map(PathBuf::from)
         .unwrap_or_else(|_| tools().join("near-sandbox"));
     if !p.exists() {
-        bail!("near-sandbox not found at {} (set NEAR_SANDBOX_BIN)", p.display());
+        bail!("near-sandbox not found at {} (run scripts/install-near-sandbox.sh, or set NEAR_SANDBOX_BIN)", p.display());
     }
     Ok(p)
 }

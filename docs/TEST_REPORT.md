@@ -8,7 +8,7 @@ The authoritative, regenerated matrix is `ACCEPTANCE_REPORT.md` (per step: comma
 
 | test | result |
 |---|---|
-| `tests/e2e/near_opt_mining.py`: mining with the production proof of work, checked optimistically | 6/6: honest blocks never challenged; cheaters caught at layer 0, a hidden layer and the outputs; descendants reverted with bonds refunded; false challenge rejected; only honest blocks mint |
+| `tests/e2e/near_opt_mining.py`: mining with the production proof of work, checked optimistically | 7/7: a bond below a pending block's storage cost is refused; honest blocks never challenged; cheaters caught at layer 0, a hidden layer and the outputs; descendants reverted with bonds refunded; false challenge rejected; only honest blocks mint |
 | `tests/e2e/near_intents.py`: ZFX on NEAR Intents | 5/5: mined ZFX deposited into the official Verifier and swapped both ways; supply fully accounted for |
 | `tests/e2e/near_mining.py`, `near_light_client.py`: alternatives on NEAR | 8/8, 6/6 |
 | `make localnet` quickstart, run by hand | 32 blocks mined in 45 s; the watcher validated all 32; minted supply equals finalized blocks |
@@ -27,7 +27,7 @@ ZFX_GPU_RUNNER=/path/to/runner make gpu-test   # optional: rents ephemeral GPU m
 
 | target | result | content |
 |---|---|---|
-| `make check` | PASS 21/21 | rustfmt, clippy `-D warnings` (2 workspaces), 78 unit tests, 3 WASM builds, golden vectors in Rust, C++, NumPy, MLX (Metal), PyTorch MPS, GPU device compile (5 targets), pyflakes, explorer typecheck, NEP-413 conformance |
+| `make check` | PASS 26/26 | rustfmt, clippy `-D warnings` (2 workspaces), workspace unit tests, 6 WASM builds, golden vectors in Rust, C++, NumPy, MLX (Metal), PyTorch MPS, GPU device compile (5 targets), pyflakes, explorer typecheck, NEP-413 conformance |
 | `make e2e-native` | PASS 2/2 | 18/18 network checks at 1,033 blocks on 3 nodes (dev PoW profile); contract API 48/48 cases against a live node |
 | `make e2e-bridge` | PASS 3/3 | 10/10 (100 two-way transfers under fault injection, exact reconciliation, per-user conservation); reorg 3/3; governance and recovery 8/8 |
 | `make e2e-intents` | PASS 1/1 | 11/11 on the official Verifier defuse/v0.4.2 |

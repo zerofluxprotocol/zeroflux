@@ -4,8 +4,8 @@
 #
 #   scripts/dev.sh            # state in data/dev (wiped on start)
 #
-# Needs: Rust toolchain, cargo-near, a near-sandbox binary (NEAR_SANDBOX_BIN or
-# ~/.local/share/basis-amm/near-sandbox).
+# Needs: Rust toolchain, cargo-near, a near-sandbox binary (NEAR_SANDBOX_BIN, or
+# scripts/install-near-sandbox.sh at the repository root).
 set -euo pipefail
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 cd "$(dirname "$0")/.."

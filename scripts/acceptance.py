@@ -135,7 +135,7 @@ def build():
                        "one_command_env": "make localnet", "schemas": "schemas/zfx-node-rpc-v1.json"},
                       ["container images not built: Docker is not installed on this host",
                        "release artifacts unsigned: no owner release key exists",
-                       "no live public testnet explorer/API: not authorized and no testnet deployment"]))
+                       "no explorer of our own: the contracts are live on NEAR testnet and readable through any NEAR explorer (see AGENTS.md)"]))
 
     gates.append(gate(8, "truthful readiness", "PASS", {"MAINNET_READY": MAINNET_READY, "tracked_in": "docs/RELEASE_READINESS.md"},
                       ["independent cryptanalysis of the PoW hardness assumption", "external security audit (node, P2P, wZFX, relayers)",
@@ -178,7 +178,7 @@ def markdown(r):
 def main():
     if os.environ.get("ZFX_ACCEPT_REUSE") != "1":
         for k in TARGETS:
-            subprocess.run([PY if os.path.exists(PY) else sys.executable, os.path.join(ROOT, "scripts", "gates.py"), k], cwd=ROOT)
+            subprocess.run([PY if os.path.exists(PY) else sys.executable, os.path.join(ROOT, "scripts", "gates.py"), k, "--record"], cwd=ROOT)
     r = build()
     home = os.path.expanduser("~")
     clean = lambda t: t.replace(ROOT + "/", "").replace(ROOT, ".").replace(home, "~")  # noqa: E731

@@ -6,8 +6,9 @@
 
 Each step runs as a subprocess from the repo root. The runner records its
 command, exit code, duration and the tail of its output in
-bench/results/gates/TARGET.json (full output under bench/results/gates/logs/,
-gitignored). Step kinds:
+bench/results/gates/local/TARGET.json (gitignored; full output under
+bench/results/gates/logs/). With --record it writes the committed evidence file
+bench/results/gates/TARGET.json instead. Step kinds:
 
   required   must pass; any failure makes the target exit 1
   external   needs hardware/credentials this host may lack; when unavailable
@@ -100,20 +101,20 @@ TARGETS = {
         step("wasm-build-zfx-mine", "cd bridge/near/zfx-mine && cargo near build non-reproducible-wasm --no-abi"),
         step("wasm-build-zfx-light", "cd bridge/near/zfx-light && cargo near build non-reproducible-wasm --no-abi"),
         step("wasm-build-zfx-mine-opt", "cd bridge/near/zfx-mine-opt && cargo near build non-reproducible-wasm --no-abi"),
-        step("vectors-near-profile-cpp", "./miner/cuda/build/zpu-miner selftest tests/vectors/near_v1.json"),
         step("vectors-near-profile-numpy", f"{PY} miner/python/zpu_miner.py selftest tests/vectors/near_v1.json --backend numpy"),
         step("build-release", "cargo build --release -q"),
         step("vectors-rust", "./target/release/zpu-cli selftest"),
         step("vectors-consensus-v2", "cargo test --release -q -p zfx-verify --test consensus_v2"),
         step("cpp-build", "make -C miner/cuda cpu -s"),
         step("vectors-cpp", f"./miner/cuda/build/zpu-miner selftest {VEC}"),
+        step("vectors-near-profile-cpp", "./miner/cuda/build/zpu-miner selftest tests/vectors/near_v1.json"),
         step("vectors-python-numpy", f"{PY} miner/python/zpu_miner.py selftest {VEC} --backend numpy"),
         step("stress-python-numpy", f"{PY} miner/python/zpu_miner.py stress --backend numpy"),
         step("vectors-mlx-metal", f"{PY} miner/python/zpu_miner.py selftest {VEC} --backend mlx", "external", mlx),
         step("vectors-torch-mps", f"{PY} miner/python/zpu_miner.py selftest {VEC} --backend torch --device mps", "external", mps),
         step("gpu-device-compile", f"CLANG='{PY} -m ziglang clang' bench/compile/device_check.sh", "external", zig),
         step("python-lint", "uvx pyflakes tests/e2e deploy/localnet.py testnet/zfxnet.py scripts bridge/intents/zfx_intents miner/python bench/gpu"),
-        step("explorer-typecheck", "cd explorer && npx --no-install tsc -p . --noEmit"),
+        step("explorer-typecheck", "cd explorer && (test -d node_modules || npm ci --no-audit --no-fund --silent) && npx --no-install tsc -p . --noEmit"),
         step("intents-nep413-conformance", "cargo test --release -q -p zfx-bridge --test nep413_conformance"),
     ],
     "e2e-native": [
@@ -208,12 +209,18 @@ def run_target(target):
     rep["failed"] = failed
     # Evidence is committed: keep machine-specific paths out of it.
     text = json.dumps(rep, indent=2).replace(ROOT + "/", "").replace(ROOT, ".").replace(os.path.expanduser("~"), "~")
-    open(os.path.join(OUTDIR, f"{target}.json"), "w").write(text)
-    print(f"{target}: {rep['result']} {rep['counts']}")
+    out = os.path.join(OUTDIR, f"{target}.json") if RECORD else os.path.join(OUTDIR, "local", f"{target}.json")
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    open(out, "w").write(text)
+    print(f"{target}: {rep['result']} {rep['counts']}  ({os.path.relpath(out, ROOT)})")
     return 1 if failed else 0
 
 
+RECORD = False
+
 if __name__ == "__main__":
-    if len(sys.argv) != 2 or sys.argv[1] not in TARGETS:
-        sys.exit(f"usage: gates.py {{{','.join(TARGETS)}}}")
-    sys.exit(run_target(sys.argv[1]))
+    args = [a for a in sys.argv[1:] if a != "--record"]
+    RECORD = "--record" in sys.argv[1:]
+    if len(args) != 1 or args[0] not in TARGETS:
+        sys.exit(f"usage: gates.py {{{','.join(TARGETS)}}} [--record]")
+    sys.exit(run_target(args[0]))

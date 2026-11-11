@@ -359,7 +359,7 @@
       "blocked_external": [
         "container images not built: Docker is not installed on this host",
         "release artifacts unsigned: no owner release key exists",
-        "no live public testnet explorer/API: not authorized and no testnet deployment"
+        "no explorer of our own: the contracts are live on NEAR testnet and readable through any NEAR explorer (see AGENTS.md)"
       ]
     },
     {

@@ -1,0 +1,40 @@
+{
+  "what": "A deliberate fraudulent block on public NEAR testnet, caught by an independent watcher with a one-value fraud proof",
+  "contract": "zfx.zeroflux.testnet",
+  "network": "testnet",
+  "date": "2026-11-11",
+  "cheater": "cheater-demo.zeroflux.testnet",
+  "watcher": "watcher-demo.zeroflux.testnet",
+  "cheat": {
+    "tool": "zfx-bridge near-opt-cheat",
+    "height": "48",
+    "tx": "CJxJJY7ybZyeDiEwhteGddPt3wpS49VVB4vhKjcXG6LH",
+    "gas_tgas": 6.273,
+    "grind_iterations": 49870,
+    "note": "output hash ground below the target with no matrix work; the trace is fabricated"
+  },
+  "challenge": {
+    "tool": "zfx-bridge near-opt-watch",
+    "tx": "AnAydzbXabjBT2Vd7MjYvYWrAC2zgSV3vjUy6W3Cshhb",
+    "layer": 0,
+    "row": 0,
+    "claimed": 1,
+    "correct": 14,
+    "gas_tgas": 3.94,
+    "contract_check_tgas": 0.1,
+    "slashed_bond_yocto": "1000000000000000000000000",
+    "reverted_descendants": []
+  },
+  "after": {
+    "final_height": 47,
+    "head_height": 47,
+    "frauds": 1,
+    "total_supply": "235000000000",
+    "expected_supply": "235000000000"
+  },
+  "balances_near_after": {
+    "cheater": 0.699,
+    "watcher": 1.5
+  },
+  "check": "scripts/view-testnet.sh zfx.zeroflux.testnet stats '{}'  ->  frauds 1, head_height 47, total_supply 235000000000"
+}

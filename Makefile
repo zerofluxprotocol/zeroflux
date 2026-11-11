@@ -1,10 +1,11 @@
 # ZeroFlux one-command targets. Each target runs scripts/gates.py, which
-# records every step in bench/results/gates/<target>.json and exits non-zero
+# records every step in bench/results/gates/local/<target>.json (RECORD=1: the
+# committed bench/results/gates/<target>.json) and exits non-zero
 # if any required step fails. Missing hardware or credentials are recorded as
 # BLOCKED external steps with the exact reason (ZFX_REQUIRE_EXTERNAL=1 makes
 # them fail the target instead).
 PY := $(shell [ -x .venv/bin/python ] && echo .venv/bin/python || echo python3)
-GATES := $(PY) scripts/gates.py
+GATES := $(PY) scripts/gates.py $(if $(RECORD),--record,)
 
 .PHONY: check e2e-native e2e-bridge e2e-intents e2e-near localnet-bridge security-test gpu-test testnet-smoke acceptance localnet localnet-down
 

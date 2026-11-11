@@ -12,7 +12,7 @@ What existed on the owner's machine when the launch work started (2026-11-10), w
 | `~/basis-amm` | Basis-AMM: GMX-style leveraged positions against a counterparty vault, no order book | `ab01460` | Not reused. The launch brief rules out its pool-counterparty model for ZFX Markets |
 | `~/numinous-vpn` | A network VPN for a dataset project (Fly.io) | n/a | Unrelated to ZFX VPN; not touched |
 
-The earlier drafts the brief mentions (`ZeroFlux_ZFX_Technical_Spec_v0.1.md`, `ZeroFlux_Track_A_B_Implementation_Spec.md`, `Basis_AMM_Engineering_Spec_v0.1.md`, `Prompt_VPN_Engineering_Spec_v1.md`) are not on this machine. Prompt VPN's current spec is `vpn/docs/spec-v1.4.md`; the code and its tests were treated as the source of truth.
+Earlier draft specs are not part of this repository. ZFX VPN's current spec is `vpn/docs/spec-v1.4.md`; where a draft and the code differ, the code and its tests were treated as the source of truth.
 
 ## Decisions on conflicts in the brief
 

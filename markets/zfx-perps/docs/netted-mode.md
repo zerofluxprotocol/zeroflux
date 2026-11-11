@@ -34,7 +34,7 @@ browser apps (trading keys, signed orders, live feeds, wallet transactions).
 ## Quick start
 
 Requirements: Rust (pinned by `rust-toolchain.toml`), [cargo-near](https://github.com/near/cargo-near),
-and a `near-sandbox` binary (`NEAR_SANDBOX_BIN`, default `~/.local/share/basis-amm/near-sandbox`).
+and a `near-sandbox` binary (`scripts/install-near-sandbox.sh` at the repository root, or set `NEAR_SANDBOX_BIN`).
 
 ```sh
 scripts/build-contracts.sh   # contracts -> out/*.wasm

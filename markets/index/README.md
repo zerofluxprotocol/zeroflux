@@ -77,7 +77,7 @@ dataset indices (`or-model-spend-lic`, `or-model-spend-lic-7d`) are built from t
 ```sh
 # contract (own workspace); unit tests, wasm build
 (cd contracts && cargo test && cd zfx-oracle && cargo near build non-reproducible-wasm --no-abi)
-# sandbox test: deploy, attacks, gas and storage measurement (needs ~/.local/share/basis-amm/near-sandbox)
+# sandbox test: deploy, attacks, gas and storage measurement (needs near-sandbox: scripts/install-near-sandbox.sh)
 cargo test -p zfx-oracle-near --test sandbox -- --nocapture
 N=./target/release/zfx-oracle-near
 $N create-account --parent zeroflux.testnet --parent-key-file ~/.near-credentials/testnet/zeroflux.testnet.json \
