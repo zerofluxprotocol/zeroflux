@@ -309,9 +309,9 @@
     var vals = pts.map(function (p) { return p.v; }).filter(function (v) { return v != null; });
     if (!vals.length) { $('#readout').textContent = ''; return; }
     var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), r = hi - lo || hi || 1;
-    hi += r * 0.12; lo = S.series === 'daily' ? 0 : Math.max(0, lo - r * 0.35);
+    hi += r * 0.12; lo = Math.max(0, lo - r * 0.35);
     var padR = 84, padB = 30, padT = 36, pw = W - padR, ph = H - padB - padT, cw = pw / Math.max(1, pts.length);
-    var X = function (i) { return S.series === 'daily' ? i * cw + cw / 2 : (pts.length < 2 ? pw / 2 : i * pw / (pts.length - 1)); };
+    var X = function (i) { return pts.length < 2 ? pw / 2 : i * pw / (pts.length - 1); };
     var Y = function (v) { return padT + (hi - v) / (hi - lo) * ph; };
     var up = C('--long');
     ctx.font = '400 11px "JetBrains Mono", ui-monospace, monospace'; ctx.textBaseline = 'middle';
@@ -320,30 +320,15 @@
     ctx.textAlign = 'center'; var lastX = -1e9;
     pts.forEach(function (p, i) { if (X(i) - lastX > 72 && X(i) > 30 && X(i) < pw - 24) { ctx.fillStyle = C('--faint'); ctx.fillText(dLabel(p.k), X(i), H - padB / 2); lastX = X(i); } });
     var hv = S.hover >= 0 && S.hover < pts.length ? S.hover : -1;
-    if (S.series === 'daily') {
-      var bw = Math.max(2, Math.min(26, cw * 0.62));
-      pts.forEach(function (p, i) {
-        if (p.v == null) return;
-        ctx.globalAlpha = hv < 0 || hv === i ? 0.9 : 0.45; ctx.fillStyle = up;
-        ctx.beginPath(); var x0 = X(i) - bw / 2, y0 = Y(p.v), hgt = padT + ph - y0, rr = Math.min(3, bw / 2);
-        ctx.moveTo(x0, y0 + rr); ctx.arcTo(x0, y0, x0 + rr, y0, rr); ctx.lineTo(x0 + bw - rr, y0); ctx.arcTo(x0 + bw, y0, x0 + bw, y0 + rr, rr); ctx.lineTo(x0 + bw, y0 + hgt); ctx.lineTo(x0, y0 + hgt); ctx.closePath(); ctx.fill();
-      });
-      ctx.globalAlpha = 1;
-    } else {
+    {
       var seg = []; pts.forEach(function (p, i) { if (p.v != null) seg.push([X(i), Y(p.v)]); });
-      var path = function () { ctx.moveTo(seg[0][0], seg[0][1]); for (var k = 1; k < seg.length; k++) { var mx = (seg[k - 1][0] + seg[k][0]) / 2; ctx.bezierCurveTo(mx, seg[k - 1][1], mx, seg[k][1], seg[k][0], seg[k][1]); } };
-      var grad = ctx.createLinearGradient(0, padT, 0, padT + ph);
-      grad.addColorStop(0, up); grad.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.beginPath(); path(); ctx.lineTo(seg[seg.length - 1][0], padT + ph); ctx.lineTo(seg[0][0], padT + ph); ctx.closePath();
-      ctx.globalAlpha = 0.22; ctx.fillStyle = grad; ctx.fill(); ctx.globalAlpha = 1;
-      ctx.beginPath(); path(); ctx.strokeStyle = up; ctx.lineWidth = 2.2; ctx.lineJoin = 'round'; ctx.stroke();
-      var lp = seg[seg.length - 1]; ctx.fillStyle = up; ctx.beginPath(); ctx.arc(lp[0], lp[1], 3.5, 0, Math.PI * 2); ctx.fill();
+      lineArea(seg, padT, ph, up);
     }
     var lastV = vals[vals.length - 1], ty = Math.max(padT + 9, Math.min(padT + ph - 9, Y(lastV)));
     ctx.fillStyle = up; ctx.fillRect(pw + 4, ty - 10, padR - 6, 20); ctx.fillStyle = C('--bg'); ctx.textAlign = 'left'; ctx.fillText(usd(lastV), pw + 10, ty);
     if (hv >= 0 && pts[hv].v != null) {
       var hx = X(hv), hy = Y(pts[hv].v); ctx.strokeStyle = C('--faint'); ctx.lineWidth = 1; ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.moveTo(hx, padT); ctx.lineTo(hx, padT + ph); ctx.stroke(); ctx.setLineDash([]);
-      if (S.series !== 'daily') { ctx.fillStyle = C('--bg'); ctx.beginPath(); ctx.arc(hx, hy, 5, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = up; ctx.lineWidth = 2; ctx.stroke(); }
+      hoverDot(hx, hy, C('--bg'), up);
     }
     var h = pts[hv >= 0 ? hv : pts.length - 1], parts = ['<span>' + esc(dLabel(h.k)) + ' UTC</span>'];
     if (h.w != null) parts.push('<span>7-day index <b>' + usd(h.w) + '</b></span>');
@@ -353,24 +338,37 @@
     if (px && (px.p_out_usd_per_m || px.listed_out_usd_per_m)) parts.push('<span>Out <b>$' + Number(px.p_out_usd_per_m || px.listed_out_usd_per_m).toFixed(2) + '/M</b></span>');
     $('#readout').innerHTML = parts.join('');
     cv.setAttribute('aria-label', m.name + ' 7-day index ' + usd(m.idx7) + ' per day');
-    G = { cw: S.series === 'daily' ? cw : pw / Math.max(1, pts.length - 1), pw: pw, n: pts.length, line: S.series !== 'daily' };
+    G = { cw: pw / Math.max(1, pts.length - 1), pw: pw, n: pts.length, line: true };
   }
+  /* Smooth line with a fading area under it; every chart series uses it. */
+  function lineArea(seg, padT, ph, col) {
+    if (!seg.length) return;
+    var path = function () { ctx.moveTo(seg[0][0], seg[0][1]); for (var k = 1; k < seg.length; k++) { var mx = (seg[k - 1][0] + seg[k][0]) / 2; ctx.bezierCurveTo(mx, seg[k - 1][1], mx, seg[k][1], seg[k][0], seg[k][1]); } };
+    var grad = ctx.createLinearGradient(0, padT, 0, padT + ph);
+    grad.addColorStop(0, col); grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.beginPath(); path(); ctx.lineTo(seg[seg.length - 1][0], padT + ph); ctx.lineTo(seg[0][0], padT + ph); ctx.closePath();
+    ctx.globalAlpha = 0.22; ctx.fillStyle = grad; ctx.fill(); ctx.globalAlpha = 1;
+    ctx.beginPath(); path(); ctx.strokeStyle = col; ctx.lineWidth = 2.2; ctx.lineJoin = 'round'; ctx.stroke();
+    var lp = seg[seg.length - 1]; ctx.fillStyle = col; ctx.beginPath(); ctx.arc(lp[0], lp[1], 3.5, 0, Math.PI * 2); ctx.fill();
+  }
+  function hoverDot(x, y, bg, col) { ctx.fillStyle = bg; ctx.beginPath(); ctx.arc(x, y, 5, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.stroke(); }
   function drawUsage(m, W, H, C) {
     var u = (USAGE[m.slug] || []).slice(-S.range);
     if (!u.length) { $('#readout').textContent = 'Not in the documented top-50 dataset on any day.'; return; }
     var vals = u.map(function (p) { return p[1]; }), hi = Math.max.apply(null, vals) * 1.08, lo = 0;
-    var padR = 76, padB = 24, padT = 24, pw = W - padR, ph = H - padB - padT, cw = pw / u.length;
-    var X = function (i) { return i * cw + cw / 2; }, Y = function (v) { return padT + (hi - v) / (hi - lo) * ph; };
+    var padR = 76, padB = 24, padT = 36, pw = W - padR, ph = H - padB - padT, cw = pw / Math.max(1, u.length - 1);
+    var X = function (i) { return u.length < 2 ? pw / 2 : i * cw; }, Y = function (v) { return padT + (hi - v) / (hi - lo) * ph; };
     ctx.font = '400 10.5px "JetBrains Mono", ui-monospace, monospace'; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
     for (var k = 0; k <= 4; k++) { var v = hi * k / 4, yy = Math.round(Y(v)) + 0.5; ctx.strokeStyle = C('--grid'); ctx.beginPath(); ctx.moveTo(0, yy); ctx.lineTo(pw, yy); ctx.stroke(); ctx.fillStyle = C('--faint'); ctx.fillText(tok(v), pw + 8, yy); }
     ctx.textAlign = 'center'; var last = -1e9;
     u.forEach(function (p, i) { if (X(i) - last > 70 && X(i) > 28 && X(i) < pw - 20) { ctx.fillStyle = C('--faint'); ctx.fillText(dLabel(p[0]), X(i), H - padB / 2); last = X(i); } });
-    ctx.fillStyle = C('--long'); ctx.globalAlpha = 0.35;
-    u.forEach(function (p, i) { var bw = Math.max(1, cw * 0.7); ctx.fillRect(X(i) - bw / 2, Y(p[1]), bw, padT + ph - Y(p[1])); });
-    ctx.globalAlpha = 1;
-    var h = S.hover >= 0 && S.hover < u.length ? u[S.hover] : u[u.length - 1];
+    var up = C('--long');
+    lineArea(u.map(function (p, i) { return [X(i), Y(p[1])]; }), padT, ph, up);
+    var hi2 = S.hover >= 0 && S.hover < u.length ? S.hover : -1;
+    if (hi2 >= 0) { var hx = X(hi2); ctx.strokeStyle = C('--faint'); ctx.lineWidth = 1; ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.moveTo(hx, padT); ctx.lineTo(hx, padT + ph); ctx.stroke(); ctx.setLineDash([]); hoverDot(hx, Y(u[hi2][1]), C('--bg'), up); }
+    var h = u[hi2 >= 0 ? hi2 : u.length - 1];
     $('#readout').innerHTML = '<span>' + esc(dLabel(h[0])) + ' UTC</span><span>Tokens <b>' + tok(h[1]) + '</b></span><span class="fnt">OpenRouter documented dataset · ' + u.length + ' reported days</span>';
-    G = { cw: cw, pw: pw, n: u.length };
+    G = { cw: cw, pw: pw, n: u.length, line: true };
   }
   var box = $('#chartBox');
   box.addEventListener('pointermove', function (e) { if (!G) return; var x = e.clientX - box.getBoundingClientRect().left; S.hover = x < G.pw ? (G.line ? Math.round(x / G.cw) : Math.floor(x / G.cw)) : -1; if (S.hover >= G.n) S.hover = G.n - 1; draw(); });
