@@ -21,6 +21,17 @@ Site: [zeroflux.network](https://zeroflux.network). Docs: [zeroflux.network/docs
 TESTNET ONLY      MAINNET_READY = false      no monetary value      no real-money trading
 ```
 
+### At a glance
+
+- **Three products, all running.** Mining is live on NEAR testnet; the VPN installs with one command; the markets index updates every day and its traded series is pushed to an on-chain oracle.
+- **Proof of work for AI hardware.** One attempt is 51.6 million integer multiply-adds. Measured: NVIDIA H100 8.08 M attempts/s, AMD MI355X 13.1 M/s, Apple M5 Pro GPU 80 K/s vs 3.3 K/s on its CPU. Bit-exact across Rust, C++, CUDA, HIP, NumPy, MLX and MPS.
+- **NEAR checks blocks without redoing them.** A block costs about 6 Tgas to submit; a fraud proof recomputes one value for about 4.5 Tgas and takes the cheater's bond. On testnet: [47 blocks finalized, 2,350 ZFX minted](https://testnet.nearblocks.io/address/zfx.zeroflux.testnet).
+- **Privacy you can check.** ZFX VPN's tests record the exact bytes that reach the model provider and assert that no critical value, and no placeholder map, ever does (206 tests).
+- **A market for AI demand.** 54 models indexed from OpenRouter's documented dataset (history from 2025-01-01), ed25519-signed daily prints, [an on-chain oracle](https://testnet.nearblocks.io/address/oracle.zeroflux.testnet), and [28 perpetual markets](https://testnet.nearblocks.io/address/perps-v2.zeroflux.testnet) whose contract re-verifies both traders' signed orders on every fill. Pushing Claude Opus 5.5's index 1% means buying about $43K of real usage, and open interest is capped below what a push costs.
+- **About 550 automated tests**, plus end-to-end runs on a local NEAR sandbox and on public testnet.
+
+**How it works:** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (diagrams of all three products). **Evaluating this repository?** Start with [AGENTS.md](AGENTS.md): claims, the command that checks each one, and what it should print. A two-minute check needs no build: `scripts/view-testnet.sh zfx.zeroflux.testnet stats '{}'`.
+
 ## Earn: ZFX Mining
 
 ZFX is created only by proof of work, and the work is the computation AI accelerators are built for: batched int8/FP8 matrix multiplies. Miners run it on NVIDIA and AMD data-center GPUs, Apple Silicon or any CPU. NEAR holds the ledger and referees every block: a block is accepted unless someone proves it wrong within a challenge window, and a fraud proof needs NEAR to recompute only one value.

@@ -17,6 +17,8 @@ SITE = os.path.join(ROOT, "site")
 DIST = os.path.join(SITE, "dist")
 
 DOCS = [  # (source, slug, title, one-line summary, group)
+    ("docs/ARCHITECTURE.md", "architecture", "How ZeroFlux works", "All three products and the NEAR contracts, with diagrams", "Start here"),
+    ("AGENTS.md", "evaluate", "Evaluating ZeroFlux", "Each claim, the command that checks it, and what it should print", "Start here"),
     ("docs/NEAR_SETTLEMENT.md", "near_settlement", "How ZeroFlux works on NEAR", "Mining, optimistic checking, fraud proofs, measured gas, security", "Earn: ZFX Mining"),
     ("docs/CONTRACT_API.md", "contract_api", "Contract API", "The ZFX contract's methods, byte layouts, events and errors", "Earn: ZFX Mining"),
     ("docs/INTENTS_INTEGRATION.md", "intents", "NEAR Intents", "ZFX on NEAR Intents, protocol mapping, test solver", "Earn: ZFX Mining"),

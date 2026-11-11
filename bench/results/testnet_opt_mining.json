@@ -20,20 +20,21 @@
   "finalize_calls_ok": 7
  },
  "stats": {
-  "bond": "250000000000000000000000",
-  "expected_supply": "195000000000",
-  "final_height": "39",
-  "frauds": "0",
+  "final_height": "47",
   "head_height": "47",
-  "macs_per_attempt": "51642368",
-  "profile": "zfx-fp8c-v0.1",
-  "reward": "5000000000",
   "target": "000073a99ff58c30a878802ab1f8b0916f3e1a0958795eabbc7e5c5f51a82c3f",
-  "total_supply": "195000000000",
-  "window_ns": "600000000000"
+  "reward": "5000000000",
+  "bond": "250000000000000000000000",
+  "window_ns": "600000000000",
+  "frauds": "0",
+  "total_supply": "235000000000",
+  "expected_supply": "235000000000",
+  "profile": "zfx-fp8c-v0.1",
+  "macs_per_attempt": "51642368"
  },
- "miner1_zfx": "195000000000",
+ "miner1_zfx": "235000000000",
  "notes": [
-  "mine.zeroflux.testnet is retired: it was deployed with a 0.1 NEAR bond, below the storage a pending block uses; the contract now refuses such bonds at init (e2e O7)."
+  "mine.zeroflux.testnet is retired: it was deployed with a 0.1 NEAR bond, below the storage a pending block uses; the contract now refuses such bonds at init (e2e O7).",
+  "2026-11-11: the last 8 pending blocks were finalized (final_height 47 = head_height); supply 2,350 ZFX, all minted to miner1.zeroflux.testnet."
  ]
 }
