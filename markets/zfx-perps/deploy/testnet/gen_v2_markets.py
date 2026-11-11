@@ -41,5 +41,5 @@ for q in m["markets"]:
                  "index_lifecycle": lic.get("lifecycle"), "clamped": lic.get("clamped"), "change_vs_prev": lic.get("change_vs_prev")})
     open(os.path.join(out, mid + ".json"), "w").write(r.stdout)
 rows.sort(key=lambda x: -x["max_open_interest_usd"])
-json.dump({"source": os.path.abspath(models), "generated_at": m["generated_at"], "tradable": rows, "not_tradable": skipped}, open(out.rstrip("/") + ".json", "w"), indent=1)
+json.dump({"source": os.path.abspath(models).replace(os.path.expanduser("~"), "~"), "generated_at": m["generated_at"], "tradable": rows, "not_tradable": skipped}, open(out.rstrip("/") + ".json", "w"), indent=1)
 print(len(rows), "tradable,", len(skipped), "not")
