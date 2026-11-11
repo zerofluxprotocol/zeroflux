@@ -277,6 +277,61 @@ def ticker(slug):
     return base.upper()
 
 
+
+def build_usage_history(tracked):
+    """OpenRouter's documented daily dataset (top 50 models per day + other, CC BY 4.0) from the
+    index ledger: per-model daily tokens since 2025-01-01 for every tracked model, and daily tokens by
+    lab. Written under /v1/datasets/rankings-daily/. Needs the operator's ledger (raw responses are
+    not in the repository); skipped without it."""
+    import json
+    led = os.environ.get("ZFX_INDEX_LEDGER", os.path.expanduser("~/.local/share/zfx-index/ledger"))
+    fp = os.path.join(led, "fetches.jsonl")
+    if not os.path.exists(fp):
+        return 0
+    rows = {}
+    for line in open(fp):
+        f = json.loads(line)
+        if f.get("kind") != "rankings_daily_api" or f.get("status") != 200:
+            continue
+        blob = os.path.join(led, "blobs", f["sha256"][:2], f["sha256"] + ".bin")
+        if not os.path.exists(blob):
+            continue
+        for r in json.load(open(blob)).get("data", []):
+            rows[(r["date"], r["model_permaslug"])] = int(r["total_tokens"])  # later fetches win
+    if not rows:
+        return 0
+    dates = sorted({d for d, _ in rows})
+    out = os.path.join(DIST, "v1", "datasets", "rankings-daily")
+    os.makedirs(os.path.join(out, "models"), exist_ok=True)
+    note = {"source": "OpenRouter documented daily dataset (openrouter.ai/rankings), CC BY 4.0",
+            "definition": "total tokens (prompt + completion) per model per UTC day; only each day's top 50 models are listed, so a missing day means not reported, not zero"}
+    for slug in tracked:
+        pts = [[d, rows[(d, slug)]] for d in dates if (d, slug) in rows]
+        p = os.path.join(out, "models", slug + ".json")
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        json.dump({**note, "model_permaslug": slug, "points": pts}, open(p, "w"), separators=(",", ":"))
+    labs = {}
+    for (d, slug), t in rows.items():
+        lab = slug.split("/", 1)[0] if "/" in slug else "other"
+        labs.setdefault(lab, {})[d] = labs.setdefault(lab, {}).get(d, 0) + t
+    recent = dates[-90:]
+    rank = sorted((l for l in labs if l != "other"), key=lambda l: -sum(labs[l].get(d, 0) for d in recent))
+    keep = rank[:10]
+    series = {l: [labs[l].get(d, 0) for d in dates] for l in keep}
+    series["everything else"] = [sum(labs[l].get(d, 0) for l in labs if l not in keep) for d in dates]
+    json.dump({**note, "dates": dates, "labs": series}, open(os.path.join(out, "labs.json"), "w"), separators=(",", ":"))
+    return len(dates)
+
+PERPS_MARKETS = {}
+_v2 = os.path.join(ROOT, "markets", "zfx-perps", "deploy", "testnet", "v2-markets.json")
+if os.path.exists(_v2):
+    import json as _json
+    _d = _json.load(open(_v2))
+    for _m in (_d.get("tradable") or []):
+        if isinstance(_m, dict) and _m.get("permaslug") and _m.get("market_id"):
+            PERPS_MARKETS[_m["permaslug"]] = _m["market_id"]
+
+
 def build_trade():
     """/trade (the ZFX Markets app), /v1 (the published index as static files) and /trade/board.json."""
     pub = index_public()
@@ -296,9 +351,16 @@ def build_trade():
         # 7D series stays published as a cross-check.
         lic = m.get("licensed") or {}
         l7 = (lic.get("index_7d") or {}).get("latest") or {}
-        ld = lic.get("latest") or {}
+        source = "licensed"
+        if l7.get("data_status") != "OK":
+            # Not in the licensed top 50 every day of the window: show the web-endpoint 7D index,
+            # labeled, so every tracked model has a value (not tradable on that basis).
+            w7 = (m.get("index_7d") or {}).get("latest") or {}
+            if w7.get("data_status") == "OK":
+                l7, source = dict(w7, lifecycle="INDEX_ONLY", reason="web-endpoint index (model not in the licensed top 50 every day)"), "web"
+        ld = (lic.get("latest") or {}) if source == "licensed" else (m.get("latest") or {})
         spark = []
-        sp = os.path.join(pub, "v1", "indices", "or-model-spend-lic-7d", m["permaslug"], "series.json")
+        sp = os.path.join(pub, "v1", "indices", "or-model-spend-lic-7d" if source == "licensed" else "or-model-spend-7d", m["permaslug"], "series.json")
         if os.path.exists(sp):
             pts = json.load(open(sp))["points"][-30:]
             spark = [p["value_usd"] if p.get("data_status") == "OK" else "0" for p in pts]
@@ -306,7 +368,8 @@ def build_trade():
             latest_day = ld["utc_date"]
         name = m.get("name") or m["permaslug"]
         rows.append({
-            "market_id": m["market_id"], "permaslug": m["permaslug"], "ticker": ticker(m["permaslug"]),
+            "market_id": m["market_id"], "permaslug": m["permaslug"], "ticker": ticker(m["permaslug"]), "index_source": source,
+            "perps_market": PERPS_MARKETS.get(m["permaslug"]),
             "name": name.split(": ", 1)[-1], "author": name.split(": ", 1)[0] if ": " in name else m.get("author", ""),
             "open_weights": bool(m.get("hugging_face_id")),
             "index_7d_usd": l7.get("value_usd") if l7.get("data_status") == "OK" else None, "status_7d": l7.get("data_status"),
@@ -321,6 +384,7 @@ def build_trade():
              "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of " + str(models.get("generated_at")),
              "index_note": "Traded index: ZFX-OR licensed 7-day (OpenRouter's documented daily token dataset, CC BY 4.0, and documented listed prices). Not revenue, royalties or equity. Paper trading only.",
              "formula": models.get("formula"), "venue_howto": VENUE_HOWTO, "markets": rows}
+    board["usage_days"] = build_usage_history([r["permaslug"] for r in rows])
     json.dump(board, open(os.path.join(DIST, "trade", "board.json"), "w"), separators=(",", ":"))
     return len(rows)
 

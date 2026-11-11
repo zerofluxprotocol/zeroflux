@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- ZFX Markets index poller: fetches OpenRouter, computes and signs prints, publishes the static tree,
+     pushes the traded index to oracle.zeroflux.testnet. Install: scripts/install-index-services.sh -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>network.zeroflux.index-poller</string>
+  <key>WorkingDirectory</key><string>__HOME__/.local/share/zfx-index</string>
+  <key>ProgramArguments</key>
+  <array><string>__HOME__/.local/share/zfx-index/bin/zfx-index</string><string>poll</string><string>--ledger</string><string>ledger</string><string>--out</string><string>public</string></array>
+  <key>KeepAlive</key><true/>
+  <key>RunAtLoad</key><true/>
+  <key>StandardOutPath</key><string>__HOME__/.local/state/zfx-index/poll.log</string>
+  <key>StandardErrorPath</key><string>__HOME__/.local/state/zfx-index/poll.log</string>
+</dict>
+</plist>

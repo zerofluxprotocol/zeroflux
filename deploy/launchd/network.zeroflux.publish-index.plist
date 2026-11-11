@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Rebuild and deploy zeroflux.network with the latest index. Times are local (the Mac's zone);
+     these run after the new UTC day usually lands (about 00:30 UTC) and again after the 6-hour grace. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>network.zeroflux.publish-index</string>
+  <key>ProgramArguments</key><array><string>__ROOT__/scripts/publish-index.sh</string></array>
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Minute</key><integer>15</integer><key>Hour</key><integer>21</integer></dict>
+    <dict><key>Minute</key><integer>15</integer><key>Hour</key><integer>3</integer></dict>
+  </array>
+  <key>StandardOutPath</key><string>__HOME__/.local/state/zfx-index/publish.log</string>
+  <key>StandardErrorPath</key><string>__HOME__/.local/state/zfx-index/publish.log</string>
+</dict>
+</plist>
