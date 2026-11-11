@@ -87,6 +87,16 @@ async fn oracle_on_sandbox() {
     near.call(&oracle, &c, "set_indices", json!({"specs": [{"index_id": IDX, "version": VER, "formula_hash": hex::encode(FH), "value_scale": 6}]}), NearToken::from_yoctonear(0), 30).await.unwrap();
     let base = now_ms() / DAY - 200;
 
+    // ensure_indices: registers what is missing (owner only), then is a no-op
+    let mut wanted = std::collections::BTreeMap::new();
+    for id in [IDX, "or-model-spend-7d/acme/new-model-20261101"] {
+        wanted.insert(id.to_string(), json!({"index_id": id, "version": VER, "formula_hash": hex::encode(FH), "value_scale": 6}));
+    }
+    assert!(zfx_oracle_near::ensure_indices(&near, &relayer, &c, &wanted).await.is_err(), "only the owner registers");
+    assert_eq!(zfx_oracle_near::ensure_indices(&near, &oracle, &c, &wanted).await.unwrap(), 1);
+    assert_eq!(zfx_oracle_near::ensure_indices(&near, &oracle, &c, &wanted).await.unwrap(), 0);
+    assert!(near.view(&c, "index_info", json!({"index_id": "or-model-spend-7d/acme/new-model-20261101"})).await.unwrap().is_object());
+
     // single print: gas and storage
     let u0 = usage(&near, &c).await;
     let p1 = print(base, 1, 1, [0; 32], 42_500_000);
@@ -170,7 +180,7 @@ async fn oracle_on_sandbox() {
     assert!(e.contains("storage balance short"), "{e}");
     near.call(&oracle, &c, "set_min_free", json!({"min_free_yocto": "0"}), NearToken::from_yoctonear(0), 30).await.unwrap();
 
-    // pusher end to end with real licensed 7D prints from the committed snapshot
+    // pusher end to end with real dataset 7D prints from the committed snapshot
     let snap = root().join("ledger");
     let local = local_prints(&snap, &["revisions_lic_7d.jsonl"]).unwrap();
     let (real_id, real) = local.iter().max_by_key(|(_, v)| v.len()).unwrap();

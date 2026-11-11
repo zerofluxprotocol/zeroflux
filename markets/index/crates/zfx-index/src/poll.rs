@@ -9,9 +9,13 @@
 //! - from d+1 00:00Z + grace: one model-activity fetch per market; one effective-pricing
 //!   fetch per market only if no close observation exists
 //! - documented `/api/v1/models/{id}/endpoints`: once per market per day, after the grace window
-//!   (price snapshot for the licensed variant)
+//!   (price snapshot for the dataset index)
 //! - documented `/api/v1/datasets/rankings-daily` (API key): one 30-day request hourly until
 //!   yesterday appears, then once after the grace window. Separate cap of 450/day.
+//!
+//! Universe: new models enter from the dataset's newest day (its top 50); a tracked model keeps
+//! being polled through the web endpoints after it leaves the dataset, and is retired when it
+//! leaves the catalog or shows no tokens for `RETIRE_ZERO_DAYS` days (`retire_reason`).
 //!
 //! Every request goes through `RateBudget`. Rough volume with 50 markets: ~180/day.
 
@@ -62,22 +66,77 @@ fn soft(r: Result<(crate::ledger::FetchRecord, Vec<u8>), FetchError>) -> Result<
     }
 }
 
+/// Adds models to the tracked universe. With the documented daily dataset available, new
+/// models enter from its newest day (the top 50); without it, from the rankings day view.
+/// Models already tracked are skipped; a retired model that reappears is listed again.
 pub fn list_markets(l: &Ledger, top_n: usize, now: i64) -> Result<Vec<Market>, PollError> {
     let s = engine::load(l)?;
-    let (Some(r), Some(c)) = (s.rankings.last(), s.catalog.as_ref()) else {
-        return Err(PollError::Other("need a rankings day response and a catalog response first".into()));
-    };
-    let existing = engine::load_markets(l)?;
-    let mut added = Vec::new();
-    for m in engine::select_universe(&r.doc, &c.doc, top_n, now) {
-        if existing.iter().any(|e| e.permaslug == m.permaslug) {
-            continue;
-        }
-        let mut ev = json!({"event": "LIST", "at": fmt_ms(now), "market": m, "basis": {"rankings_fetch_seq": r.rec.seq, "catalog_fetch_seq": c.rec.seq}});
+    let active = engine::load_active_markets(l)?;
+    let (added, basis) = listing_candidates(&s, &active, top_n, now)?;
+    for m in &added {
+        let mut ev = json!({"event": "LIST", "at": fmt_ms(now), "market": m, "basis": basis});
         l.append_json("markets.jsonl", &mut ev)?;
-        added.push(m);
     }
     Ok(added)
+}
+
+/// Models `list_markets` would add, and the fetches that justify them. Writes nothing.
+pub fn listing_candidates(s: &Loaded, active: &[Market], top_n: usize, now: i64) -> Result<(Vec<Market>, serde_json::Value), PollError> {
+    let Some(c) = s.catalog.as_ref() else {
+        return Err(PollError::Other("need a catalog response first".into()));
+    };
+    let ds = s.dataset.iter().max_by_key(|p| (p.doc.end_date, p.rec.seq));
+    let (cands, basis) = match (ds, s.rankings.last()) {
+        (Some(d), _) => (engine::select_from_dataset(&d.doc, &c.doc, now), json!({"dataset_fetch_seq": d.rec.seq, "catalog_fetch_seq": c.rec.seq})),
+        (None, Some(r)) => (engine::select_universe(&r.doc, &c.doc, top_n, now), json!({"rankings_fetch_seq": r.rec.seq, "catalog_fetch_seq": c.rec.seq})),
+        (None, None) => return Err(PollError::Other("need a dataset or rankings day response first".into())),
+    };
+    Ok((cands.into_iter().filter(|m| !active.iter().any(|e| e.permaslug == m.permaslug)).collect(), basis))
+}
+
+/// Days of zero web-reported tokens after which a model stops being tracked.
+pub const RETIRE_ZERO_DAYS: i64 = 7;
+
+/// Why a tracked model should stop being polled, if it should.
+/// - it is gone from the newest catalog, or
+/// - a model-activity response fetched after `yesterday` closed shows no tokens on any of the
+///   last RETIRE_ZERO_DAYS days, and the dataset does not list it on any of them.
+///
+/// Models listed in the last RETIRE_ZERO_DAYS days are never retired.
+pub fn retire_reason(s: &Loaded, m: &Market, yesterday: UtcDate) -> Option<String> {
+    let lo = UtcDate(yesterday.0 - (RETIRE_ZERO_DAYS - 1));
+    if UtcDate::parse(&m.listing_day).map(|d| d >= lo).unwrap_or(true) {
+        return None;
+    }
+    if let Some(c) = s.catalog.as_ref() {
+        if !c.doc.is_empty() && !c.doc.iter().any(|x| x.canonical_slug == m.permaslug) {
+            return Some(format!("not in the OpenRouter catalog (fetch #{})", c.rec.seq));
+        }
+    }
+    let act = s.activity.get(&m.permaslug)?.iter().filter(|p| p.rec.fetched_at_ms >= yesterday.end_ms()).max_by_key(|p| p.rec.seq)?;
+    let tokens: u128 = act.doc.rows.iter().filter(|r| r.date >= lo && r.date <= yesterday).map(|r| r.total_tokens()).sum();
+    if tokens > 0 {
+        return None;
+    }
+    if s.dataset.iter().flat_map(|p| p.doc.rows.iter()).any(|r| r.permaslug == m.permaslug && r.date >= lo && r.date <= yesterday && r.total_tokens > 0) {
+        return None;
+    }
+    Some(format!("no tokens from {lo} to {yesterday} (model-activity fetch #{})", act.rec.seq))
+}
+
+/// Appends a RETIRE event for every tracked model that meets `retire_reason`.
+pub fn retire_markets(l: &Ledger, now: i64) -> Result<Vec<(String, String)>, PollError> {
+    let s = engine::load(l)?;
+    let yesterday = UtcDate::of_ms(now).pred();
+    let mut out = Vec::new();
+    for m in engine::load_active_markets(l)? {
+        if let Some(reason) = retire_reason(&s, &m, yesterday) {
+            let mut ev = json!({"event": "RETIRE", "at": fmt_ms(now), "permaslug": m.permaslug, "reason": reason});
+            l.append_json("markets.jsonl", &mut ev)?;
+            out.push((m.permaslug.clone(), reason));
+        }
+    }
+    Ok(out)
 }
 
 pub fn backfill(l: &Ledger, budget: RateBudget, top_n: usize) -> Result<(), PollError> {
@@ -87,7 +146,7 @@ pub fn backfill(l: &Ledger, budget: RateBudget, top_n: usize) -> Result<(), Poll
     soft(f.get(Kind::RankingsDaySpend, "", &path_for(Kind::RankingsDaySpend, "")))?;
     let added = list_markets(l, top_n, now_ms())?;
     eprintln!("[backfill] listed {} new markets", added.len());
-    for m in engine::load_markets(l)? {
+    for m in engine::load_active_markets(l)? {
         soft(f.get(Kind::ModelActivity, &m.permaslug, &path_for(Kind::ModelActivity, &m.permaslug)))?;
         soft(f.get(Kind::EffectivePricing, &m.permaslug, &path_for(Kind::EffectivePricing, &m.permaslug)))?;
         soft(f.get(Kind::ModelEndpoints, &m.model_id, &path_for(Kind::ModelEndpoints, &m.model_id)))?;
@@ -147,10 +206,23 @@ pub fn tick(l: &Ledger, f: &Fetcher, params: &Params, now: i64) -> Result<usize,
             let q = format!("start_date={}&end_date={}", UtcDate(yesterday.0 - 29), yesterday);
             soft(f.get(Kind::RankingsDailyApi, &q, &path_for(Kind::RankingsDailyApi, &q)))?;
             sent += 1;
+            // the dataset's newest day introduces new models
+            match list_markets(l, params.top_n, now_ms()) {
+                Ok(a) if !a.is_empty() => eprintln!("[poll] listed {} new markets from the dataset", a.len()),
+                Ok(_) => {}
+                Err(e) => eprintln!("[poll] listing from the dataset failed: {e}"),
+            }
         }
     }
 
-    let markets = engine::load_markets(l)?;
+    // models that left OpenRouter or have had no usage for RETIRE_ZERO_DAYS days stop being polled
+    if now >= yesterday.end_ms() + params.grace_ms {
+        for (m, why) in retire_markets(l, now)? {
+            eprintln!("[poll] retired {m}: {why}");
+        }
+    }
+
+    let markets = engine::load_active_markets(l)?;
     let s = engine::load(l)?;
     // close window for today
     let close_lo = today.end_ms() - 50 * 60_000;
@@ -186,7 +258,7 @@ pub fn tick(l: &Ledger, f: &Fetcher, params: &Params, now: i64) -> Result<usize,
                 soft(f.get(Kind::EffectivePricing, &m.permaslug, &pricing_path(&m.permaslug, range)))?;
                 sent += 1;
             }
-            // daily documented price snapshot: the licensed variant's price input
+            // daily documented price snapshot: the dataset index price input
             if last_fetch_ms(&s, Kind::ModelEndpoints, &m.model_id).map(|t| t < yesterday.end_ms() + params.grace_ms).unwrap_or(true) {
                 soft(f.get(Kind::ModelEndpoints, &m.model_id, &path_for(Kind::ModelEndpoints, &m.model_id)))?;
                 sent += 1;
@@ -220,7 +292,7 @@ pub fn run_loop(ledger_dir: &Path, out: &Path, signer: &Signer, params: &Params,
             }
             Ok(())
         })();
-        // on-chain push after publishing new licensed revisions (or every 6 h), when configured
+        // on-chain push after publishing new revisions (or every 6 h), when configured
         if let Some(cfg) = load_push_config() {
             if pending_push || now_ms() - last_push > 6 * 3_600_000 {
                 match push_from_config(ledger_dir, &cfg) {
@@ -304,7 +376,8 @@ pub fn dataset_backfill(l: &Ledger, budget: RateBudget, from: UtcDate, to: UtcDa
 
 /// On-chain push configuration, read from a file outside the repository
 /// (default `~/.config/zeroflux/oracle-push.json`):
-/// `{"enabled": true, "contract": "oracle.zeroflux.testnet", "signer": "...", "key_file": "...", "rpc": ["..."], "files": ["revisions_lic.jsonl", "revisions_lic_7d.jsonl"]}`
+/// `{"enabled": true, "contract": "oracle.zeroflux.testnet", "signer": "...", "key_file": "...", "rpc": ["..."], "files": ["revisions_lic_7d.jsonl", "revisions_7d.jsonl"], "owner": "...", "owner_key_file": "..."}`.
+/// `owner`/`owner_key_file` are optional: with them, new tracked models' indices are registered before each push.
 pub fn push_config_path() -> std::path::PathBuf {
     let home = std::env::var("HOME").unwrap_or_else(|_| ".".into());
     std::path::PathBuf::from(home).join(".config/zeroflux/oracle-push.json")
@@ -329,5 +402,23 @@ fn push_from_config(ledger: &Path, cfg: &serde_json::Value) -> Result<serde_json
     let s = |k: &str| cfg[k].as_str().map(String::from).ok_or_else(|| PollError::Other(format!("oracle-push.json: missing {k}")));
     let rpcs: Vec<String> = cfg["rpc"].as_array().map(|a| a.iter().filter_map(|x| x.as_str().map(String::from)).collect()).unwrap_or_else(|| vec!["https://rpc.testnet.near.org".into(), "https://test.rpc.fastnear.com".into(), "https://rpc.testnet.fastnear.com".into()]);
     let files: Vec<String> = cfg["files"].as_array().map(|a| a.iter().filter_map(|x| x.as_str().map(String::from)).collect()).unwrap_or_else(|| zfx_oracle_near::DEFAULT_FILES.iter().map(|x| x.to_string()).collect());
-    push_near(ledger, &s("contract")?, &s("signer")?, Path::new(&s("key_file")?), &rpcs, &files, cfg["from_date"].as_str(), false)
+    // With an owner key configured, register the indices of every tracked model first, so a
+    // newly listed model's prints are accepted on its first push.
+    let mut registered = 0usize;
+    if let (Some(owner), Some(okf)) = (cfg["owner"].as_str(), cfg["owner_key_file"].as_str()) {
+        let l = Ledger::open_read(ledger);
+        let markets: std::collections::BTreeSet<String> = engine::load_active_markets(&l)?.into_iter().map(|m| m.permaslug).collect();
+        let fl: Vec<&str> = files.iter().map(|x| x.as_str()).collect();
+        let wanted = zfx_oracle_near::wanted_specs(ledger, &fl, &markets).map_err(|e| PollError::Other(format!("{e:#}")))?;
+        let rt = tokio::runtime::Builder::new_multi_thread().enable_all().build().map_err(|e| PollError::Other(e.to_string()))?;
+        let near = zfx_oracle_near::Near::rpcs(&rpcs).map_err(|e| PollError::Other(e.to_string()))?;
+        let who = zfx_oracle_near::Actor::from_key_file(Some(owner), Path::new(okf)).map_err(|e| PollError::Other(e.to_string()))?;
+        registered = rt.block_on(zfx_oracle_near::ensure_indices(&near, &who, &s("contract")?, &wanted)).map_err(|e| PollError::Other(format!("{e:#}")))?;
+        if registered > 0 {
+            eprintln!("[poll] push-near: registered {registered} new indices");
+        }
+    }
+    let mut r = push_near(ledger, &s("contract")?, &s("signer")?, Path::new(&s("key_file")?), &rpcs, &files, cfg["from_date"].as_str(), false)?;
+    r["registered"] = json!(registered);
+    Ok(r)
 }

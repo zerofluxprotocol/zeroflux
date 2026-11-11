@@ -6,7 +6,7 @@ repo: stack files with the owner, operator and contract keys (0600), trader keys
 ## Current deployment: `perps-v2.zeroflux.testnet` (2026-11-11)
 
 Code: this branch after `d193c46`, with every rule in `docs/ORDERBOOK_AND_CLEARING.md`:
-- the licensed 7-day index;
+- the dataset 7-day index;
 - the notional open-interest cap set from `licensed.index_7d.latest.max_open_interest_usd`;
 - CLOSE_ONLY after a print that moves the index more than 25%, until the next clean print;
 - CLOSE_ONLY on any non-FRESH print.
@@ -35,15 +35,15 @@ withdrawal timeout 24 h, settlement grace 300 s.
 | new on perps-v2.zeroflux.testnet by perps-v2.zeroflux.testnet | `DLYVYXMaa96CMe6XNCMKWefh22sDRK4GszfREeR4xq2M` |
 | storage_deposit on tusdc-perps.zeroflux.testnet by zeroflux.testnet | `2P5Y1Tii9QCyrE4z9QGar67s2g3CnzXGnwfQ7498EzuC` |
 
-### Markets (28 tradable licensed-7D markets)
+### Markets (28 tradable dataset-7D markets)
 
 The markets are the ones `deploy/testnet/gen_v2_markets.py` selected from `models.json`
-(generated 2026-11-11T00:33:32.233Z): licensed 7D index
+(generated 2026-11-11T00:33:32.233Z): dataset 7D index
 OK and an OI cap of at least $10,000. That is 28 of 54; `deploy/testnet/v2-markets.json` lists why
 the other 26 aren't tradable. Parameters are in `deploy/testnet/v2-markets/<id>.json`. Each was
 listed with `create_market`, its activation proposed with `set_market_status ACTIVE`, and the
 proposal executed after the 60 s timelock. `GPT-5-6-LUNA-0709` was then set CLOSE_ONLY
-(`9RZvgnQsYci8yWjJoka2Gtk1Y88zmgD3ePkj3kwjVCDe`): its licensed 7D print on 2026-11-09 was clamped (−40.4%), and a first on-chain
+(`9RZvgnQsYci8yWjJoka2Gtk1Y88zmgD3ePkj3kwjVCDe`): its dataset 7D print on 2026-11-09 was clamped (−40.4%), and a first on-chain
 print has no predecessor to compare against. It reopens through a timelocked proposal after a
 clean print.
 
@@ -82,7 +82,7 @@ clean print.
 
 | Batch | Contents | Tgas | Transaction |
 |---|---|---|---|
-| 1 | 28 oracle prints (every market's signed licensed-7D print, from the node's print feed) | 18.41 | `9j4HqLdWfYqZXPAAPxuWh6F4VhULCK2xnUY6VUz2GMqx` |
+| 1 | 28 oracle prints (every market's signed dataset-7D print, from the node's print feed) | 18.41 | `9j4HqLdWfYqZXPAAPxuWh6F4VhULCK2xnUY6VUz2GMqx` |
 | 2 | credit maker deposit | 3.02 | `5hPeWUbanY6WGB8gVVNsxFsVNm7MLgkUnYimuugGWNeA` |
 | 3 | credit taker deposit | 3.02 | `DReKaDdrhTTjw3ykqNcHVAosaZRk5W8wdmRdzG9tPeEU` |
 | 4 | open fill (2 signed orders verified) | 5.23 | `GPU3c3qQrE1tndG1ibbLEXRmDMKc2miibjENW6aprqHa` |
@@ -159,7 +159,7 @@ relayer can fill it.
 Deployed earlier on 2026-11-11 from commit `2e7ad1f`, before the design updates. Superseded by
 `perps-v2.zeroflux.testnet`; do not point venues at it. It enforced the open-interest cap in lots
 only, halted on a DISPUTED print, had no print-move rule, and its account key was not kept. It
-holds three markets (`OPUS-PERP` daily, `OPUS-7D-PERP` web 7D, `OPUS-LIC7D-PERP` licensed 7D),
+holds three markets (`OPUS-PERP` daily, `OPUS-7D-PERP` web 7D, `OPUS-LIC7D-PERP` dataset 7D),
 each opened and closed through the SDK with balances matching reference math. Its record follows,
 unchanged.
 
@@ -200,12 +200,12 @@ redeploys.
 |---|---|---|---|
 | `OPUS-PERP` | `or-model-spend/anthropic/claude-opus-5.5-20260921` (daily, informational) | hash not captured | hash not captured |
 | `OPUS-7D-PERP` | `or-model-spend-7d/anthropic/claude-opus-5.5-20260921` (web 7-day, alternate source) | `6it7FKsdMyU3zTfTmKJ6sKyiSvgPs6hyTSgJA1Mh1To` | `FYB8Vw8tueLJQhicRLJ6s7jZzdLLhSupuG3PfELgCvd7` (proposal 2) |
-| `OPUS-LIC7D-PERP` | `or-model-spend-lic-7d/anthropic/claude-opus-5.5-20260921` (licensed 7-day, the reference index) | `EJqsZ2oUUhSrmtZ5ZBuaR2WH7qMQ1QmM7WNwUPHJXwQd` | `8eXdmk2f4srJR83iLwtFUoMqV9CBrNcAzw8t62MCKYgN` (proposal 3) |
+| `OPUS-LIC7D-PERP` | `or-model-spend-lic-7d/anthropic/claude-opus-5.5-20260921` (dataset 7-day, the reference index) | `EJqsZ2oUUhSrmtZ5ZBuaR2WH7qMQ1QmM7WNwUPHJXwQd` | `8eXdmk2f4srJR83iLwtFUoMqV9CBrNcAzw8t62MCKYgN` (proposal 3) |
 
 Parameters: `deploy/testnet/opus-perp.json`, `opus-7d-perp.json` and `opus-lic7d-perp.json` (2x, IM 50%,
 MM 25%, 20% / 15% mark limit, 50% band, 1-day print lag, close-only from 22:00 UTC). The 7D
 market's lot cap of 1,750,000 lots is `max_open_interest_usd` ($1,102,088.76 from `models.json`)
-at the 7D mark of 629,765 ticks. The licensed market's cap is 1,750,002 lots: the licensed
+at the 7D mark of 629,765 ticks. The dataset market's cap is 1,750,002 lots: the dataset index's
 `max_open_interest_usd` of $1,084,800.08 at its mark of 619,885 ticks.
 
 ### Run 1: OPUS-PERP, real daily print
@@ -271,7 +271,7 @@ Open at 630,394, close at 631,654, 1,000 lots.
 | taker | 1,000,628,976 | 1,000,628,976 |
 | maker | 1,997,090,287 | 1,997,090,287 |
 
-### Run 3: OPUS-LIC7D-PERP, real licensed 7-day print (the reference index)
+### Run 3: OPUS-LIC7D-PERP, real dataset 7-day print (the reference index)
 
 Print: `or-model-spend-lic-7d/anthropic/claude-opus-5.5-20260921`
 (`ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1`), $619,885.757986/day, hash
@@ -311,7 +311,7 @@ Full step logs with timestamps: `research/data/testnet_e2e.json`, `testnet_e2e_7
 ### v2 not yet on testnet
 
 The current code adds the coordinator's rules: `max_open_interest_notional` (set from
-`max_open_interest_usd`), `print_move_close_only_bps` (CLOSE_ONLY after a >25% licensed-7D move
+`max_open_interest_usd`), `print_move_close_only_bps` (CLOSE_ONLY after a >25% dataset-7D move
 until the next clean print), and every non-FRESH print as CLOSE_ONLY. These change the market layout and
 policy hash, so they need a fresh contract account. The deployed contract has no upgrade method
 and its account key was not kept.

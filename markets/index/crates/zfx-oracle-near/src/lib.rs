@@ -2,6 +2,7 @@
 //!
 //! - [`Near`]: a small wrapper over `near-api` with RPC failover and a tx log.
 //! - [`local_prints`]: signed prints from the index ledger's revision files.
+//! - [`ensure_indices`]: registers index ids the ledger has prints for (owner only).
 //! - [`push_new`]: sends prints newer than each index's on-chain latest, batched under the gas
 //!   limit. Idempotent: anything already on chain is skipped locally and rejected by the contract.
 //! - [`sandbox`]: a local nearcore sandbox for tests.
@@ -16,7 +17,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 
-/// Daily revision files whose prints the oracle archives by default (licensed daily and 7D).
+/// Daily revision files whose prints the oracle archives by default (dataset index, daily and 7D).
 pub const DEFAULT_FILES: &[&str] = &["revisions_lic.jsonl", "revisions_lic_7d.jsonl"];
 pub const PUSH_GAS_TGAS: u64 = 300;
 /// Gas budget per batch, leaving headroom under the 300 Tgas transaction limit.
@@ -140,6 +141,24 @@ impl Near {
         Ok((Actor::new(id.as_str(), &secret)?, secret, public))
     }
 
+    /// Sends NEAR from `from` to `to` (gas top-ups for the relayer). Returns the tx hash.
+    pub async fn transfer(&self, from: &Actor, to: &str, amount: NearToken) -> Result<String> {
+        let to_id: AccountId = to.parse()?;
+        let r = near_api::Tokens::account(from.id.clone())
+            .send_to(to_id.clone())
+            .near(amount)
+            .with_signer(from.signer.clone())
+            .send_to(&self.network)
+            .await
+            .with_context(|| format!("transfer to {to_id}"))?
+            .into_full()
+            .ok_or_else(|| anyhow!("transfer to {to_id}: pending"))?;
+        let h = r.outcomes().first().map(|o| o.transaction_hash.to_string()).unwrap_or_default();
+        r.into_result().map_err(|e| anyhow!("transfer to {to_id}: {e:?}"))?;
+        self.record(format!("transfer {amount} {} -> {to_id}", from.id), &h);
+        Ok(h)
+    }
+
     pub async fn deploy(&self, who: &Actor, wasm: Vec<u8>) -> Result<String> {
         let n = wasm.len();
         let r = Contract::deploy(who.id.clone())
@@ -260,6 +279,46 @@ pub struct PushOpts<'a> {
     pub dry_run: bool,
     /// Send at most this many prints (oldest first within each index).
     pub max_prints: Option<usize>,
+}
+
+
+/// Index specs to register so that the latest prints in `files` for `markets` can be pushed:
+/// one per index id, with the formula version and hash of its newest revision. Pure.
+pub fn wanted_specs(ledger: &Path, files: &[&str], markets: &BTreeSet<String>) -> Result<BTreeMap<String, Value>> {
+    let mut out = BTreeMap::new();
+    for f in files {
+        let p = ledger.join(f);
+        let Ok(text) = std::fs::read_to_string(&p) else { continue };
+        for line in text.lines().filter(|l| !l.trim().is_empty()) {
+            let r: Value = serde_json::from_str(line).with_context(|| format!("{}", p.display()))?;
+            let (Some(id), Some(m), Some(v), Some(h)) = (r["index_id"].as_str(), r["market"].as_str(), r["formula_version"].as_str(), r["formula_hash"].as_str()) else { continue };
+            if markets.contains(m) {
+                out.insert(id.to_string(), json!({"index_id": id, "version": v, "formula_hash": h, "value_scale": 6}));
+            }
+        }
+    }
+    Ok(out)
+}
+
+/// Registers (as the contract owner) every index in `wanted` that is not on chain yet, 20 per
+/// transaction. Returns how many were registered. Indices already on chain are left alone.
+pub async fn ensure_indices(near: &Near, owner: &Actor, contract: &str, wanted: &BTreeMap<String, Value>) -> Result<usize> {
+    let mut have = BTreeSet::new();
+    let mut from = 0u32;
+    loop {
+        let page = near.view(contract, "indices", json!({"from": from, "limit": 100})).await?;
+        let a = page.as_array().cloned().unwrap_or_default();
+        have.extend(a.iter().filter_map(|x| x["index_id"].as_str().map(String::from)));
+        if a.len() < 100 {
+            break;
+        }
+        from += 100;
+    }
+    let missing: Vec<Value> = wanted.iter().filter(|(k, _)| !have.contains(*k)).map(|(_, v)| v.clone()).collect();
+    for ch in missing.chunks(20) {
+        near.call(owner, contract, "set_indices", json!({"specs": ch}), NearToken::from_yoctonear(0), 100).await?;
+    }
+    Ok(missing.len())
 }
 
 /// Sends every local print newer than the on-chain latest, per index, in batches.

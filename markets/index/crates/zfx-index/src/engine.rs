@@ -15,7 +15,6 @@ pub const FORMULA_VERSION: &str = "ZFX-OR-MODEL-SPEND-USD-v1";
 pub const FORMULA_TEXT: &[u8] = include_bytes!("../../../formula/ZFX-OR-MODEL-SPEND-USD-v1.txt");
 pub const MODE: &str = "ESTIMATED_OBSERVED_MIX";
 pub const ATTRIBUTION_PREFIX: &str = "Source: OpenRouter (openrouter.ai/rankings), as of";
-pub const NOT_SETTLEMENT_GRADE: &str = "Paper-trading index built from OpenRouter data. Not settlement-grade. Not revenue, royalties or equity.";
 
 #[derive(Clone, Debug)]
 pub struct Params {
@@ -92,6 +91,79 @@ pub fn load_markets(l: &Ledger) -> Result<Vec<Market>, LedgerError> {
     Ok(out)
 }
 
+/// Markets still tracked: listed, and not retired since their last listing.
+/// `markets.jsonl` holds LIST and RETIRE events; the last event per model decides.
+pub fn load_active_markets(l: &Ledger) -> Result<Vec<Market>, LedgerError> {
+    let mut active: BTreeMap<String, bool> = BTreeMap::new();
+    for v in l.read_json("markets.jsonl")? {
+        match v.get("event").and_then(|e| e.as_str()) {
+            Some("LIST") => {
+                if let Some(p) = v["market"]["permaslug"].as_str() {
+                    active.insert(p.to_string(), true);
+                }
+            }
+            Some("RETIRE") => {
+                if let Some(p) = v["permaslug"].as_str() {
+                    active.insert(p.to_string(), false);
+                }
+            }
+            _ => {}
+        }
+    }
+    Ok(load_markets(l)?.into_iter().filter(|m| active.get(&m.permaslug).copied().unwrap_or(true)).collect())
+}
+
+/// Catalog entries by canonical slug. Several ids can share one (e.g. "x" and "x:batch"); the plain id wins.
+pub fn catalog_by_canon(catalog: &[CatalogModel]) -> BTreeMap<&str, &CatalogModel> {
+    let mut by_canon: BTreeMap<&str, &CatalogModel> = BTreeMap::new();
+    for c in catalog {
+        let replace = match by_canon.get(c.canonical_slug.as_str()) {
+            None => true,
+            Some(prev) => prev.id.contains(':') && !c.id.contains(':'),
+        };
+        if replace {
+            by_canon.insert(c.canonical_slug.as_str(), c);
+        }
+    }
+    by_canon
+}
+
+fn trackable(c: &CatalogModel) -> bool {
+    let priced = c.listed_in.unwrap_or(0) > 0 || c.listed_out.unwrap_or(0) > 0;
+    let text_out = c.modality.as_deref().map(|m| m.contains("->text")).unwrap_or(true);
+    priced && text_out
+}
+
+/// Models to track from the documented daily dataset: every priced text model in its newest
+/// day (that day's top 50), ranked by tokens. This is how new models enter the universe.
+pub fn select_from_dataset(doc: &source::RankingsDailyDoc, catalog: &[CatalogModel], now: i64) -> Vec<Market> {
+    let Some(day) = doc.rows.iter().map(|r| r.date).max() else { return Vec::new() };
+    let by_canon = catalog_by_canon(catalog);
+    let mut rows: Vec<&source::DailyRow> = doc.rows.iter().filter(|r| r.date == day).collect();
+    rows.sort_by(|a, b| b.total_tokens.cmp(&a.total_tokens).then(a.permaslug.cmp(&b.permaslug)));
+    let mut out = Vec::new();
+    for (i, r) in rows.iter().enumerate() {
+        let Some(c) = by_canon.get(r.permaslug.as_str()) else { continue };
+        if !trackable(c) {
+            continue;
+        }
+        out.push(Market {
+            permaslug: r.permaslug.clone(),
+            model_id: c.id.clone(),
+            name: c.name.clone(),
+            author: c.author.clone(),
+            hugging_face_id: c.hugging_face_id.clone(),
+            modality: c.modality.clone(),
+            created_s: c.created_s,
+            listed_at_ms: now,
+            listing_day: day.to_string(),
+            listing_rank: i as u32 + 1,
+            listing_tokens: r.total_tokens.to_string(),
+        });
+    }
+    out
+}
+
 /// Ranks rows by total tokens, descending, across all variants (1-based).
 pub fn ranks(doc: &RankingsDayDoc) -> BTreeMap<(String, String), u32> {
     let mut v: Vec<&UsageRow> = doc.rows.iter().map(|r| &r.usage).collect();
@@ -106,17 +178,7 @@ pub fn ranks(doc: &RankingsDayDoc) -> BTreeMap<(String, String), u32> {
 /// non-zero listed price in the documented catalog.
 pub fn select_universe(doc: &RankingsDayDoc, catalog: &[CatalogModel], top_n: usize, now: i64) -> Vec<Market> {
     let rk = ranks(doc);
-    // Several catalog ids can share a canonical slug (e.g. "x" and "x:batch"); prefer the plain id.
-    let mut by_canon: BTreeMap<&str, &CatalogModel> = BTreeMap::new();
-    for c in catalog {
-        let replace = match by_canon.get(c.canonical_slug.as_str()) {
-            None => true,
-            Some(prev) => prev.id.contains(':') && !c.id.contains(':'),
-        };
-        if replace {
-            by_canon.insert(c.canonical_slug.as_str(), c);
-        }
-    }
+    let by_canon = catalog_by_canon(catalog);
     let mut rows: Vec<&UsageRow> = doc.rows.iter().map(|r| &r.usage).filter(|u| u.variant == "standard").collect();
     rows.sort_by(|a, b| b.total_tokens().cmp(&a.total_tokens()).then(a.permaslug.cmp(&b.permaslug)));
     let mut out = Vec::new();
@@ -125,9 +187,7 @@ pub fn select_universe(doc: &RankingsDayDoc, catalog: &[CatalogModel], top_n: us
             break;
         }
         let Some(c) = by_canon.get(u.permaslug.as_str()) else { continue };
-        let priced = c.listed_in.unwrap_or(0) > 0 || c.listed_out.unwrap_or(0) > 0;
-        let text_out = c.modality.as_deref().map(|m| m.ends_with("->text") || m.contains("->text")).unwrap_or(true);
-        if !priced || !text_out {
+        if !trackable(c) {
             continue;
         }
         out.push(Market {

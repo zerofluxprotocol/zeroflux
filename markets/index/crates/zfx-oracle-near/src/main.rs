@@ -50,7 +50,7 @@ fn write_tx_log(path: Option<&String>, near: &Near) -> Result<()> {
     Ok(())
 }
 
-/// Index specs for the licensed daily and licensed 7D index of each tradable market.
+/// Index specs for the dataset daily and dataset 7D index of each tradable market.
 fn specs_for(models: &Value, tradable: &[String]) -> Result<Vec<Value>> {
     let f = &models["formula_licensed"];
     let (v1, h1, v7, h7) = (f["version"].as_str().context("formula_licensed.version")?, f["hash"].as_str().context("hash")?, f["version_7d"].as_str().context("version_7d")?, f["hash_7d"].as_str().context("hash_7d")?);
@@ -130,8 +130,13 @@ async fn main() -> Result<()> {
                 let args: Value = serde_json::from_str(&arg(&a, "--args").unwrap_or_else(|| "{}".into()))?;
                 near.view(&need(&a, "--contract")?, &need(&a, "--method")?, args).await
             }
+            "transfer" => {
+                let from = Actor::from_key_file(arg(&a, "--from").as_deref(), &PathBuf::from(need(&a, "--key-file")?))?;
+                let h = near.transfer(&from, &need(&a, "--to")?, near_amount(&need(&a, "--near")?)?).await?;
+                Ok(json!({"tx": h}))
+            }
             "balance" => Ok(json!({"account": need(&a, "--account")?, "yocto": near.balance(&need(&a, "--account")?).await?.to_string()})),
-            _ => bail!("commands: create-account deploy set-indices push status view balance"),
+            _ => bail!("commands: create-account deploy set-indices push status view balance transfer"),
         }
     }
     .await;

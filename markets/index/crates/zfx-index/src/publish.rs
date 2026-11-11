@@ -11,7 +11,10 @@
 //! <out>/v1/indices/or-model-spend/<permaslug>/provenance/<revision_id>.json
 //! ```
 
-use crate::engine::{self, Loaded, Market, Params, FORMULA_VERSION, MODE, NOT_SETTLEMENT_GRADE};
+use crate::engine::{self, Loaded, Market, Params, FORMULA_VERSION, MODE};
+
+/// `notice` field on every published document.
+pub const NOTICE: &str = "Paper-trading index built from OpenRouter data. Not settlement-grade. Not revenue, royalties or equity.";
 use crate::fetch::RateBudget;
 use crate::fixed::{self, fmt_scaled};
 use crate::ledger::{Ledger, LedgerError};
@@ -227,7 +230,7 @@ pub fn source_health(l: &Ledger, s: &Loaded, params: &Params, budget: &RateBudge
     Ok(json!({
         "generated_at": fmt_ms(now),
         "status": status,
-        "notice": NOT_SETTLEMENT_GRADE,
+        "notice": NOTICE,
         "attribution": s.rankings.last().map(|r| engine::attribution(r.as_of_ms)),
         "license": "OpenRouter dataset content is published under CC BY 4.0 per OpenRouter's Datasets API documentation.",
         "formula": {"version": FORMULA_VERSION, "hash": hex::encode(engine::formula_hash()), "mode": MODE},
@@ -309,7 +312,7 @@ pub fn publish(l: &Ledger, out: &Path, pubkey: &[u8; 32], params: &Params, budge
             "index_id": crate::weekly::index_id_7d(&m.permaslug),
             "label": format!("{}: OpenRouter-implied billings proxy, trailing 7-day mean, USD/day", m.name),
             "formula": {"version": crate::weekly::FORMULA_VERSION_7D, "hash": hex::encode(crate::weekly::formula_hash_7d()), "derived_from": FORMULA_VERSION},
-            "notice": NOT_SETTLEMENT_GRADE,
+            "notice": NOTICE,
             "attribution": latest7_rev.and_then(|r| r["attribution"].as_str()),
             "revisions_total": per_market7.get(&m.permaslug).copied().unwrap_or(0),
             "points": points7,
@@ -326,7 +329,7 @@ pub fn publish(l: &Ledger, out: &Path, pubkey: &[u8; 32], params: &Params, budge
             "index_id": engine::index_id(&m.permaslug),
             "label": format!("{}: OpenRouter-implied daily billings proxy, USD/day", m.name),
             "formula": {"version": FORMULA_VERSION, "hash": hex::encode(engine::formula_hash()), "mode": MODE},
-            "notice": NOT_SETTLEMENT_GRADE,
+            "notice": NOTICE,
             "attribution": latest_rev.and_then(|r| r["attribution"].as_str()),
             "revisions_total": per_market.get(&m.permaslug).map(|v| v.len()).unwrap_or(0),
             "points": points,
@@ -366,7 +369,7 @@ pub fn publish(l: &Ledger, out: &Path, pubkey: &[u8; 32], params: &Params, budge
             "max_open_interest_usd": latest7_rev.and_then(|w| w["max_open_interest_usd"].as_str()),
         }));
     }
-    // licensed (documented-sources-only) variant, daily and 7D
+    // dataset index (documented sources only), daily and 7D
     let lic_dir = base.join("indices").join("or-model-spend-lic");
     let lic7_dir = base.join("indices").join("or-model-spend-lic-7d");
     let lic_latest = crate::weekly::latest_in(l, crate::licensed::REVISIONS_LIC)?;
@@ -431,12 +434,12 @@ pub fn publish(l: &Ledger, out: &Path, pubkey: &[u8; 32], params: &Params, budge
     }
     let header = json!({
         "generated_at": fmt_ms(now),
-        "notice": NOT_SETTLEMENT_GRADE,
+        "notice": NOTICE,
         "what_this_is_not": "Not AI-provider revenue, not model-owner royalties, not equity or any claim on a model's cash flows. One venue (OpenRouter), one declared formula.",
         "formula": {"version": FORMULA_VERSION, "hash": hex::encode(engine::formula_hash()), "mode": MODE},
         "formula_7d": {"version": crate::weekly::FORMULA_VERSION_7D, "hash": hex::encode(crate::weekly::formula_hash_7d())},
         "formula_licensed": {"version": crate::licensed::FORMULA_VERSION_LIC, "hash": hex::encode(crate::licensed::formula_hash_lic()), "version_7d": crate::weekly::FORMULA_VERSION_LIC_7D, "hash_7d": hex::encode(crate::weekly::Spec7d::lic().formula_hash())},
-        "recommended_reference": "licensed.index_7d (ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1): documented sources only. The web-endpoint variant (index_7d) is kept for comparison and for models outside the documented top 50. See docs/DATA_METHOD.md section 2.",
+        "recommended_reference": "licensed.index_7d (ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1): the dataset index, from OpenRouter's documented daily dataset and listed prices. The web index (index_7d) is kept for comparison and for models outside the dataset's top 50. See docs/DATA_METHOD.md section 2.",
         "manipulation_note": "manipulation_cost_usd_per_pct is 1% of the 7-day window's counted spend: the OpenRouter-billed spend a third party must add to move the 7D index by 1%. max_open_interest_usd is 25% of that window spend. This bounds the cost of a push; it does not make manipulation impossible. See docs/DATA_METHOD.md, manipulation resistance.",
         "reporter_pubkey_ed25519": hex::encode(pubkey),
     });

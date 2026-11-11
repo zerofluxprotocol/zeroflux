@@ -162,7 +162,7 @@ netted mode. They are not the NEAR v1 path, and the clearing contract has no cro
 ## 7. Oracle
 
 A market tracks one index (`index_id`, `index_version`, `value_scale`). Model perps reference
-the licensed 7-day index `or-model-spend-lic-7d/<permaslug>` (`ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1`).
+the dataset 7-day index `or-model-spend-lic-7d/<permaslug>` (`ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1`).
 The daily and web-7D indices use the same format and can back informational or alternate
 markets. The publisher's `clamped` flag isn't part of the signed bytes; the contract derives the
 same condition from consecutive signed prints. Prints are
@@ -199,7 +199,7 @@ oracle. Every fill, liquidation and funding op evaluates this at its own timesta
 |---|---|
 | no print at all | HALTED |
 | any non-FRESH print (STALE, DISPUTED, UNAVAILABLE, data NOT_REPORTED / UNPRICED / NO_VALID_CLOSE_PRICE), a print past `valid_until` or older than `oracle_max_age_sec` | CLOSE_ONLY until the next clean print |
-| the last usable print moved the index more than `print_move_close_only_bps` (25% on the licensed 7D index: a clamped day) | CLOSE_ONLY until the next clean print |
+| the last usable print moved the index more than `print_move_close_only_bps` (25% on the dataset 7D index: a clamped day) | CLOSE_ONLY until the next clean print |
 | mark limit-locked (mark ≠ index) | CLOSE_ONLY |
 | daily cycle: an expected print missing, or after `print_close_only_from_sec` with that day's print not in | CLOSE_ONLY |
 | otherwise | the admin status |

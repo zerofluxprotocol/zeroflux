@@ -549,7 +549,7 @@ fn large_print_move_is_close_only_until_a_clean_print() {
 }
 
 /// The contract's print-move rule and the index publisher's published `clamped` flag agree on
-/// every day of the real licensed 7D history (54 markets), with the licensed bound of 25%.
+/// every day of the real dataset 7D history (54 markets), with the dataset index's bound of 25%.
 #[test]
 fn print_move_rule_matches_published_clamp_on_real_history() {
     let data: serde_json::Value = serde_json::from_str(include_str!("../tests/data/lic7d_series.json")).unwrap();

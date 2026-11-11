@@ -23,19 +23,19 @@ is the jump a position takes when the next print lands.
 For one large, established market, Claude Opus 5.5, the largest 30-day move is +44.9% and the
 largest fall −33.1%; the 95th percentile absolute move is 33.1%.
 
-This history is short: 30 days, with backfilled prices of low confidence (the index workstream's
-notes, item 4). The tails are fat and skewed upward, since new models grow quickly. A short loses
+This history is short: 30 days, with backfilled prices of low confidence (`DAILY_ENDPOINT_REWEIGHTED`,
+`docs/DATA_METHOD.md` section 6). The tails are fat and skewed upward, since new models grow quickly. A short loses
 more than 100% of notional on about 2% of days. Ordinary leverage is not defensible on these
 markets.
 
-Model perps reference the licensed 7-day trailing index (`or-model-spend-lic-7d/<permaslug>`,
+Model perps reference the dataset 7-day trailing index (`or-model-spend-lic-7d/<permaslug>`,
 `ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1`), built from documented OpenRouter sources only. It averages
-daily values, so its day-over-day moves are much smaller: Opus's latest licensed 7D change was
+daily values, so its day-over-day moves are much smaller: Opus's latest dataset 7D change was
 −0.4%. The index side's jump clamp is 25%, the 99th percentile of 22,654 observed 7D moves. The
 web 7D index remains an alternate source. The parameters below are sized on the daily moves,
 which bounds the 7D moves.
 
-A market is tradable only if its licensed 7D index is OK and its OI cap is at least $10,000. On
+A market is tradable only if its dataset 7D index is OK and its OI cap is at least $10,000. On
 2026-11-11 that was 28 of 54 models: 15 failed on the index status and 11 on the cap
 (`deploy/testnet/params_from_models.py` refuses the rest).
 
@@ -76,7 +76,7 @@ Per-market parameters for the testnet markets (`deploy/testnet/*.json`):
 | `initial_margin_bps` / `max_leverage` | 5,000 / 2 | Tier A: Opus's largest 30-day move is 45% |
 | `maintenance_margin_bps` | 2,500 | Above limit + slippage + a day of funding |
 | `mark_limit_bps` | 2,000 (1,500 on the web-7D testnet market) | Solvency rule: 2,000 + 300 + 75 ≤ 2,500 |
-| `print_move_close_only_bps` (v2) | 2,500 | The licensed 7D jump clamp. A print moving the index more than 25% keeps the market CLOSE_ONLY until the next clean print |
+| `print_move_close_only_bps` (v2) | 2,500 | The dataset 7D jump clamp. A print moving the index more than 25% keeps the market CLOSE_ONLY until the next clean print |
 | `price_band_bps` | 5,000 | Fills may be up to 50% from the stale daily mark. The book has to be able to price the next print, whose move exceeds 44% on 10% of days |
 | `liq_slippage_bps` | 300 | Liquidations fill within 3% of the mark, otherwise insurance or ADL |
 | `liq_fee_bps` | 100 | To the insurance fund, capped at equity left |
@@ -93,7 +93,7 @@ Per-market parameters for the testnet markets (`deploy/testnet/*.json`):
 A lower cap applies at once through `update_market`; a higher one waits out the timelock.
 
 The open-interest cap prices manipulation. Pushing the 7D index by 1% costs about 1% of the
-7-day window's spend (the publisher's `manipulation_cost_usd_per_pct`, $43,392 for Opus on the licensed index). With
+7-day window's spend (the publisher's `manipulation_cost_usd_per_pct`, $43,392 for Opus on the dataset index). With
 open interest at most 25% of the window, a 1% push gains a manipulator at most 0.25% of the
 window at 1x, or 0.5% at 2x. That is less than the cost of the push. It doesn't make manipulation
 impossible: the bound assumes manipulation shows up as billed spend, and it ignores positions held
@@ -148,7 +148,7 @@ Other risk scenarios covered by tests:
 | Insurance exhaustion: an empty fund and no counterparties left leave bad debt and halt the market | `insurance_takeover_and_fee_then_bad_debt_halts` |
 | Oracle 24 h staleness: CLOSE_ONLY, no liquidation and no funding on the stale mark | `not_reported_stale_and_disputed_prints_restrict_trading`, `funding_is_zero_sum_and_pauses_when_stale` |
 | Daily print window, lagged publication | `daily_window_and_jump_halt`, `lagged_daily_print_window` |
-| Clamped 7D day | `large_print_move_is_close_only_until_a_clean_print`; `print_move_rule_matches_published_clamp_on_real_history`: the contract's rule (raw print values, strictly more than 25% from the previous OK value) equals the publisher's `clamped` flag on all 882 OK licensed-7D days of 54 markets, 4 of them clamped |
+| Clamped 7D day | `large_print_move_is_close_only_until_a_clean_print`; `print_move_rule_matches_published_clamp_on_real_history`: the contract's rule (raw print values, strictly more than 25% from the previous OK value) equals the publisher's `clamped` flag on all 882 OK dataset-7D days of 54 markets, 4 of them clamped |
 | Manipulation-cost OI cap | `open_interest_notional_cap_from_manipulation_cost` (core), `admission_rejects_what_the_contract_would` (engine) |
 | Cascading liquidations: 300 random runs with ±60% prints; coverage counts 945 liquidations, 662 takeovers, 281 ADL, 104 socializations, 17 bad-debt events, all conserving | `props.rs::generator_reaches_liquidation_waterfall` |
 | Engine against contract under liquidation cascades and on-chain races | `engine_tracks_chain_exactly` (120 cases), `print_drop_liquidates_and_chain_agrees` |

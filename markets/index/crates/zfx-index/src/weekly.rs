@@ -49,7 +49,7 @@ impl Spec7d {
     pub fn web() -> Spec7d {
         Spec7d { in_file: "revisions.jsonl", out_file: REVISIONS_7D, id_prefix: "or-model-spend-7d", version: FORMULA_VERSION_7D, formula_text: FORMULA_TEXT_7D, params: Params7d::default() }
     }
-    /// 7D over the licensed daily index (clamp 25%, derived from 2025-01-01..2026-11-09 history).
+    /// 7D over the dataset daily index (clamp 25%, derived from 2025-01-01..2026-11-09 history).
     pub fn lic() -> Spec7d {
         Spec7d {
             in_file: crate::licensed::REVISIONS_LIC,

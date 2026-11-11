@@ -19,7 +19,7 @@ The earlier drafts the brief mentions (`ZeroFlux_ZFX_Technical_Spec_v0.1.md`, `Z
 - **One chain, no second chain.** ZFX is a NEP-141 token minted by `zfx-mine-opt` on NEAR. The own-chain design and its committee bridge (`crates/zfx-node`, `bridge/near/wzfx`) are kept and labeled as an alternative; nothing launches on them.
 - **"ZPU".** The miner binary was `zpu-cli`; the roadmap uses ZPU for a future inference server. The miner is now installed as `zfx-miner` (public name) and still as `zpu-cli` (same program, `miner/cli/src/app.rs`), so existing scripts keep working. ZPU means the planned inference server only.
 - **Prompt VPN to ZFX VPN.** Renamed with a working `promptvpn` alias and automatic migration of the data dir and keychain entries. Internal crate names (`pv-*`), the vault key-derivation salt and the recovery-bundle format id keep their old names on purpose: changing them would break existing encrypted data (`vpn/docs/deviations.md` entries 20 to 32).
-- **Data source for ZFX Markets.** No OpenRouter API key was available; the owner directed use of openrouter.ai's public web endpoints. OpenRouter's terms restrict automated scraping; see `docs/DATA_METHOD.md` section 2 and `docs/RELEASE_READINESS.md`.
+- **Data source for ZFX Markets.** No OpenRouter API key was available at first, so the first index (the web index) reads OpenRouter's public web endpoints, the ones openrouter.ai pages call. Once a key was available, the dataset index was built from OpenRouter's documented daily dataset, and markets reference it; see `docs/DATA_METHOD.md` section 2.
 
 ## Existing, modified, new
 

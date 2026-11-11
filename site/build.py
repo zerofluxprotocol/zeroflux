@@ -354,7 +354,7 @@ def build_trade():
     rows, latest_day = [], None
     for m in models["markets"]:
         # The board lists models with a clean 7-day index from OpenRouter's documented dataset
-        # (the series markets settle on). The web-endpoint series stays published under /v1.
+        # (the series markets settle on). The web index series stays published under /v1.
         lic = m.get("licensed") or {}
         l7 = (lic.get("index_7d") or {}).get("latest") or {}
         source = "licensed"

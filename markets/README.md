@@ -22,7 +22,7 @@ money. Product brief: the launch spec; risk and legal gates: `../docs/RELEASE_RE
   1% of its 7-day spend.
 - **Caps.** Open interest per market is at most 25% of the 7-day spend, so the profit from pushing
   the index stays below what the push costs. Markets list only with an OI cap of at least $10,000
-  and a clean licensed 7-day print.
+  and a clean dataset 7-day print.
 - **Safety.** Missing or non-fresh data, or a day that moves the 7-day index more than 25% (the
   99th percentile of 22,654 observed moves), puts a market in close-only.
 - **Clearing.** The NEAR contract checks every fill against both traders' signed orders and

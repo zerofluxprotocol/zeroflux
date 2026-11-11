@@ -99,6 +99,24 @@ fn main() {
             println!("published {n} files to {}", out.display());
             Ok(())
         }
+        "universe" => {
+            // Shows which models the dataset would add and which tracked models would be retired.
+            // Writes the LIST and RETIRE events only with --apply.
+            let now = now_ms();
+            let apply = args.iter().any(|a| a == "--apply");
+            let l = if apply { Ledger::open_write(&ledger_dir).map_err(|e| e.to_string())? } else { Ledger::open_read(&ledger_dir) };
+            let s = zfx_index::engine::load(&l).map_err(|e| e.to_string())?;
+            let active = zfx_index::engine::load_active_markets(&l).map_err(|e| e.to_string())?;
+            let (add, _) = poll::listing_candidates(&s, &active, params.top_n, now).map_err(|e| e.to_string())?;
+            let y = zfx_index::time::UtcDate::of_ms(now).pred();
+            let retire: Vec<_> = active.iter().filter_map(|m| poll::retire_reason(&s, m, y).map(|r| serde_json::json!({"permaslug": m.permaslug, "reason": r}))).collect();
+            if apply {
+                poll::list_markets(&l, params.top_n, now).map_err(|e| e.to_string())?;
+                poll::retire_markets(&l, now).map_err(|e| e.to_string())?;
+            }
+            println!("{}", serde_json::to_string_pretty(&serde_json::json!({"tracked": active.len(), "add": add.iter().map(|m| serde_json::json!({"permaslug": m.permaslug, "rank": m.listing_rank, "day": m.listing_day})).collect::<Vec<_>>(), "retire": retire, "applied": apply})).unwrap());
+            Ok(())
+        }
         "poll" => {
             let signer = keys::load(&key)?;
             poll::run_loop(&ledger_dir, &out, &signer, &params, budget.clone(), args.iter().any(|a| a == "--once")).map_err(|e| e.to_string())

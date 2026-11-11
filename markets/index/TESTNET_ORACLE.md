@@ -11,9 +11,12 @@ Keys: `~/.config/zeroflux/oracle.zeroflux.testnet.json`, `~/.config/zeroflux/ora
 
 - Reporter allowlist: `cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48`
   (`keys/oracle-reporter.pub.json`), quorum 1.
-- Indices: 56. These are `or-model-spend-lic/<slug>` (`ZFX-OR-MODEL-SPEND-USD-LIC-v1`) and
-  `or-model-spend-lic-7d/<slug>` (`ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1`) for the 28 tradable markets in
-  `markets/zfx-perps/deploy/testnet/v2-markets.json`, with formula hashes from `models.json`.
+- Indices: 132 on 2026-11-11. The first 56 were `or-model-spend-lic/<slug>`
+  (`ZFX-OR-MODEL-SPEND-USD-LIC-v1`) and `or-model-spend-lic-7d/<slug>` (`ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1`)
+  for the 28 tradable markets in `markets/zfx-perps/deploy/testnet/v2-markets.json`. The poller then
+  registered 76 more with the owner key: the dataset 7-day index and the web 7-day index
+  (`or-model-spend-7d/<slug>`, `ZFX-OR-MODEL-SPEND-USD-7D-v1`) of every tracked model. New models are
+  registered automatically on their first push.
 - Storage reserve (`min_free_yocto`): 0.2 NEAR. Pushes that would go below it are refused.
 
 ## Backfill
@@ -70,7 +73,7 @@ Pushes made by the poller from now on are logged in `~/.local/share/zfx-index/ne
 pushes until someone tops it up (any account can call `prepay` or transfer NEAR). Options:
 
 - add about 4.6 NEAR per month for both indices;
-- push only the licensed 7D (the traded index): 0.076 NEAR/day, 2.3 NEAR/month. To do that, set
+- push only the dataset 7D (the traded index): 0.076 NEAR/day, 2.3 NEAR/month. To do that, set
   `"files": ["revisions_lic_7d.jsonl"]` in `~/.config/zeroflux/oracle-push.json` and disable the
   daily indices with `set_enabled`.
 
@@ -84,7 +87,7 @@ Relayer gas runs about 0.005 NEAR/day, so 0.117 NEAR lasts about 3 weeks.
 | 10 prints | 8.20 Tgas (0.82 / print) |
 | 50 prints | 32.35 Tgas (0.65 / print) |
 | 100 prints | 62.75 Tgas (0.63 / print) |
-| 30 real licensed 7D prints | 0.69 Tgas / print |
+| 30 real dataset 7D prints | 0.69 Tgas / print |
 | testnet, 100 real prints | 69.6 to 69.8 Tgas (0.70 / print) |
 | in-wasm ed25519-dalek verification instead of the host function (10 prints) | 46.97 Tgas (4.70 / print, 6.3x; wasm 238,384 bytes) |
 
@@ -103,9 +106,21 @@ $N view --contract oracle.zeroflux.testnet --method history --args '{"index_id":
   --signer oracle-relayer.zeroflux.testnet --key-file ~/.config/zeroflux/oracle-relayer.zeroflux.testnet.json --dry-run
 ```
 
-## Funding, 2026-11-11
+## Funding
 
 The coordinator sent 6 NEAR to `oracle.zeroflux.testnet` (balance 10.79 NEAR, 3.30 NEAR locked by
 storage) and set the poller to push only the traded index, `or-model-spend-lic-7d` (config
 `~/.config/zeroflux/oracle-push.json`, `files: ["revisions_lic_7d.jsonl"]`). That is 28 prints a day,
 about 0.076 NEAR a day of storage: roughly 98 days before the next top-up.
+
+Later on 2026-11-11 the poller started pushing both 7-day indices for every tracked model
+(`files: ["revisions_lic_7d.jsonl", "revisions_7d.jsonl"]`, plus `owner` and `owner_key_file` for
+registration). The first push registered 76 indices and accepted 531 prints in 6 transactions
+(about 70 Tgas per 100 prints); the contract then held 923 prints. That is about 108 prints a
+day, roughly 0.29 NEAR a day of storage. zeroflux.testnet sent 5 NEAR to the contract
+(`27eVfkNVSAmHYEBZYp3oMAJ8Jdy5uznVpr1MJpGPHJKK`, 10.6 NEAR available, about 36 days) and 1 NEAR
+to the relayer for gas (`HzHqtUVdnMp8L5jdjhXes6amaWmizuVxTGPtTokThmi7`). Top-ups:
+`zfx-oracle-near transfer --from zeroflux.testnet --key-file <key> --to oracle.zeroflux.testnet --near 5`.
+
+Spot check: `latest` for `or-model-spend-7d/x-ai/grok-4.7-20260916` (a model outside the dataset's
+top 50) returns 2026-11-09, 35466.850595, FINAL, matching `public/v1/indices/or-model-spend-7d/...`.

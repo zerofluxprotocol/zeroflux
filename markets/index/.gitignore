@@ -1,7 +1,7 @@
 target/
 ledger/LOCK
 *.tmp
-# Raw OpenRouter responses stay with the operator (see docs/DATA_METHOD.md, terms).
+# Raw OpenRouter responses stay in the operator's local ledger.
 # Their SHA-256 hashes are published in ledger/fetches.jsonl.
 ledger/blobs/
 target/

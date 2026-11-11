@@ -67,7 +67,7 @@ pub enum DataStatus {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[repr(u8)]
 pub enum Finality {
-    /// Reserved for an authorized live current-day feed. Not used by v1 sources.
+    /// Reserved for a live current-day feed. Not used by v1 sources.
     Provisional = 0,
     Final = 1,
     Corrected = 2,

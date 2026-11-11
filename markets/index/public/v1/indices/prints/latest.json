@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-11T02:02:03.866Z",
+  "generated_at": "2026-11-11T04:37:48.556Z",
   "notice": "Paper-trading index built from OpenRouter data. Not settlement-grade. Not revenue, royalties or equity.",
   "what_this_is_not": "Not AI-provider revenue, not model-owner royalties, not equity or any claim on a model's cash flows. One venue (OpenRouter), one declared formula.",
   "formula": {
@@ -17,7 +17,7 @@
     "version_7d": "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1",
     "hash_7d": "70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef"
   },
-  "recommended_reference": "licensed.index_7d (ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1): documented sources only. The web-endpoint variant (index_7d) is kept for comparison and for models outside the documented top 50. See docs/DATA_METHOD.md section 2.",
+  "recommended_reference": "licensed.index_7d (ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1): the dataset index, from OpenRouter's documented daily dataset and listed prices. The web index (index_7d) is kept for comparison and for models outside the dataset's top 50. See docs/DATA_METHOD.md section 2.",
   "manipulation_note": "manipulation_cost_usd_per_pct is 1% of the 7-day window's counted spend: the OpenRouter-billed spend a third party must add to move the 7D index by 1%. max_open_interest_usd is 25% of that window spend. This bounds the cost of a push; it does not make manipulation impossible. See docs/DATA_METHOD.md, manipulation resistance.",
   "reporter_pubkey_ed25519": "cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48",
   "prints": [

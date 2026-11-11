@@ -1,5 +1,5 @@
-"""Write one MarketParams file per tradable licensed-7D market (params_from_models.py rules:
-licensed 7D index OK, open-interest cap >= $10,000) into v2-markets/, plus v2-markets.json
+"""Write one MarketParams file per tradable dataset-7D market (params_from_models.py rules:
+dataset 7D index OK, open-interest cap >= $10,000) into v2-markets/, plus v2-markets.json
 mapping market ids to permaslugs, sorted by OI cap.
 
 Market ids are derived from the permaslug: the model part upper-cased with every character

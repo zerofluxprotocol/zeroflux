@@ -45,7 +45,7 @@ cargo test -p zfx-perps-near --test clearing_e2e -- --nocapture   # chain + node
 
 ## Run against NEAR testnet
 
-The live testnet deployment is `perps-v2.zeroflux.testnet`: 28 licensed 7-day model markets,
+The live testnet deployment is `perps-v2.zeroflux.testnet`: 28 dataset 7-day model markets,
 collateral `tusdc-perps.zeroflux.testnet` (open faucet). Accounts and every transaction are in
 `TESTNET.md`. To run your own node and relayer against it you need the operator key, i.e. the
 stack file `~/.config/zeroflux/perps-v2-testnet-stack.json` from the deployer. Anyone else can

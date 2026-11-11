@@ -1,4 +1,4 @@
-//! Licensed (documented-sources-only) variant: tokens from the dataset, listed prices,
+//! Dataset index variant: tokens from the documented daily dataset, listed prices,
 //! frozen mix, statuses, snapshot bases, corrections, and the 25% LIC-7D clamp.
 
 use serde_json::{json, Value};

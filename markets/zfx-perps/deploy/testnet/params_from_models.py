@@ -1,7 +1,7 @@
-"""Market parameters for a model perp on the LICENSED 7-day index (documented OpenRouter sources
+"""Market parameters for a model perp on the dataset 7-day index (documented OpenRouter sources
 only, `markets[].licensed.index_7d`), from the index publisher's models.json.
 
-Listing rules: the licensed 7D index must be data_status OK, and the open-interest cap must be at
+Listing rules: the dataset 7D index must be data_status OK, and the open-interest cap must be at
 least $10,000; otherwise the script refuses (the market is not tradable).
 
 The open-interest cap comes from the index side's manipulation-cost bound:
@@ -20,7 +20,7 @@ x = next(q for q in m["markets"] if q["permaslug"] == slug)
 i7 = x["licensed"]["index_7d"]
 latest = i7["latest"]
 if latest["data_status"] != "OK":
-    sys.exit(f"{slug}: licensed 7D index is {latest['data_status']} ({latest.get('reason')}); not tradable")
+    sys.exit(f"{slug}: dataset 7D index is {latest['data_status']} ({latest.get('reason')}); not tradable")
 whole, _, frac = latest["max_open_interest_usd"].partition(".")
 cap_atoms = int(whole) * 10**6 + int((frac + "000000")[:6])
 if cap_atoms < 10_000 * 10**6:
@@ -31,7 +31,7 @@ params = {
     "index_units_per_tick": 1000000, "tick_value": 1,
     "min_qty": 1, "max_qty": 10000000, "max_price": 100000000,
     # Tier from docs/MARKET_RISK.md: 2x with a 20% mark limit (solvency rule 2000 + 300 + 75 <= 2500).
-    # The index side's jump clamp for the licensed 7D index is 25% (p99 of 22,654 observed 7D
+    # The index side's jump clamp for the dataset 7D index is 25% (p99 of 22,654 observed 7D
     # moves): a print moving it further keeps the market CLOSE_ONLY until the next clean print.
     "initial_margin_bps": 5000, "maintenance_margin_bps": 2500, "max_leverage": 2,
     "max_open_interest": 100000000000, "max_open_interest_notional": cap_atoms, "max_position": 1000000,

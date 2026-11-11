@@ -1,5 +1,5 @@
 //! Statistics published in source-health: documented dataset coverage and latency,
-//! documented-vs-web token cross-check, licensed-vs-web tracking, and the 7D clamp and
+//! documented-vs-web token cross-check, dataset-vs-web tracking, and the 7D clamp and
 //! min-valid-days calibration from the documented history. Integer math; ratios are
 //! reported as fixed-point strings (6 decimals).
 
@@ -133,7 +133,7 @@ fn ratio_stats(pairs: &[(u128, u128)]) -> Value {
     })
 }
 
-/// How the licensed variant tracks the web variant over days both are OK.
+/// How the dataset index tracks the web index over days both are OK.
 pub fn tracking(l: &Ledger) -> Result<Value, LedgerError> {
     let pairs_for = |a: &BTreeMap<(String, String), Value>, b: &BTreeMap<(String, String), Value>| -> BTreeMap<String, Vec<(String, u128, u128)>> {
         let mut out: BTreeMap<String, Vec<(String, u128, u128)>> = BTreeMap::new();

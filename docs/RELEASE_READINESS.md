@@ -86,7 +86,7 @@ CONFIDENTIAL_CLAIMS  = attestation verified live; confidential inference itself 
 | 6 | Real macOS Keychain upgrade run by a person (one "Always Allow" prompt) | Unattended run blocked by the OS prompt | Project owner (5 minutes at the Mac) |
 | 7 | Measurement pin policy for NEAR models (which compose / OS image hashes to accept, for how long) | Mechanism built; no pins shipped; NEAR publishes no allowlist | Project owner + security reviewer |
 | 8 | GLiNER capacity plan for the hosted service (one model instance serializes requests; see hosting numbers) | Measured on this Mac only | ZeroFlux core |
-| 9 | Re-render demo videos with the new name | Done 2026-11-11: Launch, VPN and Markets videos use ZFX VPN | Design |
+| 9 | Re-render demo videos with the new name | Not done | Design |
 
 
 ### Owner decisions
@@ -124,7 +124,7 @@ TRADED_INDEX           = dataset 7-day (OpenRouter's documented datasets/ranking
 | 1 | Fields no public endpoint provides: billed-dollar totals, a corrections and finality policy, intraday data, coverage beyond the daily top 50 (`docs/DATA_METHOD.md` section 10) | not available | project owner |
 | 2 | Publication latency over 30 days (spec 4.3) | 1 day measured: the dataset had the new day 26 minutes after midnight UTC | ZeroFlux core (time) |
 | 3 | First-party wash trading: a provider serving its own model gets most of a push back, so its real manipulation cost is below the published figure; price cuts move the index down for free | documented; not priced into caps | project owner + market risk review |
-| 4 | Listing rule for trading: a market needs a sustained top-50 record, because the dataset index needs top-50 membership on every day of its window | Models outside the top 50 stay tracked through the web index (published and on chain); the trade app shows a model when its dataset 7-day index is OK, and offers trading when it is also a listed perps market with an OI cap of at least $10,000 (27 today) | project owner |
+| 4 | Listing rule: only models with a sustained top-50 record (the dataset index needs top-50 membership; 12 of 54 markets have no dataset value today) | the trade app lists a market only when its dataset 7-day index is OK and its OI cap is at least $10,000 | project owner |
 | 5 | The index poller runs on one Mac and stops when it sleeps | runs from `~/.local/share/zfx-index` | project owner (hosting decision) |
 
 ## Trade: ZFX Markets perps
@@ -157,7 +157,7 @@ PERPS_REAL_MONEY_READY = false
 | 4 | Insurance fund size and auto-deleveraging ranking (no data yet: the stress replay seeds 2% of open notional) | policy open | project owner + risk review |
 | 5 | Index publication latency over 30 days; the 22:00 UTC close-only window is a placeholder from one sample | collecting | ZeroFlux core (time) |
 | 6 | A public venue node (operator node + relayer) so site visitors can trade on testnet | runs on one Mac today | project owner (hosting decision) |
-| 7 | Funding for the oracle's storage: about 0.29 NEAR a day pushing both 7-day indices for every tracked model (about 108 prints a day); the contract holds about 10.6 NEAR above its reserve (about 36 days) | funded 2026-11-11; top up with `zfx-oracle-near transfer` | ZeroFlux core |
+| 7 | Funding for the oracle's storage: about 0.076 NEAR a day pushing the traded 7-day index for 28 markets; the contract holds about 7.5 NEAR above its reserve (about 98 days) | funded 2026-11-11 | ZeroFlux core |
 
 ### Key rotation, 2026-11-11
 
