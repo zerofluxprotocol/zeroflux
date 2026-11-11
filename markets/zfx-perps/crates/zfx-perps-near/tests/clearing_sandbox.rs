@@ -1,5 +1,6 @@
 //! The clearing contract on a real local nearcore sandbox: custody attacks against the deployed
-//! wasm, and gas per verified fill. Writes `research/data/clearing_gas.json`.
+//! wasm, and gas per verified fill. Writes `target/clearing_gas.json` (`research/data/clearing_gas.json`
+//! with ZFX_RECORD=1).
 //!
 //!   cargo test -p zfx-perps-near --test clearing_sandbox -- --nocapture
 
@@ -153,8 +154,15 @@ async fn clearing_contract_on_sandbox() -> Result<()> {
 
     let out = json!({"measured_at_unix": now_ns() / 1_000_000_000, "chain": "local nearcore sandbox", "wasm_bytes":
         std::fs::metadata(zfx_perps_near::stack::out_dir().join("zfx_perps_clearing.wasm"))?.len(), "rows": rows});
-    let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../research/data/clearing_gas.json");
-    std::fs::write(path, serde_json::to_string_pretty(&out)? + "\n")?;
+    // The committed measurement is only replaced on request (ZFX_RECORD=1); otherwise the
+    // numbers go to target/ so a test run leaves the checkout clean.
+    let path = if std::env::var("ZFX_RECORD").as_deref() == Ok("1") {
+        concat!(env!("CARGO_MANIFEST_DIR"), "/../../research/data/clearing_gas.json").to_string()
+    } else {
+        concat!(env!("CARGO_MANIFEST_DIR"), "/../../target/clearing_gas.json").to_string()
+    };
+    std::fs::write(&path, serde_json::to_string_pretty(&out)? + "\n")?;
+    println!("gas table: {path}");
     sb.stop().await;
     Ok(())
 }
