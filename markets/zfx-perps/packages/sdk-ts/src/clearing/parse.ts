@@ -66,6 +66,8 @@ export function parseMarketParams(j: J): MarketParams {
     printLagDays: num(j.print_lag_days ?? 0, "print_lag_days"),
     markLimitBps: num(j.mark_limit_bps, "mark_limit_bps"),
     haltJumpBps: num(j.halt_jump_bps ?? 0, "halt_jump_bps"),
+    printMoveCloseOnlyBps: num(j.print_move_close_only_bps ?? 0, "print_move_close_only_bps"),
+    maxOpenInterestNotional: big(j.max_open_interest_notional ?? "0", "max_open_interest_notional"),
   };
 }
 

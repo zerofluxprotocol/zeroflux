@@ -354,10 +354,11 @@ pub fn mark_fresh(m: &MarketState, now: Now, grace: u64) -> bool {
 
 /// Effective status at `now`: the admin status, made stricter by the oracle.
 ///
-/// - No print, or a DISPUTED / UNAVAILABLE-with-OK-data print: HALTED.
-/// - Stale (past `validUntil` or older than `oracleMaxAgeSec`), STALE status, or data
-///   NOT_REPORTED / UNPRICED / NO_VALID_CLOSE_PRICE: CLOSE_ONLY. The last mark is kept for
-///   reducing trades but never treated as fresh: no liquidation, no funding.
+/// - No print at all: HALTED.
+/// - Any non-FRESH print (STALE, DISPUTED, UNAVAILABLE, data NOT_REPORTED / UNPRICED /
+///   NO_VALID_CLOSE_PRICE), a print past `validUntil` or older than `oracleMaxAgeSec`, or a last
+///   print that moved the index more than `print_move_close_only_bps`: CLOSE_ONLY. The last mark is
+///   kept for reducing trades; a non-fresh mark is never used for liquidation or funding.
 /// - Daily cycle (`print_close_only_from_sec > 0`): CLOSE_ONLY from that time of day until the
 ///   print expected that day lands, and all day if the previous day's expected print is missing.
 pub fn effective_status(m: &MarketState, now: Now, grace: u64) -> MarketStatus {
@@ -366,13 +367,16 @@ pub fn effective_status(m: &MarketState, now: Now, grace: u64) -> MarketStatus {
         s => return s,
     }
     let Some(p) = &m.print else { return MarketStatus::Halted };
-    match (p.status, p.data_status) {
-        (OracleStatus::Disputed, _) => return MarketStatus::Halted,
-        (OracleStatus::Unavailable, DataStatus::Ok) => return MarketStatus::Halted,
-        _ => {}
-    }
     if m.mark == 0 {
         return MarketStatus::Halted;
+    }
+    // Any non-FRESH oracle state (STALE, DISPUTED, UNAVAILABLE / NOT_REPORTED ...): close-only
+    // until the next clean print. The last mark only prices reductions.
+    if p.status != OracleStatus::Fresh || p.data_status != DataStatus::Ok {
+        return MarketStatus::CloseOnly;
+    }
+    if m.print_move_flag {
+        return MarketStatus::CloseOnly;
     }
     if !mark_fresh(m, now, grace) {
         return MarketStatus::CloseOnly;
@@ -459,6 +463,7 @@ pub fn new_market<C: Crypto>(c: &C, params: MarketParams, now_ns: u64) -> Result
         status: MarketStatus::Proposed,
         mark: 0,
         index_ticks: 0,
+        print_move_flag: false,
         print: None,
         open_interest: 0,
         cum_funding: 0,
@@ -488,6 +493,9 @@ pub fn is_tightening(cur: &MarketParams, next: &MarketParams) -> bool {
         && next.max_leverage <= cur.max_leverage
         && next.max_open_interest <= cur.max_open_interest
         && next.max_position <= cur.max_position
+        && (cur.max_open_interest_notional == 0
+            || (next.max_open_interest_notional > 0 && next.max_open_interest_notional <= cur.max_open_interest_notional))
+        && (cur.print_move_close_only_bps == 0 || (next.print_move_close_only_bps > 0 && next.print_move_close_only_bps <= cur.print_move_close_only_bps))
         && next.maker_fee_bps <= cur.maker_fee_bps
         && next.taker_fee_bps <= cur.taker_fee_bps
         && next.liq_fee_bps <= cur.liq_fee_bps
@@ -800,6 +808,10 @@ fn trade_side<S: Store>(
 }
 
 fn update_oi(m: &mut MarketState, changes: &[(i64, i64)]) -> Result<(), Reject> {
+    update_oi_lots(m, changes)
+}
+
+fn update_oi_lots(m: &mut MarketState, changes: &[(i64, i64)]) -> Result<(), Reject> {
     let before = m.open_interest as i128;
     let mut oi = before;
     for (old, new) in changes {
@@ -809,6 +821,12 @@ fn update_oi(m: &mut MarketState, changes: &[(i64, i64)]) -> Result<(), Reject> 
         return Err(Reject::Overflow);
     }
     if oi > before && oi > m.params.max_open_interest as i128 {
+        return Err(Reject::OpenInterestCap);
+    }
+    if oi > before
+        && m.params.max_open_interest_notional > 0
+        && m.notional(oi as u64, m.mark) > m.params.max_open_interest_notional
+    {
         return Err(Reject::OpenInterestCap);
     }
     m.open_interest = oi as u64;
@@ -1247,6 +1265,9 @@ pub fn oracle<S: Store, C: Crypto>(s: &mut S, c: &C, now: Now, market: &str, byt
                 reason: HaltReason::IndexJump,
             });
         } else {
+            let thr = m.params.print_move_close_only_bps as u128;
+            let prev = m.index_ticks;
+            m.print_move_flag = thr > 0 && prev > 0 && (t.abs_diff(prev) as u128) * 10_000 > prev as u128 * thr;
             m.index_ticks = t;
             m.mark = limit_move(m.mark, t, m.params.mark_limit_bps);
         }

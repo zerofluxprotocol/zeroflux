@@ -10,7 +10,7 @@ The package has two APIs:
 - The v1 clearing API for isolated-margin perpetuals whose fills are verified on the NEAR clearing
   contract (`src/clearing`). Import it from `@zeroflux/zfx-perps-sdk/clearing`, or use the
   `clearing` namespace and `ZfxPerpsClearingClient` from the root export. The contract it
-  implements is `openapi.yaml` at the repository root.
+  implements is `markets/zfx-perps/openapi.yaml`.
 
 ## Clearing API
 

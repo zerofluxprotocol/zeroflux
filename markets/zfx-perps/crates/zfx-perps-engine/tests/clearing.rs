@@ -253,7 +253,15 @@ fn admission_rejects_what_the_contract_would() {
     assert_eq!(s.place(far), Err(Reject::PriceOutOfBand));
     let ro = s.order(&a, wire::Side::Sell, 1_000, 1, |o| o.reduce_only = true);
     assert_eq!(s.place(ro), Err(Reject::Clearing(zfx_perps_clearing::Reject::ReduceOnlyViolated)));
-    let ok = s.order(&a, wire::Side::Buy, 990, 5, |_| {});
+    // Notional open-interest cap (owner-set from the index's max_open_interest_usd).
+    let mut m = s.chain.markets[MKT].clone();
+    m.params.max_open_interest_notional = 4_000_000;
+    m.policy_hash = ledger::policy_hash(&NativeCrypto, &m.params);
+    s.chain.markets.insert(MKT.into(), m.clone());
+    s.chain_event(ClearingEvent::MarketUpdated { params: m.params.clone(), policy_hash: m.policy_hash, status: MarketStatus::Active, created_ns: T0 });
+    let over = s.order(&a, wire::Side::Buy, 1_000, 5, |_| {});
+    assert_eq!(s.place(over), Err(Reject::Clearing(zfx_perps_clearing::Reject::OpenInterestCap)));
+    let ok = s.order(&a, wire::Side::Buy, 990, 4, |_| {});
     s.place(ok.clone()).unwrap();
     assert_eq!(s.place(ok), Err(Reject::DuplicateClientId));
 }

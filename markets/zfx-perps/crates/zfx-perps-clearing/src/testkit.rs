@@ -71,6 +71,7 @@ pub fn model_params() -> MarketParams {
         max_leverage: 2,
         max_open_interest: 20_000,
         max_position: 10_000,
+        max_open_interest_notional: 0,
         maker_fee_bps: 2,
         taker_fee_bps: 5,
         liq_fee_bps: 100,
@@ -84,6 +85,7 @@ pub fn model_params() -> MarketParams {
         print_lag_days: 0,
         mark_limit_bps: 20_000,
         halt_jump_bps: 0,
+        print_move_close_only_bps: 0,
     }
 }
 

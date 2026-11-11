@@ -60,6 +60,11 @@ pub struct MarketParams {
     pub max_leverage: u16,
     /// Cap on long open interest (= short open interest), in lots.
     pub max_open_interest: u64,
+    /// Cap on long open interest valued at the mark, in collateral atoms (0 = no notional cap).
+    /// For model perps the owner sets it from the index's published `max_open_interest_usd`
+    /// (a quarter of the 7-day spend window: the manipulation-cost bound).
+    #[serde(default)]
+    pub max_open_interest_notional: u128,
     /// Cap on one account's absolute position, in lots.
     pub max_position: u64,
     pub maker_fee_bps: u16,
@@ -92,6 +97,11 @@ pub struct MarketParams {
     /// A usable print further than this from the mark is treated as suspect data: the market halts
     /// for review and the mark doesn't move. 0 disables.
     pub halt_jump_bps: u32,
+    /// A usable print that moves the index more than this from the previous usable print (a
+    /// "clamped" day of the 7-day index) leaves the market CLOSE_ONLY until the next clean print.
+    /// 0 disables.
+    #[serde(default)]
+    pub print_move_close_only_bps: u32,
 }
 
 /// Snapshot of the last accepted print (the canonical bytes are not kept; their hash is).
@@ -117,6 +127,9 @@ pub struct MarketState {
     pub mark: u64,
     /// The last usable print's value in ticks. The mark converges to it print by print.
     pub index_ticks: u64,
+    /// The last usable print moved the index by more than `print_move_close_only_bps`.
+    #[serde(default)]
+    pub print_move_flag: bool,
     pub print: Option<PrintInfo>,
     /// Long open interest in lots; always equals short open interest.
     pub open_interest: u64,

@@ -103,7 +103,8 @@ async function main() {
       const h2 = await send(t.acct)(clearing.clearingTx.registerKey(info.clearingContract, t.signer.publicKey, { canWithdraw: true }));
       step("register_trading_key", { account: t.id, public_key: t.signer.publicKey, tx: h2 });
     }
-    const before = (await t.client.getPortfolio()).settled.free;
+    // The node learns the key from the contract's event stream (relayer poll).
+    const before = (await waitFor(`${t.id} key seen by the node`, 120, () => t.client.getPortfolio())).settled.free;
     const d = await t.client.deposit(DEPOSIT, { send: send(t.acct) });
     step("deposit", { account: t.id, amount: DEPOSIT, tx: d.result });
     await waitFor(`${t.id} deposit credited on-chain`, 180, async () => (await t.client.getPortfolio()).settled.free === before + DEPOSIT);

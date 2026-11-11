@@ -381,6 +381,16 @@ impl Engine {
         if (so.price.abs_diff(m.mark) as u128) * 10_000 > m.mark as u128 * m.params.price_band_bps as u128 {
             return Err(Reject::PriceOutOfBand);
         }
+        // Open-interest caps (lots and notional at the mark): refuse an order that would push
+        // open interest over either if it filled entirely against new exposure.
+        if !reducing_only {
+            let oi = m.open_interest.saturating_add(so.qty);
+            if oi > m.params.max_open_interest
+                || (m.params.max_open_interest_notional > 0 && m.notional(oi, m.mark) > m.params.max_open_interest_notional)
+            {
+                return Err(rej(core::Reject::OpenInterestCap));
+            }
+        }
         if !reducing_only && !self.margin_admits(account, so, &m) {
             return Err(Reject::InsufficientMargin);
         }

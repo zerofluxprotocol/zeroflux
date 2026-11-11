@@ -1,3 +1,6 @@
+> Netted mode (inherited from obkit). The NEAR v1 clearing path is documented in the repo-root
+> `docs/ORDERBOOK_AND_CLEARING.md` and `openapi.yaml`.
+
 # Architecture
 
 ## Processes

@@ -107,6 +107,10 @@ export interface MarketParams {
   markLimitBps: number;
   /** Prints further than this from the mark halt the market (0 = off). */
   haltJumpBps: number;
+  /** A print moving the index more than this keeps the market CLOSE_ONLY until the next clean print (0 = off). */
+  printMoveCloseOnlyBps: number;
+  /** Cap on open interest valued at the mark, collateral atoms (0 = none). */
+  maxOpenInterestNotional: bigint;
 }
 
 /** Alias: the spec calls the parameter set `MarketSpec`. */

@@ -328,6 +328,8 @@ const params: MarketParams = {
   printLagDays: 0,
   markLimitBps: 600,
   haltJumpBps: 0,
+  printMoveCloseOnlyBps: 0,
+  maxOpenInterestNotional: 0n,
 };
 const testMarket = { marketId: "OPUS-PERP", params, policyHash: "ab".repeat(32), status: "ACTIVE" as const, effectiveStatus: "ACTIVE" as const, mark: 1000n, indexTicks: 1000n, markFresh: true, openInterest: 0n, badDebt: 0n };
 

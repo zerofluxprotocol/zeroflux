@@ -56,17 +56,17 @@ pub fn market_json(m: &MarketState, now: u64, grace: u64) -> Value {
         "value_scale": p.value_scale, "index_units_per_tick": p.index_units_per_tick.to_string(), "tick_value": p.tick_value.to_string(),
         "min_qty": p.min_qty.to_string(), "max_qty": p.max_qty.to_string(), "max_price": p.max_price.to_string(),
         "initial_margin_bps": p.initial_margin_bps, "maintenance_margin_bps": p.maintenance_margin_bps, "max_leverage": p.max_leverage,
-        "max_open_interest": p.max_open_interest.to_string(), "max_position": p.max_position.to_string(),
+        "max_open_interest": p.max_open_interest.to_string(), "max_open_interest_notional": p.max_open_interest_notional.to_string(), "max_position": p.max_position.to_string(),
         "maker_fee_bps": p.maker_fee_bps, "taker_fee_bps": p.taker_fee_bps, "liq_fee_bps": p.liq_fee_bps,
         "liq_slippage_bps": p.liq_slippage_bps, "price_band_bps": p.price_band_bps,
         "oracle_max_age_sec": p.oracle_max_age_sec.to_string(), "funding_interval_sec": p.funding_interval_sec.to_string(),
         "funding_divisor": p.funding_divisor, "max_funding_ppm": p.max_funding_ppm,
-        "print_close_only_from_sec": p.print_close_only_from_sec, "print_lag_days": p.print_lag_days, "mark_limit_bps": p.mark_limit_bps, "halt_jump_bps": p.halt_jump_bps,
+        "print_close_only_from_sec": p.print_close_only_from_sec, "print_lag_days": p.print_lag_days, "mark_limit_bps": p.mark_limit_bps, "halt_jump_bps": p.halt_jump_bps, "print_move_close_only_bps": p.print_move_close_only_bps,
     });
     json!({
         "market_id": p.market_id, "params": params, "policy_hash": wire::hex32(&m.policy_hash),
         "status": m.status.name(), "effective_status": ledger::effective_status(m, Now::at(now), grace).name(),
-        "mark": m.mark.to_string(), "index_ticks": m.index_ticks.to_string(), "mark_fresh": ledger::mark_fresh(m, Now::at(now), grace),
+        "mark": m.mark.to_string(), "index_ticks": m.index_ticks.to_string(), "print_move_flag": m.print_move_flag, "mark_fresh": ledger::mark_fresh(m, Now::at(now), grace),
         "open_interest": m.open_interest.to_string(), "bad_debt": m.bad_debt.to_string(),
     })
 }
@@ -125,7 +125,7 @@ async fn oracle(State(app): State<App>, Path(market): Path<String>) -> Result<Js
             Some(json!({
                 "market": market, "index_id": m.params.index_id, "index_version": m.params.index_version, "value_scale": m.params.value_scale,
                 "index_units_per_tick": m.params.index_units_per_tick.to_string(),
-                "mark": m.mark.to_string(), "index_ticks": m.index_ticks.to_string(), "mark_fresh": ledger::mark_fresh(m, Now::at(now), c.cfg.settle_grace_ns),
+                "mark": m.mark.to_string(), "index_ticks": m.index_ticks.to_string(), "print_move_flag": m.print_move_flag, "mark_fresh": ledger::mark_fresh(m, Now::at(now), c.cfg.settle_grace_ns),
                 "effective_status": ledger::effective_status(m, Now::at(now), c.cfg.settle_grace_ns).name(),
                 "oracle_max_age_sec": m.params.oracle_max_age_sec.to_string(),
                 "reporters": c.spec.globals.reporters.iter().map(key_to_str).collect::<Vec<_>>(), "quorum": c.spec.globals.quorum,

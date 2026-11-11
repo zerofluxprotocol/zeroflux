@@ -60,11 +60,20 @@ fn golden_vectors_decode_encode_hash_and_verify() {
 
 #[test]
 fn real_signed_opus_print_verifies() {
-    let v = load("real_print_opus.json");
+    for (file, index_id) in [
+        ("real_print_opus.json", "or-model-spend/anthropic/claude-opus-5.5-20260921"),
+        ("real_print_opus_lic7d.json", "or-model-spend-lic-7d/anthropic/claude-opus-5.5-20260921"),
+    ] {
+        check_real(file, index_id);
+    }
+}
+
+fn check_real(file: &str, index_id: &str) {
+    let v = load(file);
     let p = &v["print"];
     let bytes = unhex(p["canonicalHex"].as_str().unwrap()).unwrap();
     let d = OraclePrint::decode(&bytes).unwrap();
-    assert_eq!(d.index_id, "or-model-spend/anthropic/claude-opus-5.5-20260921");
+    assert_eq!(d.index_id, index_id);
     assert!(d.usable());
     let pk: [u8; 32] = arr(v["reporter_pubkey_hex"].as_str().unwrap());
     let sig_entry = p["reporterSignatures"][0].as_str().unwrap();

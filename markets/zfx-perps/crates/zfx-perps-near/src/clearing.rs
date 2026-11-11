@@ -202,6 +202,10 @@ pub struct ClearingStack {
     pub insurance_account: String,
     pub owner: crate::stack::ActorInfo,
     pub operator: crate::stack::ActorInfo,
+    /// Full-access key of the contract account (testnet/sandbox only, so the code can be
+    /// redeployed). A production deployment deletes every key on the contract account.
+    #[serde(default)]
+    pub contract_key: Option<crate::stack::ActorInfo>,
     /// ed25519 reporter public keys allowlisted at init.
     pub reporters: Vec<String>,
     pub quorum: u8,
@@ -308,6 +312,10 @@ pub async fn deploy_clearing(near: &Near, rpc_url: &str, master: &Actor, o: &Cle
             account: operator.id.to_string(),
             secret_key: operator.secret.clone(),
         },
+        contract_key: Some(crate::stack::ActorInfo {
+            account: c.id.to_string(),
+            secret_key: c.secret.clone(),
+        }),
         reporters: o.reporters.clone(),
         quorum: o.quorum,
     })

@@ -1,3 +1,6 @@
+> Netted mode (inherited from obkit). The NEAR v1 clearing path is documented in the repo-root
+> `docs/ORDERBOOK_AND_CLEARING.md` and `openapi.yaml`.
+
 # Benchmarks
 
 Machine: Apple M5 Pro, 18 cores, 48 GB, macOS. Client and server run on the same machine, so

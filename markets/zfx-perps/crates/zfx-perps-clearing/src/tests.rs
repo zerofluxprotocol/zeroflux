@@ -233,14 +233,19 @@ fn not_reported_stale_and_disputed_prints_restrict_trading() {
     w.now += NS_PER_DAY;
     let m = w.s.market(MKT).unwrap();
     assert_eq!(effective_status(&m, Now::at(w.now), w.s.globals.settle_grace_ns), MarketStatus::CloseOnly);
-    // A DISPUTED print halts the market completely.
+    // A DISPUTED print: close-only until the next clean print (no opening, reducing works).
     let d = w.print_with(1_000, 3, |p| p.status = OracleStatus::Disputed);
     w.post_print(&d).unwrap();
     let m = w.s.market(MKT).unwrap();
-    assert_eq!(effective_status(&m, Now::at(w.now), w.s.globals.settle_grace_ns), MarketStatus::Halted);
-    let s4 = w.order(&a, Side::Sell, 1_000, 5, |_| {});
-    let t4 = w.order(&b, Side::Buy, 1_000, 5, |_| {});
-    assert_eq!(fill(&mut w, &s4, &t4, 5, 1_000).unwrap_err().reason, Reject::MarketNotTrading);
+    assert_eq!(effective_status(&m, Now::at(w.now), w.s.globals.settle_grace_ns), MarketStatus::CloseOnly);
+    let s4 = w.order(&b, Side::Sell, 1_000, 1, |_| {});
+    let t4 = w.order(&a, Side::Buy, 1_000, 1, |_| {});
+    assert_eq!(fill(&mut w, &s4, &t4, 1, 1_000).unwrap_err().reason, Reject::CloseOnly);
+    // Admin HALTED stops everything.
+    w.s.markets.get_mut(MKT).unwrap().status = MarketStatus::Halted;
+    let s5 = w.order(&a, Side::Sell, 1_000, 1, |_| {});
+    let t5 = w.order(&b, Side::Buy, 1_000, 1, |_| {});
+    assert_eq!(fill(&mut w, &s5, &t5, 1, 1_000).unwrap_err().reason, Reject::MarketNotTrading);
     w.check_conservation();
 }
 
@@ -508,4 +513,37 @@ fn expiry_grace_bounds_backdating() {
     assert_eq!(crate::ledger::fill(&mut w.s, &NativeCrypto, &mut o, late, 0, 1, 10, 1_000).unwrap_err().reason, Reject::Expired);
     let ok = Now { op: exp - 1, block: exp + 299 * NS_PER_SEC };
     crate::ledger::fill(&mut w.s, &NativeCrypto, &mut o, ok, 0, 1, 10, 1_000).unwrap();
+}
+
+#[test]
+fn open_interest_notional_cap_from_manipulation_cost() {
+    let mut w = World::new();
+    // $300 of open interest at the mark: 300 lots at 1_000 ticks x 1_000 atoms.
+    w.s.markets.get_mut(MKT).unwrap().params.max_open_interest_notional = 300_000_000;
+    let (a, b) = (w.trader("alice.near", 1_000_000_000), w.trader("bob.near", 1_000_000_000));
+    let s = w.order(&b, Side::Sell, 1_000, 300, |_| {});
+    let t = w.order(&a, Side::Buy, 1_000, 300, |_| {});
+    fill(&mut w, &s, &t, 300, 1_000).unwrap();
+    let s = w.order(&b, Side::Sell, 1_000, 1, |_| {});
+    let t = w.order(&a, Side::Buy, 1_000, 1, |_| {});
+    assert_eq!(fill(&mut w, &s, &t, 1, 1_000).unwrap_err().reason, Reject::OpenInterestCap);
+    // Reducing is always allowed.
+    let s = w.order(&a, Side::Sell, 1_000, 10, |_| {});
+    let t = w.order(&b, Side::Buy, 1_000, 10, |_| {});
+    fill(&mut w, &s, &t, 10, 1_000).unwrap();
+    w.check_conservation();
+}
+
+#[test]
+fn large_print_move_is_close_only_until_a_clean_print() {
+    let mut w = World::new();
+    let grace = w.s.globals.settle_grace_ns;
+    w.s.markets.get_mut(MKT).unwrap().params.print_move_close_only_bps = 1_500;
+    w.next_print(1_100); // +10%: clean
+    assert_eq!(effective_status(&w.s.markets[MKT], Now::at(w.now), grace), MarketStatus::Active);
+    w.next_print(1_300); // +18%: clamped day
+    assert!(w.s.markets[MKT].print_move_flag);
+    assert_eq!(effective_status(&w.s.markets[MKT], Now::at(w.now), grace), MarketStatus::CloseOnly);
+    w.next_print(1_320); // +1.5%: clean again
+    assert_eq!(effective_status(&w.s.markets[MKT], Now::at(w.now), grace), MarketStatus::Active);
 }

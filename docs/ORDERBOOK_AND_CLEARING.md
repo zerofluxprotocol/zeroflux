@@ -129,7 +129,9 @@ Each order is verified once per batch. The fill is applied only if all of these 
 10. Reduce-only orders only reduce, never flip.
 11. Market type PERPETUAL, effective status ACTIVE or CLOSE_ONLY; in CLOSE_ONLY both sides must
     reduce.
-12. Margin (section 6), position cap, open-interest cap.
+12. Margin (section 6), position cap, open-interest cap in lots, and the open-interest cap in
+    notional at the mark (`max_open_interest_notional`, set from the index's manipulation-cost
+    bound). The engine refuses orders that could breach either cap before they reach the book.
 
 A failed check skips that op and lists it in `batch_settled.rejected` with a reason code; the rest
 of the batch applies. Batch ids must be consecutive; an already-used id fails the whole
@@ -159,7 +161,11 @@ netted mode. They are not the NEAR v1 path, and the clearing contract has no cro
 
 ## 7. Oracle
 
-A market tracks one index (`index_id`, `index_version`, `value_scale`). Prints are
+A market tracks one index (`index_id`, `index_version`, `value_scale`). Model perps reference
+the licensed 7-day index `or-model-spend-lic-7d/<permaslug>` (`ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1`).
+The daily and web-7D indices use the same format and can back informational or alternate
+markets. The publisher's `clamped` flag isn't part of the signed bytes; the contract derives the
+same condition from consecutive signed prints. Prints are
 `OraclePrint` v1 (`markets/index/docs/ORACLE_PRINT_V1.md`), decoded strictly by
 `crates/zfx-perps-clearing/src/print.rs`. They're checked against the index workstream's golden
 vectors and a real signed print in `tests/oracle_print_vectors.rs`.
@@ -191,8 +197,9 @@ oracle. Every fill, liquidation and funding op evaluates this at its own timesta
 
 | Condition | Effective status |
 |---|---|
-| no print, a DISPUTED print, or UNAVAILABLE with data OK | HALTED |
-| print past `valid_until`, older than `oracle_max_age_sec`, or data not OK | CLOSE_ONLY |
+| no print at all | HALTED |
+| any non-FRESH print (STALE, DISPUTED, UNAVAILABLE, data NOT_REPORTED / UNPRICED / NO_VALID_CLOSE_PRICE), a print past `valid_until` or older than `oracle_max_age_sec` | CLOSE_ONLY until the next clean print |
+| the last usable print moved the index more than `print_move_close_only_bps` (25% on the licensed 7D index: a clamped day) | CLOSE_ONLY until the next clean print |
 | mark limit-locked (mark ≠ index) | CLOSE_ONLY |
 | daily cycle: an expected print missing, or after `print_close_only_from_sec` with that day's print not in | CLOSE_ONLY |
 | otherwise | the admin status |
@@ -332,3 +339,10 @@ engine packs batches below 200 Tgas, leaving margin under NEAR's 300 Tgas per ca
 170 independent fills, or more when makers are reused. At 1,000 Tgas per shard per block (0.6 s),
 one clearing contract settles in the order of 1,000 verified fills per second at full shard
 capacity.
+
+## 13. Deployment status
+
+The testnet contract (`markets/zfx-perps/TESTNET.md`) runs the build from before the
+2026-11-11 design updates. It enforces the open-interest cap in lots only, and it HALTS on a
+DISPUTED print. The current code adds the notional cap, the print-move rule and close-only on
+every non-FRESH print. It needs a fresh contract account to deploy.
