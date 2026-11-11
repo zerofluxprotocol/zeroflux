@@ -681,6 +681,11 @@ fn near_to_yocto(v: &str) -> Result<u128, String> {
     whole.checked_mul(1_000_000_000_000_000_000_000_000).and_then(|w| w.checked_add(frac_y)).ok_or_else(|| format!("amount too large: {:?}", v))
 }
 
+fn die(msg: &str) -> ! {
+    eprintln!("zfx-bridge: {}", msg);
+    std::process::exit(2)
+}
+
 #[cfg(test)]
 mod near_amount_tests {
     use super::near_to_yocto;
@@ -691,9 +696,4 @@ mod near_amount_tests {
         assert_eq!(near_to_yocto("0.000000000000000000000001").unwrap(), 1);
         assert!(near_to_yocto("1.5.0").is_err() && near_to_yocto("abc").is_err() && near_to_yocto("").is_err() && near_to_yocto("-1").is_err());
     }
-}
-
-fn die(msg: &str) -> ! {
-    eprintln!("zfx-bridge: {}", msg);
-    std::process::exit(2)
 }
