@@ -1,0 +1,209 @@
+{
+ "network": "testnet",
+ "contract": "perps.zeroflux.testnet",
+ "collateral": "tusdc-perps.zeroflux.testnet",
+ "market": "OPUS-PERP",
+ "steps": [
+  {
+   "step": "node_info",
+   "at": "2026-11-11T00:18:30.219Z",
+   "chainId": "near:testnet",
+   "clearingContract": "perps.zeroflux.testnet",
+   "collateral": "tusdc-perps.zeroflux.testnet",
+   "insuranceAccount": "insurance.perps.zeroflux.testnet"
+  },
+  {
+   "step": "faucet_mint",
+   "at": "2026-11-11T00:18:32.747Z",
+   "account": "perps-maker.zeroflux.testnet",
+   "amount": "1000000000",
+   "tx": "AHvBCfm57enDp8472euYUUo14gGks9vJPFKBMBHhTMx8"
+  },
+  {
+   "step": "deposit",
+   "at": "2026-11-11T00:18:36.933Z",
+   "account": "perps-maker.zeroflux.testnet",
+   "amount": "1000000000",
+   "tx": "5Dd1DZGQAPsyDjxeoBy9HD9zncTf7wJnPqD7Sn63BXj2"
+  },
+  {
+   "step": "faucet_mint",
+   "at": "2026-11-11T00:18:49.182Z",
+   "account": "perps-taker.zeroflux.testnet",
+   "amount": "1000000000",
+   "tx": "BohWtrerJm4cUCsaMfsCBof9NbMHmCqbpo3aRJnTr2zp"
+  },
+  {
+   "step": "register_trading_key",
+   "at": "2026-11-11T00:18:52.107Z",
+   "account": "perps-taker.zeroflux.testnet",
+   "public_key": "ed25519:4m3vWSqiX7axHEzESAMcSgcEHbJ11wVGh3WyrEom151E",
+   "tx": "BrDy1QAzJXBcmVLJ8oWjaFcrMXzApCGvcBL16cMKC5JW"
+  },
+  {
+   "step": "deposit",
+   "at": "2026-11-11T00:18:58.291Z",
+   "account": "perps-taker.zeroflux.testnet",
+   "amount": "1000000000",
+   "tx": "7FoFjNVkgbwsB15YUWRZ6t3frV5PHnYcsGVnTPqLiFSB"
+  },
+  {
+   "step": "deposits_credited",
+   "at": "2026-11-11T00:19:06.301Z",
+   "perps-maker.zeroflux.testnet": "1000000000",
+   "perps-taker.zeroflux.testnet": "1000000000"
+  },
+  {
+   "step": "relay_print",
+   "at": "2026-11-11T00:19:06.305Z",
+   "index_id": "or-model-spend/anthropic/claude-opus-5.5-20260921",
+   "value_usd": "582093.352339",
+   "print_hash": "39df75b8edb96521d4337c2bf368830d18e782ea1b2a9fff1a0ec2fb06573d2d",
+   "published_at": "2026-11-10T23:40:13.579Z",
+   "valid_until": "2026-11-12T00:00:00.000Z",
+   "node": {
+    "type": "ok"
+   }
+  },
+  {
+   "step": "oracle_checked_against_contract_allowlist",
+   "at": "2026-11-11T00:19:06.509Z",
+   "ok": true,
+   "problems": [],
+   "mark": "582093",
+   "effective_status": "ACTIVE"
+  },
+  {
+   "step": "estimate_margin",
+   "at": "2026-11-11T00:19:06.510Z",
+   "initialMargin": "291046500",
+   "fee": "291338",
+   "requiredFree": "291919838",
+   "free": "1000000000",
+   "ok": true
+  },
+  {
+   "step": "maker_post_only_ask",
+   "at": "2026-11-11T00:19:06.516Z",
+   "order_hash": "587a31f31b2bc993a714330929539be160ff0d542b0c33a4acd566204dca3a5a",
+   "status": "resting",
+   "price": "582675",
+   "qty": "1000"
+  },
+  {
+   "step": "taker_ioc_buy",
+   "at": "2026-11-11T00:19:06.521Z",
+   "order_hash": "81003f508f9c490d0b938257b085d28bf43b173f6fd83b14fe9be73d27221630",
+   "status": "filled",
+   "filled": "1000"
+  },
+  {
+   "step": "open_settled",
+   "at": "2026-11-11T00:19:13.437Z",
+   "taker": {
+    "market": "OPUS-PERP",
+    "size": "1000",
+    "margin": "-291046500",
+    "funding_index": "0",
+    "funding_owed": "0",
+    "equity": "291046500",
+    "mark": "582093",
+    "initial_margin": "291046500",
+    "maintenance_margin": "145523250",
+    "liquidation_price": "388062"
+   },
+   "maker": {
+    "market": "OPUS-PERP",
+    "size": "-1000",
+    "margin": "873139500",
+    "funding_index": "0",
+    "funding_owed": "0",
+    "equity": "291046500",
+    "mark": "582093",
+    "initial_margin": "291046500",
+    "maintenance_margin": "145523250",
+    "liquidation_price": "698511"
+   }
+  },
+  {
+   "step": "maker_post_only_bid",
+   "at": "2026-11-11T00:19:13.443Z",
+   "order_hash": "17005a66e8a5b04bfcc55d1ef5a09c4ca3326ef7e6561509aa869ee359431582",
+   "status": "resting",
+   "price": "583839"
+  },
+  {
+   "step": "taker_reduce_only_sell",
+   "at": "2026-11-11T00:19:13.446Z",
+   "order_hash": "c708ded419f08c9fc230efb7b21ec3915e0ede0e1f2e5109d640c50cb956e444",
+   "status": "filled",
+   "filled": "1000"
+  },
+  {
+   "step": "balances_match_reference_math",
+   "at": "2026-11-11T00:19:20.540Z",
+   "perps-maker.zeroflux.testnet": {
+    "expected_free": "998602697",
+    "onchain_free": "998602697",
+    "match": true
+   },
+   "perps-taker.zeroflux.testnet": {
+    "expected_free": "1000580742",
+    "onchain_free": "1000580742",
+    "match": true
+   }
+  },
+  {
+   "step": "withdraw_signed",
+   "at": "2026-11-11T00:19:20.688Z",
+   "amount": "1000580742",
+   "response": {
+    "type": "ok",
+    "nonce": "1794356360682000"
+   }
+  },
+  {
+   "step": "withdrawal_paid",
+   "at": "2026-11-11T00:19:27.299Z",
+   "account": "perps-taker.zeroflux.testnet",
+   "token_balance_delta": "1000580742"
+  }
+ ],
+ "settlement_batches": [
+  {
+   "batch": 1,
+   "ops": 1,
+   "orders": 0,
+   "tgas": 2.9321820533,
+   "tx": "fxxH1jf5HJYftxP15HefJxjajpFrpo27rgRsnft4vTN"
+  },
+  {
+   "batch": 2,
+   "ops": 1,
+   "orders": 0,
+   "tgas": 2.934783797999,
+   "tx": "9XvcF752nTQcEcA4aJ8En8p2wTzbMPvmUy2Vsf45aU1x"
+  },
+  {
+   "batch": 3,
+   "ops": 2,
+   "orders": 2,
+   "tgas": 5.4311005224,
+   "tx": "FHjWEv9ZG788PeBLLTysL24QwLjDLgfgSucZpgpE3h76"
+  },
+  {
+   "batch": 4,
+   "ops": 1,
+   "orders": 2,
+   "tgas": 5.289529146654,
+   "tx": "9NM6kY2vhdd9f8FSbrfqZjF1toRmKGEVrVWZPSxwhMwh"
+  },
+  {
+   "batch": 5,
+   "ops": 1,
+   "orders": 0,
+   "tgas": 7.840793638569,
+   "tx": "415NNu68BJnvTXAkE9MBsjdxALzvhFpyPFZwqVdryQrH"
+  }
+ ]
+}

@@ -1,0 +1,35 @@
+[package]
+name = "zfx-perps-near"
+description = "NEAR settlement adapter for zfx-perps (contract events -> node, batches -> contract) and user helpers (deposit, trading keys, forced withdrawal, escape)."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "zfx-perps-near"
+path = "src/main.rs"
+
+[dependencies]
+near-api = "0.8.7"
+zfx-perps-client = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "process", "signal"] }
+anyhow = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+tempfile = "3"
+url = "2"
+clap = { version = "4", features = ["derive", "env"] }
+zfx-perps-node = { workspace = true }
+zfx-perps-clearing = { workspace = true }
+borsh = "1"
+base64 = "0.22"
+bs58 = { workspace = true }
+
+[dev-dependencies]
+bs58 = { workspace = true }
+zfx-perps-clearing = { workspace = true, features = ["testkit"] }
+zfx-perps-wire = { workspace = true }
+futures = "0.3"

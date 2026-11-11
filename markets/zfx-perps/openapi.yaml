@@ -1,0 +1,374 @@
+openapi: 3.1.0
+info:
+  title: zfx-perps operator node API
+  version: 1.0.0
+  description: |
+    REST and WebSocket API of a zfx-perps operator node (hybrid order book, NEAR clearing).
+
+    - All money, prices, quantities, nonces and timestamps are base-10 integer strings. Prices are
+      market ticks, quantities lots, collateral amounts the token's smallest unit. Clients must not
+      parse them into floating-point numbers.
+    - Orders, cancels, nonce floors, withdrawals and margin moves are signed with an ed25519
+      trading key registered on the clearing contract. The signed bytes are the canonical
+      messages in `docs/ORDERBOOK_AND_CLEARING.md`; the node and the contract verify them.
+    - A fill is `pending` until the batch that carries it settles on NEAR. Portfolio responses show
+      both the predicted state (`pending`) and the state confirmed on-chain (`settled`).
+  license: { name: MIT }
+servers:
+  - url: http://127.0.0.1:8900
+paths:
+  /v1/health:
+    get:
+      summary: Liveness and sequencer counters
+      responses: { "200": { description: ok, content: { application/json: { schema: { type: object } } } } }
+  /v1/info:
+    get:
+      summary: Deployment identity (chain id, clearing contract, collateral token)
+      responses:
+        "200": { description: ok, content: { application/json: { schema: { $ref: "#/components/schemas/Info" } } } }
+  /v1/markets:
+    get:
+      summary: Every market with its spec, policy hash, status and mark
+      responses:
+        "200":
+          description: ok
+          content: { application/json: { schema: { type: object, properties: { markets: { type: array, items: { $ref: "#/components/schemas/Market" } } } } } }
+  /v1/book/{market}:
+    get:
+      summary: L2 snapshot. `seq` matches WebSocket book deltas.
+      parameters:
+        - { name: market, in: path, required: true, schema: { type: string } }
+        - { name: depth, in: query, schema: { type: integer, default: 50 } }
+      responses:
+        "200": { description: ok, content: { application/json: { schema: { $ref: "#/components/schemas/Book" } } } }
+  /v1/trades/{market}:
+    get:
+      summary: Recent trades (newest first)
+      parameters:
+        - { name: market, in: path, required: true, schema: { type: string } }
+        - { name: limit, in: query, schema: { type: integer, default: 100 } }
+      responses: { "200": { description: ok, content: { application/json: { schema: { type: object } } } } }
+  /v1/oracle/{market}:
+    get:
+      summary: Last accepted oracle print with provenance, and the status it implies
+      parameters: [ { name: market, in: path, required: true, schema: { type: string } } ]
+      responses:
+        "200": { description: ok, content: { application/json: { schema: { $ref: "#/components/schemas/Oracle" } } } }
+  /v1/funding/{market}:
+    get:
+      summary: Funding parameters, accumulators and recent applications
+      parameters: [ { name: market, in: path, required: true, schema: { type: string } } ]
+      responses:
+        "200": { description: ok, content: { application/json: { schema: { $ref: "#/components/schemas/Funding" } } } }
+  /v1/estimate:
+    post:
+      summary: Margin and fee an order would need (no signature, no side effects)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [marketId, side, price, quantity]
+              properties:
+                accountId: { type: string }
+                marketId: { type: string }
+                side: { enum: [BUY, SELL] }
+                price: { $ref: "#/components/schemas/Int" }
+                quantity: { $ref: "#/components/schemas/Int" }
+      responses:
+        "200": { description: ok, content: { application/json: { schema: { $ref: "#/components/schemas/Estimate" } } } }
+  /v1/orders:
+    post:
+      summary: Place a signed order
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/SignedOrder" } } } }
+      responses:
+        "200": { description: accepted, content: { application/json: { schema: { $ref: "#/components/schemas/PlaceAck" } } } }
+        "401": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /v1/orders/cancel:
+    post:
+      summary: Cancel one order by hash (signed). `relayOnChain` also makes the cancel final on-chain in the next batch.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [accountId, orderHash, expiryNs, publicKey, signature]
+              properties:
+                accountId: { type: string }
+                orderHash: { $ref: "#/components/schemas/Hash" }
+                expiryNs: { $ref: "#/components/schemas/Int" }
+                publicKey: { type: string }
+                signature: { $ref: "#/components/schemas/Signature" }
+                relayOnChain: { type: boolean, default: false }
+      responses:
+        "200": { description: canceled, content: { application/json: { schema: { type: object } } } }
+        "409": { $ref: "#/components/responses/Error" }
+  /v1/orders/min_nonce:
+    post:
+      summary: Raise the account's nonce floor (signed). Cancels every resting order below it here and on-chain.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [accountId, minNonce, publicKey, signature]
+              properties:
+                accountId: { type: string }
+                minNonce: { $ref: "#/components/schemas/Int" }
+                publicKey: { type: string }
+                signature: { $ref: "#/components/schemas/Signature" }
+      responses: { "200": { description: ok, content: { application/json: { schema: { type: object } } } } }
+  /v1/withdraw:
+    post:
+      summary: Withdraw free collateral to the account itself (signed; key must allow withdrawals)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [accountId, amount, nonce, publicKey, signature]
+              properties:
+                accountId: { type: string }
+                amount: { $ref: "#/components/schemas/Int" }
+                nonce: { $ref: "#/components/schemas/Int" }
+                publicKey: { type: string }
+                signature: { $ref: "#/components/schemas/Signature" }
+      responses: { "200": { description: queued, content: { application/json: { schema: { type: object } } } } }
+  /v1/margin:
+    post:
+      summary: Move collateral into (positive delta) or out of an isolated position (signed)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [accountId, marketId, delta, nonce, publicKey, signature]
+              properties:
+                accountId: { type: string }
+                marketId: { type: string }
+                delta: { $ref: "#/components/schemas/SignedInt" }
+                nonce: { $ref: "#/components/schemas/Int" }
+                publicKey: { type: string }
+                signature: { $ref: "#/components/schemas/Signature" }
+      responses: { "200": { description: ok, content: { application/json: { schema: { type: object } } } } }
+  /v1/portfolio/{account}:
+    get:
+      summary: Free collateral, isolated positions and open orders (authenticated read)
+      parameters:
+        - { name: account, in: path, required: true, schema: { type: string } }
+        - { name: x-zfx-perps-key, in: header, required: true, schema: { type: string } }
+        - { name: x-zfx-perps-ts, in: header, required: true, schema: { type: string }, description: unix ms }
+        - { name: x-zfx-perps-signature, in: header, required: true, schema: { $ref: "#/components/schemas/Signature" }, description: "signature over zfx-perps-auth-v1|chain|contract|account|ts" }
+      responses:
+        "200": { description: ok, content: { application/json: { schema: { $ref: "#/components/schemas/Portfolio" } } } }
+        "401": { $ref: "#/components/responses/Error" }
+  /v1/fills/{account}:
+    get:
+      summary: Recent fills of the account, newest first, since node start (authenticated read, same headers as portfolio)
+      parameters:
+        - { name: account, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account: { type: string }
+                  fills: { type: array, items: { type: object, properties: { market: { type: string }, order_id: { type: integer }, trade_id: { type: integer }, role: { enum: [maker, taker] }, side: { type: string }, price: { type: integer }, qty: { type: integer }, fee: { $ref: "#/components/schemas/Int" }, remaining: { type: [integer, "null"] }, ts_ns: { type: integer } } } }
+  /v1/ws:
+    get:
+      summary: WebSocket
+      description: |
+        Client messages (JSON):
+        - `{"op":"subscribe","channel":"book","market":"OPUS-PERP"}` returns a snapshot, then deltas with
+          strictly increasing `seq`. A gap means re-subscribe.
+        - `{"op":"subscribe","channel":"trades","market":...}`
+        - `{"op":"subscribe","channel":"perp","market":...}` marks, oracle prints, funding, liquidations.
+        - `{"op":"auth","account":...,"ts":...,"public_key":...,"signature":...}` then the account channel:
+          `accepted`, `fill`, `canceled`, `rejected`, `position`, `free`, `fill_reverted`, `settled`.
+      responses: { "101": { description: switching protocols } }
+components:
+  responses:
+    Error:
+      description: error
+      content: { application/json: { schema: { type: object, properties: { error: { type: string }, message: { type: string } } } } }
+  schemas:
+    Int: { type: string, pattern: "^[0-9]+$", description: unsigned base-10 integer }
+    SignedInt: { type: string, pattern: "^-?[0-9]+$" }
+    Hash: { type: string, pattern: "^[0-9a-f]{64}$" }
+    Signature: { type: string, description: "ed25519 signature, base64 (64 bytes)" }
+    Info:
+      type: object
+      properties:
+        chain_id: { type: string }
+        clearing_contract: { type: string }
+        collateral: { type: string }
+        insurance_account: { type: string }
+    MarketParams:
+      type: object
+      description: Spec 5.2 MarketSpec in integer units. Every field is covered by `policy_hash`.
+      properties:
+        market_id: { type: string }
+        market_type: { enum: [Perpetual, ExpiringFuture] }
+        index_id: { type: string }
+        index_version: { type: string }
+        value_scale: { type: integer }
+        index_units_per_tick: { $ref: "#/components/schemas/Int" }
+        tick_value: { $ref: "#/components/schemas/Int" }
+        min_qty: { $ref: "#/components/schemas/Int" }
+        max_qty: { $ref: "#/components/schemas/Int" }
+        max_price: { $ref: "#/components/schemas/Int" }
+        initial_margin_bps: { type: integer }
+        maintenance_margin_bps: { type: integer }
+        max_leverage: { type: integer }
+        max_open_interest: { $ref: "#/components/schemas/Int" }
+        max_position: { $ref: "#/components/schemas/Int" }
+        maker_fee_bps: { type: integer }
+        taker_fee_bps: { type: integer }
+        liq_fee_bps: { type: integer }
+        liq_slippage_bps: { type: integer }
+        price_band_bps: { type: integer }
+        oracle_max_age_sec: { $ref: "#/components/schemas/Int" }
+        funding_interval_sec: { $ref: "#/components/schemas/Int" }
+        funding_divisor: { type: integer }
+        max_funding_ppm: { type: integer }
+        print_close_only_from_sec: { type: integer }
+        max_jump_bps: { type: integer }
+    Market:
+      type: object
+      properties:
+        market_id: { type: string }
+        params: { $ref: "#/components/schemas/MarketParams" }
+        policy_hash: { $ref: "#/components/schemas/Hash" }
+        status: { enum: [PROPOSED, ACTIVE, CLOSE_ONLY, HALTED, SETTLING, CLOSED] }
+        effective_status: { enum: [PROPOSED, ACTIVE, CLOSE_ONLY, HALTED, SETTLING, CLOSED] }
+        mark: { $ref: "#/components/schemas/Int" }
+        mark_fresh: { type: boolean }
+        open_interest: { $ref: "#/components/schemas/Int" }
+        open_interest_notional: { $ref: "#/components/schemas/Int" }
+        index_ticks: { $ref: "#/components/schemas/Int" }
+        print_move_flag: { type: boolean }
+        permaslug: { type: string, description: "index_id after its first '/'" }
+        funding: { type: object, properties: { last_rate_ppm: { type: integer }, cum_funding: { $ref: "#/components/schemas/SignedInt" }, last_funding_ns: { $ref: "#/components/schemas/Int" }, next_funding_ns: { $ref: "#/components/schemas/Int" } } }
+        bad_debt: { $ref: "#/components/schemas/Int" }
+    Book:
+      type: object
+      properties:
+        market: { type: string }
+        seq: { type: integer }
+        bids: { type: array, items: { type: array, items: { type: string }, minItems: 2, maxItems: 2 } }
+        asks: { type: array, items: { type: array, items: { type: string }, minItems: 2, maxItems: 2 } }
+    Oracle:
+      type: object
+      properties:
+        market: { type: string }
+        index_id: { type: string }
+        index_version: { type: string }
+        mark: { $ref: "#/components/schemas/Int" }
+        mark_fresh: { type: boolean }
+        effective_status: { type: string }
+        reporters: { type: array, items: { type: string } }
+        quorum: { type: integer }
+        print:
+          type: object
+          properties:
+            hash: { $ref: "#/components/schemas/Hash" }
+            canonical_hex: { type: string }
+            signatures: { type: array, items: { type: object, properties: { public_key: { type: string }, signature_hex: { type: string } } } }
+            value: { $ref: "#/components/schemas/Int" }
+            status: { enum: [FRESH, STALE, DISPUTED, UNAVAILABLE] }
+            data_status: { enum: [OK, NOT_REPORTED, UNPRICED, NO_VALID_CLOSE_PRICE] }
+            source_start_ms: { $ref: "#/components/schemas/Int" }
+            source_end_ms: { $ref: "#/components/schemas/Int" }
+            published_at_ms: { $ref: "#/components/schemas/Int" }
+            valid_until_ms: { $ref: "#/components/schemas/Int" }
+            revision: { type: integer }
+    Funding:
+      type: object
+      properties:
+        market: { type: string }
+        funding_interval_sec: { $ref: "#/components/schemas/Int" }
+        last_funding_ns: { $ref: "#/components/schemas/Int" }
+        next_funding_ns: { $ref: "#/components/schemas/Int" }
+        last_rate_ppm: { type: integer }
+        cum_funding: { $ref: "#/components/schemas/SignedInt" }
+        window_vwap_e6: { $ref: "#/components/schemas/Int" }
+        history: { type: array, items: { type: object, properties: { ts_ns: { type: string }, rate_ppm: { type: integer }, pay_per_lot: { type: string } } } }
+    Estimate:
+      type: object
+      properties:
+        initial_margin: { $ref: "#/components/schemas/Int" }
+        fee: { $ref: "#/components/schemas/Int" }
+        required_free: { $ref: "#/components/schemas/Int" }
+        free: { $ref: "#/components/schemas/Int" }
+        ok: { type: boolean }
+    SignedOrder:
+      type: object
+      description: Spec 5.2 SignedOrder.
+      required: [chainId, clearingContract, accountId, marketId, side, type, price, quantity, reduceOnly, postOnly, timeInForce, nonce, expiryNs, clientOrderId, maxFeeBps, policyHash, publicKey, signature]
+      properties:
+        chainId: { type: string }
+        clearingContract: { type: string }
+        accountId: { type: string }
+        marketId: { type: string }
+        side: { enum: [BUY, SELL] }
+        type: { enum: [LIMIT, MARKET] }
+        price: { $ref: "#/components/schemas/Int" }
+        quantity: { $ref: "#/components/schemas/Int" }
+        reduceOnly: { type: boolean }
+        postOnly: { type: boolean }
+        timeInForce: { enum: [GTC, IOC, FOK] }
+        nonce: { $ref: "#/components/schemas/Int" }
+        expiryNs: { $ref: "#/components/schemas/Int" }
+        clientOrderId: { $ref: "#/components/schemas/Int" }
+        maxFeeBps: { type: integer }
+        policyHash: { $ref: "#/components/schemas/Hash" }
+        publicKey: { type: string, description: "ed25519:<base58>" }
+        signature: { $ref: "#/components/schemas/Signature" }
+    PlaceAck:
+      type: object
+      properties:
+        order_id: { type: string }
+        order_hash: { $ref: "#/components/schemas/Hash" }
+        status: { enum: [resting, filled, canceled] }
+        filled: { $ref: "#/components/schemas/Int" }
+        remaining: { $ref: "#/components/schemas/Int" }
+    Position:
+      type: object
+      properties:
+        market: { type: string }
+        size: { $ref: "#/components/schemas/SignedInt" }
+        margin: { $ref: "#/components/schemas/SignedInt" }
+        equity: { $ref: "#/components/schemas/SignedInt" }
+        initial_margin: { $ref: "#/components/schemas/Int" }
+        maintenance_margin: { $ref: "#/components/schemas/Int" }
+        liquidation_price: { type: [string, "null"] }
+        mark: { $ref: "#/components/schemas/Int" }
+        funding_owed: { $ref: "#/components/schemas/SignedInt" }
+    Portfolio:
+      type: object
+      properties:
+        account: { type: string }
+        pending:
+          type: object
+          description: Predicted state including fills not yet settled on NEAR
+          properties:
+            free: { $ref: "#/components/schemas/Int" }
+            positions: { type: array, items: { $ref: "#/components/schemas/Position" } }
+        settled:
+          type: object
+          description: State confirmed by the clearing contract (last settled batch)
+          properties:
+            free: { $ref: "#/components/schemas/Int" }
+            positions: { type: array, items: { $ref: "#/components/schemas/Position" } }
+        min_nonce: { $ref: "#/components/schemas/Int" }
+        action_nonce: { $ref: "#/components/schemas/Int" }
+        open_orders: { type: array, items: { type: object } }
+        last_settled_batch: { $ref: "#/components/schemas/Int" }

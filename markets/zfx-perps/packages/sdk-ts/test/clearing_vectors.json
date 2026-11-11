@@ -1,0 +1,97 @@
+{
+  "messages": [
+    {
+      "message": "zfx-perps-order-v1|near:testnet|perps.zeroflux.testnet|alice.testnet|OPUS-PERP|BUY|LIMIT|1250|12|0|1|GTC|7|1800000000000000000|42|10|abababababababababababababababababababababababababababababababab",
+      "name": "order_limit",
+      "sha256": "51e40257456bd13a8804c518a995ef03fdb92d6b3d3bfd111ed0bb0f06767d9d",
+      "signature_hex": "10b4a9cabc951ee43ab66cc490bfd40dc36ae91aab3aada0cdd10383748d64e4a53d96f692534a3b892b0c8193f959b3a4fb1c0d826d954619ff7ab8fa55f408"
+    },
+    {
+      "message": "zfx-perps-order-v1|near:testnet|perps.zeroflux.testnet|alice.testnet|OPUS-PERP|SELL|MARKET|1|18446744073709551615|1|0|IOC|18446744073709551615|18446744073709551615|0|1000|abababababababababababababababababababababababababababababababab",
+      "name": "order_market",
+      "sha256": "5d2d6b77d271ad99450bc68ba7f21553502f5b826416279df5ed65785c2797bf",
+      "signature_hex": "065f6ff62da1449dbb1fa17b479e9b12160f5d7cc938e8169ba07593ea0e69c088b34bb6f342417f6121afd22e3e0cd1970be40306ac7bca1dbfe7edbc153005"
+    },
+    {
+      "message": "zfx-perps-cancel-v1|near:testnet|perps.zeroflux.testnet|alice.testnet|51e40257456bd13a8804c518a995ef03fdb92d6b3d3bfd111ed0bb0f06767d9d|1800000000000000000",
+      "name": "cancel",
+      "sha256": "4391a0479b4b9b58bda970163a73e3133683e4f80c440d72258deb2420db84eb",
+      "signature_hex": "8dc367d4a231c01f5c7edf210d671f3e82e66d38a7a15969d3328942ded7200e63d4ebe34bca30f7e84d9e20adc4870555a8f01f0eb55b9b87b6bf92f92e4104"
+    },
+    {
+      "message": "zfx-perps-min-nonce-v1|near:testnet|perps.zeroflux.testnet|alice.testnet|100",
+      "name": "min_nonce",
+      "sha256": "0cfe26b88b13e7bc71fb70c5c843099550eb12354dd8722bf26555deb0948182",
+      "signature_hex": "2e0c69ca26186fe96dab91b0c827555757b5199c5ca255b840527737e2b429609e0f986bcfe2f9fe5000b802328dd90c4990d137915194b908f46aa8f4d05106"
+    },
+    {
+      "message": "zfx-perps-withdraw-v1|near:testnet|perps.zeroflux.testnet|alice.testnet|usdc.zeroflux.testnet|340282366920938463463374607431768211455|3",
+      "name": "withdraw",
+      "sha256": "757f8e9144199f240af4eccafd11c0a4c6584409360d41e3ed5ebb2d1214965a",
+      "signature_hex": "d2bc27d1767c1a7ac5b68d63bf192aaed1823cf2f31453ed1798d2f7135d1236e769548e1cc062cb9f494d3607bcc553c02d5cc77b6e4ca70bed490499b36c09"
+    },
+    {
+      "message": "zfx-perps-margin-v1|near:testnet|perps.zeroflux.testnet|alice.testnet|OPUS-PERP|5000000|4",
+      "name": "margin_add",
+      "sha256": "c7e23877b676e4072f93660cf27c75a50dffa4ce409626d89f064b6dbea2291e",
+      "signature_hex": "73e93f5942d269120f997fcd87989968b169c6b6e2fd94360076ca732280ca825e62714a7058cabb31538594c6810eac890edb41270b664f611e46406f7dd303"
+    },
+    {
+      "message": "zfx-perps-margin-v1|near:testnet|perps.zeroflux.testnet|alice.testnet|OPUS-PERP|-5000000|5",
+      "name": "margin_remove",
+      "sha256": "f5e5b28dd516384782c28cf76ecfe84e6ecd9e97710f8ef52863c2e7e49e6abb",
+      "signature_hex": "c924dbc26acd4e9c9784c39ec5822163323856c455d7b9853e62e5fd211774d9a1aca660ed9eace554ac81fb9ef880b43e65327d987eb2dedd98524e709fa806"
+    },
+    {
+      "message": "zfx-perps-auth-v1|near:testnet|perps.zeroflux.testnet|alice.testnet|1700000000004",
+      "name": "auth",
+      "sha256": "fc7f255aba928b88f69385643a999a987903a9159c32bb6d77ecf8cfea995d35",
+      "signature_hex": "6186fe82dfee83278555ebd233206a11799567fcbf0ead461f3421fc6bfb1a54446bd3399ccfbf9406c700e2951bd0831319afc73bc5b5dcb1a7cd4d29b57906"
+    }
+  ],
+  "oracle_print": {
+    "canonical_hex": "5a46582d6f7261636c652d7072696e742d7631250000006f722d6d6f64656c2d7370656e642f6578616d706c652f6d6f64656c2d3230323630313031190000005a46582d4f522d4d4f44454c2d5350454e442d5553442d763106a07f88020000000000a8da769b0100000004017c9b0100000078b87d9b010000e87bb87d9b01000000bc4d869b01000011111111111111111111111111111111111111111111111111111111111111112222222222222222222222222222222222222222222222222222222222222222000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "fields": {
+      "dataStatus": "OK",
+      "finality": "FINAL",
+      "formulaHash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "indexId": "or-model-spend/example/model-20260101",
+      "observedAtMs": "1767340800000",
+      "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "publishedAtMs": "1767340801000",
+      "revision": 1,
+      "sourceEndMs": "1767312000000",
+      "sourceHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "sourceStartMs": "1767225600000",
+      "status": "FRESH",
+      "validUntilMs": "1767484800000",
+      "value": "42500000",
+      "valueScale": 6,
+      "version": "ZFX-OR-MODEL-SPEND-USD-v1"
+    },
+    "print_hash": "c22b2a5c85822f69166be3b42ee79298483873d30a9c26a1926c0ea9b6024208",
+    "signature_hex": "59e6d9199e7b9302c31eb61df8652283f551c912e0239e79582b8d4005c271fe2a67d5af33d5333f385f2f9f35d9946a03df63a3da944eb3ef0414a03f4f6b01"
+  },
+  "order_fields": {
+    "accountId": "alice.testnet",
+    "chainId": "near:testnet",
+    "clearingContract": "perps.zeroflux.testnet",
+    "clientOrderId": "42",
+    "expiryNs": "1800000000000000000",
+    "marketId": "OPUS-PERP",
+    "maxFeeBps": 10,
+    "nonce": "7",
+    "policyHash": "abababababababababababababababababababababababababababababababab",
+    "postOnly": true,
+    "price": "1250",
+    "quantity": "12",
+    "reduceOnly": false,
+    "side": "BUY",
+    "timeInForce": "GTC",
+    "type": "LIMIT"
+  },
+  "order_hash": "51e40257456bd13a8804c518a995ef03fdb92d6b3d3bfd111ed0bb0f06767d9d",
+  "policy_hash": "abababababababababababababababababababababababababababababababab",
+  "public_key": "ed25519:GmaDrppBC7P5ARKV8g3djiwP89vz1jLK23V2GBjuAEGB",
+  "seed_hex": "0707070707070707070707070707070707070707070707070707070707070707"
+}

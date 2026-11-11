@@ -1,0 +1,37 @@
+{
+  "messages": [
+    {
+      "message": "zfx-perps-order-v1|alice.test.near|NEAR-USDC|buy|42500|12|gtc|cancel_taker|7|1700000000000",
+      "name": "order",
+      "signature_b64": "dvINujpwkvXaB/deBI947Ojnuf0cc77P1RieI/6EK9KJQYK77QGOLNMLIL3VDCcI7K5QfRZX1g8HYmix3ua8Aw=="
+    },
+    {
+      "message": "zfx-perps-cancel-v1|alice.test.near|NEAR-USDC|91|0|1700000000001",
+      "name": "cancel",
+      "signature_b64": "CK0WDLJUAnez80lyYDq7vw5oRltRp70EYuR1vimEBKiG10TPdr735WGKWerNDrgwtvSmTj4TECcIhxzinf+rAg=="
+    },
+    {
+      "message": "zfx-perps-cancel-all-v1|alice.test.near|*|1700000000002",
+      "name": "cancel_all",
+      "signature_b64": "8oh9VkAj9htkqfrDmc5g+Vt1AW9GhSSl2VJXQzCZro66GwaPIkOXC9y3mZxNyzR9EdMbMGfigNxp0X7N9kVYCw=="
+    },
+    {
+      "message": "zfx-perps-cancel-all-v1|alice.test.near|NEAR-USDC|1700000000003",
+      "name": "cancel_all_market",
+      "signature_b64": "9ybuR/Ydy7RUZwrVvL7X6QIRRfg9MmXnHSj4F2iVMChc/qtnOtRUfPpMIP5XS5yKfRDazdzZxaVLnJF1JRfACA=="
+    },
+    {
+      "message": "zfx-perps-withdraw-v1|ob.test.near|alice.test.near|usdc.test.near|340282366920938463463374607431768211455|3",
+      "name": "withdraw",
+      "signature_b64": "xApv2mKGBBqtny7tH4D53gHVoE1UyTVF+W5KAZ/kgMmRBwVpmvDxX6l1UBecrSYHRhLHbP6rdpy4/8q2NpaqCA=="
+    },
+    {
+      "message": "zfx-perps-auth-v1|alice.test.near|1700000000004",
+      "name": "auth",
+      "signature_b64": "sLbKJVFZvfFd+EeYNUNngsy6q4/pp2TKO6Eko+UK+ZRz9qhcxdOx0xjo/Ltp8fFUf02DzXCQ0fvSaRsWxVGODA=="
+    }
+  ],
+  "near_secret": "ed25519:99eUso3aSbE9tqGSTXzo3TLfKb9RkMTURrHKQ1K7Zh3StnzFNUx8FKCPPPPpR479qsw5zv2WNBKmgiz7WqgAJfM",
+  "public_key": "ed25519:GmaDrppBC7P5ARKV8g3djiwP89vz1jLK23V2GBjuAEGB",
+  "seed_hex": "0707070707070707070707070707070707070707070707070707070707070707"
+}

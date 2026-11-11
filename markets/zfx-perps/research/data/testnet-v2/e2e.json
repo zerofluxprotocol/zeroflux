@@ -1,0 +1,217 @@
+{
+ "network": "testnet",
+ "contract": "perps-v2.zeroflux.testnet",
+ "collateral": "tusdc-perps.zeroflux.testnet",
+ "market": "CLAUDE-OPUS-5-5-0921",
+ "steps": [
+  {
+   "step": "node_info",
+   "at": "2026-11-11T01:03:52.175Z",
+   "chainId": "near:testnet",
+   "clearingContract": "perps-v2.zeroflux.testnet",
+   "collateral": "tusdc-perps.zeroflux.testnet",
+   "insuranceAccount": "insurance.perps-v2.zeroflux.testnet"
+  },
+  {
+   "step": "faucet_mint",
+   "at": "2026-11-11T01:03:54.372Z",
+   "account": "perps-maker.zeroflux.testnet",
+   "amount": "1000000000",
+   "tx": "3cHw265bGWMhM5iXtiSvtUnfjuryAzux3ruHupPUB83M"
+  },
+  {
+   "step": "register_trading_key",
+   "at": "2026-11-11T01:03:57.837Z",
+   "account": "perps-maker.zeroflux.testnet",
+   "public_key": "ed25519:CN3Gu9v6j57YsEybhzRFcMKF2YK6YWDvEbBqtyALL5cS",
+   "tx": "ADBshoFZAikmhpuusQmHhGRikAzqKTvSPcxwAGKBTFX3"
+  },
+  {
+   "step": "deposit",
+   "at": "2026-11-11T01:04:03.956Z",
+   "account": "perps-maker.zeroflux.testnet",
+   "amount": "1000000000",
+   "tx": "FzCN2bfYbvZY6YFpHvb6xa1ytG2ZoAwxzSYJ1p2pYAor"
+  },
+  {
+   "step": "faucet_mint",
+   "at": "2026-11-11T01:04:14.130Z",
+   "account": "perps-taker.zeroflux.testnet",
+   "amount": "1000000000",
+   "tx": "3n2ZCahV97bjHXNeihMvQfLJXiW4AtmFyZBdwvnvKWL8"
+  },
+  {
+   "step": "register_trading_key",
+   "at": "2026-11-11T01:04:17.254Z",
+   "account": "perps-taker.zeroflux.testnet",
+   "public_key": "ed25519:4m3vWSqiX7axHEzESAMcSgcEHbJ11wVGh3WyrEom151E",
+   "tx": "FXyrfwmsxzBwKSjnNZ3naK4G4xCFSEXEigQynatKbsuF"
+  },
+  {
+   "step": "deposit",
+   "at": "2026-11-11T01:04:23.189Z",
+   "account": "perps-taker.zeroflux.testnet",
+   "amount": "1000000000",
+   "tx": "D1oqdMwcFuXUJy3YkLnda68Ko71N2tD9XUKKJs17baxD"
+  },
+  {
+   "step": "deposits_credited",
+   "at": "2026-11-11T01:04:31.199Z",
+   "perps-maker.zeroflux.testnet": "1000000000",
+   "perps-taker.zeroflux.testnet": "1000000000"
+  },
+  {
+   "step": "relay_print",
+   "at": "2026-11-11T01:04:31.205Z",
+   "index_id": "or-model-spend-lic-7d/anthropic/claude-opus-5.5-20260921",
+   "value_usd": "619885.757986",
+   "print_hash": "e6538439acbba621c6fef8c343f08ee29881383f949ef95176b8756f5bfd85d2",
+   "published_at": "2026-11-11T00:33:23.058Z",
+   "valid_until": "2026-11-12T00:00:00.000Z",
+   "node": {
+    "error": "oracle_not_newer",
+    "message": "Clearing(OracleNotNewer)"
+   }
+  },
+  {
+   "step": "oracle_checked_against_contract_allowlist",
+   "at": "2026-11-11T01:04:31.411Z",
+   "ok": true,
+   "problems": [],
+   "mark": "619885",
+   "effective_status": "ACTIVE"
+  },
+  {
+   "step": "estimate_margin",
+   "at": "2026-11-11T01:04:31.412Z",
+   "initialMargin": "309942500",
+   "fee": "310252",
+   "requiredFree": "310871752",
+   "free": "1000000000",
+   "ok": true
+  },
+  {
+   "step": "maker_post_only_ask",
+   "at": "2026-11-11T01:04:31.418Z",
+   "order_hash": "1ab027717f559fa00db45150b0dab58bd2968a4c2ff2b5c2914af290d32fcba7",
+   "status": "resting",
+   "price": "620504",
+   "qty": "1000"
+  },
+  {
+   "step": "taker_ioc_buy",
+   "at": "2026-11-11T01:04:31.422Z",
+   "order_hash": "ed5c8fd38c164859fc59e9f19ee589074b41507ddb6db6102baa28c8f1aaf2ce",
+   "status": "filled",
+   "filled": "1000"
+  },
+  {
+   "step": "open_settled",
+   "at": "2026-11-11T01:04:38.500Z",
+   "taker": {
+    "market": "CLAUDE-OPUS-5-5-0921",
+    "size": "1000",
+    "margin": "-309942500",
+    "funding_index": "0",
+    "funding_owed": "0",
+    "equity": "309942500",
+    "mark": "619885",
+    "initial_margin": "309942500",
+    "maintenance_margin": "154971250",
+    "liquidation_price": "413256"
+   },
+   "maker": {
+    "market": "CLAUDE-OPUS-5-5-0921",
+    "size": "-1000",
+    "margin": "929827500",
+    "funding_index": "0",
+    "funding_owed": "0",
+    "equity": "309942500",
+    "mark": "619885",
+    "initial_margin": "309942500",
+    "maintenance_margin": "154971250",
+    "liquidation_price": "743862"
+   }
+  },
+  {
+   "step": "maker_post_only_bid",
+   "at": "2026-11-11T01:04:38.510Z",
+   "order_hash": "00d56730a2bad5a7581f9001d19d8ab00b7210aee4c855ea74cff3976274dcc1",
+   "status": "resting",
+   "price": "621744"
+  },
+  {
+   "step": "taker_reduce_only_sell",
+   "at": "2026-11-11T01:04:38.516Z",
+   "order_hash": "d4019ba6d06be8c4822c54d11a7b5829e8b44fcb66e2c952f6747d633bef48cc",
+   "status": "filled",
+   "filled": "1000"
+  },
+  {
+   "step": "balances_match_reference_math",
+   "at": "2026-11-11T01:04:45.592Z",
+   "perps-maker.zeroflux.testnet": {
+    "expected_free": "998511550",
+    "onchain_free": "998511550",
+    "match": true
+   },
+   "perps-taker.zeroflux.testnet": {
+    "expected_free": "1000618876",
+    "onchain_free": "1000618876",
+    "match": true
+   }
+  },
+  {
+   "step": "withdraw_signed",
+   "at": "2026-11-11T01:04:45.765Z",
+   "amount": "1000618876",
+   "response": {
+    "type": "ok",
+    "nonce": "1794359085761000"
+   }
+  },
+  {
+   "step": "withdrawal_paid",
+   "at": "2026-11-11T01:04:52.436Z",
+   "account": "perps-taker.zeroflux.testnet",
+   "token_balance_delta": "1000618876"
+  }
+ ],
+ "settlement_batches": [
+  {
+   "batch": 1,
+   "ops": 28,
+   "orders": 0,
+   "tgas": 18.409362703582,
+   "tx": "9j4HqLdWfYqZXPAAPxuWh6F4VhULCK2xnUY6VUz2GMqx"
+  },
+  {
+   "batch": 2,
+   "ops": 1,
+   "orders": 0,
+   "tgas": 3.020380947907,
+   "tx": "5hPeWUbanY6WGB8gVVNsxFsVNm7MLgkUnYimuugGWNeA"
+  },
+  {
+   "batch": 3,
+   "ops": 1,
+   "orders": 0,
+   "tgas": 3.022660947907,
+   "tx": "DReKaDdrhTTjw3ykqNcHVAosaZRk5W8wdmRdzG9tPeEU"
+  },
+  {
+   "batch": 4,
+   "ops": 1,
+   "orders": 2,
+   "tgas": 5.22508741853,
+   "tx": "GPU3c3qQrE1tndG1ibbLEXRmDMKc2miibjENW6aprqHa"
+  },
+  {
+   "batch": 5,
+   "ops": 1,
+   "orders": 2,
+   "tgas": 5.374968396238,
+   "tx": "6vQUVFqsyzW5DMPoKsvevmfeWQP9UHcdiDLjScr7rDKc"
+  }
+ ]
+}

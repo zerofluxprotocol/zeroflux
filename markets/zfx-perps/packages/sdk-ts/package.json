@@ -1,0 +1,39 @@
+{
+  "name": "@zeroflux/zfx-perps-sdk",
+  "version": "0.1.0",
+  "description": "Browser and Node client for zfx-perps: signed orders, REST and WebSocket feeds, oracle print verification, local margin math, and NEAR wallet transactions for the spot node and the v1 clearing API (isolated-margin perpetuals settled on a NEAR clearing contract).",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./clearing": {
+      "types": "./dist/clearing/index.d.ts",
+      "import": "./dist/clearing/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.examples.json"
+  },
+  "dependencies": {
+    "@noble/curves": "^1.9.0",
+    "@noble/hashes": "^1.8.0",
+    "@scure/base": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "near-api-js": "5",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

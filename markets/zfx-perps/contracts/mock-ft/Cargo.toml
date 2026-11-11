@@ -1,0 +1,17 @@
+[package]
+name = "mock-ft"
+description = "Test-only NEP-141 token with an open faucet. Sandbox and testnet only; no value."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+near-sdk = { workspace = true }
+near-contract-standards = { workspace = true }
+
+[lints.rust.unexpected_cfgs]
+level = "warn"
+check-cfg = ['cfg(near)']

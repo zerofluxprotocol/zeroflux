@@ -1,0 +1,364 @@
+{
+ "source": "~/.local/share/zfx-index/public/v1/markets/models.json",
+ "generated_at": "2026-11-11T00:33:32.233Z",
+ "tradable": [
+  {
+   "market_id": "CLAUDE-OPUS-5-5-0921",
+   "permaslug": "anthropic/claude-opus-5.5-20260921",
+   "index_id": "or-model-spend-lic-7d/anthropic/claude-opus-5.5-20260921",
+   "max_open_interest_usd": 1084800.076476,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.004005"
+  },
+  {
+   "market_id": "GPT-6-1-SOL-0929",
+   "permaslug": "openai/gpt-6.1-sol-20260929",
+   "index_id": "or-model-spend-lic-7d/openai/gpt-6.1-sol-20260929",
+   "max_open_interest_usd": 425946.553437,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.017681"
+  },
+  {
+   "market_id": "KIMI-K3-1-PRO-1023",
+   "permaslug": "moonshotai/kimi-k3.1-pro-20261023",
+   "index_id": "or-model-spend-lic-7d/moonshotai/kimi-k3.1-pro-20261023",
+   "max_open_interest_usd": 405081.256112,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "0.005340"
+  },
+  {
+   "market_id": "DEEPSEEK-V4-1-FLASH-1017",
+   "permaslug": "deepseek/deepseek-v4.1-flash-20261017",
+   "index_id": "or-model-spend-lic-7d/deepseek/deepseek-v4.1-flash-20261017",
+   "max_open_interest_usd": 301419.612926,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.010647"
+  },
+  {
+   "market_id": "KIMI-K3-0715",
+   "permaslug": "moonshotai/kimi-k3-20260715",
+   "index_id": "or-model-spend-lic-7d/moonshotai/kimi-k3-20260715",
+   "max_open_interest_usd": 300093.309411,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.058826"
+  },
+  {
+   "market_id": "CLAUDE-SONNET-5-5-0928",
+   "permaslug": "anthropic/claude-sonnet-5.5-20260928",
+   "index_id": "or-model-spend-lic-7d/anthropic/claude-sonnet-5.5-20260928",
+   "max_open_interest_usd": 294630.659538,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "0.004613"
+  },
+  {
+   "market_id": "GLM-5-3-0816",
+   "permaslug": "z-ai/glm-5.3-20260816",
+   "index_id": "or-model-spend-lic-7d/z-ai/glm-5.3-20260816",
+   "max_open_interest_usd": 244802.851083,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.020117"
+  },
+  {
+   "market_id": "GEMINI-4-ARGON-1013",
+   "permaslug": "google/gemini-4-argon-20261013",
+   "index_id": "or-model-spend-lic-7d/google/gemini-4-argon-20261013",
+   "max_open_interest_usd": 183005.648867,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.000919"
+  },
+  {
+   "market_id": "GLM-5-3-FLASH-0826",
+   "permaslug": "z-ai/glm-5.3-flash-20260826",
+   "index_id": "or-model-spend-lic-7d/z-ai/glm-5.3-flash-20260826",
+   "max_open_interest_usd": 174535.96301,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.081603"
+  },
+  {
+   "market_id": "DEEPSEEK-V4-1-FLASH-0910",
+   "permaslug": "deepseek/deepseek-v4.1-flash-20260910",
+   "index_id": "or-model-spend-lic-7d/deepseek/deepseek-v4.1-flash-20260910",
+   "max_open_interest_usd": 166727.203595,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.004599"
+  },
+  {
+   "market_id": "GEMINI-3-8-FLASH-0902",
+   "permaslug": "google/gemini-3.8-flash-20260902",
+   "index_id": "or-model-spend-lic-7d/google/gemini-3.8-flash-20260902",
+   "max_open_interest_usd": 153839.482495,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.003658"
+  },
+  {
+   "market_id": "GLM-5-2-0616",
+   "permaslug": "z-ai/glm-5.2-20260616",
+   "index_id": "or-model-spend-lic-7d/z-ai/glm-5.2-20260616",
+   "max_open_interest_usd": 103194.98111,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.008642"
+  },
+  {
+   "market_id": "DEEPSEEK-V4-PRO-0813",
+   "permaslug": "deepseek/deepseek-v4-pro-20260813",
+   "index_id": "or-model-spend-lic-7d/deepseek/deepseek-v4-pro-20260813",
+   "max_open_interest_usd": 74042.638337,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "0.019268"
+  },
+  {
+   "market_id": "GPT-6-LUNA-0922",
+   "permaslug": "openai/gpt-6-luna-20260922",
+   "index_id": "or-model-spend-lic-7d/openai/gpt-6-luna-20260922",
+   "max_open_interest_usd": 70533.352396,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.014967"
+  },
+  {
+   "market_id": "GEMINI-3-FLASH-PREVIEW-1217",
+   "permaslug": "google/gemini-3-flash-preview-20251217",
+   "index_id": "or-model-spend-lic-7d/google/gemini-3-flash-preview-20251217",
+   "max_open_interest_usd": 56012.836484,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "0.005585"
+  },
+  {
+   "market_id": "DEEPSEEK-V4-FLASH-0731",
+   "permaslug": "deepseek/deepseek-v4-flash-20260731",
+   "index_id": "or-model-spend-lic-7d/deepseek/deepseek-v4-flash-20260731",
+   "max_open_interest_usd": 52783.136374,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.031389"
+  },
+  {
+   "market_id": "GPT-6-1-TERRA-1026",
+   "permaslug": "openai/gpt-6.1-terra-20261026",
+   "index_id": "or-model-spend-lic-7d/openai/gpt-6.1-terra-20261026",
+   "max_open_interest_usd": 52654.763378,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "0.045120"
+  },
+  {
+   "market_id": "DEEPSEEK-V4-PRO-0423",
+   "permaslug": "deepseek/deepseek-v4-pro-20260423",
+   "index_id": "or-model-spend-lic-7d/deepseek/deepseek-v4-pro-20260423",
+   "max_open_interest_usd": 48320.404794,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.039724"
+  },
+  {
+   "market_id": "CLAUDE-HAIKU-5-5-1007",
+   "permaslug": "anthropic/claude-haiku-5.5-20261007",
+   "index_id": "or-model-spend-lic-7d/anthropic/claude-haiku-5.5-20261007",
+   "max_open_interest_usd": 39741.697961,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "0.009001"
+  },
+  {
+   "market_id": "GPT-5-6-LUNA-0709",
+   "permaslug": "openai/gpt-5.6-luna-20260709",
+   "index_id": "or-model-spend-lic-7d/openai/gpt-5.6-luna-20260709",
+   "max_open_interest_usd": 36725.737996,
+   "index_lifecycle": "CLOSE_ONLY",
+   "clamped": true,
+   "change_vs_prev": "-0.404474"
+  },
+  {
+   "market_id": "DEEPSEEK-V4-FLASH-0423",
+   "permaslug": "deepseek/deepseek-v4-flash-20260423",
+   "index_id": "or-model-spend-lic-7d/deepseek/deepseek-v4-flash-20260423",
+   "max_open_interest_usd": 35850.708668,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "0.008394"
+  },
+  {
+   "market_id": "QWEN3-8-27B-0814",
+   "permaslug": "qwen/qwen3.8-27b-20260814",
+   "index_id": "or-model-spend-lic-7d/qwen/qwen3.8-27b-20260814",
+   "max_open_interest_usd": 28765.650634,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.007267"
+  },
+  {
+   "market_id": "GEMINI-3-1-FLASH-LITE-0507",
+   "permaslug": "google/gemini-3.1-flash-lite-20260507",
+   "index_id": "or-model-spend-lic-7d/google/gemini-3.1-flash-lite-20260507",
+   "max_open_interest_usd": 26557.160794,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.011743"
+  },
+  {
+   "market_id": "MIMO-V2-6-PRO-0921",
+   "permaslug": "xiaomi/mimo-v2.6-pro-20260921",
+   "index_id": "or-model-spend-lic-7d/xiaomi/mimo-v2.6-pro-20260921",
+   "max_open_interest_usd": 17501.676402,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "0.012678"
+  },
+  {
+   "market_id": "GEMMA-4-31B-IT-0402",
+   "permaslug": "google/gemma-4-31b-it-20260402",
+   "index_id": "or-model-spend-lic-7d/google/gemma-4-31b-it-20260402",
+   "max_open_interest_usd": 16469.964849,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "-0.006708"
+  },
+  {
+   "market_id": "NEMOTRON-3-5-SUPER-VL-1015",
+   "permaslug": "nvidia/nemotron-3.5-super-vl-20261015",
+   "index_id": "or-model-spend-lic-7d/nvidia/nemotron-3.5-super-vl-20261015",
+   "max_open_interest_usd": 13221.039576,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "0.000000"
+  },
+  {
+   "market_id": "QWEN3-8-FLASH-0826",
+   "permaslug": "qwen/qwen3.8-flash-20260826",
+   "index_id": "or-model-spend-lic-7d/qwen/qwen3.8-flash-20260826",
+   "max_open_interest_usd": 10341.009582,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "0.168153"
+  },
+  {
+   "market_id": "MUSE-SPARK-1-3-CONTRIBUTOR-0902",
+   "permaslug": "meta/muse-spark-1.3-contributor-20260902",
+   "index_id": "or-model-spend-lic-7d/meta/muse-spark-1.3-contributor-20260902",
+   "max_open_interest_usd": 10116.978963,
+   "index_lifecycle": "ACTIVE",
+   "clamped": false,
+   "change_vs_prev": "0.027093"
+  }
+ ],
+ "not_tradable": [
+  {
+   "permaslug": "tencent/hy4-20261104",
+   "reason": "tencent/hy4-20261104: open-interest cap $8366.115901 is below $10,000; not tradable"
+  },
+  {
+   "permaslug": "stepfun/step-5-preview-20261008",
+   "reason": "stepfun/step-5-preview-20261008: open-interest cap $986.044306 is below $10,000; not tradable"
+  },
+  {
+   "permaslug": "xiaomi/mimo-v2.6-flash-20260921",
+   "reason": "xiaomi/mimo-v2.6-flash-20260921: open-interest cap $3647.898232 is below $10,000; not tradable"
+  },
+  {
+   "permaslug": "minimax/minimax-m3.1-flash-20261019",
+   "reason": "minimax/minimax-m3.1-flash-20261019: open-interest cap $6778.029393 is below $10,000; not tradable"
+  },
+  {
+   "permaslug": "tencent/hy3-20260706",
+   "reason": "tencent/hy3-20260706: open-interest cap $414.016159 is below $10,000; not tradable"
+  },
+  {
+   "permaslug": "upstage/solar-mini4-20260922",
+   "reason": "upstage/solar-mini4-20260922: open-interest cap $2092.652671 is below $10,000; not tradable"
+  },
+  {
+   "permaslug": "openai/gpt-6-luna-pro-20260922",
+   "reason": "openai/gpt-6-luna-pro-20260922: open-interest cap $7662.437319 is below $10,000; not tradable"
+  },
+  {
+   "permaslug": "minimax/minimax-m3-20260531",
+   "reason": "minimax/minimax-m3-20260531: open-interest cap $5145.841918 is below $10,000; not tradable"
+  },
+  {
+   "permaslug": "anthropic/claude-sonnet-5-20260630",
+   "reason": "anthropic/claude-sonnet-5-20260630: licensed 7D index is NOT_REPORTED (5 of 7 window days valid, 6 required); not tradable"
+  },
+  {
+   "permaslug": "openai/gpt-oss-120b",
+   "reason": "openai/gpt-oss-120b: licensed 7D index is NOT_REPORTED (4 of 7 window days valid, 6 required); not tradable"
+  },
+  {
+   "permaslug": "x-ai/grok-4.7-20260916",
+   "reason": "x-ai/grok-4.7-20260916: licensed 7D index is NOT_REPORTED (1 of 7 window days valid, 6 required); not tradable"
+  },
+  {
+   "permaslug": "google/gemma-4-26b-a4b-it-20260403",
+   "reason": "google/gemma-4-26b-a4b-it-20260403: open-interest cap $8265.869738 is below $10,000; not tradable"
+  },
+  {
+   "permaslug": "qwen/qwen3.7-flash-20260727",
+   "reason": "qwen/qwen3.7-flash-20260727: open-interest cap $3073.415908 is below $10,000; not tradable"
+  },
+  {
+   "permaslug": "upstage/solar-pro4-20260810",
+   "reason": "upstage/solar-pro4-20260810: open-interest cap $383.469157 is below $10,000; not tradable"
+  },
+  {
+   "permaslug": "google/gemini-2.5-flash-lite",
+   "reason": "google/gemini-2.5-flash-lite: licensed 7D index is NOT_REPORTED (1 of 7 window days valid, 6 required); not tradable"
+  },
+  {
+   "permaslug": "mistralai/mistral-nemo",
+   "reason": "mistralai/mistral-nemo: licensed 7D index is NOT_REPORTED (2 of 7 window days valid, 6 required); not tradable"
+  },
+  {
+   "permaslug": "openai/gpt-6-astra-20260903",
+   "reason": "openai/gpt-6-astra-20260903: licensed 7D index is NOT_REPORTED (2 of 7 window days valid, 6 required); not tradable"
+  },
+  {
+   "permaslug": "google/gemini-3.7-flash-20260813",
+   "reason": "google/gemini-3.7-flash-20260813: licensed 7D index is NOT_REPORTED (1 of 7 window days valid, 6 required); not tradable"
+  },
+  {
+   "permaslug": "openai/gpt-5.6-sol-20260709",
+   "reason": "openai/gpt-5.6-sol-20260709: licensed 7D index is NOT_REPORTED (2 of 7 window days valid, 6 required); not tradable"
+  },
+  {
+   "permaslug": "deepseek/deepseek-v3.2-20251201",
+   "reason": "deepseek/deepseek-v3.2-20251201: licensed 7D index is NOT_REPORTED (0 of 7 window days valid, 6 required); not tradable"
+  },
+  {
+   "permaslug": "google/gemini-2.5-flash",
+   "reason": "google/gemini-2.5-flash: licensed 7D index is NOT_REPORTED (0 of 7 window days valid, 6 required); not tradable"
+  },
+  {
+   "permaslug": "anthropic/claude-fable-5.1-20260831",
+   "reason": "anthropic/claude-fable-5.1-20260831: licensed 7D index is NOT_REPORTED (0 of 7 window days valid, 6 required); not tradable"
+  },
+  {
+   "permaslug": "anthropic/claude-fable-5.2-20261109",
+   "reason": "anthropic/claude-fable-5.2-20261109: licensed 7D index is NOT_REPORTED (0 of 7 window days valid, 6 required); not tradable"
+  },
+  {
+   "permaslug": "meta/muse-ember-20261109",
+   "reason": "meta/muse-ember-20261109: licensed 7D index is NOT_REPORTED (0 of 7 window days valid, 6 required); not tradable"
+  },
+  {
+   "permaslug": "tencent/hy4-preview-20260827",
+   "reason": "tencent/hy4-preview-20260827: licensed 7D index is NOT_REPORTED (0 of 7 window days valid, 6 required); not tradable"
+  },
+  {
+   "permaslug": "google/gemini-4-carbon-20261110",
+   "reason": "google/gemini-4-carbon-20261110: licensed 7D index is NOT_REPORTED (0 of 7 window days valid, 6 required); not tradable"
+  }
+ ]
+}
