@@ -189,6 +189,8 @@ pub fn run_loop(ledger_dir: &Path, out: &Path, signer: &Signer, params: &Params,
             let n = tick(&l, &f, params, now_ms())?;
             if n > 0 || now_ms() - last_publish > 3_600_000 {
                 let rep = engine::run(&l, signer, params, now_ms())?;
+                let rep7 = crate::weekly::run(&l, signer, &Default::default(), now_ms())?;
+                eprintln!("[poll] 7d {:?}", rep7);
                 let files = publish::publish(&l, out, &signer.pubkey(), params, &budget, now_ms())?;
                 eprintln!("[poll] {} requests; engine {:?}; published {} files", n, rep, files);
                 last_publish = now_ms();

@@ -56,7 +56,8 @@ fn main() {
             let signer = keys::load(&key)?;
             let l = Ledger::open_write(&ledger_dir).map_err(|e| e.to_string())?;
             let rep = engine::run(&l, &signer, &params, now_ms()).map_err(|e| e.to_string())?;
-            println!("{}", serde_json::to_string(&rep).unwrap());
+            let rep7 = zfx_index::weekly::run(&l, &signer, &Default::default(), now_ms()).map_err(|e| e.to_string())?;
+            println!("{}", serde_json::json!({"daily": rep, "7d": rep7}));
             Ok(())
         }
         "publish" => {
@@ -79,7 +80,9 @@ fn main() {
             let rep = l.verify().map_err(|e| e.to_string())?;
             let mut ok = 0;
             let mut bad = 0;
-            for r in l.read_json("revisions.jsonl").map_err(|e| e.to_string())? {
+            let mut all = l.read_json("revisions.jsonl").map_err(|e| e.to_string())?;
+            all.extend(l.read_json(zfx_index::weekly::REVISIONS_7D).map_err(|e| e.to_string())?);
+            for r in all {
                 let p = &r["print"];
                 if p.is_null() {
                     continue;

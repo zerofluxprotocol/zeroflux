@@ -610,7 +610,7 @@ pub fn latest_revisions(l: &Ledger) -> Result<BTreeMap<(String, String), Value>,
     Ok(m)
 }
 
-fn hex32(s: &str) -> [u8; 32] {
+pub fn hex32(s: &str) -> [u8; 32] {
     let mut a = [0u8; 32];
     if let Ok(b) = hex::decode(s) {
         if b.len() == 32 {

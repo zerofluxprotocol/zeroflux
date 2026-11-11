@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-11T00:12:04.582Z",
+  "generated_at": "2026-11-11T00:19:30.997Z",
   "status": "OK",
   "notice": "Paper-trading index built from OpenRouter data. Not settlement-grade. Not revenue, royalties or equity.",
   "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:09:57.000Z",
@@ -554,6 +554,15 @@
       ]
     }
   ],
+  "revisions_7d": {
+    "total": 1429,
+    "corrections": 0,
+    "days_by_data_status": {
+      "NOT_REPORTED": 266,
+      "OK": 1163
+    },
+    "days_clamped": 45
+  },
   "revisions": {
     "total": 1429,
     "by_data_status": {

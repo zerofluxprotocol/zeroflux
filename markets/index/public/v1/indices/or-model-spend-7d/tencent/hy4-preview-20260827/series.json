@@ -1,0 +1,14 @@
+{
+  "market": "tencent/hy4-preview-20260827",
+  "index_id": "or-model-spend-7d/tencent/hy4-preview-20260827",
+  "label": "Tencent: Hy4 preview: OpenRouter-implied billings proxy, trailing 7-day mean, USD/day",
+  "formula": {
+    "version": "ZFX-OR-MODEL-SPEND-USD-7D-v1",
+    "hash": "a5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307",
+    "derived_from": "ZFX-OR-MODEL-SPEND-USD-v1"
+  },
+  "notice": "Paper-trading index built from OpenRouter data. Not settlement-grade. Not revenue, royalties or equity.",
+  "attribution": null,
+  "revisions_total": 0,
+  "points": []
+}

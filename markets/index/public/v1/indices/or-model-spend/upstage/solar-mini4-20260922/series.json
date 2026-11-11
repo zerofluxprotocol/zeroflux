@@ -49,7 +49,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "a64b5604d3beb066f7365a2b46aaeb213467c9b0f0fa7464ed5172ee7ab143b6"
+      "print_hash": "a64b5604d3beb066f7365a2b46aaeb213467c9b0f0fa7464ed5172ee7ab143b6",
+      "index_7d": {
+        "value_usd": null,
+        "data_status": "NOT_REPORTED",
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "clamped": false,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-10-11.r1"
+      }
     },
     {
       "utc_date": "2026-10-12",
@@ -89,7 +98,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "b44f5f5afa49a3868b798ee830711dbe6a32ed0a6ae38d25ef1289c6d47ce5ff"
+      "print_hash": "b44f5f5afa49a3868b798ee830711dbe6a32ed0a6ae38d25ef1289c6d47ce5ff",
+      "index_7d": {
+        "value_usd": null,
+        "data_status": "NOT_REPORTED",
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "clamped": false,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-10-12.r1"
+      }
     },
     {
       "utc_date": "2026-10-13",
@@ -129,7 +147,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "1bc04dab31876845985e33d80c576057d2002fe77831f7266c8813c331c15ef7"
+      "print_hash": "1bc04dab31876845985e33d80c576057d2002fe77831f7266c8813c331c15ef7",
+      "index_7d": {
+        "value_usd": null,
+        "data_status": "NOT_REPORTED",
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "clamped": false,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-10-13.r1"
+      }
     },
     {
       "utc_date": "2026-10-14",
@@ -169,7 +196,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "bbd4eaac7d8c9d06f950d1f716dc95933248b6026c8838810a82913c64446e5b"
+      "print_hash": "bbd4eaac7d8c9d06f950d1f716dc95933248b6026c8838810a82913c64446e5b",
+      "index_7d": {
+        "value_usd": null,
+        "data_status": "NOT_REPORTED",
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "clamped": false,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-10-14.r1"
+      }
     },
     {
       "utc_date": "2026-10-15",
@@ -209,7 +245,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "7f0e1a8733c1f4df7d00918c6cec5f85eaa8194e450edee47d758133b451d0e4"
+      "print_hash": "7f0e1a8733c1f4df7d00918c6cec5f85eaa8194e450edee47d758133b451d0e4",
+      "index_7d": {
+        "value_usd": null,
+        "data_status": "NOT_REPORTED",
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "clamped": false,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-10-15.r1"
+      }
     },
     {
       "utc_date": "2026-10-16",
@@ -249,7 +294,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "6ca53b39737c1eb751e3d62a3288488d1cfd9a96843ad3a1a7ba67d6a7a2f6bb"
+      "print_hash": "6ca53b39737c1eb751e3d62a3288488d1cfd9a96843ad3a1a7ba67d6a7a2f6bb",
+      "index_7d": {
+        "value_usd": "279.414521",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "16.764871",
+        "max_open_interest_usd": "419.121781",
+        "clamped": false,
+        "lifecycle": "ACTIVE",
+        "revision_id": "2026-10-16.r1"
+      }
     },
     {
       "utc_date": "2026-10-17",
@@ -289,7 +343,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "74f3df18cdb14d503e554395bd7c7e99829b23c5ce48859f6e2ca8af85a8b30b"
+      "print_hash": "74f3df18cdb14d503e554395bd7c7e99829b23c5ce48859f6e2ca8af85a8b30b",
+      "index_7d": {
+        "value_usd": "244.007924",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "17.080555",
+        "max_open_interest_usd": "427.013866",
+        "clamped": false,
+        "lifecycle": "ACTIVE",
+        "revision_id": "2026-10-17.r1"
+      }
     },
     {
       "utc_date": "2026-10-18",
@@ -329,7 +392,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "8524b3faa91f990784ca28dace8d8428f9d05997456013f59cbed4ae569b6188"
+      "print_hash": "8524b3faa91f990784ca28dace8d8428f9d05997456013f59cbed4ae569b6188",
+      "index_7d": {
+        "value_usd": "111.830902",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "7.828163",
+        "max_open_interest_usd": "195.704079",
+        "clamped": true,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-10-18.r1"
+      }
     },
     {
       "utc_date": "2026-10-19",
@@ -369,7 +441,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "e2040042fa1f68200af578de9df28bfba2e3300d929105f3d043248c9a39d793"
+      "print_hash": "e2040042fa1f68200af578de9df28bfba2e3300d929105f3d043248c9a39d793",
+      "index_7d": {
+        "value_usd": "105.768405",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "7.403788",
+        "max_open_interest_usd": "185.094708",
+        "clamped": false,
+        "lifecycle": "ACTIVE",
+        "revision_id": "2026-10-19.r1"
+      }
     },
     {
       "utc_date": "2026-10-20",
@@ -409,7 +490,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "b4b524f34a88ae5ec384c1a61610b08a7e9565dd978293861c4c59bea036551f"
+      "print_hash": "b4b524f34a88ae5ec384c1a61610b08a7e9565dd978293861c4c59bea036551f",
+      "index_7d": {
+        "value_usd": "106.839657",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "7.478776",
+        "max_open_interest_usd": "186.969399",
+        "clamped": false,
+        "lifecycle": "ACTIVE",
+        "revision_id": "2026-10-20.r1"
+      }
     },
     {
       "utc_date": "2026-10-21",
@@ -449,7 +539,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "faa740de90780f13e5df1ce5db334c49c1b9e972cbaace5eb4df7e8f270d17f3"
+      "print_hash": "faa740de90780f13e5df1ce5db334c49c1b9e972cbaace5eb4df7e8f270d17f3",
+      "index_7d": {
+        "value_usd": "101.842735",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "7.128991",
+        "max_open_interest_usd": "178.224786",
+        "clamped": false,
+        "lifecycle": "ACTIVE",
+        "revision_id": "2026-10-21.r1"
+      }
     },
     {
       "utc_date": "2026-10-22",
@@ -489,7 +588,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "2126c791e723eab54cfd1461ba52cb02a58e90e68f85faf808525c8539467bc7"
+      "print_hash": "2126c791e723eab54cfd1461ba52cb02a58e90e68f85faf808525c8539467bc7",
+      "index_7d": {
+        "value_usd": "473.615302",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "33.153071",
+        "max_open_interest_usd": "828.826779",
+        "clamped": true,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-10-22.r1"
+      }
     },
     {
       "utc_date": "2026-10-23",
@@ -529,7 +637,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "96a8cc0b4170a66ef2def9db2057246e92df40aaefe5bfc7eac8614655e7393d"
+      "print_hash": "96a8cc0b4170a66ef2def9db2057246e92df40aaefe5bfc7eac8614655e7393d",
+      "index_7d": {
+        "value_usd": "855.040206",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "59.852814",
+        "max_open_interest_usd": "1496.320361",
+        "clamped": true,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-10-23.r1"
+      }
     },
     {
       "utc_date": "2026-10-24",
@@ -569,7 +686,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "6877b6d1df8b9bbc879fd9d1729d40691e7900eb4fa465584bf463f0e3904b6b"
+      "print_hash": "6877b6d1df8b9bbc879fd9d1729d40691e7900eb4fa465584bf463f0e3904b6b",
+      "index_7d": {
+        "value_usd": "1178.605900",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "82.502413",
+        "max_open_interest_usd": "2062.560326",
+        "clamped": true,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-10-24.r1"
+      }
     },
     {
       "utc_date": "2026-10-25",
@@ -609,7 +735,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "37e239e4bcda1ee45b4e26c691c8c58cd91c9ad65ab2d55530ae913eeaf99a6c"
+      "print_hash": "37e239e4bcda1ee45b4e26c691c8c58cd91c9ad65ab2d55530ae913eeaf99a6c",
+      "index_7d": {
+        "value_usd": "1505.833580",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "105.408351",
+        "max_open_interest_usd": "2635.208766",
+        "clamped": true,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-10-25.r1"
+      }
     },
     {
       "utc_date": "2026-10-26",
@@ -649,7 +784,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "28104180a102cc70a9d70c206a9c0cb181cb9cf5a08b75c2f6e6bd24b0a1f113"
+      "print_hash": "28104180a102cc70a9d70c206a9c0cb181cb9cf5a08b75c2f6e6bd24b0a1f113",
+      "index_7d": {
+        "value_usd": "1930.186093",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "135.113027",
+        "max_open_interest_usd": "3377.825663",
+        "clamped": true,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-10-26.r1"
+      }
     },
     {
       "utc_date": "2026-10-27",
@@ -689,7 +833,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "2d79c438111015907fa55cfd8d96837ad0762dc2fb634e6153b6ca24c2939f4e"
+      "print_hash": "2d79c438111015907fa55cfd8d96837ad0762dc2fb634e6153b6ca24c2939f4e",
+      "index_7d": {
+        "value_usd": "2349.173101",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "164.442117",
+        "max_open_interest_usd": "4111.052927",
+        "clamped": true,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-10-27.r1"
+      }
     },
     {
       "utc_date": "2026-10-28",
@@ -729,7 +882,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "0f891faad55ecdce4d4b51c963372c08665d8cdc97c5a8c0021d5efadc51f13b"
+      "print_hash": "0f891faad55ecdce4d4b51c963372c08665d8cdc97c5a8c0021d5efadc51f13b",
+      "index_7d": {
+        "value_usd": "2783.036942",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "194.812586",
+        "max_open_interest_usd": "4870.314649",
+        "clamped": true,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-10-28.r1"
+      }
     },
     {
       "utc_date": "2026-10-29",
@@ -769,7 +931,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "b4f427fae0c0fa9310e359efc6a89f38398bbd1896ee3106f2e7ad2ec2b93a59"
+      "print_hash": "b4f427fae0c0fa9310e359efc6a89f38398bbd1896ee3106f2e7ad2ec2b93a59",
+      "index_7d": {
+        "value_usd": "2791.318104",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "195.392267",
+        "max_open_interest_usd": "4884.806683",
+        "clamped": false,
+        "lifecycle": "ACTIVE",
+        "revision_id": "2026-10-29.r1"
+      }
     },
     {
       "utc_date": "2026-10-30",
@@ -809,7 +980,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "3f790ea40921741b34e32000a6d630cb9259709ebc7e1dd1872e91ebb90f93a5"
+      "print_hash": "3f790ea40921741b34e32000a6d630cb9259709ebc7e1dd1872e91ebb90f93a5",
+      "index_7d": {
+        "value_usd": "2792.151254",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "195.450588",
+        "max_open_interest_usd": "4886.264694",
+        "clamped": false,
+        "lifecycle": "ACTIVE",
+        "revision_id": "2026-10-30.r1"
+      }
     },
     {
       "utc_date": "2026-10-31",
@@ -849,7 +1029,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "66ab3337a9d62c7c25439b7c983f4a5aa396ce71c7546856e752e2509a792f38"
+      "print_hash": "66ab3337a9d62c7c25439b7c983f4a5aa396ce71c7546856e752e2509a792f38",
+      "index_7d": {
+        "value_usd": "2837.204214",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "198.604295",
+        "max_open_interest_usd": "4965.107375",
+        "clamped": false,
+        "lifecycle": "ACTIVE",
+        "revision_id": "2026-10-31.r1"
+      }
     },
     {
       "utc_date": "2026-11-01",
@@ -889,7 +1078,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "63c0eeb62073c9e992d9dfdb0a090ce4f4872802ddcfae21e6caa13f632e6f18"
+      "print_hash": "63c0eeb62073c9e992d9dfdb0a090ce4f4872802ddcfae21e6caa13f632e6f18",
+      "index_7d": {
+        "value_usd": "2892.657856",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "202.486050",
+        "max_open_interest_usd": "5062.151249",
+        "clamped": false,
+        "lifecycle": "ACTIVE",
+        "revision_id": "2026-11-01.r1"
+      }
     },
     {
       "utc_date": "2026-11-02",
@@ -929,7 +1127,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "4bef9db8aa8a687b837fbc41bc81e8e7790e3c51e7d51b302c75b1ec82d808de"
+      "print_hash": "4bef9db8aa8a687b837fbc41bc81e8e7790e3c51e7d51b302c75b1ec82d808de",
+      "index_7d": {
+        "value_usd": "2886.825172",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "202.077762",
+        "max_open_interest_usd": "5051.944051",
+        "clamped": false,
+        "lifecycle": "ACTIVE",
+        "revision_id": "2026-11-02.r1"
+      }
     },
     {
       "utc_date": "2026-11-03",
@@ -969,7 +1176,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "d57904a0415853f1d4d172405c4cb094a7bab831fe92f4e4e91acc590f4815a9"
+      "print_hash": "d57904a0415853f1d4d172405c4cb094a7bab831fe92f4e4e91acc590f4815a9",
+      "index_7d": {
+        "value_usd": "2916.055861",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "204.123910",
+        "max_open_interest_usd": "5103.097757",
+        "clamped": false,
+        "lifecycle": "ACTIVE",
+        "revision_id": "2026-11-03.r1"
+      }
     },
     {
       "utc_date": "2026-11-04",
@@ -1009,7 +1225,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "a1b30d5a9fe71a726068d57d70966a67abd483ccaf6d5a73ad7facc74e6f5554"
+      "print_hash": "a1b30d5a9fe71a726068d57d70966a67abd483ccaf6d5a73ad7facc74e6f5554",
+      "index_7d": {
+        "value_usd": "2798.706728",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "195.909471",
+        "max_open_interest_usd": "4897.736774",
+        "clamped": false,
+        "lifecycle": "ACTIVE",
+        "revision_id": "2026-11-04.r1"
+      }
     },
     {
       "utc_date": "2026-11-05",
@@ -1049,7 +1274,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "7f09d236dd380a635ca68fb09a216fd952e7660fe76356f3d678ea0e16d1b29b"
+      "print_hash": "7f09d236dd380a635ca68fb09a216fd952e7660fe76356f3d678ea0e16d1b29b",
+      "index_7d": {
+        "value_usd": "2393.580813",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "167.550657",
+        "max_open_interest_usd": "4188.766422",
+        "clamped": false,
+        "lifecycle": "ACTIVE",
+        "revision_id": "2026-11-05.r1"
+      }
     },
     {
       "utc_date": "2026-11-06",
@@ -1089,7 +1323,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "7fde403af56e5aa281e139fff7209ff879b909dc3f3ead4c68b41e2e7169774a"
+      "print_hash": "7fde403af56e5aa281e139fff7209ff879b909dc3f3ead4c68b41e2e7169774a",
+      "index_7d": {
+        "value_usd": "2010.746556",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "140.752259",
+        "max_open_interest_usd": "3518.806474",
+        "clamped": true,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-11-06.r1"
+      }
     },
     {
       "utc_date": "2026-11-07",
@@ -1129,7 +1372,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "76a123cb2ea00d1b7aacf350e35843ccd61602b3686192e8eebeab00d7d5aa06"
+      "print_hash": "76a123cb2ea00d1b7aacf350e35843ccd61602b3686192e8eebeab00d7d5aa06",
+      "index_7d": {
+        "value_usd": "1645.358522",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "115.175097",
+        "max_open_interest_usd": "2879.377414",
+        "clamped": true,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-11-07.r1"
+      }
     },
     {
       "utc_date": "2026-11-08",
@@ -1169,7 +1421,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "2db34e0283b9ac462e4dadef9a395426b70cda54d8f321b27f73b8d965ca2fc4"
+      "print_hash": "2db34e0283b9ac462e4dadef9a395426b70cda54d8f321b27f73b8d965ca2fc4",
+      "index_7d": {
+        "value_usd": "1264.799591",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "88.535971",
+        "max_open_interest_usd": "2213.399284",
+        "clamped": true,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-11-08.r1"
+      }
     },
     {
       "utc_date": "2026-11-09",
@@ -1209,7 +1470,16 @@
       "reason": null,
       "source_as_of": "2026-11-10T20:14:43.272Z",
       "observed_at": "2026-11-10T23:20:16.846Z",
-      "print_hash": "a14291f9f575abdd82f391adc447ed0ae41469dda56700b37540682905bf2787"
+      "print_hash": "a14291f9f575abdd82f391adc447ed0ae41469dda56700b37540682905bf2787",
+      "index_7d": {
+        "value_usd": "839.987135",
+        "data_status": "OK",
+        "manipulation_cost_usd_per_pct": "58.799099",
+        "max_open_interest_usd": "1469.977486",
+        "clamped": true,
+        "lifecycle": "CLOSE_ONLY",
+        "revision_id": "2026-11-09.r1"
+      }
     }
   ]
 }
