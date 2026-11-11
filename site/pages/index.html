@@ -100,7 +100,7 @@
       <p class="body">Built for the GPUs already deployed across AI infrastructure. No mining ASIC required. Data-center GPUs mine roughly 2,500 to 4,000 times faster than a laptop CPU, by design.</p>
     </div>
     <div class="hw">
-      <div><div class="tag">CUDA</div><h3>NVIDIA</h3><p class="small">int8 (cuBLAS) and FP8 (cuBLASLt) paths, both exact.</p><div class="stat">H100 <b>8.08 M</b> attempts/s<br>≈ 86 µJ per attempt</div></div>
+      <div><div class="tag">CUDA</div><h3>NVIDIA</h3><p class="small">int8 (cuBLAS) and FP8 (cuBLASLt) paths, both exact.</p><div class="stat">B300 <b>14.9 M</b> attempts/s<br>≈ 71 µJ per attempt (FP8)</div></div>
       <div><div class="tag">ROCm</div><h3>AMD</h3><p class="small">int8 (hipBLAS) and FP8 (hipBLASLt) paths, both exact.</p><div class="stat">MI355X <b>13.1 M</b> attempts/s<br>≈ 93 µJ per attempt</div></div>
       <div><div class="tag">MLX · METAL</div><h3>Apple Silicon</h3><p class="small">GPU mining through MLX or PyTorch MPS.</p><div class="stat">M5 Pro GPU <b>80 K</b> attempts/s<br>24x the same chip's CPU</div></div>
       <div><div class="tag">REFERENCE</div><h3>Any CPU</h3><p class="small">Rust and C++ miners; watchers recheck blocks on any CPU.</p><div class="stat">M5 Pro, 18 threads <b>3.3 K</b> attempts/s</div></div>
@@ -108,8 +108,12 @@
     <div class="scroll-x"><div class="tscroll"><table class="mtable">
       <thead><tr><th>Hardware</th><th>Attempts / s</th><th>Real blocks mined</th></tr></thead>
       <tbody>
+        <tr class="hl"><td>NVIDIA B300 (FP8)</td><td class="n">14,910,000</td><td>benchmark only; selftest and 2^20 stress exact</td></tr>
         <tr class="hl"><td>AMD MI355X</td><td class="n">13,124,061</td><td>57 in 120 s, all re-verified by an independent CPU node</td></tr>
+        <tr><td>NVIDIA H200</td><td class="n">8,372,340</td><td>benchmark only; selftest and 2^20 stress exact</td></tr>
         <tr class="hl"><td>NVIDIA H100 80GB</td><td class="n">8,078,510</td><td>42 in 120 s, all re-verified by an independent CPU node</td></tr>
+        <tr><td>NVIDIA RTX PRO 6000 Blackwell</td><td class="n">4,852,340</td><td>benchmark only; selftest and 2^20 stress exact</td></tr>
+        <tr><td>NVIDIA GeForce RTX 4090</td><td class="n">3,286,270</td><td>benchmark only; selftest and 2^20 stress exact</td></tr>
         <tr><td>Apple M5 Pro GPU (MLX)</td><td class="n">80,131</td><td>88 in 30 s on an easy local target, re-verified</td></tr>
         <tr><td>Apple M5 Pro CPU (18 threads)</td><td class="n">3,293</td><td>55 in 25 s on an easy local target, re-verified</td></tr>
       </tbody>
