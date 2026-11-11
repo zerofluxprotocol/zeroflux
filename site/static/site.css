@@ -417,3 +417,8 @@ footer { margin-top: 0; }
 .ctas3 .go::after { content: "  \2192"; }
 @media (max-width: 900px) { .ctas3 { grid-template-columns: 1fr; } }
 .final { padding-bottom: clamp(32px, 4vw, 56px); }
+
+.beta .plist { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.beta .plist li { display: flex; flex-direction: column; gap: 3px; padding: 16px 18px; border: 1px solid var(--line); background: var(--surface); }
+.beta .plist b { font-weight: 400; color: var(--ink); font-size: 15.5px; }
+.beta .plist span { font-size: 14px; color: var(--muted); }

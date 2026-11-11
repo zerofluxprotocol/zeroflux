@@ -19,7 +19,6 @@ async function beta(req: Request, env: Env): Promise<Response> {
   const email = String(b.email || "").trim().toLowerCase();
   if (!/^[^\s@]{1,64}@[^\s@]{1,190}\.[a-z]{2,24}$/.test(email)) return json(400, { error: "Enter a valid email address." });
   const products = (Array.isArray(b.products) ? b.products : []).map(String).filter((p) => PRODUCTS.has(p));
-  if (!products.length) return json(400, { error: "Pick at least one product." });
   const note = String(b.note || "").slice(0, 500);
   const ip = req.headers.get("cf-connecting-ip") || "";
   // one request per address per day is plenty; repeats overwrite

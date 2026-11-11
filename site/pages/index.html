@@ -187,13 +187,12 @@ export OPENAI_BASE_URL=http://127.0.0.1:8787/v1</pre>
       <h2 class="h2" style="margin-top: 18px">Access our private beta.</h2>
     </div>
     <form class="beta" id="betaForm" novalidate>
-      <fieldset>
-        <legend class="sr">Products</legend>
-        <label class="opt"><input type="checkbox" name="products" value="hosted-vpn"><span><b>Hosted ZFX VPN</b>An OpenAI-compatible privacy endpoint we run for you</span></label>
-        <label class="opt"><input type="checkbox" name="products" value="trading"><span><b>Trading on ZFX Markets</b>Perpetuals on the model index, cleared on NEAR</span></label>
-        <label class="opt"><input type="checkbox" name="products" value="sandboxes"><span><b>ZFX Sandboxes</b>Attested CPU and GPU environments on mining hardware</span></label>
-        <label class="opt"><input type="checkbox" name="products" value="zpu"><span><b>ZPU inference</b>Serve open models on enrolled machines</span></label>
-      </fieldset>
+      <ul class="plist">
+        <li><b>Hosted ZFX VPN</b><span>An OpenAI-compatible privacy endpoint we run for you</span></li>
+        <li><b>Trading on ZFX Markets</b><span>Perpetuals on the model index, cleared on NEAR</span></li>
+        <li><b>ZFX Sandboxes</b><span>Attested CPU and GPU environments on mining hardware</span></li>
+        <li><b>ZPU inference</b><span>Serve open models on enrolled machines</span></li>
+      </ul>
       <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="brow2">
         <input type="email" name="email" placeholder="you@company.com" autocomplete="email" required aria-label="Email">
