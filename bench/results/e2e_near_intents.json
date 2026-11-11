@@ -4,9 +4,9 @@
       "check": "I1 solver and user mine ZFX directly on NEAR (production PoW, optimistic checks, blocks finalized)",
       "result": "PASS",
       "evidence": {
-        "final_height": 19,
-        "solver_zfx": 25000000000,
-        "user_zfx": 70000000000,
+        "final_height": 13,
+        "solver_zfx": 20000000000,
+        "user_zfx": 45000000000,
         "frauds": 0
       }
     },
@@ -24,19 +24,19 @@
       "result": "PASS",
       "evidence": {
         "quote": {
-          "quote_hash": "41f27faf807d9e92fb475314c04e32a2",
+          "quote_hash": "2439f8ee21a11fdc5a7a845e08cca94a",
           "defuse_asset_identifier_in": "nep141:zfx.deployer.test.near",
           "defuse_asset_identifier_out": "nep141:tusdc.deployer.test.near",
           "amount_in": "5000000000",
           "amount_out": "124375000",
-          "expiration_time": "2026-11-10T04:12:35Z"
+          "expiration_time": "2026-11-11T02:26:09Z"
         },
         "status": {
-          "intent_hash": "7UVqztSgsNi43QUdnjiSbDV1EpEt1yoNwDNPqNsev5SA",
+          "intent_hash": "3nfqHEB1VDyjXuggRPPPFLnYdBj8ar99QBVgXuxKZnWd",
           "status": "SETTLED",
           "status_details": "settled on the Verifier",
           "data": {
-            "hash": "4wnXhn34ca8AyTK7Xt8ghuAXicmanCX73VD93o4Cq2ck"
+            "hash": "AkJJjusAnqaYTq3evr6TNZZrVnmwk5qHY1F75Pt2HAfe"
           },
           "filled_amounts": [
             "5000000000",
@@ -46,8 +46,8 @@
             "intents_executed": 2
           },
           "logs": [
-            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"EwttnEtorB4PR65C7mCHWn5SdKvBGBnPMaA8oPHgTTzw\",\"account_id\":\"solver.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"-124375000\",\"nep141:zfx.deployer.test.near\":\"5000000000\"}}]}",
-            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"763f6s9ggpSV8f8gs1nc9Wy58NYcoYkBcmERXcqLe32C\",\"account_id\":\"user.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"124375000\",\"nep141:zfx.deployer.test.near\":\"-5000000000\"}}]}"
+            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"5iG8c1dWcCD8XV33UFKzHgLBeYE8aCrSyd6V76PcJfMn\",\"account_id\":\"solver.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"-124375000\",\"nep141:zfx.deployer.test.near\":\"5000000000\"}}]}",
+            "EVENT_JSON:{\"standard\":\"dip4\",\"version\":\"0.3.0\",\"event\":\"token_diff\",\"data\":[{\"intent_hash\":\"6cHM8AFi6vs5Hqq4yw2B6LW64xdWyJquAvPffrNM4ioa\",\"account_id\":\"user.test.near\",\"diff\":{\"nep141:tusdc.deployer.test.near\":\"124375000\",\"nep141:zfx.deployer.test.near\":\"-5000000000\"}}]}"
           ]
         },
         "user_tusdc": 124375000
@@ -58,12 +58,12 @@
       "result": "PASS",
       "evidence": {
         "quote": {
-          "quote_hash": "e22177c890e662fd6e7ee3f1a075adcc",
+          "quote_hash": "9a2d8757c351f3b46469bb53b20f71f6",
           "defuse_asset_identifier_in": "nep141:tusdc.deployer.test.near",
           "defuse_asset_identifier_out": "nep141:zfx.deployer.test.near",
           "amount_in": "10000000",
           "amount_out": "398000000",
-          "expiration_time": "2026-11-10T04:12:36Z"
+          "expiration_time": "2026-11-11T02:26:11Z"
         },
         "status": "SETTLED"
       }
@@ -72,8 +72,8 @@
       "check": "I5 ZFX supply equals reward x finalized blocks and all ZFX is accounted for (wallets + Verifier)",
       "result": "PASS",
       "evidence": {
-        "supply": "95000000000",
-        "wallets_plus_verifier": 95000000000,
+        "supply": "65000000000",
+        "wallets_plus_verifier": 65000000000,
         "verifier_holds": 25000000000
       }
     }
