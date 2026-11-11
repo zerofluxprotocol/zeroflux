@@ -205,7 +205,7 @@
       else {
         var pts = s.d.slice(-10).reverse();
         html = '<table class="tbl idxtbl"><thead><tr><th class="l">Day</th><th>Value</th><th>Tokens</th><th>Status</th></tr></thead><tbody>' + pts.map(function (p) {
-          return '<tr><td class="l">' + esc(dLabel(p.utc_date)) + '</td><td>' + usd(n(p.value_usd)) + '</td><td class="mut">' + tok(p.tokens ? n(p.tokens.total) : null) + '</td><td class="fnt">' + esc((p.data_status || '') + (p.finality ? ' · ' + p.finality.toLowerCase() : '')) + '</td></tr>';
+          return '<tr><td class="l">' + esc(dLabel(p.utc_date)) + '</td><td>' + usd(n(p.value_usd)) + '</td><td class="mut">' + tok(n(p.total_tokens || (p.tokens && p.tokens.total))) + '</td><td class="fnt">' + esc((p.data_status || '') + (p.finality ? ' · ' + p.finality.toLowerCase() : '')) + '</td></tr>';
         }).join('') + '</tbody></table>' +
         '<div class="src">Each day: OpenRouter tokens from its documented daily dataset, times a frozen billed share and input/output mix, times documented listed prices. Every day is signed by the index reporter. Latest 7D print <span class="m">' + esc((m.printHash || '').slice(0, 16)) + '…</span>. <a href="/v1/indices/or-model-spend-7d/' + esc(m.slug) + '/series.json">Raw series</a></div>';
       }
