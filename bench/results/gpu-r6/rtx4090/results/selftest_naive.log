@@ -1,0 +1,11 @@
+PASS dev nonce=0 cuda:NVIDIA GeForce RTX 4090:sm_89:naive:int8
+PASS dev nonce=1 cuda:NVIDIA GeForce RTX 4090:sm_89:naive:int8
+PASS dev nonce=2 cuda:NVIDIA GeForce RTX 4090:sm_89:naive:int8
+PASS dev nonce=81985529216486895 cuda:NVIDIA GeForce RTX 4090:sm_89:naive:int8
+PASS dev nonce=18446744073709551615 cuda:NVIDIA GeForce RTX 4090:sm_89:naive:int8
+PASS v01 nonce=0 cuda:NVIDIA GeForce RTX 4090:sm_89:naive:int8
+PASS v01 nonce=1 cuda:NVIDIA GeForce RTX 4090:sm_89:naive:int8
+PASS v01 nonce=2 cuda:NVIDIA GeForce RTX 4090:sm_89:naive:int8
+PASS v01 nonce=81985529216486895 cuda:NVIDIA GeForce RTX 4090:sm_89:naive:int8
+PASS v01 nonce=18446744073709551615 cuda:NVIDIA GeForce RTX 4090:sm_89:naive:int8
+278/278 checks bit-exact on cuda:NVIDIA GeForce RTX 4090:sm_89:naive:int8

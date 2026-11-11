@@ -1,0 +1,203 @@
+{
+  "date": "2026-11-11",
+  "image": "pytorch/pytorch:2.12.0-cuda13.0-cudnn9-devel",
+  "profile": "zfx-fp8c-v0.1 (51,642,368 MACs/attempt)",
+  "ledger": "bench/results/gpu_ledger.json",
+  "devices": {
+    "B300 SXM6 (Blackwell Ultra, sm_103)": {
+      "steps_pass": 27,
+      "steps_fail": [],
+      "paths": {
+        "blas-int8": {
+          "attempts_per_s": 1376540.0,
+          "tera_macs_per_s": 71.0877,
+          "avg_power_w": 437.5,
+          "uj_per_attempt": 317.8,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        },
+        "lt-fp8": {
+          "attempts_per_s": 14910000.0,
+          "tera_macs_per_s": 769.988,
+          "avg_power_w": 1054.4,
+          "uj_per_attempt": 70.7,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        },
+        "naive": {
+          "attempts_per_s": 34256.4,
+          "tera_macs_per_s": 1.76908,
+          "avg_power_w": 368.4,
+          "uj_per_attempt": 10754.2,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        }
+      },
+      "pytorch": {
+        "py_selftest_fp32": "PASS",
+        "py_stress_fp32": "PASS",
+        "py_selftest_int8": "PASS",
+        "py_stress_int8": "PASS",
+        "py_selftest_fp8": "PASS",
+        "py_stress_fp8": "PASS",
+        "py_bench_int8": "PASS"
+      }
+    },
+    "H200": {
+      "steps_pass": 27,
+      "steps_fail": [],
+      "paths": {
+        "blas-int8": {
+          "attempts_per_s": 8372340.0,
+          "tera_macs_per_s": 432.367,
+          "avg_power_w": 690.1,
+          "uj_per_attempt": 82.4,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        },
+        "lt-fp8": {
+          "attempts_per_s": 7627060.0,
+          "tera_macs_per_s": 393.879,
+          "avg_power_w": 691.8,
+          "uj_per_attempt": 90.7,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        },
+        "naive": {
+          "attempts_per_s": 29771.3,
+          "tera_macs_per_s": 1.53746,
+          "avg_power_w": 261.7,
+          "uj_per_attempt": 8790.3,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        }
+      },
+      "pytorch": {
+        "py_selftest_fp32": "PASS",
+        "py_stress_fp32": "PASS",
+        "py_selftest_int8": "PASS",
+        "py_stress_int8": "PASS",
+        "py_selftest_fp8": "PASS",
+        "py_stress_fp8": "PASS",
+        "py_bench_int8": "PASS"
+      }
+    },
+    "H100 80GB HBM3": {
+      "steps_pass": 27,
+      "steps_fail": [],
+      "paths": {
+        "blas-int8": {
+          "attempts_per_s": 7882540.0,
+          "tera_macs_per_s": 407.073,
+          "avg_power_w": 692.6,
+          "uj_per_attempt": 87.9,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        },
+        "lt-fp8": {
+          "attempts_per_s": 7256520.0,
+          "tera_macs_per_s": 374.744,
+          "avg_power_w": 692.9,
+          "uj_per_attempt": 95.5,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        },
+        "naive": {
+          "attempts_per_s": 29773,
+          "tera_macs_per_s": 1.53755,
+          "avg_power_w": 280.0,
+          "uj_per_attempt": 9404.5,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        }
+      },
+      "pytorch": {
+        "py_selftest_fp32": "PASS",
+        "py_stress_fp32": "PASS",
+        "py_selftest_int8": "PASS",
+        "py_stress_int8": "PASS",
+        "py_selftest_fp8": "PASS",
+        "py_stress_fp8": "PASS",
+        "py_bench_int8": "PASS"
+      }
+    },
+    "RTX PRO 6000 Blackwell (sm_120)": {
+      "steps_pass": 27,
+      "steps_fail": [],
+      "paths": {
+        "blas-int8": {
+          "attempts_per_s": 4780250.0,
+          "tera_macs_per_s": 246.864,
+          "avg_power_w": 596.0,
+          "uj_per_attempt": 124.7,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        },
+        "lt-fp8": {
+          "attempts_per_s": 4852340.0,
+          "tera_macs_per_s": 250.586,
+          "avg_power_w": 593.0,
+          "uj_per_attempt": 122.2,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        },
+        "naive": {
+          "attempts_per_s": 49534.1,
+          "tera_macs_per_s": 2.55806,
+          "avg_power_w": 265.6,
+          "uj_per_attempt": 5362.0,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        }
+      },
+      "pytorch": {
+        "py_selftest_fp32": "PASS",
+        "py_stress_fp32": "PASS",
+        "py_selftest_int8": "PASS",
+        "py_stress_int8": "PASS",
+        "py_selftest_fp8": "PASS",
+        "py_stress_fp8": "PASS",
+        "py_bench_int8": "PASS"
+      }
+    },
+    "GeForce RTX 4090 (sm_89)": {
+      "steps_pass": 27,
+      "steps_fail": [],
+      "paths": {
+        "blas-int8": {
+          "attempts_per_s": 3286270.0,
+          "tera_macs_per_s": 169.711,
+          "avg_power_w": 442.5,
+          "uj_per_attempt": 134.7,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        },
+        "lt-fp8": {
+          "attempts_per_s": 2100070.0,
+          "tera_macs_per_s": 108.452,
+          "avg_power_w": 450.3,
+          "uj_per_attempt": 214.4,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        },
+        "naive": {
+          "attempts_per_s": 37510.5,
+          "tera_macs_per_s": 1.93713,
+          "avg_power_w": 250.4,
+          "uj_per_attempt": 6675.5,
+          "selftest": "PASS",
+          "stress_2e20": "PASS"
+        }
+      },
+      "pytorch": {
+        "py_selftest_fp32": "PASS",
+        "py_stress_fp32": "PASS",
+        "py_selftest_int8": "PASS",
+        "py_stress_int8": "PASS",
+        "py_selftest_fp8": "PASS",
+        "py_stress_fp8": "PASS",
+        "py_bench_int8": "PASS"
+      }
+    }
+  }
+}

@@ -41,7 +41,7 @@ flowchart LR
 
 **The work.** Each attempt runs a 64 → 4096 → 4096 → 4096 → 4096 → 256 network of integer layers (51.6 million multiply-adds) with weights derived from the epoch seed, then hashes the output. A hash below the target is a block. The challenge includes the miner's NEAR account, so a found solution can't be stolen. Spec: `CONSENSUS.md`; why this design: `ALGORITHM_DECISION.md`.
 
-**Why GPUs.** The work is batched int8/FP8 matrix multiplication, which tensor cores run fastest. Measured on the production profile: NVIDIA H100 8.08 M attempts/s, AMD MI355X 13.1 M/s, Apple M5 Pro GPU 80 K/s, the same chip's CPU 3.3 K/s. Every path is bit-exact against the reference (`HARDWARE.md`, `bench/results/gpu_summary.json`).
+**Why GPUs.** The work is batched int8/FP8 matrix multiplication, which tensor cores run fastest. Measured on the production profile: NVIDIA B300 14.9 M attempts/s (FP8), AMD MI355X 13.1 M/s, H200 8.4 M/s, H100 8.1 M/s, RTX PRO 6000 4.8 M/s, RTX 4090 3.3 M/s, Apple M5 Pro GPU 80 K/s, the same chip's CPU 3.3 K/s. Every path is bit-exact against the reference on every device (`HARDWARE.md`, `bench/results/gpu_summary.json`, `bench/results/gpu-r6/summary.json`).
 
 **How NEAR checks it without redoing it.** A block costs 51.6 M multiply-adds, far beyond one NEAR transaction. So blocks are checked optimistically:
 

@@ -1,0 +1,1 @@
+{"backend": "torch-cuda:NVIDIA H200:NVIDIA H200:int8", "rows": 512, "k": 4096, "n": 4096, "max_abs_ref": 1048576, "mismatches": 0, "elapsed_s": 0.031206369400024414, "verdict": "PASS"}

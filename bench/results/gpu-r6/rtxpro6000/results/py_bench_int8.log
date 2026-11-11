@@ -1,0 +1,1 @@
+{"backend": "torch-cuda:NVIDIA RTX PRO 6000 Blackwell Server Edition:NVIDIA RTX PRO 6000 Blackwell Server Edition:int8", "impl": "zpu-miner-python", "profile": "zfx-fp8c-v0.1", "attempts": 65536, "elapsed_s": 0.31884336471557617, "attempts_per_s": 205542.93189843016, "tera_macs_per_s": 10.61472372889767}

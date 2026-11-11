@@ -1,0 +1,1 @@
+{"backend": "torch-cuda:NVIDIA H200:NVIDIA H200:fp32", "rows": 512, "k": 4096, "n": 4096, "max_abs_ref": 1048576, "mismatches": 0, "elapsed_s": 0.1017606258392334, "verdict": "PASS"}

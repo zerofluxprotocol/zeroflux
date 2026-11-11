@@ -1,0 +1,1 @@
+{"backend": "torch-cuda:NVIDIA B300 SXM6 PC:NVIDIA B300 SXM6 PC:int8", "impl": "zpu-miner-python", "profile": "zfx-fp8c-v0.1", "attempts": 65536, "elapsed_s": 0.9827907085418701, "attempts_per_s": 66683.57711402595, "tera_macs_per_s": 3.4436978288789057}

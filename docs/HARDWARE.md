@@ -8,12 +8,34 @@ The consensus function is defined on integers in {±1..±16}, with every accumul
 |---|---|---|---|---|---|
 | H100 / H200 | sm_90 | `--gemm blas-int8` (cuBLAS int8 -> int32, exact) | `lt-fp8` | OCP E4M3 | Hopper FP8 MMA accumulation precision is the known hazard; run `selftest` + `stress` before trusting `lt-fp8` |
 | B200 | sm_100 | `blas-int8` | `lt-fp8` | OCP E4M3 | measure both |
-| B300 (Blackwell Ultra) | sm_103 | `lt-fp8` | `blas-int8` (slow) | OCP E4M3 | dense INT8 is about 0.15 to 0.19 POPS vs 4.5 on B200 (traded for NVFP4), so FP8 is the only fast path and its exactness under `stress` decides whether B300 can mine efficiently |
+| B300 (Blackwell Ultra) | sm_103 | `lt-fp8` | `blas-int8` (slow) | OCP E4M3 | dense INT8 is cut (traded for NVFP4); FP8 is exact under `stress` (measured 2026-11-11: 14.9 M attempts/s, the fastest device) |
 | RTX 4090 / 5090, RTX PRO 6000 | sm_89 / sm_120 | `blas-int8` | `lt-fp8` | OCP E4M3 | consumer FP8 MMA with FP16 accumulate is inexact (26% of rows diverge in our model); use FP32-output paths only |
 | MI300X | gfx942 | `blas-int8` (hipBLAS) | `lt-fp8` (hipBLASLt) | **E4M3FNUZ** (bias 8, no -0) | the miner selects FNUZ from `gcnArchName` |
 | MI355X | gfx950 | `blas-int8` | `lt-fp8` | OCP E4M3 | |
 | Apple M-series | Metal | `zpu_miner.py --backend mlx` | `--backend torch --device mps` | fp32 GEMM | measured bit-exact |
 | any CPU | | `zpu-cli --backend cpu` or `zpu-miner --backend cpu` | NumPy fp32 BLAS | | reference |
+
+## Measured (2026-11-11): Hopper, Blackwell and RTX
+
+Round 6 (`bench/results/gpu-r6/`, summary `bench/results/gpu-r6/summary.json`). Five ephemeral cloud GPU sandboxes, one image for all (`pytorch/pytorch:2.12.0-cuda13.0-cudnn9-devel`), each built natively for its architecture, each deleted afterwards and confirmed absent (ledger `bench/results/gpu_ledger.json`). On every device, every path passed the 278-check selftest and the 2^20 accumulator stress, and the PyTorch implementation passed selftest and stress in fp32, int8 and fp8: 27 of 27 steps, no failures.
+
+| GPU | path | attempts/s | TMAC/s | board power | µJ/attempt | exact |
+|---|---|---|---|---|---|---|
+| B300 SXM6 (Blackwell Ultra, sm_103) | `blas-int8` | 1,376,540 | 71 | ~438 W | 317.8 | PASS |
+| B300 SXM6 (Blackwell Ultra, sm_103) | `lt-fp8` | 14,910,000 | 770 | ~1054 W | 70.7 | PASS |
+| H200 | `blas-int8` | 8,372,340 | 432 | ~690 W | 82.4 | PASS |
+| H200 | `lt-fp8` | 7,627,060 | 394 | ~692 W | 90.7 | PASS |
+| H100 80GB HBM3 | `blas-int8` | 7,882,540 | 407 | ~693 W | 87.9 | PASS |
+| H100 80GB HBM3 | `lt-fp8` | 7,256,520 | 375 | ~693 W | 95.5 | PASS |
+| RTX PRO 6000 Blackwell (sm_120) | `blas-int8` | 4,780,250 | 247 | ~596 W | 124.7 | PASS |
+| RTX PRO 6000 Blackwell (sm_120) | `lt-fp8` | 4,852,340 | 251 | ~593 W | 122.2 | PASS |
+| GeForce RTX 4090 (sm_89) | `blas-int8` | 3,286,270 | 170 | ~442 W | 134.7 | PASS |
+| GeForce RTX 4090 (sm_89) | `lt-fp8` | 2,100,070 | 108 | ~450 W | 214.4 | PASS |
+
+- **B300 mines on FP8.** Its dense INT8 is cut (1.38 M/s), but `lt-fp8` is exact under stress and the fastest path measured anywhere: 14.9 M attempts/s, 71 µJ per attempt, the best energy per attempt of any device. Run it with `--gemm lt-fp8`.
+- **Hopper:** H200 is about 6% faster than H100 at the same power; `blas-int8` is the faster path on both.
+- **RTX:** the RTX PRO 6000 Blackwell is exact on both paths at about 4.8 M/s; the RTX 4090 reaches 3.3 M/s on `blas-int8`. FP8 with FP32 output is exact on these consumer and workstation parts (the FP16-accumulate hazard in the table above does not apply to the shipped path).
+- Not reached: B200 and RTX 5090 (no capacity offered on 2026-11-11), MI300X.
 
 ## Measured (2026-11-09)
 

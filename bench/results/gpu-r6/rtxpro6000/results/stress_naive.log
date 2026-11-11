@@ -1,0 +1,1 @@
+{"backend":"cuda:NVIDIA RTX PRO 6000 Blackwell Server Edition:sm_120:naive:int8","impl":"zpu-miner-cpp","rows":512,"k":4096,"n":4096,"max_abs_ref":1048576,"mismatches":0,"gemm_s":0.0271892,"verdict":"PASS"}

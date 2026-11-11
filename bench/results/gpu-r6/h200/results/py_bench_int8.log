@@ -1,0 +1,1 @@
+{"backend": "torch-cuda:NVIDIA H200:NVIDIA H200:int8", "impl": "zpu-miner-python", "profile": "zfx-fp8c-v0.1", "attempts": 65536, "elapsed_s": 0.37973570823669434, "attempts_per_s": 172583.19030442755, "tera_macs_per_s": 8.912604624315279}

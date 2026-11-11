@@ -1,0 +1,5 @@
+make: Entering directory '/root/zfxwork/zeroflux/miner/cuda'
+mkdir -p build
+nvcc -O3 -std=c++17 -DZPU_WITH_GPU -gencode arch=compute_89,code=sm_89 \
+  -x cu src/main.cpp -x cu src/backend_cpu.cpp src/backend_gpu.cu -o build/zpu-miner-cuda -lcublas -lcublasLt
+make: Leaving directory '/root/zfxwork/zeroflux/miner/cuda'

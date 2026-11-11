@@ -46,7 +46,7 @@ ZFX is minted by the `zfx-mine-opt` contract for valid proof of work, checked op
 | 3 | External security audit of `zfx-mine-opt`, the watcher and the mining proxy | not started | external auditor |
 | 4 | Watcher coverage on a public network: independent watchers, alerting, challenge-window and bond sizing | watcher ships with the mining tools; parameters are testnet values | ZeroFlux core |
 | 5 | Monetary schedule (reward curve, tail, supply) | the contract pays a constant testnet reward; schedules are modeled (`bench/results/tokenomics.json`, recommendation `D_smooth_decay_tail`) | project owner (decision) |
-| 6 | Exactness on B200/B300, RTX 50, RTX PRO 6000 and MI300X hardware | code compiles for sm_100/sm_120/gfx942; no device reached | ZeroFlux core (needs hardware access) |
+| 6 | Exactness on B200, RTX 50 and MI300X hardware | B300, H200, RTX PRO 6000 and RTX 4090 measured exact on every path on 2026-11-11 (`docs/HARDWARE.md`); B200 and RTX 5090 had no cloud capacity that day | ZeroFlux core (needs hardware access) |
 | 7 | NEAR testnet deployment of `zfx-mine-opt` | done: `zfx.zeroflux.testnet` (deploy tx `J7RKZCGGtrqTpGGhzezR64gAo9gdCzmeopNsWcCw5Acf`); `mine.zeroflux.testnet` is retired (bond below storage cost) | done |
 | 8 | Live Intents access and liquidity | ZFX works with the official Verifier; the public Message Bus needs a Partner JWT; no liquidity solicited | project owner (partner program) |
 | 9 | Release signing key and signed artifacts | no key exists | project owner |

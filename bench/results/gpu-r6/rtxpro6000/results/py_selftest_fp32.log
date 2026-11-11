@@ -1,0 +1,11 @@
+PASS dev nonce=0 torch-cuda:NVIDIA RTX PRO 6000 Blackwell Server Edition:NVIDIA RTX PRO 6000 Blackwell Server Edition:fp32
+PASS dev nonce=1 torch-cuda:NVIDIA RTX PRO 6000 Blackwell Server Edition:NVIDIA RTX PRO 6000 Blackwell Server Edition:fp32
+PASS dev nonce=2 torch-cuda:NVIDIA RTX PRO 6000 Blackwell Server Edition:NVIDIA RTX PRO 6000 Blackwell Server Edition:fp32
+PASS dev nonce=81985529216486895 torch-cuda:NVIDIA RTX PRO 6000 Blackwell Server Edition:NVIDIA RTX PRO 6000 Blackwell Server Edition:fp32
+PASS dev nonce=18446744073709551615 torch-cuda:NVIDIA RTX PRO 6000 Blackwell Server Edition:NVIDIA RTX PRO 6000 Blackwell Server Edition:fp32
+PASS v01 nonce=0 torch-cuda:NVIDIA RTX PRO 6000 Blackwell Server Edition:NVIDIA RTX PRO 6000 Blackwell Server Edition:fp32
+PASS v01 nonce=1 torch-cuda:NVIDIA RTX PRO 6000 Blackwell Server Edition:NVIDIA RTX PRO 6000 Blackwell Server Edition:fp32
+PASS v01 nonce=2 torch-cuda:NVIDIA RTX PRO 6000 Blackwell Server Edition:NVIDIA RTX PRO 6000 Blackwell Server Edition:fp32
+PASS v01 nonce=81985529216486895 torch-cuda:NVIDIA RTX PRO 6000 Blackwell Server Edition:NVIDIA RTX PRO 6000 Blackwell Server Edition:fp32
+PASS v01 nonce=18446744073709551615 torch-cuda:NVIDIA RTX PRO 6000 Blackwell Server Edition:NVIDIA RTX PRO 6000 Blackwell Server Edition:fp32
+278/278 checks bit-exact on torch-cuda:NVIDIA RTX PRO 6000 Blackwell Server Edition:NVIDIA RTX PRO 6000 Blackwell Server Edition:fp32

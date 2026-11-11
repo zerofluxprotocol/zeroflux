@@ -1,0 +1,1 @@
+{"backend": "torch-cuda:NVIDIA GeForce RTX 4090:NVIDIA GeForce RTX 4090:int8", "impl": "zpu-miner-python", "profile": "zfx-fp8c-v0.1", "attempts": 65536, "elapsed_s": 0.41007518768310547, "attempts_per_s": 159814.5949045919, "tera_macs_per_s": 8.25320412183386}

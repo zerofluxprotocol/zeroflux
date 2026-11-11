@@ -1,0 +1,1 @@
+{"backend": "torch-cuda:NVIDIA RTX PRO 6000 Blackwell Server Edition:NVIDIA RTX PRO 6000 Blackwell Server Edition:fp32", "rows": 512, "k": 4096, "n": 4096, "max_abs_ref": 1048576, "mismatches": 0, "elapsed_s": 0.06557440757751465, "verdict": "PASS"}
