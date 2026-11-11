@@ -23,14 +23,14 @@
   function n(v) { return v == null || v === '' ? null : Number(v); }
   function num(v, d) { return v.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d }); }
   function usd(v) {
-    if (v == null) return '—';
+    if (v == null) return 'n/a';
     var a = Math.abs(v), s = v < 0 ? '−$' : '$';
     if (a >= 1e6) return s + num(a / 1e6, 2) + 'M';
     if (a >= 1e3) return s + num(a / 1e3, a >= 1e5 ? 0 : 1) + 'K';
     return s + num(a, 0);
   }
-  function tok(v) { if (v == null) return '—'; var a = Math.abs(v); return a >= 1e12 ? num(a / 1e12, 2) + 'T' : a >= 1e9 ? num(a / 1e9, 1) + 'B' : a >= 1e6 ? num(a / 1e6, 1) + 'M' : num(a, 0); }
-  function pct(x, d) { if (x == null || isNaN(x)) return '—'; return (x >= 0 ? '+' : '−') + Math.abs(x).toFixed(d == null ? 2 : d) + '%'; }
+  function tok(v) { if (v == null) return 'n/a'; var a = Math.abs(v); return a >= 1e12 ? num(a / 1e12, 2) + 'T' : a >= 1e9 ? num(a / 1e9, 1) + 'B' : a >= 1e6 ? num(a / 1e6, 1) + 'M' : num(a, 0); }
+  function pct(x, d) { if (x == null || isNaN(x)) return 'n/a'; return (x >= 0 ? '+' : '−') + Math.abs(x).toFixed(d == null ? 2 : d) + '%'; }
   function cls(x) { return x == null ? 'na' : x >= 0 ? 'up' : 'dn'; }
   function pad2(v) { return (v < 10 ? '0' : '') + v; }
   function hms(ms) { var s = Math.max(0, Math.floor(ms / 1000)); return pad2(Math.floor(s / 3600)) + ':' + pad2(Math.floor(s % 3600 / 60)) + ':' + pad2(s % 60); }
@@ -112,7 +112,7 @@
   /* ---------- board ---------- */
   function spark(m) {
     var pts = m.spark.filter(function (v) { return v > 0; });
-    if (pts.length < 2) return '<span class="fnt">—</span>';
+    if (pts.length < 2) return '<span class="fnt">n/a</span>';
     var lo = Math.min.apply(null, pts), hi = Math.max.apply(null, pts), d = '';
     pts.forEach(function (v, k) { d += (k ? 'L' : 'M') + (k * 100 / (pts.length - 1)).toFixed(1) + ' ' + (26 - (v - lo) / (hi - lo || 1) * 22).toFixed(1); });
     var up = pts[pts.length - 1] >= pts[0];
@@ -148,7 +148,7 @@
         '<td class="mut">' + tok(m.tokens) + '</td>' +
         '<td class="mut">' + usd(m.cost) + '</td>' +
         '<td class="mut">' + usd(m.cap) + '</td>' +
-        '<td class="c-mark ' + (vm ? '' : 'na') + '">' + (vm ? usd(Number(vm.mark)) : '—') + '</td>' +
+        '<td class="c-mark ' + (vm ? '' : 'na') + '">' + (vm ? usd(Number(vm.mark)) : 'n/a') + '</td>' +
         '<td style="text-align:center"><span class="ls"><button type="button" class="bl" data-side="long" data-i="' + m.i + '"' + (canTrade ? '' : ' disabled') + ' aria-label="Long ' + esc(m.name) + '">Long</button><button type="button" class="bs" data-side="short" data-i="' + m.i + '"' + (canTrade ? '' : ' disabled') + ' aria-label="Short ' + esc(m.name) + '">Short</button></span></td></tr>';
     }).join('');
     renderPositions($('#bPos'), $('#bPnl'));
@@ -181,7 +181,7 @@
       '<div><span class="lbl">Day · ' + esc(dLabel(m.dayDate || B.latest_day)) + '</span><span class="v mut">' + usd(m.day) + '</span></div>' +
       '<div><span class="lbl">7D change</span><span class="v ' + cls(m.chg) + '">' + pct(m.chg) + '</span></div>' +
       '<div><span class="lbl">Mark</span><span class="v ' + (vm ? '' : 'na') + '">' + (vm ? usd(Number(vm.mark)) : 'venue offline') + '</span></div>' +
-      '<div><span class="lbl">Funding</span><span class="v ' + (vm ? '' : 'na') + '">' + (vm && vm.funding != null ? pct(Number(vm.funding) * 100, 4) : '—') + '</span></div>' +
+      '<div><span class="lbl">Funding</span><span class="v ' + (vm ? '' : 'na') + '">' + (vm && vm.funding != null ? pct(Number(vm.funding) * 100, 4) : 'n/a') + '</span></div>' +
       '<div><span class="lbl">Cost to move 1%</span><span class="v">' + usd(m.cost) + '</span></div>' +
       '<div><span class="lbl">OI cap</span><span class="v">' + usd(m.cap) + '</span></div>' +
       '<div><span class="lbl">Status</span><span class="v ' + (m.life === 'ACTIVE' ? 'up' : 'dn') + '">' + esc(m.life.replace('_', ' ').toLowerCase()) + '</span></div>' +
