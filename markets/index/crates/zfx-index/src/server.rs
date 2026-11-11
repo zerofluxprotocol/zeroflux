@@ -80,11 +80,11 @@ pub fn route(root: &Path, method: &str, target: &str) -> Response {
         "/v1/indices/prints/latest" => return file(&v1.join("indices/prints/latest.json")),
         "/v1/oracle/reporter" => return file(&v1.join("oracle/reporter.json")),
         "/" | "/v1" => {
-            return json_resp(200, &json!({"endpoints": ["/v1/markets/models", "/v1/indices/or-model-spend/{permaslug}?from=&to=", "/v1/indices/or-model-spend/{permaslug}/latest", "/v1/indices/or-model-spend/{permaslug}/provenance/{revision_id}", "/v1/indices/source-health", "/v1/indices/prints/latest", "/v1/oracle/reporter", "/v1/indices/or-model-spend-7d/{permaslug}?from=&to=", "/v1/indices/or-model-spend-7d/{permaslug}/latest", "/v1/indices/or-model-spend-7d/{permaslug}/provenance/{revision_id}", "WS /v1/indices/stream"]}))
+            return json_resp(200, &json!({"endpoints": ["/v1/markets/models", "/v1/indices/or-model-spend/{permaslug}?from=&to=", "/v1/indices/or-model-spend/{permaslug}/latest", "/v1/indices/or-model-spend/{permaslug}/provenance/{revision_id}", "/v1/indices/source-health", "/v1/indices/prints/latest", "/v1/oracle/reporter", "/v1/indices/or-model-spend-7d/{permaslug}?from=&to=", "/v1/indices/or-model-spend-7d/{permaslug}/latest", "/v1/indices/or-model-spend-7d/{permaslug}/provenance/{revision_id}", "/v1/indices/or-model-spend-lic/{permaslug}?from=&to=", "/v1/indices/or-model-spend-lic-7d/{permaslug}?from=&to=", "WS /v1/indices/stream"]}))
         }
         _ => {}
     }
-    for dir in ["or-model-spend", "or-model-spend-7d"] {
+    for dir in ["or-model-spend", "or-model-spend-7d", "or-model-spend-lic", "or-model-spend-lic-7d"] {
         if let Some(rest) = path.strip_prefix(&format!("/v1/indices/{dir}/")) {
             return index_route(&v1.join("indices").join(dir), rest, query);
         }
@@ -186,12 +186,12 @@ fn handle_http(mut stream: TcpStream, root: &Path) -> std::io::Result<()> {
 /// Streams revisions appended to `<ledger>/revisions.jsonl` after connect.
 fn handle_ws(stream: TcpStream, ledger: &Path, replay: usize) {
     let Ok(mut ws) = tungstenite::accept(stream) else { return };
-    let files = [ledger.join("revisions.jsonl"), ledger.join("revisions_7d.jsonl")];
+    let files = [ledger.join("revisions.jsonl"), ledger.join("revisions_7d.jsonl"), ledger.join("revisions_lic.jsonl"), ledger.join("revisions_lic_7d.jsonl")];
     let read_lines = |p: &PathBuf| -> Vec<String> {
         std::fs::File::open(p).map(|f| BufReader::new(f).lines().map_while(Result::ok).filter(|l| !l.trim().is_empty()).collect()).unwrap_or_default()
     };
     let mut sent: Vec<usize> = files.iter().map(|f| read_lines(f).len()).collect();
-    let hello = json!({"type": "hello", "revisions_in_ledger": {"daily": sent[0], "7d": sent[1]}, "note": "Events are new daily and 7D revisions. This stream never carries intraday usage."});
+    let hello = json!({"type": "hello", "revisions_in_ledger": {"daily": sent[0], "7d": sent[1], "lic": sent[2], "lic_7d": sent[3]}, "note": "Events are new daily and 7D revisions. This stream never carries intraday usage."});
     if ws.send(tungstenite::Message::text(hello.to_string())).is_err() {
         return;
     }
@@ -227,7 +227,7 @@ fn handle_ws(stream: TcpStream, ledger: &Path, replay: usize) {
 fn send_rev(ws: &mut tungstenite::WebSocket<TcpStream>, line: &str) -> Result<(), tungstenite::Error> {
     let v: Value = serde_json::from_str(line).unwrap_or(Value::Null);
     let kind = if v["finality"] == "CORRECTED" { "correction" } else { "print" };
-    let ev = json!({"type": kind, "index": if v["index"] == "7D" { "7D" } else { "DAILY" }, "index_id": v["index_id"], "market": v["market"], "utc_date": v["utc_date"], "revision_id": v["revision_id"], "data_status": v["data_status"], "value_usd": v["value_usd"], "blocked": v["blocked"], "clamped": v["clamped"], "print": v["print"]});
+    let ev = json!({"type": kind, "index": v["index"].as_str().unwrap_or("DAILY"), "index_id": v["index_id"], "market": v["market"], "utc_date": v["utc_date"], "revision_id": v["revision_id"], "data_status": v["data_status"], "value_usd": v["value_usd"], "blocked": v["blocked"], "clamped": v["clamped"], "print": v["print"]});
     ws.send(tungstenite::Message::text(ev.to_string()))
 }
 

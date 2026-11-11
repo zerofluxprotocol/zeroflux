@@ -1,0 +1,786 @@
+{
+  "market": "tencent/hy4-preview-20260827",
+  "index_id": "or-model-spend-lic/tencent/hy4-preview-20260827",
+  "formula": {
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+    "hash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+    "mode": "ESTIMATED_FIXED_MIX"
+  },
+  "sources": "documented only: datasets/rankings-daily (CC BY 4.0), /api/v1/models, /api/v1/models/{id}/endpoints",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "points": [
+    {
+      "utc_date": "2026-10-11",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-11.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "840734460945",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "d1f4d8fdd63c6aabd299a83c55e70ac396a5fceba0e50e5aeb7cad1d63910198"
+    },
+    {
+      "utc_date": "2026-10-12",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-12.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1099108443116",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "ecaa0cd1e52ac4747de1846175845dbfb6340cee47feb037734cfd11cd1e0815"
+    },
+    {
+      "utc_date": "2026-10-13",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-13.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1049936538401",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "a03701e4703e1e86f3c98f070b63d36f79ff80f3e9f9a488e865b5f87f5f62d7"
+    },
+    {
+      "utc_date": "2026-10-14",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-14.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1073519654710",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "398b51b55741c38e3cd2d6bd1849ed766ea00c40b753225e73efa1932587091e"
+    },
+    {
+      "utc_date": "2026-10-15",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-15.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1336938324688",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "80d6f0159d1b4b9cb61297d97f7039fa695902544060e38c97ec64362966bc31"
+    },
+    {
+      "utc_date": "2026-10-16",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-16.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1242284978846",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "f2537ea2ba0abeaacf779d56d4a25bb4843f036599ab00600931099f98353c02"
+    },
+    {
+      "utc_date": "2026-10-17",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-17.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "907386160031",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "718f0bda4d5607a15264f7d0e595de24a3ee7b20fb46984f1b159f195b843f85"
+    },
+    {
+      "utc_date": "2026-10-18",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-18.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "845637992998",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "045470a9474c55ade446b929405cb675fa9c395940a499409cd0a95e2694f4e2"
+    },
+    {
+      "utc_date": "2026-10-19",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-19.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1369069954570",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "45b18a311688c09fac87ecbf0b6f43b0625b3b72b8b9fa7dcf848b33523e3a53"
+    },
+    {
+      "utc_date": "2026-10-20",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-20.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1382907094450",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "d0e68b8f9d00d6546f13b1f9c12c55e856cfccfc1dab3ee4efebfc550bef1ef4"
+    },
+    {
+      "utc_date": "2026-10-21",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-21.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1462587748707",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "333d5393da236e1fece78b0171452616eb4a01d9a46862b6ee953ddf3e107203"
+    },
+    {
+      "utc_date": "2026-10-22",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-22.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1458128550852",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "ab54309b399cfbbcf9fb44b1078256f3237ed1af35e7a8f0a128bdc1ec02f929"
+    },
+    {
+      "utc_date": "2026-10-23",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-23.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1345210358109",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "fca93eba96a994dfffc52a633b4aed5a0a1279529d39d37e9e30146ae971781b"
+    },
+    {
+      "utc_date": "2026-10-24",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-24.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "978273748472",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "2a166543d2d1868f46a45eaa5c3b35417491e611e121753d54bbdc5f1aa892c7"
+    },
+    {
+      "utc_date": "2026-10-25",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-25.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "974339436622",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "0942f8bfe4525c611f79d5eea104b216fdc10fe80339694f0029596d2b1a2a8f"
+    },
+    {
+      "utc_date": "2026-10-26",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-26.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1399135495316",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "5aa9e990fbd8ea65d8feddcda451538cada327209761f8814067926690c8621e"
+    },
+    {
+      "utc_date": "2026-10-27",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-27.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1350266060702",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "cd18f8c1562fa4c32e96075f2495d9d49c659b5ad408e232cbc936331ebb0e61"
+    },
+    {
+      "utc_date": "2026-10-28",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-28.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1451186454462",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "d07fc5b5349518a325cf111494db3591aea7930dbc0bcd6c5413fda1a316445f"
+    },
+    {
+      "utc_date": "2026-10-29",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-29.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1677727915075",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "9bbaf380d56fff26b99188be1c7a12550c7fa805913e05eecc02bd05ad68a5d0"
+    },
+    {
+      "utc_date": "2026-10-30",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-30.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1497255007073",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "0d9fdb0ba2cdaf07be966cbc918b4ed73a4ce40825b88b006005367c609c7fed"
+    },
+    {
+      "utc_date": "2026-10-31",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-31.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "958858767218",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "a3680669af2ae0ca71d0027067f559a23267268453e42772731bab675f44f264"
+    },
+    {
+      "utc_date": "2026-11-01",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-01.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "734598359979",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "16642f880ac1b61b162f28aac0a8b3115473ce7c393480761a2ca9e936ed6f35"
+    },
+    {
+      "utc_date": "2026-11-02",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-02.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1580500567481",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "6a0e32df8de0c5a4f5af59eaf3e95cf6b8e4a36023378d1d53e739b63c5b896d"
+    },
+    {
+      "utc_date": "2026-11-03",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-03.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "1582535796268",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "4a37c25d620e383a2c136d0b64e3ba940a2a2749640d3d93d245281c8e175072"
+    },
+    {
+      "utc_date": "2026-11-04",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-04.r1",
+      "confidence": "NONE",
+      "blocked": true,
+      "total_tokens": "71767103137",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": null
+    },
+    {
+      "utc_date": "2026-11-05",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-05.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": "157567474672",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "c72d54e576aa4abfb264d6fe56a46bc189647c7819b8dd41352d419644cf32c4"
+    },
+    {
+      "utc_date": "2026-11-06",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "tencent/hy4-preview-20260827 not in the documented top 50 for 2026-11-06",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-06.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "4ea10b916a52a172b39c9aa94f96967917edcb789660a961f1c8b52514271579"
+    },
+    {
+      "utc_date": "2026-11-07",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-07.r1",
+      "confidence": "NONE",
+      "blocked": true,
+      "total_tokens": "50668313133",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": null
+    },
+    {
+      "utc_date": "2026-11-08",
+      "value_usd": null,
+      "data_status": "UNPRICED",
+      "reason": "no frozen composition shares for this model in this formula version",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-08.r1",
+      "confidence": "NONE",
+      "blocked": true,
+      "total_tokens": "48130824373",
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": null
+    },
+    {
+      "utc_date": "2026-11-09",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "tencent/hy4-preview-20260827 not in the documented top 50 for 2026-11-09",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-09.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": null,
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "ba5c474d3d25201b7af074e43c7f754d86874ba18c581dd5aa8f1e09e8dde231"
+    }
+  ],
+  "token_history": {
+    "note": "documented total_tokens per UTC day (top-50 days only), from 2025-01-01; no USD value before price_backfill_from",
+    "rows": [
+      [
+        "2026-08-28",
+        "363788183015"
+      ],
+      [
+        "2026-08-29",
+        "1538875055658"
+      ],
+      [
+        "2026-08-30",
+        "1163086114382"
+      ],
+      [
+        "2026-08-31",
+        "939373453408"
+      ],
+      [
+        "2026-09-01",
+        "1714603276242"
+      ],
+      [
+        "2026-09-02",
+        "2265371409448"
+      ],
+      [
+        "2026-09-03",
+        "2989073301517"
+      ],
+      [
+        "2026-09-04",
+        "2954935990438"
+      ],
+      [
+        "2026-09-05",
+        "2043385142147"
+      ],
+      [
+        "2026-09-06",
+        "1766332794891"
+      ],
+      [
+        "2026-09-07",
+        "3324245026646"
+      ],
+      [
+        "2026-09-08",
+        "3405147893431"
+      ],
+      [
+        "2026-09-09",
+        "3254378053520"
+      ],
+      [
+        "2026-09-10",
+        "2330317015078"
+      ],
+      [
+        "2026-09-11",
+        "1628503208238"
+      ],
+      [
+        "2026-09-12",
+        "1493844286104"
+      ],
+      [
+        "2026-09-13",
+        "1379623656282"
+      ],
+      [
+        "2026-09-14",
+        "1724288980443"
+      ],
+      [
+        "2026-09-15",
+        "1818993397260"
+      ],
+      [
+        "2026-09-16",
+        "1581018240117"
+      ],
+      [
+        "2026-09-17",
+        "1983748730011"
+      ],
+      [
+        "2026-09-18",
+        "2026493739267"
+      ],
+      [
+        "2026-09-19",
+        "1411341498040"
+      ],
+      [
+        "2026-09-20",
+        "1971310447612"
+      ],
+      [
+        "2026-09-21",
+        "1883026566693"
+      ],
+      [
+        "2026-09-22",
+        "2084298005087"
+      ],
+      [
+        "2026-09-23",
+        "1629400121524"
+      ],
+      [
+        "2026-09-24",
+        "1342529612072"
+      ],
+      [
+        "2026-09-25",
+        "826828502113"
+      ],
+      [
+        "2026-09-26",
+        "874031239291"
+      ],
+      [
+        "2026-09-27",
+        "1001910248569"
+      ],
+      [
+        "2026-09-28",
+        "1211198041276"
+      ],
+      [
+        "2026-09-29",
+        "1178735652419"
+      ],
+      [
+        "2026-09-30",
+        "1048211814986"
+      ],
+      [
+        "2026-10-01",
+        "672539410375"
+      ],
+      [
+        "2026-10-02",
+        "665223669446"
+      ],
+      [
+        "2026-10-03",
+        "766158622842"
+      ],
+      [
+        "2026-10-04",
+        "967647974174"
+      ],
+      [
+        "2026-10-05",
+        "1064912183986"
+      ],
+      [
+        "2026-10-06",
+        "1233511174686"
+      ],
+      [
+        "2026-10-07",
+        "1366269153136"
+      ],
+      [
+        "2026-10-08",
+        "1294556736746"
+      ],
+      [
+        "2026-10-09",
+        "1269781435108"
+      ],
+      [
+        "2026-10-10",
+        "1209688057277"
+      ],
+      [
+        "2026-10-11",
+        "840734460945"
+      ],
+      [
+        "2026-10-12",
+        "1099108443116"
+      ],
+      [
+        "2026-10-13",
+        "1049936538401"
+      ],
+      [
+        "2026-10-14",
+        "1073519654710"
+      ],
+      [
+        "2026-10-15",
+        "1336938324688"
+      ],
+      [
+        "2026-10-16",
+        "1242284978846"
+      ],
+      [
+        "2026-10-17",
+        "907386160031"
+      ],
+      [
+        "2026-10-18",
+        "845637992998"
+      ],
+      [
+        "2026-10-19",
+        "1369069954570"
+      ],
+      [
+        "2026-10-20",
+        "1382907094450"
+      ],
+      [
+        "2026-10-21",
+        "1462587748707"
+      ],
+      [
+        "2026-10-22",
+        "1458128550852"
+      ],
+      [
+        "2026-10-23",
+        "1345210358109"
+      ],
+      [
+        "2026-10-24",
+        "978273748472"
+      ],
+      [
+        "2026-10-25",
+        "974339436622"
+      ],
+      [
+        "2026-10-26",
+        "1399135495316"
+      ],
+      [
+        "2026-10-27",
+        "1350266060702"
+      ],
+      [
+        "2026-10-28",
+        "1451186454462"
+      ],
+      [
+        "2026-10-29",
+        "1677727915075"
+      ],
+      [
+        "2026-10-30",
+        "1497255007073"
+      ],
+      [
+        "2026-10-31",
+        "958858767218"
+      ],
+      [
+        "2026-11-01",
+        "734598359979"
+      ],
+      [
+        "2026-11-02",
+        "1580500567481"
+      ],
+      [
+        "2026-11-03",
+        "1582535796268"
+      ],
+      [
+        "2026-11-04",
+        "71767103137"
+      ],
+      [
+        "2026-11-05",
+        "157567474672"
+      ],
+      [
+        "2026-11-07",
+        "50668313133"
+      ],
+      [
+        "2026-11-08",
+        "48130824373"
+      ]
+    ]
+  }
+}

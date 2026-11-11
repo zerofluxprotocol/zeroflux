@@ -2,7 +2,7 @@
 //! manipulation-cost metrics and a jump clamp. Frozen in
 //! `formula/ZFX-OR-MODEL-SPEND-USD-7D-v1.txt`; constants here must match it (tested).
 
-use crate::engine::{self, hex32, print_json, Signer};
+use crate::engine::{hex32, print_json, Signer};
 use crate::fixed::{div_round, fmt_scaled, USD_SCALE};
 use crate::ledger::{Ledger, LedgerError};
 use crate::time::{fmt_ms, parse_rfc3339_ms, UtcDate};
@@ -26,6 +26,45 @@ pub struct Params7d {
 impl Default for Params7d {
     fn default() -> Self {
         Params7d { window_days: 7, min_valid_days: 6, oi_fraction_bps: 2500, clamp_bound_bps: 1500, valid_for_ms: 48 * 3_600_000 }
+    }
+}
+
+pub const FORMULA_VERSION_LIC_7D: &str = "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1";
+pub const FORMULA_TEXT_LIC_7D: &[u8] = include_bytes!("../../../formula/ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1.txt");
+pub const REVISIONS_LIC_7D: &str = "revisions_lic_7d.jsonl";
+
+/// One 7D index definition: which daily revisions it averages and how it is named.
+#[derive(Clone, Debug)]
+pub struct Spec7d {
+    pub in_file: &'static str,
+    pub out_file: &'static str,
+    pub id_prefix: &'static str,
+    pub version: &'static str,
+    pub formula_text: &'static [u8],
+    pub params: Params7d,
+}
+
+impl Spec7d {
+    /// 7D over the web-endpoint daily index (clamp 15%, as frozen in 7D-v1).
+    pub fn web() -> Spec7d {
+        Spec7d { in_file: "revisions.jsonl", out_file: REVISIONS_7D, id_prefix: "or-model-spend-7d", version: FORMULA_VERSION_7D, formula_text: FORMULA_TEXT_7D, params: Params7d::default() }
+    }
+    /// 7D over the licensed daily index (clamp 25%, derived from 2025-01-01..2026-11-09 history).
+    pub fn lic() -> Spec7d {
+        Spec7d {
+            in_file: crate::licensed::REVISIONS_LIC,
+            out_file: REVISIONS_LIC_7D,
+            id_prefix: "or-model-spend-lic-7d",
+            version: FORMULA_VERSION_LIC_7D,
+            formula_text: FORMULA_TEXT_LIC_7D,
+            params: Params7d { clamp_bound_bps: 2500, ..Params7d::default() },
+        }
+    }
+    pub fn formula_hash(&self) -> [u8; 32] {
+        zfx_oracle_print::sha256(self.formula_text)
+    }
+    pub fn index_id(&self, permaslug: &str) -> String {
+        format!("{}/{permaslug}", self.id_prefix)
     }
 }
 
@@ -130,10 +169,11 @@ pub fn clamp(value: u128, prev: Option<u128>, p: &Params7d) -> (Option<String>, 
     (Some(format!("{sign}{}", fmt_scaled(ppm, 6))), clamped)
 }
 
-fn build_print(c: &Computed7d, revision: u32, prev_hash: [u8; 32], finality: Finality, now: i64, p: &Params7d) -> OraclePrint {
+fn build_print(c: &Computed7d, revision: u32, prev_hash: [u8; 32], finality: Finality, now: i64, spec: &Spec7d) -> OraclePrint {
+    let p = &spec.params;
     OraclePrint {
-        index_id: index_id_7d(&c.market),
-        version: FORMULA_VERSION_7D.into(),
+        index_id: spec.index_id(&c.market),
+        version: spec.version.into(),
         value_scale: USD_SCALE as u8,
         value: c.value_micro.unwrap_or(0) as u64,
         source_start_ms: UtcDate(c.date.0 - (p.window_days - 1)).start_ms(),
@@ -142,7 +182,7 @@ fn build_print(c: &Computed7d, revision: u32, prev_hash: [u8; 32], finality: Fin
         published_at_ms: now,
         valid_until_ms: c.date.end_ms() + p.valid_for_ms,
         source_hash: zfx_oracle_print::source_set_hash(&c.value_hashes),
-        formula_hash: formula_hash_7d(),
+        formula_hash: spec.formula_hash(),
         status: if c.data_status == DataStatus::Ok { OracleStatus::Fresh } else { OracleStatus::Unavailable },
         data_status: c.data_status,
         finality,
@@ -170,16 +210,26 @@ pub struct Report7d {
 }
 
 pub fn latest_7d(l: &Ledger) -> Result<BTreeMap<(String, String), Value>, LedgerError> {
+    latest_in(l, REVISIONS_7D)
+}
+
+pub fn latest_in(l: &Ledger, file: &str) -> Result<BTreeMap<(String, String), Value>, LedgerError> {
     let mut m = BTreeMap::new();
-    for v in l.read_json(REVISIONS_7D)? {
+    for v in l.read_json(file)? {
         m.insert((v["market"].as_str().unwrap_or("").to_string(), v["utc_date"].as_str().unwrap_or("").to_string()), v);
     }
     Ok(m)
 }
 
+/// 7D over the web-endpoint daily index with the given parameters.
 pub fn run(l: &Ledger, signer: &Signer, p: &Params7d, now: i64) -> Result<Report7d, LedgerError> {
-    let daily_all = engine::latest_revisions(l)?;
-    let mut latest = latest_7d(l)?;
+    run_spec(l, signer, &Spec7d { params: p.clone(), ..Spec7d::web() }, now)
+}
+
+pub fn run_spec(l: &Ledger, signer: &Signer, spec: &Spec7d, now: i64) -> Result<Report7d, LedgerError> {
+    let p = &spec.params;
+    let daily_all = latest_in(l, spec.in_file)?;
+    let mut latest = latest_in(l, spec.out_file)?;
     let mut by_market: BTreeMap<&str, BTreeMap<String, &Value>> = BTreeMap::new();
     for ((m, d), v) in &daily_all {
         by_market.entry(m.as_str()).or_default().insert(d.clone(), v);
@@ -211,16 +261,16 @@ pub fn run(l: &Ledger, signer: &Signer, p: &Params7d, now: i64) -> Result<Report
                 Some(r) => (r["revision"].as_u64().unwrap_or(0) as u32 + 1, Finality::Corrected),
             };
             let prev_hash = prev.and_then(|r| r["print"]["printHash"].as_str()).map(hex32).unwrap_or([0; 32]);
-            let pr = build_print(&c, rev, prev_hash, fin, now, p);
+            let pr = build_print(&c, rev, prev_hash, fin, now, spec);
             let bytes = pr.encode().expect("bounded");
             let (pk, sig) = zfx_oracle_print::sign(&bytes, &signer.seed);
             let ok = c.data_status == DataStatus::Ok;
             let mut rec = json!({
-                "index": "7D",
+                "index": if spec.out_file == REVISIONS_7D { "7D" } else { "LIC-7D" },
                 "market": market,
-                "index_id": index_id_7d(market),
-                "formula_version": FORMULA_VERSION_7D,
-                "formula_hash": hex::encode(formula_hash_7d()),
+                "index_id": spec.index_id(market),
+                "formula_version": spec.version,
+                "formula_hash": hex::encode(spec.formula_hash()),
                 "utc_date": d.to_string(),
                 "window_start": UtcDate(d.0 - (p.window_days - 1)).to_string(),
                 "window_end": d.to_string(),
@@ -253,7 +303,7 @@ pub fn run(l: &Ledger, signer: &Signer, p: &Params7d, now: i64) -> Result<Report
                 let to = rec["fingerprint"].clone();
                 rec.as_object_mut().unwrap().insert("correction".into(), json!({"from": pr0["fingerprint"], "to": to}));
             }
-            l.append_json(REVISIONS_7D, &mut rec)?;
+            l.append_json(spec.out_file, &mut rec)?;
             if clamped {
                 rep.clamped += 1;
             }
@@ -288,6 +338,16 @@ mod tests {
         let s = 700_000_000u128;
         assert_eq!(manipulation_cost_per_pct(s), 7_000_000);
         assert_eq!(max_open_interest(s, &p), 175_000_000);
+    }
+
+    #[test]
+    fn lic_formula_text_matches() {
+        let s = Spec7d::lic();
+        let t = std::str::from_utf8(s.formula_text).unwrap();
+        assert!(t.starts_with(s.version));
+        for x in [format!("window_days = {}", s.params.window_days), format!("min_valid_days = {}", s.params.min_valid_days), format!("oi_fraction_bps = {}", s.params.oi_fraction_bps), format!("clamp_bound_bps = {}", s.params.clamp_bound_bps)] {
+            assert!(t.contains(&x), "{x}");
+        }
     }
 
     #[test]

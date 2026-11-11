@@ -247,6 +247,10 @@ pub fn source_health(l: &Ledger, s: &Loaded, params: &Params, budget: &RateBudge
         "coverage": coverage,
         "spend_share_crosscheck": spend_check,
         "revisions_7d": revisions_7d_summary(l)?,
+        "documented_dataset": crate::report::dataset_summary(s, now),
+        "documented_vs_web_tokens": crate::report::crosscheck(l, s)?,
+        "licensed_vs_web_tracking": crate::report::tracking(l)?,
+        "clamp_calibration": crate::report::clamp_calibration(s),
         "revisions": {"total": revs.len(), "by_data_status": by_status, "corrections": corrections, "markets_blocked_latest": blocked, "blocked_days_total": blocked_days_total},
     }))
 }
@@ -362,12 +366,77 @@ pub fn publish(l: &Ledger, out: &Path, pubkey: &[u8; 32], params: &Params, budge
             "max_open_interest_usd": latest7_rev.and_then(|w| w["max_open_interest_usd"].as_str()),
         }));
     }
+    // licensed (documented-sources-only) variant, daily and 7D
+    let lic_dir = base.join("indices").join("or-model-spend-lic");
+    let lic7_dir = base.join("indices").join("or-model-spend-lic-7d");
+    let lic_latest = crate::weekly::latest_in(l, crate::licensed::REVISIONS_LIC)?;
+    let lic7_latest = crate::weekly::latest_in(l, crate::weekly::REVISIONS_LIC_7D)?;
+    for (file, dir) in [(crate::licensed::REVISIONS_LIC, &lic_dir), (crate::weekly::REVISIONS_LIC_7D, &lic7_dir)] {
+        for r in l.read_json(file)? {
+            let m = r["market"].as_str().unwrap_or("").to_string();
+            let rid = r["revision_id"].as_str().unwrap_or("");
+            write_json_compact(&dir.join(&m).join("provenance").join(format!("{rid}.json")), &r)?;
+            files += 1;
+        }
+    }
+    let spec_lic7 = crate::weekly::Spec7d::lic();
+    let token_hist = crate::licensed::dataset_view(&s);
+    for mv in models.iter_mut() {
+        let slug = mv["permaslug"].as_str().unwrap_or("").to_string();
+        let mut d1: Vec<&Value> = lic_latest.iter().filter(|((mk, _), _)| *mk == slug).map(|(_, v)| v).collect();
+        d1.sort_by(|a, b| a["utc_date"].as_str().cmp(&b["utc_date"].as_str()));
+        let mut d7: Vec<&Value> = lic7_latest.iter().filter(|((mk, _), _)| *mk == slug).map(|(_, v)| v).collect();
+        d7.sort_by(|a, b| a["utc_date"].as_str().cmp(&b["utc_date"].as_str()));
+        let history: Vec<Value> = token_hist.rows.iter().filter(|((_, m), _)| *m == slug).map(|((d, _), t)| json!([d.to_string(), t.to_string()])).collect();
+        let series = json!({
+            "market": slug,
+            "index_id": crate::licensed::index_id_lic(&slug),
+            "formula": {"version": crate::licensed::FORMULA_VERSION_LIC, "hash": hex::encode(crate::licensed::formula_hash_lic()), "mode": crate::licensed::MODE_LIC},
+            "sources": "documented only: datasets/rankings-daily (CC BY 4.0), /api/v1/models, /api/v1/models/{id}/endpoints",
+            "attribution": d1.last().and_then(|r| r["attribution"].as_str()),
+            "points": d1.iter().map(|r| point_lic(r)).collect::<Vec<_>>(),
+            "token_history": {"note": "documented total_tokens per UTC day (top-50 days only), from 2025-01-01; no USD value before price_backfill_from", "rows": history},
+        });
+        write_json(&lic_dir.join(&slug).join("series.json"), &series)?;
+        let series7 = json!({
+            "market": slug,
+            "index_id": spec_lic7.index_id(&slug),
+            "formula": {"version": spec_lic7.version, "hash": hex::encode(spec_lic7.formula_hash()), "derived_from": crate::licensed::FORMULA_VERSION_LIC},
+            "points": d7.iter().map(|w| point7(w)).collect::<Vec<_>>(),
+        });
+        write_json(&lic7_dir.join(&slug).join("series.json"), &series7)?;
+        files += 2;
+        if let Some(r) = d1.last() {
+            write_json(&lic_dir.join(&slug).join("latest.json"), r)?;
+            files += 1;
+            if !r["print"].is_null() {
+                prints.push(r["print"].clone());
+            }
+        }
+        if let Some(w) = d7.last() {
+            write_json(&lic7_dir.join(&slug).join("latest.json"), w)?;
+            files += 1;
+            prints.push(w["print"].clone());
+        }
+        let (life, why) = lifecycle_traded(d1.last().copied(), d7.last().copied(), now);
+        mv["licensed"] = json!({
+            "index_id": crate::licensed::index_id_lic(&slug),
+            "latest": d1.last().map(|r| point_lic(r)),
+            "series_path": format!("/v1/indices/or-model-spend-lic/{slug}/series.json"),
+            "index_7d": {"index_id": spec_lic7.index_id(&slug), "latest": d7.last().map(|w| point7(w)), "series_path": format!("/v1/indices/or-model-spend-lic-7d/{slug}/series.json")},
+            "manipulation_cost_usd_per_pct": d7.last().and_then(|w| w["manipulation_cost_usd_per_pct"].as_str()),
+            "max_open_interest_usd": d7.last().and_then(|w| w["max_open_interest_usd"].as_str()),
+            "lifecycle": {"status": life, "reason": why, "trading": "PAPER_ONLY"},
+        });
+    }
     let header = json!({
         "generated_at": fmt_ms(now),
         "notice": NOT_SETTLEMENT_GRADE,
         "what_this_is_not": "Not AI-provider revenue, not model-owner royalties, not equity or any claim on a model's cash flows. One venue (OpenRouter), one declared formula.",
         "formula": {"version": FORMULA_VERSION, "hash": hex::encode(engine::formula_hash()), "mode": MODE},
         "formula_7d": {"version": crate::weekly::FORMULA_VERSION_7D, "hash": hex::encode(crate::weekly::formula_hash_7d())},
+        "formula_licensed": {"version": crate::licensed::FORMULA_VERSION_LIC, "hash": hex::encode(crate::licensed::formula_hash_lic()), "version_7d": crate::weekly::FORMULA_VERSION_LIC_7D, "hash_7d": hex::encode(crate::weekly::Spec7d::lic().formula_hash())},
+        "recommended_reference": "licensed.index_7d (ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1): documented sources only. The web-endpoint variant (index_7d) is kept for comparison and for models outside the documented top 50. See docs/DATA_METHOD.md section 2.",
         "manipulation_note": "manipulation_cost_usd_per_pct is 1% of the 7-day window's counted spend: the OpenRouter-billed spend a third party must add to move the 7D index by 1%. max_open_interest_usd is 25% of that window spend. This bounds the cost of a push; it does not make manipulation impossible. See docs/DATA_METHOD.md, manipulation resistance.",
         "reporter_pubkey_ed25519": hex::encode(pubkey),
     });
@@ -392,6 +461,25 @@ pub fn publish(l: &Ledger, out: &Path, pubkey: &[u8; 32], params: &Params, budge
     write_json(&base.join("indices").join("source-health.json"), &h)?;
     files += 4;
     Ok(files)
+}
+
+fn point_lic(r: &Value) -> Value {
+    json!({
+        "utc_date": r["utc_date"],
+        "value_usd": r["value_usd"],
+        "data_status": r["data_status"],
+        "reason": r["reason"],
+        "finality": r["finality"],
+        "revision": r["revision"],
+        "revision_id": r["revision_id"],
+        "confidence": r["confidence"],
+        "blocked": r["blocked"],
+        "total_tokens": r["total_tokens"],
+        "frozen": r["frozen"],
+        "price": r["price"],
+        "source_as_of": r["source_as_of"],
+        "print_hash": r["print"]["printHash"],
+    })
 }
 
 fn point7(w: &Value) -> Value {

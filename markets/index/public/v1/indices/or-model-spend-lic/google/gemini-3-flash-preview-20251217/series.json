@@ -1,0 +1,2260 @@
+{
+  "market": "google/gemini-3-flash-preview-20251217",
+  "index_id": "or-model-spend-lic/google/gemini-3-flash-preview-20251217",
+  "formula": {
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+    "hash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+    "mode": "ESTIMATED_FIXED_MIX"
+  },
+  "sources": "documented only: datasets/rankings-daily (CC BY 4.0), /api/v1/models, /api/v1/models/{id}/endpoints",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "points": [
+    {
+      "utc_date": "2026-10-11",
+      "value_usd": "47594.843655",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-11.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "129088806192",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "2bb5b4a686df7a91d02c82575f986104d3f2826897b79ff0eb432fcb4dc7ed39"
+    },
+    {
+      "utc_date": "2026-10-12",
+      "value_usd": "70301.803860",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-12.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "190675611819",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "cb5fc8b1e9652aec6c6cbbf54bbdc3031100d60b45b91e014f6cc2823ba3423a"
+    },
+    {
+      "utc_date": "2026-10-13",
+      "value_usd": "57777.852040",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-13.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "156707604677",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "e9ccb151dc1e8bd76e2b65752c5f452f687c15651e716e5a6b2dcc52d5c2b4d3"
+    },
+    {
+      "utc_date": "2026-10-14",
+      "value_usd": "46558.065118",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-14.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "126276810325",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "158f53a84eb9711d36866fb71819a8e43f390b74f25bad5e3d22cba7d92dd368"
+    },
+    {
+      "utc_date": "2026-10-15",
+      "value_usd": "41494.019548",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-15.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "112541885553",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "7db365b72405ee1a292fc7b45bf97c3646ce5e9bca26225b3ca5f9b5adc8aeb5"
+    },
+    {
+      "utc_date": "2026-10-16",
+      "value_usd": "36095.777967",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-16.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "97900539817",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "de128e43949efed06f575d48b1bf70dd58b098b9b4b62954e56020dd64f3e7a2"
+    },
+    {
+      "utc_date": "2026-10-17",
+      "value_usd": "31405.847900",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-17.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "85180307394",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "aad6a2cbdf8791d030031d7770db1081fe5a4f641b5adad945a833473f1d4bd8"
+    },
+    {
+      "utc_date": "2026-10-18",
+      "value_usd": "37122.934941",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-18.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "100686439660",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "e277520f4ecc800ba689c8c22dc47c05ad26b42c9ba3e78280068c10b036877b"
+    },
+    {
+      "utc_date": "2026-10-19",
+      "value_usd": "41821.741440",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-19.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "113430747130",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "7c07710c8926aa697319914e9581413fa284454f3a94ad7f39815f768829fe3b"
+    },
+    {
+      "utc_date": "2026-10-20",
+      "value_usd": "35851.187220",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-20.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "97237150147",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "6ab838e27de81a94d448e608bd94aa458bacf019e3f8af7ec529873b6e42e139"
+    },
+    {
+      "utc_date": "2026-10-21",
+      "value_usd": "41050.722438",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-21.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "111339555839",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "98366b0bbe05ac1e83ccb5de4a13b6f60303c841411097207ba3a1f278f296d6"
+    },
+    {
+      "utc_date": "2026-10-22",
+      "value_usd": "37229.961328",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-22.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "100976721285",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "663ef1fd78623effcc9189967fc58ec7b3929967af19f234c63e9760a90cd172"
+    },
+    {
+      "utc_date": "2026-10-23",
+      "value_usd": "35811.092263",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-23.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "97128402862",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "5a8702c9241070382c4a4dd7aa5923f31f22eb9a2d5e8d1c94902a9eda82fe86"
+    },
+    {
+      "utc_date": "2026-10-24",
+      "value_usd": "35473.814513",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-24.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "96213623469",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "937436394be27d0120faa0a12e7cd96fd28e4217367d2c96eb7b9f64717f7021"
+    },
+    {
+      "utc_date": "2026-10-25",
+      "value_usd": "33067.373476",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-25.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "89686769367",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "5d79d40751900372eab76c4dde36d50613fdfbab8626c132ef83908e24ce7ec1"
+    },
+    {
+      "utc_date": "2026-10-26",
+      "value_usd": "35747.889612",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-26.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "96956981880",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "195bfca2f03fc594f4d316addb61a996dc1561a104f6d97b75e7b6ca3d124df1"
+    },
+    {
+      "utc_date": "2026-10-27",
+      "value_usd": "34622.318361",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-27.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "93904158551",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "c90d6d98abb38c596f2ad4ee27f3779f955c5a18786fb8c31748edb3018c2dbd"
+    },
+    {
+      "utc_date": "2026-10-28",
+      "value_usd": "34437.930407",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-28.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "93404053519",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "d1450666222ba5f55247e6aeebeff0bec4e0acfbe82f1bed4a92f71d17ca7b98"
+    },
+    {
+      "utc_date": "2026-10-29",
+      "value_usd": "31778.309515",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-29.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "86190513995",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "80e8b43fbb8935305dcddbad4dbc7837baf4234e751bc491ada5df09226ddc47"
+    },
+    {
+      "utc_date": "2026-10-30",
+      "value_usd": "30500.861357",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-30.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "82725763507",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "473887b226b363f02a820e582dcd9f71aaf5b3d4d4a5a6ed794051bc2efbb76a"
+    },
+    {
+      "utc_date": "2026-10-31",
+      "value_usd": "29136.903225",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-31.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "79026376905",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "b8378c399919d92b67302380b0982466342bbe8d77e0ab2b36d7e3bf969746f9"
+    },
+    {
+      "utc_date": "2026-11-01",
+      "value_usd": "32477.034522",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-01.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "88085626365",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "11234dd080b291d6ce9ed32a5ccfa8c9a0cc3bd2d2c37709454a23c1a0c4e126"
+    },
+    {
+      "utc_date": "2026-11-02",
+      "value_usd": "33584.588383",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-02.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "91089582145",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "0fc0283c740ac775c51f5216b30326692d55daa54f6953b24df5106ecd95d6c0"
+    },
+    {
+      "utc_date": "2026-11-03",
+      "value_usd": "33785.938516",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-03.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "91635692737",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "1cd7b97aef8b65f810fa31225bc0e2f1baf0ce4b3717d647ac7ad9f8c1d2f6ba"
+    },
+    {
+      "utc_date": "2026-11-04",
+      "value_usd": "34198.418287",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-04.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "92754438325",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "155fdadb9c036545796bf02ea11c72f662fcd2f502914b260262dc4064b8ac6f"
+    },
+    {
+      "utc_date": "2026-11-05",
+      "value_usd": "33469.038748",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-05.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "90776183395",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "cab450f3c56f085f55a2faf82b677edce8b69e8e6175880e407c5c857caf44b7"
+    },
+    {
+      "utc_date": "2026-11-06",
+      "value_usd": "30384.156243",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-06.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "82409230819",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "677040fa6ec3fcc4262117abdff6f6d0eec769a6deea874147fe8fa59c92c443"
+    },
+    {
+      "utc_date": "2026-11-07",
+      "value_usd": "29495.718219",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-07.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "79999570548",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "ff69fda18ff114d0d30e5178b19767eb226ba35b2d8adb0abf22cb704b3a1c55"
+    },
+    {
+      "utc_date": "2026-11-08",
+      "value_usd": "27889.021592",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-08.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "75641818036",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "abf8d63475c988eaab1f4e7100bb471bb11498af4a7a2788120a0e0a40264ffb"
+    },
+    {
+      "utc_date": "2026-11-09",
+      "value_usd": "34829.054329",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-09.r1",
+      "confidence": "MEDIUM",
+      "blocked": false,
+      "total_tokens": "94464876841",
+      "frozen": {
+        "w_in": "0.959984",
+        "billed_share": "0.892412",
+        "cache_share": "0.432627",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_SNAPSHOT",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:23:39.000Z",
+        "listed_in_usd_per_m": "0.500000000",
+        "listed_out_usd_per_m": "3.000000000",
+        "listed_cache_read_usd_per_m": "0.050000000",
+        "p_in_usd_per_m": "0.305317850",
+        "p_blend_usd_per_m": "0.413148251"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "94fec6ffcad7485afcb05d89a2068b23066bd1c41642bc9f2263b65dcb291876"
+    }
+  ],
+  "token_history": {
+    "note": "documented total_tokens per UTC day (top-50 days only), from 2025-01-01; no USD value before price_backfill_from",
+    "rows": [
+      [
+        "2025-12-17",
+        "4576507748"
+      ],
+      [
+        "2025-12-18",
+        "22095748822"
+      ],
+      [
+        "2025-12-19",
+        "27994669642"
+      ],
+      [
+        "2025-12-20",
+        "23968997386"
+      ],
+      [
+        "2025-12-21",
+        "34281601843"
+      ],
+      [
+        "2025-12-22",
+        "45301564322"
+      ],
+      [
+        "2025-12-23",
+        "31503164540"
+      ],
+      [
+        "2025-12-24",
+        "31966200199"
+      ],
+      [
+        "2025-12-25",
+        "33986121446"
+      ],
+      [
+        "2025-12-26",
+        "28826488541"
+      ],
+      [
+        "2025-12-27",
+        "31275753067"
+      ],
+      [
+        "2025-12-28",
+        "26973483912"
+      ],
+      [
+        "2025-12-29",
+        "46151858044"
+      ],
+      [
+        "2025-12-30",
+        "43417781312"
+      ],
+      [
+        "2025-12-31",
+        "38627744893"
+      ],
+      [
+        "2026-01-01",
+        "36463543014"
+      ],
+      [
+        "2026-01-02",
+        "43576495382"
+      ],
+      [
+        "2026-01-03",
+        "38362724341"
+      ],
+      [
+        "2026-01-04",
+        "44679125799"
+      ],
+      [
+        "2026-01-05",
+        "52418946619"
+      ],
+      [
+        "2026-01-06",
+        "58810790640"
+      ],
+      [
+        "2026-01-07",
+        "56998461761"
+      ],
+      [
+        "2026-01-08",
+        "61929167190"
+      ],
+      [
+        "2026-01-09",
+        "59715440215"
+      ],
+      [
+        "2026-01-10",
+        "46588851202"
+      ],
+      [
+        "2026-01-11",
+        "50048788036"
+      ],
+      [
+        "2026-01-12",
+        "63044044021"
+      ],
+      [
+        "2026-01-13",
+        "62884170025"
+      ],
+      [
+        "2026-01-14",
+        "67240782670"
+      ],
+      [
+        "2026-01-15",
+        "65083589562"
+      ],
+      [
+        "2026-01-16",
+        "66642399508"
+      ],
+      [
+        "2026-01-17",
+        "59398651997"
+      ],
+      [
+        "2026-01-18",
+        "63453826279"
+      ],
+      [
+        "2026-01-19",
+        "74456058877"
+      ],
+      [
+        "2026-01-20",
+        "85650710657"
+      ],
+      [
+        "2026-01-21",
+        "79658404434"
+      ],
+      [
+        "2026-01-22",
+        "80843490462"
+      ],
+      [
+        "2026-01-23",
+        "82183534699"
+      ],
+      [
+        "2026-01-24",
+        "63809002750"
+      ],
+      [
+        "2026-01-25",
+        "70702233368"
+      ],
+      [
+        "2026-01-26",
+        "80021284006"
+      ],
+      [
+        "2026-01-27",
+        "87467485495"
+      ],
+      [
+        "2026-01-28",
+        "93505554267"
+      ],
+      [
+        "2026-01-29",
+        "101893503727"
+      ],
+      [
+        "2026-01-30",
+        "103594536898"
+      ],
+      [
+        "2026-01-31",
+        "106128578027"
+      ],
+      [
+        "2026-02-01",
+        "116225228748"
+      ],
+      [
+        "2026-02-02",
+        "122523173745"
+      ],
+      [
+        "2026-02-03",
+        "119972806622"
+      ],
+      [
+        "2026-02-04",
+        "109916589975"
+      ],
+      [
+        "2026-02-05",
+        "112707740248"
+      ],
+      [
+        "2026-02-06",
+        "108823233454"
+      ],
+      [
+        "2026-02-07",
+        "96417013766"
+      ],
+      [
+        "2026-02-08",
+        "93423375514"
+      ],
+      [
+        "2026-02-09",
+        "109584164857"
+      ],
+      [
+        "2026-02-10",
+        "106123325677"
+      ],
+      [
+        "2026-02-11",
+        "116316426145"
+      ],
+      [
+        "2026-02-12",
+        "113169390053"
+      ],
+      [
+        "2026-02-13",
+        "126077694617"
+      ],
+      [
+        "2026-02-14",
+        "99413696506"
+      ],
+      [
+        "2026-02-15",
+        "105228384314"
+      ],
+      [
+        "2026-02-16",
+        "125223333550"
+      ],
+      [
+        "2026-02-17",
+        "111092385035"
+      ],
+      [
+        "2026-02-18",
+        "124103959187"
+      ],
+      [
+        "2026-02-19",
+        "124867146588"
+      ],
+      [
+        "2026-02-20",
+        "130699124921"
+      ],
+      [
+        "2026-02-21",
+        "116244373499"
+      ],
+      [
+        "2026-02-22",
+        "126542752688"
+      ],
+      [
+        "2026-02-23",
+        "153228483493"
+      ],
+      [
+        "2026-02-24",
+        "136112638435"
+      ],
+      [
+        "2026-02-25",
+        "150884210407"
+      ],
+      [
+        "2026-02-26",
+        "151061378020"
+      ],
+      [
+        "2026-02-27",
+        "162753852858"
+      ],
+      [
+        "2026-02-28",
+        "152272884657"
+      ],
+      [
+        "2026-03-01",
+        "120987600905"
+      ],
+      [
+        "2026-03-02",
+        "163000027561"
+      ],
+      [
+        "2026-03-03",
+        "175732417361"
+      ],
+      [
+        "2026-03-04",
+        "155287024230"
+      ],
+      [
+        "2026-03-05",
+        "159550403569"
+      ],
+      [
+        "2026-03-06",
+        "148771529543"
+      ],
+      [
+        "2026-03-07",
+        "128370311249"
+      ],
+      [
+        "2026-03-08",
+        "112076436486"
+      ],
+      [
+        "2026-03-09",
+        "138481577304"
+      ],
+      [
+        "2026-03-10",
+        "146035679563"
+      ],
+      [
+        "2026-03-11",
+        "159770370023"
+      ],
+      [
+        "2026-03-12",
+        "172520353029"
+      ],
+      [
+        "2026-03-13",
+        "158180528418"
+      ],
+      [
+        "2026-03-14",
+        "123154644035"
+      ],
+      [
+        "2026-03-15",
+        "117468641943"
+      ],
+      [
+        "2026-03-16",
+        "147675607589"
+      ],
+      [
+        "2026-03-17",
+        "146248600198"
+      ],
+      [
+        "2026-03-18",
+        "154088668899"
+      ],
+      [
+        "2026-03-19",
+        "136432299500"
+      ],
+      [
+        "2026-03-20",
+        "123774783751"
+      ],
+      [
+        "2026-03-21",
+        "109710781703"
+      ],
+      [
+        "2026-03-22",
+        "119062123356"
+      ],
+      [
+        "2026-03-23",
+        "141956076057"
+      ],
+      [
+        "2026-03-24",
+        "151820159886"
+      ],
+      [
+        "2026-03-25",
+        "158776311273"
+      ],
+      [
+        "2026-03-26",
+        "142867820746"
+      ],
+      [
+        "2026-03-27",
+        "136362883852"
+      ],
+      [
+        "2026-03-28",
+        "124731676153"
+      ],
+      [
+        "2026-03-29",
+        "111818053012"
+      ],
+      [
+        "2026-03-30",
+        "146275516971"
+      ],
+      [
+        "2026-03-31",
+        "173579406632"
+      ],
+      [
+        "2026-04-01",
+        "140605118603"
+      ],
+      [
+        "2026-04-02",
+        "143808900684"
+      ],
+      [
+        "2026-04-03",
+        "141983738266"
+      ],
+      [
+        "2026-04-04",
+        "119646779113"
+      ],
+      [
+        "2026-04-05",
+        "113656538771"
+      ],
+      [
+        "2026-04-06",
+        "161925368379"
+      ],
+      [
+        "2026-04-07",
+        "154871789419"
+      ],
+      [
+        "2026-04-08",
+        "155107255935"
+      ],
+      [
+        "2026-04-09",
+        "161715455588"
+      ],
+      [
+        "2026-04-10",
+        "182125554818"
+      ],
+      [
+        "2026-04-11",
+        "125345228766"
+      ],
+      [
+        "2026-04-12",
+        "121589094409"
+      ],
+      [
+        "2026-04-13",
+        "161192526176"
+      ],
+      [
+        "2026-04-14",
+        "165031494288"
+      ],
+      [
+        "2026-04-15",
+        "170233736115"
+      ],
+      [
+        "2026-04-16",
+        "183754806546"
+      ],
+      [
+        "2026-04-17",
+        "182222674134"
+      ],
+      [
+        "2026-04-18",
+        "142015215566"
+      ],
+      [
+        "2026-04-19",
+        "137919491961"
+      ],
+      [
+        "2026-04-20",
+        "169881564290"
+      ],
+      [
+        "2026-04-21",
+        "156025480431"
+      ],
+      [
+        "2026-04-22",
+        "170054832475"
+      ],
+      [
+        "2026-04-23",
+        "153620777185"
+      ],
+      [
+        "2026-04-24",
+        "139116107245"
+      ],
+      [
+        "2026-04-25",
+        "132769210992"
+      ],
+      [
+        "2026-04-26",
+        "116650427588"
+      ],
+      [
+        "2026-04-27",
+        "156106508177"
+      ],
+      [
+        "2026-04-28",
+        "155508680939"
+      ],
+      [
+        "2026-04-29",
+        "156860040936"
+      ],
+      [
+        "2026-04-30",
+        "132366375278"
+      ],
+      [
+        "2026-05-01",
+        "128984493586"
+      ],
+      [
+        "2026-05-02",
+        "117759325525"
+      ],
+      [
+        "2026-05-03",
+        "123415856509"
+      ],
+      [
+        "2026-05-04",
+        "149508448255"
+      ],
+      [
+        "2026-05-05",
+        "164371372338"
+      ],
+      [
+        "2026-05-06",
+        "175153274353"
+      ],
+      [
+        "2026-05-07",
+        "175200678747"
+      ],
+      [
+        "2026-05-08",
+        "156432448218"
+      ],
+      [
+        "2026-05-09",
+        "128028174096"
+      ],
+      [
+        "2026-05-10",
+        "125771511643"
+      ],
+      [
+        "2026-05-11",
+        "180695636111"
+      ],
+      [
+        "2026-05-12",
+        "182785886263"
+      ],
+      [
+        "2026-05-13",
+        "185048839163"
+      ],
+      [
+        "2026-05-14",
+        "164524494619"
+      ],
+      [
+        "2026-05-15",
+        "153264297441"
+      ],
+      [
+        "2026-05-16",
+        "137567543522"
+      ],
+      [
+        "2026-05-17",
+        "147134935216"
+      ],
+      [
+        "2026-05-18",
+        "170352800224"
+      ],
+      [
+        "2026-05-19",
+        "177654845549"
+      ],
+      [
+        "2026-05-20",
+        "170428814917"
+      ],
+      [
+        "2026-05-21",
+        "171329858507"
+      ],
+      [
+        "2026-05-22",
+        "169279360756"
+      ],
+      [
+        "2026-05-23",
+        "119067265868"
+      ],
+      [
+        "2026-05-24",
+        "122927462424"
+      ],
+      [
+        "2026-05-25",
+        "147924828747"
+      ],
+      [
+        "2026-05-26",
+        "142796754932"
+      ],
+      [
+        "2026-05-27",
+        "151732964013"
+      ],
+      [
+        "2026-05-28",
+        "151482018431"
+      ],
+      [
+        "2026-05-29",
+        "135972820190"
+      ],
+      [
+        "2026-05-30",
+        "111735658910"
+      ],
+      [
+        "2026-05-31",
+        "109698339122"
+      ],
+      [
+        "2026-06-01",
+        "150194774515"
+      ],
+      [
+        "2026-06-02",
+        "155741866849"
+      ],
+      [
+        "2026-06-03",
+        "161369760681"
+      ],
+      [
+        "2026-06-04",
+        "169107521162"
+      ],
+      [
+        "2026-06-05",
+        "156069745917"
+      ],
+      [
+        "2026-06-06",
+        "128422927079"
+      ],
+      [
+        "2026-06-07",
+        "125874688581"
+      ],
+      [
+        "2026-06-08",
+        "158323042525"
+      ],
+      [
+        "2026-06-09",
+        "156845315724"
+      ],
+      [
+        "2026-06-10",
+        "156011884776"
+      ],
+      [
+        "2026-06-11",
+        "151307179833"
+      ],
+      [
+        "2026-06-12",
+        "140482318502"
+      ],
+      [
+        "2026-06-13",
+        "108808694049"
+      ],
+      [
+        "2026-06-14",
+        "108204391814"
+      ],
+      [
+        "2026-06-15",
+        "140445901752"
+      ],
+      [
+        "2026-06-16",
+        "142661368540"
+      ],
+      [
+        "2026-06-17",
+        "157376826711"
+      ],
+      [
+        "2026-06-18",
+        "156535419006"
+      ],
+      [
+        "2026-06-19",
+        "129727670346"
+      ],
+      [
+        "2026-06-20",
+        "108544631156"
+      ],
+      [
+        "2026-06-21",
+        "108206018528"
+      ],
+      [
+        "2026-06-22",
+        "133363573876"
+      ],
+      [
+        "2026-06-23",
+        "139058380653"
+      ],
+      [
+        "2026-06-24",
+        "142985419587"
+      ],
+      [
+        "2026-06-25",
+        "138287469060"
+      ],
+      [
+        "2026-06-26",
+        "132073921564"
+      ],
+      [
+        "2026-06-27",
+        "108103229060"
+      ],
+      [
+        "2026-06-28",
+        "110705700902"
+      ],
+      [
+        "2026-06-29",
+        "143808622585"
+      ],
+      [
+        "2026-06-30",
+        "142517555414"
+      ],
+      [
+        "2026-07-01",
+        "150856407670"
+      ],
+      [
+        "2026-07-02",
+        "150730868713"
+      ],
+      [
+        "2026-07-03",
+        "132830215192"
+      ],
+      [
+        "2026-07-04",
+        "103436795519"
+      ],
+      [
+        "2026-07-05",
+        "107022311628"
+      ],
+      [
+        "2026-07-06",
+        "148802958726"
+      ],
+      [
+        "2026-07-07",
+        "152143850134"
+      ],
+      [
+        "2026-07-08",
+        "142138593751"
+      ],
+      [
+        "2026-07-09",
+        "142758351445"
+      ],
+      [
+        "2026-07-10",
+        "142419538586"
+      ],
+      [
+        "2026-07-11",
+        "107325717856"
+      ],
+      [
+        "2026-07-12",
+        "101450784679"
+      ],
+      [
+        "2026-07-13",
+        "145211394405"
+      ],
+      [
+        "2026-07-14",
+        "150754104892"
+      ],
+      [
+        "2026-07-15",
+        "154967917941"
+      ],
+      [
+        "2026-07-16",
+        "144966265915"
+      ],
+      [
+        "2026-07-17",
+        "141759540361"
+      ],
+      [
+        "2026-07-18",
+        "108744596508"
+      ],
+      [
+        "2026-07-19",
+        "107447033215"
+      ],
+      [
+        "2026-07-20",
+        "149476095821"
+      ],
+      [
+        "2026-07-21",
+        "155156840636"
+      ],
+      [
+        "2026-07-22",
+        "157386132841"
+      ],
+      [
+        "2026-07-23",
+        "151459127282"
+      ],
+      [
+        "2026-07-24",
+        "146622624295"
+      ],
+      [
+        "2026-07-25",
+        "106308668654"
+      ],
+      [
+        "2026-07-26",
+        "108482012678"
+      ],
+      [
+        "2026-07-27",
+        "151826365782"
+      ],
+      [
+        "2026-07-28",
+        "155158120213"
+      ],
+      [
+        "2026-07-29",
+        "157657761246"
+      ],
+      [
+        "2026-07-30",
+        "154716892229"
+      ],
+      [
+        "2026-07-31",
+        "147835344114"
+      ],
+      [
+        "2026-08-01",
+        "108988250373"
+      ],
+      [
+        "2026-08-02",
+        "106704694501"
+      ],
+      [
+        "2026-08-03",
+        "145016143756"
+      ],
+      [
+        "2026-08-04",
+        "142529117631"
+      ],
+      [
+        "2026-08-05",
+        "140287163268"
+      ],
+      [
+        "2026-08-06",
+        "137319037610"
+      ],
+      [
+        "2026-08-07",
+        "131156385002"
+      ],
+      [
+        "2026-08-08",
+        "99786780751"
+      ],
+      [
+        "2026-08-09",
+        "102861565591"
+      ],
+      [
+        "2026-08-10",
+        "144196262788"
+      ],
+      [
+        "2026-08-11",
+        "139025462000"
+      ],
+      [
+        "2026-08-12",
+        "130397685745"
+      ],
+      [
+        "2026-08-13",
+        "129890946160"
+      ],
+      [
+        "2026-08-14",
+        "116501378697"
+      ],
+      [
+        "2026-08-15",
+        "86779355080"
+      ],
+      [
+        "2026-08-16",
+        "92101813622"
+      ],
+      [
+        "2026-08-17",
+        "119736516724"
+      ],
+      [
+        "2026-08-18",
+        "145217505776"
+      ],
+      [
+        "2026-08-19",
+        "147625747894"
+      ],
+      [
+        "2026-08-20",
+        "122958301648"
+      ],
+      [
+        "2026-08-21",
+        "130315733701"
+      ],
+      [
+        "2026-08-22",
+        "101671578444"
+      ],
+      [
+        "2026-08-23",
+        "93083274302"
+      ],
+      [
+        "2026-08-24",
+        "113565916894"
+      ],
+      [
+        "2026-08-25",
+        "120453717952"
+      ],
+      [
+        "2026-08-26",
+        "116327111769"
+      ],
+      [
+        "2026-08-27",
+        "121982672297"
+      ],
+      [
+        "2026-08-28",
+        "112364927690"
+      ],
+      [
+        "2026-08-29",
+        "92814286522"
+      ],
+      [
+        "2026-08-30",
+        "91998554584"
+      ],
+      [
+        "2026-08-31",
+        "122952066353"
+      ],
+      [
+        "2026-09-01",
+        "138027296037"
+      ],
+      [
+        "2026-09-02",
+        "130637336680"
+      ],
+      [
+        "2026-09-03",
+        "130534285869"
+      ],
+      [
+        "2026-09-04",
+        "123131374647"
+      ],
+      [
+        "2026-09-05",
+        "110475396693"
+      ],
+      [
+        "2026-09-06",
+        "114328994059"
+      ],
+      [
+        "2026-09-07",
+        "120087693338"
+      ],
+      [
+        "2026-09-08",
+        "115177986767"
+      ],
+      [
+        "2026-09-09",
+        "122682849469"
+      ],
+      [
+        "2026-09-10",
+        "132337442716"
+      ],
+      [
+        "2026-09-11",
+        "112601727029"
+      ],
+      [
+        "2026-09-12",
+        "98926169248"
+      ],
+      [
+        "2026-09-13",
+        "102389467602"
+      ],
+      [
+        "2026-09-14",
+        "119116842123"
+      ],
+      [
+        "2026-09-15",
+        "120316281642"
+      ],
+      [
+        "2026-09-16",
+        "123215951873"
+      ],
+      [
+        "2026-09-17",
+        "115324840321"
+      ],
+      [
+        "2026-09-18",
+        "124082357435"
+      ],
+      [
+        "2026-09-19",
+        "94331009187"
+      ],
+      [
+        "2026-09-20",
+        "94766834060"
+      ],
+      [
+        "2026-09-21",
+        "119795563789"
+      ],
+      [
+        "2026-09-22",
+        "120980882955"
+      ],
+      [
+        "2026-09-23",
+        "122000495272"
+      ],
+      [
+        "2026-09-24",
+        "118229141091"
+      ],
+      [
+        "2026-09-25",
+        "120022455789"
+      ],
+      [
+        "2026-09-26",
+        "92778047971"
+      ],
+      [
+        "2026-09-27",
+        "95625357582"
+      ],
+      [
+        "2026-09-28",
+        "113259970563"
+      ],
+      [
+        "2026-09-29",
+        "110081450877"
+      ],
+      [
+        "2026-09-30",
+        "101807735246"
+      ],
+      [
+        "2026-10-01",
+        "110540795514"
+      ],
+      [
+        "2026-10-02",
+        "134233419369"
+      ],
+      [
+        "2026-10-03",
+        "102998997814"
+      ],
+      [
+        "2026-10-04",
+        "90627214746"
+      ],
+      [
+        "2026-10-05",
+        "99788077150"
+      ],
+      [
+        "2026-10-06",
+        "126705356194"
+      ],
+      [
+        "2026-10-07",
+        "118230712715"
+      ],
+      [
+        "2026-10-08",
+        "139217420111"
+      ],
+      [
+        "2026-10-09",
+        "186658045090"
+      ],
+      [
+        "2026-10-10",
+        "174178832228"
+      ],
+      [
+        "2026-10-11",
+        "129088806192"
+      ],
+      [
+        "2026-10-12",
+        "190675611819"
+      ],
+      [
+        "2026-10-13",
+        "156707604677"
+      ],
+      [
+        "2026-10-14",
+        "126276810325"
+      ],
+      [
+        "2026-10-15",
+        "112541885553"
+      ],
+      [
+        "2026-10-16",
+        "97900539817"
+      ],
+      [
+        "2026-10-17",
+        "85180307394"
+      ],
+      [
+        "2026-10-18",
+        "100686439660"
+      ],
+      [
+        "2026-10-19",
+        "113430747130"
+      ],
+      [
+        "2026-10-20",
+        "97237150147"
+      ],
+      [
+        "2026-10-21",
+        "111339555839"
+      ],
+      [
+        "2026-10-22",
+        "100976721285"
+      ],
+      [
+        "2026-10-23",
+        "97128402862"
+      ],
+      [
+        "2026-10-24",
+        "96213623469"
+      ],
+      [
+        "2026-10-25",
+        "89686769367"
+      ],
+      [
+        "2026-10-26",
+        "96956981880"
+      ],
+      [
+        "2026-10-27",
+        "93904158551"
+      ],
+      [
+        "2026-10-28",
+        "93404053519"
+      ],
+      [
+        "2026-10-29",
+        "86190513995"
+      ],
+      [
+        "2026-10-30",
+        "82725763507"
+      ],
+      [
+        "2026-10-31",
+        "79026376905"
+      ],
+      [
+        "2026-11-01",
+        "88085626365"
+      ],
+      [
+        "2026-11-02",
+        "91089582145"
+      ],
+      [
+        "2026-11-03",
+        "91635692737"
+      ],
+      [
+        "2026-11-04",
+        "92754438325"
+      ],
+      [
+        "2026-11-05",
+        "90776183395"
+      ],
+      [
+        "2026-11-06",
+        "82409230819"
+      ],
+      [
+        "2026-11-07",
+        "79999570548"
+      ],
+      [
+        "2026-11-08",
+        "75641818036"
+      ],
+      [
+        "2026-11-09",
+        "94464876841"
+      ]
+    ]
+  }
+}

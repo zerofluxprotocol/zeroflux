@@ -10,6 +10,8 @@ const USAGE: &str = "zfx-index <command> [options]
 commands:
   keygen                 create the reporter key (refuses to overwrite) and print the public key
   backfill               fetch catalog + rankings, list top-N markets, fetch history for each
+  freeze-lic-params      derive the frozen LIC-v1 composition shares from the web overlap (once; refuses to overwrite)
+  dataset-backfill       documented datasets/rankings-daily from --from (2025-01-01) to --to (yesterday); needs the API key
   engine                 compute revisions from the ledger and sign prints
   publish                write the static JSON tree
   poll [--once]          run the bounded poller (fetch, engine, publish) forever
@@ -52,12 +54,33 @@ fn main() {
             let l = Ledger::open_write(&ledger_dir).map_err(|e| e.to_string())?;
             poll::backfill(&l, budget.clone(), params.top_n).map_err(|e| e.to_string())
         }
+        "freeze-lic-params" => {
+            let l = Ledger::open_read(&ledger_dir);
+            let v = zfx_index::licensed::derive_params(&l).map_err(|e| e.to_string())?;
+            let p = PathBuf::from(arg(&args, "--params-out").unwrap_or_else(|| "formula/ZFX-OR-MODEL-SPEND-USD-LIC-v1.params.json".into()));
+            if std::fs::read_to_string(&p).map(|s| s.trim() != "{}").unwrap_or(false) && !args.iter().any(|a| a == "--force") {
+                return Err(format!("{} is already frozen; a change needs a new formula version", p.display()));
+            }
+            std::fs::write(&p, serde_json::to_vec_pretty(&v).unwrap()).map_err(|e| e.to_string())?;
+            println!("froze {} models into {}", v["models"].as_object().map(|m| m.len()).unwrap_or(0), p.display());
+            Ok(())
+        }
+        "dataset-backfill" => {
+            let from = arg(&args, "--from").and_then(|x| zfx_index::time::UtcDate::parse(&x)).unwrap_or(zfx_index::time::UtcDate::parse("2025-01-01").unwrap());
+            let to = arg(&args, "--to").and_then(|x| zfx_index::time::UtcDate::parse(&x)).unwrap_or(zfx_index::time::UtcDate::of_ms(now_ms()).pred());
+            let l = Ledger::open_write(&ledger_dir).map_err(|e| e.to_string())?;
+            let rep = poll::dataset_backfill(&l, budget.clone(), from, to).map_err(|e| e.to_string())?;
+            println!("{}", serde_json::to_string_pretty(&rep).unwrap());
+            Ok(())
+        }
         "engine" => {
             let signer = keys::load(&key)?;
             let l = Ledger::open_write(&ledger_dir).map_err(|e| e.to_string())?;
             let rep = engine::run(&l, &signer, &params, now_ms()).map_err(|e| e.to_string())?;
             let rep7 = zfx_index::weekly::run(&l, &signer, &Default::default(), now_ms()).map_err(|e| e.to_string())?;
-            println!("{}", serde_json::json!({"daily": rep, "7d": rep7}));
+            let lic = zfx_index::licensed::run(&l, &signer, now_ms()).map_err(|e| e.to_string())?;
+            let lic7 = zfx_index::weekly::run_spec(&l, &signer, &zfx_index::weekly::Spec7d::lic(), now_ms()).map_err(|e| e.to_string())?;
+            println!("{}", serde_json::json!({"daily": rep, "7d": rep7, "lic": lic, "lic_7d": lic7}));
             Ok(())
         }
         "publish" => {
@@ -81,7 +104,9 @@ fn main() {
             let mut ok = 0;
             let mut bad = 0;
             let mut all = l.read_json("revisions.jsonl").map_err(|e| e.to_string())?;
-            all.extend(l.read_json(zfx_index::weekly::REVISIONS_7D).map_err(|e| e.to_string())?);
+            for f in [zfx_index::weekly::REVISIONS_7D, zfx_index::licensed::REVISIONS_LIC, zfx_index::weekly::REVISIONS_LIC_7D] {
+                all.extend(l.read_json(f).map_err(|e| e.to_string())?);
+            }
             for r in all {
                 let p = &r["print"];
                 if p.is_null() {

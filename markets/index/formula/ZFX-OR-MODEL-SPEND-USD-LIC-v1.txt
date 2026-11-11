@@ -1,0 +1,53 @@
+ZFX-OR-MODEL-SPEND-USD-LIC-v1
+OpenRouter-implied daily billings proxy from documented sources only, USD per UTC day, one index per
+model permaslug (standard variant). formulaHash = SHA-256(these exact bytes || the exact bytes of
+ZFX-OR-MODEL-SPEND-USD-LIC-v1.params.json). Changing either file requires a new formula version.
+
+1. Reference window
+   Day d is [d 00:00:00.000Z, d+1 00:00:00.000Z). UTC only.
+
+2. Mode
+   mode = ESTIMATED_FIXED_MIX
+   Token totals and prices come from documented OpenRouter endpoints. The input/output mix and two
+   other composition shares are frozen per model in the params file and never change within this version.
+
+3. Token input (documented, CC BY 4.0)
+   GET /api/v1/datasets/rankings-daily?period=day: rows (date, model_permaslug, total_tokens).
+   A response is used for day d only if start_date <= d <= end_date and meta.as_of >= d+1 00:00Z + grace_hours.
+   grace_hours = 6
+   The most recently fetched usable response wins. A covered day without a row for the model is
+   NOT_REPORTED (outside that day's top 50). The reserved row "other" is never a market.
+
+4. Frozen composition shares (params file), parts per million, per model
+   w_in_ppm   = billed prompt tokens / billed tokens
+   billed_ppm = billed tokens / total tokens          (billed = excluding bring-your-own-key)
+   cache_ppm  = cached prompt tokens / prompt tokens
+   Derived once from the web-endpoint index over its counted days 2026-10-11 .. 2026-11-09 and frozen.
+   A model without frozen shares is UNPRICED.
+
+5. Prices (documented, no auth), nano-USD per million tokens
+   Listing: GET /api/v1/models/{id}/endpoints. Per side, the lower median over providers of the
+   non-zero listed price: L_in (prompt), L_out (completion), L_cr (input_cache_read; L_in if no provider lists one).
+   Fallback: GET /api/v1/models catalog price, with L_cr = L_in.
+   Snapshot for day d: the first snapshot with source time in [d+1 00:00Z, d+2 00:00Z), else the latest
+   snapshot in [d 00:00Z, d+1 00:00Z): basis LISTED_SNAPSHOT.
+   Otherwise, if d >= price_backfill_from and d is before the first snapshot: the first snapshot,
+   basis LISTED_BACKFILL (current prices applied to past days; LOW confidence).
+   price_backfill_from = 2026-10-11
+   Otherwise UNPRICED.
+
+6. Value (exact integers, round half to even at each division)
+   p_in    = ((10^6 - cache_ppm) * L_in + cache_ppm * L_cr) / 10^6
+   p_blend = (w_in_ppm * p_in + (10^6 - w_in_ppm) * L_out) / 10^6
+   T_billed = total_tokens * billed_ppm / 10^6
+   index_usd_micro = T_billed * p_blend / 10^9
+   value_scale = 6 (micro-USD)
+
+7. Statuses and checks
+   data: OK | NOT_REPORTED | UNPRICED. finality: FINAL first, CORRECTED after. Print FRESH when OK, else UNAVAILABLE.
+   valid_for_hours = 48
+   TOKENS_OUTLIER (blocking, no signed print): total > 10x or < 0.1x the median of the up to 7 prior
+   reported days (checked when at least 3 are reported).
+
+8. Source hash
+   source_hash = SHA-256("ZFX-source-set-v1" || u32le(n) || sha256(dataset response) || sha256(price response))

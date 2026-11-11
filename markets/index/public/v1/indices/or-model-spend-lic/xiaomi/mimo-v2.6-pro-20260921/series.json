@@ -1,0 +1,1144 @@
+{
+  "market": "xiaomi/mimo-v2.6-pro-20260921",
+  "index_id": "or-model-spend-lic/xiaomi/mimo-v2.6-pro-20260921",
+  "formula": {
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+    "hash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+    "mode": "ESTIMATED_FIXED_MIX"
+  },
+  "sources": "documented only: datasets/rankings-daily (CC BY 4.0), /api/v1/models, /api/v1/models/{id}/endpoints",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "points": [
+    {
+      "utc_date": "2026-10-11",
+      "value_usd": "12041.430972",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-11.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "200694609485",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "8b14fa28d6061d935fcc840651dd1c3519a841c0f881e6824f2d3c79e1c98b70"
+    },
+    {
+      "utc_date": "2026-10-12",
+      "value_usd": "16127.776884",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-12.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "268801763775",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "e4a662e7b2ce528abb95c371a3cf3191770515b16adf69b3c5bded084ec0d0ef"
+    },
+    {
+      "utc_date": "2026-10-13",
+      "value_usd": "18184.783860",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-13.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "303085912611",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "12816ef405ed9efd984285fc0eb53fa1deeda966b60bd4451ac759336e23b41c"
+    },
+    {
+      "utc_date": "2026-10-14",
+      "value_usd": "15520.023140",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-14.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "258672328112",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "9c0bbae45542ccd959b24af1114399b57102f9313992fee85343e287a64994b6"
+    },
+    {
+      "utc_date": "2026-10-15",
+      "value_usd": "14423.195762",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-15.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "240391498956",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "0fb474acb930b5d12e6829c5f971e81db0401151d0ec1498b0f86a6d5dcaf815"
+    },
+    {
+      "utc_date": "2026-10-16",
+      "value_usd": "12560.318202",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-16.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "209342906369",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "127405f4ecb610e6005b3588ef1b343b97fcc43ec9af0a16fbb750d0cfccb453"
+    },
+    {
+      "utc_date": "2026-10-17",
+      "value_usd": "12268.777942",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-17.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "204483802940",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "ef013191a0772ad2b9780ae83fd3eecc97bce7c7861bf7b18a3c93369b821cb6"
+    },
+    {
+      "utc_date": "2026-10-18",
+      "value_usd": "12450.799789",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-18.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "207517562252",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "b5e6a1d02f9f93eef52e4bdccae5ed96dce36e85b05a7cb98995b8fd1d989721"
+    },
+    {
+      "utc_date": "2026-10-19",
+      "value_usd": "17226.777726",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-19.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "287118818058",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "2c329be441da4f86825276b32087f7c246cfadbfa86fad4bc0790931a3e1b133"
+    },
+    {
+      "utc_date": "2026-10-20",
+      "value_usd": "14995.745425",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-20.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "249934187977",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "8ff84bb276de298d68d6784c5a0ffc53520d91743bd8743b95442457903adc66"
+    },
+    {
+      "utc_date": "2026-10-21",
+      "value_usd": "12495.091780",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-21.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "208255777163",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "6cd72794e305e4f92d5aa6e1de2a1b958a063bc1fcc26d7cd641da4c0840922e"
+    },
+    {
+      "utc_date": "2026-10-22",
+      "value_usd": "13196.261931",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-22.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "219942184692",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "2c2d9a60e3a8871507e96262c0500e7acd901437f90fd01c3acf8ffa72a485a5"
+    },
+    {
+      "utc_date": "2026-10-23",
+      "value_usd": "14033.378883",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-23.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "233894418465",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "909dd20d9e981c7afa9d80f63c9a997c1e5dfecea7f4ffe56ddc2d2ebaded22b"
+    },
+    {
+      "utc_date": "2026-10-24",
+      "value_usd": "10683.464204",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-24.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "178061368394",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "7e02d6de7a8866e08f0b5455f786f42531fedf26713f0ae55b41085ad9380ec8"
+    },
+    {
+      "utc_date": "2026-10-25",
+      "value_usd": "10996.478963",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-25.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "183278387458",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "3f6982b0aa1f3a5c7a4a6ecf16d5db43ef1c9ef13826768c6ac125a9255a82d1"
+    },
+    {
+      "utc_date": "2026-10-26",
+      "value_usd": "12741.759239",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-26.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "212366985329",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "cac38da61f6007c491574c4bbc0c4305388d1241eeb7ba27fec31c991691b87d"
+    },
+    {
+      "utc_date": "2026-10-27",
+      "value_usd": "14587.270640",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-27.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "243126136039",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "74bbaa295ca25f9b681bd7234e057bf9d2f6e37071a427ee8ecb5c786497a0a8"
+    },
+    {
+      "utc_date": "2026-10-28",
+      "value_usd": "11303.472987",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-28.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "188395058879",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "982fa204ada087db353c5d7b0a3b46cd759237a6d763bef91276ed9fbf3a1f55"
+    },
+    {
+      "utc_date": "2026-10-29",
+      "value_usd": "10644.777988",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-29.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "177416584979",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "a59abfcf38c5ac75e525ed6f529a3bedd62db4a3d19819138b7658a748dc89d0"
+    },
+    {
+      "utc_date": "2026-10-30",
+      "value_usd": "11085.691918",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-30.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "184765300371",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "0e1ac9a3422b0664a57bf85f95364c7caca86323637b4e62c3a06a96a49d1535"
+    },
+    {
+      "utc_date": "2026-10-31",
+      "value_usd": "9733.361950",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-31.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "162226007859",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "f174fad66919d394064c851762df3e4d5170e62502d794210452acdef1ce27b9"
+    },
+    {
+      "utc_date": "2026-11-01",
+      "value_usd": "7821.705650",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-01.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "130364419690",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "b140fce16b07f02371b74d0b5fda034744cbc6c72a0da1b92bfc6b1767cfe5e3"
+    },
+    {
+      "utc_date": "2026-11-02",
+      "value_usd": "8756.479951",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-02.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "145944309139",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "b5af795d73b4a8a6b64239c8c4cf7666169513269720803e6881c13e289d7b0d"
+    },
+    {
+      "utc_date": "2026-11-03",
+      "value_usd": "9740.225721",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-03.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "162340406374",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "75ccad281806d9c9e7d3f378d19b9b8915e4144d55c82115c6ac9e8a525dd695"
+    },
+    {
+      "utc_date": "2026-11-04",
+      "value_usd": "8595.303537",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-04.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "143257980788",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "afe913515adc0fc8b6bc153c437c1ae218ee4f5a53d076096bfad3d0f7515edd"
+    },
+    {
+      "utc_date": "2026-11-05",
+      "value_usd": "10775.319332",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-05.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "179592318418",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "3cefe18d7b09856d9435c7c8a63dc96612309394d89b87afcc568cf6a9c9ad3b"
+    },
+    {
+      "utc_date": "2026-11-06",
+      "value_usd": "12841.285619",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-06.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "214025792158",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "5800bb35fd8b482e2f40bdb9628109056f53deae57145dc828861a86910b07fa"
+    },
+    {
+      "utc_date": "2026-11-07",
+      "value_usd": "8437.485179",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-07.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "140627621167",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "a752bf13029b6ee2a457831b4e81c37ab83f18035cfbb23ff91299909472d881"
+    },
+    {
+      "utc_date": "2026-11-08",
+      "value_usd": "9984.160721",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-08.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "166406072630",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "7ae87e605838c8e0495e9c444356dccc0c7cb1bb6377c8790614d74275802362"
+    },
+    {
+      "utc_date": "2026-11-09",
+      "value_usd": "9632.925501",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-09.r1",
+      "confidence": "MEDIUM",
+      "blocked": false,
+      "total_tokens": "160552032910",
+      "frozen": {
+        "w_in": "0.975464",
+        "billed_share": "0.934144",
+        "cache_share": "0.906442",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_SNAPSHOT",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:21:18.000Z",
+        "listed_in_usd_per_m": "0.435000000",
+        "listed_out_usd_per_m": "0.870000000",
+        "listed_cache_read_usd_per_m": "0.003600000",
+        "p_in_usd_per_m": "0.043960921",
+        "p_blend_usd_per_m": "0.064228616"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "b17e1d8a7732786ca42c2eeaad6b5d327e64ff4ce7289379e632c7c529f57d4f"
+    }
+  ],
+  "token_history": {
+    "note": "documented total_tokens per UTC day (top-50 days only), from 2025-01-01; no USD value before price_backfill_from",
+    "rows": [
+      [
+        "2026-09-22",
+        "184395566561"
+      ],
+      [
+        "2026-09-23",
+        "167222260206"
+      ],
+      [
+        "2026-09-24",
+        "177235959144"
+      ],
+      [
+        "2026-09-25",
+        "227195497348"
+      ],
+      [
+        "2026-09-26",
+        "140424622879"
+      ],
+      [
+        "2026-09-27",
+        "159298580843"
+      ],
+      [
+        "2026-09-28",
+        "156714541462"
+      ],
+      [
+        "2026-09-29",
+        "181829926549"
+      ],
+      [
+        "2026-09-30",
+        "211904675445"
+      ],
+      [
+        "2026-10-01",
+        "156214726133"
+      ],
+      [
+        "2026-10-02",
+        "163576261086"
+      ],
+      [
+        "2026-10-03",
+        "166064659063"
+      ],
+      [
+        "2026-10-04",
+        "174612042080"
+      ],
+      [
+        "2026-10-05",
+        "179704972576"
+      ],
+      [
+        "2026-10-06",
+        "168690957338"
+      ],
+      [
+        "2026-10-07",
+        "182225220243"
+      ],
+      [
+        "2026-10-08",
+        "174046174052"
+      ],
+      [
+        "2026-10-09",
+        "195269798303"
+      ],
+      [
+        "2026-10-10",
+        "177886558942"
+      ],
+      [
+        "2026-10-11",
+        "200694609485"
+      ],
+      [
+        "2026-10-12",
+        "268801763775"
+      ],
+      [
+        "2026-10-13",
+        "303085912611"
+      ],
+      [
+        "2026-10-14",
+        "258672328112"
+      ],
+      [
+        "2026-10-15",
+        "240391498956"
+      ],
+      [
+        "2026-10-16",
+        "209342906369"
+      ],
+      [
+        "2026-10-17",
+        "204483802940"
+      ],
+      [
+        "2026-10-18",
+        "207517562252"
+      ],
+      [
+        "2026-10-19",
+        "287118818058"
+      ],
+      [
+        "2026-10-20",
+        "249934187977"
+      ],
+      [
+        "2026-10-21",
+        "208255777163"
+      ],
+      [
+        "2026-10-22",
+        "219942184692"
+      ],
+      [
+        "2026-10-23",
+        "233894418465"
+      ],
+      [
+        "2026-10-24",
+        "178061368394"
+      ],
+      [
+        "2026-10-25",
+        "183278387458"
+      ],
+      [
+        "2026-10-26",
+        "212366985329"
+      ],
+      [
+        "2026-10-27",
+        "243126136039"
+      ],
+      [
+        "2026-10-28",
+        "188395058879"
+      ],
+      [
+        "2026-10-29",
+        "177416584979"
+      ],
+      [
+        "2026-10-30",
+        "184765300371"
+      ],
+      [
+        "2026-10-31",
+        "162226007859"
+      ],
+      [
+        "2026-11-01",
+        "130364419690"
+      ],
+      [
+        "2026-11-02",
+        "145944309139"
+      ],
+      [
+        "2026-11-03",
+        "162340406374"
+      ],
+      [
+        "2026-11-04",
+        "143257980788"
+      ],
+      [
+        "2026-11-05",
+        "179592318418"
+      ],
+      [
+        "2026-11-06",
+        "214025792158"
+      ],
+      [
+        "2026-11-07",
+        "140627621167"
+      ],
+      [
+        "2026-11-08",
+        "166406072630"
+      ],
+      [
+        "2026-11-09",
+        "160552032910"
+      ]
+    ]
+  }
+}

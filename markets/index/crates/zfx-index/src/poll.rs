@@ -8,8 +8,10 @@
 //!   fetch per market with range=3d (the CLOSE_TRAILING_24H observation for day d)
 //! - from d+1 00:00Z + grace: one model-activity fetch per market; one effective-pricing
 //!   fetch per market only if no close observation exists
-//! - documented `/api/v1/models/{id}/endpoints`: once per market per 7 days
-//! - documented `/api/v1/datasets/rankings-daily`: daily, only if OPENROUTER_API_KEY is set
+//! - documented `/api/v1/models/{id}/endpoints`: once per market per day, after the grace window
+//!   (price snapshot for the licensed variant)
+//! - documented `/api/v1/datasets/rankings-daily` (API key): one 30-day request hourly until
+//!   yesterday appears, then once after the grace window. Separate cap of 450/day.
 //!
 //! Every request goes through `RateBudget`. Rough volume with 50 markets: ~180/day.
 
@@ -119,11 +121,6 @@ pub fn tick(l: &Ledger, f: &Fetcher, params: &Params, now: i64) -> Result<usize,
                     eprintln!("[poll] rankings day {} first seen at {}", doc.date, fmt_ms(now_ms()));
                     soft(f.get(Kind::RankingsDaySpend, "", &path_for(Kind::RankingsDaySpend, "")))?;
                     sent += 1;
-                    if f.api_key.is_some() {
-                        let q = format!("start_date={}&end_date={}", doc.date, doc.date);
-                        soft(f.get(Kind::RankingsDailyApi, &q, &path_for(Kind::RankingsDailyApi, &q)))?;
-                        sent += 1;
-                    }
                     let l2 = list_markets(l, params.top_n, now_ms())?;
                     if !l2.is_empty() {
                         eprintln!("[poll] listed {} new markets", l2.len());
@@ -131,6 +128,24 @@ pub fn tick(l: &Ledger, f: &Fetcher, params: &Params, now: i64) -> Result<usize,
                 }
             }
         } else {
+            sent += 1;
+        }
+    }
+
+    // documented dataset: one request covers the last 30 days (corrections included).
+    // Hourly until yesterday appears (latency), then once more after the grace window (finality).
+    if f.api_key.is_some() {
+        let s = engine::load(l)?;
+        let newest_end = s.dataset.iter().map(|p| p.doc.end_date).max();
+        let final_ok = s.dataset.iter().any(|p| p.doc.end_date >= yesterday && p.as_of_ms >= yesterday.end_ms() + params.grace_ms);
+        let last = last_fetch_ms(&s, Kind::RankingsDailyApi, &format!("start_date={}&end_date={}", UtcDate(yesterday.0 - 29), yesterday))
+            .or_else(|| s.fetches.iter().rev().find(|x| x.kind == Kind::RankingsDailyApi.name()).map(|x| x.fetched_at_ms));
+        let since = last.map(|t| now - t).unwrap_or(i64::MAX);
+        let want_latency = newest_end.map(|e| e < yesterday).unwrap_or(true) && since >= 30 * 60_000;
+        let want_final = !final_ok && now >= yesterday.end_ms() + params.grace_ms && since >= 60 * 60_000;
+        if want_latency || want_final {
+            let q = format!("start_date={}&end_date={}", UtcDate(yesterday.0 - 29), yesterday);
+            soft(f.get(Kind::RankingsDailyApi, &q, &path_for(Kind::RankingsDailyApi, &q)))?;
             sent += 1;
         }
     }
@@ -171,7 +186,8 @@ pub fn tick(l: &Ledger, f: &Fetcher, params: &Params, now: i64) -> Result<usize,
                 soft(f.get(Kind::EffectivePricing, &m.permaslug, &pricing_path(&m.permaslug, range)))?;
                 sent += 1;
             }
-            if last_fetch_ms(&s, Kind::ModelEndpoints, &m.model_id).map(|t| now - t >= 7 * 86_400_000).unwrap_or(true) {
+            // daily documented price snapshot: the licensed variant's price input
+            if last_fetch_ms(&s, Kind::ModelEndpoints, &m.model_id).map(|t| t < yesterday.end_ms() + params.grace_ms).unwrap_or(true) {
                 soft(f.get(Kind::ModelEndpoints, &m.model_id, &path_for(Kind::ModelEndpoints, &m.model_id)))?;
                 sent += 1;
             }
@@ -190,7 +206,9 @@ pub fn run_loop(ledger_dir: &Path, out: &Path, signer: &Signer, params: &Params,
             if n > 0 || now_ms() - last_publish > 3_600_000 {
                 let rep = engine::run(&l, signer, params, now_ms())?;
                 let rep7 = crate::weekly::run(&l, signer, &Default::default(), now_ms())?;
-                eprintln!("[poll] 7d {:?}", rep7);
+                let lic = crate::licensed::run(&l, signer, now_ms())?;
+                let lic7 = crate::weekly::run_spec(&l, signer, &crate::weekly::Spec7d::lic(), now_ms())?;
+                eprintln!("[poll] 7d {:?}; lic {:?}; lic 7d {:?}", rep7, lic, lic7);
                 let files = publish::publish(&l, out, &signer.pubkey(), params, &budget, now_ms())?;
                 eprintln!("[poll] {} requests; engine {:?}; published {} files", n, rep, files);
                 last_publish = now_ms();
@@ -211,4 +229,51 @@ pub fn run_loop(ledger_dir: &Path, out: &Path, signer: &Signer, params: &Params,
         let sleep = 60_000 + crate::fetch::random_u32_below(30_000) as u64;
         std::thread::sleep(std::time::Duration::from_millis(sleep));
     }
+}
+
+/// Backfills the documented `datasets/rankings-daily` from `from` to `to` with as few
+/// requests as the API allows. It starts with the whole range; on HTTP 400 it halves the
+/// span; if the server resolves a shorter window than requested (meta.end_date), it learns
+/// that span. Every response, including errors, is recorded in the ledger.
+pub fn dataset_backfill(l: &Ledger, budget: RateBudget, from: UtcDate, to: UtcDate) -> Result<serde_json::Value, PollError> {
+    let f = Fetcher::new(l, budget);
+    if f.api_key.is_none() {
+        return Err(PollError::Other("no OpenRouter API key (env OPENROUTER_API_KEY or ~/.config/zeroflux/keys.env)".into()));
+    }
+    let mut start = from;
+    let mut span = to.0 - from.0 + 1;
+    let mut log = Vec::new();
+    let mut errors = 0;
+    while start <= to {
+        let end = UtcDate((start.0 + span - 1).min(to.0));
+        let q = format!("start_date={start}&end_date={end}");
+        match f.get(Kind::RankingsDailyApi, &q, &path_for(Kind::RankingsDailyApi, &q)) {
+            Ok((rec, body)) => {
+                let doc = source::parse_rankings_daily_api(&body).map_err(|e| PollError::Other(format!("fetch #{}: {e}", rec.seq)))?;
+                let days = doc.rows.iter().map(|r| r.date).collect::<std::collections::BTreeSet<_>>().len();
+                eprintln!("[dataset] #{} requested {start}..{end} resolved {:?}..{} rows {} days {}", rec.seq, doc.start_date.map(|d| d.to_string()), doc.end_date, doc.rows.len(), days);
+                log.push(json!({"seq": rec.seq, "requested": [start.to_string(), end.to_string()], "resolved": [doc.start_date.map(|d| d.to_string()), doc.end_date.to_string()], "rows": doc.rows.len(), "days": days, "bytes": rec.len}));
+                if doc.end_date < start {
+                    break; // nothing newer is available
+                }
+                if doc.end_date < end {
+                    span = (doc.end_date.0 - start.0 + 1).max(1);
+                }
+                start = doc.end_date.succ();
+            }
+            Err(FetchError::Http(e, rec)) => {
+                errors += 1;
+                let status = rec.as_ref().map(|r| r.status).unwrap_or(0);
+                eprintln!("[dataset] {start}..{end} failed: {e} (status {status})");
+                log.push(json!({"seq": rec.as_ref().map(|r| r.seq), "requested": [start.to_string(), end.to_string()], "status": status, "error": e}));
+                if status == 400 && span > 1 && errors < 12 {
+                    span = (span + 1) / 2;
+                    continue;
+                }
+                return Err(PollError::Other(format!("dataset backfill stopped at {start}: {e}")));
+            }
+            Err(e) => return Err(e.into()),
+        }
+    }
+    Ok(json!({"requests": log.len(), "log": log}))
 }

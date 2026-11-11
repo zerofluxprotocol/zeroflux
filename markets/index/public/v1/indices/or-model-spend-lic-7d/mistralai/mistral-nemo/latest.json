@@ -1,0 +1,163 @@
+{
+  "index": "LIC-7D",
+  "market": "mistralai/mistral-nemo",
+  "index_id": "or-model-spend-lic-7d/mistralai/mistral-nemo",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1",
+  "formula_hash": "70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef",
+  "utc_date": "2026-11-09",
+  "window_start": "2026-11-03",
+  "window_end": "2026-11-09",
+  "source_start": "2026-11-03T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "NOT_REPORTED",
+  "reason": "2 of 7 window days valid, 6 required",
+  "valid_days": 2,
+  "value_usd": null,
+  "value_micro_usd": null,
+  "window_sum_usd": null,
+  "manipulation_cost_usd_per_pct": null,
+  "max_open_interest_usd": null,
+  "prev_7d_value_usd": null,
+  "change_vs_prev": null,
+  "clamped": false,
+  "clamp_bound": "0.250000",
+  "window": [
+    {
+      "utc_date": "2026-11-03",
+      "daily_revision_id": "2026-11-03.r1",
+      "data_status": "NOT_REPORTED",
+      "blocked": false,
+      "value_usd": null,
+      "print_hash": "ecc65dc158cc0681ab493aaefbe90da5b4efea788b3d48a6ab57b63fa32c8b9d",
+      "counted": false
+    },
+    {
+      "utc_date": "2026-11-04",
+      "daily_revision_id": "2026-11-04.r1",
+      "data_status": "NOT_REPORTED",
+      "blocked": false,
+      "value_usd": null,
+      "print_hash": "4899a996e01b9a1f631376e76ec5e693dd70840c0d80fcf5aa60ef2abef6589a",
+      "counted": false
+    },
+    {
+      "utc_date": "2026-11-05",
+      "daily_revision_id": "2026-11-05.r1",
+      "data_status": "NOT_REPORTED",
+      "blocked": false,
+      "value_usd": null,
+      "print_hash": "f438f04645d070801cdc84bca54e043905f9142faec8b13974558453165bbef1",
+      "counted": false
+    },
+    {
+      "utc_date": "2026-11-06",
+      "daily_revision_id": "2026-11-06.r1",
+      "data_status": "NOT_REPORTED",
+      "blocked": false,
+      "value_usd": null,
+      "print_hash": "c090593f999382ec046f6c688a9651d8ea25117b39fa77e908fbed7072ae6a60",
+      "counted": false
+    },
+    {
+      "utc_date": "2026-11-07",
+      "daily_revision_id": "2026-11-07.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "1344.166612",
+      "print_hash": "dc7b3b291e31a4eaad434671e91cc78db804c994d9282cef6e624b155c64e598",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-08",
+      "daily_revision_id": "2026-11-08.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "1576.310798",
+      "print_hash": "b76b4b2257150ccc8932f9aa53fff6f2c1bdb5bb353cb3c3add2ab3aa192af06",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-09",
+      "daily_revision_id": "2026-11-09.r1",
+      "data_status": "NOT_REPORTED",
+      "blocked": false,
+      "value_usd": null,
+      "print_hash": "d0ccdf1528b831d1da416314f4a7e422700a5894fceae7b4f8299a98b38df5ba",
+      "counted": false
+    }
+  ],
+  "observed_at": "2026-11-11T00:25:52.511Z",
+  "created_at": "2026-11-11T00:33:23.058Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "fingerprint": {
+    "data_status": "NOT_REPORTED",
+    "value_micro": null,
+    "inputs": [
+      [
+        "2026-11-03",
+        "2026-11-03.r1",
+        false
+      ],
+      [
+        "2026-11-04",
+        "2026-11-04.r1",
+        false
+      ],
+      [
+        "2026-11-05",
+        "2026-11-05.r1",
+        false
+      ],
+      [
+        "2026-11-06",
+        "2026-11-06.r1",
+        false
+      ],
+      [
+        "2026-11-07",
+        "2026-11-07.r1",
+        true
+      ],
+      [
+        "2026-11-08",
+        "2026-11-08.r1",
+        true
+      ],
+      [
+        "2026-11-09",
+        "2026-11-09.r1",
+        false
+      ]
+    ],
+    "clamped": false
+  },
+  "print": {
+    "indexId": "or-model-spend-lic-7d/mistralai/mistral-nemo",
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1",
+    "value": "0.000000",
+    "valueScale": 6,
+    "valueInt": "0",
+    "sourceStartUtc": "2026-11-03T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-11T00:25:52.511Z",
+    "publishedAt": "2026-11-11T00:33:23.058Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "72646fd9385c8889db81e596f1ffc0436efcf8f9d7722ece69caac2988ccc397",
+    "formulaHash": "70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef",
+    "status": "UNAVAILABLE",
+    "dataStatus": "NOT_REPORTED",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d76312c0000006f722d6d6f64656c2d7370656e642d6c69632d37642f6d69737472616c61692f6d69737472616c2d6e656d6f200000005a46582d4f522d4d4f44454c2d5350454e442d5553442d4c49432d37442d763106000000000000000000a0b49ea10100000024c1c2a10100007f30ffc7a1010000721006c8a101000000dc0dcda101000072646fd9385c8889db81e596f1ffc0436efcf8f9d7722ece69caac2988ccc39770ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef030101010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "b7cb03524de9bf33da5563368c7abb826ca01ad9c507ae5e3174ac387aa4a862",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:e98deafd399fc1920e344895e04b37217738a31ebfbccbf35bcaf383a7a90f3e568dcb073f91d9cb304ae5b16a7a080c08d235e2c8a1dbd2750271ed1d86ab02"
+    ]
+  },
+  "chain": "c1d7df47e0a854564b59eba7f9f3ef26ebdc3bbe69995a45b597a0863cc94f8a"
+}

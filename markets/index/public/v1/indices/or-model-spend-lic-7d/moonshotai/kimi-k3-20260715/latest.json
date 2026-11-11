@@ -1,0 +1,163 @@
+{
+  "index": "LIC-7D",
+  "market": "moonshotai/kimi-k3-20260715",
+  "index_id": "or-model-spend-lic-7d/moonshotai/kimi-k3-20260715",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1",
+  "formula_hash": "70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef",
+  "utc_date": "2026-11-09",
+  "window_start": "2026-11-03",
+  "window_end": "2026-11-09",
+  "source_start": "2026-11-03T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "valid_days": 7,
+  "value_usd": "171481.891092",
+  "value_micro_usd": "171481891092",
+  "window_sum_usd": "1200373.237643",
+  "manipulation_cost_usd_per_pct": "12003.732376",
+  "max_open_interest_usd": "300093.309411",
+  "prev_7d_value_usd": "182200.042254",
+  "change_vs_prev": "-0.058826",
+  "clamped": false,
+  "clamp_bound": "0.250000",
+  "window": [
+    {
+      "utc_date": "2026-11-03",
+      "daily_revision_id": "2026-11-03.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "233520.096548",
+      "print_hash": "5f6a36dea18699aefed042c9d2edc68af3ec2707f031f86b67c4e9afdc1b6164",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-04",
+      "daily_revision_id": "2026-11-04.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "448377.297256",
+      "print_hash": "d9fdfcf14366604c883259c75c3c32a881adac79ba338eb1061fab34b94bfbba",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-05",
+      "daily_revision_id": "2026-11-05.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "141364.674401",
+      "print_hash": "74b274cd2f479295e2db604987c48344f337fecf070a1650eaef740d89238ef9",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-06",
+      "daily_revision_id": "2026-11-06.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "125086.234555",
+      "print_hash": "a9f9e95ee23d33f033ebb82713bd4314b000925c5c06d0395fc20692037589b3",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-07",
+      "daily_revision_id": "2026-11-07.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "71908.109142",
+      "print_hash": "31a2fe56e680fc1f63469f1a4150727e0949f14ab95359aca308c5c30a870eb5",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-08",
+      "daily_revision_id": "2026-11-08.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "80349.701753",
+      "print_hash": "1fe3c0f7b58df99b4d88bc28d64fb192dc0ca5209ad334c6758a83fb9cee911e",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-09",
+      "daily_revision_id": "2026-11-09.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "99767.123988",
+      "print_hash": "8d327d830d7ecfa147bea1942d92edd8b35ff7a2efdc55b6bc0d852a90eeac4d",
+      "counted": true
+    }
+  ],
+  "observed_at": "2026-11-11T00:25:52.511Z",
+  "created_at": "2026-11-11T00:33:23.058Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "171481891092",
+    "inputs": [
+      [
+        "2026-11-03",
+        "2026-11-03.r1",
+        true
+      ],
+      [
+        "2026-11-04",
+        "2026-11-04.r1",
+        true
+      ],
+      [
+        "2026-11-05",
+        "2026-11-05.r1",
+        true
+      ],
+      [
+        "2026-11-06",
+        "2026-11-06.r1",
+        true
+      ],
+      [
+        "2026-11-07",
+        "2026-11-07.r1",
+        true
+      ],
+      [
+        "2026-11-08",
+        "2026-11-08.r1",
+        true
+      ],
+      [
+        "2026-11-09",
+        "2026-11-09.r1",
+        true
+      ]
+    ],
+    "clamped": false
+  },
+  "print": {
+    "indexId": "or-model-spend-lic-7d/moonshotai/kimi-k3-20260715",
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1",
+    "value": "171481.891092",
+    "valueScale": 6,
+    "valueInt": "171481891092",
+    "sourceStartUtc": "2026-11-03T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-11T00:25:52.511Z",
+    "publishedAt": "2026-11-11T00:33:23.058Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "2dec85b3e180e41ea713aefde9bfabca3957d9cdf18bcd8f8c1f08611a2b3470",
+    "formulaHash": "70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d7631310000006f722d6d6f64656c2d7370656e642d6c69632d37642f6d6f6f6e73686f7461692f6b696d692d6b332d3230323630373135200000005a46582d4f522d4d4f44454c2d5350454e442d5553442d4c49432d37442d76310614011eed2700000000a0b49ea10100000024c1c2a10100007f30ffc7a1010000721006c8a101000000dc0dcda10100002dec85b3e180e41ea713aefde9bfabca3957d9cdf18bcd8f8c1f08611a2b347070ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "c0f4e70fce06cf952c074355bfbeadccd95a1dad9ff332971861e05332d4c258",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:a973ea33c089a5e4bffde23dd8454f60d4782e35ecceaac308fbf7bd92d07262d9763b6cb8b720d0e4d0a75b6220872f5c5a5d59e6dd91d08257af6c8dfed60f"
+    ]
+  },
+  "chain": "67bb068ab7e709b0caa33935b39d74d7b3513031ae0b3abdbcfe205adf1c9e88"
+}

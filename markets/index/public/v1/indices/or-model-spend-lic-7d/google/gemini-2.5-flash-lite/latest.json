@@ -1,0 +1,163 @@
+{
+  "index": "LIC-7D",
+  "market": "google/gemini-2.5-flash-lite",
+  "index_id": "or-model-spend-lic-7d/google/gemini-2.5-flash-lite",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1",
+  "formula_hash": "70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef",
+  "utc_date": "2026-11-09",
+  "window_start": "2026-11-03",
+  "window_end": "2026-11-09",
+  "source_start": "2026-11-03T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "NOT_REPORTED",
+  "reason": "1 of 7 window days valid, 6 required",
+  "valid_days": 1,
+  "value_usd": null,
+  "value_micro_usd": null,
+  "window_sum_usd": null,
+  "manipulation_cost_usd_per_pct": null,
+  "max_open_interest_usd": null,
+  "prev_7d_value_usd": null,
+  "change_vs_prev": null,
+  "clamped": false,
+  "clamp_bound": "0.250000",
+  "window": [
+    {
+      "utc_date": "2026-11-03",
+      "daily_revision_id": "2026-11-03.r1",
+      "data_status": "NOT_REPORTED",
+      "blocked": false,
+      "value_usd": null,
+      "print_hash": "611ec1411a5b802686a255c45f1cb0256e8cf66dc6a16fcc6fb0c1ae5f0177af",
+      "counted": false
+    },
+    {
+      "utc_date": "2026-11-04",
+      "daily_revision_id": "2026-11-04.r1",
+      "data_status": "NOT_REPORTED",
+      "blocked": false,
+      "value_usd": null,
+      "print_hash": "4355401cd8779b713c4d529326f23f0d4f8bf7a644c92bcc332c83b8e6db53cf",
+      "counted": false
+    },
+    {
+      "utc_date": "2026-11-05",
+      "daily_revision_id": "2026-11-05.r1",
+      "data_status": "NOT_REPORTED",
+      "blocked": false,
+      "value_usd": null,
+      "print_hash": "d4e073ef62d989edfd2a0904abaf6c6183df5fbaba08078ab0faa0a6bf727718",
+      "counted": false
+    },
+    {
+      "utc_date": "2026-11-06",
+      "daily_revision_id": "2026-11-06.r1",
+      "data_status": "NOT_REPORTED",
+      "blocked": false,
+      "value_usd": null,
+      "print_hash": "88ea423e98c18bbd52bc0e9f645ccdb24754b72207086e17d9ba41b151e80c0c",
+      "counted": false
+    },
+    {
+      "utc_date": "2026-11-07",
+      "daily_revision_id": "2026-11-07.r1",
+      "data_status": "NOT_REPORTED",
+      "blocked": false,
+      "value_usd": null,
+      "print_hash": "98074e79163374e47cfa180d86246e9af12be85e5d3ad9dfeb74fe4f200d2bcc",
+      "counted": false
+    },
+    {
+      "utc_date": "2026-11-08",
+      "daily_revision_id": "2026-11-08.r1",
+      "data_status": "NOT_REPORTED",
+      "blocked": false,
+      "value_usd": null,
+      "print_hash": "5679713ac6406b5b81e6a0dd343a8268685777b300cb9fd2b8dad475bdc50bcc",
+      "counted": false
+    },
+    {
+      "utc_date": "2026-11-09",
+      "daily_revision_id": "2026-11-09.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "5155.592434",
+      "print_hash": "d3f6f6f4db17a0d216840adab939ed928febd690d68f589143e9779696686cf3",
+      "counted": true
+    }
+  ],
+  "observed_at": "2026-11-11T00:25:52.511Z",
+  "created_at": "2026-11-11T00:33:23.058Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "fingerprint": {
+    "data_status": "NOT_REPORTED",
+    "value_micro": null,
+    "inputs": [
+      [
+        "2026-11-03",
+        "2026-11-03.r1",
+        false
+      ],
+      [
+        "2026-11-04",
+        "2026-11-04.r1",
+        false
+      ],
+      [
+        "2026-11-05",
+        "2026-11-05.r1",
+        false
+      ],
+      [
+        "2026-11-06",
+        "2026-11-06.r1",
+        false
+      ],
+      [
+        "2026-11-07",
+        "2026-11-07.r1",
+        false
+      ],
+      [
+        "2026-11-08",
+        "2026-11-08.r1",
+        false
+      ],
+      [
+        "2026-11-09",
+        "2026-11-09.r1",
+        true
+      ]
+    ],
+    "clamped": false
+  },
+  "print": {
+    "indexId": "or-model-spend-lic-7d/google/gemini-2.5-flash-lite",
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1",
+    "value": "0.000000",
+    "valueScale": 6,
+    "valueInt": "0",
+    "sourceStartUtc": "2026-11-03T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-11T00:25:52.511Z",
+    "publishedAt": "2026-11-11T00:33:23.058Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "c6579f34840b7eb5748dae21b018a0614bc7cb8ace72f0fb5793b5276c158fd8",
+    "formulaHash": "70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef",
+    "status": "UNAVAILABLE",
+    "dataStatus": "NOT_REPORTED",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d7631320000006f722d6d6f64656c2d7370656e642d6c69632d37642f676f6f676c652f67656d696e692d322e352d666c6173682d6c697465200000005a46582d4f522d4d4f44454c2d5350454e442d5553442d4c49432d37442d763106000000000000000000a0b49ea10100000024c1c2a10100007f30ffc7a1010000721006c8a101000000dc0dcda1010000c6579f34840b7eb5748dae21b018a0614bc7cb8ace72f0fb5793b5276c158fd870ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef030101010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "52f78d1a9102bf06a834fa10d10b490ca55e8f49f0012f0be72c5945c726e430",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:b9439f0b8e98546ae512d11730c515d159493ca5c5953152882be033c86ba8cb72dc4914a19b77aacadf86de8e734fe01e1c2146b14718d98589529c47b05706"
+    ]
+  },
+  "chain": "e5bdce6193298bddf7e37411de97cf136ecd5c1af875dfe20176893635e63656"
+}

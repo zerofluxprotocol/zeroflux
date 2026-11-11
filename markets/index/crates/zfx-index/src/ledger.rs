@@ -184,7 +184,7 @@ impl Ledger {
     /// Verifies hash chains of all JSONL files and every referenced blob.
     pub fn verify(&self) -> Result<VerifyReport, LedgerError> {
         let mut rep = VerifyReport::default();
-        for file in ["fetches.jsonl", "revisions.jsonl", "markets.jsonl", "revisions_7d.jsonl"] {
+        for file in ["fetches.jsonl", "revisions.jsonl", "markets.jsonl", "revisions_7d.jsonl", "revisions_lic.jsonl", "revisions_lic_7d.jsonl"] {
             let path = self.root.join(file);
             if !path.exists() {
                 continue;

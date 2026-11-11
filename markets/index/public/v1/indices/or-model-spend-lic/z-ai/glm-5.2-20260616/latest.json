@@ -1,0 +1,100 @@
+{
+  "index": "LIC",
+  "market": "z-ai/glm-5.2-20260616",
+  "index_id": "or-model-spend-lic/z-ai/glm-5.2-20260616",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+  "formula_hash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+  "mode": "ESTIMATED_FIXED_MIX",
+  "license": "tokens: OpenRouter Datasets API, CC BY 4.0; prices: OpenRouter documented models API",
+  "utc_date": "2026-11-09",
+  "source_start": "2026-11-09T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "value_usd": "59750.980422",
+  "value_micro_usd": "59750980422",
+  "confidence": "MEDIUM",
+  "total_tokens": "128516211675",
+  "frozen": {
+    "w_in": "0.969218",
+    "billed_share": "0.982038",
+    "cache_share": "0.801403",
+    "derived_days": 30
+  },
+  "price": {
+    "basis": "LISTED_SNAPSHOT",
+    "source": "documented /api/v1/models/{id}/endpoints",
+    "providers": 32,
+    "as_of": "2026-11-10T23:22:30.000Z",
+    "listed_in_usd_per_m": "1.053000000",
+    "listed_out_usd_per_m": "4.400000000",
+    "listed_cache_read_usd_per_m": "0.174200000",
+    "p_in_usd_per_m": "0.348727044",
+    "p_blend_usd_per_m": "0.473433328"
+  },
+  "checks": [],
+  "blocked": false,
+  "inputs": [
+    {
+      "role": "tokens",
+      "kind": "rankings_daily_api",
+      "documented": true,
+      "fetch_seq": 159,
+      "url": "https://openrouter.ai/api/v1/datasets/rankings-daily?period=day&start_date=2025-12-07&end_date=2026-11-10",
+      "sha256": "4590b6e8ef4d638f2ecc623b4b92b0b78b2c26223672438331a712d8d6d6d055",
+      "fetched_at": "2026-11-11T00:25:52.511Z",
+      "source_as_of": "2026-11-11T00:25:53.556Z"
+    },
+    {
+      "role": "prices",
+      "kind": "model_endpoints",
+      "documented": true,
+      "fetch_seq": 84,
+      "url": "https://openrouter.ai/api/v1/models/z-ai/glm-5.2/endpoints",
+      "sha256": "70c33d5b558b7783f331b1421f656f545239f0e6c8e9dd8f7fc0e4b76436b3ca",
+      "fetched_at": "2026-11-10T23:22:30.673Z",
+      "source_as_of": "2026-11-10T23:22:30.000Z"
+    }
+  ],
+  "observed_at": "2026-11-11T00:25:52.511Z",
+  "source_as_of": "2026-11-11T00:25:53.556Z",
+  "created_at": "2026-11-11T00:33:16.375Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "59750980422",
+    "tokens": "128516211675",
+    "basis": "LISTED_SNAPSHOT",
+    "price": "0.473433328",
+    "blocked": false
+  },
+  "print": {
+    "indexId": "or-model-spend-lic/z-ai/glm-5.2-20260616",
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+    "value": "59750.980422",
+    "valueScale": 6,
+    "valueInt": "59750980422",
+    "sourceStartUtc": "2026-11-09T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-11T00:25:52.511Z",
+    "publishedAt": "2026-11-11T00:33:16.375Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "902e99565e5a7e6feae2ebd59829c9434f9b1eb6e990d56816c9697135818f24",
+    "formulaHash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d7631280000006f722d6d6f64656c2d7370656e642d6c69632f7a2d61692f676c6d2d352e322d32303236303631361d0000005a46582d4f522d4d4f44454c2d5350454e442d5553442d4c49432d763106469b6fe90d00000000c89abda10100000024c1c2a10100007f30ffc7a101000057f605c8a101000000dc0dcda1010000902e99565e5a7e6feae2ebd59829c9434f9b1eb6e990d56816c9697135818f2497167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "82839c704dc9210ee4ae5b58fb89f6a4a85f61a26e78bc37680d4471db5e8c83",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:49c513ab093bfbfe063f950f221d3c2859b6fcb5fae4c8fbc8618fa016841125d758b0a83013325bf76818eaa2b9fcb827fa96042a8fe16c2d7a494f1770260f"
+    ]
+  },
+  "chain": "6b682585bf57558faea3044064e0212a450cfcee1e7d3f61ee4c0f6578242280"
+}

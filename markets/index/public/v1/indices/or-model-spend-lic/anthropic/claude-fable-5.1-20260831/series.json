@@ -1,0 +1,828 @@
+{
+  "market": "anthropic/claude-fable-5.1-20260831",
+  "index_id": "or-model-spend-lic/anthropic/claude-fable-5.1-20260831",
+  "formula": {
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+    "hash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+    "mode": "ESTIMATED_FIXED_MIX"
+  },
+  "sources": "documented only: datasets/rankings-daily (CC BY 4.0), /api/v1/models, /api/v1/models/{id}/endpoints",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "points": [
+    {
+      "utc_date": "2026-10-11",
+      "value_usd": "98063.678307",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-11.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "72766600105",
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 4,
+        "as_of": "2026-11-10T23:31:41.000Z",
+        "listed_in_usd_per_m": "10.000000000",
+        "listed_out_usd_per_m": "50.000000000",
+        "listed_cache_read_usd_per_m": "0.250000000",
+        "p_in_usd_per_m": "1.286600500",
+        "p_blend_usd_per_m": "1.806567326"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "e4f576d7d2cdd6488cadab1759cca4003170e53c4219fef01bcd01299e3a4dc7"
+    },
+    {
+      "utc_date": "2026-10-12",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-12",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-12.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "4051b0375861e4c5caa4a9ba3c6c03e4cd03010068153c4285fa0c93d18f24eb"
+    },
+    {
+      "utc_date": "2026-10-13",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-13",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-13.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "e846fbad863e1fe364da7899b856e09d11f7223c299c15d390d71b5a8eb8a6e5"
+    },
+    {
+      "utc_date": "2026-10-14",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-14",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-14.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "83b8040fb046c5f6e760b26bcfdf168f26f486460036c53412258d81d8b4bb65"
+    },
+    {
+      "utc_date": "2026-10-15",
+      "value_usd": "78995.729416",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-15.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "58617530483",
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 4,
+        "as_of": "2026-11-10T23:31:41.000Z",
+        "listed_in_usd_per_m": "10.000000000",
+        "listed_out_usd_per_m": "50.000000000",
+        "listed_cache_read_usd_per_m": "0.250000000",
+        "p_in_usd_per_m": "1.286600500",
+        "p_blend_usd_per_m": "1.806567326"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "0633594014e813eee6c36091a0012e9c3c1dee75384f607b6ec6a7a98f715e53"
+    },
+    {
+      "utc_date": "2026-10-16",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-16",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-16.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "1dfadc22ff14cdcf96ee447aa380e730a9160e7db82a8720269b0343cf5c2484"
+    },
+    {
+      "utc_date": "2026-10-17",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-17",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-17.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "e54f00ad72984bf0054da91631f8458e11bdbbe912ac3603f5060bc0efee3339"
+    },
+    {
+      "utc_date": "2026-10-18",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-18",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-18.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "9b59c8954f4125ac3af5b8005fb2587466951e719c8f18375aab75a30bc80b45"
+    },
+    {
+      "utc_date": "2026-10-19",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-19",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-19.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "b50a327125f3087268151d5180d2adb6f408901761d7be13df418a35832dfe74"
+    },
+    {
+      "utc_date": "2026-10-20",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-20",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-20.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "3e9d5aea4b10b359a086b11a1c497f85f9837996ffaf1a61051d5596373570f3"
+    },
+    {
+      "utc_date": "2026-10-21",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-21",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-21.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "d67170ea3046704eba2bc88b8e3435948795bae75565e76c28789b76ecf9d9f9"
+    },
+    {
+      "utc_date": "2026-10-22",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-22",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-22.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "ed64b8fc07503b4b18a5ad3ddf86610ae4f80e40dd64c8670bf0327b3bcf8f78"
+    },
+    {
+      "utc_date": "2026-10-23",
+      "value_usd": "116645.702042",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-23.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "86555096658",
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 4,
+        "as_of": "2026-11-10T23:31:41.000Z",
+        "listed_in_usd_per_m": "10.000000000",
+        "listed_out_usd_per_m": "50.000000000",
+        "listed_cache_read_usd_per_m": "0.250000000",
+        "p_in_usd_per_m": "1.286600500",
+        "p_blend_usd_per_m": "1.806567326"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "8149d8881ec72438005626b222f31552bc33f64feabc1c3444ab85fc0beabf86"
+    },
+    {
+      "utc_date": "2026-10-24",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-24",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-24.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "de9128c8a0e2bf6dc43fd5cd7e1870181fd8bd7ac28f90f1f66c57a6323df89b"
+    },
+    {
+      "utc_date": "2026-10-25",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-25",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-25.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "96a4ea20a36bde31ddd2f114b346a02873b5d1ad7e5ade2359d97da208c5c562"
+    },
+    {
+      "utc_date": "2026-10-26",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-26",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-26.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "83dc578b70afa5351bfc4078d9734c7fc725bfd60ea56da04c51decca7d45ad7"
+    },
+    {
+      "utc_date": "2026-10-27",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-27",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-27.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "9485dcfc6c2329668212b6cf9c9521e9fb862db1cd43e2c88fb9ceadac32784b"
+    },
+    {
+      "utc_date": "2026-10-28",
+      "value_usd": "76764.501502",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-28.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "56961883131",
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 4,
+        "as_of": "2026-11-10T23:31:41.000Z",
+        "listed_in_usd_per_m": "10.000000000",
+        "listed_out_usd_per_m": "50.000000000",
+        "listed_cache_read_usd_per_m": "0.250000000",
+        "p_in_usd_per_m": "1.286600500",
+        "p_blend_usd_per_m": "1.806567326"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "a5ba7f489b059a1cca896c48b060968ffa6619ef95dfc4b4498cc68844e9c6c6"
+    },
+    {
+      "utc_date": "2026-10-29",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-29",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-29.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "6b788c64d0f84a1ddebe25093e80e7125a0e769c4452b8c820a29edccb549a6a"
+    },
+    {
+      "utc_date": "2026-10-30",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-30",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-30.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "3761ba72d1967430f8171fc200cf538c0512e53ad0449bf990567e1ae74105bc"
+    },
+    {
+      "utc_date": "2026-10-31",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-10-31",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-31.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "10ee9979394c71359fc66e948e84e899a321729dc00aff512c2b5d19062ae95b"
+    },
+    {
+      "utc_date": "2026-11-01",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-11-01",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-01.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "94c6633d2e098760bd11e335169a97ffb39f46ad382e2b7853e824950aa0fee8"
+    },
+    {
+      "utc_date": "2026-11-02",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-11-02",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-02.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "37fdbf119accfb8b2cb21dfd868db53b68bdfc85896c7d07214099d8d5b5e689"
+    },
+    {
+      "utc_date": "2026-11-03",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-11-03",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-03.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "0b1fc1aaebf12f2d6958c25f962c95c162828fca8cb4296ab773f6d6aef1524a"
+    },
+    {
+      "utc_date": "2026-11-04",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-11-04",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-04.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "8ef868a28a81d47ca93e0e6090ca9ecf22057993662468b9f1c6b1070ec1ca12"
+    },
+    {
+      "utc_date": "2026-11-05",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-11-05",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-05.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "a7d3e610316942345318e2b0d3564f1e324d638b2fb1197514e282394e7a4d18"
+    },
+    {
+      "utc_date": "2026-11-06",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-11-06",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-06.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "b88e9793b049e890c198228905da450538f449461c55ea670c5e9139d79a1c58"
+    },
+    {
+      "utc_date": "2026-11-07",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-11-07",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-07.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "9a5259df32c5bf398147126a1db7ff9539272a087a35fe87de26875b954824a5"
+    },
+    {
+      "utc_date": "2026-11-08",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-11-08",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-08.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "6c0afa5df4a5bca444b095866d5cedae4c36c7094ec9c7aa21ebeed10e9d8876"
+    },
+    {
+      "utc_date": "2026-11-09",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-11-09",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-09.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.989326",
+        "billed_share": "0.745971",
+        "cache_share": "0.893682",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "b342f068ee193b09d800f9e3b61aa7ba74cc9971f09defd51254b80d9a19b9e9"
+    }
+  ],
+  "token_history": {
+    "note": "documented total_tokens per UTC day (top-50 days only), from 2025-01-01; no USD value before price_backfill_from",
+    "rows": [
+      [
+        "2026-09-02",
+        "67837314055"
+      ],
+      [
+        "2026-09-03",
+        "74829968678"
+      ],
+      [
+        "2026-09-04",
+        "70704483461"
+      ],
+      [
+        "2026-09-05",
+        "40127893080"
+      ],
+      [
+        "2026-09-06",
+        "41196636949"
+      ],
+      [
+        "2026-09-07",
+        "45809813103"
+      ],
+      [
+        "2026-09-08",
+        "55412654953"
+      ],
+      [
+        "2026-09-09",
+        "53377229975"
+      ],
+      [
+        "2026-09-10",
+        "61445647589"
+      ],
+      [
+        "2026-09-11",
+        "61154457835"
+      ],
+      [
+        "2026-09-12",
+        "48637635954"
+      ],
+      [
+        "2026-09-13",
+        "55872948637"
+      ],
+      [
+        "2026-09-14",
+        "72604668609"
+      ],
+      [
+        "2026-09-15",
+        "70249790343"
+      ],
+      [
+        "2026-09-16",
+        "73132223593"
+      ],
+      [
+        "2026-09-17",
+        "78111886659"
+      ],
+      [
+        "2026-09-18",
+        "70916765820"
+      ],
+      [
+        "2026-09-19",
+        "64655055740"
+      ],
+      [
+        "2026-09-20",
+        "57241636095"
+      ],
+      [
+        "2026-09-21",
+        "78352038278"
+      ],
+      [
+        "2026-09-22",
+        "77505875010"
+      ],
+      [
+        "2026-09-23",
+        "54976508979"
+      ],
+      [
+        "2026-09-24",
+        "107077593879"
+      ],
+      [
+        "2026-09-25",
+        "168902357616"
+      ],
+      [
+        "2026-09-26",
+        "81895060158"
+      ],
+      [
+        "2026-09-27",
+        "49180620194"
+      ],
+      [
+        "2026-09-28",
+        "76570758975"
+      ],
+      [
+        "2026-09-29",
+        "71299644588"
+      ],
+      [
+        "2026-09-30",
+        "66781829482"
+      ],
+      [
+        "2026-10-01",
+        "63623655477"
+      ],
+      [
+        "2026-10-07",
+        "53696704671"
+      ],
+      [
+        "2026-10-11",
+        "72766600105"
+      ],
+      [
+        "2026-10-15",
+        "58617530483"
+      ],
+      [
+        "2026-10-23",
+        "86555096658"
+      ],
+      [
+        "2026-10-28",
+        "56961883131"
+      ]
+    ]
+  }
+}

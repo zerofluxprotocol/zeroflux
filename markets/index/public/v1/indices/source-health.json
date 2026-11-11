@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-11T00:19:30.997Z",
+  "generated_at": "2026-11-11T00:33:32.233Z",
   "status": "OK",
   "notice": "Paper-trading index built from OpenRouter data. Not settlement-grade. Not revenue, royalties or equity.",
   "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:09:57.000Z",
@@ -67,6 +67,19 @@
       },
       "last_success": "2026-11-10T23:31:41.674Z"
     },
+    "rankings_daily_api": {
+      "documented": true,
+      "fetches": 3,
+      "fetches_24h": 3,
+      "failures": 1,
+      "last_fetch": {
+        "at": "2026-11-11T00:25:52.511Z",
+        "status": 200,
+        "url": "https://openrouter.ai/api/v1/datasets/rankings-daily?period=day&start_date=2025-12-07&end_date=2026-11-10",
+        "seq": 159
+      },
+      "last_success": "2026-11-11T00:25:52.511Z"
+    },
     "rankings_day": {
       "documented": false,
       "fetches": 3,
@@ -95,7 +108,7 @@
     }
   },
   "rate_budget": {
-    "requests_24h": 156,
+    "requests_24h": 159,
     "daily_cap": 400,
     "min_gap_ms": 6000,
     "jitter_ms": 4000
@@ -562,6 +575,161 @@
       "OK": 1163
     },
     "days_clamped": 45
+  },
+  "documented_dataset": {
+    "endpoint": "GET /api/v1/datasets/rankings-daily (documented, API key, CC BY 4.0)",
+    "requests_total": 3,
+    "requests_failed": 1,
+    "requests_24h": 3,
+    "daily_cap_used_by_this_program": 450,
+    "account_limits": "30 requests/min per key, 500/day per account (OpenRouter docs)",
+    "max_range_days": 366,
+    "covered_first_day": "2025-01-01",
+    "covered_last_day": "2026-11-09",
+    "covered_days": 678,
+    "rows": 34476,
+    "distinct_models": 445,
+    "first_seen_by_end_date": [
+      {
+        "end_date": "2026-11-10",
+        "first_seen_as_of": "2026-11-11T00:25:53.556Z",
+        "first_seen_fetch_at": "2026-11-11T00:25:52.511Z",
+        "minutes_after_day_end": 25
+      },
+      {
+        "end_date": "2025-12-06",
+        "first_seen_as_of": "2026-11-11T00:25:44.830Z",
+        "first_seen_fetch_at": "2026-11-11T00:25:44.390Z",
+        "minutes_after_day_end": 488185
+      }
+    ],
+    "note": "A day is covered once a response with meta.as_of >= day end + 6 h includes it. first_seen_by_end_date lists when each end_date first appeared; it is a live latency measure only for days first fetched after they ended."
+  },
+  "documented_vs_web_tokens": {
+    "what": "documented datasets/rankings-daily total_tokens vs web endpoint model-activity prompt+completion, same model and UTC day",
+    "days": [
+      "2026-10-11",
+      "2026-11-09"
+    ],
+    "pairs_compared": 1174,
+    "exact_matches": 1174,
+    "exact_match_rate": "1.000000",
+    "max_relative_difference": "0.000000",
+    "median_relative_difference": "0.000000",
+    "worst_pair": {
+      "market": "anthropic/claude-fable-5.1-20260831",
+      "utc_date": "2026-10-11",
+      "documented": "72766600105",
+      "web": "72766600105"
+    },
+    "market_days_missing_from_documented": 255,
+    "missing_note": "Missing market-days are days the model was outside the documented top 50; the web endpoint still reports them."
+  },
+  "licensed_vs_web_tracking": {
+    "daily": {
+      "market_days": {
+        "n": 1170,
+        "ratio_p10": "0.631760",
+        "ratio_median": "0.977513",
+        "ratio_p90": "1.296264",
+        "abs_deviation_median": "0.142944",
+        "abs_deviation_p90": "0.464652"
+      },
+      "per_market_median_ratio": {
+        "n": 50,
+        "ratio_p10": "0.671209",
+        "ratio_median": "0.946756",
+        "ratio_p90": "1.128515",
+        "abs_deviation_median": "0.104988",
+        "abs_deviation_p90": "0.319062"
+      },
+      "markets": 50,
+      "day_over_day_direction_agreement": "0.812268",
+      "day_over_day_change_abs_difference_median": "0.062704",
+      "day_over_day_change_abs_difference_p90": "0.271336",
+      "pairs_for_change": 1076
+    },
+    "7d": {
+      "market_days": {
+        "n": 879,
+        "ratio_p10": "0.645520",
+        "ratio_median": "0.974383",
+        "ratio_p90": "1.281150",
+        "abs_deviation_median": "0.127914",
+        "abs_deviation_p90": "0.422144"
+      },
+      "per_market_median_ratio": {
+        "n": 45,
+        "ratio_p10": "0.707294",
+        "ratio_median": "0.954422",
+        "ratio_p90": "1.153009",
+        "abs_deviation_median": "0.115428",
+        "abs_deviation_p90": "0.386486"
+      },
+      "markets": 45,
+      "day_over_day_direction_agreement": "0.772563",
+      "day_over_day_change_abs_difference_median": "0.014521",
+      "day_over_day_change_abs_difference_p90": "0.070873",
+      "pairs_for_change": 831
+    },
+    "caveat": "In-sample until 2026-11-09: the frozen mix, BYOK and cache shares were derived from the same web data over 2026-10-11..2026-11-09, and LISTED_BACKFILL applies current listed prices to past days. Out-of-sample tracking starts 2026-11-10."
+  },
+  "clamp_calibration": {
+    "data": "documented dataset, 2025-01-01 .. 2026-11-09, 364 models (excluding `other` and :free), tokens only",
+    "established_moves": {
+      "n": 22654,
+      "definition": "|7D(d)/7D(d-1) - 1| where both days have >= 6 of 7 days and d is >= 20 days after the model's first row",
+      "percentiles": {
+        "p50": "0.022423",
+        "p90": "0.088542",
+        "p95": "0.126814",
+        "p99": "0.266267",
+        "p99_5": "0.344458",
+        "p99_9": "0.566943"
+      },
+      "share_above": {
+        "0.10": "0.079456",
+        "0.15": "0.036506",
+        "0.20": "0.019467",
+        "0.25": "0.011168",
+        "0.30": "0.007063"
+      }
+    },
+    "missing_day_error": {
+      "drop_one_of_seven": {
+        "p50": "0.019141",
+        "p90": "0.059739",
+        "p95": "0.077909",
+        "p99": "0.136563",
+        "p99_5": "0.173696",
+        "p99_9": "0.291099"
+      },
+      "drop_two_of_seven": {
+        "p50": "0.029965",
+        "p90": "0.094643",
+        "p95": "0.127922",
+        "p99": "0.220183",
+        "p99_5": "0.268818",
+        "p99_9": "0.376347"
+      },
+      "note": "Error of the mean when 1 or 2 days of a full window are removed at random. Real missing days are dropouts from the top 50, so they are low-volume days, and the remaining mean is biased upward."
+    },
+    "valid_day_count_distribution": {
+      "0": 105373,
+      "1": 3047,
+      "2": 1904,
+      "3": 1397,
+      "4": 1449,
+      "5": 1508,
+      "6": 2108,
+      "7": 23695
+    },
+    "chosen": {
+      "clamp_bound": "0.250000",
+      "percentile": "p99 of established moves, rounded down to 5%",
+      "min_valid_days": 6,
+      "reason": "At 15% the clamp would turn a market close-only on about 3.7% of days (about 13 days a year). 25% is exceeded on about 1.1%. Above it the move is in the top 1% of observed demand moves, where a push or a data problem is a plausible cause. Dropping one day keeps the p99 error well under the bound; dropping two brings p99 error near it, so 5 of 7 is not accepted."
+    }
   },
   "revisions": {
     "total": 1429,
