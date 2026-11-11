@@ -8,6 +8,23 @@ pub fn now_ms() -> u64 {
     SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() as u64
 }
 
+/// Timestamp for a signed message: wall-clock ms, but strictly increasing within the process.
+/// The gateway rejects a repeated signature as a replay, and two requests signed in the same
+/// millisecond would otherwise produce identical bytes.
+pub fn sign_ts_ms() -> u64 {
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static LAST: AtomicU64 = AtomicU64::new(0);
+    let now = now_ms();
+    let mut prev = LAST.load(Ordering::Relaxed);
+    loop {
+        let next = now.max(prev + 1);
+        match LAST.compare_exchange_weak(prev, next, Ordering::Relaxed, Ordering::Relaxed) {
+            Ok(_) => return next,
+            Err(p) => prev = p,
+        }
+    }
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct AssetInfo {
     pub id: u16,
@@ -323,7 +340,7 @@ impl Client {
     }
 
     pub async fn place(&self, o: &Order) -> Result<Ack, Error> {
-        self.post("/v1/orders", &self.signed_order(o, now_ms())).await
+        self.post("/v1/orders", &self.signed_order(o, sign_ts_ms())).await
     }
 
     pub async fn cancel(&self, market: &str, order_id: u64) -> Result<Ack, Error> {
@@ -335,7 +352,7 @@ impl Client {
     }
 
     async fn cancel_inner(&self, market: &str, order_id: u64, client_id: u64) -> Result<Ack, Error> {
-        let ts = now_ms();
+        let ts = sign_ts_ms();
         let sig = self
             .signer
             .sign_b64(&zfx_perps_wire::cancel_msg(&self.account, market, order_id, client_id, ts));
@@ -347,7 +364,7 @@ impl Client {
     }
 
     pub async fn cancel_all(&self, market: Option<&str>) -> Result<Ack, Error> {
-        let ts = now_ms();
+        let ts = sign_ts_ms();
         let sig = self.signer.sign_b64(&zfx_perps_wire::cancel_all_msg(&self.account, market, ts));
         self.post(
             "/v1/orders/cancel_all",
@@ -377,7 +394,7 @@ impl Client {
     }
 
     pub async fn account(&self) -> Result<AccountView, Error> {
-        let ts = now_ms();
+        let ts = sign_ts_ms();
         let sig = self.signer.sign_b64(&zfx_perps_wire::auth_msg(&self.account, ts));
         let r = self
             .http
@@ -392,7 +409,7 @@ impl Client {
 
     /// WebSocket auth message for the private account channel.
     pub fn ws_auth(&self) -> Value {
-        let ts = now_ms();
+        let ts = sign_ts_ms();
         json!({"op": "auth", "account": self.account, "ts": ts, "public_key": self.signer.public_key(), "signature": self.signer.sign_b64(&zfx_perps_wire::auth_msg(&self.account, ts))})
     }
 }
@@ -463,5 +480,20 @@ impl Admin {
             Some(json!({"market": market, "halted": halted})),
         )
         .await
+    }
+}
+
+#[cfg(test)]
+mod sign_ts_tests {
+    /// Regression: requests signed in the same millisecond must not repeat a timestamp, or the
+    /// gateway rejects the second as a replay (seen in the e2e_perp sandbox test).
+    #[test]
+    fn signing_timestamps_strictly_increase_across_threads() {
+        let hs: Vec<_> = (0..4).map(|_| std::thread::spawn(|| (0..5_000).map(|_| super::sign_ts_ms()).collect::<Vec<_>>())).collect();
+        let mut all: Vec<u64> = hs.into_iter().flat_map(|h| h.join().unwrap()).collect();
+        let n = all.len();
+        all.sort_unstable();
+        all.dedup();
+        assert_eq!(all.len(), n);
     }
 }

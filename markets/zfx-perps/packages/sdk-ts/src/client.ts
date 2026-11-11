@@ -1,6 +1,6 @@
 import type { Ack, AccountView, BookSnapshot, Info, PerpInfo, Trade } from "./types.js";
 import { authMessage, cancelAllMessage, cancelMessage, orderMessage, withdrawMessage, type Side, type Stp, type Tif } from "./wire.js";
-import { signB64, type TradingSigner } from "./signer.js";
+import { signB64, type TradingSigner, signTsMs } from "./signer.js";
 
 export class ZfxPerpsError extends Error {
   constructor(
@@ -77,7 +77,7 @@ export class ZfxPerpsClient {
   }
 
   /** Signed order body without sending it. */
-  async signedOrder(p: OrderParams, tsMs = Date.now()) {
+  async signedOrder(p: OrderParams, tsMs = signTsMs()) {
     const tif = p.tif ?? "gtc";
     const stp = p.stp ?? "cancel_taker";
     const clientId = p.clientId ?? this.nextClientId++;
@@ -110,13 +110,13 @@ export class ZfxPerpsClient {
   }
 
   private async cancelInner(market: string, orderId: number, clientId: number): Promise<Ack> {
-    const ts = Date.now();
+    const ts = signTsMs();
     const signature = await signB64(this.signer, cancelMessage(this.account, market, orderId, clientId, ts));
     return this.req("POST", "/v1/orders/cancel", { account: this.account, market, order_id: orderId, client_id: clientId, ts, public_key: this.signer.publicKey, signature });
   }
 
   async cancelAll(market?: string): Promise<Ack> {
-    const ts = Date.now();
+    const ts = signTsMs();
     const signature = await signB64(this.signer, cancelAllMessage(this.account, market ?? null, ts));
     return this.req("POST", "/v1/orders/cancel_all", { account: this.account, market: market ?? null, ts, public_key: this.signer.publicKey, signature });
   }
@@ -131,14 +131,14 @@ export class ZfxPerpsClient {
   }
 
   async accountView(): Promise<AccountView> {
-    const ts = Date.now();
+    const ts = signTsMs();
     const signature = await signB64(this.signer, authMessage(this.account, ts));
     return this.req("GET", `/v1/account/${this.account}`, undefined, { "x-zfx-perps-key": this.signer.publicKey, "x-zfx-perps-ts": String(ts), "x-zfx-perps-signature": signature });
   }
 
   /** WebSocket auth message for the private account channel. */
   async wsAuth() {
-    const ts = Date.now();
+    const ts = signTsMs();
     return { op: "auth", account: this.account, ts, public_key: this.signer.publicKey, signature: await signB64(this.signer, authMessage(this.account, ts)) };
   }
 }

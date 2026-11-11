@@ -222,6 +222,30 @@ enum Cmd {
         #[arg(long)]
         log: Option<PathBuf>,
     },
+    /// Testnet only: set up a trader for a public clearing deployment from the trader's own NEAR
+    /// key. Mints test collateral from the token's faucet, generates a trading key, registers it
+    /// on the contract, deposits, saves the trading key to ~/.config/zeroflux/trading-<account>.json
+    /// (0600), and prints what to paste into the trade app. Needs only public contract ids.
+    OnboardTestnet {
+        /// Clearing contract id (e.g. perps-v2.zeroflux.testnet), or a JSON file with a
+        /// `contract` field (a stack file works too; only public fields are read).
+        #[arg(long)]
+        stack_info: String,
+        #[arg(long)]
+        account: String,
+        /// NEAR credentials JSON of the account (`private_key` field), e.g.
+        /// ~/.near-credentials/testnet/<account>.json.
+        #[arg(long)]
+        key_file: PathBuf,
+        /// Collateral to mint and deposit, in whole tokens.
+        #[arg(long, default_value_t = 1000)]
+        deposit: u128,
+        #[arg(long, default_value = "https://rpc.testnet.fastnear.com")]
+        rpc: String,
+        /// Where to save the trading key (default ~/.config/zeroflux/trading-<account>.json).
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
     /// After a freeze: withdraw your whole settled balance of a token.
     Escape {
         #[command(flatten)]
@@ -635,6 +659,62 @@ async fn main() -> Result<()> {
                 _ = a.run() => {}
                 _ = shutdown_signal() => {}
             }
+        }
+        Cmd::OnboardTestnet { stack_info, account, key_file, deposit, rpc, out } => {
+            let contract = match std::fs::read_to_string(&stack_info) {
+                Ok(s) => serde_json::from_str::<serde_json::Value>(&s)?["contract"].as_str().context("stack info: contract")?.to_string(),
+                Err(_) => stack_info.clone(),
+            };
+            if rpc.contains("mainnet") || !contract.ends_with(".testnet") || !account.ends_with(".testnet") {
+                anyhow::bail!("onboard-testnet works on NEAR testnet only (contract and account must end in .testnet)");
+            }
+            let creds: serde_json::Value = serde_json::from_str(&std::fs::read_to_string(&key_file).with_context(|| key_file.display().to_string())?)?;
+            let sk = creds["private_key"].as_str().or(creds["secret_key"].as_str()).context("key file: private_key")?;
+            let me = Actor::new(&account, sk)?;
+            let near = Near::rpc(&rpc)?;
+            let cl = zfx_perps_near::clearing::Clearing::new(near.clone(), &contract);
+            let st = cl.state().await.with_context(|| format!("{contract} is not a clearing contract"))?;
+            let token = st["collateral"].as_str().context("contract state: collateral")?.to_string();
+            let chain_id = st["chain_id"].as_str().unwrap_or("").to_string();
+            let meta: serde_json::Value = near.view(&token, "ft_metadata", json!({})).await?;
+            let decimals = meta["decimals"].as_u64().context("ft_metadata decimals")? as u8;
+            let amount = deposit.checked_mul(unit(decimals)).context("deposit too large")?;
+            // 1. faucet
+            near.call(&me, &token, "mint", json!({"account_id": account, "amount": amount.to_string()}), NearToken::from_millinear(10), 30)
+                .await
+                .context("faucet mint")?;
+            // 2-3. trading key, registered from the account's own NEAR key
+            let key = Signer::generate();
+            cl.register_key(&me, &key.public_key(), None, true).await.context("register_key")?;
+            // 4. deposit
+            cl.deposit(&me, &token, amount, None).await.context("deposit")?;
+            // 5. save the key
+            let path = out.unwrap_or_else(|| PathBuf::from(std::env::var("HOME").unwrap_or_default()).join(format!(".config/zeroflux/trading-{account}.json")));
+            if let Some(d) = path.parent() {
+                std::fs::create_dir_all(d)?;
+            }
+            let rec = json!({"network": "testnet", "chain_id": chain_id, "contract": contract, "collateral": token, "account": account,
+                             "public_key": key.public_key(), "secret_key": key.near_secret(),
+                             "note": "testnet trading key: it can trade and withdraw to this account on the testnet contract only"});
+            {
+                use std::io::Write;
+                #[cfg(unix)]
+                use std::os::unix::fs::OpenOptionsExt;
+                let mut o = std::fs::OpenOptions::new();
+                o.write(true).create(true).truncate(true);
+                #[cfg(unix)]
+                o.mode(0o600);
+                o.open(&path)?.write_all(serde_json::to_string_pretty(&rec)?.as_bytes())?;
+            }
+            for (what, hash) in near.tx_log.lock().unwrap().iter() {
+                eprintln!("tx {hash}  {what}");
+            }
+            eprintln!("trading key saved to {}", path.display());
+            eprintln!("deposited {deposit} test tokens; the node credits them in its next batch");
+            println!("Paste into the trade app:");
+            println!("  account:        {account}");
+            println!("  trading secret: {}", key.near_secret());
+            println!("Warning: this is a NEAR testnet trading key for {contract}; keep it private and never reuse it on mainnet.");
         }
         Cmd::Escape { who, token } => {
             let (set, a) = who.parts()?;

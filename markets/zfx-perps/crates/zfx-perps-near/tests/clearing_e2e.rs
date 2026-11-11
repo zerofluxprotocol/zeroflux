@@ -64,7 +64,7 @@ impl Api {
         self.http.get(format!("{}{path}", self.url)).send().await.unwrap().json().await.unwrap()
     }
     async fn portfolio(&self, t: &Trader, chain: &str, contract: &str) -> Value {
-        let ts = now_ns() / 1_000_000;
+        let ts = zfx_perps_client::sign_ts_ms();
         let sig = t.key.sign(&wire::auth_message(chain, contract, &t.name, ts));
         self.http
             .get(format!("{}/v1/portfolio/{}", self.url, t.name))

@@ -3,7 +3,7 @@
  * Uses the global `fetch` and `WebSocket` (browsers, Node 22).
  */
 import { base64 } from "@scure/base";
-import type { TradingSigner } from "../signer.js";
+import { signTsMs, type TradingSigner } from "../signer.js";
 import { ClearingBookState, type BookMessage } from "./book.js";
 import { clearingTx, type WalletTx } from "./near.js";
 import { parseBook, parseEstimate, parseFunding, parseInfo, parseMarket, parseOracle, parsePlaceAck, parsePortfolio, signedOrderToJson } from "./parse.js";
@@ -228,7 +228,7 @@ export class ZfxPerpsClient {
     const { signer } = this.need();
     const account = accountId ?? this.accountId!;
     const info = await this.getInfo();
-    const ts = String(Date.now());
+    const ts = String(signTsMs());
     const signature = await this.sign(authMessage(info.chainId, info.clearingContract, account, ts));
     const v = await this.req("GET", `/v1/portfolio/${encodeURIComponent(account)}`, undefined, {
       "x-zfx-perps-key": signer.publicKey,
@@ -421,7 +421,7 @@ export class ZfxPerpsClient {
   private async sendAuth(ws: WebSocket) {
     const { accountId, signer } = this.need();
     const info = await this.getInfo();
-    const ts = Date.now();
+    const ts = signTsMs();
     const signature = await this.sign(authMessage(info.chainId, info.clearingContract, accountId, ts));
     this.sendOn(ws, { op: "auth", account: accountId, ts, public_key: signer.publicKey, signature });
   }

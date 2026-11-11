@@ -53,6 +53,18 @@ export class KeySigner implements TradingSigner {
 
 export const utf8 = (s: string) => new TextEncoder().encode(s);
 
+let lastSignTs = 0;
+/**
+ * Timestamp for a signed request: `Date.now()`, but strictly increasing within the page or
+ * process. The gateway rejects a repeated signature as a replay, and two requests signed in the
+ * same millisecond would otherwise be byte-identical.
+ */
+export function signTsMs(): number {
+  const now = Date.now();
+  lastSignTs = now > lastSignTs ? now : lastSignTs + 1;
+  return lastSignTs;
+}
+
 export async function signB64(signer: TradingSigner, message: string): Promise<string> {
   return base64.encode(await signer.sign(utf8(message)));
 }

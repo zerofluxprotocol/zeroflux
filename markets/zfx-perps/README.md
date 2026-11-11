@@ -76,6 +76,26 @@ Connect the trade app: open the site's trade page and press *Connect venue* with
 any port. Preflights get `Access-Control-Allow-Private-Network: true`, so a page on the public
 site may call a node on 127.0.0.1. `"*"` allows every origin.
 
+**Onboard a trader** (any testnet account, no operator files needed):
+
+```sh
+near account create-account sponsor-by-faucet-service <name>.testnet autogenerate-new-keypair \
+  save-to-legacy-keychain network-config testnet create            # optional: a fresh account
+target/release/zfx-perps-near onboard-testnet --stack-info perps-v2.zeroflux.testnet \
+  --account <name>.testnet --key-file ~/.near-credentials/testnet/<name>.testnet.json --deposit 1000
+```
+
+It reads the collateral token from the contract, then:
+1. mints test USDC from the token's faucet;
+2. generates a trading key;
+3. registers the key on the contract, signed with the account's own NEAR key;
+4. deposits the tokens;
+5. saves the key to `~/.config/zeroflux/trading-<name>.testnet.json` (0600).
+
+It prints the account id and the `ed25519:...` trading secret to paste into the trade app. The
+deposit is usable after the node's next batch (about 1 s). `examples/place-cancel.ts` places
+and cancels one order with that key. The command refuses anything that isn't on testnet.
+
 Wallet steps (register a trading key, deposit) are NEAR transactions from the user's wallet; the
 SDK builds them (`clearing.clearingTx`). `packages/sdk-ts/examples/testnet-e2e.ts` runs the whole
 flow with near-api-js.

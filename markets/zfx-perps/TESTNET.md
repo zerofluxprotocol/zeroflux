@@ -134,6 +134,26 @@ Contract totals afterwards:
 NEAR spent on v2: 7.04 (21.906 to 14.865 on zeroflux.testnet). Most of it is storage held by the
 contract and operator accounts.
 
+### Trader onboarding test (`zfx-perps-near onboard-testnet`)
+
+A fresh account, `zfx-trader-361102.testnet`, was created with `near account create-account
+sponsor-by-faucet-service` (testnet faucet, no zeroflux funds). It was onboarded with only the
+public contract id, signing every transaction with its own NEAR key:
+
+| Step | Transaction |
+|---|---|
+| faucet mint 1,000 tUSDC | `HpGsSxHdD5U4tCh5mQBZUAAhuBte25A19y9iyAWUGSZY` |
+| register the generated trading key | `8DdahPaqjuT13ewvickFSQ2tphpv719tsHgZ2kk83F7n` |
+| deposit 1,000 tUSDC (`ft_transfer_call`) | `8tc1dGELxmFUftNmFg9aZoBSMhguSRYRmVewUmz5a98E` |
+| batch 7: credit the deposit (3.02 Tgas) | `GvAEH2tS2ZDYcnFb9TMRXpjMC1YxhybQ2aTebfvUHXjo` |
+| batch 8: signed cancel relayed on-chain (3.17 Tgas) | `4v8qfjmWrLrj2xuN1z4N5kbNyNquoeNfKV9mXRTQLpnB` |
+
+Then `examples/place-cancel.ts` (public SDK, with the saved trading key) placed a post-only BUY of
+100 lots at 588,890 on `CLAUDE-OPUS-5-5-0921`. The order rested, with hash
+`17d962e1612ca9043b17d3c75a625141f7e073ce83a2a062dccc6381bbe2de90`. The script then canceled it
+with `relayOnChain`. The contract's `get_order` now shows `canceled: true, filled: 0`, so no
+relayer can fill it.
+
 ## Superseded: `perps.zeroflux.testnet` (v1)
 
 Deployed earlier on 2026-11-11 from commit `2e7ad1f`, before the design updates. Superseded by

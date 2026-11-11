@@ -8,7 +8,7 @@
 //! cargo run --release -p zfx-perps-node --bin zfx-perps-loadgen -- [--clients 64] [--seconds 10] [--no-fsync]
 
 use hdrhistogram::Histogram;
-use zfx_perps_client::{Admin, Client, Order, Signer, now_ms};
+use zfx_perps_client::{Admin, Client, Order, Signer, sign_ts_ms};
 use zfx_perps_node::config::{AssetCfg, Config, MarketCfg};
 use rand::rngs::SmallRng;
 use rand::{Rng, SeedableRng};
@@ -123,18 +123,18 @@ async fn main() {
                     let px = if side == "buy" { mid - off } else { mid + off };
                     {
                         cid += 1;
-                        (0, "/v1/orders", c.signed_order(&Order::limit(M, side, px, rng.gen_range(1..500)).client_id(cid), now_ms()))
+                        (0, "/v1/orders", c.signed_order(&Order::limit(M, side, px, rng.gen_range(1..500)).client_id(cid), sign_ts_ms()))
                     }
                 } else if r < 0.90 {
                     let id = live.swap_remove(rng.gen_range(0..live.len()));
-                    let ts = now_ms();
+                    let ts = sign_ts_ms();
                     let sig = c.signer.sign_b64(&zfx_perps_wire::cancel_msg(&c.account, M, id, 0, ts));
                     (1, "/v1/orders/cancel", json!({"account": c.account, "market": M, "order_id": id, "ts": ts, "public_key": c.signer.public_key(), "signature": sig}))
                 } else {
                     let px = if side == "buy" { mid + 200 } else { mid - 200 };
                     {
                         cid += 1;
-                        (2, "/v1/orders", c.signed_order(&Order::ioc(M, side, px, rng.gen_range(200..1500)).client_id(cid), now_ms()))
+                        (2, "/v1/orders", c.signed_order(&Order::ioc(M, side, px, rng.gen_range(200..1500)).client_id(cid), sign_ts_ms()))
                     }
                 };
                 let t = Instant::now();
