@@ -1,6 +1,7 @@
 [workspace]
 resolver = "2"
-members = ["crates/zfx-oracle-print", "crates/zfx-index"]
+members = ["crates/zfx-oracle-print", "crates/zfx-index", "crates/zfx-oracle-near"]
+exclude = ["contracts"]
 
 [workspace.package]
 version = "0.1.0"

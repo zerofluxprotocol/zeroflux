@@ -1,0 +1,20 @@
+[package]
+name = "zfx-oracle-near"
+description = "NEAR client for the zfx-oracle contract: pusher, admin commands, sandbox helper"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "zfx-oracle-near"
+path = "src/main.rs"
+
+[dependencies]
+near-api = "0.8.7"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "process"] }
+anyhow = "1"
+serde_json = "1"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+tempfile = "3"
+zfx-oracle-print = { path = "../zfx-oracle-print" }
+hex = "0.4"

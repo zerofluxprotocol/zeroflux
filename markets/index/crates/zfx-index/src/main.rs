@@ -11,6 +11,7 @@ commands:
   keygen                 create the reporter key (refuses to overwrite) and print the public key
   backfill               fetch catalog + rankings, list top-N markets, fetch history for each
   freeze-lic-params      derive the frozen LIC-v1 composition shares from the web overlap (once; refuses to overwrite)
+  push-near              send new signed prints to the NEAR oracle: --contract C --signer A --key-file F [--rpc U1,U2] [--from-date D] [--files a,b] [--dry-run]
   dataset-backfill       documented datasets/rankings-daily from --from (2025-01-01) to --to (yesterday); needs the API key
   engine                 compute revisions from the ledger and sign prints
   publish                write the static JSON tree
@@ -53,6 +54,14 @@ fn main() {
         "backfill" => {
             let l = Ledger::open_write(&ledger_dir).map_err(|e| e.to_string())?;
             poll::backfill(&l, budget.clone(), params.top_n).map_err(|e| e.to_string())
+        }
+        "push-near" => {
+            let need = |k: &str| arg(&args, k).ok_or_else(|| format!("missing {k}"));
+            let rpcs: Vec<String> = arg(&args, "--rpc").map(|s| s.split(',').map(String::from).collect()).unwrap_or_else(|| vec!["https://rpc.testnet.fastnear.com".into(), "https://rpc.testnet.near.org".into()]);
+            let files: Vec<String> = arg(&args, "--files").map(|s| s.split(',').map(String::from).collect()).unwrap_or_else(|| zfx_oracle_near::DEFAULT_FILES.iter().map(|x| x.to_string()).collect());
+            let r = poll::push_near(&ledger_dir, &need("--contract")?, &need("--signer")?, std::path::Path::new(&need("--key-file")?), &rpcs, &files, arg(&args, "--from-date").as_deref(), args.iter().any(|a| a == "--dry-run")).map_err(|e| e.to_string())?;
+            println!("{}", serde_json::to_string_pretty(&r).unwrap());
+            Ok(())
         }
         "freeze-lic-params" => {
             let l = Ledger::open_read(&ledger_dir);
