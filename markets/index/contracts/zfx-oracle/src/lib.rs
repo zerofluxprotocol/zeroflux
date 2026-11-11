@@ -375,6 +375,8 @@ impl Oracle {
             env::panic_str(&format!("storage balance short: balance {bal} < storage {need} + reserve {}; top up the contract", self.min_free_yocto));
         }
         self.accepted_total += accepted as u64;
+        // NEAR caps the total log length of one execution at 16 KiB, so events are compact:
+        // [index number (see index_info.number), utc_date, revision, print_hash]
         if !events.is_empty() {
             env::log_str(&format!("EVENT_JSON:{}", json!({"standard": "zfx-oracle", "version": "1.0.0", "event": "print", "data": events})));
         }
@@ -443,7 +445,7 @@ impl Oracle {
         cfg.latest_hash = hash;
         cfg.latest_end_ms = p.source_end_ms;
         cfg.latest_rev = p.revision;
-        let ev = json!({"index_id": p.index_id, "utc_date": fmt_date(utc_day(p.source_end_ms)), "revision": p.revision, "value": fmt_scaled(p.value, p.value_scale), "print_hash": hex(&hash)});
+        let ev = json!([cfg.id, fmt_date(utc_day(p.source_end_ms)), p.revision, hex(&hash)]);
         self.indices.insert(p.index_id, cfg);
         Ok(ev)
     }
@@ -545,7 +547,7 @@ impl Oracle {
 
     pub fn index_info(&self, index_id: String) -> Option<Value> {
         let c = self.indices.get(&index_id)?;
-        Some(json!({"index_id": index_id, "version": c.version, "formula_hash": hex(&c.formula_hash), "value_scale": c.value_scale, "enabled": c.enabled, "prints": c.count,
+        Some(json!({"index_id": index_id, "number": c.id, "version": c.version, "formula_hash": hex(&c.formula_hash), "value_scale": c.value_scale, "enabled": c.enabled, "prints": c.count,
             "latest_utc_date": if c.count > 0 { Value::String(fmt_date(utc_day(c.latest_end_ms))) } else { Value::Null }, "latest_revision": c.latest_rev, "latest_print_hash": hex(&c.latest_hash)}))
     }
 

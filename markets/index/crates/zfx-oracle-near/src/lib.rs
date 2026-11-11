@@ -258,6 +258,8 @@ pub struct PushOpts<'a> {
     pub only: Option<BTreeSet<String>>,
     pub est_tgas_per_print: u64,
     pub dry_run: bool,
+    /// Send at most this many prints (oldest first within each index).
+    pub max_prints: Option<usize>,
 }
 
 /// Sends every local print newer than the on-chain latest, per index, in batches.
@@ -282,11 +284,12 @@ pub async fn push_new(near: &Near, who: &Actor, contract: &str, ledger: &Path, f
         if ix["enabled"] != json!(true) || o.only.as_ref().map(|s| !s.contains(&id)).unwrap_or(false) {
             continue;
         }
+        // index_info carries the latest utc_date, revision and print hash: no per-index view needed
         let cur = if ix["prints"].as_u64().unwrap_or(0) > 0 {
-            let l = near.view(contract, "latest", json!({"index_id": id})).await?;
-            let end = l["source_end"].as_str().and_then(parse_ms).context("latest.source_end")?;
-            let h: [u8; 32] = hex::decode(l["print_hash"].as_str().unwrap_or(""))?.try_into().map_err(|_| anyhow!("hash"))?;
-            Some((end, l["revision"].as_u64().unwrap_or(0) as u32, h))
+            let d = ix["latest_utc_date"].as_str().context("latest_utc_date")?;
+            let end = parse_ms(&format!("{d}T00:00:00.000Z")).context("latest_utc_date")? + 86_400_000;
+            let h: [u8; 32] = hex::decode(ix["latest_print_hash"].as_str().unwrap_or(""))?.try_into().map_err(|_| anyhow!("hash"))?;
+            Some((end, ix["latest_revision"].as_u64().unwrap_or(0) as u32, h))
         } else {
             None
         };
@@ -294,13 +297,19 @@ pub async fn push_new(near: &Near, who: &Actor, contract: &str, ledger: &Path, f
         per_index.insert(id.clone(), json!({"onchain_latest": ix["latest_utc_date"], "pending": pend.len()}));
         queue.extend(pend);
     }
+    if let Some(m) = o.max_prints {
+        queue.truncate(m);
+    }
     let per_batch = ((BATCH_BUDGET_TGAS / o.est_tgas_per_print.max(1)) as usize).clamp(1, MAX_BATCH);
     let mut txs = Vec::new();
     let (mut accepted, mut rejected) = (0u64, 0u64);
     if !o.dry_run {
         for chunk in queue.chunks(per_batch) {
             let args = json!({"prints": chunk.iter().map(|p| p.push.clone()).collect::<Vec<_>>()});
-            let r = near.call(who, contract, "push", args, NearToken::from_yoctonear(0), PUSH_GAS_TGAS).await?;
+            // prepay only what the batch needs: NEAR reserves prepaid gas at a pessimistic price,
+            // so a flat 300 Tgas would need far more balance than the push costs
+            let gas = (20 + o.est_tgas_per_print * chunk.len() as u64).min(PUSH_GAS_TGAS);
+            let r = near.call(who, contract, "push", args, NearToken::from_yoctonear(0), gas).await?;
             let a = r.value["accepted"].as_u64().unwrap_or(0);
             let rj = r.value["rejected"].as_array().map(|x| x.len()).unwrap_or(0) as u64;
             accepted += a;

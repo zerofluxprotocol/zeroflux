@@ -221,3 +221,15 @@ fn dates() {
     assert_eq!(utc_day(20_767 * DAY), 20_766);
     assert_eq!(parse_date("2026-13-01"), None);
 }
+
+#[test]
+fn hundred_print_batch_logs_fit_near_limit() {
+    let mut o = setup();
+    ctx(0, D0 + 200 * DAY);
+    let prints: Vec<PushPrint> = (1..=100).map(|d| signed(&print(d, 1, [0; 32], d as u64), &[1])).collect();
+    let r = o.push(prints);
+    assert_eq!(r.accepted, 100);
+    let logs = near_sdk::test_utils::get_logs();
+    println!("{} log lines, sizes {:?}", logs.len(), logs.iter().map(|l| l.len()).collect::<Vec<_>>());
+    assert!(logs.iter().map(|l| l.len()).sum::<usize>() <= 16_384, "NEAR total log limit per execution");
+}

@@ -57,7 +57,7 @@ fn main() {
         }
         "push-near" => {
             let need = |k: &str| arg(&args, k).ok_or_else(|| format!("missing {k}"));
-            let rpcs: Vec<String> = arg(&args, "--rpc").map(|s| s.split(',').map(String::from).collect()).unwrap_or_else(|| vec!["https://rpc.testnet.fastnear.com".into(), "https://rpc.testnet.near.org".into()]);
+            let rpcs: Vec<String> = arg(&args, "--rpc").map(|s| s.split(',').map(String::from).collect()).unwrap_or_else(|| vec!["https://rpc.testnet.near.org".into(), "https://test.rpc.fastnear.com".into(), "https://rpc.testnet.fastnear.com".into()]);
             let files: Vec<String> = arg(&args, "--files").map(|s| s.split(',').map(String::from).collect()).unwrap_or_else(|| zfx_oracle_near::DEFAULT_FILES.iter().map(|x| x.to_string()).collect());
             let r = poll::push_near(&ledger_dir, &need("--contract")?, &need("--signer")?, std::path::Path::new(&need("--key-file")?), &rpcs, &files, arg(&args, "--from-date").as_deref(), args.iter().any(|a| a == "--dry-run")).map_err(|e| e.to_string())?;
             println!("{}", serde_json::to_string_pretty(&r).unwrap());

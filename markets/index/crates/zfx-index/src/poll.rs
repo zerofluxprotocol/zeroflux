@@ -321,13 +321,13 @@ pub fn push_near(ledger: &Path, contract: &str, signer: &str, key_file: &Path, r
     let near = zfx_oracle_near::Near::rpcs(rpcs).map_err(|e| PollError::Other(e.to_string()))?;
     let who = zfx_oracle_near::Actor::from_key_file(Some(signer), key_file).map_err(|e| PollError::Other(e.to_string()))?;
     let fl: Vec<&str> = files.iter().map(|s| s.as_str()).collect();
-    let opts = zfx_oracle_near::PushOpts { from_date, only: None, est_tgas_per_print: 2, dry_run };
+    let opts = zfx_oracle_near::PushOpts { from_date, only: None, est_tgas_per_print: 1, dry_run, max_prints: None };
     rt.block_on(zfx_oracle_near::push_new(&near, &who, contract, ledger, &fl, &opts)).map_err(|e| PollError::Other(format!("{e:#}")))
 }
 
 fn push_from_config(ledger: &Path, cfg: &serde_json::Value) -> Result<serde_json::Value, PollError> {
     let s = |k: &str| cfg[k].as_str().map(String::from).ok_or_else(|| PollError::Other(format!("oracle-push.json: missing {k}")));
-    let rpcs: Vec<String> = cfg["rpc"].as_array().map(|a| a.iter().filter_map(|x| x.as_str().map(String::from)).collect()).unwrap_or_else(|| vec!["https://rpc.testnet.fastnear.com".into(), "https://rpc.testnet.near.org".into()]);
+    let rpcs: Vec<String> = cfg["rpc"].as_array().map(|a| a.iter().filter_map(|x| x.as_str().map(String::from)).collect()).unwrap_or_else(|| vec!["https://rpc.testnet.near.org".into(), "https://test.rpc.fastnear.com".into(), "https://rpc.testnet.fastnear.com".into()]);
     let files: Vec<String> = cfg["files"].as_array().map(|a| a.iter().filter_map(|x| x.as_str().map(String::from)).collect()).unwrap_or_else(|| zfx_oracle_near::DEFAULT_FILES.iter().map(|x| x.to_string()).collect());
     push_near(ledger, &s("contract")?, &s("signer")?, Path::new(&s("key_file")?), &rpcs, &files, cfg["from_date"].as_str(), false)
 }

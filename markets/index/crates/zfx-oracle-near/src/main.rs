@@ -8,7 +8,7 @@
 //! zfx-oracle-near status --contract C
 //! zfx-oracle-near view --contract C --method M --args JSON
 //! ```
-//! Common: `--rpc URL[,URL...]` (default https://rpc.testnet.fastnear.com,https://rpc.testnet.near.org),
+//! Common: `--rpc URL[,URL...]` (default https://rpc.testnet.near.org,https://test.rpc.fastnear.com,https://rpc.testnet.fastnear.com),
 //! `--tx-log FILE` appends every transaction hash as a JSON line.
 
 use anyhow::{bail, Context, Result};
@@ -37,7 +37,7 @@ fn near_amount(s: &str) -> Result<NearToken> {
 }
 
 pub fn default_rpcs() -> Vec<String> {
-    vec!["https://rpc.testnet.fastnear.com".into(), "https://rpc.testnet.near.org".into()]
+    vec!["https://rpc.testnet.near.org".into(), "https://test.rpc.fastnear.com".into(), "https://rpc.testnet.fastnear.com".into()]
 }
 
 fn write_tx_log(path: Option<&String>, near: &Near) -> Result<()> {
@@ -91,6 +91,9 @@ async fn main() -> Result<()> {
                 let wasm = std::fs::read(need(&a, "--wasm")?)?;
                 let n = wasm.len();
                 let h = near.deploy(&who, wasm).await?;
+                if a.iter().any(|x| x == "--no-init") {
+                    return Ok(json!({"deploy_tx": h, "wasm_bytes": n, "init": "skipped (code upgrade, state kept)"}));
+                }
                 let reporters = args_all(&a, "--reporter");
                 let quorum: u8 = arg(&a, "--quorum").unwrap_or_else(|| "1".into()).parse()?;
                 let min_free = near_amount(&arg(&a, "--min-free-near").unwrap_or_else(|| "0.2".into()))?;
@@ -117,7 +120,7 @@ async fn main() -> Result<()> {
                 let who = Actor::from_key_file(arg(&a, "--signer").as_deref(), &PathBuf::from(need(&a, "--key-file")?))?;
                 let from = arg(&a, "--from-date");
                 let est: u64 = arg(&a, "--est-tgas-per-print").map(|x| x.parse()).transpose()?.unwrap_or(8);
-                push_new(&near, &who, &need(&a, "--contract")?, &PathBuf::from(need(&a, "--ledger")?), DEFAULT_FILES, &PushOpts { from_date: from.as_deref(), only: None, est_tgas_per_print: est, dry_run: a.iter().any(|x| x == "--dry-run") }).await
+                push_new(&near, &who, &need(&a, "--contract")?, &PathBuf::from(need(&a, "--ledger")?), DEFAULT_FILES, &PushOpts { from_date: from.as_deref(), only: None, est_tgas_per_print: est, dry_run: a.iter().any(|x| x == "--dry-run"), max_prints: arg(&a, "--max-prints").map(|x| x.parse()).transpose()? }).await
             }
             "status" => {
                 let c = need(&a, "--contract")?;

@@ -114,6 +114,12 @@ async fn oracle_on_sandbox() {
     let (o50, v50) = push(&near, &relayer, &c, b50).await;
     assert_eq!(v50["accepted"], 50);
     let u50 = usage(&near, &c).await;
+    // a full 100-print batch (event log split under the 16 KiB per-line limit)
+    let b100 = batch(100, &mut day, &mut prev);
+    let (o100, v100) = push(&near, &relayer, &c, b100).await;
+    assert_eq!(v100["accepted"], 100);
+    assert!(o100.logs.iter().map(|l| l.len()).sum::<usize>() <= 16_384, "total log length under the NEAR limit");
+    println!("gas: 100 prints {:.2} Tgas ({:.2}/print)", o100.gas_burnt as f64 / 1e12, o100.gas_burnt as f64 / 1e14);
     println!("gas: 1 print {:.2} Tgas; 10 prints {:.2} Tgas ({:.2}/print); 50 prints {:.2} Tgas ({:.2}/print)", gas1 as f64 / 1e12, o10.gas_burnt as f64 / 1e12, o10.gas_burnt as f64 / 1e13, o50.gas_burnt as f64 / 1e12, o50.gas_burnt as f64 / 5e13);
     println!("storage: first print {} bytes, then {} bytes/print", u1 - u0, (u50 - u10) / 50);
     assert!(o50.gas_burnt < 300_000_000_000_000);
@@ -176,11 +182,11 @@ async fn oracle_on_sandbox() {
     std::fs::copy(snap.join("revisions_lic_7d.jsonl"), tmp.path().join("revisions_lic_7d.jsonl")).unwrap();
     let only = Some([real_id.clone()].into_iter().collect());
     let ur0 = usage(&near, &c).await;
-    let r1 = push_new(&near, &relayer, &c, tmp.path(), &["revisions_lic_7d.jsonl"], &PushOpts { from_date: None, only: only.clone(), est_tgas_per_print: 8, dry_run: false }).await.unwrap();
+    let r1 = push_new(&near, &relayer, &c, tmp.path(), &["revisions_lic_7d.jsonl"], &PushOpts { from_date: None, only: only.clone(), est_tgas_per_print: 8, dry_run: false, max_prints: None }).await.unwrap();
     let ur1 = usage(&near, &c).await;
     println!("real push: {}", serde_json::to_string(&r1).unwrap());
     assert_eq!(r1["accepted"].as_u64().unwrap() as usize, real.len());
-    let r2 = push_new(&near, &relayer, &c, tmp.path(), &["revisions_lic_7d.jsonl"], &PushOpts { from_date: None, only, est_tgas_per_print: 8, dry_run: false }).await.unwrap();
+    let r2 = push_new(&near, &relayer, &c, tmp.path(), &["revisions_lic_7d.jsonl"], &PushOpts { from_date: None, only, est_tgas_per_print: 8, dry_run: false, max_prints: None }).await.unwrap();
     assert_eq!(r2["queued"], 0, "idempotent: nothing to send the second time");
     let real_gas: f64 = r1["txs"].as_array().unwrap().iter().map(|t| t["gas_burnt_tgas"].as_str().unwrap().parse::<f64>().unwrap()).sum();
     let real_per_print_gas = real_gas / real.len() as f64;
@@ -206,7 +212,7 @@ async fn oracle_on_sandbox() {
 
     let metrics = json!({
         "wasm_bytes": code.len(),
-        "gas_tgas": {"one_print": gas1 as f64 / 1e12, "batch_10": o10.gas_burnt as f64 / 1e12, "batch_50": o50.gas_burnt as f64 / 1e12, "per_print_in_batch_50": o50.gas_burnt as f64 / 5e13, "real_lic_7d_per_print": real_per_print_gas},
+        "gas_tgas": {"one_print": gas1 as f64 / 1e12, "batch_10": o10.gas_burnt as f64 / 1e12, "batch_50": o50.gas_burnt as f64 / 1e12, "batch_100": o100.gas_burnt as f64 / 1e12, "per_print_in_batch_100": o100.gas_burnt as f64 / 1e14, "per_print_in_batch_50": o50.gas_burnt as f64 / 5e13, "real_lic_7d_per_print": real_per_print_gas},
         "storage_bytes": {"first_print": u1 - u0, "per_print_synthetic_43_char_id": (u50 - u10) as f64 / 50.0, "per_print_real": real_per_print_bytes},
         "real": {"index_id": real_id, "prints": real.len(), "txs": r1["txs"]},
         "attack_rejections": reasons,
