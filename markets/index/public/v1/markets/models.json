@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-11T00:19:30.997Z",
+  "generated_at": "2026-11-11T00:33:32.233Z",
   "notice": "Paper-trading index built from OpenRouter data. Not settlement-grade. Not revenue, royalties or equity.",
   "what_this_is_not": "Not AI-provider revenue, not model-owner royalties, not equity or any claim on a model's cash flows. One venue (OpenRouter), one declared formula.",
   "formula": {
@@ -11,6 +11,13 @@
     "version": "ZFX-OR-MODEL-SPEND-USD-7D-v1",
     "hash": "a5373607ed46bcc56302619bf5754ea32d64fabe65b071936b02d408d0a34307"
   },
+  "formula_licensed": {
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+    "hash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+    "version_7d": "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1",
+    "hash_7d": "70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef"
+  },
+  "recommended_reference": "licensed.index_7d (ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1): documented sources only. The web-endpoint variant (index_7d) is kept for comparison and for models outside the documented top 50. See docs/DATA_METHOD.md section 2.",
   "manipulation_note": "manipulation_cost_usd_per_pct is 1% of the 7-day window's counted spend: the OpenRouter-billed spend a third party must add to move the 7D index by 1%. max_open_interest_usd is 25% of that window spend. This bounds the cost of a push; it does not make manipulation impossible. See docs/DATA_METHOD.md, manipulation resistance.",
   "reporter_pubkey_ed25519": "cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48",
   "markets": [
@@ -106,7 +113,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/deepseek/deepseek-v4.1-flash-20261017/series.json"
       },
       "manipulation_cost_usd_per_pct": "13451.962676",
-      "max_open_interest_usd": "336299.066890"
+      "max_open_interest_usd": "336299.066890",
+      "licensed": {
+        "index_id": "or-model-spend-lic/deepseek/deepseek-v4.1-flash-20261017",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "156371.338199",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "7191466031431",
+          "frozen": {
+            "w_in": "0.986177",
+            "billed_share": "0.940059",
+            "cache_share": "0.937190",
+            "derived_days": 24
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 50,
+            "as_of": "2026-11-10T23:12:06.000Z",
+            "listed_in_usd_per_m": "0.150000000",
+            "listed_out_usd_per_m": "0.600000000",
+            "listed_cache_read_usd_per_m": "0.006000000",
+            "p_in_usd_per_m": "0.015044640",
+            "p_blend_usd_per_m": "0.023130478"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "ee87b43c8a4c38e46b1528f5c52df791e041473c73e03411b0e16ad4b9624977"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/deepseek/deepseek-v4.1-flash-20261017/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/deepseek/deepseek-v4.1-flash-20261017",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "172239.778815",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "1205678.451705",
+            "manipulation_cost_usd_per_pct": "12056.784517",
+            "max_open_interest_usd": "301419.612926",
+            "change_vs_prev": "-0.010647",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "f89bc3de5a082e0df4d9a76368eb8e63bd06249892e98a3fff1771856e774654"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/deepseek/deepseek-v4.1-flash-20261017/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "12056.784517",
+        "max_open_interest_usd": "301419.612926",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-tencent/hy4-20261104",
@@ -200,7 +275,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/tencent/hy4-20261104/series.json"
       },
       "manipulation_cost_usd_per_pct": "654.059673",
-      "max_open_interest_usd": "16351.491825"
+      "max_open_interest_usd": "16351.491825",
+      "licensed": {
+        "index_id": "or-model-spend-lic/tencent/hy4-20261104",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "6661.691274",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "3181426700186",
+          "frozen": {
+            "w_in": "0.978939",
+            "billed_share": "0.031674",
+            "cache_share": "0.950435",
+            "derived_days": 6
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 1,
+            "as_of": "2026-11-10T23:12:30.000Z",
+            "listed_in_usd_per_m": "0.417000000",
+            "listed_out_usd_per_m": "1.250500000",
+            "listed_cache_read_usd_per_m": "0.021000000",
+            "p_in_usd_per_m": "0.040627740",
+            "p_blend_usd_per_m": "0.066108860"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "5a3bb1253b569595979f9f76ddd928a352498790579de83843b33c195c3c0c79"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/tencent/hy4-20261104/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/tencent/hy4-20261104",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "5577.410600",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 6,
+            "window_sum_usd": "33464.463603",
+            "manipulation_cost_usd_per_pct": "334.644636",
+            "max_open_interest_usd": "8366.115901",
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "9fafcf615cdf9e49d4791f46277a2c0fe485159aa85711d799673f3cd4ddb4f1"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/tencent/hy4-20261104/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "334.644636",
+        "max_open_interest_usd": "8366.115901",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-deepseek/deepseek-v4.1-flash-20260910",
@@ -294,7 +437,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/deepseek/deepseek-v4.1-flash-20260910/series.json"
       },
       "manipulation_cost_usd_per_pct": "7200.996588",
-      "max_open_interest_usd": "180024.914698"
+      "max_open_interest_usd": "180024.914698",
+      "licensed": {
+        "index_id": "or-model-spend-lic/deepseek/deepseek-v4.1-flash-20260910",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "88765.059990",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "2333386102957",
+          "frozen": {
+            "w_in": "0.978727",
+            "billed_share": "0.956846",
+            "cache_share": "0.903071",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 38,
+            "as_of": "2026-11-10T23:12:51.000Z",
+            "listed_in_usd_per_m": "0.195000000",
+            "listed_out_usd_per_m": "0.750000000",
+            "listed_cache_read_usd_per_m": "0.006000000",
+            "p_in_usd_per_m": "0.024319581",
+            "p_blend_usd_per_m": "0.039756981"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "90f8e0787e2de95ca7734010982df9bdbdda002fd69e4e8070f32d0e6cbd1e16"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/deepseek/deepseek-v4.1-flash-20260910/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/deepseek/deepseek-v4.1-flash-20260910",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "95272.687769",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "666908.814381",
+            "manipulation_cost_usd_per_pct": "6669.088144",
+            "max_open_interest_usd": "166727.203595",
+            "change_vs_prev": "-0.004599",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "15e1c29f3e75dc4baa2091ab8681941efc24815e13946c1bf65ce738bd10217b"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/deepseek/deepseek-v4.1-flash-20260910/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "6669.088144",
+        "max_open_interest_usd": "166727.203595",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-z-ai/glm-5.3-flash-20260826",
@@ -388,7 +599,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/z-ai/glm-5.3-flash-20260826/series.json"
       },
       "manipulation_cost_usd_per_pct": "5876.297508",
-      "max_open_interest_usd": "146907.437694"
+      "max_open_interest_usd": "146907.437694",
+      "licensed": {
+        "index_id": "or-model-spend-lic/z-ai/glm-5.3-flash-20260826",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "86583.988796",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "1506014993791",
+          "frozen": {
+            "w_in": "0.964824",
+            "billed_share": "0.964508",
+            "cache_share": "0.829171",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 42,
+            "as_of": "2026-11-10T23:13:17.000Z",
+            "listed_in_usd_per_m": "0.120000000",
+            "listed_out_usd_per_m": "0.450000000",
+            "listed_cache_read_usd_per_m": "0.030000000",
+            "p_in_usd_per_m": "0.045374610",
+            "p_blend_usd_per_m": "0.059607713"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "0d6f5c77923554c6bcaaed73bc39aee175d82fc9ebf30481580a4625530d71e8"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/z-ai/glm-5.3-flash-20260826/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/z-ai/glm-5.3-flash-20260826",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "99734.836006",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "698143.852040",
+            "manipulation_cost_usd_per_pct": "6981.438520",
+            "max_open_interest_usd": "174535.963010",
+            "change_vs_prev": "-0.081603",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "17d3705a0791bffcf751f59b0da46c9fc42283dc35b253bef0f8fd6d09eb4fa6"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/z-ai/glm-5.3-flash-20260826/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "6981.438520",
+        "max_open_interest_usd": "174535.963010",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-openai/gpt-6-luna-20260922",
@@ -482,7 +761,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/openai/gpt-6-luna-20260922/series.json"
       },
       "manipulation_cost_usd_per_pct": "3566.902099",
-      "max_open_interest_usd": "89172.552479"
+      "max_open_interest_usd": "89172.552479",
+      "licensed": {
+        "index_id": "or-model-spend-lic/openai/gpt-6-luna-20260922",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "40307.179526",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "1014151321821",
+          "frozen": {
+            "w_in": "0.969332",
+            "billed_share": "0.879640",
+            "cache_share": "0.768963",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 8,
+            "as_of": "2026-11-10T23:13:42.000Z",
+            "listed_in_usd_per_m": "0.100000000",
+            "listed_out_usd_per_m": "0.500000000",
+            "listed_cache_read_usd_per_m": "0.010000000",
+            "p_in_usd_per_m": "0.030793330",
+            "p_blend_usd_per_m": "0.045182960"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "66132edd638a575e3e0064d4e697d4b1bcc361911770dc0d2b1582e3de4e2dfc"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/openai/gpt-6-luna-20260922/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/openai/gpt-6-luna-20260922",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "40304.772798",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "282133.409584",
+            "manipulation_cost_usd_per_pct": "2821.334096",
+            "max_open_interest_usd": "70533.352396",
+            "change_vs_prev": "-0.014967",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "10617fe7befdf4d40d419b15df975dde7d4a6155840a0b53200b2e9efeabf1ad"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/openai/gpt-6-luna-20260922/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "2821.334096",
+        "max_open_interest_usd": "70533.352396",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-stepfun/step-5-preview-20261008",
@@ -576,7 +923,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/stepfun/step-5-preview-20261008/series.json"
       },
       "manipulation_cost_usd_per_pct": "28.241774",
-      "max_open_interest_usd": "706.044352"
+      "max_open_interest_usd": "706.044352",
+      "licensed": {
+        "index_id": "or-model-spend-lic/stepfun/step-5-preview-20261008",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "531.275957",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "963487289365",
+          "frozen": {
+            "w_in": "0.982023",
+            "billed_share": "0.002918",
+            "cache_share": "0.952221",
+            "derived_days": 26
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 2,
+            "as_of": "2026-11-10T23:14:07.000Z",
+            "listed_in_usd_per_m": "1.000000000",
+            "listed_out_usd_per_m": "2.700000000",
+            "listed_cache_read_usd_per_m": "0.100000000",
+            "p_in_usd_per_m": "0.143001100",
+            "p_blend_usd_per_m": "0.188968269"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "9aeb23646078f4972e2b8f638d28a25bb156b7b5ab60a8e05e117135720d0e27"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/stepfun/step-5-preview-20261008/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/stepfun/step-5-preview-20261008",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "563.453889",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "3944.177225",
+            "manipulation_cost_usd_per_pct": "39.441772",
+            "max_open_interest_usd": "986.044306",
+            "change_vs_prev": "-0.006704",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "268215c6d4f4ecc33a2dd4fc94a7e793ff0ae7b9dd64195cbacc21e7f1d282df"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/stepfun/step-5-preview-20261008/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "39.441772",
+        "max_open_interest_usd": "986.044306",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-anthropic/claude-opus-5.5-20260921",
@@ -670,7 +1085,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/anthropic/claude-opus-5.5-20260921/series.json"
       },
       "manipulation_cost_usd_per_pct": "44083.550354",
-      "max_open_interest_usd": "1102088.758844"
+      "max_open_interest_usd": "1102088.758844",
+      "licensed": {
+        "index_id": "or-model-spend-lic/anthropic/claude-opus-5.5-20260921",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "611897.345067",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "951157038754",
+          "frozen": {
+            "w_in": "0.990423",
+            "billed_share": "0.760678",
+            "cache_share": "0.899243",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 11,
+            "as_of": "2026-11-10T23:14:32.000Z",
+            "listed_in_usd_per_m": "4.400000000",
+            "listed_out_usd_per_m": "22.000000000",
+            "listed_cache_read_usd_per_m": "0.220000000",
+            "p_in_usd_per_m": "0.641164260",
+            "p_blend_usd_per_m": "0.845717830"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "71749c01a1f680b25db5416fc865eb00ca747e75e90995efb4cd2aa7fb7ad303"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/anthropic/claude-opus-5.5-20260921/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/anthropic/claude-opus-5.5-20260921",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "619885.757986",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "4339200.305904",
+            "manipulation_cost_usd_per_pct": "43392.003059",
+            "max_open_interest_usd": "1084800.076476",
+            "change_vs_prev": "-0.004005",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "e6538439acbba621c6fef8c343f08ee29881383f949ef95176b8756f5bfd85d2"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/anthropic/claude-opus-5.5-20260921/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "43392.003059",
+        "max_open_interest_usd": "1084800.076476",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-moonshotai/kimi-k3.1-pro-20261023",
@@ -764,7 +1247,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/moonshotai/kimi-k3.1-pro-20261023/series.json"
       },
       "manipulation_cost_usd_per_pct": "17765.822216",
-      "max_open_interest_usd": "444145.555397"
+      "max_open_interest_usd": "444145.555397",
+      "licensed": {
+        "index_id": "or-model-spend-lic/moonshotai/kimi-k3.1-pro-20261023",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "274131.521054",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "743413098177",
+          "frozen": {
+            "w_in": "0.992068",
+            "billed_share": "0.968621",
+            "cache_share": "0.942343",
+            "derived_days": 18
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 23,
+            "as_of": "2026-11-10T23:14:57.000Z",
+            "listed_in_usd_per_m": "2.000000000",
+            "listed_out_usd_per_m": "10.000000000",
+            "listed_cache_read_usd_per_m": "0.200000000",
+            "p_in_usd_per_m": "0.303782600",
+            "p_blend_usd_per_m": "0.380692996"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "637c1e4b2024b1e788fd008893f610153c5d08122bd59aefb8c169d2f2dda828"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/moonshotai/kimi-k3.1-pro-20261023/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/moonshotai/kimi-k3.1-pro-20261023",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "231475.003493",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "1620325.024450",
+            "manipulation_cost_usd_per_pct": "16203.250244",
+            "max_open_interest_usd": "405081.256112",
+            "change_vs_prev": "0.005340",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "07be82fa9d919a0f06bb40db14004a3562bffab2da9c8ea96d5b18773f0f3fd8"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/moonshotai/kimi-k3.1-pro-20261023/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "16203.250244",
+        "max_open_interest_usd": "405081.256112",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-xiaomi/mimo-v2.6-flash-20260921",
@@ -858,7 +1409,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/xiaomi/mimo-v2.6-flash-20260921/series.json"
       },
       "manipulation_cost_usd_per_pct": "252.512427",
-      "max_open_interest_usd": "6312.810669"
+      "max_open_interest_usd": "6312.810669",
+      "licensed": {
+        "index_id": "or-model-spend-lic/xiaomi/mimo-v2.6-flash-20260921",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "3767.127065",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "658271430032",
+          "frozen": {
+            "w_in": "0.983536",
+            "billed_share": "0.280840",
+            "cache_share": "0.904881",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 9,
+            "as_of": "2026-11-10T23:15:24.000Z",
+            "listed_in_usd_per_m": "0.140000000",
+            "listed_out_usd_per_m": "0.280000000",
+            "listed_cache_read_usd_per_m": "0.003000000",
+            "p_in_usd_per_m": "0.016031303",
+            "p_blend_usd_per_m": "0.020377284"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "b1e4215881e6b044a53d308a62210724778b59a94f1527040dd63bf2ba089c54"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/xiaomi/mimo-v2.6-flash-20260921/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/xiaomi/mimo-v2.6-flash-20260921",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "2084.513275",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "14591.592927",
+            "manipulation_cost_usd_per_pct": "145.915929",
+            "max_open_interest_usd": "3647.898232",
+            "change_vs_prev": "0.133053",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "e6d068ad1c1b0bb68362129c53a0325d7a04fa394e4eb7abd26fcc830bac6382"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/xiaomi/mimo-v2.6-flash-20260921/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "145.915929",
+        "max_open_interest_usd": "3647.898232",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-minimax/minimax-m3.1-flash-20261019",
@@ -952,7 +1571,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/minimax/minimax-m3.1-flash-20261019/series.json"
       },
       "manipulation_cost_usd_per_pct": "310.768049",
-      "max_open_interest_usd": "7769.201218"
+      "max_open_interest_usd": "7769.201218",
+      "licensed": {
+        "index_id": "or-model-spend-lic/minimax/minimax-m3.1-flash-20261019",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "3252.462994",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "558951837703",
+          "frozen": {
+            "w_in": "0.984660",
+            "billed_share": "0.172247",
+            "cache_share": "0.926215",
+            "derived_days": 15
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 12,
+            "as_of": "2026-11-10T23:15:49.000Z",
+            "listed_in_usd_per_m": "0.150000000",
+            "listed_out_usd_per_m": "0.600000000",
+            "listed_cache_read_usd_per_m": "0.015000000",
+            "p_in_usd_per_m": "0.024960975",
+            "p_blend_usd_per_m": "0.033782074"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "eae03d4395111aa3b5987d53e48536320e40f0b3b6f48389e9e56b05f93f83da"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/minimax/minimax-m3.1-flash-20261019/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/minimax/minimax-m3.1-flash-20261019",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "3873.159653",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "27112.117571",
+            "manipulation_cost_usd_per_pct": "271.121176",
+            "max_open_interest_usd": "6778.029393",
+            "change_vs_prev": "-0.069408",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "88c50330ac44266ae527d5acee1ae32e39a53fe58f0c86137f630680a4a81dde"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/minimax/minimax-m3.1-flash-20261019/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "271.121176",
+        "max_open_interest_usd": "6778.029393",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-openai/gpt-6.1-sol-20260929",
@@ -1046,7 +1733,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/openai/gpt-6.1-sol-20260929/series.json"
       },
       "manipulation_cost_usd_per_pct": "19568.071949",
-      "max_open_interest_usd": "489201.798730"
+      "max_open_interest_usd": "489201.798730",
+      "licensed": {
+        "index_id": "or-model-spend-lic/openai/gpt-6.1-sol-20260929",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "208250.789178",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "479715343929",
+          "frozen": {
+            "w_in": "0.982430",
+            "billed_share": "0.808021",
+            "cache_share": "0.885102",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 9,
+            "as_of": "2026-11-10T23:16:13.000Z",
+            "listed_in_usd_per_m": "2.200000000",
+            "listed_out_usd_per_m": "11.000000000",
+            "listed_cache_read_usd_per_m": "0.110000000",
+            "p_in_usd_per_m": "0.350136820",
+            "p_blend_usd_per_m": "0.537254916"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "52fc2718b18a777db16a17e285e75a0d263d878b68ce610d53d06aabd912f690"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/openai/gpt-6.1-sol-20260929/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/openai/gpt-6.1-sol-20260929",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "243398.030535",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "1703786.213747",
+            "manipulation_cost_usd_per_pct": "17037.862137",
+            "max_open_interest_usd": "425946.553437",
+            "change_vs_prev": "-0.017681",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "40348fc0cbe95c48718517630928cbfe85294a906fe39791ce607b8b1c0f1021"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/openai/gpt-6.1-sol-20260929/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "17037.862137",
+        "max_open_interest_usd": "425946.553437",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-meta/muse-spark-1.3-contributor-20260902",
@@ -1140,7 +1895,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/meta/muse-spark-1.3-contributor-20260902/series.json"
       },
       "manipulation_cost_usd_per_pct": "328.104973",
-      "max_open_interest_usd": "8202.624334"
+      "max_open_interest_usd": "8202.624334",
+      "licensed": {
+        "index_id": "or-model-spend-lic/meta/muse-spark-1.3-contributor-20260902",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "6678.050427",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "474256690107",
+          "frozen": {
+            "w_in": "0.986838",
+            "billed_share": "0.952832",
+            "cache_share": "0.894819",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 1,
+            "as_of": "2026-11-10T23:16:39.000Z",
+            "listed_in_usd_per_m": "0.100000000",
+            "listed_out_usd_per_m": "0.200000000",
+            "listed_cache_read_usd_per_m": "0.002000000",
+            "p_in_usd_per_m": "0.012307738",
+            "p_blend_usd_per_m": "0.014778144"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "4e491d194f7dde049089fb1da510b92fdb5fe6f77e0407f7ae5a4c30dd16ed5d"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/meta/muse-spark-1.3-contributor-20260902/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/meta/muse-spark-1.3-contributor-20260902",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "5781.130836",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "40467.915851",
+            "manipulation_cost_usd_per_pct": "404.679159",
+            "max_open_interest_usd": "10116.978963",
+            "change_vs_prev": "0.027093",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "d982db2039d57a101208afe1e50ca03e2838a6d0eb15f3600d51379a61f90eec"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/meta/muse-spark-1.3-contributor-20260902/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "404.679159",
+        "max_open_interest_usd": "10116.978963",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-deepseek/deepseek-v4-flash-20260731",
@@ -1234,7 +2057,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/deepseek/deepseek-v4-flash-20260731/series.json"
       },
       "manipulation_cost_usd_per_pct": "1950.431309",
-      "max_open_interest_usd": "48760.782731"
+      "max_open_interest_usd": "48760.782731",
+      "licensed": {
+        "index_id": "or-model-spend-lic/deepseek/deepseek-v4-flash-20260731",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "31007.422759",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "467927734310",
+          "frozen": {
+            "w_in": "0.954962",
+            "billed_share": "0.948224",
+            "cache_share": "0.722938",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 27,
+            "as_of": "2026-11-10T23:17:01.000Z",
+            "listed_in_usd_per_m": "0.140000000",
+            "listed_out_usd_per_m": "0.300000000",
+            "listed_cache_read_usd_per_m": "0.028000000",
+            "p_in_usd_per_m": "0.059030944",
+            "p_blend_usd_per_m": "0.069883708"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "3856f260b56a1113b60d15961d9e10765a10d89c51ee185b0ae6ee8a766818ca"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/deepseek/deepseek-v4-flash-20260731/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/deepseek/deepseek-v4-flash-20260731",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "30161.792213",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "211132.545494",
+            "manipulation_cost_usd_per_pct": "2111.325455",
+            "max_open_interest_usd": "52783.136374",
+            "change_vs_prev": "-0.031389",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "b406ab659007a1029958eed193e1b2119da0beafd7eec9c8c401221d1f6dfb76"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/deepseek/deepseek-v4-flash-20260731/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "2111.325455",
+        "max_open_interest_usd": "52783.136374",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-z-ai/glm-5.3-20260816",
@@ -1328,7 +2219,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/z-ai/glm-5.3-20260816/series.json"
       },
       "manipulation_cost_usd_per_pct": "9082.476570",
-      "max_open_interest_usd": "227061.914241"
+      "max_open_interest_usd": "227061.914241",
+      "licensed": {
+        "index_id": "or-model-spend-lic/z-ai/glm-5.3-20260816",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "125611.864126",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "458660969355",
+          "frozen": {
+            "w_in": "0.983659",
+            "billed_share": "0.881323",
+            "cache_share": "0.911412",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 46,
+            "as_of": "2026-11-10T23:17:24.000Z",
+            "listed_in_usd_per_m": "1.050000000",
+            "listed_out_usd_per_m": "4.200000000",
+            "listed_cache_read_usd_per_m": "0.168000000",
+            "p_in_usd_per_m": "0.246134616",
+            "p_blend_usd_per_m": "0.310744730"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "9937ee28d4aedce316bcab855ca07a9039363e60177f044b6e3c52afb1533ee6"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/z-ai/glm-5.3-20260816/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/z-ai/glm-5.3-20260816",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "139887.343476",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "979211.404332",
+            "manipulation_cost_usd_per_pct": "9792.114043",
+            "max_open_interest_usd": "244802.851083",
+            "change_vs_prev": "-0.020117",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "bcc179123faf9960a01e44ad2b43019ec99ffc5f41056ffd7cb7fffd42d41ca3"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/z-ai/glm-5.3-20260816/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "9792.114043",
+        "max_open_interest_usd": "244802.851083",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-anthropic/claude-haiku-5.5-20261007",
@@ -1422,7 +2381,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/anthropic/claude-haiku-5.5-20261007/series.json"
       },
       "manipulation_cost_usd_per_pct": "2561.289694",
-      "max_open_interest_usd": "64032.242345"
+      "max_open_interest_usd": "64032.242345",
+      "licensed": {
+        "index_id": "or-model-spend-lic/anthropic/claude-haiku-5.5-20261007",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "22344.731211",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "376793375076",
+          "frozen": {
+            "w_in": "0.946066",
+            "billed_share": "0.878403",
+            "cache_share": "0.634934",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 10,
+            "as_of": "2026-11-10T23:17:46.000Z",
+            "listed_in_usd_per_m": "0.100000000",
+            "listed_out_usd_per_m": "0.500000000",
+            "listed_cache_read_usd_per_m": "0.010000000",
+            "p_in_usd_per_m": "0.042855940",
+            "p_blend_usd_per_m": "0.067511548"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "4c7de83524ad1ef1043108e3d3364b186563fe366a3127aef46fdf09043f6005"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/anthropic/claude-haiku-5.5-20261007/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/anthropic/claude-haiku-5.5-20261007",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "22709.541692",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "158966.791843",
+            "manipulation_cost_usd_per_pct": "1589.667918",
+            "max_open_interest_usd": "39741.697961",
+            "change_vs_prev": "0.009001",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "1fac7d24486a992630259b64d090098f57e874257eea76796e5c9197ee5a302a"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/anthropic/claude-haiku-5.5-20261007/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "1589.667918",
+        "max_open_interest_usd": "39741.697961",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-deepseek/deepseek-v4-flash-20260423",
@@ -1516,7 +2543,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/deepseek/deepseek-v4-flash-20260423/series.json"
       },
       "manipulation_cost_usd_per_pct": "2208.432972",
-      "max_open_interest_usd": "55210.824290"
+      "max_open_interest_usd": "55210.824290",
+      "licensed": {
+        "index_id": "or-model-spend-lic/deepseek/deepseek-v4-flash-20260423",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "23350.374513",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "374751276893",
+          "frozen": {
+            "w_in": "0.933911",
+            "billed_share": "0.970991",
+            "cache_share": "0.631472",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 13,
+            "as_of": "2026-11-10T23:18:10.000Z",
+            "listed_in_usd_per_m": "0.105000000",
+            "listed_out_usd_per_m": "0.210000000",
+            "listed_cache_read_usd_per_m": "0.024000000",
+            "p_in_usd_per_m": "0.053850768",
+            "p_blend_usd_per_m": "0.064170515"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "fa9fda5a15c67c11a2562096161e5173d37f9d94a58c9cace29da13ee483ce15"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/deepseek/deepseek-v4-flash-20260423/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/deepseek/deepseek-v4-flash-20260423",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "20486.119239",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "143402.834671",
+            "manipulation_cost_usd_per_pct": "1434.028347",
+            "max_open_interest_usd": "35850.708668",
+            "change_vs_prev": "0.008394",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "b0020c9ff2ba4010053de2f1c50500621dc4125c08bdab1baa75570d954d5666"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/deepseek/deepseek-v4-flash-20260423/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "1434.028347",
+        "max_open_interest_usd": "35850.708668",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-anthropic/claude-sonnet-5.5-20260928",
@@ -1610,7 +2705,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/anthropic/claude-sonnet-5.5-20260928/series.json"
       },
       "manipulation_cost_usd_per_pct": "12929.341069",
-      "max_open_interest_usd": "323233.526730"
+      "max_open_interest_usd": "323233.526730",
+      "licensed": {
+        "index_id": "or-model-spend-lic/anthropic/claude-sonnet-5.5-20260928",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "172734.472057",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "348917205168",
+          "frozen": {
+            "w_in": "0.981497",
+            "billed_share": "0.776726",
+            "cache_share": "0.810072",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 10,
+            "as_of": "2026-11-10T23:18:33.000Z",
+            "listed_in_usd_per_m": "2.000000000",
+            "listed_out_usd_per_m": "10.000000000",
+            "listed_cache_read_usd_per_m": "0.100000000",
+            "p_in_usd_per_m": "0.460863200",
+            "p_blend_usd_per_m": "0.637365848"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "1ff6b7ce7da7a8de396ab74e96908d85bcf683d0bb0441dd5c5dba77529b368c"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/anthropic/claude-sonnet-5.5-20260928/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/anthropic/claude-sonnet-5.5-20260928",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "168360.376879",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "1178522.638152",
+            "manipulation_cost_usd_per_pct": "11785.226382",
+            "max_open_interest_usd": "294630.659538",
+            "change_vs_prev": "0.004613",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "9fcf5dd0bb6c77c3287e154e3aa6707df2a5886be9e377245e3f4ec3eed38906"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/anthropic/claude-sonnet-5.5-20260928/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "11785.226382",
+        "max_open_interest_usd": "294630.659538",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-tencent/hy3-20260706",
@@ -1704,7 +2867,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/tencent/hy3-20260706/series.json"
       },
       "manipulation_cost_usd_per_pct": "15.672169",
-      "max_open_interest_usd": "391.804234"
+      "max_open_interest_usd": "391.804234",
+      "licensed": {
+        "index_id": "or-model-spend-lic/tencent/hy3-20260706",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "227.579736",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "322631806450",
+          "frozen": {
+            "w_in": "0.952280",
+            "billed_share": "0.010052",
+            "cache_share": "0.908328",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 5,
+            "as_of": "2026-11-10T23:18:55.000Z",
+            "listed_in_usd_per_m": "0.140000000",
+            "listed_out_usd_per_m": "0.580000000",
+            "listed_cache_read_usd_per_m": "0.035000000",
+            "p_in_usd_per_m": "0.044625560",
+            "p_blend_usd_per_m": "0.070173628"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "011fc8aeef48e077b059b76a527f314e1791689d2ff0c6281c0efce6eee464e8"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/tencent/hy3-20260706/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/tencent/hy3-20260706",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "236.580662",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "1656.064636",
+            "manipulation_cost_usd_per_pct": "16.560646",
+            "max_open_interest_usd": "414.016159",
+            "change_vs_prev": "-0.053905",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "c655607fec4583bbf532e5a51d0161704fbc2e079e480e453512cdc0cf682ccb"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/tencent/hy3-20260706/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "16.560646",
+        "max_open_interest_usd": "414.016159",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-google/gemini-3.8-flash-20260902",
@@ -1798,7 +3029,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/google/gemini-3.8-flash-20260902/series.json"
       },
       "manipulation_cost_usd_per_pct": "6887.702753",
-      "max_open_interest_usd": "172192.568833"
+      "max_open_interest_usd": "172192.568833",
+      "licensed": {
+        "index_id": "or-model-spend-lic/google/gemini-3.8-flash-20260902",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "94893.533272",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "242078901263",
+          "frozen": {
+            "w_in": "0.953636",
+            "billed_share": "0.837370",
+            "cache_share": "0.653975",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 7,
+            "as_of": "2026-11-10T23:19:19.000Z",
+            "listed_in_usd_per_m": "0.750000000",
+            "listed_out_usd_per_m": "3.750000000",
+            "listed_cache_read_usd_per_m": "0.075000000",
+            "p_in_usd_per_m": "0.308566875",
+            "p_blend_usd_per_m": "0.468125480"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "f74959d82482394682b549600eaedb781e0c534923cb769fa56bf095b0f52d50"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/google/gemini-3.8-flash-20260902/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/google/gemini-3.8-flash-20260902",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "87908.275711",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "615357.929979",
+            "manipulation_cost_usd_per_pct": "6153.579300",
+            "max_open_interest_usd": "153839.482495",
+            "change_vs_prev": "-0.003658",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "4ad7c953ae21352785721fdff93a7bd7957f422ad5c53980c5cc483429e2c73c"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/google/gemini-3.8-flash-20260902/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "6153.579300",
+        "max_open_interest_usd": "153839.482495",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-qwen/qwen3.8-flash-20260826",
@@ -1892,7 +3191,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/qwen/qwen3.8-flash-20260826/series.json"
       },
       "manipulation_cost_usd_per_pct": "448.313212",
-      "max_open_interest_usd": "11207.830303"
+      "max_open_interest_usd": "11207.830303",
+      "licensed": {
+        "index_id": "or-model-spend-lic/qwen/qwen3.8-flash-20260826",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "8620.121404",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "206658190699",
+          "frozen": {
+            "w_in": "0.954036",
+            "billed_share": "0.803581",
+            "cache_share": "0.882354",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 2,
+            "as_of": "2026-11-10T23:19:44.000Z",
+            "listed_in_usd_per_m": "0.150000000",
+            "listed_out_usd_per_m": "0.470000000",
+            "listed_cache_read_usd_per_m": "0.016000000",
+            "p_in_usd_per_m": "0.031764564",
+            "p_blend_usd_per_m": "0.051907618"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "a7afde8edaa77c11b191ec2185e43ae5143e1b728fed58089ea8bba888f57394"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/qwen/qwen3.8-flash-20260826/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/qwen/qwen3.8-flash-20260826",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "5909.148332",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "41364.038327",
+            "manipulation_cost_usd_per_pct": "413.640383",
+            "max_open_interest_usd": "10341.009582",
+            "change_vs_prev": "0.168153",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "c941463b4975652a8def7024bffde9dbeb353aace5843067933c978d9a015797"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/qwen/qwen3.8-flash-20260826/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "413.640383",
+        "max_open_interest_usd": "10341.009582",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-openai/gpt-5.6-luna-20260709",
@@ -1986,7 +3353,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/openai/gpt-5.6-luna-20260709/series.json"
       },
       "manipulation_cost_usd_per_pct": "1585.843576",
-      "max_open_interest_usd": "39646.089394"
+      "max_open_interest_usd": "39646.089394",
+      "licensed": {
+        "index_id": "or-model-spend-lic/openai/gpt-5.6-luna-20260709",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "18058.589097",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "201276984465",
+          "frozen": {
+            "w_in": "0.974943",
+            "billed_share": "0.891792",
+            "cache_share": "0.709161",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 8,
+            "as_of": "2026-11-10T23:20:09.000Z",
+            "listed_in_usd_per_m": "0.200000000",
+            "listed_out_usd_per_m": "1.200000000",
+            "listed_cache_read_usd_per_m": "0.020000000",
+            "p_in_usd_per_m": "0.072351020",
+            "p_blend_usd_per_m": "0.100606520"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "1af36ceae883fba50d31236e3b7ed5be1e2ed84d217567d3f89ff494519eaa5f"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/openai/gpt-5.6-luna-20260709/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/openai/gpt-5.6-luna-20260709",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "20986.135998",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "146902.951985",
+            "manipulation_cost_usd_per_pct": "1469.029520",
+            "max_open_interest_usd": "36725.737996",
+            "change_vs_prev": "-0.404474",
+            "clamped": true,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "63214f2be41c0dc9cdb477f025981d0f9cdb96e94218794ab9e650aabd4217d2"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/openai/gpt-5.6-luna-20260709/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "1469.029520",
+        "max_open_interest_usd": "36725.737996",
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "7D moved -0.404474 vs the prior day, beyond the 0.250000 clamp bound",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-upstage/solar-mini4-20260922",
@@ -2080,7 +3515,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/upstage/solar-mini4-20260922/series.json"
       },
       "manipulation_cost_usd_per_pct": "58.799099",
-      "max_open_interest_usd": "1469.977486"
+      "max_open_interest_usd": "1469.977486",
+      "licensed": {
+        "index_id": "or-model-spend-lic/upstage/solar-mini4-20260922",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "1057.137822",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "173874897567",
+          "frozen": {
+            "w_in": "0.986314",
+            "billed_share": "0.339708",
+            "cache_share": "0.769544",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 2,
+            "as_of": "2026-11-10T23:20:32.000Z",
+            "listed_in_usd_per_m": "0.050000000",
+            "listed_out_usd_per_m": "0.200000000",
+            "listed_cache_read_usd_per_m": "0.005000000",
+            "p_in_usd_per_m": "0.015370520",
+            "p_blend_usd_per_m": "0.017897359"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "8ffb437e84fdc0d3982cffe0cf3bb072627425cdcabf0485781d84f2aae5c5de"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/upstage/solar-mini4-20260922/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/upstage/solar-mini4-20260922",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "1195.801526",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "8370.610685",
+            "manipulation_cost_usd_per_pct": "83.706107",
+            "max_open_interest_usd": "2092.652671",
+            "change_vs_prev": "-0.028898",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "60d97485a20f8fe1771a7ac0e2ed9957f83b7c71f6b3cf13dcb92c990079fd82"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/upstage/solar-mini4-20260922/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "83.706107",
+        "max_open_interest_usd": "2092.652671",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-openai/gpt-6.1-terra-20261026",
@@ -2174,7 +3677,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/openai/gpt-6.1-terra-20261026/series.json"
       },
       "manipulation_cost_usd_per_pct": "2588.078571",
-      "max_open_interest_usd": "64701.964274"
+      "max_open_interest_usd": "64701.964274",
+      "licensed": {
+        "index_id": "or-model-spend-lic/openai/gpt-6.1-terra-20261026",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "32599.055912",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "170316280983",
+          "frozen": {
+            "w_in": "0.990240",
+            "billed_share": "0.850488",
+            "cache_share": "0.887024",
+            "derived_days": 15
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 7,
+            "as_of": "2026-11-10T23:20:54.000Z",
+            "listed_in_usd_per_m": "1.100000000",
+            "listed_out_usd_per_m": "5.500000000",
+            "listed_cache_read_usd_per_m": "0.055000000",
+            "p_in_usd_per_m": "0.173059920",
+            "p_blend_usd_per_m": "0.225050855"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "c0d982afbff1385d01e86211fa5f56fa35c428b6b21293bc6aa34bd331fced67"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/openai/gpt-6.1-terra-20261026/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/openai/gpt-6.1-terra-20261026",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "30088.436216",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "210619.053514",
+            "manipulation_cost_usd_per_pct": "2106.190535",
+            "max_open_interest_usd": "52654.763378",
+            "change_vs_prev": "0.045120",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "70aacad9d113a23fca503750d9c961aea58bf8535604ae982ad59765a4235675"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/openai/gpt-6.1-terra-20261026/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "2106.190535",
+        "max_open_interest_usd": "52654.763378",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-xiaomi/mimo-v2.6-pro-20260921",
@@ -2268,7 +3839,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/xiaomi/mimo-v2.6-pro-20260921/series.json"
       },
       "manipulation_cost_usd_per_pct": "958.506236",
-      "max_open_interest_usd": "23962.655892"
+      "max_open_interest_usd": "23962.655892",
+      "licensed": {
+        "index_id": "or-model-spend-lic/xiaomi/mimo-v2.6-pro-20260921",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "9632.925501",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "160552032910",
+          "frozen": {
+            "w_in": "0.975464",
+            "billed_share": "0.934144",
+            "cache_share": "0.906442",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 5,
+            "as_of": "2026-11-10T23:21:18.000Z",
+            "listed_in_usd_per_m": "0.435000000",
+            "listed_out_usd_per_m": "0.870000000",
+            "listed_cache_read_usd_per_m": "0.003600000",
+            "p_in_usd_per_m": "0.043960921",
+            "p_blend_usd_per_m": "0.064228616"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "b17e1d8a7732786ca42c2eeaad6b5d327e64ff4ce7289379e632c7c529f57d4f"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/xiaomi/mimo-v2.6-pro-20260921/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/xiaomi/mimo-v2.6-pro-20260921",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "10000.957944",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "70006.705610",
+            "manipulation_cost_usd_per_pct": "700.067056",
+            "max_open_interest_usd": "17501.676402",
+            "change_vs_prev": "0.012678",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "4e1cfd2a02f83b27a88aaea260cf9b9b488f3f2ee54eb25e20d31bf101469a62"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/xiaomi/mimo-v2.6-pro-20260921/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "700.067056",
+        "max_open_interest_usd": "17501.676402",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-google/gemini-4-argon-20261013",
@@ -2362,7 +4001,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/google/gemini-4-argon-20261013/series.json"
       },
       "manipulation_cost_usd_per_pct": "8417.407780",
-      "max_open_interest_usd": "210435.194512"
+      "max_open_interest_usd": "210435.194512",
+      "licensed": {
+        "index_id": "or-model-spend-lic/google/gemini-4-argon-20261013",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "99583.670702",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "159022598226",
+          "frozen": {
+            "w_in": "0.974895",
+            "billed_share": "0.797561",
+            "cache_share": "0.764275",
+            "derived_days": 28
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 6,
+            "as_of": "2026-11-10T23:21:40.000Z",
+            "listed_in_usd_per_m": "2.000000000",
+            "listed_out_usd_per_m": "10.000000000",
+            "listed_cache_read_usd_per_m": "0.100000000",
+            "p_in_usd_per_m": "0.547877500",
+            "p_blend_usd_per_m": "0.785173035"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "edd1df62f2296407314a5d3bf70e56b58a464141e2aaaa446ef2d5e07afd04cc"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/google/gemini-4-argon-20261013/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/google/gemini-4-argon-20261013",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "104574.656496",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "732022.595469",
+            "manipulation_cost_usd_per_pct": "7320.225955",
+            "max_open_interest_usd": "183005.648867",
+            "change_vs_prev": "-0.000919",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "6f4602592ae775afa536a59a9b979330be8d97ea8e848e8883390d90dff5fd0c"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/google/gemini-4-argon-20261013/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "7320.225955",
+        "max_open_interest_usd": "183005.648867",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-moonshotai/kimi-k3-20260715",
@@ -2456,7 +4163,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/moonshotai/kimi-k3-20260715/series.json"
       },
       "manipulation_cost_usd_per_pct": "10625.154482",
-      "max_open_interest_usd": "265628.862044"
+      "max_open_interest_usd": "265628.862044",
+      "licensed": {
+        "index_id": "or-model-spend-lic/moonshotai/kimi-k3-20260715",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "99767.123988",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "148943749487",
+          "frozen": {
+            "w_in": "0.981859",
+            "billed_share": "0.928999",
+            "cache_share": "0.901123",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 28,
+            "as_of": "2026-11-10T23:22:04.000Z",
+            "listed_in_usd_per_m": "2.300000000",
+            "listed_out_usd_per_m": "15.000000000",
+            "listed_cache_read_usd_per_m": "0.255000000",
+            "p_in_usd_per_m": "0.457203465",
+            "p_blend_usd_per_m": "0.721024337"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "8d327d830d7ecfa147bea1942d92edd8b35ff7a2efdc55b6bc0d852a90eeac4d"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/moonshotai/kimi-k3-20260715/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/moonshotai/kimi-k3-20260715",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "171481.891092",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "1200373.237643",
+            "manipulation_cost_usd_per_pct": "12003.732376",
+            "max_open_interest_usd": "300093.309411",
+            "change_vs_prev": "-0.058826",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "c0f4e70fce06cf952c074355bfbeadccd95a1dad9ff332971861e05332d4c258"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/moonshotai/kimi-k3-20260715/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "12003.732376",
+        "max_open_interest_usd": "300093.309411",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-z-ai/glm-5.2-20260616",
@@ -2550,7 +4325,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/z-ai/glm-5.2-20260616/series.json"
       },
       "manipulation_cost_usd_per_pct": "3103.455901",
-      "max_open_interest_usd": "77586.397525"
+      "max_open_interest_usd": "77586.397525",
+      "licensed": {
+        "index_id": "or-model-spend-lic/z-ai/glm-5.2-20260616",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "59750.980422",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "128516211675",
+          "frozen": {
+            "w_in": "0.969218",
+            "billed_share": "0.982038",
+            "cache_share": "0.801403",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 32,
+            "as_of": "2026-11-10T23:22:30.000Z",
+            "listed_in_usd_per_m": "1.053000000",
+            "listed_out_usd_per_m": "4.400000000",
+            "listed_cache_read_usd_per_m": "0.174200000",
+            "p_in_usd_per_m": "0.348727044",
+            "p_blend_usd_per_m": "0.473433328"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "82839c704dc9210ee4ae5b58fb89f6a4a85f61a26e78bc37680d4471db5e8c83"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/z-ai/glm-5.2-20260616/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/z-ai/glm-5.2-20260616",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "58968.560634",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "412779.924438",
+            "manipulation_cost_usd_per_pct": "4127.799244",
+            "max_open_interest_usd": "103194.981110",
+            "change_vs_prev": "-0.008642",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "a007038b8f0fef7600be1912215b9d29cb70c01d860846b5f63b75ba561c3b9b"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/z-ai/glm-5.2-20260616/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "4127.799244",
+        "max_open_interest_usd": "103194.981110",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-deepseek/deepseek-v4-pro-20260813",
@@ -2644,7 +4487,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/deepseek/deepseek-v4-pro-20260813/series.json"
       },
       "manipulation_cost_usd_per_pct": "2421.373868",
-      "max_open_interest_usd": "60534.346698"
+      "max_open_interest_usd": "60534.346698",
+      "licensed": {
+        "index_id": "or-model-spend-lic/deepseek/deepseek-v4-pro-20260813",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "43211.287564",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "115054183983",
+          "frozen": {
+            "w_in": "0.973167",
+            "billed_share": "0.942343",
+            "cache_share": "0.811613",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 25,
+            "as_of": "2026-11-10T23:22:51.000Z",
+            "listed_in_usd_per_m": "1.310000000",
+            "listed_out_usd_per_m": "3.960000000",
+            "listed_cache_read_usd_per_m": "0.066000000",
+            "p_in_usd_per_m": "0.300353428",
+            "p_blend_usd_per_m": "0.398552724"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "34f9a2f4e539a48ffc72a039fe033c0ff00f6426c5a929bd9334adae852880f0"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/deepseek/deepseek-v4-pro-20260813/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/deepseek/deepseek-v4-pro-20260813",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "42310.079050",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "296170.553349",
+            "manipulation_cost_usd_per_pct": "2961.705533",
+            "max_open_interest_usd": "74042.638337",
+            "change_vs_prev": "0.019268",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "8eb0616b91a7b81a2bf7aecf57a81f3b50e688b2a39853be92d265383eebfe9e"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/deepseek/deepseek-v4-pro-20260813/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "2961.705533",
+        "max_open_interest_usd": "74042.638337",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-qwen/qwen3.8-27b-20260814",
@@ -2738,7 +4649,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/qwen/qwen3.8-27b-20260814/series.json"
       },
       "manipulation_cost_usd_per_pct": "1390.383176",
-      "max_open_interest_usd": "34759.579404"
+      "max_open_interest_usd": "34759.579404",
+      "licensed": {
+        "index_id": "or-model-spend-lic/qwen/qwen3.8-27b-20260814",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "15857.272892",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "99418895852",
+          "frozen": {
+            "w_in": "0.958862",
+            "billed_share": "0.970812",
+            "cache_share": "0.730427",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 24,
+            "as_of": "2026-11-10T23:23:17.000Z",
+            "listed_in_usd_per_m": "0.150000000",
+            "listed_out_usd_per_m": "2.200000000",
+            "listed_cache_read_usd_per_m": "0.050000000",
+            "p_in_usd_per_m": "0.076957300",
+            "p_blend_usd_per_m": "0.164295031"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "2a147988e93dfc90f3705f91308d738dcade7eace52076bd072eb73b3aa62484"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/qwen/qwen3.8-27b-20260814/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/qwen/qwen3.8-27b-20260814",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "16437.514648",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "115062.602534",
+            "manipulation_cost_usd_per_pct": "1150.626025",
+            "max_open_interest_usd": "28765.650634",
+            "change_vs_prev": "-0.007267",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "8ca9e2fdecf14df163c2c858810b088b71f1ea1c64569417ba4dc16fc82722fc"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/qwen/qwen3.8-27b-20260814/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "1150.626025",
+        "max_open_interest_usd": "28765.650634",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-google/gemini-3-flash-preview-20251217",
@@ -2832,7 +4811,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/google/gemini-3-flash-preview-20251217/series.json"
       },
       "manipulation_cost_usd_per_pct": "2169.703044",
-      "max_open_interest_usd": "54242.576096"
+      "max_open_interest_usd": "54242.576096",
+      "licensed": {
+        "index_id": "or-model-spend-lic/google/gemini-3-flash-preview-20251217",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "34829.054329",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "94464876841",
+          "frozen": {
+            "w_in": "0.959984",
+            "billed_share": "0.892412",
+            "cache_share": "0.432627",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 6,
+            "as_of": "2026-11-10T23:23:39.000Z",
+            "listed_in_usd_per_m": "0.500000000",
+            "listed_out_usd_per_m": "3.000000000",
+            "listed_cache_read_usd_per_m": "0.050000000",
+            "p_in_usd_per_m": "0.305317850",
+            "p_blend_usd_per_m": "0.413148251"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "94fec6ffcad7485afcb05d89a2068b23066bd1c41642bc9f2263b65dcb291876"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/google/gemini-3-flash-preview-20251217/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/google/gemini-3-flash-preview-20251217",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "32007.335133",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "224051.345934",
+            "manipulation_cost_usd_per_pct": "2240.513459",
+            "max_open_interest_usd": "56012.836484",
+            "change_vs_prev": "0.005585",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "278beac7705412599a94b92da2f6cca5461a5bf932cf5f4ebdb8e8ce06ed9622"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/google/gemini-3-flash-preview-20251217/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "2240.513459",
+        "max_open_interest_usd": "56012.836484",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-openai/gpt-6-luna-pro-20260922",
@@ -2926,7 +4973,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/openai/gpt-6-luna-pro-20260922/series.json"
       },
       "manipulation_cost_usd_per_pct": "287.019762",
-      "max_open_interest_usd": "7175.494038"
+      "max_open_interest_usd": "7175.494038",
+      "licensed": {
+        "index_id": "or-model-spend-lic/openai/gpt-6-luna-pro-20260922",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "4603.641844",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "91089401101",
+          "frozen": {
+            "w_in": "0.966506",
+            "billed_share": "0.970159",
+            "cache_share": "0.704752",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 6,
+            "as_of": "2026-11-10T23:24:04.000Z",
+            "listed_in_usd_per_m": "0.100000000",
+            "listed_out_usd_per_m": "0.500000000",
+            "listed_cache_read_usd_per_m": "0.010000000",
+            "p_in_usd_per_m": "0.036572320",
+            "p_blend_usd_per_m": "0.052094367"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "672c19f519fe200786247a8c15be88a52a907419eae93ce033ff65cbf227a321"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/openai/gpt-6-luna-pro-20260922/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/openai/gpt-6-luna-pro-20260922",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "4378.535611",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "30649.749275",
+            "manipulation_cost_usd_per_pct": "306.497493",
+            "max_open_interest_usd": "7662.437319",
+            "change_vs_prev": "-0.005129",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "8bbe8172eb7ba36735f18df133e626d0107763605e45eff5a4131ec4d09be56a"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/openai/gpt-6-luna-pro-20260922/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "306.497493",
+        "max_open_interest_usd": "7662.437319",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-minimax/minimax-m3-20260531",
@@ -3020,7 +5135,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/minimax/minimax-m3-20260531/series.json"
       },
       "manipulation_cost_usd_per_pct": "308.362366",
-      "max_open_interest_usd": "7709.059154"
+      "max_open_interest_usd": "7709.059154",
+      "licensed": {
+        "index_id": "or-model-spend-lic/minimax/minimax-m3-20260531",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "2758.192190",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "88548501177",
+          "frozen": {
+            "w_in": "0.971562",
+            "billed_share": "0.274750",
+            "cache_share": "0.910142",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 10,
+            "as_of": "2026-11-10T23:24:26.000Z",
+            "listed_in_usd_per_m": "0.300000000",
+            "listed_out_usd_per_m": "1.200000000",
+            "listed_cache_read_usd_per_m": "0.060000000",
+            "p_in_usd_per_m": "0.081565920",
+            "p_blend_usd_per_m": "0.113371948"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "c3e29245daf7e710e31d379afd84964976893e5509f25c180803c58a54fb2100"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/minimax/minimax-m3-20260531/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/minimax/minimax-m3-20260531",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "2940.481096",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "20583.367671",
+            "manipulation_cost_usd_per_pct": "205.833677",
+            "max_open_interest_usd": "5145.841918",
+            "change_vs_prev": "-0.017459",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "493b9b88380106d53fb328fa4e465eb2241e7681874e486cec04d5798142b229"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/minimax/minimax-m3-20260531/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "205.833677",
+        "max_open_interest_usd": "5145.841918",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-deepseek/deepseek-v4-pro-20260423",
@@ -3114,7 +5297,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/deepseek/deepseek-v4-pro-20260423/series.json"
       },
       "manipulation_cost_usd_per_pct": "1686.288105",
-      "max_open_interest_usd": "42157.202624"
+      "max_open_interest_usd": "42157.202624",
+      "licensed": {
+        "index_id": "or-model-spend-lic/deepseek/deepseek-v4-pro-20260423",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "28726.416829",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "81261263686",
+          "frozen": {
+            "w_in": "0.964422",
+            "billed_share": "0.877727",
+            "cache_share": "0.836158",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 13,
+            "as_of": "2026-11-10T23:24:48.000Z",
+            "listed_in_usd_per_m": "1.300000000",
+            "listed_out_usd_per_m": "2.600000000",
+            "listed_cache_read_usd_per_m": "0.130000000",
+            "p_in_usd_per_m": "0.321695140",
+            "p_blend_usd_per_m": "0.402752670"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "f740872f5abc9416a2e462352ac17d1cc873215bdcd43eafbe96c2c860603503"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/deepseek/deepseek-v4-pro-20260423/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/deepseek/deepseek-v4-pro-20260423",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "27611.659882",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "193281.619175",
+            "manipulation_cost_usd_per_pct": "1932.816192",
+            "max_open_interest_usd": "48320.404794",
+            "change_vs_prev": "-0.039724",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "c35b36669711186ea1afbb772302f8180e1fcccb0bc287a9f6490963bf9d8552"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/deepseek/deepseek-v4-pro-20260423/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "1932.816192",
+        "max_open_interest_usd": "48320.404794",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-google/gemini-3.1-flash-lite-20260507",
@@ -3208,7 +5459,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/google/gemini-3.1-flash-lite-20260507/series.json"
       },
       "manipulation_cost_usd_per_pct": "982.372921",
-      "max_open_interest_usd": "24559.323026"
+      "max_open_interest_usd": "24559.323026",
+      "licensed": {
+        "index_id": "or-model-spend-lic/google/gemini-3.1-flash-lite-20260507",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "16086.566922",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "77199796980",
+          "frozen": {
+            "w_in": "0.941573",
+            "billed_share": "0.787070",
+            "cache_share": "0.275119",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 8,
+            "as_of": "2026-11-10T23:25:10.000Z",
+            "listed_in_usd_per_m": "0.250000000",
+            "listed_out_usd_per_m": "1.500000000",
+            "listed_cache_read_usd_per_m": "0.025000000",
+            "p_in_usd_per_m": "0.188098225",
+            "p_blend_usd_per_m": "0.264748710"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "41489e096a87e9c3df41c3259df546382f04357b9a03847dbc30c0404d98afbb"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/google/gemini-3.1-flash-lite-20260507/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/google/gemini-3.1-flash-lite-20260507",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "15175.520453",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "106228.643174",
+            "manipulation_cost_usd_per_pct": "1062.286432",
+            "max_open_interest_usd": "26557.160794",
+            "change_vs_prev": "-0.011743",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "6daed2514a991d4bdcf06253972789b1182b9a870010de81ad0b85d2b6985d86"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/google/gemini-3.1-flash-lite-20260507/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "1062.286432",
+        "max_open_interest_usd": "26557.160794",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-anthropic/claude-sonnet-5-20260630",
@@ -3302,7 +5621,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/anthropic/claude-sonnet-5-20260630/series.json"
       },
       "manipulation_cost_usd_per_pct": "3318.600288",
-      "max_open_interest_usd": "82965.007212"
+      "max_open_interest_usd": "82965.007212",
+      "licensed": {
+        "index_id": "or-model-spend-lic/anthropic/claude-sonnet-5-20260630",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "47581.761609",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "72702076912",
+          "frozen": {
+            "w_in": "0.978391",
+            "billed_share": "0.815186",
+            "cache_share": "0.777931",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 10,
+            "as_of": "2026-11-10T23:25:35.000Z",
+            "listed_in_usd_per_m": "2.000000000",
+            "listed_out_usd_per_m": "10.000000000",
+            "listed_cache_read_usd_per_m": "0.200000000",
+            "p_in_usd_per_m": "0.599724200",
+            "p_blend_usd_per_m": "0.802854760"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "cde1e142914050be328060db1dcf823fe6c294b555ace657fb7fe99d2c55d4f9"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/anthropic/claude-sonnet-5-20260630/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/anthropic/claude-sonnet-5-20260630",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "5 of 7 window days valid, 6 required",
+            "valid_days": 5,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "b614251c5b3785b06c235a280408063fffac366d80f51f87ed705fcda85bb1fc"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/anthropic/claude-sonnet-5-20260630/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 5 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-openai/gpt-oss-120b",
@@ -3396,7 +5783,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/openai/gpt-oss-120b/series.json"
       },
       "manipulation_cost_usd_per_pct": "488.714132",
-      "max_open_interest_usd": "12217.853292"
+      "max_open_interest_usd": "12217.853292",
+      "licensed": {
+        "index_id": "or-model-spend-lic/openai/gpt-oss-120b",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "8196.195373",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "71209721344",
+          "frozen": {
+            "w_in": "0.872807",
+            "billed_share": "0.869726",
+            "cache_share": "0.424776",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 25,
+            "as_of": "2026-11-10T23:25:59.000Z",
+            "listed_in_usd_per_m": "0.100000000",
+            "listed_out_usd_per_m": "0.500000000",
+            "listed_cache_read_usd_per_m": "0.050000000",
+            "p_in_usd_per_m": "0.078761200",
+            "p_blend_usd_per_m": "0.132339827"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "9ed695ed299767eead8751b4a7b456aa40a4a314cd2d77a2fae9a72f8d8ab1c5"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/openai/gpt-oss-120b/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/openai/gpt-oss-120b",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "4 of 7 window days valid, 6 required",
+            "valid_days": 4,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "8dfca56b91cab6737673cb1e79e8c8b30c92f2c1822d4f22450af46376821ede"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/openai/gpt-oss-120b/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 4 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-x-ai/grok-4.7-20260916",
@@ -3490,7 +5945,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/x-ai/grok-4.7-20260916/series.json"
       },
       "manipulation_cost_usd_per_pct": "2482.679542",
-      "max_open_interest_usd": "62066.988541"
+      "max_open_interest_usd": "62066.988541",
+      "licensed": {
+        "index_id": "or-model-spend-lic/x-ai/grok-4.7-20260916",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "48759.342284",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "65579419465",
+          "frozen": {
+            "w_in": "0.972034",
+            "billed_share": "0.931854",
+            "cache_share": "0.901186",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 6,
+            "as_of": "2026-11-10T23:26:24.000Z",
+            "listed_in_usd_per_m": "2.000000000",
+            "listed_out_usd_per_m": "6.000000000",
+            "listed_cache_read_usd_per_m": "0.500000000",
+            "p_in_usd_per_m": "0.648221000",
+            "p_blend_usd_per_m": "0.797888852"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "2f5054352e3da8a3b0da0422548288ce993996c208198201acbd06e89a6579ad"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/x-ai/grok-4.7-20260916/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/x-ai/grok-4.7-20260916",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "1 of 7 window days valid, 6 required",
+            "valid_days": 1,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "df6118fc25332a75264a3628bffe5868740a2e1121aa7303315b469917eea4b7"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/x-ai/grok-4.7-20260916/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 1 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-google/gemma-4-31b-it-20260402",
@@ -3584,7 +6107,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/google/gemma-4-31b-it-20260402/series.json"
       },
       "manipulation_cost_usd_per_pct": "632.503016",
-      "max_open_interest_usd": "15812.575404"
+      "max_open_interest_usd": "15812.575404",
+      "licensed": {
+        "index_id": "or-model-spend-lic/google/gemma-4-31b-it-20260402",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "9528.804798",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "65404935131",
+          "frozen": {
+            "w_in": "0.922324",
+            "billed_share": "0.947436",
+            "cache_share": "0.282741",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 18,
+            "as_of": "2026-11-10T23:26:47.000Z",
+            "listed_in_usd_per_m": "0.150000000",
+            "listed_out_usd_per_m": "0.400000000",
+            "listed_cache_read_usd_per_m": "0.090000000",
+            "p_in_usd_per_m": "0.133035540",
+            "p_blend_usd_per_m": "0.153772271"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "baec473dc75c10e27017a12940ab15d58532a1ba309fe7bb8bde078a60666444"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/google/gemma-4-31b-it-20260402/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/google/gemma-4-31b-it-20260402",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "9411.408485",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "65879.859395",
+            "manipulation_cost_usd_per_pct": "658.798594",
+            "max_open_interest_usd": "16469.964849",
+            "change_vs_prev": "-0.006708",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "13d1ddb7d0b56096b3737e27b44a2b69ddf941511f23867ed068c18d4e74fa58"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/google/gemma-4-31b-it-20260402/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "658.798594",
+        "max_open_interest_usd": "16469.964849",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-google/gemma-4-26b-a4b-it-20260403",
@@ -3678,7 +6269,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/google/gemma-4-26b-a4b-it-20260403/series.json"
       },
       "manipulation_cost_usd_per_pct": "312.196004",
-      "max_open_interest_usd": "7804.900098"
+      "max_open_interest_usd": "7804.900098",
+      "licensed": {
+        "index_id": "or-model-spend-lic/google/gemma-4-26b-a4b-it-20260403",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "5241.286357",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "63007549403",
+          "frozen": {
+            "w_in": "0.933488",
+            "billed_share": "0.945573",
+            "cache_share": "0.232399",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 15,
+            "as_of": "2026-11-10T23:27:14.000Z",
+            "listed_in_usd_per_m": "0.081000000",
+            "listed_out_usd_per_m": "0.300000000",
+            "listed_cache_read_usd_per_m": "0.046000000",
+            "p_in_usd_per_m": "0.072866035",
+            "p_blend_usd_per_m": "0.087973169"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "b0593294dab9e14ccb3f93de618f7ad83b3b37b17cf380a848915f5a57a54e61"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/google/gemma-4-26b-a4b-it-20260403/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/google/gemma-4-26b-a4b-it-20260403",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "4723.354136",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "33063.478954",
+            "manipulation_cost_usd_per_pct": "330.634790",
+            "max_open_interest_usd": "8265.869738",
+            "change_vs_prev": "0.020493",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "4e1be0ce9778e82722f6ec3f876454dfa5727dff2fe889120eddb4a665c05003"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/google/gemma-4-26b-a4b-it-20260403/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "330.634790",
+        "max_open_interest_usd": "8265.869738",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-qwen/qwen3.7-flash-20260727",
@@ -3772,7 +6431,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/qwen/qwen3.7-flash-20260727/series.json"
       },
       "manipulation_cost_usd_per_pct": "136.978091",
-      "max_open_interest_usd": "3424.452268"
+      "max_open_interest_usd": "3424.452268",
+      "licensed": {
+        "index_id": "or-model-spend-lic/qwen/qwen3.7-flash-20260727",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "1713.435082",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "59251923904",
+          "frozen": {
+            "w_in": "0.911739",
+            "billed_share": "0.968410",
+            "cache_share": "0.409702",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 2,
+            "as_of": "2026-11-10T23:27:40.000Z",
+            "listed_in_usd_per_m": "0.030000000",
+            "listed_out_usd_per_m": "0.130000000",
+            "listed_cache_read_usd_per_m": "0.006000000",
+            "p_in_usd_per_m": "0.020167152",
+            "p_blend_usd_per_m": "0.029861109"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "c6da6fa08fe61bf9b5d8d566ca48936000fdd69a8a186254ab24194f92c14703"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/qwen/qwen3.7-flash-20260727/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/qwen/qwen3.7-flash-20260727",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "1756.237662",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 7,
+            "window_sum_usd": "12293.663631",
+            "manipulation_cost_usd_per_pct": "122.936636",
+            "max_open_interest_usd": "3073.415908",
+            "change_vs_prev": "-0.030744",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "eefdbfc4f43c2c19ab451a5bf38bde04b6dcd0ab92e805e5654f4dcba8b4b4cd"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/qwen/qwen3.7-flash-20260727/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "122.936636",
+        "max_open_interest_usd": "3073.415908",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-upstage/solar-pro4-20260810",
@@ -3866,7 +6593,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/upstage/solar-pro4-20260810/series.json"
       },
       "manipulation_cost_usd_per_pct": "24.624394",
-      "max_open_interest_usd": "615.609853"
+      "max_open_interest_usd": "615.609853",
+      "licensed": {
+        "index_id": "or-model-spend-lic/upstage/solar-pro4-20260810",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "219.227044",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "58961041204",
+          "frozen": {
+            "w_in": "0.941341",
+            "billed_share": "0.050100",
+            "cache_share": "0.904575",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 2,
+            "as_of": "2026-11-10T23:28:04.000Z",
+            "listed_in_usd_per_m": "0.150000000",
+            "listed_out_usd_per_m": "0.600000000",
+            "listed_cache_read_usd_per_m": "0.030000000",
+            "p_in_usd_per_m": "0.041451000",
+            "p_blend_usd_per_m": "0.074214926"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "c0a2ee1121efa0567e89238518dd980ece8f2c39aec22b5e5a0784309bc03e7b"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/upstage/solar-pro4-20260810/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/upstage/solar-pro4-20260810",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "255.646105",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 6,
+            "window_sum_usd": "1533.876629",
+            "manipulation_cost_usd_per_pct": "15.338766",
+            "max_open_interest_usd": "383.469157",
+            "change_vs_prev": "-0.023422",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "fb925e5b9ac84779bfd990f5953392dd123cf49c9cd472baf58cea9f986db4a7"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/upstage/solar-pro4-20260810/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "15.338766",
+        "max_open_interest_usd": "383.469157",
+        "lifecycle": {
+          "status": "ACTIVE",
+          "reason": "paper trading only",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-google/gemini-2.5-flash-lite",
@@ -3960,7 +6755,75 @@
         "series_path": "/v1/indices/or-model-spend-7d/google/gemini-2.5-flash-lite/series.json"
       },
       "manipulation_cost_usd_per_pct": "323.823542",
-      "max_open_interest_usd": "8095.588546"
+      "max_open_interest_usd": "8095.588546",
+      "licensed": {
+        "index_id": "or-model-spend-lic/google/gemini-2.5-flash-lite",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": "5155.592434",
+          "data_status": "OK",
+          "reason": null,
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "MEDIUM",
+          "blocked": false,
+          "total_tokens": "50117138720",
+          "frozen": {
+            "w_in": "0.903593",
+            "billed_share": "0.928834",
+            "cache_share": "0.223422",
+            "derived_days": 30
+          },
+          "price": {
+            "basis": "LISTED_SNAPSHOT",
+            "source": "documented /api/v1/models/{id}/endpoints",
+            "providers": 3,
+            "as_of": "2026-11-10T23:28:26.000Z",
+            "listed_in_usd_per_m": "0.100000000",
+            "listed_out_usd_per_m": "0.400000000",
+            "listed_cache_read_usd_per_m": "0.010000000",
+            "p_in_usd_per_m": "0.079892020",
+            "p_blend_usd_per_m": "0.110752670"
+          },
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "d3f6f6f4db17a0d216840adab939ed928febd690d68f589143e9779696686cf3"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/google/gemini-2.5-flash-lite/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/google/gemini-2.5-flash-lite",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "1 of 7 window days valid, 6 required",
+            "valid_days": 1,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "52f78d1a9102bf06a834fa10d10b490ca55e8f49f0012f0be72c5945c726e430"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/google/gemini-2.5-flash-lite/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 1 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-mistralai/mistral-nemo",
@@ -4056,7 +6919,65 @@
         "series_path": "/v1/indices/or-model-spend-7d/mistralai/mistral-nemo/series.json"
       },
       "manipulation_cost_usd_per_pct": "84.112303",
-      "max_open_interest_usd": "2102.807574"
+      "max_open_interest_usd": "2102.807574",
+      "licensed": {
+        "index_id": "or-model-spend-lic/mistralai/mistral-nemo",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": null,
+          "data_status": "NOT_REPORTED",
+          "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-11-09",
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "NONE",
+          "blocked": false,
+          "total_tokens": null,
+          "frozen": {
+            "w_in": "0.948532",
+            "billed_share": "0.917281",
+            "cache_share": "0.025594",
+            "derived_days": 30
+          },
+          "price": null,
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "d0ccdf1528b831d1da416314f4a7e422700a5894fceae7b4f8299a98b38df5ba"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/mistralai/mistral-nemo/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/mistralai/mistral-nemo",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "2 of 7 window days valid, 6 required",
+            "valid_days": 2,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "b7cb03524de9bf33da5563368c7abb826ca01ad9c507ae5e3174ac387aa4a862"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/mistralai/mistral-nemo/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 2 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-nvidia/nemotron-3.5-super-vl-20261015",
@@ -4152,7 +7073,65 @@
         "series_path": "/v1/indices/or-model-spend-7d/nvidia/nemotron-3.5-super-vl-20261015/series.json"
       },
       "manipulation_cost_usd_per_pct": "667.209098",
-      "max_open_interest_usd": "16680.227462"
+      "max_open_interest_usd": "16680.227462",
+      "licensed": {
+        "index_id": "or-model-spend-lic/nvidia/nemotron-3.5-super-vl-20261015",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": null,
+          "data_status": "NOT_REPORTED",
+          "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-11-09",
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "NONE",
+          "blocked": false,
+          "total_tokens": null,
+          "frozen": {
+            "w_in": "0.966336",
+            "billed_share": "0.999837",
+            "cache_share": "0.801677",
+            "derived_days": 26
+          },
+          "price": null,
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "4541a899a5ba17dcc5e0bee8a7d587966671472aa146ff5934a251b220f72f81"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/nvidia/nemotron-3.5-super-vl-20261015/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/nvidia/nemotron-3.5-super-vl-20261015",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": "8814.026384",
+            "data_status": "OK",
+            "reason": null,
+            "valid_days": 6,
+            "window_sum_usd": "52884.158302",
+            "manipulation_cost_usd_per_pct": "528.841583",
+            "max_open_interest_usd": "13221.039576",
+            "change_vs_prev": "0.000000",
+            "clamped": false,
+            "lifecycle": "ACTIVE",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "180212d3addf0797f805639588395b069d3dd5f3d7e25ab32d3f2f0b131e66ef"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/nvidia/nemotron-3.5-super-vl-20261015/series.json"
+        },
+        "manipulation_cost_usd_per_pct": "528.841583",
+        "max_open_interest_usd": "13221.039576",
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest daily value is NOT_REPORTED",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-openai/gpt-6-astra-20260903",
@@ -4248,7 +7227,65 @@
         "series_path": "/v1/indices/or-model-spend-7d/openai/gpt-6-astra-20260903/series.json"
       },
       "manipulation_cost_usd_per_pct": "17896.326555",
-      "max_open_interest_usd": "447408.163864"
+      "max_open_interest_usd": "447408.163864",
+      "licensed": {
+        "index_id": "or-model-spend-lic/openai/gpt-6-astra-20260903",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": null,
+          "data_status": "NOT_REPORTED",
+          "reason": "openai/gpt-6-astra-20260903 not in the documented top 50 for 2026-11-09",
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "NONE",
+          "blocked": false,
+          "total_tokens": null,
+          "frozen": {
+            "w_in": "0.970232",
+            "billed_share": "0.734368",
+            "cache_share": "0.892705",
+            "derived_days": 30
+          },
+          "price": null,
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "da6626d6f7a953c2e4c3240c628cc69360a67745f0f0e86c7374c5fb97b4c21a"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/openai/gpt-6-astra-20260903/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/openai/gpt-6-astra-20260903",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "2 of 7 window days valid, 6 required",
+            "valid_days": 2,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "2da49b5701012e7fec4cd828492c8f2492f6044725f21243ccb0793a58fa1c80"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/openai/gpt-6-astra-20260903/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 2 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-google/gemini-3.7-flash-20260813",
@@ -4344,7 +7381,65 @@
         "series_path": "/v1/indices/or-model-spend-7d/google/gemini-3.7-flash-20260813/series.json"
       },
       "manipulation_cost_usd_per_pct": "1730.997223",
-      "max_open_interest_usd": "43274.930582"
+      "max_open_interest_usd": "43274.930582",
+      "licensed": {
+        "index_id": "or-model-spend-lic/google/gemini-3.7-flash-20260813",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": null,
+          "data_status": "NOT_REPORTED",
+          "reason": "google/gemini-3.7-flash-20260813 not in the documented top 50 for 2026-11-09",
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "NONE",
+          "blocked": false,
+          "total_tokens": null,
+          "frozen": {
+            "w_in": "0.933937",
+            "billed_share": "0.910669",
+            "cache_share": "0.445801",
+            "derived_days": 30
+          },
+          "price": null,
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "8827d8c005763500f9202b7bd12a6365d46822926f28778fb3a7fd9ca77e9364"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/google/gemini-3.7-flash-20260813/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/google/gemini-3.7-flash-20260813",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "1 of 7 window days valid, 6 required",
+            "valid_days": 1,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "e34af7edbb1c7c5c0db1aa8bebff153fb578dc1c15870d4359ca990f7c3b82de"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/google/gemini-3.7-flash-20260813/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 1 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-openai/gpt-5.6-sol-20260709",
@@ -4440,7 +7535,65 @@
         "series_path": "/v1/indices/or-model-spend-7d/openai/gpt-5.6-sol-20260709/series.json"
       },
       "manipulation_cost_usd_per_pct": "6600.277730",
-      "max_open_interest_usd": "165006.943249"
+      "max_open_interest_usd": "165006.943249",
+      "licensed": {
+        "index_id": "or-model-spend-lic/openai/gpt-5.6-sol-20260709",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": null,
+          "data_status": "NOT_REPORTED",
+          "reason": "openai/gpt-5.6-sol-20260709 not in the documented top 50 for 2026-11-09",
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "NONE",
+          "blocked": false,
+          "total_tokens": null,
+          "frozen": {
+            "w_in": "0.962238",
+            "billed_share": "0.889913",
+            "cache_share": "0.835329",
+            "derived_days": 30
+          },
+          "price": null,
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "839ac3df2d5ccd24957b6d698e2919a91673b0eab7f674a3197f1f46b933f56a"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/openai/gpt-5.6-sol-20260709/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/openai/gpt-5.6-sol-20260709",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "2 of 7 window days valid, 6 required",
+            "valid_days": 2,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "2026-11-11T00:25:52.511Z",
+            "print_hash": "26928b14f9df7887a4c8c1c9d0a37fa3d544e94a9c7833e8e45ff37b2f5983a2"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/openai/gpt-5.6-sol-20260709/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 2 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-deepseek/deepseek-v3.2-20251201",
@@ -4536,7 +7689,65 @@
         "series_path": "/v1/indices/or-model-spend-7d/deepseek/deepseek-v3.2-20251201/series.json"
       },
       "manipulation_cost_usd_per_pct": "511.617645",
-      "max_open_interest_usd": "12790.441132"
+      "max_open_interest_usd": "12790.441132",
+      "licensed": {
+        "index_id": "or-model-spend-lic/deepseek/deepseek-v3.2-20251201",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": null,
+          "data_status": "NOT_REPORTED",
+          "reason": "deepseek/deepseek-v3.2-20251201 not in the documented top 50 for 2026-11-09",
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "NONE",
+          "blocked": false,
+          "total_tokens": null,
+          "frozen": {
+            "w_in": "0.928349",
+            "billed_share": "0.990379",
+            "cache_share": "0.580847",
+            "derived_days": 30
+          },
+          "price": null,
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "4322dde39be7b735ffa7e76e6fe9069d6b613fb4a3587384628c060c5010d122"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/deepseek/deepseek-v3.2-20251201/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/deepseek/deepseek-v3.2-20251201",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "0 of 7 window days valid, 6 required",
+            "valid_days": 0,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "1970-01-01T00:00:00.000Z",
+            "print_hash": "81cce91f8f7322ca822ec08a4416600e14ee11e2c1e88b7b2e7bbeda7e6473f4"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/deepseek/deepseek-v3.2-20251201/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 0 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-google/gemini-2.5-flash",
@@ -4632,7 +7843,65 @@
         "series_path": "/v1/indices/or-model-spend-7d/google/gemini-2.5-flash/series.json"
       },
       "manipulation_cost_usd_per_pct": "922.764435",
-      "max_open_interest_usd": "23069.110875"
+      "max_open_interest_usd": "23069.110875",
+      "licensed": {
+        "index_id": "or-model-spend-lic/google/gemini-2.5-flash",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": null,
+          "data_status": "NOT_REPORTED",
+          "reason": "google/gemini-2.5-flash not in the documented top 50 for 2026-11-09",
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "NONE",
+          "blocked": false,
+          "total_tokens": null,
+          "frozen": {
+            "w_in": "0.921106",
+            "billed_share": "0.956218",
+            "cache_share": "0.398500",
+            "derived_days": 30
+          },
+          "price": null,
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "4f42a19a6e3a116479bd1e57fd2bd043db72ccd174ffe7605509cf4a36e95ab6"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/google/gemini-2.5-flash/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/google/gemini-2.5-flash",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "0 of 7 window days valid, 6 required",
+            "valid_days": 0,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "1970-01-01T00:00:00.000Z",
+            "print_hash": "9bd927a3c788349347ca11e4e2adcae4758a952d4dacd85410debbd354b78a87"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/google/gemini-2.5-flash/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 0 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-anthropic/claude-fable-5.1-20260831",
@@ -4728,7 +7997,65 @@
         "series_path": "/v1/indices/or-model-spend-7d/anthropic/claude-fable-5.1-20260831/series.json"
       },
       "manipulation_cost_usd_per_pct": "3729.434317",
-      "max_open_interest_usd": "93235.857925"
+      "max_open_interest_usd": "93235.857925",
+      "licensed": {
+        "index_id": "or-model-spend-lic/anthropic/claude-fable-5.1-20260831",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": null,
+          "data_status": "NOT_REPORTED",
+          "reason": "anthropic/claude-fable-5.1-20260831 not in the documented top 50 for 2026-11-09",
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "NONE",
+          "blocked": false,
+          "total_tokens": null,
+          "frozen": {
+            "w_in": "0.989326",
+            "billed_share": "0.745971",
+            "cache_share": "0.893682",
+            "derived_days": 30
+          },
+          "price": null,
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "b342f068ee193b09d800f9e3b61aa7ba74cc9971f09defd51254b80d9a19b9e9"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/anthropic/claude-fable-5.1-20260831/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/anthropic/claude-fable-5.1-20260831",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "0 of 7 window days valid, 6 required",
+            "valid_days": 0,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "1970-01-01T00:00:00.000Z",
+            "print_hash": "8b64860eb3538e6a4f983b659f7922eda71042ea312797830431f6a34b69be81"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/anthropic/claude-fable-5.1-20260831/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 0 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-anthropic/claude-fable-5.2-20261109",
@@ -4762,7 +8089,60 @@
         "series_path": "/v1/indices/or-model-spend-7d/anthropic/claude-fable-5.2-20261109/series.json"
       },
       "manipulation_cost_usd_per_pct": null,
-      "max_open_interest_usd": null
+      "max_open_interest_usd": null,
+      "licensed": {
+        "index_id": "or-model-spend-lic/anthropic/claude-fable-5.2-20261109",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": null,
+          "data_status": "NOT_REPORTED",
+          "reason": "anthropic/claude-fable-5.2-20261109 not in the documented top 50 for 2026-11-09",
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "NONE",
+          "blocked": false,
+          "total_tokens": null,
+          "frozen": null,
+          "price": null,
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "4b282df165fd9c86d31652610a360c4c44d0fb35b22c542357ed0ce07890966b"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/anthropic/claude-fable-5.2-20261109/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/anthropic/claude-fable-5.2-20261109",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "0 of 7 window days valid, 6 required",
+            "valid_days": 0,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "1970-01-01T00:00:00.000Z",
+            "print_hash": "4781cbe605d272bcb1b9f055adbea0125f22adb81dafdabc0afb79520353e7bf"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/anthropic/claude-fable-5.2-20261109/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 0 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-meta/muse-ember-20261109",
@@ -4796,7 +8176,60 @@
         "series_path": "/v1/indices/or-model-spend-7d/meta/muse-ember-20261109/series.json"
       },
       "manipulation_cost_usd_per_pct": null,
-      "max_open_interest_usd": null
+      "max_open_interest_usd": null,
+      "licensed": {
+        "index_id": "or-model-spend-lic/meta/muse-ember-20261109",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": null,
+          "data_status": "NOT_REPORTED",
+          "reason": "meta/muse-ember-20261109 not in the documented top 50 for 2026-11-09",
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "NONE",
+          "blocked": false,
+          "total_tokens": null,
+          "frozen": null,
+          "price": null,
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "e0b4a8aad87d7c9ce5937d23086b237fde39af2f4c547432d9cbfd263b184bc1"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/meta/muse-ember-20261109/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/meta/muse-ember-20261109",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "0 of 7 window days valid, 6 required",
+            "valid_days": 0,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "1970-01-01T00:00:00.000Z",
+            "print_hash": "2510d3ab38db6a38ef21e0253b8b12dd54833067fc1643862e7943aac9ffaac7"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/meta/muse-ember-20261109/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 0 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-tencent/hy4-preview-20260827",
@@ -4830,7 +8263,60 @@
         "series_path": "/v1/indices/or-model-spend-7d/tencent/hy4-preview-20260827/series.json"
       },
       "manipulation_cost_usd_per_pct": null,
-      "max_open_interest_usd": null
+      "max_open_interest_usd": null,
+      "licensed": {
+        "index_id": "or-model-spend-lic/tencent/hy4-preview-20260827",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": null,
+          "data_status": "NOT_REPORTED",
+          "reason": "tencent/hy4-preview-20260827 not in the documented top 50 for 2026-11-09",
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "NONE",
+          "blocked": false,
+          "total_tokens": null,
+          "frozen": null,
+          "price": null,
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "ba5c474d3d25201b7af074e43c7f754d86874ba18c581dd5aa8f1e09e8dde231"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/tencent/hy4-preview-20260827/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/tencent/hy4-preview-20260827",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "0 of 7 window days valid, 6 required",
+            "valid_days": 0,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "1970-01-01T00:00:00.000Z",
+            "print_hash": "ffb8fe30560da1c7845ef3f03b5cc8cdde0bca226e3b09c44d08d2c7551a899b"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/tencent/hy4-preview-20260827/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 0 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     },
     {
       "market_id": "ZFX-OR-google/gemini-4-carbon-20261110",
@@ -4864,7 +8350,60 @@
         "series_path": "/v1/indices/or-model-spend-7d/google/gemini-4-carbon-20261110/series.json"
       },
       "manipulation_cost_usd_per_pct": null,
-      "max_open_interest_usd": null
+      "max_open_interest_usd": null,
+      "licensed": {
+        "index_id": "or-model-spend-lic/google/gemini-4-carbon-20261110",
+        "latest": {
+          "utc_date": "2026-11-09",
+          "value_usd": null,
+          "data_status": "NOT_REPORTED",
+          "reason": "google/gemini-4-carbon-20261110 not in the documented top 50 for 2026-11-09",
+          "finality": "FINAL",
+          "revision": 1,
+          "revision_id": "2026-11-09.r1",
+          "confidence": "NONE",
+          "blocked": false,
+          "total_tokens": null,
+          "frozen": null,
+          "price": null,
+          "source_as_of": "2026-11-11T00:25:53.556Z",
+          "print_hash": "403ba73c225eb128f7b02ab58d0d9fad4e2fcc3e07bc852cf8afd020643f79ae"
+        },
+        "series_path": "/v1/indices/or-model-spend-lic/google/gemini-4-carbon-20261110/series.json",
+        "index_7d": {
+          "index_id": "or-model-spend-lic-7d/google/gemini-4-carbon-20261110",
+          "latest": {
+            "utc_date": "2026-11-09",
+            "window": [
+              "2026-11-03",
+              "2026-11-09"
+            ],
+            "value_usd": null,
+            "data_status": "NOT_REPORTED",
+            "reason": "0 of 7 window days valid, 6 required",
+            "valid_days": 0,
+            "window_sum_usd": null,
+            "manipulation_cost_usd_per_pct": null,
+            "max_open_interest_usd": null,
+            "change_vs_prev": null,
+            "clamped": false,
+            "lifecycle": "CLOSE_ONLY",
+            "finality": "FINAL",
+            "revision": 1,
+            "revision_id": "2026-11-09.r1",
+            "observed_at": "1970-01-01T00:00:00.000Z",
+            "print_hash": "e398e09196a17e4045488d40f92d61b847fb76132a0e77497e064b2cc130dc81"
+          },
+          "series_path": "/v1/indices/or-model-spend-lic-7d/google/gemini-4-carbon-20261110/series.json"
+        },
+        "manipulation_cost_usd_per_pct": null,
+        "max_open_interest_usd": null,
+        "lifecycle": {
+          "status": "CLOSE_ONLY",
+          "reason": "latest 7D day 2026-11-09 is NOT_REPORTED: 0 of 7 window days valid, 6 required",
+          "trading": "PAPER_ONLY"
+        }
+      }
     }
   ]
 }

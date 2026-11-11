@@ -1,0 +1,307 @@
+{
+  "formula": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+  "derived_from": "ZFX-OR-MODEL-SPEND-USD-v1 web-endpoint daily revisions, counted days 2026-10-11..2026-11-09",
+  "note": "Frozen composition shares, parts per million. Never updated within this formula version.",
+  "models": {
+    "anthropic/claude-fable-5.1-20260831": {
+      "w_in_ppm": "989326",
+      "billed_ppm": "745971",
+      "cache_ppm": "893682",
+      "days": 30
+    },
+    "anthropic/claude-haiku-5.5-20261007": {
+      "w_in_ppm": "946066",
+      "billed_ppm": "878403",
+      "cache_ppm": "634934",
+      "days": 30
+    },
+    "anthropic/claude-opus-5.5-20260921": {
+      "w_in_ppm": "990423",
+      "billed_ppm": "760678",
+      "cache_ppm": "899243",
+      "days": 30
+    },
+    "anthropic/claude-sonnet-5-20260630": {
+      "w_in_ppm": "978391",
+      "billed_ppm": "815186",
+      "cache_ppm": "777931",
+      "days": 30
+    },
+    "anthropic/claude-sonnet-5.5-20260928": {
+      "w_in_ppm": "981497",
+      "billed_ppm": "776726",
+      "cache_ppm": "810072",
+      "days": 30
+    },
+    "deepseek/deepseek-v3.2-20251201": {
+      "w_in_ppm": "928349",
+      "billed_ppm": "990379",
+      "cache_ppm": "580847",
+      "days": 30
+    },
+    "deepseek/deepseek-v4-flash-20260423": {
+      "w_in_ppm": "933911",
+      "billed_ppm": "970991",
+      "cache_ppm": "631472",
+      "days": 30
+    },
+    "deepseek/deepseek-v4-flash-20260731": {
+      "w_in_ppm": "954962",
+      "billed_ppm": "948224",
+      "cache_ppm": "722938",
+      "days": 30
+    },
+    "deepseek/deepseek-v4-pro-20260423": {
+      "w_in_ppm": "964422",
+      "billed_ppm": "877727",
+      "cache_ppm": "836158",
+      "days": 30
+    },
+    "deepseek/deepseek-v4-pro-20260813": {
+      "w_in_ppm": "973167",
+      "billed_ppm": "942343",
+      "cache_ppm": "811613",
+      "days": 30
+    },
+    "deepseek/deepseek-v4.1-flash-20260910": {
+      "w_in_ppm": "978727",
+      "billed_ppm": "956846",
+      "cache_ppm": "903071",
+      "days": 30
+    },
+    "deepseek/deepseek-v4.1-flash-20261017": {
+      "w_in_ppm": "986177",
+      "billed_ppm": "940059",
+      "cache_ppm": "937190",
+      "days": 24
+    },
+    "google/gemini-2.5-flash": {
+      "w_in_ppm": "921106",
+      "billed_ppm": "956218",
+      "cache_ppm": "398500",
+      "days": 30
+    },
+    "google/gemini-2.5-flash-lite": {
+      "w_in_ppm": "903593",
+      "billed_ppm": "928834",
+      "cache_ppm": "223422",
+      "days": 30
+    },
+    "google/gemini-3-flash-preview-20251217": {
+      "w_in_ppm": "959984",
+      "billed_ppm": "892412",
+      "cache_ppm": "432627",
+      "days": 30
+    },
+    "google/gemini-3.1-flash-lite-20260507": {
+      "w_in_ppm": "941573",
+      "billed_ppm": "787070",
+      "cache_ppm": "275119",
+      "days": 30
+    },
+    "google/gemini-3.7-flash-20260813": {
+      "w_in_ppm": "933937",
+      "billed_ppm": "910669",
+      "cache_ppm": "445801",
+      "days": 30
+    },
+    "google/gemini-3.8-flash-20260902": {
+      "w_in_ppm": "953636",
+      "billed_ppm": "837370",
+      "cache_ppm": "653975",
+      "days": 30
+    },
+    "google/gemini-4-argon-20261013": {
+      "w_in_ppm": "974895",
+      "billed_ppm": "797561",
+      "cache_ppm": "764275",
+      "days": 28
+    },
+    "google/gemma-4-26b-a4b-it-20260403": {
+      "w_in_ppm": "933488",
+      "billed_ppm": "945573",
+      "cache_ppm": "232399",
+      "days": 30
+    },
+    "google/gemma-4-31b-it-20260402": {
+      "w_in_ppm": "922324",
+      "billed_ppm": "947436",
+      "cache_ppm": "282741",
+      "days": 30
+    },
+    "meta/muse-spark-1.3-contributor-20260902": {
+      "w_in_ppm": "986838",
+      "billed_ppm": "952832",
+      "cache_ppm": "894819",
+      "days": 30
+    },
+    "minimax/minimax-m3-20260531": {
+      "w_in_ppm": "971562",
+      "billed_ppm": "274750",
+      "cache_ppm": "910142",
+      "days": 30
+    },
+    "minimax/minimax-m3.1-flash-20261019": {
+      "w_in_ppm": "984660",
+      "billed_ppm": "172247",
+      "cache_ppm": "926215",
+      "days": 15
+    },
+    "mistralai/mistral-nemo": {
+      "w_in_ppm": "948532",
+      "billed_ppm": "917281",
+      "cache_ppm": "25594",
+      "days": 30
+    },
+    "moonshotai/kimi-k3-20260715": {
+      "w_in_ppm": "981859",
+      "billed_ppm": "928999",
+      "cache_ppm": "901123",
+      "days": 30
+    },
+    "moonshotai/kimi-k3.1-pro-20261023": {
+      "w_in_ppm": "992068",
+      "billed_ppm": "968621",
+      "cache_ppm": "942343",
+      "days": 18
+    },
+    "nvidia/nemotron-3.5-super-vl-20261015": {
+      "w_in_ppm": "966336",
+      "billed_ppm": "999837",
+      "cache_ppm": "801677",
+      "days": 26
+    },
+    "openai/gpt-5.6-luna-20260709": {
+      "w_in_ppm": "974943",
+      "billed_ppm": "891792",
+      "cache_ppm": "709161",
+      "days": 30
+    },
+    "openai/gpt-5.6-sol-20260709": {
+      "w_in_ppm": "962238",
+      "billed_ppm": "889913",
+      "cache_ppm": "835329",
+      "days": 30
+    },
+    "openai/gpt-6-astra-20260903": {
+      "w_in_ppm": "970232",
+      "billed_ppm": "734368",
+      "cache_ppm": "892705",
+      "days": 30
+    },
+    "openai/gpt-6-luna-20260922": {
+      "w_in_ppm": "969332",
+      "billed_ppm": "879640",
+      "cache_ppm": "768963",
+      "days": 30
+    },
+    "openai/gpt-6-luna-pro-20260922": {
+      "w_in_ppm": "966506",
+      "billed_ppm": "970159",
+      "cache_ppm": "704752",
+      "days": 30
+    },
+    "openai/gpt-6.1-sol-20260929": {
+      "w_in_ppm": "982430",
+      "billed_ppm": "808021",
+      "cache_ppm": "885102",
+      "days": 30
+    },
+    "openai/gpt-6.1-terra-20261026": {
+      "w_in_ppm": "990240",
+      "billed_ppm": "850488",
+      "cache_ppm": "887024",
+      "days": 15
+    },
+    "openai/gpt-oss-120b": {
+      "w_in_ppm": "872807",
+      "billed_ppm": "869726",
+      "cache_ppm": "424776",
+      "days": 30
+    },
+    "qwen/qwen3.7-flash-20260727": {
+      "w_in_ppm": "911739",
+      "billed_ppm": "968410",
+      "cache_ppm": "409702",
+      "days": 30
+    },
+    "qwen/qwen3.8-27b-20260814": {
+      "w_in_ppm": "958862",
+      "billed_ppm": "970812",
+      "cache_ppm": "730427",
+      "days": 30
+    },
+    "qwen/qwen3.8-flash-20260826": {
+      "w_in_ppm": "954036",
+      "billed_ppm": "803581",
+      "cache_ppm": "882354",
+      "days": 30
+    },
+    "stepfun/step-5-preview-20261008": {
+      "w_in_ppm": "982023",
+      "billed_ppm": "2918",
+      "cache_ppm": "952221",
+      "days": 26
+    },
+    "tencent/hy3-20260706": {
+      "w_in_ppm": "952280",
+      "billed_ppm": "10052",
+      "cache_ppm": "908328",
+      "days": 30
+    },
+    "tencent/hy4-20261104": {
+      "w_in_ppm": "978939",
+      "billed_ppm": "31674",
+      "cache_ppm": "950435",
+      "days": 6
+    },
+    "upstage/solar-mini4-20260922": {
+      "w_in_ppm": "986314",
+      "billed_ppm": "339708",
+      "cache_ppm": "769544",
+      "days": 30
+    },
+    "upstage/solar-pro4-20260810": {
+      "w_in_ppm": "941341",
+      "billed_ppm": "50100",
+      "cache_ppm": "904575",
+      "days": 30
+    },
+    "x-ai/grok-4.7-20260916": {
+      "w_in_ppm": "972034",
+      "billed_ppm": "931854",
+      "cache_ppm": "901186",
+      "days": 30
+    },
+    "xiaomi/mimo-v2.6-flash-20260921": {
+      "w_in_ppm": "983536",
+      "billed_ppm": "280840",
+      "cache_ppm": "904881",
+      "days": 30
+    },
+    "xiaomi/mimo-v2.6-pro-20260921": {
+      "w_in_ppm": "975464",
+      "billed_ppm": "934144",
+      "cache_ppm": "906442",
+      "days": 30
+    },
+    "z-ai/glm-5.2-20260616": {
+      "w_in_ppm": "969218",
+      "billed_ppm": "982038",
+      "cache_ppm": "801403",
+      "days": 30
+    },
+    "z-ai/glm-5.3-20260816": {
+      "w_in_ppm": "983659",
+      "billed_ppm": "881323",
+      "cache_ppm": "911412",
+      "days": 30
+    },
+    "z-ai/glm-5.3-flash-20260826": {
+      "w_in_ppm": "964824",
+      "billed_ppm": "964508",
+      "cache_ppm": "829171",
+      "days": 30
+    }
+  }
+}

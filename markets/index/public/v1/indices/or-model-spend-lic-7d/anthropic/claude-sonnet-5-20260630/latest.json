@@ -1,0 +1,163 @@
+{
+  "index": "LIC-7D",
+  "market": "anthropic/claude-sonnet-5-20260630",
+  "index_id": "or-model-spend-lic-7d/anthropic/claude-sonnet-5-20260630",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1",
+  "formula_hash": "70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef",
+  "utc_date": "2026-11-09",
+  "window_start": "2026-11-03",
+  "window_end": "2026-11-09",
+  "source_start": "2026-11-03T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "NOT_REPORTED",
+  "reason": "5 of 7 window days valid, 6 required",
+  "valid_days": 5,
+  "value_usd": null,
+  "value_micro_usd": null,
+  "window_sum_usd": null,
+  "manipulation_cost_usd_per_pct": null,
+  "max_open_interest_usd": null,
+  "prev_7d_value_usd": null,
+  "change_vs_prev": null,
+  "clamped": false,
+  "clamp_bound": "0.250000",
+  "window": [
+    {
+      "utc_date": "2026-11-03",
+      "daily_revision_id": "2026-11-03.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "62658.316242",
+      "print_hash": "0720c769dae1970f03927e3e6e8aa7f082d8d958eb8a79c13f3036dc73b327dc",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-04",
+      "daily_revision_id": "2026-11-04.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "56711.180349",
+      "print_hash": "1dbc1a9f16c4d1d7c476d0067483128f3a0ef6c8b28404fc8fa7e274418423a2",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-05",
+      "daily_revision_id": "2026-11-05.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "55943.659488",
+      "print_hash": "326719f833afdbe552767ba47409cec31cf0aeb0cb472a78f6aeb98ac2df9c84",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-06",
+      "daily_revision_id": "2026-11-06.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "53160.396757",
+      "print_hash": "8dc84875b5a2fbc4e242729afb3768c9a420aa5ea859a52d39e57306036a3e7c",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-07",
+      "daily_revision_id": "2026-11-07.r1",
+      "data_status": "NOT_REPORTED",
+      "blocked": false,
+      "value_usd": null,
+      "print_hash": "ac423a6a1ca93a8d28e658dde99c59f2b95a848502ae07224da69417481ca145",
+      "counted": false
+    },
+    {
+      "utc_date": "2026-11-08",
+      "daily_revision_id": "2026-11-08.r1",
+      "data_status": "NOT_REPORTED",
+      "blocked": false,
+      "value_usd": null,
+      "print_hash": "f4e6c208635f125ba4fe40dfb0a3a16cba1e80640c2db6be974cc495f164ea61",
+      "counted": false
+    },
+    {
+      "utc_date": "2026-11-09",
+      "daily_revision_id": "2026-11-09.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "47581.761609",
+      "print_hash": "cde1e142914050be328060db1dcf823fe6c294b555ace657fb7fe99d2c55d4f9",
+      "counted": true
+    }
+  ],
+  "observed_at": "2026-11-11T00:25:52.511Z",
+  "created_at": "2026-11-11T00:33:23.058Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "fingerprint": {
+    "data_status": "NOT_REPORTED",
+    "value_micro": null,
+    "inputs": [
+      [
+        "2026-11-03",
+        "2026-11-03.r1",
+        true
+      ],
+      [
+        "2026-11-04",
+        "2026-11-04.r1",
+        true
+      ],
+      [
+        "2026-11-05",
+        "2026-11-05.r1",
+        true
+      ],
+      [
+        "2026-11-06",
+        "2026-11-06.r1",
+        true
+      ],
+      [
+        "2026-11-07",
+        "2026-11-07.r1",
+        false
+      ],
+      [
+        "2026-11-08",
+        "2026-11-08.r1",
+        false
+      ],
+      [
+        "2026-11-09",
+        "2026-11-09.r1",
+        true
+      ]
+    ],
+    "clamped": false
+  },
+  "print": {
+    "indexId": "or-model-spend-lic-7d/anthropic/claude-sonnet-5-20260630",
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1",
+    "value": "0.000000",
+    "valueScale": 6,
+    "valueInt": "0",
+    "sourceStartUtc": "2026-11-03T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-11T00:25:52.511Z",
+    "publishedAt": "2026-11-11T00:33:23.058Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "ff70fe23acf3634964d2e523a44c1fb4b0abd18ed403f2c35c9861230a3897fb",
+    "formulaHash": "70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef",
+    "status": "UNAVAILABLE",
+    "dataStatus": "NOT_REPORTED",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d7631380000006f722d6d6f64656c2d7370656e642d6c69632d37642f616e7468726f7069632f636c617564652d736f6e6e65742d352d3230323630363330200000005a46582d4f522d4d4f44454c2d5350454e442d5553442d4c49432d37442d763106000000000000000000a0b49ea10100000024c1c2a10100007f30ffc7a1010000721006c8a101000000dc0dcda1010000ff70fe23acf3634964d2e523a44c1fb4b0abd18ed403f2c35c9861230a3897fb70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef030101010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "b614251c5b3785b06c235a280408063fffac366d80f51f87ed705fcda85bb1fc",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:31311c7d3999aee2c94a4f6f3698a269f359408203e114a21c0b87293a91818c06789873608fc7fbd988e7bf65a1c0a49fa45e089bb3bab777e8bb991f9d9b01"
+    ]
+  },
+  "chain": "ec3a9af26fa454795152e7b1532e2c0c390053377ca6e96d9e69cdf897675b88"
+}

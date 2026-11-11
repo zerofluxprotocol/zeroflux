@@ -1,0 +1,812 @@
+{
+  "market": "x-ai/grok-4.7-20260916",
+  "index_id": "or-model-spend-lic/x-ai/grok-4.7-20260916",
+  "formula": {
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+    "hash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+    "mode": "ESTIMATED_FIXED_MIX"
+  },
+  "sources": "documented only: datasets/rankings-daily (CC BY 4.0), /api/v1/models, /api/v1/models/{id}/endpoints",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "points": [
+    {
+      "utc_date": "2026-10-11",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-10-11",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-11.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "9897a83dc7d280ba8d08fe3dccf19c18fa2c76b622fa0d6b1414a2e2e65a9abf"
+    },
+    {
+      "utc_date": "2026-10-12",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-10-12",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-12.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "eab9bb5b0aff54bd580e2ed676c542df05b34b02110b325ea13977a9a1638e72"
+    },
+    {
+      "utc_date": "2026-10-13",
+      "value_usd": "60622.834035",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-13.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "81535354581",
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:26:24.000Z",
+        "listed_in_usd_per_m": "2.000000000",
+        "listed_out_usd_per_m": "6.000000000",
+        "listed_cache_read_usd_per_m": "0.500000000",
+        "p_in_usd_per_m": "0.648221000",
+        "p_blend_usd_per_m": "0.797888852"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "6c6c45c467132b82ccd609c100e33ed35aa219046a225f413badc5f9642bb091"
+    },
+    {
+      "utc_date": "2026-10-14",
+      "value_usd": "45678.855806",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-14.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "61436284930",
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:26:24.000Z",
+        "listed_in_usd_per_m": "2.000000000",
+        "listed_out_usd_per_m": "6.000000000",
+        "listed_cache_read_usd_per_m": "0.500000000",
+        "p_in_usd_per_m": "0.648221000",
+        "p_blend_usd_per_m": "0.797888852"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "da92ed16a9ceaa698c485300aa7962e60e68a8d4fbf73de8c01787eeb1139c13"
+    },
+    {
+      "utc_date": "2026-10-15",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-10-15",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-15.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "778a8f728252e799d7c7e9b7c73c57396b5c70f18873f94f550838b78bba03d3"
+    },
+    {
+      "utc_date": "2026-10-16",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-10-16",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-16.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "188834c387e11f36d4cd438e874b468647c825702bad152ed056a4818551e192"
+    },
+    {
+      "utc_date": "2026-10-17",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-10-17",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-17.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "b7485adf2f860fa8f2b3b0fb76e388fc78e37bd23b295a635fd3f89e8493bc7e"
+    },
+    {
+      "utc_date": "2026-10-18",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-10-18",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-18.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "224c155e11902f9bc00047701d4f148a4c1db07bcb64319a90a6cc53ce29b5c3"
+    },
+    {
+      "utc_date": "2026-10-19",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-10-19",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-19.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "e5845d9f4048a9000fa035baedce8ec901068ca56d733a4b9fdd0d8d4c134644"
+    },
+    {
+      "utc_date": "2026-10-20",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-10-20",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-20.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "e509457c5f1742d0971b0497fd4959ea451da8639a32ea485f766cb32bbe9634"
+    },
+    {
+      "utc_date": "2026-10-21",
+      "value_usd": "61219.897994",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-21.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "82338382390",
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:26:24.000Z",
+        "listed_in_usd_per_m": "2.000000000",
+        "listed_out_usd_per_m": "6.000000000",
+        "listed_cache_read_usd_per_m": "0.500000000",
+        "p_in_usd_per_m": "0.648221000",
+        "p_blend_usd_per_m": "0.797888852"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "2bf63edfe9f03349828cf3ce39298674adeeb1ff3855b17b9c1a7567bbce5903"
+    },
+    {
+      "utc_date": "2026-10-22",
+      "value_usd": "112386.407814",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-22.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "151155348593",
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:26:24.000Z",
+        "listed_in_usd_per_m": "2.000000000",
+        "listed_out_usd_per_m": "6.000000000",
+        "listed_cache_read_usd_per_m": "0.500000000",
+        "p_in_usd_per_m": "0.648221000",
+        "p_blend_usd_per_m": "0.797888852"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "7700ae0c02f6d8ecd49766a414a74ed580c8c09ec2ffc0b5224e376b4e23237c"
+    },
+    {
+      "utc_date": "2026-10-23",
+      "value_usd": "87394.272124",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-23.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "117541897858",
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:26:24.000Z",
+        "listed_in_usd_per_m": "2.000000000",
+        "listed_out_usd_per_m": "6.000000000",
+        "listed_cache_read_usd_per_m": "0.500000000",
+        "p_in_usd_per_m": "0.648221000",
+        "p_blend_usd_per_m": "0.797888852"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "2d22ccf3b6ebbbcb2abaa7369f43f76f11fce6e22c83eee825b0f663b25d2d21"
+    },
+    {
+      "utc_date": "2026-10-24",
+      "value_usd": "38120.772257",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-24.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "51270956437",
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:26:24.000Z",
+        "listed_in_usd_per_m": "2.000000000",
+        "listed_out_usd_per_m": "6.000000000",
+        "listed_cache_read_usd_per_m": "0.500000000",
+        "p_in_usd_per_m": "0.648221000",
+        "p_blend_usd_per_m": "0.797888852"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "f1dec1779a5f01c4a5bca8abd21a38bada0799cb9fa6b8574829bf81c74bc364"
+    },
+    {
+      "utc_date": "2026-10-25",
+      "value_usd": "40789.660551",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-25.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "54860507419",
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:26:24.000Z",
+        "listed_in_usd_per_m": "2.000000000",
+        "listed_out_usd_per_m": "6.000000000",
+        "listed_cache_read_usd_per_m": "0.500000000",
+        "p_in_usd_per_m": "0.648221000",
+        "p_blend_usd_per_m": "0.797888852"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "90a5748aa2995142bc42e6ac722e83bd14e4858f44d4641f9e1e7b044333aa17"
+    },
+    {
+      "utc_date": "2026-10-26",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-10-26",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-26.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "e10703236654a5269159ffc4c1161a4f1b36bf268f0c476d3ad91074f3293186"
+    },
+    {
+      "utc_date": "2026-10-27",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-10-27",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-27.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "6a9bff291bfc65f1fbe186b56bc52986d4191225c21a0c10737f3fdb9ddf17fb"
+    },
+    {
+      "utc_date": "2026-10-28",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-10-28",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-28.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "3f0e730ee884be17c24ba8e76fe5ad3766bdaa6d5fbd0947d34be3c5a7e5b8a8"
+    },
+    {
+      "utc_date": "2026-10-29",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-10-29",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-29.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "7d33b945d68c12ebe90c40c9a9499d7c4c67edd6dcac20466911e51540da1494"
+    },
+    {
+      "utc_date": "2026-10-30",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-10-30",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-30.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "44733c7c738c16f5f8ba74455ce42f1c1322df846f1b3d53cd93cad91df5b4fb"
+    },
+    {
+      "utc_date": "2026-10-31",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-10-31",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-31.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "799f1c40a977605eb4fdc341c02750c8ca267f572506c439bfd5c1529d2f2fcf"
+    },
+    {
+      "utc_date": "2026-11-01",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-11-01",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-01.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "11ee2277529c85f071e08b7695a02ad6003244a22fd62b51b5c23392231bee24"
+    },
+    {
+      "utc_date": "2026-11-02",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-11-02",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-02.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "88314ae442fa25d5413044571203469c4f055a25e3b09a68ae6b450353ed93d0"
+    },
+    {
+      "utc_date": "2026-11-03",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-11-03",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-03.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "e4710170d17f75a4519c8c7cf00dbf611c8c3f2f662c8652f50134090117b423"
+    },
+    {
+      "utc_date": "2026-11-04",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-11-04",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-04.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "b3ad63ba8f8106050ac0229274c86f7c6bba9272f3022cfec834cb9c461332e1"
+    },
+    {
+      "utc_date": "2026-11-05",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-11-05",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-05.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "b5ff986ffdd25cbc2770c6d8bd84ab760d3b5e5f39038a3bb5cfbe01837d5c26"
+    },
+    {
+      "utc_date": "2026-11-06",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-11-06",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-06.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "49845ab93d232ba1082c9de4d39de3a5ce12e2fccacd8a28d1598c0c8290e621"
+    },
+    {
+      "utc_date": "2026-11-07",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-11-07",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-07.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "e17b2ec3887b3868c6af4ad0bbf116fb3644cd0f5f7f907978ce8b7d33049d8a"
+    },
+    {
+      "utc_date": "2026-11-08",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "x-ai/grok-4.7-20260916 not in the documented top 50 for 2026-11-08",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-08.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "a219d4f1ad630b747999a9391d45fb5b727841be2000fd0711bb24a99dd4fd3c"
+    },
+    {
+      "utc_date": "2026-11-09",
+      "value_usd": "48759.342284",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-09.r1",
+      "confidence": "MEDIUM",
+      "blocked": false,
+      "total_tokens": "65579419465",
+      "frozen": {
+        "w_in": "0.972034",
+        "billed_share": "0.931854",
+        "cache_share": "0.901186",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_SNAPSHOT",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 6,
+        "as_of": "2026-11-10T23:26:24.000Z",
+        "listed_in_usd_per_m": "2.000000000",
+        "listed_out_usd_per_m": "6.000000000",
+        "listed_cache_read_usd_per_m": "0.500000000",
+        "p_in_usd_per_m": "0.648221000",
+        "p_blend_usd_per_m": "0.797888852"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "2f5054352e3da8a3b0da0422548288ce993996c208198201acbd06e89a6579ad"
+    }
+  ],
+  "token_history": {
+    "note": "documented total_tokens per UTC day (top-50 days only), from 2025-01-01; no USD value before price_backfill_from",
+    "rows": [
+      [
+        "2026-09-22",
+        "60056505962"
+      ],
+      [
+        "2026-09-25",
+        "119618395558"
+      ],
+      [
+        "2026-09-26",
+        "58178059008"
+      ],
+      [
+        "2026-09-27",
+        "42424862081"
+      ],
+      [
+        "2026-09-30",
+        "57682516553"
+      ],
+      [
+        "2026-10-01",
+        "51991618562"
+      ],
+      [
+        "2026-10-02",
+        "94843573878"
+      ],
+      [
+        "2026-10-05",
+        "67466164054"
+      ],
+      [
+        "2026-10-06",
+        "76777456649"
+      ],
+      [
+        "2026-10-07",
+        "113173776198"
+      ],
+      [
+        "2026-10-08",
+        "172136285103"
+      ],
+      [
+        "2026-10-09",
+        "138354211206"
+      ],
+      [
+        "2026-10-10",
+        "57008517486"
+      ],
+      [
+        "2026-10-13",
+        "81535354581"
+      ],
+      [
+        "2026-10-14",
+        "61436284930"
+      ],
+      [
+        "2026-10-21",
+        "82338382390"
+      ],
+      [
+        "2026-10-22",
+        "151155348593"
+      ],
+      [
+        "2026-10-23",
+        "117541897858"
+      ],
+      [
+        "2026-10-24",
+        "51270956437"
+      ],
+      [
+        "2026-10-25",
+        "54860507419"
+      ],
+      [
+        "2026-11-09",
+        "65579419465"
+      ]
+    ]
+  }
+}

@@ -36,6 +36,40 @@ pub const KEPT_HEADERS: &[&str] = &[
     "x-ratelimit-remaining",
 ];
 
+/// Loads the OpenRouter API key: `OPENROUTER_API_KEY` from the environment, else from
+/// `~/.config/zeroflux/keys.env` (`OPENROUTER_API_KEY=...` or `export OPENROUTER_API_KEY=...`).
+/// The key is only ever placed in the Authorization request header. It is never logged,
+/// never stored in the ledger, and never part of a URL.
+pub fn load_api_key() -> Option<String> {
+    if let Ok(k) = std::env::var("OPENROUTER_API_KEY") {
+        if !k.trim().is_empty() {
+            return Some(k.trim().to_string());
+        }
+    }
+    let home = std::env::var("HOME").ok()?;
+    let path = std::path::Path::new(&home).join(".config/zeroflux/keys.env");
+    parse_env_key(&std::fs::read_to_string(path).ok()?, "OPENROUTER_API_KEY")
+}
+
+pub fn parse_env_key(text: &str, name: &str) -> Option<String> {
+    for line in text.lines() {
+        let l = line.trim();
+        let l = l.strip_prefix("export ").unwrap_or(l);
+        if let Some(v) = l.strip_prefix(name).and_then(|r| r.strip_prefix('=')) {
+            let v = v.trim().trim_matches('"').trim_matches('\'');
+            if !v.is_empty() {
+                return Some(v.to_string());
+            }
+        }
+    }
+    None
+}
+
+/// Documented dataset limits: 30 requests/min per key, 500/day per account. We stay below
+/// both: the global minimum gap (6 s) gives at most 10/min, and this cap leaves 50/day of
+/// headroom for requests made outside this program with the same account.
+pub const DATASET_DAILY_CAP: usize = 450;
+
 #[derive(Clone, Debug)]
 pub struct RateBudget {
     /// Minimum milliseconds between any two requests.
@@ -122,7 +156,7 @@ impl<'a> Fetcher<'a> {
             .user_agent(USER_AGENT)
             .redirects(2)
             .build();
-        Fetcher { ledger, budget, agent, api_key: std::env::var("OPENROUTER_API_KEY").ok().filter(|s| !s.is_empty()), dry_log: false }
+        Fetcher { ledger, budget, agent, api_key: load_api_key(), dry_log: false }
     }
 
     fn history(&self) -> Result<Vec<i64>, LedgerError> {
@@ -132,6 +166,16 @@ impl<'a> Fetcher<'a> {
     /// Fetches `path` (relative to openrouter.ai), waits for the rate budget,
     /// records everything. Returns the ledger record and body for 2xx responses.
     pub fn get(&self, kind: Kind, subject: &str, path: &str) -> Result<(FetchRecord, Vec<u8>), FetchError> {
+        if kind == Kind::RankingsDailyApi {
+            let now = now_ms();
+            let n = self.ledger.fetches()?.iter().filter(|f| f.kind == kind.name() && f.fetched_at_ms > now - 86_400_000).count();
+            if n >= DATASET_DAILY_CAP {
+                return Err(FetchError::Budget(now + 3_600_000));
+            }
+            if self.api_key.is_none() {
+                return Err(FetchError::Http("no OpenRouter API key configured".into(), None));
+            }
+        }
         match self.budget.admit(now_ms(), &self.history()?, random_u32_below(1_000_000)) {
             Admission::CapReachedUntil(t) => return Err(FetchError::Budget(t)),
             Admission::WaitMs(w) if w > 0 => std::thread::sleep(Duration::from_millis(w as u64)),
@@ -192,6 +236,7 @@ impl<'a> Fetcher<'a> {
 
 fn keep_headers(resp: &ureq::Response) -> BTreeMap<String, String> {
     let mut m = BTreeMap::new();
+    // response headers only, from a fixed allowlist: request headers (Authorization) are never stored
     for h in KEPT_HEADERS {
         if let Some(v) = resp.header(h) {
             m.insert(h.to_string(), v.to_string());
@@ -257,6 +302,16 @@ mod tests {
         // at most one request per 6 s, and fewer than the documented 30/min API limit
         assert!(b.min_gap_ms >= 2_000);
         assert!(b.daily_cap <= 500);
+    }
+
+    #[test]
+    fn env_key_parsing_and_no_auth_header_kept() {
+        assert_eq!(parse_env_key("# c\nOPENROUTER_API_KEY=sk-or-abc\n", "OPENROUTER_API_KEY"), Some("sk-or-abc".into()));
+        assert_eq!(parse_env_key("export OPENROUTER_API_KEY=\"sk-x\"", "OPENROUTER_API_KEY"), Some("sk-x".into()));
+        assert_eq!(parse_env_key("OPENROUTER_API_KEY=", "OPENROUTER_API_KEY"), None);
+        assert_eq!(parse_env_key("OTHER=1", "OPENROUTER_API_KEY"), None);
+        assert!(KEPT_HEADERS.iter().all(|h| !h.contains("authorization") && !h.contains("cookie")));
+        assert!(!path_for(Kind::RankingsDailyApi, "start_date=2025-01-01&end_date=2025-01-31").contains("key"));
     }
 
     #[test]

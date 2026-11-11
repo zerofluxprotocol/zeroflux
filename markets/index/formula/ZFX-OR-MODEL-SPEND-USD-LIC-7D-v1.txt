@@ -1,0 +1,46 @@
+ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1
+Trailing 7-day mean of ZFX-OR-MODEL-SPEND-USD-LIC-v1 (documented sources only), USD per day, one index per model permaslug.
+This file is hashed (SHA-256 of these exact bytes) into every 7D OraclePrint as formulaHash.
+Changing any line below requires a new formula version.
+
+1. Window
+   For UTC day d the window is days d-6 .. d inclusive (7 UTC days).
+   Inputs are the latest revision (FINAL or CORRECTED) of each daily ZFX-OR-MODEL-SPEND-USD-LIC-v1 day.
+
+2. Valid days
+   A window day is valid only if its latest daily revision has data_status OK and is not blocked.
+   NOT_REPORTED, UNPRICED, blocked, and not-yet-evaluated days are invalid.
+   Invalid days are excluded. They are never counted as zero.
+   window_days = 7
+   min_valid_days = 6
+   Evidence: dropping one day from a full window changes the mean by p99 13.7%; dropping two, p99 22.0%.
+   Day d itself must have a daily revision; otherwise no 7D record exists for d.
+
+3. Value (exact integers, micro-USD)
+   n = number of valid days, S = sum of their daily values (micro-USD).
+   If n >= min_valid_days: value = round_half_even(S / n), data_status OK.
+   Otherwise: data_status NOT_REPORTED, value 0.
+
+4. Manipulation-cost metrics (published with each OK record, not part of the signed print)
+   Moving the mean by a fraction x requires adding x * S of counted spend to the window days:
+   value' = (S + A) / n, so (value' - value) / value = A / S.
+   manipulation_cost_usd_per_pct = round_half_even(S / 100)
+   oi_fraction_bps = 2500
+   max_open_interest_usd = round_half_even(S * oi_fraction_bps / 10000)
+   With OI <= 0.25 * S, profit from a push of x (OI * x) is at most 25% of its cost (x * S).
+
+5. Jump clamp (not part of the signed print)
+   change = (value - prev) / prev, where prev is the latest OK 7D value for day d-1.
+   clamp_bound_bps = 2500
+   Derived from 22,654 established 7D day-over-day moves (366 models, 2025-01-01 .. 2026-11-09, documented
+   dataset): p99 = 26.6%; 25% is exceeded on 1.1% of days. 15% would be exceeded on 3.7% of days.
+   clamped = |change| > clamp_bound_bps / 10000. The print still carries the computed value;
+   the market lifecycle is CLOSE_ONLY for a clamped day.
+
+6. Revisions and print
+   Any change to the set of window inputs (a daily correction, a newly valid day) or to the
+   value or clamp flag creates a new revision: FINAL first, CORRECTED after.
+   index_id = or-model-spend-lic-7d/<permaslug>, version = ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1
+   source_start = (d-6) 00:00Z, source_end = d+1 00:00Z, valid_until = source_end + 48 h.
+   source_hash = SHA-256("ZFX-source-set-v1" || u32le(n) || printHash of each valid daily day, ascending date)
+   oracle status FRESH when OK, UNAVAILABLE otherwise.

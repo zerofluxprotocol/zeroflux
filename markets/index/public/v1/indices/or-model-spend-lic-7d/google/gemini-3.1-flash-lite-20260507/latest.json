@@ -1,0 +1,163 @@
+{
+  "index": "LIC-7D",
+  "market": "google/gemini-3.1-flash-lite-20260507",
+  "index_id": "or-model-spend-lic-7d/google/gemini-3.1-flash-lite-20260507",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1",
+  "formula_hash": "70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef",
+  "utc_date": "2026-11-09",
+  "window_start": "2026-11-03",
+  "window_end": "2026-11-09",
+  "source_start": "2026-11-03T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "valid_days": 7,
+  "value_usd": "15175.520453",
+  "value_micro_usd": "15175520453",
+  "window_sum_usd": "106228.643174",
+  "manipulation_cost_usd_per_pct": "1062.286432",
+  "max_open_interest_usd": "26557.160794",
+  "prev_7d_value_usd": "15355.851114",
+  "change_vs_prev": "-0.011743",
+  "clamped": false,
+  "clamp_bound": "0.250000",
+  "window": [
+    {
+      "utc_date": "2026-11-03",
+      "daily_revision_id": "2026-11-03.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "18695.400203",
+      "print_hash": "c4f5e8e931164651e603bd2e7b2bb335ff5e53a1faae4a82de25df5f39d14235",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-04",
+      "daily_revision_id": "2026-11-04.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "16917.368800",
+      "print_hash": "de022461f215bef7d346dbea7a36b469cb441d58013d46c674bb0e739d2c2560",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-05",
+      "daily_revision_id": "2026-11-05.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "17328.511047",
+      "print_hash": "55aca3d0a45207d54b1edf511ecdbf9bc4f268383fbcc62fea929914ac22d558",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-06",
+      "daily_revision_id": "2026-11-06.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "14823.810408",
+      "print_hash": "a5ceb923f23e8e12fedf0ff319a31e59ec522884ed9c4ca85ddfbb2887ee5c17",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-07",
+      "daily_revision_id": "2026-11-07.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "11406.617950",
+      "print_hash": "1a7f9948449797516e51ccb322f40db6a63b8b4e3708ff420e6bbd61659a6e2b",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-08",
+      "daily_revision_id": "2026-11-08.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "10970.367844",
+      "print_hash": "02f1cdb149284d0958f2060257d3cfd17f20de49ededf0dbbb9609e6412f877f",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-09",
+      "daily_revision_id": "2026-11-09.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "16086.566922",
+      "print_hash": "41489e096a87e9c3df41c3259df546382f04357b9a03847dbc30c0404d98afbb",
+      "counted": true
+    }
+  ],
+  "observed_at": "2026-11-11T00:25:52.511Z",
+  "created_at": "2026-11-11T00:33:23.058Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "15175520453",
+    "inputs": [
+      [
+        "2026-11-03",
+        "2026-11-03.r1",
+        true
+      ],
+      [
+        "2026-11-04",
+        "2026-11-04.r1",
+        true
+      ],
+      [
+        "2026-11-05",
+        "2026-11-05.r1",
+        true
+      ],
+      [
+        "2026-11-06",
+        "2026-11-06.r1",
+        true
+      ],
+      [
+        "2026-11-07",
+        "2026-11-07.r1",
+        true
+      ],
+      [
+        "2026-11-08",
+        "2026-11-08.r1",
+        true
+      ],
+      [
+        "2026-11-09",
+        "2026-11-09.r1",
+        true
+      ]
+    ],
+    "clamped": false
+  },
+  "print": {
+    "indexId": "or-model-spend-lic-7d/google/gemini-3.1-flash-lite-20260507",
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1",
+    "value": "15175.520453",
+    "valueScale": 6,
+    "valueInt": "15175520453",
+    "sourceStartUtc": "2026-11-03T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-11T00:25:52.511Z",
+    "publishedAt": "2026-11-11T00:33:23.058Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "217790852dc03144711c4828375b99ed298c2ae3c7d2f4a393683653f32becd6",
+    "formulaHash": "70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d76313b0000006f722d6d6f64656c2d7370656e642d6c69632d37642f676f6f676c652f67656d696e692d332e312d666c6173682d6c6974652d3230323630353037200000005a46582d4f522d4d4f44454c2d5350454e442d5553442d4c49432d37442d763106c51088880300000000a0b49ea10100000024c1c2a10100007f30ffc7a1010000721006c8a101000000dc0dcda1010000217790852dc03144711c4828375b99ed298c2ae3c7d2f4a393683653f32becd670ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "6daed2514a991d4bdcf06253972789b1182b9a870010de81ad0b85d2b6985d86",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:6518c6b54955442116b30daed021c17660faf70ee8c33969b4224762075c4711982166c97f6391f0505c7d1b669eedd9c9dfc90aa5c4e7878cb7a4ee2955aa08"
+    ]
+  },
+  "chain": "6595fe1f075c4b400920b587b437f2af89ce58391deef02831bc91ded2df5b24"
+}

@@ -55,12 +55,23 @@ pub fn cases() -> Vec<(&'static str, OraclePrint, [u8; 32])> {
     weekly.source_start_ms = 1_793_404_800_000; // 2026-10-31T00:00:00.000Z (d-6)
     weekly.source_hash = zfx_oracle_print::source_set_hash(&[[0xa1; 32], [0xa2; 32], [0xa3; 32], [0xa4; 32], [0xa5; 32], [0xa6; 32], [0xa7; 32]]);
     weekly.formula_hash = zfx_oracle_print::sha256(b"example 7d formula text");
+    let mut lic = base.clone();
+    lic.index_id = "or-model-spend-lic/example/model-20260101".into();
+    lic.version = crate::licensed::FORMULA_VERSION_LIC.into();
+    lic.value = 62_550_000; // licensed::tests::value_formula_exact: $62.55
+    lic.formula_hash = zfx_oracle_print::sha256(b"example licensed formula text || params");
+    let mut lic7 = weekly.clone();
+    lic7.index_id = "or-model-spend-lic-7d/example/model-20260101".into();
+    lic7.version = crate::weekly::FORMULA_VERSION_LIC_7D.into();
+    lic7.formula_hash = zfx_oracle_print::sha256(b"example licensed 7d formula text");
     vec![
         ("final_ok_worked_example", base, seed(1)),
         ("not_reported_unavailable", not_reported, seed(1)),
         ("corrected_revision_2", corrected, seed(1)),
         ("edge_u64_max_negative_time", big, seed(0x80)),
         ("weekly_7d_final", weekly, seed(1)),
+        ("licensed_daily_final", lic, seed(1)),
+        ("licensed_7d_final", lic7, seed(1)),
     ]
 }
 

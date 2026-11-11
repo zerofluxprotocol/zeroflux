@@ -1,0 +1,100 @@
+{
+  "index": "LIC",
+  "market": "google/gemini-3.1-flash-lite-20260507",
+  "index_id": "or-model-spend-lic/google/gemini-3.1-flash-lite-20260507",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+  "formula_hash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+  "mode": "ESTIMATED_FIXED_MIX",
+  "license": "tokens: OpenRouter Datasets API, CC BY 4.0; prices: OpenRouter documented models API",
+  "utc_date": "2026-11-09",
+  "source_start": "2026-11-09T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "value_usd": "16086.566922",
+  "value_micro_usd": "16086566922",
+  "confidence": "MEDIUM",
+  "total_tokens": "77199796980",
+  "frozen": {
+    "w_in": "0.941573",
+    "billed_share": "0.787070",
+    "cache_share": "0.275119",
+    "derived_days": 30
+  },
+  "price": {
+    "basis": "LISTED_SNAPSHOT",
+    "source": "documented /api/v1/models/{id}/endpoints",
+    "providers": 8,
+    "as_of": "2026-11-10T23:25:10.000Z",
+    "listed_in_usd_per_m": "0.250000000",
+    "listed_out_usd_per_m": "1.500000000",
+    "listed_cache_read_usd_per_m": "0.025000000",
+    "p_in_usd_per_m": "0.188098225",
+    "p_blend_usd_per_m": "0.264748710"
+  },
+  "checks": [],
+  "blocked": false,
+  "inputs": [
+    {
+      "role": "tokens",
+      "kind": "rankings_daily_api",
+      "documented": true,
+      "fetch_seq": 159,
+      "url": "https://openrouter.ai/api/v1/datasets/rankings-daily?period=day&start_date=2025-12-07&end_date=2026-11-10",
+      "sha256": "4590b6e8ef4d638f2ecc623b4b92b0b78b2c26223672438331a712d8d6d6d055",
+      "fetched_at": "2026-11-11T00:25:52.511Z",
+      "source_as_of": "2026-11-11T00:25:53.556Z"
+    },
+    {
+      "role": "prices",
+      "kind": "model_endpoints",
+      "documented": true,
+      "fetch_seq": 105,
+      "url": "https://openrouter.ai/api/v1/models/google/gemini-3.1-flash-lite/endpoints",
+      "sha256": "d3977f694eb7e6fda150c45f2b37c48cdf12c40f92b6fb3b3f7e28111a18dba9",
+      "fetched_at": "2026-11-10T23:25:10.780Z",
+      "source_as_of": "2026-11-10T23:25:10.000Z"
+    }
+  ],
+  "observed_at": "2026-11-11T00:25:52.511Z",
+  "source_as_of": "2026-11-11T00:25:53.556Z",
+  "created_at": "2026-11-11T00:33:16.375Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "16086566922",
+    "tokens": "77199796980",
+    "basis": "LISTED_SNAPSHOT",
+    "price": "0.264748710",
+    "blocked": false
+  },
+  "print": {
+    "indexId": "or-model-spend-lic/google/gemini-3.1-flash-lite-20260507",
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+    "value": "16086.566922",
+    "valueScale": 6,
+    "valueInt": "16086566922",
+    "sourceStartUtc": "2026-11-09T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-11T00:25:52.511Z",
+    "publishedAt": "2026-11-11T00:33:16.375Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "84ca58a4a57456e63f38eea77beae1c351756c9d7e1050bd90f4399708f67de4",
+    "formulaHash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d7631380000006f722d6d6f64656c2d7370656e642d6c69632f676f6f676c652f67656d696e692d332e312d666c6173682d6c6974652d32303236303530371d0000005a46582d4f522d4d4f44454c2d5350454e442d5553442d4c49432d7631060a88d5be0300000000c89abda10100000024c1c2a10100007f30ffc7a101000057f605c8a101000000dc0dcda101000084ca58a4a57456e63f38eea77beae1c351756c9d7e1050bd90f4399708f67de497167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "41489e096a87e9c3df41c3259df546382f04357b9a03847dbc30c0404d98afbb",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:e6543cb785360debdd3e5e95d279976d45ecfd7471c02641c60af3230ec515b001cd4338b828745c0790783aa5f9da1bd865d61ca940540bf896a89f64026a04"
+    ]
+  },
+  "chain": "eccf4d322c2ab757a17aee5ed3e6201cc7058736672e94beb14c02e2b84352d9"
+}

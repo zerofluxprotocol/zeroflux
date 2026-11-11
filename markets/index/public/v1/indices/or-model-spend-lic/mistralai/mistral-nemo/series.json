@@ -1,0 +1,3110 @@
+{
+  "market": "mistralai/mistral-nemo",
+  "index_id": "or-model-spend-lic/mistralai/mistral-nemo",
+  "formula": {
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+    "hash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+    "mode": "ESTIMATED_FIXED_MIX"
+  },
+  "sources": "documented only: datasets/rankings-daily (CC BY 4.0), /api/v1/models, /api/v1/models/{id}/endpoints",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "points": [
+    {
+      "utc_date": "2026-10-11",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-11",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-11.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "652da6d5259f6c56cbea1d31301bb8dfea8bb7619d5e0f79d44019830f9c52fd"
+    },
+    {
+      "utc_date": "2026-10-12",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-12",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-12.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "d7f65e71065a41966d61a6895c88c7ec6e6fe26658ee8210d290b6619bfdf48a"
+    },
+    {
+      "utc_date": "2026-10-13",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-13",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-13.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "fd59bc39023070e4e101173e5bb6d312c8484fcc3b62181a9ff5ed03ae6e332a"
+    },
+    {
+      "utc_date": "2026-10-14",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-14",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-14.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "5110e7350b9669d6cb93671209ec9b7e8805e8a81abd82dd79944e0f11d65159"
+    },
+    {
+      "utc_date": "2026-10-15",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-15",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-15.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "48d59c664c3e7d6442d29ba10fe1ad9931c3019ede48aa0b167ccd6e048afd71"
+    },
+    {
+      "utc_date": "2026-10-16",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-16",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-16.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "c5a390fe7ab9d3087d527ab545045eb86dc1f263e19c287ee25b356daf0c771a"
+    },
+    {
+      "utc_date": "2026-10-17",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-17",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-17.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "712afd5d33644e8937135975d682839e5b6bc0116704e00cde766ac00611bdf5"
+    },
+    {
+      "utc_date": "2026-10-18",
+      "value_usd": "1181.948041",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-18.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "45038480611",
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:28:49.000Z",
+        "listed_in_usd_per_m": "0.029000000",
+        "listed_out_usd_per_m": "0.030000000",
+        "listed_cache_read_usd_per_m": "0.010800000",
+        "p_in_usd_per_m": "0.028534189",
+        "p_blend_usd_per_m": "0.028609631"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "3ca7f2d36164c9403ecd77ff7322c4ac8f3f94602bc3d802d16500ab3d7a7896"
+    },
+    {
+      "utc_date": "2026-10-19",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-19",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-19.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "144df6efb9a03ffcbc1392b014158208d237888217b0f078721efc68befab175"
+    },
+    {
+      "utc_date": "2026-10-20",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-20",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-20.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "ddb465369188820f5e3aaaa9e1005e706baa97b7f1e3aeee04186ea6484fe27c"
+    },
+    {
+      "utc_date": "2026-10-21",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-21",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-21.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "ec08455afa6dbb4f04d2119f1102423ee60cdc278baa7f67fe31d02d960315c3"
+    },
+    {
+      "utc_date": "2026-10-22",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-22",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-22.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "a2a0592fb510e18abbc752419add98d2fe1308e57993748a90034454bdd213a5"
+    },
+    {
+      "utc_date": "2026-10-23",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-23",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-23.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "4f60188accca3f5c18bae9add94711a6c80cf85ea328e32b3db3c5c9911bd97b"
+    },
+    {
+      "utc_date": "2026-10-24",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-24",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-24.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "ac6abf2c9f76ce231baf6e0faf77dda713b5d2b27f1ebd0b8720aa2293febce1"
+    },
+    {
+      "utc_date": "2026-10-25",
+      "value_usd": "1226.912597",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-25.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "46751868350",
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:28:49.000Z",
+        "listed_in_usd_per_m": "0.029000000",
+        "listed_out_usd_per_m": "0.030000000",
+        "listed_cache_read_usd_per_m": "0.010800000",
+        "p_in_usd_per_m": "0.028534189",
+        "p_blend_usd_per_m": "0.028609631"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "8c6fb799a37133a3f5f626a8cc9f8ca2410f809b03e153ffaa1289553f7b0470"
+    },
+    {
+      "utc_date": "2026-10-26",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-26",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-26.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "98364ad8da71af3272bb7283165f84e495a2eea9a4d016aec09a1c0a88813e0e"
+    },
+    {
+      "utc_date": "2026-10-27",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-27",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-27.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "ecb9875e635f69f9be9b7ba414acd2fbfa76c2c7a8c5f12b2faec3dcdb879c20"
+    },
+    {
+      "utc_date": "2026-10-28",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-28",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-28.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "f953d5192f848410f85b9643f21202e65d803bac6caaddedac243ae2f1c82e35"
+    },
+    {
+      "utc_date": "2026-10-29",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-29",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-29.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "e9e507b1c9c0b850d17b2a61bcaca66b9e720210e5a01f0df746388b896ec459"
+    },
+    {
+      "utc_date": "2026-10-30",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-30",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-30.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "4d20bb1f112b6a33085af0ce15bc5d4f6bce87da4ba3e138b2ec82dd1979e6cd"
+    },
+    {
+      "utc_date": "2026-10-31",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-10-31",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-31.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "7d355b34af6e6594122d93630ac64d7bd17c7746d7872ffb92532f4cf1743fb6"
+    },
+    {
+      "utc_date": "2026-11-01",
+      "value_usd": "1284.439066",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-01.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "48943931505",
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:28:49.000Z",
+        "listed_in_usd_per_m": "0.029000000",
+        "listed_out_usd_per_m": "0.030000000",
+        "listed_cache_read_usd_per_m": "0.010800000",
+        "p_in_usd_per_m": "0.028534189",
+        "p_blend_usd_per_m": "0.028609631"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "c81097388fc375818da967499c9ca7723fa2905df9928d24388c368c58a04eba"
+    },
+    {
+      "utc_date": "2026-11-02",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-11-02",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-02.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "7b181b9c1a2f1e402541ddd346e7a6e45bac757788aab0c1228073a036fdf791"
+    },
+    {
+      "utc_date": "2026-11-03",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-11-03",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-03.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "ecc65dc158cc0681ab493aaefbe90da5b4efea788b3d48a6ab57b63fa32c8b9d"
+    },
+    {
+      "utc_date": "2026-11-04",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-11-04",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-04.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "4899a996e01b9a1f631376e76ec5e693dd70840c0d80fcf5aa60ef2abef6589a"
+    },
+    {
+      "utc_date": "2026-11-05",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-11-05",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-05.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "f438f04645d070801cdc84bca54e043905f9142faec8b13974558453165bbef1"
+    },
+    {
+      "utc_date": "2026-11-06",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-11-06",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-06.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "c090593f999382ec046f6c688a9651d8ea25117b39fa77e908fbed7072ae6a60"
+    },
+    {
+      "utc_date": "2026-11-07",
+      "value_usd": "1344.166612",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-07.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "51219867342",
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:28:49.000Z",
+        "listed_in_usd_per_m": "0.029000000",
+        "listed_out_usd_per_m": "0.030000000",
+        "listed_cache_read_usd_per_m": "0.010800000",
+        "p_in_usd_per_m": "0.028534189",
+        "p_blend_usd_per_m": "0.028609631"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "dc7b3b291e31a4eaad434671e91cc78db804c994d9282cef6e624b155c64e598"
+    },
+    {
+      "utc_date": "2026-11-08",
+      "value_usd": "1576.310798",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-08.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "60065790405",
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 5,
+        "as_of": "2026-11-10T23:28:49.000Z",
+        "listed_in_usd_per_m": "0.029000000",
+        "listed_out_usd_per_m": "0.030000000",
+        "listed_cache_read_usd_per_m": "0.010800000",
+        "p_in_usd_per_m": "0.028534189",
+        "p_blend_usd_per_m": "0.028609631"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "b76b4b2257150ccc8932f9aa53fff6f2c1bdb5bb353cb3c3add2ab3aa192af06"
+    },
+    {
+      "utc_date": "2026-11-09",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "mistralai/mistral-nemo not in the documented top 50 for 2026-11-09",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-09.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.948532",
+        "billed_share": "0.917281",
+        "cache_share": "0.025594",
+        "derived_days": 30
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "d0ccdf1528b831d1da416314f4a7e422700a5894fceae7b4f8299a98b38df5ba"
+    }
+  ],
+  "token_history": {
+    "note": "documented total_tokens per UTC day (top-50 days only), from 2025-01-01; no USD value before price_backfill_from",
+    "rows": [
+      [
+        "2025-01-01",
+        "1940762014"
+      ],
+      [
+        "2025-01-02",
+        "2062275148"
+      ],
+      [
+        "2025-01-03",
+        "2094741731"
+      ],
+      [
+        "2025-01-04",
+        "1898123885"
+      ],
+      [
+        "2025-01-05",
+        "1985277900"
+      ],
+      [
+        "2025-01-06",
+        "2038344690"
+      ],
+      [
+        "2025-01-07",
+        "1973925957"
+      ],
+      [
+        "2025-01-08",
+        "1891100415"
+      ],
+      [
+        "2025-01-09",
+        "1770363042"
+      ],
+      [
+        "2025-01-10",
+        "1789737171"
+      ],
+      [
+        "2025-01-11",
+        "1843867480"
+      ],
+      [
+        "2025-01-12",
+        "1912711610"
+      ],
+      [
+        "2025-01-13",
+        "1858615023"
+      ],
+      [
+        "2025-01-14",
+        "1765396345"
+      ],
+      [
+        "2025-01-15",
+        "1825266121"
+      ],
+      [
+        "2025-01-16",
+        "1718164634"
+      ],
+      [
+        "2025-01-17",
+        "1680930840"
+      ],
+      [
+        "2025-01-18",
+        "1677196911"
+      ],
+      [
+        "2025-01-19",
+        "1931126393"
+      ],
+      [
+        "2025-01-20",
+        "1735991546"
+      ],
+      [
+        "2025-01-21",
+        "1728478300"
+      ],
+      [
+        "2025-01-22",
+        "1729063787"
+      ],
+      [
+        "2025-01-23",
+        "1866456798"
+      ],
+      [
+        "2025-01-24",
+        "1738140814"
+      ],
+      [
+        "2025-01-25",
+        "1798162761"
+      ],
+      [
+        "2025-01-26",
+        "2694246907"
+      ],
+      [
+        "2025-01-27",
+        "2435500293"
+      ],
+      [
+        "2025-01-28",
+        "2060757220"
+      ],
+      [
+        "2025-01-29",
+        "2358146952"
+      ],
+      [
+        "2025-01-30",
+        "1985817447"
+      ],
+      [
+        "2025-01-31",
+        "2163087987"
+      ],
+      [
+        "2025-02-01",
+        "2338620379"
+      ],
+      [
+        "2025-02-02",
+        "2637223713"
+      ],
+      [
+        "2025-02-03",
+        "2423490506"
+      ],
+      [
+        "2025-02-04",
+        "2444462740"
+      ],
+      [
+        "2025-02-05",
+        "4145786341"
+      ],
+      [
+        "2025-02-06",
+        "5519650264"
+      ],
+      [
+        "2025-02-07",
+        "4336620119"
+      ],
+      [
+        "2025-02-08",
+        "2770559621"
+      ],
+      [
+        "2025-02-09",
+        "2758224193"
+      ],
+      [
+        "2025-02-10",
+        "4938917418"
+      ],
+      [
+        "2025-02-11",
+        "6146563011"
+      ],
+      [
+        "2025-02-12",
+        "6552223840"
+      ],
+      [
+        "2025-02-13",
+        "6581138436"
+      ],
+      [
+        "2025-02-14",
+        "3129728989"
+      ],
+      [
+        "2025-02-15",
+        "3437370745"
+      ],
+      [
+        "2025-02-16",
+        "3536838403"
+      ],
+      [
+        "2025-02-17",
+        "3402019894"
+      ],
+      [
+        "2025-02-18",
+        "2810125770"
+      ],
+      [
+        "2025-02-19",
+        "1863400855"
+      ],
+      [
+        "2025-02-20",
+        "1751443400"
+      ],
+      [
+        "2025-02-21",
+        "1753572896"
+      ],
+      [
+        "2025-02-22",
+        "2106890289"
+      ],
+      [
+        "2025-02-23",
+        "2325251570"
+      ],
+      [
+        "2025-02-24",
+        "2535108584"
+      ],
+      [
+        "2025-02-25",
+        "2527295502"
+      ],
+      [
+        "2025-02-26",
+        "2369508456"
+      ],
+      [
+        "2025-02-27",
+        "2328553612"
+      ],
+      [
+        "2025-02-28",
+        "2514907127"
+      ],
+      [
+        "2025-03-01",
+        "2623999309"
+      ],
+      [
+        "2025-03-02",
+        "2706598448"
+      ],
+      [
+        "2025-03-03",
+        "2781777561"
+      ],
+      [
+        "2025-03-04",
+        "2676871912"
+      ],
+      [
+        "2025-03-05",
+        "2703472119"
+      ],
+      [
+        "2025-03-06",
+        "2630100843"
+      ],
+      [
+        "2025-03-07",
+        "3376405115"
+      ],
+      [
+        "2025-03-08",
+        "2362416387"
+      ],
+      [
+        "2025-03-09",
+        "2412864092"
+      ],
+      [
+        "2025-03-10",
+        "2435902380"
+      ],
+      [
+        "2025-03-11",
+        "2381962727"
+      ],
+      [
+        "2025-03-12",
+        "2426522615"
+      ],
+      [
+        "2025-03-13",
+        "2526575143"
+      ],
+      [
+        "2025-03-14",
+        "2578344087"
+      ],
+      [
+        "2025-03-15",
+        "2702063289"
+      ],
+      [
+        "2025-03-16",
+        "2822082598"
+      ],
+      [
+        "2025-03-17",
+        "2721380764"
+      ],
+      [
+        "2025-03-18",
+        "2633151698"
+      ],
+      [
+        "2025-03-19",
+        "2494533234"
+      ],
+      [
+        "2025-03-20",
+        "2453457824"
+      ],
+      [
+        "2025-03-21",
+        "2685970556"
+      ],
+      [
+        "2025-03-22",
+        "2731966622"
+      ],
+      [
+        "2025-03-23",
+        "2700878874"
+      ],
+      [
+        "2025-03-24",
+        "2669115789"
+      ],
+      [
+        "2025-03-25",
+        "2913590455"
+      ],
+      [
+        "2025-03-26",
+        "2922918953"
+      ],
+      [
+        "2025-03-27",
+        "2853518109"
+      ],
+      [
+        "2025-03-28",
+        "2913387225"
+      ],
+      [
+        "2025-03-29",
+        "2756827762"
+      ],
+      [
+        "2025-03-30",
+        "2747651372"
+      ],
+      [
+        "2025-03-31",
+        "2697185751"
+      ],
+      [
+        "2025-04-01",
+        "2913291419"
+      ],
+      [
+        "2025-04-02",
+        "2883764674"
+      ],
+      [
+        "2025-04-03",
+        "2883372597"
+      ],
+      [
+        "2025-04-04",
+        "2712376166"
+      ],
+      [
+        "2025-04-05",
+        "2762619890"
+      ],
+      [
+        "2025-04-06",
+        "2778669080"
+      ],
+      [
+        "2025-04-07",
+        "2726903211"
+      ],
+      [
+        "2025-04-08",
+        "2721286956"
+      ],
+      [
+        "2025-04-09",
+        "2705808879"
+      ],
+      [
+        "2025-04-10",
+        "2814455917"
+      ],
+      [
+        "2025-04-11",
+        "2951580159"
+      ],
+      [
+        "2025-04-12",
+        "2816014456"
+      ],
+      [
+        "2025-04-13",
+        "2920665798"
+      ],
+      [
+        "2025-04-14",
+        "2834138469"
+      ],
+      [
+        "2025-04-15",
+        "2933753303"
+      ],
+      [
+        "2025-04-16",
+        "2884761719"
+      ],
+      [
+        "2025-04-17",
+        "3177317775"
+      ],
+      [
+        "2025-04-18",
+        "3438753734"
+      ],
+      [
+        "2025-04-19",
+        "3498087688"
+      ],
+      [
+        "2025-04-20",
+        "3577097747"
+      ],
+      [
+        "2025-04-21",
+        "3734823658"
+      ],
+      [
+        "2025-04-22",
+        "3778945509"
+      ],
+      [
+        "2025-04-23",
+        "3646435728"
+      ],
+      [
+        "2025-04-24",
+        "3173596475"
+      ],
+      [
+        "2025-04-25",
+        "3090233879"
+      ],
+      [
+        "2025-04-26",
+        "3368010139"
+      ],
+      [
+        "2025-04-27",
+        "3565581258"
+      ],
+      [
+        "2025-04-28",
+        "3683988623"
+      ],
+      [
+        "2025-04-29",
+        "3664199703"
+      ],
+      [
+        "2025-04-30",
+        "3539051847"
+      ],
+      [
+        "2025-05-01",
+        "3668918332"
+      ],
+      [
+        "2025-05-02",
+        "3458834250"
+      ],
+      [
+        "2025-05-03",
+        "3610280278"
+      ],
+      [
+        "2025-05-04",
+        "3825845137"
+      ],
+      [
+        "2025-05-05",
+        "3738864907"
+      ],
+      [
+        "2025-05-06",
+        "3542146778"
+      ],
+      [
+        "2025-05-07",
+        "3769636517"
+      ],
+      [
+        "2025-05-08",
+        "3962790679"
+      ],
+      [
+        "2025-05-09",
+        "3795763284"
+      ],
+      [
+        "2025-05-10",
+        "3897849327"
+      ],
+      [
+        "2025-05-11",
+        "4248827155"
+      ],
+      [
+        "2025-05-12",
+        "3749038892"
+      ],
+      [
+        "2025-05-13",
+        "3468325428"
+      ],
+      [
+        "2025-05-14",
+        "3069796729"
+      ],
+      [
+        "2025-05-15",
+        "3522847568"
+      ],
+      [
+        "2025-05-16",
+        "4047909838"
+      ],
+      [
+        "2025-05-17",
+        "4226639833"
+      ],
+      [
+        "2025-05-18",
+        "4228114998"
+      ],
+      [
+        "2025-05-19",
+        "4164585987"
+      ],
+      [
+        "2025-05-20",
+        "4207671180"
+      ],
+      [
+        "2025-05-21",
+        "4200803332"
+      ],
+      [
+        "2025-05-22",
+        "4282836511"
+      ],
+      [
+        "2025-05-23",
+        "4278715111"
+      ],
+      [
+        "2025-05-24",
+        "4335929688"
+      ],
+      [
+        "2025-05-25",
+        "4610256947"
+      ],
+      [
+        "2025-05-26",
+        "5119823783"
+      ],
+      [
+        "2025-05-27",
+        "4307665264"
+      ],
+      [
+        "2025-05-28",
+        "4283636782"
+      ],
+      [
+        "2025-05-29",
+        "4070431553"
+      ],
+      [
+        "2025-05-30",
+        "4001556256"
+      ],
+      [
+        "2025-05-31",
+        "4340658669"
+      ],
+      [
+        "2025-06-01",
+        "4712219487"
+      ],
+      [
+        "2025-06-02",
+        "4715501412"
+      ],
+      [
+        "2025-06-03",
+        "4572940311"
+      ],
+      [
+        "2025-06-04",
+        "4761360605"
+      ],
+      [
+        "2025-06-05",
+        "4613438599"
+      ],
+      [
+        "2025-06-06",
+        "4777927950"
+      ],
+      [
+        "2025-06-07",
+        "4876663434"
+      ],
+      [
+        "2025-06-08",
+        "5190404770"
+      ],
+      [
+        "2025-06-09",
+        "5218014165"
+      ],
+      [
+        "2025-06-10",
+        "5122376733"
+      ],
+      [
+        "2025-06-11",
+        "5110505271"
+      ],
+      [
+        "2025-06-12",
+        "4507793136"
+      ],
+      [
+        "2025-06-13",
+        "5183531051"
+      ],
+      [
+        "2025-06-14",
+        "5225781511"
+      ],
+      [
+        "2025-06-16",
+        "5067583799"
+      ],
+      [
+        "2025-06-17",
+        "4906441939"
+      ],
+      [
+        "2025-06-18",
+        "4703065315"
+      ],
+      [
+        "2025-06-19",
+        "4794979630"
+      ],
+      [
+        "2025-06-20",
+        "4602936331"
+      ],
+      [
+        "2025-06-21",
+        "4768531740"
+      ],
+      [
+        "2025-06-22",
+        "5482573569"
+      ],
+      [
+        "2025-06-23",
+        "5531139979"
+      ],
+      [
+        "2025-06-24",
+        "5509070276"
+      ],
+      [
+        "2025-06-25",
+        "5707565981"
+      ],
+      [
+        "2025-06-26",
+        "5537708231"
+      ],
+      [
+        "2025-06-27",
+        "5400442106"
+      ],
+      [
+        "2025-06-28",
+        "5096105911"
+      ],
+      [
+        "2025-06-29",
+        "5454210824"
+      ],
+      [
+        "2025-06-30",
+        "5718383330"
+      ],
+      [
+        "2025-07-01",
+        "5348701652"
+      ],
+      [
+        "2025-07-02",
+        "5222191118"
+      ],
+      [
+        "2025-07-03",
+        "5146019659"
+      ],
+      [
+        "2025-07-04",
+        "4976418530"
+      ],
+      [
+        "2025-07-05",
+        "5012707665"
+      ],
+      [
+        "2025-07-06",
+        "5624771465"
+      ],
+      [
+        "2025-07-07",
+        "5465299426"
+      ],
+      [
+        "2025-07-08",
+        "5702949989"
+      ],
+      [
+        "2025-07-09",
+        "5782190474"
+      ],
+      [
+        "2025-07-10",
+        "5543457743"
+      ],
+      [
+        "2025-07-11",
+        "5366109984"
+      ],
+      [
+        "2025-07-12",
+        "5423334377"
+      ],
+      [
+        "2025-07-13",
+        "5850933167"
+      ],
+      [
+        "2025-07-14",
+        "5869087073"
+      ],
+      [
+        "2025-07-16",
+        "5791356311"
+      ],
+      [
+        "2025-07-17",
+        "5744783724"
+      ],
+      [
+        "2025-07-18",
+        "6036753870"
+      ],
+      [
+        "2025-07-19",
+        "6054228091"
+      ],
+      [
+        "2025-07-20",
+        "6309456618"
+      ],
+      [
+        "2025-07-21",
+        "6570314965"
+      ],
+      [
+        "2025-07-22",
+        "6488880777"
+      ],
+      [
+        "2025-07-23",
+        "6599982759"
+      ],
+      [
+        "2025-07-24",
+        "6839277597"
+      ],
+      [
+        "2025-07-25",
+        "7067644915"
+      ],
+      [
+        "2025-07-26",
+        "6760399117"
+      ],
+      [
+        "2025-07-27",
+        "7160903649"
+      ],
+      [
+        "2025-07-28",
+        "7441079847"
+      ],
+      [
+        "2025-07-29",
+        "7247939673"
+      ],
+      [
+        "2025-07-30",
+        "7138850449"
+      ],
+      [
+        "2025-07-31",
+        "7104725833"
+      ],
+      [
+        "2025-08-01",
+        "7117604510"
+      ],
+      [
+        "2025-08-02",
+        "6749729684"
+      ],
+      [
+        "2025-08-03",
+        "7325408720"
+      ],
+      [
+        "2025-08-04",
+        "8158298939"
+      ],
+      [
+        "2025-08-05",
+        "7686643065"
+      ],
+      [
+        "2025-08-06",
+        "7492844372"
+      ],
+      [
+        "2025-08-07",
+        "7279796576"
+      ],
+      [
+        "2025-08-08",
+        "7309141512"
+      ],
+      [
+        "2025-08-09",
+        "7294920838"
+      ],
+      [
+        "2025-08-10",
+        "7428647165"
+      ],
+      [
+        "2025-08-11",
+        "8566647006"
+      ],
+      [
+        "2025-08-12",
+        "7237991417"
+      ],
+      [
+        "2025-08-13",
+        "7412840974"
+      ],
+      [
+        "2025-08-14",
+        "7492590504"
+      ],
+      [
+        "2025-08-15",
+        "7692026837"
+      ],
+      [
+        "2025-08-16",
+        "10849705155"
+      ],
+      [
+        "2025-08-17",
+        "15056077098"
+      ],
+      [
+        "2025-08-18",
+        "12516435865"
+      ],
+      [
+        "2025-08-19",
+        "8299991070"
+      ],
+      [
+        "2025-08-20",
+        "9138781183"
+      ],
+      [
+        "2025-08-21",
+        "8480974275"
+      ],
+      [
+        "2025-08-22",
+        "7876591972"
+      ],
+      [
+        "2025-08-23",
+        "7961582218"
+      ],
+      [
+        "2025-08-24",
+        "8286821458"
+      ],
+      [
+        "2025-08-25",
+        "8057226817"
+      ],
+      [
+        "2025-08-26",
+        "7774234188"
+      ],
+      [
+        "2025-08-27",
+        "7897599840"
+      ],
+      [
+        "2025-08-28",
+        "7583846743"
+      ],
+      [
+        "2025-08-29",
+        "7958063378"
+      ],
+      [
+        "2025-08-30",
+        "7768970249"
+      ],
+      [
+        "2025-08-31",
+        "8268886262"
+      ],
+      [
+        "2025-09-01",
+        "7142162637"
+      ],
+      [
+        "2025-09-02",
+        "6998454621"
+      ],
+      [
+        "2025-09-03",
+        "7761067937"
+      ],
+      [
+        "2025-09-04",
+        "7469717051"
+      ],
+      [
+        "2025-09-05",
+        "7550226276"
+      ],
+      [
+        "2025-09-06",
+        "8070620683"
+      ],
+      [
+        "2025-09-07",
+        "8627660090"
+      ],
+      [
+        "2025-09-08",
+        "7025496343"
+      ],
+      [
+        "2025-09-09",
+        "6186404385"
+      ],
+      [
+        "2025-09-10",
+        "6899869707"
+      ],
+      [
+        "2025-09-11",
+        "6073248424"
+      ],
+      [
+        "2025-09-12",
+        "5808501017"
+      ],
+      [
+        "2025-09-13",
+        "6480526314"
+      ],
+      [
+        "2025-09-14",
+        "6916110277"
+      ],
+      [
+        "2025-09-15",
+        "8226979762"
+      ],
+      [
+        "2025-09-16",
+        "6413945978"
+      ],
+      [
+        "2025-09-17",
+        "6484033358"
+      ],
+      [
+        "2025-09-18",
+        "6121064938"
+      ],
+      [
+        "2025-09-19",
+        "6116690655"
+      ],
+      [
+        "2025-09-20",
+        "7013774205"
+      ],
+      [
+        "2025-09-21",
+        "7178815351"
+      ],
+      [
+        "2025-09-22",
+        "6467238909"
+      ],
+      [
+        "2025-09-23",
+        "6024176828"
+      ],
+      [
+        "2025-09-24",
+        "5733248056"
+      ],
+      [
+        "2025-09-25",
+        "5229813131"
+      ],
+      [
+        "2025-09-26",
+        "5317808877"
+      ],
+      [
+        "2025-09-27",
+        "5642595590"
+      ],
+      [
+        "2025-09-28",
+        "5976527132"
+      ],
+      [
+        "2025-09-29",
+        "6506484124"
+      ],
+      [
+        "2025-09-30",
+        "5743654831"
+      ],
+      [
+        "2025-10-01",
+        "5447417956"
+      ],
+      [
+        "2025-10-02",
+        "5360568348"
+      ],
+      [
+        "2025-10-03",
+        "5708310551"
+      ],
+      [
+        "2025-10-04",
+        "5952028309"
+      ],
+      [
+        "2025-10-05",
+        "6339264381"
+      ],
+      [
+        "2025-10-06",
+        "6068790273"
+      ],
+      [
+        "2025-10-07",
+        "5981471301"
+      ],
+      [
+        "2025-10-08",
+        "5678954402"
+      ],
+      [
+        "2025-10-09",
+        "5638106702"
+      ],
+      [
+        "2025-10-10",
+        "5641278585"
+      ],
+      [
+        "2025-10-11",
+        "5794668647"
+      ],
+      [
+        "2025-10-12",
+        "6010736145"
+      ],
+      [
+        "2025-10-13",
+        "6052740468"
+      ],
+      [
+        "2025-10-14",
+        "6135970910"
+      ],
+      [
+        "2025-10-15",
+        "5644640459"
+      ],
+      [
+        "2025-10-16",
+        "5689072017"
+      ],
+      [
+        "2025-10-17",
+        "5562137181"
+      ],
+      [
+        "2025-10-18",
+        "6048126553"
+      ],
+      [
+        "2025-10-19",
+        "6268384718"
+      ],
+      [
+        "2025-10-20",
+        "6056003234"
+      ],
+      [
+        "2025-10-21",
+        "6053923444"
+      ],
+      [
+        "2025-10-22",
+        "5860549643"
+      ],
+      [
+        "2025-10-23",
+        "5860780301"
+      ],
+      [
+        "2025-10-24",
+        "5387108690"
+      ],
+      [
+        "2025-10-25",
+        "5571476083"
+      ],
+      [
+        "2025-10-26",
+        "5951092132"
+      ],
+      [
+        "2025-10-27",
+        "6029684862"
+      ],
+      [
+        "2025-10-28",
+        "5990595731"
+      ],
+      [
+        "2025-10-29",
+        "6154768812"
+      ],
+      [
+        "2025-10-30",
+        "8218697663"
+      ],
+      [
+        "2025-10-31",
+        "7868807791"
+      ],
+      [
+        "2025-11-01",
+        "8445975257"
+      ],
+      [
+        "2025-11-02",
+        "9595152359"
+      ],
+      [
+        "2025-11-03",
+        "9143847118"
+      ],
+      [
+        "2025-11-04",
+        "8732956313"
+      ],
+      [
+        "2025-11-05",
+        "8366206683"
+      ],
+      [
+        "2025-11-06",
+        "8160473428"
+      ],
+      [
+        "2025-11-07",
+        "8287595001"
+      ],
+      [
+        "2025-11-08",
+        "9023326148"
+      ],
+      [
+        "2025-11-09",
+        "10253727782"
+      ],
+      [
+        "2025-11-10",
+        "9425034522"
+      ],
+      [
+        "2025-11-11",
+        "9493406634"
+      ],
+      [
+        "2025-11-12",
+        "8528176306"
+      ],
+      [
+        "2025-11-13",
+        "8449666222"
+      ],
+      [
+        "2025-11-14",
+        "8439314363"
+      ],
+      [
+        "2025-11-15",
+        "9039840687"
+      ],
+      [
+        "2025-11-16",
+        "10063201285"
+      ],
+      [
+        "2025-11-17",
+        "9590614221"
+      ],
+      [
+        "2025-11-18",
+        "8999649792"
+      ],
+      [
+        "2025-11-19",
+        "9005037635"
+      ],
+      [
+        "2025-11-20",
+        "9025309868"
+      ],
+      [
+        "2025-11-21",
+        "9119839465"
+      ],
+      [
+        "2025-11-22",
+        "9836476442"
+      ],
+      [
+        "2025-11-23",
+        "10444139477"
+      ],
+      [
+        "2025-11-24",
+        "9865767495"
+      ],
+      [
+        "2025-11-25",
+        "9233857921"
+      ],
+      [
+        "2025-11-26",
+        "9702132339"
+      ],
+      [
+        "2025-11-27",
+        "8907453578"
+      ],
+      [
+        "2025-11-28",
+        "9827766314"
+      ],
+      [
+        "2025-11-29",
+        "9154057599"
+      ],
+      [
+        "2025-11-30",
+        "9898861490"
+      ],
+      [
+        "2025-12-01",
+        "9109909459"
+      ],
+      [
+        "2025-12-02",
+        "8876072094"
+      ],
+      [
+        "2025-12-03",
+        "10623634126"
+      ],
+      [
+        "2025-12-04",
+        "11716584314"
+      ],
+      [
+        "2025-12-05",
+        "11519565147"
+      ],
+      [
+        "2025-12-06",
+        "11752668343"
+      ],
+      [
+        "2025-12-07",
+        "13006347031"
+      ],
+      [
+        "2025-12-08",
+        "11870537543"
+      ],
+      [
+        "2025-12-09",
+        "11197212412"
+      ],
+      [
+        "2025-12-10",
+        "11705837884"
+      ],
+      [
+        "2025-12-11",
+        "11101255980"
+      ],
+      [
+        "2025-12-12",
+        "10742642934"
+      ],
+      [
+        "2025-12-13",
+        "11084918770"
+      ],
+      [
+        "2025-12-14",
+        "11956979121"
+      ],
+      [
+        "2025-12-15",
+        "11582265611"
+      ],
+      [
+        "2025-12-16",
+        "11346550759"
+      ],
+      [
+        "2025-12-17",
+        "10855324882"
+      ],
+      [
+        "2025-12-18",
+        "11228044443"
+      ],
+      [
+        "2025-12-19",
+        "11217889273"
+      ],
+      [
+        "2025-12-20",
+        "11064923951"
+      ],
+      [
+        "2025-12-21",
+        "12059501806"
+      ],
+      [
+        "2025-12-22",
+        "12355418597"
+      ],
+      [
+        "2025-12-23",
+        "12037584801"
+      ],
+      [
+        "2025-12-24",
+        "11414876540"
+      ],
+      [
+        "2025-12-25",
+        "10104048706"
+      ],
+      [
+        "2025-12-26",
+        "12469069087"
+      ],
+      [
+        "2025-12-27",
+        "12537784210"
+      ],
+      [
+        "2025-12-28",
+        "13020121384"
+      ],
+      [
+        "2025-12-29",
+        "13336486950"
+      ],
+      [
+        "2025-12-30",
+        "13364874330"
+      ],
+      [
+        "2025-12-31",
+        "12335545123"
+      ],
+      [
+        "2026-01-01",
+        "12007692526"
+      ],
+      [
+        "2026-01-02",
+        "13856458617"
+      ],
+      [
+        "2026-01-03",
+        "13202676642"
+      ],
+      [
+        "2026-01-04",
+        "13611272232"
+      ],
+      [
+        "2026-01-05",
+        "12683637016"
+      ],
+      [
+        "2026-01-06",
+        "11796335887"
+      ],
+      [
+        "2026-01-07",
+        "11799629550"
+      ],
+      [
+        "2026-01-08",
+        "11943558105"
+      ],
+      [
+        "2026-01-09",
+        "11503925739"
+      ],
+      [
+        "2026-01-10",
+        "12139951010"
+      ],
+      [
+        "2026-01-11",
+        "12649082339"
+      ],
+      [
+        "2026-01-12",
+        "11356671783"
+      ],
+      [
+        "2026-01-13",
+        "10776674626"
+      ],
+      [
+        "2026-01-14",
+        "10620692872"
+      ],
+      [
+        "2026-01-15",
+        "10594387568"
+      ],
+      [
+        "2026-01-16",
+        "8799025190"
+      ],
+      [
+        "2026-01-17",
+        "8228599772"
+      ],
+      [
+        "2026-01-18",
+        "8308025965"
+      ],
+      [
+        "2026-01-19",
+        "10549497569"
+      ],
+      [
+        "2026-01-20",
+        "9893521817"
+      ],
+      [
+        "2026-01-21",
+        "9142733185"
+      ],
+      [
+        "2026-01-22",
+        "9659218483"
+      ],
+      [
+        "2026-01-23",
+        "9496890029"
+      ],
+      [
+        "2026-01-24",
+        "10065077721"
+      ],
+      [
+        "2026-01-25",
+        "11078230579"
+      ],
+      [
+        "2026-01-26",
+        "11331763763"
+      ],
+      [
+        "2026-01-27",
+        "11775789280"
+      ],
+      [
+        "2026-01-28",
+        "11397053255"
+      ],
+      [
+        "2026-01-29",
+        "11014494684"
+      ],
+      [
+        "2026-01-30",
+        "10847957072"
+      ],
+      [
+        "2026-01-31",
+        "11463393420"
+      ],
+      [
+        "2026-02-01",
+        "12179756736"
+      ],
+      [
+        "2026-02-02",
+        "11955365458"
+      ],
+      [
+        "2026-02-03",
+        "11504658914"
+      ],
+      [
+        "2026-02-04",
+        "11324627340"
+      ],
+      [
+        "2026-02-05",
+        "11123725399"
+      ],
+      [
+        "2026-02-06",
+        "10832058393"
+      ],
+      [
+        "2026-02-07",
+        "11371662522"
+      ],
+      [
+        "2026-02-08",
+        "12380647571"
+      ],
+      [
+        "2026-02-09",
+        "11471054551"
+      ],
+      [
+        "2026-02-10",
+        "10954275191"
+      ],
+      [
+        "2026-02-11",
+        "10603702367"
+      ],
+      [
+        "2026-02-12",
+        "10893376703"
+      ],
+      [
+        "2026-02-13",
+        "10655970688"
+      ],
+      [
+        "2026-02-14",
+        "11750205658"
+      ],
+      [
+        "2026-02-15",
+        "12805131611"
+      ],
+      [
+        "2026-02-16",
+        "12776464844"
+      ],
+      [
+        "2026-02-17",
+        "11275298725"
+      ],
+      [
+        "2026-02-18",
+        "11436794193"
+      ],
+      [
+        "2026-02-19",
+        "10882465057"
+      ],
+      [
+        "2026-02-20",
+        "11748345858"
+      ],
+      [
+        "2026-02-21",
+        "11874727203"
+      ],
+      [
+        "2026-02-22",
+        "12644074548"
+      ],
+      [
+        "2026-02-23",
+        "11690429329"
+      ],
+      [
+        "2026-02-24",
+        "11786850533"
+      ],
+      [
+        "2026-02-25",
+        "11597823584"
+      ],
+      [
+        "2026-02-26",
+        "11253354404"
+      ],
+      [
+        "2026-02-27",
+        "11533545234"
+      ],
+      [
+        "2026-02-28",
+        "12399638675"
+      ],
+      [
+        "2026-03-01",
+        "13145883606"
+      ],
+      [
+        "2026-03-02",
+        "11955044499"
+      ],
+      [
+        "2026-03-03",
+        "10061611970"
+      ],
+      [
+        "2026-03-04",
+        "8749339748"
+      ],
+      [
+        "2026-03-05",
+        "9928369027"
+      ],
+      [
+        "2026-03-06",
+        "9885104695"
+      ],
+      [
+        "2026-03-07",
+        "10906957545"
+      ],
+      [
+        "2026-03-08",
+        "11800727410"
+      ],
+      [
+        "2026-03-09",
+        "12612169149"
+      ],
+      [
+        "2026-03-10",
+        "11054096599"
+      ],
+      [
+        "2026-03-11",
+        "10431700517"
+      ],
+      [
+        "2026-03-12",
+        "10581143998"
+      ],
+      [
+        "2026-03-13",
+        "10313799716"
+      ],
+      [
+        "2026-03-14",
+        "11334271119"
+      ],
+      [
+        "2026-03-15",
+        "12095835255"
+      ],
+      [
+        "2026-03-16",
+        "12053665286"
+      ],
+      [
+        "2026-03-17",
+        "10883645720"
+      ],
+      [
+        "2026-03-18",
+        "11519073317"
+      ],
+      [
+        "2026-03-19",
+        "11455196188"
+      ],
+      [
+        "2026-03-20",
+        "11488932598"
+      ],
+      [
+        "2026-03-21",
+        "12053846860"
+      ],
+      [
+        "2026-03-22",
+        "13817043332"
+      ],
+      [
+        "2026-03-23",
+        "12517622855"
+      ],
+      [
+        "2026-03-24",
+        "11826867736"
+      ],
+      [
+        "2026-03-25",
+        "11211959229"
+      ],
+      [
+        "2026-03-26",
+        "11352176255"
+      ],
+      [
+        "2026-03-27",
+        "11126516373"
+      ],
+      [
+        "2026-03-28",
+        "12686337962"
+      ],
+      [
+        "2026-03-29",
+        "13930284369"
+      ],
+      [
+        "2026-03-30",
+        "12847227972"
+      ],
+      [
+        "2026-03-31",
+        "12348134911"
+      ],
+      [
+        "2026-04-01",
+        "12968099911"
+      ],
+      [
+        "2026-04-02",
+        "13282679535"
+      ],
+      [
+        "2026-04-03",
+        "15378863371"
+      ],
+      [
+        "2026-04-04",
+        "16194339016"
+      ],
+      [
+        "2026-04-05",
+        "17399185507"
+      ],
+      [
+        "2026-04-06",
+        "18942277610"
+      ],
+      [
+        "2026-04-07",
+        "18322003420"
+      ],
+      [
+        "2026-04-08",
+        "17450991261"
+      ],
+      [
+        "2026-04-09",
+        "17523282324"
+      ],
+      [
+        "2026-04-10",
+        "18229114601"
+      ],
+      [
+        "2026-04-11",
+        "19579214052"
+      ],
+      [
+        "2026-04-12",
+        "20869279651"
+      ],
+      [
+        "2026-04-13",
+        "19207445612"
+      ],
+      [
+        "2026-04-14",
+        "18290629054"
+      ],
+      [
+        "2026-04-15",
+        "17314868528"
+      ],
+      [
+        "2026-04-16",
+        "17072055282"
+      ],
+      [
+        "2026-04-17",
+        "17144647172"
+      ],
+      [
+        "2026-04-18",
+        "20049112463"
+      ],
+      [
+        "2026-04-19",
+        "20506240520"
+      ],
+      [
+        "2026-04-20",
+        "18039923731"
+      ],
+      [
+        "2026-04-21",
+        "17357760063"
+      ],
+      [
+        "2026-04-22",
+        "17147872627"
+      ],
+      [
+        "2026-04-23",
+        "16400634391"
+      ],
+      [
+        "2026-04-24",
+        "16016330894"
+      ],
+      [
+        "2026-04-25",
+        "17580472589"
+      ],
+      [
+        "2026-04-26",
+        "19294089181"
+      ],
+      [
+        "2026-04-27",
+        "17665775911"
+      ],
+      [
+        "2026-04-28",
+        "17303806180"
+      ],
+      [
+        "2026-04-29",
+        "15613659244"
+      ],
+      [
+        "2026-04-30",
+        "15029140960"
+      ],
+      [
+        "2026-05-01",
+        "16406150031"
+      ],
+      [
+        "2026-05-02",
+        "18660368021"
+      ],
+      [
+        "2026-05-03",
+        "18983938957"
+      ],
+      [
+        "2026-05-04",
+        "18679978528"
+      ],
+      [
+        "2026-05-05",
+        "17463515924"
+      ],
+      [
+        "2026-05-06",
+        "16396685615"
+      ],
+      [
+        "2026-05-07",
+        "16142000196"
+      ],
+      [
+        "2026-05-08",
+        "15838555491"
+      ],
+      [
+        "2026-05-09",
+        "18407207057"
+      ],
+      [
+        "2026-05-10",
+        "19144115333"
+      ],
+      [
+        "2026-05-11",
+        "18189004629"
+      ],
+      [
+        "2026-05-12",
+        "17538054845"
+      ],
+      [
+        "2026-05-13",
+        "18184767152"
+      ],
+      [
+        "2026-05-14",
+        "18399722363"
+      ],
+      [
+        "2026-05-15",
+        "18332623014"
+      ],
+      [
+        "2026-05-16",
+        "20564832095"
+      ],
+      [
+        "2026-05-17",
+        "23895335008"
+      ],
+      [
+        "2026-05-18",
+        "20522381674"
+      ],
+      [
+        "2026-05-19",
+        "18394919798"
+      ],
+      [
+        "2026-05-20",
+        "18082412147"
+      ],
+      [
+        "2026-05-21",
+        "17707947736"
+      ],
+      [
+        "2026-05-22",
+        "17935602936"
+      ],
+      [
+        "2026-05-23",
+        "19732524697"
+      ],
+      [
+        "2026-05-24",
+        "21832995321"
+      ],
+      [
+        "2026-05-25",
+        "19225955391"
+      ],
+      [
+        "2026-05-26",
+        "20126586500"
+      ],
+      [
+        "2026-05-27",
+        "20930024595"
+      ],
+      [
+        "2026-05-28",
+        "20349389353"
+      ],
+      [
+        "2026-05-29",
+        "20388435611"
+      ],
+      [
+        "2026-05-30",
+        "22511807938"
+      ],
+      [
+        "2026-05-31",
+        "24535353348"
+      ],
+      [
+        "2026-06-01",
+        "22256484830"
+      ],
+      [
+        "2026-06-02",
+        "21525945001"
+      ],
+      [
+        "2026-06-03",
+        "20811609122"
+      ],
+      [
+        "2026-06-04",
+        "21227869974"
+      ],
+      [
+        "2026-06-05",
+        "23150401972"
+      ],
+      [
+        "2026-06-06",
+        "23420890369"
+      ],
+      [
+        "2026-06-07",
+        "25551550996"
+      ],
+      [
+        "2026-06-08",
+        "24172442874"
+      ],
+      [
+        "2026-06-09",
+        "22781025145"
+      ],
+      [
+        "2026-06-10",
+        "22546278265"
+      ],
+      [
+        "2026-06-11",
+        "23795447728"
+      ],
+      [
+        "2026-06-12",
+        "24713021554"
+      ],
+      [
+        "2026-06-13",
+        "25914194511"
+      ],
+      [
+        "2026-06-14",
+        "28862913337"
+      ],
+      [
+        "2026-06-15",
+        "30432957037"
+      ],
+      [
+        "2026-06-16",
+        "30322786750"
+      ],
+      [
+        "2026-06-17",
+        "29500389540"
+      ],
+      [
+        "2026-06-18",
+        "29359297421"
+      ],
+      [
+        "2026-06-19",
+        "32255678571"
+      ],
+      [
+        "2026-06-20",
+        "34215761713"
+      ],
+      [
+        "2026-06-21",
+        "36035226702"
+      ],
+      [
+        "2026-06-22",
+        "35499647321"
+      ],
+      [
+        "2026-06-23",
+        "33528000821"
+      ],
+      [
+        "2026-06-24",
+        "33399784453"
+      ],
+      [
+        "2026-06-25",
+        "34681324612"
+      ],
+      [
+        "2026-06-26",
+        "33448522055"
+      ],
+      [
+        "2026-06-27",
+        "34744051607"
+      ],
+      [
+        "2026-06-28",
+        "37280367478"
+      ],
+      [
+        "2026-06-29",
+        "36473802958"
+      ],
+      [
+        "2026-06-30",
+        "36300471168"
+      ],
+      [
+        "2026-07-01",
+        "37198095077"
+      ],
+      [
+        "2026-07-02",
+        "36007173258"
+      ],
+      [
+        "2026-07-03",
+        "36983990587"
+      ],
+      [
+        "2026-07-04",
+        "36752301819"
+      ],
+      [
+        "2026-07-05",
+        "37631204884"
+      ],
+      [
+        "2026-07-06",
+        "39407985707"
+      ],
+      [
+        "2026-07-07",
+        "38736278635"
+      ],
+      [
+        "2026-07-08",
+        "35398173408"
+      ],
+      [
+        "2026-07-09",
+        "35673025268"
+      ],
+      [
+        "2026-07-10",
+        "38467415740"
+      ],
+      [
+        "2026-07-11",
+        "40362997848"
+      ],
+      [
+        "2026-07-12",
+        "40216671071"
+      ],
+      [
+        "2026-07-13",
+        "39076045047"
+      ],
+      [
+        "2026-07-14",
+        "40727639182"
+      ],
+      [
+        "2026-07-15",
+        "39248417916"
+      ],
+      [
+        "2026-07-16",
+        "38924224452"
+      ],
+      [
+        "2026-07-17",
+        "39476077186"
+      ],
+      [
+        "2026-07-18",
+        "44375182197"
+      ],
+      [
+        "2026-07-19",
+        "37205621808"
+      ],
+      [
+        "2026-07-20",
+        "33111385600"
+      ],
+      [
+        "2026-07-21",
+        "46922971474"
+      ],
+      [
+        "2026-07-22",
+        "33324741301"
+      ],
+      [
+        "2026-07-23",
+        "31573036212"
+      ],
+      [
+        "2026-07-24",
+        "32360429577"
+      ],
+      [
+        "2026-07-25",
+        "39576275803"
+      ],
+      [
+        "2026-07-26",
+        "40313609742"
+      ],
+      [
+        "2026-07-27",
+        "42616203507"
+      ],
+      [
+        "2026-07-28",
+        "41622946793"
+      ],
+      [
+        "2026-08-01",
+        "16406265799"
+      ],
+      [
+        "2026-08-02",
+        "20533922931"
+      ],
+      [
+        "2026-08-08",
+        "20961391364"
+      ],
+      [
+        "2026-08-09",
+        "15761233528"
+      ],
+      [
+        "2026-08-13",
+        "24563749528"
+      ],
+      [
+        "2026-08-14",
+        "26669907170"
+      ],
+      [
+        "2026-08-15",
+        "31276846138"
+      ],
+      [
+        "2026-08-16",
+        "32367529948"
+      ],
+      [
+        "2026-08-17",
+        "31410939937"
+      ],
+      [
+        "2026-08-18",
+        "30447304207"
+      ],
+      [
+        "2026-08-19",
+        "29556597313"
+      ],
+      [
+        "2026-08-20",
+        "27871726497"
+      ],
+      [
+        "2026-08-21",
+        "31509432596"
+      ],
+      [
+        "2026-08-22",
+        "32168888542"
+      ],
+      [
+        "2026-08-23",
+        "27091228663"
+      ],
+      [
+        "2026-08-24",
+        "33037408832"
+      ],
+      [
+        "2026-09-05",
+        "34998000225"
+      ],
+      [
+        "2026-09-06",
+        "34796142861"
+      ],
+      [
+        "2026-09-12",
+        "43085521785"
+      ],
+      [
+        "2026-09-13",
+        "51818753748"
+      ],
+      [
+        "2026-09-14",
+        "40777972744"
+      ],
+      [
+        "2026-09-19",
+        "49736225038"
+      ],
+      [
+        "2026-09-20",
+        "51855258421"
+      ],
+      [
+        "2026-09-26",
+        "48093288359"
+      ],
+      [
+        "2026-09-27",
+        "52090497150"
+      ],
+      [
+        "2026-10-04",
+        "46536051814"
+      ],
+      [
+        "2026-10-18",
+        "45038480611"
+      ],
+      [
+        "2026-10-25",
+        "46751868350"
+      ],
+      [
+        "2026-11-01",
+        "48943931505"
+      ],
+      [
+        "2026-11-07",
+        "51219867342"
+      ],
+      [
+        "2026-11-08",
+        "60065790405"
+      ]
+    ]
+  }
+}

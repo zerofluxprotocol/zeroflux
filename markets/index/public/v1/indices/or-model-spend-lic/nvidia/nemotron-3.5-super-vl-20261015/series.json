@@ -1,0 +1,732 @@
+{
+  "market": "nvidia/nemotron-3.5-super-vl-20261015",
+  "index_id": "or-model-spend-lic/nvidia/nemotron-3.5-super-vl-20261015",
+  "formula": {
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+    "hash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+    "mode": "ESTIMATED_FIXED_MIX"
+  },
+  "sources": "documented only: datasets/rankings-daily (CC BY 4.0), /api/v1/models, /api/v1/models/{id}/endpoints",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "points": [
+    {
+      "utc_date": "2026-10-11",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-11",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-11.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "88edd50e8e3b5684e646cbca35790f7cf618c3199ec6461483e1288c42f8916e"
+    },
+    {
+      "utc_date": "2026-10-12",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-12",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-12.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "359f8fa9bbba9eaded74e0d1b25174383041302d863325b5300554ae95441884"
+    },
+    {
+      "utc_date": "2026-10-13",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-13",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-13.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "cd0e924f5a5e604ffac2f59ebe004620ba2fcd327f8ddcdba1d2aad7d167f03e"
+    },
+    {
+      "utc_date": "2026-10-14",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-14",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-14.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "216f72a7ef3c0a1cc0df8233b19044bb306ca5a72b412da82dcafd3e0c749fba"
+    },
+    {
+      "utc_date": "2026-10-15",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-15",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-15.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "7b5d3670d881940020097e9e51e7006b1a5b23a31e4dfa437d2dd690d32d6572"
+    },
+    {
+      "utc_date": "2026-10-16",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-16",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-16.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "bad400dddff50a62018bc1602feb7d581e52a299fe684380922fc110c059aeda"
+    },
+    {
+      "utc_date": "2026-10-17",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-17",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-17.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "d3f469e00f8053500633f830e5fb5d6e0e691342776424f03057d2442d8922d7"
+    },
+    {
+      "utc_date": "2026-10-18",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-18",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-18.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "6642c93a75d1daf0c0ec6ddb2f722fa8306cf121cb1a5c0491c5c791da2875c4"
+    },
+    {
+      "utc_date": "2026-10-19",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-19",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-19.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "71c4515c46657dab1a0d42e424f102d85e40319ba05b3e166ca78dcb7bb38317"
+    },
+    {
+      "utc_date": "2026-10-20",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-20",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-20.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "d4a4d7c225f7dca177ae80e7c56b1ad21399500b439bdd7e33ac189aecbc43e9"
+    },
+    {
+      "utc_date": "2026-10-21",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-21",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-21.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "8424d67a1da455cc34c04292fad7e715c46bc3ffad15a85db23b852a3fb004d5"
+    },
+    {
+      "utc_date": "2026-10-22",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-22",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-22.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "ea777229dba88cbc86b0c398206725938f54aae6ac13623af19ac6dbaa96a49d"
+    },
+    {
+      "utc_date": "2026-10-23",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-23",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-23.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "ecc04db49f82845eb5b827094e2295a25b4c8ebf36b7db78e10b1c454b5c7d3c"
+    },
+    {
+      "utc_date": "2026-10-24",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-24",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-24.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "5e779bd2953ddbf872bc92b6ce472f5b4699694874f741a39347a961d7237069"
+    },
+    {
+      "utc_date": "2026-10-25",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-25",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-25.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "90240761e46d12a9db8be63be1a4aac0d0d94b1010d64843d3070d2092f412b6"
+    },
+    {
+      "utc_date": "2026-10-26",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-26",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-26.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "2a84dc152a16257b84110d7e97d8e8c7177b7a1ffe4661f99bb9c41ee6bb3cd7"
+    },
+    {
+      "utc_date": "2026-10-27",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-27",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-27.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "c48ac416371b66b0e2ef93d03f8739292b6f837588ff61a7b697e227c19c1bee"
+    },
+    {
+      "utc_date": "2026-10-28",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-28",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-28.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "7f41849c04eb44760f4bb7c73390285f95027e9f045dcf1d98f846a55509ed52"
+    },
+    {
+      "utc_date": "2026-10-29",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-29",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-29.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "2063dbb30b715decb86df7e65a799eb260a2e41574f2457da7ccf0415111846b"
+    },
+    {
+      "utc_date": "2026-10-30",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-30",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-30.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "f61e843de8241c1a645ed4c0995d68bcbd8e656a793b5fcb3167726addc1a545"
+    },
+    {
+      "utc_date": "2026-10-31",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-10-31",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-10-31.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "b48ef02e1444ad75b70ced44ccdbc14742bd751bd852d5506c24332368e88e16"
+    },
+    {
+      "utc_date": "2026-11-01",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-11-01",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-01.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "1488f839f448e0357492aa48dc2c2240c81c3abff5faa5793e58808a6ef34e00"
+    },
+    {
+      "utc_date": "2026-11-02",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-11-02",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-02.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "ba43be066ea1b57d7dcf2603e1afc9ddd31fca92f77bc0aa81692f6ecea8ff72"
+    },
+    {
+      "utc_date": "2026-11-03",
+      "value_usd": "4365.926368",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-03.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "71498919357",
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 10,
+        "as_of": "2026-11-10T23:29:13.000Z",
+        "listed_in_usd_per_m": "0.150000000",
+        "listed_out_usd_per_m": "0.500000000",
+        "listed_cache_read_usd_per_m": "0.020000000",
+        "p_in_usd_per_m": "0.045781990",
+        "p_blend_usd_per_m": "0.061072785"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "d3a8168d13c2db7fa57f53fd0d43c66ee07863446528706801ddc8a0ec1e7121"
+    },
+    {
+      "utc_date": "2026-11-04",
+      "value_usd": "12260.357947",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-04.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "200782667939",
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 10,
+        "as_of": "2026-11-10T23:29:13.000Z",
+        "listed_in_usd_per_m": "0.150000000",
+        "listed_out_usd_per_m": "0.500000000",
+        "listed_cache_read_usd_per_m": "0.020000000",
+        "p_in_usd_per_m": "0.045781990",
+        "p_blend_usd_per_m": "0.061072785"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "8eed2d1d5cb053fd2a40197b0f86e9d55ea17568a1aee903d44eeefbd39d32a7"
+    },
+    {
+      "utc_date": "2026-11-05",
+      "value_usd": "13151.322140",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-05.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "215373609614",
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 10,
+        "as_of": "2026-11-10T23:29:13.000Z",
+        "listed_in_usd_per_m": "0.150000000",
+        "listed_out_usd_per_m": "0.500000000",
+        "listed_cache_read_usd_per_m": "0.020000000",
+        "p_in_usd_per_m": "0.045781990",
+        "p_blend_usd_per_m": "0.061072785"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "dc37ce234516fb83d3dffd7f0211e1443c7256321a83613f39e4505d271b7cdc"
+    },
+    {
+      "utc_date": "2026-11-06",
+      "value_usd": "16195.759591",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-06.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "265231067003",
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 10,
+        "as_of": "2026-11-10T23:29:13.000Z",
+        "listed_in_usd_per_m": "0.150000000",
+        "listed_out_usd_per_m": "0.500000000",
+        "listed_cache_read_usd_per_m": "0.020000000",
+        "p_in_usd_per_m": "0.045781990",
+        "p_blend_usd_per_m": "0.061072785"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "8ff9117c1fd496f9c16d21abb3f3fb70f6bdf5d4b2c63a4b7de9047be9d334e9"
+    },
+    {
+      "utc_date": "2026-11-07",
+      "value_usd": "4149.286726",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-07.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "67951104086",
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 10,
+        "as_of": "2026-11-10T23:29:13.000Z",
+        "listed_in_usd_per_m": "0.150000000",
+        "listed_out_usd_per_m": "0.500000000",
+        "listed_cache_read_usd_per_m": "0.020000000",
+        "p_in_usd_per_m": "0.045781990",
+        "p_blend_usd_per_m": "0.061072785"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "048797d138231af7af1912feb360259f690f5a97212cee17e8c204f7026e2683"
+    },
+    {
+      "utc_date": "2026-11-08",
+      "value_usd": "2761.505530",
+      "data_status": "OK",
+      "reason": null,
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-08.r1",
+      "confidence": "LOW",
+      "blocked": false,
+      "total_tokens": "45224001632",
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": {
+        "basis": "LISTED_BACKFILL",
+        "source": "documented /api/v1/models/{id}/endpoints",
+        "providers": 10,
+        "as_of": "2026-11-10T23:29:13.000Z",
+        "listed_in_usd_per_m": "0.150000000",
+        "listed_out_usd_per_m": "0.500000000",
+        "listed_cache_read_usd_per_m": "0.020000000",
+        "p_in_usd_per_m": "0.045781990",
+        "p_blend_usd_per_m": "0.061072785"
+      },
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "3a7cf1c54e49cc4b18683fcf1bccd45b4e3f085dd8c7830f9d574c36d81492b8"
+    },
+    {
+      "utc_date": "2026-11-09",
+      "value_usd": null,
+      "data_status": "NOT_REPORTED",
+      "reason": "nvidia/nemotron-3.5-super-vl-20261015 not in the documented top 50 for 2026-11-09",
+      "finality": "FINAL",
+      "revision": 1,
+      "revision_id": "2026-11-09.r1",
+      "confidence": "NONE",
+      "blocked": false,
+      "total_tokens": null,
+      "frozen": {
+        "w_in": "0.966336",
+        "billed_share": "0.999837",
+        "cache_share": "0.801677",
+        "derived_days": 26
+      },
+      "price": null,
+      "source_as_of": "2026-11-11T00:25:53.556Z",
+      "print_hash": "4541a899a5ba17dcc5e0bee8a7d587966671472aa146ff5934a251b220f72f81"
+    }
+  ],
+  "token_history": {
+    "note": "documented total_tokens per UTC day (top-50 days only), from 2025-01-01; no USD value before price_backfill_from",
+    "rows": [
+      [
+        "2026-11-03",
+        "71498919357"
+      ],
+      [
+        "2026-11-04",
+        "200782667939"
+      ],
+      [
+        "2026-11-05",
+        "215373609614"
+      ],
+      [
+        "2026-11-06",
+        "265231067003"
+      ],
+      [
+        "2026-11-07",
+        "67951104086"
+      ],
+      [
+        "2026-11-08",
+        "45224001632"
+      ]
+    ]
+  }
+}

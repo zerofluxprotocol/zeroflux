@@ -1,0 +1,100 @@
+{
+  "index": "LIC",
+  "market": "qwen/qwen3.7-flash-20260727",
+  "index_id": "or-model-spend-lic/qwen/qwen3.7-flash-20260727",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+  "formula_hash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+  "mode": "ESTIMATED_FIXED_MIX",
+  "license": "tokens: OpenRouter Datasets API, CC BY 4.0; prices: OpenRouter documented models API",
+  "utc_date": "2026-11-09",
+  "source_start": "2026-11-09T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "value_usd": "1713.435082",
+  "value_micro_usd": "1713435082",
+  "confidence": "MEDIUM",
+  "total_tokens": "59251923904",
+  "frozen": {
+    "w_in": "0.911739",
+    "billed_share": "0.968410",
+    "cache_share": "0.409702",
+    "derived_days": 30
+  },
+  "price": {
+    "basis": "LISTED_SNAPSHOT",
+    "source": "documented /api/v1/models/{id}/endpoints",
+    "providers": 2,
+    "as_of": "2026-11-10T23:27:40.000Z",
+    "listed_in_usd_per_m": "0.030000000",
+    "listed_out_usd_per_m": "0.130000000",
+    "listed_cache_read_usd_per_m": "0.006000000",
+    "p_in_usd_per_m": "0.020167152",
+    "p_blend_usd_per_m": "0.029861109"
+  },
+  "checks": [],
+  "blocked": false,
+  "inputs": [
+    {
+      "role": "tokens",
+      "kind": "rankings_daily_api",
+      "documented": true,
+      "fetch_seq": 159,
+      "url": "https://openrouter.ai/api/v1/datasets/rankings-daily?period=day&start_date=2025-12-07&end_date=2026-11-10",
+      "sha256": "4590b6e8ef4d638f2ecc623b4b92b0b78b2c26223672438331a712d8d6d6d055",
+      "fetched_at": "2026-11-11T00:25:52.511Z",
+      "source_as_of": "2026-11-11T00:25:53.556Z"
+    },
+    {
+      "role": "prices",
+      "kind": "model_endpoints",
+      "documented": true,
+      "fetch_seq": 123,
+      "url": "https://openrouter.ai/api/v1/models/qwen/qwen3.7-flash/endpoints",
+      "sha256": "fede47dfb28a532e8486275c51052b8d43508a1122153cb1c683da88fc6c849b",
+      "fetched_at": "2026-11-10T23:27:40.825Z",
+      "source_as_of": "2026-11-10T23:27:40.000Z"
+    }
+  ],
+  "observed_at": "2026-11-11T00:25:52.511Z",
+  "source_as_of": "2026-11-11T00:25:53.556Z",
+  "created_at": "2026-11-11T00:33:16.375Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "1713435082",
+    "tokens": "59251923904",
+    "basis": "LISTED_SNAPSHOT",
+    "price": "0.029861109",
+    "blocked": false
+  },
+  "print": {
+    "indexId": "or-model-spend-lic/qwen/qwen3.7-flash-20260727",
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+    "value": "1713.435082",
+    "valueScale": 6,
+    "valueInt": "1713435082",
+    "sourceStartUtc": "2026-11-09T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-11T00:25:52.511Z",
+    "publishedAt": "2026-11-11T00:33:16.375Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "f824a1bae68a35e3d9343cb7d70837f0caa53cf1aff341296981efd55361ba68",
+    "formulaHash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d76312e0000006f722d6d6f64656c2d7370656e642d6c69632f7177656e2f7177656e332e372d666c6173682d32303236303732371d0000005a46582d4f522d4d4f44454c2d5350454e442d5553442d4c49432d763106caf120660000000000c89abda10100000024c1c2a10100007f30ffc7a101000057f605c8a101000000dc0dcda1010000f824a1bae68a35e3d9343cb7d70837f0caa53cf1aff341296981efd55361ba6897167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "c6da6fa08fe61bf9b5d8d566ca48936000fdd69a8a186254ab24194f92c14703",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:f6c75beff5763f067465a3370f8b28c2e005c28f094122bd3de036da44db0e6260a5a07d2c81fee01e9e8a43f7cb4d5bef5e1aaf0630636ff188209ee9873602"
+    ]
+  },
+  "chain": "6b9208d21da9f59620c80ba0700003cc30a05b4c382ead366b0b4457a5fe620d"
+}

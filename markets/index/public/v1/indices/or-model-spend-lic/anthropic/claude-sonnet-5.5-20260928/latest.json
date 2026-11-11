@@ -1,0 +1,100 @@
+{
+  "index": "LIC",
+  "market": "anthropic/claude-sonnet-5.5-20260928",
+  "index_id": "or-model-spend-lic/anthropic/claude-sonnet-5.5-20260928",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+  "formula_hash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+  "mode": "ESTIMATED_FIXED_MIX",
+  "license": "tokens: OpenRouter Datasets API, CC BY 4.0; prices: OpenRouter documented models API",
+  "utc_date": "2026-11-09",
+  "source_start": "2026-11-09T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "value_usd": "172734.472057",
+  "value_micro_usd": "172734472057",
+  "confidence": "MEDIUM",
+  "total_tokens": "348917205168",
+  "frozen": {
+    "w_in": "0.981497",
+    "billed_share": "0.776726",
+    "cache_share": "0.810072",
+    "derived_days": 30
+  },
+  "price": {
+    "basis": "LISTED_SNAPSHOT",
+    "source": "documented /api/v1/models/{id}/endpoints",
+    "providers": 10,
+    "as_of": "2026-11-10T23:18:33.000Z",
+    "listed_in_usd_per_m": "2.000000000",
+    "listed_out_usd_per_m": "10.000000000",
+    "listed_cache_read_usd_per_m": "0.100000000",
+    "p_in_usd_per_m": "0.460863200",
+    "p_blend_usd_per_m": "0.637365848"
+  },
+  "checks": [],
+  "blocked": false,
+  "inputs": [
+    {
+      "role": "tokens",
+      "kind": "rankings_daily_api",
+      "documented": true,
+      "fetch_seq": 159,
+      "url": "https://openrouter.ai/api/v1/datasets/rankings-daily?period=day&start_date=2025-12-07&end_date=2026-11-10",
+      "sha256": "4590b6e8ef4d638f2ecc623b4b92b0b78b2c26223672438331a712d8d6d6d055",
+      "fetched_at": "2026-11-11T00:25:52.511Z",
+      "source_as_of": "2026-11-11T00:25:53.556Z"
+    },
+    {
+      "role": "prices",
+      "kind": "model_endpoints",
+      "documented": true,
+      "fetch_seq": 54,
+      "url": "https://openrouter.ai/api/v1/models/anthropic/claude-sonnet-5.5/endpoints",
+      "sha256": "4dac7f0552a691981eb0b6bcbe561e56bb09953261a26206cbe734b0f2a1ffa9",
+      "fetched_at": "2026-11-10T23:18:33.035Z",
+      "source_as_of": "2026-11-10T23:18:33.000Z"
+    }
+  ],
+  "observed_at": "2026-11-11T00:25:52.511Z",
+  "source_as_of": "2026-11-11T00:25:53.556Z",
+  "created_at": "2026-11-11T00:33:16.375Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "172734472057",
+    "tokens": "348917205168",
+    "basis": "LISTED_SNAPSHOT",
+    "price": "0.637365848",
+    "blocked": false
+  },
+  "print": {
+    "indexId": "or-model-spend-lic/anthropic/claude-sonnet-5.5-20260928",
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-v1",
+    "value": "172734.472057",
+    "valueScale": 6,
+    "valueInt": "172734472057",
+    "sourceStartUtc": "2026-11-09T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-11T00:25:52.511Z",
+    "publishedAt": "2026-11-11T00:33:16.375Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "e8062b3c5aa76b956edfb42ccfadcd3d44bc42c8c3d456e93e91ae5d1bd324e2",
+    "formulaHash": "97167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d7631370000006f722d6d6f64656c2d7370656e642d6c69632f616e7468726f7069632f636c617564652d736f6e6e65742d352e352d32303236303932381d0000005a46582d4f522d4d4f44454c2d5350454e442d5553442d4c49432d76310679dfc6372800000000c89abda10100000024c1c2a10100007f30ffc7a101000057f605c8a101000000dc0dcda1010000e8062b3c5aa76b956edfb42ccfadcd3d44bc42c8c3d456e93e91ae5d1bd324e297167935c67e458bed472365cfc040fbb7510b392ecf892486dc3ea558ee6c36000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "1ff6b7ce7da7a8de396ab74e96908d85bcf683d0bb0441dd5c5dba77529b368c",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:b205da7ede110330a097cbed62ad59527b1266d1e14ace76de23655eef77c2023e26e8e3c4263633dd086b0d48d570be5f4c04308bf6eb119e0178390dc8df0e"
+    ]
+  },
+  "chain": "35ba1c58c866d890a7f764b6f4057adfba942b669c5db244f9e83442a6177a70"
+}

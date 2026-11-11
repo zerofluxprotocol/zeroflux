@@ -165,6 +165,12 @@ pub struct Loaded {
     pub spend: Vec<Parsed<RankingsDayDoc>>,
     pub catalog: Option<Parsed<Vec<CatalogModel>>>,
     pub endpoints: BTreeMap<String, Parsed<Vec<source::ListedEndpoint>>>,
+    /// Documented `datasets/rankings-daily` responses, fetch order.
+    pub dataset: Vec<Parsed<source::RankingsDailyDoc>>,
+    /// Every documented endpoints listing per model id, fetch order (price snapshots).
+    pub endpoint_history: BTreeMap<String, Vec<Parsed<Vec<source::ListedEndpoint>>>>,
+    /// Every documented catalog response, fetch order.
+    pub catalog_history: Vec<Parsed<Vec<CatalogModel>>>,
     /// (kind, subject) -> error of the newest response, if the newest failed validation.
     pub newest_failed: BTreeMap<(String, String), (FetchRecord, String)>,
     pub parse_errors: Vec<(FetchRecord, String)>,
@@ -222,24 +228,29 @@ pub fn load(l: &Ledger) -> Result<Loaded, LedgerError> {
             Kind::CatalogModels => match source::parse_catalog(&bytes) {
                 Ok(doc) => {
                     ok!();
-                    s.catalog = Some(Parsed { rec: f.clone(), doc, as_of_ms: lm.unwrap_or(f.fetched_at_ms) });
+                    let as_of = lm.unwrap_or(f.fetched_at_ms);
+                    s.catalog_history.push(Parsed { rec: f.clone(), doc: doc.clone(), as_of_ms: as_of });
+                    s.catalog = Some(Parsed { rec: f.clone(), doc, as_of_ms: as_of });
                 }
                 Err(e) => fail(e.to_string()),
             },
             Kind::ModelEndpoints => match source::parse_model_endpoints(&bytes) {
                 Ok(doc) => {
                     ok!();
-                    s.endpoints.insert(f.subject.clone(), Parsed { rec: f.clone(), doc, as_of_ms: lm.unwrap_or(f.fetched_at_ms) });
+                    let as_of = lm.unwrap_or(f.fetched_at_ms);
+                    s.endpoint_history.entry(f.subject.clone()).or_default().push(Parsed { rec: f.clone(), doc: doc.clone(), as_of_ms: as_of });
+                    s.endpoints.insert(f.subject.clone(), Parsed { rec: f.clone(), doc, as_of_ms: as_of });
                 }
                 Err(e) => fail(e.to_string()),
             },
-            Kind::RankingsDailyApi => {
-                if let Err(e) = source::parse_rankings_daily_api(&bytes) {
-                    fail(e.to_string())
-                } else {
+            Kind::RankingsDailyApi => match source::parse_rankings_daily_api(&bytes) {
+                Ok(doc) => {
                     ok!();
+                    let as_of = doc.as_of_ms;
+                    s.dataset.push(Parsed { rec: f.clone(), doc, as_of_ms: as_of });
                 }
-            }
+                Err(e) => fail(e.to_string()),
+            },
         }
     }
     s.fetches = fetches;

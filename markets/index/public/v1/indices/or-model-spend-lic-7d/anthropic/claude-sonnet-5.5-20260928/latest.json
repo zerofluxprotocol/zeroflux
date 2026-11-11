@@ -1,0 +1,163 @@
+{
+  "index": "LIC-7D",
+  "market": "anthropic/claude-sonnet-5.5-20260928",
+  "index_id": "or-model-spend-lic-7d/anthropic/claude-sonnet-5.5-20260928",
+  "formula_version": "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1",
+  "formula_hash": "70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef",
+  "utc_date": "2026-11-09",
+  "window_start": "2026-11-03",
+  "window_end": "2026-11-09",
+  "source_start": "2026-11-03T00:00:00.000Z",
+  "source_end": "2026-11-10T00:00:00.000Z",
+  "revision": 1,
+  "revision_id": "2026-11-09.r1",
+  "prev_revision_id": null,
+  "finality": "FINAL",
+  "data_status": "OK",
+  "reason": null,
+  "valid_days": 7,
+  "value_usd": "168360.376879",
+  "value_micro_usd": "168360376879",
+  "window_sum_usd": "1178522.638152",
+  "manipulation_cost_usd_per_pct": "11785.226382",
+  "max_open_interest_usd": "294630.659538",
+  "prev_7d_value_usd": "167587.317027",
+  "change_vs_prev": "0.004613",
+  "clamped": false,
+  "clamp_bound": "0.250000",
+  "window": [
+    {
+      "utc_date": "2026-11-03",
+      "daily_revision_id": "2026-11-03.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "190629.094941",
+      "print_hash": "1a67e20e9cf573bee501a0f6de8ccdad3edcf3c2d323e6cc68abd3e6707702c0",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-04",
+      "daily_revision_id": "2026-11-04.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "195222.300161",
+      "print_hash": "ce49830166024c43996cdef66006cf4e92be9d9d1e56b6c815e1264095eb69fa",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-05",
+      "daily_revision_id": "2026-11-05.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "185542.553662",
+      "print_hash": "cf82185883b9d29b16edeb0bb6b632632d3ad564fb9dddccd401c5d058a98cf0",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-06",
+      "daily_revision_id": "2026-11-06.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "207000.430376",
+      "print_hash": "7efa80fa0d4299fc18fd22694d44b6475d1d29b19c60805978fe45cf52527368",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-07",
+      "daily_revision_id": "2026-11-07.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "109665.354073",
+      "print_hash": "b947e9a567c73d95c3167b2d848458fcb59f2417ed2ed3b3cdf17446e0f701d2",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-08",
+      "daily_revision_id": "2026-11-08.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "117728.432882",
+      "print_hash": "d6e84881e4ccea4fc8f9c5f30f346edb319b99857d98d2c1b20b5a4c98f58ffa",
+      "counted": true
+    },
+    {
+      "utc_date": "2026-11-09",
+      "daily_revision_id": "2026-11-09.r1",
+      "data_status": "OK",
+      "blocked": false,
+      "value_usd": "172734.472057",
+      "print_hash": "1ff6b7ce7da7a8de396ab74e96908d85bcf683d0bb0441dd5c5dba77529b368c",
+      "counted": true
+    }
+  ],
+  "observed_at": "2026-11-11T00:25:52.511Z",
+  "created_at": "2026-11-11T00:33:23.058Z",
+  "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of 2026-11-11T00:25:53.556Z",
+  "fingerprint": {
+    "data_status": "OK",
+    "value_micro": "168360376879",
+    "inputs": [
+      [
+        "2026-11-03",
+        "2026-11-03.r1",
+        true
+      ],
+      [
+        "2026-11-04",
+        "2026-11-04.r1",
+        true
+      ],
+      [
+        "2026-11-05",
+        "2026-11-05.r1",
+        true
+      ],
+      [
+        "2026-11-06",
+        "2026-11-06.r1",
+        true
+      ],
+      [
+        "2026-11-07",
+        "2026-11-07.r1",
+        true
+      ],
+      [
+        "2026-11-08",
+        "2026-11-08.r1",
+        true
+      ],
+      [
+        "2026-11-09",
+        "2026-11-09.r1",
+        true
+      ]
+    ],
+    "clamped": false
+  },
+  "print": {
+    "indexId": "or-model-spend-lic-7d/anthropic/claude-sonnet-5.5-20260928",
+    "version": "ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1",
+    "value": "168360.376879",
+    "valueScale": 6,
+    "valueInt": "168360376879",
+    "sourceStartUtc": "2026-11-03T00:00:00.000Z",
+    "sourceEndUtc": "2026-11-10T00:00:00.000Z",
+    "observedAt": "2026-11-11T00:25:52.511Z",
+    "publishedAt": "2026-11-11T00:33:23.058Z",
+    "validUntil": "2026-11-12T00:00:00.000Z",
+    "sourceHash": "ebaf94dbb2cb5f74cfaacdd8010e45a00811b3350cdfec444268784840911b19",
+    "formulaHash": "70ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef",
+    "status": "FRESH",
+    "dataStatus": "OK",
+    "finality": "FINAL",
+    "revision": 1,
+    "prevPrintHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "canonicalHex": "5a46582d6f7261636c652d7072696e742d76313a0000006f722d6d6f64656c2d7370656e642d6c69632d37642f616e7468726f7069632f636c617564652d736f6e6e65742d352e352d3230323630393238200000005a46582d4f522d4d4f44454c2d5350454e442d5553442d4c49432d37442d7631062f7a0f332700000000a0b49ea10100000024c1c2a10100007f30ffc7a1010000721006c8a101000000dc0dcda1010000ebaf94dbb2cb5f74cfaacdd8010e45a00811b3350cdfec444268784840911b1970ded4b2eb48a41a7b234a76092effd36b3628dd9a534085a4182210e161a7ef000001010000000000000000000000000000000000000000000000000000000000000000000000",
+    "printHash": "9fcf5dd0bb6c77c3287e154e3aa6707df2a5886be9e377245e3f4ec3eed38906",
+    "reporterSignatures": [
+      "ed25519:cadc2f85db7d936a1e993e13bd5da6dfcf5cad36a4688a5e76915c1f72f0ba48:b7c54006502728a38d1d5a4e6cbeaea213fa97ef3ad13136fd085066fc322dccf245cea5448c4ed93254081e0c23e76bc8482e28136585f986fa03410baaf201"
+    ]
+  },
+  "chain": "23ecb824ee6374ca4ca21ab3a768bbcc7d050099356861feb57e843b792f588d"
+}
