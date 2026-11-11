@@ -8,7 +8,7 @@ SDK="$HERE/../../zfx-perps/packages/sdk-ts"
 TMP="$(mktemp -d)"
 cat > "$TMP/entry.ts" <<TS
 export { ZfxPerpsClient, ClearingApiError } from "$SDK/src/clearing/client.js";
-export { KeySigner } from "$SDK/src/signer.js";
+export { KeySigner, signTsMs } from "$SDK/src/signer.js";
 export * as clearing from "$SDK/src/clearing/index.js";
 TS
 (cd "$SDK" && npx -y esbuild@0.24 "$TMP/entry.ts" --bundle --format=esm --platform=browser --target=es2020 --minify --outfile="$HERE/zfx-perps-sdk.js")

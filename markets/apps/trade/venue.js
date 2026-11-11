@@ -6,7 +6,7 @@
  * Prices are ticks (1 tick = $1 of index per day on these markets), sizes are lots, money is
  * tUSDC atoms (6 decimals). Display uses Number(); orders use the SDK's bigint fields.
  */
-import { ZfxPerpsClient, KeySigner, clearing } from './zfx-perps-sdk.js';
+import { ZfxPerpsClient, KeySigner, clearing, signTsMs } from './zfx-perps-sdk.js';
 
 const TRADING_KEY = 'zfx-trading-key';
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -81,9 +81,8 @@ async function connect(url) {
   }
   // Signed account read for endpoints the SDK has no method for (fills). Same headers as the SDK's
   // portfolio read; the timestamp must be strictly newer than the last one or the node answers "replay".
-  let lastTs = 0;
   async function signedGet(path) {
-    const ts = String(Math.max(Date.now(), lastTs + 1)); lastTs = Number(ts);
+    const ts = String(signTsMs());   // the SDK's per-page clock: strictly increasing across all signed calls
     const msg = clearing.authMessage(info.chainId, info.clearingContract, acctNow, ts);
     const sig = client.signer.sign(new TextEncoder().encode(msg));
     const b64 = btoa(String.fromCharCode(...sig));
