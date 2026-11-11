@@ -224,6 +224,41 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .lab-row .m { text-align: right; }
 #vLabs .labs { height: 100%; min-height: 0; }
 #vLabs { min-height: 0; }
+.show-s { display: none; }
+@media (max-width: 820px) {
+  .labs { display: flex; flex-direction: column; height: auto; }
+  .labs .chartcol { height: 420px; flex: 0 0 auto; }
+  .labs aside { border-left: 0; border-top: 1px solid var(--line); overflow: visible; }
+}
+@media (max-width: 600px) {
+  .show-s { display: inline; }
+  .brand { padding: 0 14px; gap: 0; }
+  .brand b, .brand .lbl { display: none; }
+  .nav button { padding: 0 11px; font-size: 13px; }
+  .iconbtn { width: 42px; }
+  .cta { padding: 0 14px; font-size: 13px; }
+  /* board: market, 7-day index, change; a row opens the model page and its ticket */
+  .lb th:nth-child(1), .lb td:nth-child(1), .lb th:nth-child(3), .lb td:nth-child(3),
+  .lb th:nth-child(7), .lb td:nth-child(7), .lb th:nth-child(8), .lb td:nth-child(8),
+  .lb th:nth-child(9), .lb td:nth-child(9), .lb th:nth-child(10), .lb td:nth-child(10),
+  .lb th:nth-child(11), .lb td:nth-child(11) { display: none; }
+  .lb { table-layout: fixed; width: 100%; }
+  .lb th:nth-child(2) { width: 52%; }
+  .lb .name span { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lb td, .lb th { padding-left: 12px; padding-right: 12px; }
+  .lb .name { display: block; width: 100%; overflow: hidden; text-align: left; }
+  .cta { white-space: nowrap; }
+  .chip { white-space: nowrap; }
+  .chips { flex-wrap: wrap; }
+  #vTrade .acct { display: none; }
+  .ph { height: auto; min-height: 38px; flex: 0 0 auto; flex-wrap: wrap; padding: 8px 12px; row-gap: 8px; }
+  /* model header: back link and name on their own rows, stats in a grid */
+  .tick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; min-height: 0; }
+  .tick > div { padding: 9px 12px; border-bottom: 1px solid var(--line); white-space: normal; }
+  .tick .back { grid-column: 1 / -1; height: 40px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .tick .tname { grid-column: 1 / -1; max-width: none; border-right: 0; }
+  .tick .cd { grid-column: 1 / -1; margin-left: 0; border-left: 0; }
+}
 </style>
 </head>
 <body>
@@ -245,7 +280,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
       <button type="button" class="iconbtn" id="themeBtn" aria-label="Toggle light and dark mode">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
       </button>
-      <a class="cta" href="/#beta" style="display:flex;align-items:center;text-decoration:none">Join the beta</a>
+      <a class="cta" href="/#beta" style="display:flex;align-items:center;text-decoration:none"><span class="hide-s">Join the beta</span><span class="show-s">Join beta</span></a>
     </div>
   </header>
 

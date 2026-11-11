@@ -49,7 +49,7 @@
     <div style="max-width: 540px">
       <div class="eyebrow">Earn · ZFX Mining</div>
       <h2 class="h2" style="margin-top: 18px">One GPU. More ways to earn.</h2>
-      <p class="body" style="margin-top: 24px">Your infrastructure shouldn't depend on a single source of demand. ZeroFlux lets GPU owners mine ZFX on NEAR with the same tensor cores they use for AI. During testnet, ZFX has no monetary value.</p>
+      <p class="body" style="margin-top: 24px">Your infrastructure shouldn't depend on a single source of demand. ZeroFlux lets GPU owners mine ZFX on NEAR with the same tensor cores they use for AI. ZFX is in its testnet phase.</p>
       <div class="duo">
         <div><div class="t"><span class="sw inf"></span>Inference</div><p class="small">Serve AI models and earn revenue from inference workloads.</p></div>
         <div><div class="t"><span class="sw zf"></span>ZeroFlux</div><p class="small">Use available GPU capacity to perform proof-of-work computations and compete for ZFX mining rewards.</p></div>
@@ -97,7 +97,7 @@
         <div class="eyebrow">Mining</div>
         <h2 class="h2">Your GPU is already capable.</h2>
       </div>
-      <p class="body">Built for the GPUs already deployed across AI infrastructure. No mining ASIC required. Data-center GPUs mine roughly 2,500 to 4,000 times faster than a laptop CPU, by design.</p>
+      <p class="body">Built for the GPUs already deployed across AI infrastructure. No mining ASIC required. Data-center GPUs mine roughly 2,400 to 4,500 times faster than a laptop CPU, by design.</p>
     </div>
     <div class="hw">
       <div><div class="tag">CUDA</div><h3>NVIDIA</h3><p class="small">int8 (cuBLAS) and FP8 (cuBLASLt) paths, both exact.</p><div class="stat">B300 <b>14.9 M</b> attempts/s<br>≈ 71 µJ per attempt (FP8)</div></div>
@@ -106,7 +106,7 @@
       <div><div class="tag">REFERENCE</div><h3>Any CPU</h3><p class="small">Rust and C++ miners; watchers recheck blocks on any CPU.</p><div class="stat">M5 Pro, 18 threads <b>3.3 K</b> attempts/s</div></div>
     </div>
     <div class="scroll-x"><div class="tscroll"><table class="mtable">
-      <thead><tr><th>Hardware</th><th>Attempts / s</th><th>Real blocks mined</th></tr></thead>
+      <thead><tr><th>Hardware</th><th style="white-space: nowrap">Attempts / s</th><th>Real blocks mined</th></tr></thead>
       <tbody>
         <tr class="hl"><td>NVIDIA B300 (FP8)</td><td class="n">14,910,000</td><td>benchmark only; selftest and 2^20 stress exact</td></tr>
         <tr class="hl"><td>AMD MI355X</td><td class="n">13,124,061</td><td>57 in 120 s, all re-verified by an independent CPU node</td></tr>
@@ -118,7 +118,7 @@
         <tr><td>Apple M5 Pro CPU (18 threads)</td><td class="n">3,293</td><td>55 in 25 s on an easy local target, re-verified</td></tr>
       </tbody>
     </table></div></div>
-    <p class="note">Measured on the production proof-of-work profile. Every GPU path passed 278 bit-exactness checks against the reference and a worst-case accumulator stress test. We are also developing support for NVIDIA Blackwell (B200, B300), RTX 50 series and RTX PRO 6000, and AMD MI300X.</p>
+    <p class="note">Measured on the production proof-of-work profile. Every GPU path passed 278 bit-exactness checks against the reference and a worst-case accumulator stress test. Not yet measured: NVIDIA B200, RTX 50 series and AMD MI300X.</p>
     <div class="ctas">
       <a href="/docs/hardware" class="btn btn-out">Hardware support</a>
       

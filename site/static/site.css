@@ -422,3 +422,10 @@ footer { margin-top: 0; }
 .beta .plist li { display: flex; flex-direction: column; gap: 3px; padding: 16px 18px; border: 1px solid var(--line); background: var(--surface); }
 .beta .plist b { font-weight: 400; color: var(--ink); font-size: 15.5px; }
 .beta .plist span { font-size: 14px; color: var(--muted); }
+
+/* phones: wrap long commands instead of clipping them, larger footer tap targets */
+@media (max-width: 640px) {
+  pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+  footer nav a, footer .links a, footer ul a { display: inline-block; padding: 8px 0; }
+  .hero { padding-bottom: 24px; }
+}

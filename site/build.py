@@ -143,7 +143,7 @@ h2{font:300 28px/1.2 var(--display);letter-spacing:-.03em;margin:56px 0 14px;pad
 h3{font:400 19px/1.3 var(--display);margin:32px 0 8px}
 p,li{color:var(--ink-2)}strong{color:var(--ink);font-weight:500}
 code{font:300 .86em var(--mono);background:var(--surface);border:1px solid var(--line);padding:1px 5px;color:var(--ink)}
-pre{background:var(--surface);border:1px solid var(--line);padding:18px;overflow-x:auto}pre code{border:0;padding:0;background:none;font-size:13px;line-height:1.6}
+:not(pre)>code{overflow-wrap:anywhere}pre{background:var(--surface);border:1px solid var(--line);padding:18px;overflow-x:auto}pre code{border:0;padding:0;background:none;font-size:13px;line-height:1.6}
 table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow-x:auto;margin:18px 0;border:1px solid var(--line)}
 th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
 th{background:var(--th-bg);color:var(--th-ink);font:300 11.5px var(--mono);letter-spacing:.06em;text-transform:uppercase}td{color:var(--ink-2)}
