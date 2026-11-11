@@ -193,6 +193,15 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .idxtbl td, .idxtbl th { font-size: 11.5px; }
 .ls button[disabled] { opacity: .35; cursor: not-allowed; }
 .bmain .scroll { overflow-x: auto; }
+.tk-note { padding: 18px 16px; font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line); }
+.modal { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.62); display: flex; align-items: center; justify-content: center; padding: 24px; }
+.modal[hidden] { display: none; }
+.mbox { width: min(440px, 100%); background: var(--panel); border: 1px solid var(--line2); padding: 28px 28px 24px; }
+.mbox h2 { margin: 10px 0 0; font: 300 30px/1.15 var(--display); letter-spacing: -.03em; color: var(--ink); }
+.mbox p { margin: 12px 0 0; font-size: 14px; line-height: 1.55; color: var(--muted); }
+.mbtns { margin-top: 24px; display: flex; gap: 10px; }
+.mcta { flex: 1; height: 42px; display: flex; align-items: center; justify-content: center; background: var(--ink); color: var(--bg); font-weight: 500; text-decoration: none; }
+.mclose { height: 42px; padding: 0 18px; border: 1px solid var(--line2); color: var(--ink); }
 .chg { display: inline-flex; align-items: center; gap: 2px; font-family: var(--mono); }
 .chg.up { color: var(--long); } .chg.dn { color: #FF5A5F; }
 :root[data-theme="light"] .chg.dn { color: #C62828; }
@@ -206,7 +215,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .tick .tname > span { display: block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .submit[disabled] { opacity: .4; cursor: not-allowed; }
 .bmain .scroll { overflow-x: auto; }
-.lb.no-venue .c-mark, .lb.no-venue .c-trade { display: none; }
+.lb.no-venue .c-mark { display: none; }
 .labs { display: grid; grid-template-columns: minmax(0, 1fr) 420px; height: 100%; }
 .labs .chartbox { height: 100%; }
 .labs aside { border-left: 1px solid var(--line); overflow: auto; }
@@ -273,7 +282,6 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
           <div><b>Mark</b><span>Set by trading on the order book: where traders think demand is heading.</span></div>
           <div><b>Funding</b><span>Paid between longs and shorts while mark and index differ, so the perp tracks the index.</span></div>
           <div><b>Caps</b><span>Open interest per market is capped at 25% of the model's 7-day spend, so pushing the index costs more than it can win.</span></div>
-          <div><b>Safety</b><span>Missing data, or a day that moves the index more than 25%, puts a market in close-only.</span></div>
           <div><b>Status</b><span>Index live on NEAR testnet. Trading is in private beta.</span></div>
         </div>
       </aside>
@@ -331,6 +339,14 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
       </aside>
     </div>
   </section>
+</div>
+<div class="modal" id="betaModal" hidden role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="mbox">
+    <div class="lbl" style="color: var(--long)">Private beta</div>
+    <h2 id="mTitle">Trading opens in private beta.</h2>
+    <p>The markets are deployed on NEAR testnet. We're letting traders in a few at a time.</p>
+    <div class="mbtns"><a class="mcta" href="/#beta">Request access</a><button type="button" class="mclose">Close</button></div>
+  </div>
 </div>
 <script src="app.js"></script>
 </body>

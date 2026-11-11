@@ -405,3 +405,15 @@ footer { margin-top: 0; }
 .tscroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 @media (max-width: 640px) { .beta .brow2 input[type=email] { flex: none; width: 100%; } }
 @media (max-width: 640px) { .ixmarkets .c-x { display: none; } }
+#tech { padding-bottom: clamp(88px, 10vw, 140px); }
+.final .center { text-align: center; }
+.ctas3 { margin-top: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.ctas3 a { display: flex; flex-direction: column; gap: 10px; padding: 30px 30px 26px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); transition: border-color .2s ease, transform .2s ease; }
+.ctas3 a:hover { border-color: var(--ink); transform: translateY(-2px); }
+.ctas3 .k { font-family: var(--mono); font-weight: 300; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.ctas3 .t { font-family: var(--display); font-weight: 300; font-size: 30px; letter-spacing: -.03em; }
+.ctas3 .d { font-size: 15px; color: var(--muted); flex: 1; }
+.ctas3 .go { margin-top: 10px; padding-top: 16px; border-top: 1px solid var(--line-soft); font-family: var(--mono); font-size: 13px; color: var(--ink-2); }
+.ctas3 .go::after { content: "  \2192"; }
+@media (max-width: 900px) { .ctas3 { grid-template-columns: 1fr; } }
+.final { padding-bottom: clamp(32px, 4vw, 56px); }

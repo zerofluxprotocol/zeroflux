@@ -353,17 +353,13 @@ def build_trade():
     models = json.load(open(os.path.join(pub, "v1", "markets", "models.json")))
     rows, latest_day = [], None
     for m in models["markets"]:
-        # Markets trade the licensed 7-day index (documented OpenRouter sources only); the web-endpoint
-        # 7D series stays published as a cross-check.
+        # The board lists models with a clean 7-day index from OpenRouter's documented dataset
+        # (the series markets settle on). The web-endpoint series stays published under /v1.
         lic = m.get("licensed") or {}
         l7 = (lic.get("index_7d") or {}).get("latest") or {}
         source = "licensed"
         if l7.get("data_status") != "OK":
-            # Not in the licensed top 50 every day of the window: show the web-endpoint 7D index,
-            # labeled, so every tracked model has a value (not tradable on that basis).
-            w7 = (m.get("index_7d") or {}).get("latest") or {}
-            if w7.get("data_status") == "OK":
-                l7, source = dict(w7, lifecycle="INDEX_ONLY", reason="web-endpoint index (model not in the licensed top 50 every day)"), "web"
+            continue
         ld = (lic.get("latest") or {}) if source == "licensed" else (m.get("latest") or {})
         spark = []
         sp = os.path.join(pub, "v1", "indices", "or-model-spend-lic-7d" if source == "licensed" else "or-model-spend-7d", m["permaslug"], "series.json")
@@ -388,7 +384,7 @@ def build_trade():
         })
     board = {"generated_at": models.get("generated_at"), "latest_day": latest_day, "notice": models.get("notice"),
              "attribution": "Source: OpenRouter (openrouter.ai/rankings), as of " + str(models.get("generated_at")),
-             "index_note": "Traded index: ZFX-OR licensed 7-day (OpenRouter's documented daily token dataset, CC BY 4.0, and documented listed prices). Not revenue, royalties or equity. Read-only: trading is in private beta.",
+             "index_note": "Implied spend on OpenRouter per model per day; not revenue, royalties or equity.",
              "formula": models.get("formula"), "markets": rows}
     board["usage_days"] = build_usage_history([r["permaslug"] for r in rows])
     json.dump(board, open(os.path.join(DIST, "trade", "board.json"), "w"), separators=(",", ":"))

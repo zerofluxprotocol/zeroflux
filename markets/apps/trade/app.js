@@ -55,7 +55,7 @@
     return getJSON('/trade/board.json').then(function (b) {
       B = b;
       M = b.markets.map(function (m, i) {
-        var tradable = m.lifecycle === 'ACTIVE' && n(m.max_open_interest_usd) >= MIN_TRADABLE_CAP;
+        var tradable = !!m.perps_market && m.lifecycle === 'ACTIVE' && n(m.max_open_interest_usd) >= MIN_TRADABLE_CAP;
         return { i: i, slug: m.permaslug, id: m.ticker, name: m.name, org: m.author, ow: m.open_weights, idx7: n(m.index_7d_usd), day: n(m.latest_day_usd),
           dayDate: m.latest_day, chg: m.change_7d == null ? null : Number(m.change_7d) * 100, tokens: n(m.tokens_total), cost: n(m.manipulation_cost_usd_per_pct),
           cap: n(m.max_open_interest_usd), life: m.lifecycle, lifeReason: m.lifecycle_reason, spark: (m.spark_7d || []).map(Number), tradable: tradable,
@@ -111,12 +111,6 @@
     var up = pts[pts.length - 1] >= pts[0];
     return '<svg viewBox="0 0 100 28" width="80" height="28" aria-hidden="true" style="display:block;margin-left:auto;overflow:visible"><path d="' + d + '" fill="none" stroke="var(--' + (up ? 'long' : 'short') + ')" stroke-width="1.2" vector-effect="non-scaling-stroke"/></svg>';
   }
-  function lifePill(m) {
-    if (m.source === 'web') return ' <span class="pill" title="Not in the licensed top 50 every day: shown with the web-endpoint index">web index</span>';
-    if (m.life === 'ACTIVE' && m.tradable) return '';
-    if (m.life === 'ACTIVE') return ' <span class="pill" title="OI cap below $10K: index only">index only</span>';
-    return ' <span class="pill warn" title="' + esc(m.lifeReason || '') + '">' + esc(m.life.replace('_', '-').toLowerCase()) + '</span>';
-  }
   function renderBoard() {
     if (!B) return;
     var tI = 0, tD = 0, tC = 0, tr = 0, oi = 0;
@@ -125,7 +119,7 @@
     var onChain = M.filter(function (m) { return m.perps; }).length, tks = M.reduce(function (a, m) { return a + (m.tokens || 0); }, 0);
     $('#sTrad').textContent = onChain + ' of ' + M.length; $('#sCap').textContent = usd(tC);
     $('#sOiLbl').textContent = V ? 'Venue open interest' : 'Tokens per day, tracked models'; $('#sOi').textContent = V ? usd(oi) : tok(tks);
-    var F = [['all', 'All'], ['tradable', 'Tradable'], ['closed', 'Closed weights'], ['open', 'Open weights']];
+    var F = [['all', 'All'], ['tradable', 'Listed'], ['closed', 'Closed weights'], ['open', 'Open weights']];
     $('#filters').innerHTML = F.map(function (f) { return '<button type="button" class="chip" data-filter="' + f[0] + '" aria-pressed="' + (S.filter === f[0]) + '">' + f[1] + '</button>'; }).join('');
     var SO = [['index', 'Size'], ['chg', '7D change'], ['cost', 'Hardest to move']];
     $('#sorts').innerHTML = SO.map(function (f) { return '<button type="button" class="chip" data-sort="' + f[0] + '" aria-pressed="' + (S.sort === f[0]) + '">' + f[1] + '</button>'; }).join('');
@@ -133,10 +127,10 @@
       return S.sort === 'chg' ? Math.abs(b.chg || 0) - Math.abs(a.chg || 0) : S.sort === 'cost' ? (b.cost || 0) - (a.cost || 0) : (b.idx7 || 0) - (a.idx7 || 0); });
     document.querySelector('.lb').classList.toggle('no-venue', !V);
     $('#lbBody').innerHTML = rows.map(function (m, k) {
-      var vm = venueMark(m), canTrade = !!V && m.tradable;
+      var vm = venueMark(m), canTrade = m.tradable;
       return '<tr data-open="' + m.i + '">' +
         '<td class="l fnt">' + (k + 1) + '</td>' +
-        '<td class="l"><button type="button" class="name" data-open="' + m.i + '"><span>' + esc(m.name) + lifePill(m) + '</span><span>' + esc(m.org) + (m.ow ? ' · open weights' : '') + ' · ' + esc(m.id) + '-PERP</span></button></td>' +
+        '<td class="l"><button type="button" class="name" data-open="' + m.i + '"><span>' + esc(m.name) + '</span><span>' + esc(m.org) + (m.ow ? ' · open weights' : '') + ' · ' + esc(m.id) + '-PERP</span></button></td>' +
         '<td>' + spark(m) + '</td>' +
         '<td>' + usd(m.idx7) + '</td>' +
         '<td class="mut c-day">' + usd(m.day) + '</td>' +
@@ -145,7 +139,7 @@
         '<td class="mut">' + usd(m.cost) + '</td>' +
         '<td class="mut">' + usd(m.cap) + '</td>' +
         '<td class="c-mark ' + (vm ? '' : 'na') + '">' + (vm ? usd(Number(vm.mark)) : '') + '</td>' +
-        '<td class="c-trade" style="text-align:center"><span class="ls"><button type="button" class="bl" data-side="long" data-i="' + m.i + '"' + (canTrade ? '' : ' disabled') + ' aria-label="Long ' + esc(m.name) + '">Long</button><button type="button" class="bs" data-side="short" data-i="' + m.i + '"' + (canTrade ? '' : ' disabled') + ' aria-label="Short ' + esc(m.name) + '">Short</button></span></td></tr>';
+        '<td class="c-trade" style="text-align:center">' + (canTrade ? '<span class="ls"><button type="button" class="bl" data-side="long" data-i="' + m.i + '" aria-label="Long ' + esc(m.name) + '">Long</button><button type="button" class="bs" data-side="short" data-i="' + m.i + '" aria-label="Short ' + esc(m.name) + '">Short</button></span>' : '') + '</td></tr>';
     }).join('');
   }
   $('#vBoard').addEventListener('click', function (e) {
@@ -178,11 +172,9 @@
       '<div><span class="lbl">7D change</span><span class="v">' + chg(m.chg) + '</span></div>' +
       (V ? '<div><span class="lbl">Mark</span><span class="v ' + (vm ? '' : 'na') + '">' + (vm ? usd(Number(vm.mark)) : 'not listed') + '</span></div>' +
         '<div><span class="lbl">Funding</span><span class="v ' + (vm ? '' : 'na') + '">' + (vm && vm.funding != null ? pct(Number(vm.funding) * 100, 4) : '') + '</span></div>'
-        : '<div><span class="lbl">Tokens · day</span><span class="v">' + tok(m.tokens) + '</span></div>' +
-        '<div><span class="lbl">Index</span><span class="v mut">' + (m.source === 'web' ? 'web 7D' : 'licensed 7D') + '</span></div>') +
+        : '<div><span class="lbl">Tokens · day</span><span class="v">' + tok(m.tokens) + '</span></div>') +
       '<div><span class="lbl">Cost to move 1%</span><span class="v">' + usd(m.cost) + '</span></div>' +
       '<div><span class="lbl">OI cap</span><span class="v">' + usd(m.cap) + '</span></div>' +
-      '<div><span class="lbl">Status</span><span class="v ' + (m.life === 'ACTIVE' ? 'up' : 'dn') + '">' + esc(m.life.replace('_', ' ').toLowerCase()) + '</span></div>' +
       '<div class="cd"><span class="lbl">Next index day · 00:00 UTC</span><span class="v up" id="idxCd"></span></div>';
   }
   function renderWatch() {
@@ -205,8 +197,7 @@
         var pts = s.d.slice(-10).reverse();
         html = '<table class="tbl idxtbl"><thead><tr><th class="l">Day</th><th>Value</th><th>Tokens</th><th>Status</th></tr></thead><tbody>' + pts.map(function (p) {
           return '<tr><td class="l">' + esc(dLabel(p.utc_date)) + '</td><td>' + usd(n(p.value_usd)) + '</td><td class="mut">' + tok(n(p.total_tokens || (p.tokens && p.tokens.total))) + '</td><td class="fnt">' + esc((p.data_status || '') + (p.finality ? ' · ' + p.finality.toLowerCase() : '')) + '</td></tr>';
-        }).join('') + '</tbody></table>' +
-        '<div class="src">Each day: OpenRouter tokens from its documented daily dataset, times a frozen billed share and input/output mix, times documented listed prices. Every day is signed by the index reporter. Latest 7D print <span class="m">' + esc((m.printHash || '').slice(0, 16)) + '…</span>. <a href="/v1/indices/or-model-spend-7d/' + esc(m.slug) + '/series.json">Raw series</a></div>';
+        }).join('') + '</tbody></table>';
       }
     } else if (S.sideTab === 'about') {
       html = details(m);
@@ -220,24 +211,52 @@
   function details(m) {
     var row = function (a, b) { return '<div style="display:flex;justify-content:space-between;gap:12px;padding:9px 14px;border-bottom:1px solid var(--line);font-size:12.5px"><span class="fnt">' + a + '</span><span class="m" style="text-align:right">' + b + '</span></div>'; };
     var ix = (m.source === 'web' ? 'or-model-spend-7d/' : 'or-model-spend-lic-7d/') + m.slug;
-    return row('Index', m.source === 'web' ? 'web-endpoint 7-day' : 'licensed 7-day') +
-      row('Formula', m.source === 'web' ? 'ZFX-OR-MODEL-SPEND-USD-7D-v1' : 'ZFX-OR-MODEL-SPEND-USD-LIC-7D-v1') +
-      row('7-day index', usd(m.idx7) + ' / day') + row('Latest day', usd(m.day)) + row('Tokens, latest day', tok(m.tokens)) +
-      row('Cost to move 1%', usd(m.cost)) + row('Open-interest cap', usd(m.cap)) + row('Status', esc(m.life.replace('_', ' ').toLowerCase())) +
+    return row('7-day index', usd(m.idx7) + ' / day') + row('Latest day', usd(m.day)) + row('Tokens, latest day', tok(m.tokens)) +
+      row('Cost to move 1%', usd(m.cost)) + row('Open-interest cap', usd(m.cap)) +
       row('Perps market', m.perps ? '<a href="https://testnet.nearblocks.io/address/perps-v2.zeroflux.testnet" target="_blank" rel="noopener">' + esc(m.perps) + '</a>' : 'not listed') +
       row('On-chain oracle', m.source === 'web' ? 'not pushed' : '<a href="https://testnet.nearblocks.io/address/oracle.zeroflux.testnet" target="_blank" rel="noopener">oracle.zeroflux.testnet</a>') +
       row('Latest print', '<span title="' + esc(m.printHash || '') + '">' + esc((m.printHash || '').slice(0, 14)) + '…</span>') +
       '<div class="src">Downloads: <a href="/v1/indices/' + esc(ix) + '/series.json">7-day series</a> · <a href="/v1/datasets/rankings-daily/models/' + esc(m.slug) + '.json">daily tokens</a> · <a href="/v1/markets/models.json">all models</a>. Implied spend on one venue: not revenue, royalties or equity.</div>';
   }
 
+  /* Order ticket. Trading is in private beta: the ticket computes from the real index and market
+     parameters, and submitting explains how to get access instead of sending an order. */
+  var T = { side: 'long', type: 'market', size: '25000', lev: 2, limit: '' };
   function renderTicket() {
-    var m = M[S.sel];
-    $('#ticket').hidden = !V;
-    if (!V) return;
-    if (V && V.renderTicket && m.tradable) { V.renderTicket($('#ticket'), m, S.side || 'long'); return; }
-    var why = !V ? '' : !m.tradable ? '<div class="venue-off">This market is ' + (m.life === 'ACTIVE' ? 'index only: its open-interest cap is under $10K.' : m.life.replace('_', '-').toLowerCase() + ': ' + esc(m.lifeReason || 'see the index status') + '.') + '</div>' : '';
-    $('#ticket').innerHTML = why;
+    var m = M[S.sel], el = $('#ticket');
+    el.hidden = false;
+    if (S.side) { T.side = S.side; S.side = null; }
+    if (!m.tradable) {
+      el.innerHTML = '<div class="tk-note">' + 'Not listed for trading. The index is published daily.' + '</div>';
+      return;
+    }
+    var isL = T.side === 'long', px = T.type === 'limit' && T.limit ? Number(T.limit) : (m.idx7 || 0);
+    var size = Math.max(0, Number(T.size) || 0), margin = size / T.lev, liq = isL ? px * (1 - 0.75 / T.lev) : px * (1 + 0.75 / T.lev);
+    el.innerHTML =
+      '<div class="sidesel" role="group" aria-label="Side"><button type="button" data-tside="long" class="' + (isL ? 'on-l' : '') + '">Long</button><button type="button" data-tside="short" class="' + (!isL ? 'on-s' : '') + '">Short</button></div>' +
+      '<div class="otype" role="group" aria-label="Order type"><button type="button" data-otype="market" aria-pressed="' + (T.type === 'market') + '">Market</button><button type="button" data-otype="limit" aria-pressed="' + (T.type === 'limit') + '">Limit</button></div>' +
+      (T.type === 'limit' ? '<div class="field"><label class="lbl" for="tkPx">Limit, USD per day of index</label><div class="inp"><input id="tkPx" inputmode="numeric" value="' + esc(T.limit || Math.round(m.idx7 || 0)) + '"><span>$</span></div></div>' : '') +
+      '<div class="field"><label class="lbl" for="tkSz">Size</label><div class="inp"><input id="tkSz" inputmode="numeric" value="' + esc(T.size) + '"><span>USD</span></div></div>' +
+      '<div class="field"><span class="lbl">Leverage</span><div class="levs chips" role="group" aria-label="Leverage" style="grid-template-columns:repeat(2,minmax(0,1fr))">' + [1, 2].map(function (l) { return '<button type="button" class="chip" data-lev="' + l + '" aria-pressed="' + (T.lev === l) + '">' + l + 'x</button>'; }).join('') + '</div></div>' +
+      '<div class="kv"><div><span>Entry, about</span><span class="m">' + usd(px) + '</span></div><div><span>Margin</span><span class="m">' + usd(margin) + '</span></div><div><span>Liquidation, about</span><span class="m">' + usd(liq) + '</span></div><div><span>Open-interest cap</span><span class="m">' + usd(m.cap) + '</span></div></div>' +
+      '<button type="submit" class="submit" style="background:var(--' + (isL ? 'long' : 'short') + ')">' + (isL ? 'Long ' : 'Short ') + esc(m.name) + '</button>';
   }
+  $('#ticket').addEventListener('click', function (e) {
+    var b;
+    if ((b = e.target.closest('[data-tside]'))) { T.side = b.getAttribute('data-tside'); renderTicket(); }
+    else if ((b = e.target.closest('[data-otype]'))) { T.type = b.getAttribute('data-otype'); renderTicket(); }
+    else if ((b = e.target.closest('[data-lev]'))) { T.lev = +b.getAttribute('data-lev'); renderTicket(); }
+  });
+  $('#ticket').addEventListener('change', function (e) {
+    if (e.target.id === 'tkSz') T.size = e.target.value.replace(/[^0-9]/g, '');
+    if (e.target.id === 'tkPx') T.limit = e.target.value.replace(/[^0-9]/g, '');
+    renderTicket();
+  });
+  $('#ticket').addEventListener('submit', function (e) { e.preventDefault(); openModal(); });
+  function openModal() { $('#betaModal').hidden = false; $('#betaModal .mclose').focus(); }
+  function closeModal() { $('#betaModal').hidden = true; }
+  $('#betaModal').addEventListener('click', function (e) { if (e.target === e.currentTarget || e.target.closest('.mclose')) closeModal(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
   function renderAcct() {
     var tabs = [['pos', 'Positions'], ['ord', 'Open orders'], ['fills', 'Trade history']];
     $('#acctTabs').innerHTML = tabs.map(function (t) { return '<button type="button" role="tab" data-atab="' + t[0] + '" aria-selected="' + (S.acct === t[0]) + '">' + t[1] + '</button>'; }).join('');
@@ -413,7 +432,7 @@
     var names = Object.keys(d.labs), n = d.dates.length, start = Math.max(0, n - LS.range), dates = d.dates.slice(start);
     var sm = {}; names.forEach(function (k) { sm[k] = smooth(d.labs[k]).slice(start); });
     var tot = dates.map(function (_, i) { return names.reduce(function (a, k) { return a + sm[k][i]; }, 0); });
-    var padR = 70, padB = 24, padT = 20, pw = W - padR, ph = H - padB - padT, cw = pw / Math.max(1, dates.length - 1);
+    var padR = 70, padB = 24, padT = 48, pw = W - padR, ph = H - padB - padT, cw = pw / Math.max(1, dates.length - 1);
     var X = function (i) { return i * cw; }, hi = LS.mode === 'share' ? 1 : Math.max.apply(null, tot) * 1.05, Y = function (v) { return padT + (1 - v / hi) * ph; };
     lctx.font = '400 10.5px "JetBrains Mono", ui-monospace, monospace'; lctx.textBaseline = 'middle';
     for (var k = 0; k <= 4; k++) { var v = hi * k / 4, yy = Math.round(Y(v)) + 0.5; lctx.strokeStyle = C('--grid'); lctx.beginPath(); lctx.moveTo(0, yy); lctx.lineTo(pw, yy); lctx.stroke(); lctx.fillStyle = C('--faint'); lctx.textAlign = 'left'; lctx.fillText(LS.mode === 'share' ? Math.round(v * 100) + '%' : tok(v), pw + 8, yy); }
