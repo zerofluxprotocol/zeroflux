@@ -217,8 +217,7 @@
   $('#sideTabs').addEventListener('click', function (e) { var b = e.target.closest('[data-stab]'); if (b) { S.sideTab = b.getAttribute('data-stab'); renderSide(); } });
 
   function venueOffline() {
-    return '<div class="venue-off"><b style="color:var(--ink);font-weight:400">No trading venue connected.</b> ZeroFlux does not run a public testnet venue yet. ' +
-      'Run a zfx-perps node against NEAR testnet on your machine, then press <i>Connect venue</i>:' +
+    return '<div class="venue-off"><b style="color:var(--ink);font-weight:400">No trading venue connected.</b> The markets clear on NEAR testnet (perps-v2.zeroflux.testnet), but ZeroFlux has not hosted a public order-book node yet. With a node URL, press <i>Connect venue</i>. To get a funded testnet trading key:' +
       '<pre>' + esc(B && B.venue_howto ? B.venue_howto : 'see markets/zfx-perps/README.md') + '</pre></div>';
   }
   function renderTicket() {

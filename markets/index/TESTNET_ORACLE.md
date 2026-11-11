@@ -102,3 +102,10 @@ $N view --contract oracle.zeroflux.testnet --method history --args '{"index_id":
 ./target/release/zfx-index push-near --ledger ~/.local/share/zfx-index/ledger --contract oracle.zeroflux.testnet \
   --signer oracle-relayer.zeroflux.testnet --key-file ~/.config/zeroflux/oracle-relayer.zeroflux.testnet.json --dry-run
 ```
+
+## Funding, 2026-11-11
+
+The coordinator sent 6 NEAR to `oracle.zeroflux.testnet` (balance 10.79 NEAR, 3.30 NEAR locked by
+storage) and set the poller to push only the traded index, `or-model-spend-lic-7d` (config
+`~/.config/zeroflux/oracle-push.json`, `files: ["revisions_lic_7d.jsonl"]`). That is 28 prints a day,
+about 0.076 NEAR a day of storage: roughly 98 days before the next top-up.

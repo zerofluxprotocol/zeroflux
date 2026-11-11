@@ -27,6 +27,9 @@ DOCS = [  # (source, slug, title, one-line summary, group)
     ("docs/VPN_THREAT_MODEL.md", "vpn_threat_model", "ZFX VPN threat model", "Who sees plaintext in each mode, what a TEE proves, streaming, key custody", "Build: ZFX VPN"),
     ("vpn/docs/evaluation.md", "vpn_evaluation", "ZFX VPN detection evaluation", "Measured detection results, including misses", "Build: ZFX VPN"),
     ("docs/DATA_METHOD.md", "data_method", "ZFX Markets index method", "Source, formula, UTC days, statuses, corrections, manipulation resistance", "Trade: ZFX Markets"),
+    ("markets/README.md", "markets", "ZFX Markets", "The index, the on-chain oracle, the exchange and how to trade on testnet", "Trade: ZFX Markets"),
+    ("docs/ORDERBOOK_AND_CLEARING.md", "orderbook_and_clearing", "Order book and clearing", "Message formats, signatures, matching, the clearing contract, margin, funding, liquidation, operator powers", "Trade: ZFX Markets"),
+    ("docs/MARKET_RISK.md", "market_risk", "Market risk", "Parameters, how they were derived, stress results on real index history", "Trade: ZFX Markets"),
     ("docs/CONSENSUS.md", "consensus", "Proof-of-work specification", "Profiles, the matrix computation, difficulty", "Proof of work"),
     ("docs/ALGORITHM_DECISION.md", "algorithm", "Algorithm decision", "Why this proof of work, the candidates that lost, the experiments", "Proof of work"),
     ("docs/HARDWARE.md", "hardware", "Hardware support", "Which GPU path to use, measured throughput, bring-up checklist", "Proof of work"),
@@ -258,7 +261,7 @@ def render_pages():
 
 INDEX_PUBLIC_CANDIDATES = [os.environ.get("ZFX_INDEX_PUBLIC", ""), os.path.expanduser("~/.local/share/zfx-index/public"),
                            os.path.join(ROOT, "markets", "index", "public")]
-VENUE_HOWTO = "git clone https://github.com/zerofluxprotocol/zeroflux && cd zeroflux/markets/zfx-perps\n# then follow README.md: Run against NEAR testnet"
+VENUE_HOWTO = "# needs a running zfx-perps node: markets/zfx-perps/README.md\nzfx-perps-near onboard-testnet --stack-info perps-v2.zeroflux.testnet \\\n  --account you.testnet --key-file ~/.near-credentials/testnet/you.testnet.json\n# then open /trade/?venue=<node URL> and Sign in"
 
 
 def index_public():

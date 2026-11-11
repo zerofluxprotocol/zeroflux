@@ -118,6 +118,8 @@ See [markets/README.md](markets/README.md): the index ([docs/DATA_METHOD.md](doc
 | `make security-test` | fuzzing, sanitizers, dependency audit, SBOM, license gate, reproducible build |
 | `make gpu-test` | every GPU backend on this host |
 | `make acceptance` | everything, then `ACCEPTANCE_REPORT.md` |
+| `cd vpn && sh scripts/check.sh` | ZFX VPN: lint, 206 Rust tests (daemon, hosted gateway, migration, streaming red team, TEE gates), dashboard build, schemas |
+| see [markets/README.md](markets/README.md#tests) | ZFX Markets: index and oracle contract, zfx-perps engine, clearing contract, sandbox end to end, TS SDK |
 
 ## Where things are
 
