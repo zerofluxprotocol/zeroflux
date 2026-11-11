@@ -81,7 +81,9 @@ pub fn model_params() -> MarketParams {
         funding_divisor: 24,
         max_funding_ppm: 2_500,
         print_close_only_from_sec: 22 * 3_600,
-        max_jump_bps: 20_000,
+        print_lag_days: 0,
+        mark_limit_bps: 20_000,
+        halt_jump_bps: 0,
     }
 }
 

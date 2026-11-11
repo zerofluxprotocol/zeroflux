@@ -33,6 +33,7 @@ async fn clearing_contract_on_sandbox() -> Result<()> {
     // The daily close-only window is covered by unit tests; off here so the test runs at any hour.
     let mut params = model_params();
     params.print_close_only_from_sec = 0;
+    params.mark_limit_bps = 600;
     params.max_open_interest = 10_000_000;
     params.max_position = 1_000_000;
     let m = params.market_id.clone();

@@ -54,7 +54,9 @@ impl H {
             U64(0),
             None,
         );
-        c.create_market(near_sdk::serde_json::to_value(testkit::model_params()).unwrap());
+        let mut p = testkit::model_params();
+        p.mark_limit_bps = 600;
+        c.create_market(near_sdk::serde_json::to_value(p).unwrap());
         c.set_market_status(MKT.into(), "ACTIVE".into());
         let _ = c.execute_proposal(U64(1));
         let mut h = H { c, reporter, now: T0, nonce: 1, batch: 0 };
@@ -304,6 +306,7 @@ fn admin_loosening_is_timelocked_and_tightening_is_not() {
     let r = Trader::new("reporter", 201);
     let mut c = Contract::new(acc("owner.near"), acc("operator.near"), CHAIN.into(), acc(USDC), acc(INSURANCE), vec![pk_str(&r.key.public())], 1, U64(1), U64(86_400 * NS_PER_SEC), None);
     let mut p = testkit::model_params();
+    p.mark_limit_bps = 600;
     c.create_market(near_sdk::serde_json::to_value(&p).unwrap());
     let id = c.set_market_status(MKT.into(), "ACTIVE".into()).unwrap();
     assert!(std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| c.execute_proposal(id))).is_err());

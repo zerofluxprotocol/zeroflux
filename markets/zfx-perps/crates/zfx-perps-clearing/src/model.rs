@@ -77,12 +77,21 @@ pub struct MarketParams {
     /// Funding rate per interval = clamp(premium / funding_divisor, ±max_funding_ppm).
     pub funding_divisor: u32,
     pub max_funding_ppm: u32,
-    /// Daily-index cycle. 0 = off. Otherwise the market is CLOSE_ONLY from this many seconds after
-    /// 00:00 UTC until midnight, and after midnight until a print covering the finished day lands.
+    /// Daily-index cycle. 0 = off. Otherwise, from this many seconds after 00:00 UTC the market
+    /// is CLOSE_ONLY until the print expected that day lands (see `print_lag_days`).
     pub print_close_only_from_sec: u32,
-    /// A usable print that moves the mark by more than this halts the market for review instead of
-    /// becoming the mark.
-    pub max_jump_bps: u32,
+    /// How many days late the source publishes: the print expected on day D covers the UTC day
+    /// ending at `D − print_lag_days + 1` days. 0 = covers day D itself (lands after midnight).
+    /// A missing expected print makes the market CLOSE_ONLY until it arrives.
+    pub print_lag_days: u8,
+    /// Limit move: one print moves the mark at most this far toward the index. While the mark
+    /// trails the index the market is CLOSE_ONLY. With `mark_limit_bps + liq_slippage_bps +` one
+    /// day of maximum funding `<= maintenance_margin_bps` (enforced by the contract), a position that
+    /// isn't liquidatable can't go bankrupt on the next print.
+    pub mark_limit_bps: u32,
+    /// A usable print further than this from the mark is treated as suspect data: the market halts
+    /// for review and the mark doesn't move. 0 disables.
+    pub halt_jump_bps: u32,
 }
 
 /// Snapshot of the last accepted print (the canonical bytes are not kept; their hash is).
@@ -104,8 +113,10 @@ pub struct MarketState {
     pub params: MarketParams,
     pub policy_hash: [u8; 32],
     pub status: MarketStatus,
-    /// Current mark in ticks (0 = none yet). Only usable prints move it.
+    /// Current mark in ticks (0 = none yet). Only usable prints move it, by at most the limit.
     pub mark: u64,
+    /// The last usable print's value in ticks. The mark converges to it print by print.
+    pub index_ticks: u64,
     pub print: Option<PrintInfo>,
     /// Long open interest in lots; always equals short open interest.
     pub open_interest: u64,

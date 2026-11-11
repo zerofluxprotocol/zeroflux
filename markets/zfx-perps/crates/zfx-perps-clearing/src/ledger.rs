@@ -244,7 +244,7 @@ pub enum CEvent {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, BorshSerialize, BorshDeserialize, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum HaltReason {
-    /// A print moved the index by more than `max_jump_bps`.
+    /// A print moved the index by more than `halt_jump_bps` (suspect data).
     IndexJump,
     /// A print's value can't be expressed as a mark (zero or above `max_price`).
     IndexOutOfRange,
@@ -316,6 +316,26 @@ pub fn liquidation_price(m: &MarketState, p: &Position) -> Option<u64> {
     Some(px.max(0) as u64)
 }
 
+/// The mark after one print: the index, clamped to `limit_bps` of the current mark.
+pub fn limit_move(mark: u64, index: u64, limit_bps: u32) -> u64 {
+    if mark == 0 {
+        return index;
+    }
+    let step = (mark as u128 * limit_bps as u128 / 10_000).max(1) as u64;
+    if index > mark { index.min(mark.saturating_add(step)) } else { index.max(mark.saturating_sub(step).max(1)) }
+}
+
+/// The contract's listing rule: a print can't move the mark further than a non-liquidatable
+/// position can absorb. `mark_limit + liq_slippage + max funding over one day <= maintenance`.
+pub fn check_solvency_rule(p: &MarketParams) -> Result<(), &'static str> {
+    let per_day = if p.funding_interval_sec == 0 { 0 } else { 86_400u64.div_ceil(p.funding_interval_sec) };
+    let funding_bps = (p.max_funding_ppm as u64 * per_day).div_ceil(100);
+    if p.mark_limit_bps as u64 + p.liq_slippage_bps as u64 + funding_bps > p.maintenance_margin_bps as u64 {
+        return Err("mark_limit_bps + liq_slippage_bps + daily max funding must not exceed maintenance_margin_bps");
+    }
+    Ok(())
+}
+
 // ---------------------------------------------------------------------------------------------
 // Market status
 // ---------------------------------------------------------------------------------------------
@@ -338,8 +358,8 @@ pub fn mark_fresh(m: &MarketState, now: Now, grace: u64) -> bool {
 /// - Stale (past `validUntil` or older than `oracleMaxAgeSec`), STALE status, or data
 ///   NOT_REPORTED / UNPRICED / NO_VALID_CLOSE_PRICE: CLOSE_ONLY. The last mark is kept for
 ///   reducing trades but never treated as fresh: no liquidation, no funding.
-/// - Daily cycle (`print_close_only_from_sec > 0`): CLOSE_ONLY from that time of day until 00:00
-///   UTC, and from 00:00 UTC until a print whose source window ends at or after that midnight lands.
+/// - Daily cycle (`print_close_only_from_sec > 0`): CLOSE_ONLY from that time of day until the
+///   print expected that day lands, and all day if the previous day's expected print is missing.
 pub fn effective_status(m: &MarketState, now: Now, grace: u64) -> MarketStatus {
     match m.status {
         MarketStatus::Active => {}
@@ -357,14 +377,21 @@ pub fn effective_status(m: &MarketState, now: Now, grace: u64) -> MarketStatus {
     if !mark_fresh(m, now, grace) {
         return MarketStatus::CloseOnly;
     }
+    // Limit-locked: the mark hasn't caught up with the index yet.
+    if m.index_ticks != 0 && m.mark != m.index_ticks {
+        return MarketStatus::CloseOnly;
+    }
     let from = m.params.print_close_only_from_sec as u64;
     if from > 0 {
+        let lag = m.params.print_lag_days as u64 * NS_PER_DAY;
         let day_start = now.op - now.op % NS_PER_DAY;
-        if now.op - day_start >= from * NS_PER_SEC {
+        let end_ns = (p.source_end_ms.max(0) as u64).saturating_mul(1_000_000);
+        // Yesterday's expected print never arrived.
+        if end_ns.saturating_add(lag) < day_start {
             return MarketStatus::CloseOnly;
         }
-        let end_ns = (p.source_end_ms.max(0) as u64).saturating_mul(1_000_000);
-        if end_ns < day_start {
+        // Today's expected print is due and not in yet.
+        if now.op - day_start >= from * NS_PER_SEC && end_ns.saturating_add(lag) < day_start + NS_PER_DAY {
             return MarketStatus::CloseOnly;
         }
     }
@@ -418,7 +445,8 @@ pub fn validate_params(p: &MarketParams) -> Result<(), &'static str> {
         "funding divisor/cap",
     )?;
     ok(p.print_close_only_from_sec < 86_400, "print_close_only_from_sec < 86400")?;
-    ok(p.max_jump_bps > 0, "max_jump_bps must be > 0")?;
+    ok(p.print_lag_days <= 3, "print_lag_days <= 3")?;
+    ok(p.mark_limit_bps > 0, "mark_limit_bps must be > 0")?;
     Ok(())
 }
 
@@ -430,6 +458,7 @@ pub fn new_market<C: Crypto>(c: &C, params: MarketParams, now_ns: u64) -> Result
         params,
         status: MarketStatus::Proposed,
         mark: 0,
+        index_ticks: 0,
         print: None,
         open_interest: 0,
         cum_funding: 0,
@@ -469,7 +498,9 @@ pub fn is_tightening(cur: &MarketParams, next: &MarketParams) -> bool {
         && next.funding_divisor == cur.funding_divisor
         && next.max_funding_ppm <= cur.max_funding_ppm
         && (cur.print_close_only_from_sec == 0 || (next.print_close_only_from_sec > 0 && next.print_close_only_from_sec <= cur.print_close_only_from_sec))
-        && next.max_jump_bps <= cur.max_jump_bps
+        && next.print_lag_days <= cur.print_lag_days
+        && next.mark_limit_bps <= cur.mark_limit_bps
+        && (cur.halt_jump_bps == 0 || (next.halt_jump_bps > 0 && next.halt_jump_bps <= cur.halt_jump_bps))
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -1206,14 +1237,18 @@ pub fn oracle<S: Store, C: Crypto>(s: &mut S, c: &C, now: Now, market: &str, byt
                 market: market.into(),
                 reason: HaltReason::IndexOutOfRange,
             });
-        } else if m.mark > 0 && (t.abs_diff(m.mark) as u128) * 10_000 > m.mark as u128 * m.params.max_jump_bps as u128 {
+        } else if m.mark > 0
+            && m.params.halt_jump_bps > 0
+            && (t.abs_diff(m.mark) as u128) * 10_000 > m.mark as u128 * m.params.halt_jump_bps as u128
+        {
             m.status = m.status.max(MarketStatus::Halted);
             tx.events.push(CEvent::MarketHalted {
                 market: market.into(),
                 reason: HaltReason::IndexJump,
             });
         } else {
-            m.mark = t;
+            m.index_ticks = t;
+            m.mark = limit_move(m.mark, t, m.params.mark_limit_bps);
         }
     }
     m.print = Some(PrintInfo {

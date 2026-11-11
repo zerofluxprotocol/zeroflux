@@ -1,0 +1,537 @@
+{
+ "per_market": {
+  "or-model-spend/anthropic/claude-fable-5.1-20260831": {
+   "days": 30,
+   "last_value_usd": "56314.729316",
+   "max_abs": 0.673065391917941,
+   "max_down": -0.673065391917941,
+   "max_up": 0.3962857926637686,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.2894284524686668
+  },
+  "or-model-spend/anthropic/claude-haiku-5.5-20261007": {
+   "days": 30,
+   "last_value_usd": "34983.483844",
+   "max_abs": 0.7726763348545558,
+   "max_down": -0.4698455877733623,
+   "max_up": 0.7726763348545558,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.4698455877733623
+  },
+  "or-model-spend/anthropic/claude-opus-5.5-20260921": {
+   "days": 30,
+   "last_value_usd": "582093.352339",
+   "max_abs": 0.4491301665270645,
+   "max_down": -0.331423331905537,
+   "max_up": 0.4491301665270645,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.331423331905537
+  },
+  "or-model-spend/anthropic/claude-sonnet-5-20260630": {
+   "days": 30,
+   "last_value_usd": "47236.653972",
+   "max_abs": 1.0951328298644092,
+   "max_down": -0.5567484413473153,
+   "max_up": 1.0951328298644092,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.963555204911511
+  },
+  "or-model-spend/anthropic/claude-sonnet-5.5-20260928": {
+   "days": 30,
+   "last_value_usd": "191694.873352",
+   "max_abs": 0.5132907715356478,
+   "max_down": -0.44886104149058986,
+   "max_up": 0.5132907715356478,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.44886104149058986
+  },
+  "or-model-spend/deepseek/deepseek-v3.2-20251201": {
+   "days": 30,
+   "last_value_usd": "7450.694045",
+   "max_abs": 0.30702619073536697,
+   "max_down": -0.30702619073536697,
+   "max_up": 0.14238086911202186,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.08540373558919266
+  },
+  "or-model-spend/deepseek/deepseek-v4-flash-20260423": {
+   "days": 30,
+   "last_value_usd": "20590.942233",
+   "max_abs": 0.6976459287894068,
+   "max_down": -0.49928720372161384,
+   "max_up": 0.6976459287894068,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.40176216104391377
+  },
+  "or-model-spend/deepseek/deepseek-v4-flash-20260731": {
+   "days": 30,
+   "last_value_usd": "28464.856048",
+   "max_abs": 0.3690725346424385,
+   "max_down": -0.3034249216657037,
+   "max_up": 0.3690725346424385,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.3034249216657037
+  },
+  "or-model-spend/deepseek/deepseek-v4-pro-20260423": {
+   "days": 30,
+   "last_value_usd": "25239.726020",
+   "max_abs": 0.5954298031628568,
+   "max_down": -0.3039211776974095,
+   "max_up": 0.5954298031628568,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.3039211776974095
+  },
+  "or-model-spend/deepseek/deepseek-v4-pro-20260813": {
+   "days": 30,
+   "last_value_usd": "31628.416017",
+   "max_abs": 0.42410427829481717,
+   "max_down": -0.42410427829481717,
+   "max_up": 0.24643458982753577,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.2518949865883881
+  },
+  "or-model-spend/deepseek/deepseek-v4.1-flash-20260910": {
+   "days": 30,
+   "last_value_usd": "93528.171844",
+   "max_abs": 0.4730172479577031,
+   "max_down": -0.4730172479577031,
+   "max_up": 0.38236823617875904,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.32042162430410787
+  },
+  "or-model-spend/deepseek/deepseek-v4.1-flash-20261017": {
+   "days": 24,
+   "last_value_usd": "168867.840062",
+   "max_abs": 2.9607081192958575,
+   "max_down": -0.3694630005705188,
+   "max_up": 2.9607081192958575,
+   "moves": 23,
+   "not_ok_days": 0,
+   "p95_abs": 0.48946480359189104
+  },
+  "or-model-spend/google/gemini-2.5-flash": {
+   "days": 30,
+   "last_value_usd": "14029.974746",
+   "max_abs": 0.46646772146215815,
+   "max_down": -0.2769744025555857,
+   "max_up": 0.46646772146215815,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.33035256976873867
+  },
+  "or-model-spend/google/gemini-2.5-flash-lite": {
+   "days": 30,
+   "last_value_usd": "5555.078203",
+   "max_abs": 0.5274381944913824,
+   "max_down": -0.23394677481830586,
+   "max_up": 0.5274381944913824,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.25090120625316253
+  },
+  "or-model-spend/google/gemini-3-flash-preview-20251217": {
+   "days": 30,
+   "last_value_usd": "31693.224712",
+   "max_abs": 0.5694633069867658,
+   "max_down": -0.2241400297297825,
+   "max_up": 0.5694633069867658,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.20602271072186737
+  },
+  "or-model-spend/google/gemini-3.1-flash-lite-20260507": {
+   "days": 30,
+   "last_value_usd": "13775.707765",
+   "max_abs": 0.7482037009177239,
+   "max_down": -0.44683006923407426,
+   "max_up": 0.7482037009177239,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.44683006923407426
+  },
+  "or-model-spend/google/gemini-3.7-flash-20260813": {
+   "days": 30,
+   "last_value_usd": "23288.703263",
+   "max_abs": 0.460420793427588,
+   "max_down": -0.1961728381380248,
+   "max_up": 0.460420793427588,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.23294154609944434
+  },
+  "or-model-spend/google/gemini-3.8-flash-20260902": {
+   "days": 30,
+   "last_value_usd": "99038.368647",
+   "max_abs": 0.3960142676691914,
+   "max_down": -0.27317776781924663,
+   "max_up": 0.3960142676691914,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.3550281150761886
+  },
+  "or-model-spend/google/gemini-4-argon-20261013": {
+   "days": 28,
+   "last_value_usd": "117479.903340",
+   "max_abs": 2.3690734337555734,
+   "max_down": -0.33938603037553855,
+   "max_up": 2.3690734337555734,
+   "moves": 27,
+   "not_ok_days": 0,
+   "p95_abs": 0.5132010867034669
+  },
+  "or-model-spend/google/gemma-4-26b-a4b-it-20260403": {
+   "days": 30,
+   "last_value_usd": "4908.951821",
+   "max_abs": 0.4050715328339534,
+   "max_down": -0.15180645256626188,
+   "max_up": 0.4050715328339534,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.24405786010996952
+  },
+  "or-model-spend/google/gemma-4-31b-it-20260402": {
+   "days": 30,
+   "last_value_usd": "9047.160147",
+   "max_abs": 0.2731918057026368,
+   "max_down": -0.22650465277421075,
+   "max_up": 0.2731918057026368,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.21525065424057147
+  },
+  "or-model-spend/meta/muse-spark-1.3-contributor-20260902": {
+   "days": 30,
+   "last_value_usd": "4998.462160",
+   "max_abs": 0.35618676467571636,
+   "max_down": -0.35618676467571636,
+   "max_up": 0.2671453323652383,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.25456347965695386
+  },
+  "or-model-spend/minimax/minimax-m3-20260531": {
+   "days": 30,
+   "last_value_usd": "3869.833922",
+   "max_abs": 0.682009002981619,
+   "max_down": -0.45967124722330965,
+   "max_up": 0.682009002981619,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.6048951323370451
+  },
+  "or-model-spend/minimax/minimax-m3.1-flash-20261019": {
+   "days": 19,
+   "last_value_usd": "3012.647948",
+   "max_abs": 1.8555744495149258,
+   "max_down": -0.4519478941902339,
+   "max_up": 1.8555744495149258,
+   "moves": 18,
+   "not_ok_days": 3,
+   "p95_abs": 0.5775129293955231
+  },
+  "or-model-spend/mistralai/mistral-nemo": {
+   "days": 30,
+   "last_value_usd": "1258.951330",
+   "max_abs": 0.308914637399051,
+   "max_down": -0.2005683220120478,
+   "max_up": 0.308914637399051,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.2005683220120478
+  },
+  "or-model-spend/moonshotai/kimi-k3-20260715": {
+   "days": 30,
+   "last_value_usd": "77989.035373",
+   "max_abs": 0.9534647028557494,
+   "max_down": -0.743327235662541,
+   "max_up": 0.9534647028557494,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.5620879221749132
+  },
+  "or-model-spend/moonshotai/kimi-k3.1-pro-20261023": {
+   "days": 18,
+   "last_value_usd": "306288.222501",
+   "max_abs": 2.972300848399623,
+   "max_down": -0.4492508501628008,
+   "max_up": 2.972300848399623,
+   "moves": 17,
+   "not_ok_days": 0,
+   "p95_abs": 0.8746570669387215
+  },
+  "or-model-spend/nvidia/nemotron-3.5-super-vl-20261015": {
+   "days": 26,
+   "last_value_usd": "4049.525370",
+   "max_abs": 2.987804093687948,
+   "max_down": -0.7678444384675551,
+   "max_up": 2.987804093687948,
+   "moves": 25,
+   "not_ok_days": 0,
+   "p95_abs": 2.1635192922679747
+  },
+  "or-model-spend/openai/gpt-5.6-luna-20260709": {
+   "days": 30,
+   "last_value_usd": "22491.576720",
+   "max_abs": 1.1045049958842248,
+   "max_down": -0.7135467818576827,
+   "max_up": 1.1045049958842248,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.7135467818576827
+  },
+  "or-model-spend/openai/gpt-5.6-sol-20260709": {
+   "days": 30,
+   "last_value_usd": "85035.337506",
+   "max_abs": 1.9807567447313776,
+   "max_down": -0.7851798362894777,
+   "max_up": 1.9807567447313776,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 1.1103380205020994
+  },
+  "or-model-spend/openai/gpt-6-astra-20260903": {
+   "days": 30,
+   "last_value_usd": "222532.185337",
+   "max_abs": 0.9095856765001211,
+   "max_down": -0.43727537345653666,
+   "max_up": 0.9095856765001211,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.43727537345653666
+  },
+  "or-model-spend/openai/gpt-6-luna-20260922": {
+   "days": 30,
+   "last_value_usd": "52858.028043",
+   "max_abs": 0.6862466666720518,
+   "max_down": -0.4445854591857226,
+   "max_up": 0.6862466666720518,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.4445854591857226
+  },
+  "or-model-spend/openai/gpt-6-luna-pro-20260922": {
+   "days": 30,
+   "last_value_usd": "4357.968748",
+   "max_abs": 1.0662219274059,
+   "max_down": -0.37255302400403056,
+   "max_up": 1.0662219274059,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.3837454650306591
+  },
+  "or-model-spend/openai/gpt-6.1-sol-20260929": {
+   "days": 30,
+   "last_value_usd": "217042.111261",
+   "max_abs": 1.0775327126598346,
+   "max_down": -0.5338447321602158,
+   "max_up": 1.0775327126598346,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.34583042133990644
+  },
+  "or-model-spend/openai/gpt-6.1-terra-20261026": {
+   "days": 15,
+   "last_value_usd": "34776.149326",
+   "max_abs": 6.574814767302659,
+   "max_down": -0.4054451508822765,
+   "max_up": 6.574814767302659,
+   "moves": 14,
+   "not_ok_days": 0,
+   "p95_abs": 0.5877709467671784
+  },
+  "or-model-spend/openai/gpt-oss-120b": {
+   "days": 30,
+   "last_value_usd": "9050.067138",
+   "max_abs": 0.6365699519851477,
+   "max_down": -0.37733417154232973,
+   "max_up": 0.6365699519851477,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.37733417154232973
+  },
+  "or-model-spend/qwen/qwen3.7-flash-20260727": {
+   "days": 30,
+   "last_value_usd": "1843.822438",
+   "max_abs": 0.5285215610218714,
+   "max_down": -0.5285215610218714,
+   "max_up": 0.48019075455233323,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.43812535614333953
+  },
+  "or-model-spend/qwen/qwen3.8-27b-20260814": {
+   "days": 30,
+   "last_value_usd": "20595.277107",
+   "max_abs": 0.42940786467034875,
+   "max_down": -0.35668706989920096,
+   "max_up": 0.42940786467034875,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.37893270293393944
+  },
+  "or-model-spend/qwen/qwen3.8-flash-20260826": {
+   "days": 30,
+   "last_value_usd": "8617.263049",
+   "max_abs": 1.2730675489474994,
+   "max_down": -0.5442662329517015,
+   "max_up": 1.2730675489474994,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.7808954151999912
+  },
+  "or-model-spend/stepfun/step-5-preview-20261008": {
+   "days": 30,
+   "last_value_usd": "874.209285",
+   "max_abs": 2.8160445832894108,
+   "max_down": -0.7506139616346471,
+   "max_up": 2.8160445832894108,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 1.0782970878158555
+  },
+  "or-model-spend/tencent/hy3-20260706": {
+   "days": 30,
+   "last_value_usd": "265.569530",
+   "max_abs": 0.658717908379364,
+   "max_down": -0.2917534747829546,
+   "max_up": 0.658717908379364,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.40144138125504947
+  },
+  "or-model-spend/tencent/hy4-20261104": {
+   "days": 6,
+   "last_value_usd": "18146.874302",
+   "max_abs": 1.1800082716720384,
+   "max_down": -0.37851617741580446,
+   "max_up": 1.1800082716720384,
+   "moves": 5,
+   "not_ok_days": 0,
+   "p95_abs": 0.37851617741580446
+  },
+  "or-model-spend/upstage/solar-mini4-20260922": {
+   "days": 30,
+   "last_value_usd": "86.125667",
+   "max_abs": 90.2948716516657,
+   "max_down": -0.970469299757717,
+   "max_up": 90.2948716516657,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 2.6570724377091275
+  },
+  "or-model-spend/upstage/solar-pro4-20260810": {
+   "days": 30,
+   "last_value_usd": "338.937477",
+   "max_abs": 1.0007621622280305,
+   "max_down": -0.3768220458840201,
+   "max_up": 1.0007621622280305,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.3768220458840201
+  },
+  "or-model-spend/x-ai/grok-4.7-20260916": {
+   "days": 30,
+   "last_value_usd": "55533.575978",
+   "max_abs": 1.7846962676309648,
+   "max_down": -0.5799640729641808,
+   "max_up": 1.7846962676309648,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.7754809716210402
+  },
+  "or-model-spend/xiaomi/mimo-v2.6-flash-20260921": {
+   "days": 30,
+   "last_value_usd": "2844.002209",
+   "max_abs": 0.3995195916497347,
+   "max_down": -0.36636165353885947,
+   "max_up": 0.3995195916497347,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.35837811010017834
+  },
+  "or-model-spend/xiaomi/mimo-v2.6-pro-20260921": {
+   "days": 30,
+   "last_value_usd": "11814.764144",
+   "max_abs": 1.696942692153334,
+   "max_down": -0.6257100582404944,
+   "max_up": 1.696942692153334,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.6450184372527688
+  },
+  "or-model-spend/z-ai/glm-5.2-20260616": {
+   "days": 30,
+   "last_value_usd": "44820.130871",
+   "max_abs": 0.39653728036801694,
+   "max_down": -0.21908826242495455,
+   "max_up": 0.39653728036801694,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.1805935188518119
+  },
+  "or-model-spend/z-ai/glm-5.3-20260816": {
+   "days": 30,
+   "last_value_usd": "114279.386912",
+   "max_abs": 0.5001472649935813,
+   "max_down": -0.4431017647427557,
+   "max_up": 0.5001472649935813,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.47687044558162683
+  },
+  "or-model-spend/z-ai/glm-5.3-flash-20260826": {
+   "days": 30,
+   "last_value_usd": "71356.499703",
+   "max_abs": 0.7560745169666865,
+   "max_down": -0.3430337367686398,
+   "max_up": 0.7560745169666865,
+   "moves": 29,
+   "not_ok_days": 0,
+   "p95_abs": 0.3430337367686398
+  }
+ },
+ "source": "markets/index public series (ZFX-OR-MODEL-SPEND-USD-v1, backfill 2026-10-11 to 2026-11-09)",
+ "summary": {
+  "abs_move": {
+   "max": 90.2948716516657,
+   "p50": 0.13245340699482402,
+   "p90": 0.4445854591857226,
+   "p95": 0.6307977472261597,
+   "p99": 1.7846962676309648,
+   "p99_5": 2.6570724377091275
+  },
+  "daily_moves": 1376,
+  "down_move": {
+   "max": 0.970469299757717,
+   "p95": 0.44886104149058986,
+   "p99": 0.7135467818576827
+  },
+  "markets": 50,
+  "markets_with_any_move_over_40pct": 42,
+  "share_moves_over": {
+   "10%": 0.5879360465116279,
+   "100%": 0.021075581395348836,
+   "20%": 0.33648255813953487,
+   "30%": 0.1998546511627907,
+   "40%": 0.12063953488372094,
+   "50%": 0.07630813953488372,
+   "75%": 0.036337209302325583
+  },
+  "up_move": {
+   "max": 90.2948716516657,
+   "p95": 0.911528622269519,
+   "p99": 2.6570724377091275
+  }
+ }
+}

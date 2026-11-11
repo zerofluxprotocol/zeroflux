@@ -261,12 +261,61 @@ fn daily_window_and_jump_halt() {
     let m = w.s.market(MKT).unwrap();
     assert_eq!(m.mark, 1_300);
     assert_eq!(effective_status(&m, Now::at(w.now), grace), MarketStatus::Active);
-    // A print beyond max_jump_bps (200%) halts instead of moving the mark.
+    // Limit move: a +284% print moves the mark by at most mark_limit_bps (200%) and the market
+    // stays CLOSE_ONLY until the mark catches up with the index.
     w.now += NS_PER_DAY;
     let p = w.print(5_000, 3);
     w.post_print(&p).unwrap();
     let m = w.s.market(MKT).unwrap();
-    assert_eq!((m.mark, m.status), (1_300, MarketStatus::Halted));
+    assert_eq!((m.mark, m.index_ticks, m.status), (3_900, 5_000, MarketStatus::Active));
+    assert_eq!(effective_status(&m, Now::at(w.now), grace), MarketStatus::CloseOnly);
+    w.now += NS_PER_DAY;
+    let p = w.print(5_000, 4);
+    w.post_print(&p).unwrap();
+    let m = w.s.market(MKT).unwrap();
+    assert_eq!(m.mark, 5_000);
+    assert_eq!(effective_status(&m, Now::at(w.now), grace), MarketStatus::Active);
+    // A print beyond halt_jump_bps is suspect data: halt, mark unchanged.
+    w.s.markets.get_mut(MKT).unwrap().params.halt_jump_bps = 50_000;
+    w.now += NS_PER_DAY;
+    let p = w.print(400_000, 5);
+    w.post_print(&p).unwrap();
+    let m = w.s.market(MKT).unwrap();
+    assert_eq!((m.mark, m.status), (5_000, MarketStatus::Halted));
+}
+
+#[test]
+fn lagged_daily_print_window() {
+    // A source that publishes day d late on day d+1 (measured: about 23:10 UTC).
+    let mut w = World::new();
+    w.s.markets.get_mut(MKT).unwrap().params.print_lag_days = 1;
+    w.s.markets.get_mut(MKT).unwrap().params.print_close_only_from_sec = 20 * 3_600;
+    let grace = w.s.globals.settle_grace_ns;
+    let day = w.now - w.now % NS_PER_DAY; // the World's print covers the day ending at `day`
+    let st = |w: &World, t: u64| effective_status(&w.s.markets[MKT], Now::at(t), grace);
+    // Next day: the print covering `day` is still the latest. Active until 20:00, then close-only
+    // until the print covering the next day lands.
+    let d1 = day + NS_PER_DAY;
+    assert_eq!(st(&w, d1 + 10 * 3_600 * NS_PER_SEC), MarketStatus::Active);
+    assert_eq!(st(&w, d1 + 20 * 3_600 * NS_PER_SEC), MarketStatus::CloseOnly);
+    w.now = d1 + 23 * 3_600 * NS_PER_SEC;
+    let p = w.print(1_050, 1);
+    w.post_print(&p).unwrap();
+    assert_eq!(st(&w, w.now), MarketStatus::Active);
+    // The day after, with no new print by 20:00: close-only; a whole day missed: close-only all day.
+    let d2 = d1 + NS_PER_DAY;
+    assert_eq!(st(&w, d2 + 21 * 3_600 * NS_PER_SEC), MarketStatus::CloseOnly);
+    assert_eq!(st(&w, d2 + NS_PER_DAY + 3_600 * NS_PER_SEC), MarketStatus::CloseOnly);
+}
+
+#[test]
+fn solvency_rule_bounds_the_mark_limit() {
+    let mut p = model_params();
+    // MM 10%, slippage 3%, funding 0.25% x 3 per day: limit must be <= 6.25%.
+    p.mark_limit_bps = 625;
+    check_solvency_rule(&p).unwrap();
+    p.mark_limit_bps = 626;
+    assert!(check_solvency_rule(&p).is_err());
 }
 
 #[test]

@@ -124,6 +124,7 @@ async fn open_and_close_through_node_and_relayer() -> Result<()> {
     let owner = stk.owner.actor()?;
     let mut params = model_params();
     params.print_close_only_from_sec = 0;
+    params.mark_limit_bps = 600;
     let m = params.market_id.clone();
     c.create_market(&owner, &params).await?;
     let pid = c.set_market_status(&owner, &m, "ACTIVE").await?.unwrap();

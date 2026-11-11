@@ -237,7 +237,7 @@ fn market_json(m: &MarketState, now: u64, grace: u64) -> Value {
     json!({
         "market_id": p.market_id, "params": p, "policy_hash": wire::hex32(&m.policy_hash),
         "status": m.status.name(), "effective_status": ledger::effective_status(m, Now::at(now), grace).name(),
-        "mark": m.mark.to_string(), "mark_fresh": ledger::mark_fresh(m, Now::at(now), grace),
+        "mark": m.mark.to_string(), "index_ticks": m.index_ticks.to_string(), "mark_fresh": ledger::mark_fresh(m, Now::at(now), grace),
         "open_interest": m.open_interest.to_string(), "cum_funding": m.cum_funding.to_string(),
         "last_funding_ns": m.last_funding_ns.to_string(), "last_funding_rate_ppm": m.last_funding_rate_ppm,
         "fund_px_qty": m.fund_px_qty.to_string(), "fund_qty": m.fund_qty.to_string(), "bad_debt": m.bad_debt.to_string(),
@@ -367,6 +367,7 @@ impl Contract {
         self.only_owner();
         let p = params_from(&params);
         require!(!self.markets.contains_key(&p.market_id), "MARKET_EXISTS");
+        ledger::check_solvency_rule(&p).unwrap_or_else(|e| env::panic_str(e));
         let m = ledger::new_market(&NearCrypto, p, env::block_timestamp()).unwrap_or_else(|e| env::panic_str(e));
         let id = m.params.market_id.clone();
         self.market_ids.push(id.clone());
@@ -390,6 +391,7 @@ impl Contract {
         let p = params_from(&params);
         let cur = self.market_mut(&p.market_id);
         ledger::validate_params(&p).unwrap_or_else(|e| env::panic_str(e));
+        ledger::check_solvency_rule(&p).unwrap_or_else(|e| env::panic_str(e));
         if ledger::is_tightening(&cur.params, &p) {
             self.apply_params(p);
             None
